@@ -1,0 +1,17 @@
+.ftsm {
+  height: 2rem;
+  padding: 0.3rem 0.8rem;
+}
+.align-center {
+  align-self: center;
+  text-align: center;
+}
+.align-vcenter {
+  align-self: center;
+}
+.align-hcenter {
+  text-align: center;
+}
+.align-right {
+  align-self: right;
+}
