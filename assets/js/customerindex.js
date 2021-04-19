@@ -12,7 +12,7 @@ $(function () {
   $("#yoyo")
     .children("div:first-child")
     .append(
-      '<a href="new_customer.html" class="btn btn-primary vip">Add New Customer</a>'
+      '<a href="/ft_account/customers/create" class="btn btn-primary vip">Add New Customer</a>'
     );
 });
 $(".sublist").click(function () {

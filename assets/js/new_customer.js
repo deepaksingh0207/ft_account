@@ -141,6 +141,7 @@ $(function () {
       $(element).removeClass("is-invalid");
     },
   });
+  window.stepper = new Stepper(document.querySelector(".bs-stepper"));
 });
 
 $(".fc").change(function () {

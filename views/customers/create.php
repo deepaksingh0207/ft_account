@@ -289,6 +289,7 @@
               </form>
             </div>
           </div>
+          <br><br><br>
         </div>
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
