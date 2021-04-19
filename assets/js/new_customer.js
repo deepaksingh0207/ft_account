@@ -1,5 +1,4 @@
 $(function () {
-  window.stepper = new Stepper(document.querySelector(".bs-stepper"));
   $.validator.setDefaults({
     submitHandler: function () {
       alert("Form successful submitted!");
@@ -154,10 +153,10 @@ $(".fc").change(function () {
       count += 1;
     }
   });
-  console.log(count);
+  // console.log(count);
   if (count < 1) {
     // $(".vip").show();
-    $(".vip").removeAttr("disabled")
+    $(".vip").removeAttr( attributeName )
   } else {
     // $(".vip").hide();
     $(".vip").attr("disabled", true);

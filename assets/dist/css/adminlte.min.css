@@ -75,7 +75,7 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #f4f6f9;
+  background-color: #fff;
 }
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
@@ -11952,14 +11952,10 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   }
 }
 .main-footer {
-  bottom: 0px;
-  position: fixed;
-  width: 100%;
   background-color: #fff;
   border-top: 1px solid #dee2e6;
   color: #869099;
   padding: 1rem;
-  z-index: 5;
 }
 .main-footer.text-sm,
 .text-sm .main-footer {

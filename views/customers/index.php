@@ -1,7 +1,8 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
   <div class="wrapper">
-  <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
+    <div ftsolutions="menu.html"></div>
     <div class="content-wrapper">
+      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
       <section class="content">
         <div class="container">
           <div class="row">
@@ -37,132 +38,6 @@
                           <i class="fas fa-trash-alt trash" id="5"></i>
                         </td>
                       </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -179,7 +54,6 @@
               </div>
             </div>
           </div>
-          <br><br>
         </div>
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>

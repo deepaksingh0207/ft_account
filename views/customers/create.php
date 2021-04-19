@@ -3,7 +3,7 @@
     <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
       <section class="content">
-        <div class="container mb-3">
+        <div class="container">
           <div class="row">
             <div class="col-12">
               <form action="" method="POST" id="quickForm" novalidate="novalidate">
@@ -13,10 +13,10 @@
                       Add New Customer
                     </h3>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-primary vip" disabled>
+                      <button type="submit" class="btn btn-primary btn-sm vip" disabled>
                         Submit
                       </button>
-                      <button type="reset" class="btn btn-default">
+                      <button type="reset" class="btn btn-default btn-sm">
                         Cancel
                       </button>
                     </div>
@@ -96,7 +96,7 @@
                               <label for="pphone_id"> Phone (primary) </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="pphone" id="pphone_id" pattern="[789][0-9]{9}" minlength="10" maxlength="10" />
+                              <input type="tel" class="form-control fc ftsm" name="pphone" id="pphone_id" pattern="[9,8,7,6]{1}[0-9]{9}" />
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -106,7 +106,7 @@
                               </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="sphone" id="sphone_id" pattern="[789][0-9]{9}" minlength="10" maxlength="10"/>
+                              <input type="tel" class="form-control fc ftsm" name="sphone" id="sphone_id" pattern="[9,8,7,6]{1}[0-9]{9}" />
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -122,7 +122,7 @@
                               <label for="email_id"> Email </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="email" id="email_id" pattern="[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                              <input type="text" class="form-control fc ftsm" name="email" id="email_id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -150,7 +150,7 @@
                           </div>
                           <div class="row mx-1">
                             <div class="col-12 text-right">
-                              <a class="btn btn-default" onclick="stepper.next()">
+                              <a class="btn btn-default btn-sm" onclick="stepper.next()">
                                 Next &nbsp;
                                 <i class="fas fa-chevron-right"></i>
                               </a>
@@ -267,7 +267,7 @@
                           </div>
                           <div class="row mx-1">
                             <div class="col-12">
-                              <a class="btn btn-default" onclick="stepper.previous()">
+                              <a class="btn btn-default btn-sm" onclick="stepper.previous()">
                                 <i class="fas fa-chevron-left"></i>
                                 &nbsp; Previous
                               </a>
@@ -278,10 +278,10 @@
                     </div>
                   </div>
                   <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary vip" disabled>
+                    <button type="submit" class="btn btn-primary btn-sm vip" disabled>
                       Submit
                     </button>
-                    <button type="reset" class="btn btn-default">
+                    <button type="reset" class="btn btn-default btn-sm">
                       Cancel
                     </button>
                   </div>
@@ -289,7 +289,6 @@
               </form>
             </div>
           </div>
-          <br><br>
         </div>
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>

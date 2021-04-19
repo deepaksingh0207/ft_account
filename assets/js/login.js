@@ -1,7 +1,7 @@
 $(function () {
 	$.validator.setDefaults({
-	  submitHandler: function (form) {
-		form.submit();
+	  submitHandler: function () {
+		alert("Form successful submitted!");
 	  },
 	});
 	$("#quickForm").validate({
