@@ -11952,10 +11952,14 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   }
 }
 .main-footer {
+  bottom: 0px;
+  position: fixed;
+  width: 100%;
   background-color: #fff;
   border-top: 1px solid #dee2e6;
   color: #869099;
   padding: 1rem;
+  z-index: 5;
 }
 .main-footer.text-sm,
 .text-sm .main-footer {
