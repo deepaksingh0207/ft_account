@@ -1,3 +1,4 @@
+
 <script src="<?php echo ROOT; ?>assets/plugins/jquery/jquery.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -26,15 +27,8 @@
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_customer.js"></script>
-  <script>
-    includeHTML();
-    document.addEventListener("DOMContentLoaded", function() {
-      window.stepper = new Stepper(document.querySelector(".bs-stepper"));
-    });
-  </script>
 <?php endif; ?>
 
 </body>

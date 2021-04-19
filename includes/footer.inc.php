@@ -1,16 +1,13 @@
-<footer class="footer">
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-6 text-left" id="formsg">
-      
-      </div>
-      <div class="col-6">
-        © Copyright 2019 F.T. Solutions Pvt. Ltd. | All Rights Reserved. |
-        <a href="http://www.futuretecsol.com/privacy-policy/" class="text-gold">
-          Privacy Policy
-        </a>
-      </div>
-    </div>
+<footer class="main-footer">
+  <div class="float-right d-none d-sm-inline">
+    <strong>
+      Copyright &copy; 2019
+      <a href="http://www.futuretecsol.com/">F.T. Solutions Pvt. Ltd.</a>
+      | All Rights Reserved. |
+      <a href="http://www.futuretecsol.com/privacy-policy/">
+        Privacy Policy
+      </a>
+    </strong>
   </div>
+  <strong>&nbsp;</strong>
 </footer>

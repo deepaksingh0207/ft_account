@@ -1,8 +1,6 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
   <div class="wrapper">
-    <!-- <div ftsolutions="menu.html"> -->
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
-    </div>
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
       <section class="content">
         <div class="container">
@@ -98,7 +96,7 @@
                               <label for="pphone_id"> Phone (primary) </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="pphone" id="pphone_id" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                              <input type="tel" class="form-control fc ftsm" name="pphone" id="pphone_id" pattern="[789][0-9]{9}" minlength="10" maxlength="10" />
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -108,7 +106,7 @@
                               </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="sphone" id="sphone_id" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                              <input type="tel" class="form-control fc ftsm" name="sphone" id="sphone_id" pattern="[789][0-9]{9}" minlength="10" maxlength="10"/>
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -124,7 +122,7 @@
                               <label for="email_id"> Email </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="email" id="email_id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                              <input type="text" class="form-control fc ftsm" name="email" id="email_id" pattern="[a-z0-9.]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -292,20 +290,7 @@
             </div>
           </div>
         </div>
+        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
     </div>
-    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
-    <!-- <footer class="main-footer">
-      <div class="float-right d-none d-sm-inline">
-        <strong>
-          Copyright &copy; 2019
-          <a href="http://www.futuretecsol.com/">F.T. Solutions Pvt. Ltd.</a>
-          | All Rights Reserved. |
-          <a href="http://www.futuretecsol.com/privacy-policy/">
-            Privacy Policy
-          </a>
-        </strong>
-      </div>
-      <strong>&nbsp;</strong>
-    </footer> -->
   </div>

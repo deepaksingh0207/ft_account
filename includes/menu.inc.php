@@ -1,7 +1,7 @@
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
   <div class="container">
     <a href="index.html" class="navbar-brand">
-      <img src="assets/img/icon.png" alt="AdminLTE Logo" class="brand-image" />
+      <img src="<?php echo ROOT; ?>assets/img/icon.png" alt="AdminLTE Logo" class="brand-image" />
       <span class="brand-text font-weight-light"> FT Solutions Pvt. Ltd. </span>
     </a>
     <div class="collapse navbar-collapse order-3" id="navbarCollapse">
@@ -45,10 +45,10 @@
               class="dropdown-menu border-0 shadow"
             >
               <li>
-                <a tabindex="-1" href="new_customer.html" class="dropdown-item"> New Customer </a>
+                <a tabindex="-1" href="<?php echo ROOT; ?>customers/create" class="dropdown-item"> New Customer </a>
               </li>
               <li>
-                <a tabindex="-1" href="list_customer.html" class="dropdown-item"> List Customers </a>
+                <a tabindex="-1" href="<?php echo ROOT; ?>customers" class="dropdown-item"> List Customers </a>
               </li>
 
               <!-- <li class="dropdown-submenu">
