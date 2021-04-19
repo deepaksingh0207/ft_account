@@ -9,27 +9,31 @@
   <link rel="shortcut icon" href="<?php echo ROOT ?>assets/brand/icon.png">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <title>F. T. Help & Support</title>
+  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/google_font.css" />
+  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/fontawesome-free/css/all.min.css" />
 
 
   <?php if ($controller == 'users' && ($action == 'login')) : ?>
-    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/google_font.css" />
-    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
   <?php endif; ?>
 
 
   <?php if ($controller == 'customers' && ($action == 'create')) : ?>
-    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/google_font.css" />
-    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/fontawesome-free/css/all.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
-  <!-- new_customer -->
-  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/bs-stepper/css/bs-stepper.min.css" />
-    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css"/>
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/bs-stepper/css/bs-stepper.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
     <script src="<?php echo ROOT; ?>assets/css/new_customer.css"></script>
-    <!-- new_customer -->
-    <script src="<?php echo ROOT; ?>assets/js/htmlinclude.js"></script>
-<?php endif; ?>
+  <?php endif; ?>
+
+
+  <?php if ($controller == 'customers' && ($action == 'index')) : ?>
+    <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+    <link rel="stylesheet" href="assets/dist/css/adminlte.min.css" />
+  <?php endif; ?>
+  
   <script>
     var baseUrl = '<?php echo HOST . ROOT ?>';
   </script>
