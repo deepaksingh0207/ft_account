@@ -137,13 +137,9 @@ function addrow(charlie) {
       charlie +
       "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
       charlie +
-<<<<<<< HEAD
-      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" + charlie + "'></td><td>₹<span id='id_total" +
-=======
-      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax' id='id_tax" +
+      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
       charlie +
       "'></td><td>₹<span id='id_total" +
->>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
       charlie +
       "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' value='" +
       charlie +
