@@ -1,4 +1,5 @@
 $(function () {
+  // Form Validation
   $.validator.setDefaults({
     submitHandler: function () {
       form.submit();
@@ -115,6 +116,7 @@ $(function () {
   });
 });
 
+// Dynamic Row Appending Function
 function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
@@ -143,7 +145,9 @@ function addrow(charlie) {
       charlie +
       "' id='id_unitprice" +
       charlie +
-      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax' id='id_tax" + charlie + "'></td><td>₹<span id='id_total" +
+      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax' id='id_tax" +
+      charlie +
+      "'></td><td>₹<span id='id_total" +
       charlie +
       "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' value='" +
       charlie +
@@ -151,13 +155,13 @@ function addrow(charlie) {
   );
 }
 
-// delete confirmation
+// Delete Click Action
 $(document).on("click", "i.trash", function () {
   $(".killrow").attr("id", $(this).attr("value"));
   $("#modelactivate").click();
 });
 
-// delete and show main
+// Delete & Return
 $(".killrow").click(function () {
   var a = $(this).attr("id");
   $("#" + a).remove();
@@ -166,23 +170,18 @@ $(".killrow").click(function () {
     return b !== a;
   });
   $("#id_tr").val(res);
-  ttotal()
+  ttotal();
   $("#byemodal").click();
 });
 
 // Cancel delete action
-$(".order").click(function () {
-  $("#order").show();
-  $("#trash").hide();
-});
+// $(".order").click(function () {
+//   $("#order").show();
+//   $("#trash").hide();
+// });
 
-// Add Item click
+// Add Order Item Click Action
 $("#add_item").on("click", function () {
-  // var a = $("input[id='trid']")
-  //   .map(function () {
-  //     return $(this).val();
-  //   })
-  //   .get();
   var a = $("#id_tr").val().split(",");
   console.log(a);
   if (a.length < 2 && a[0] == "") {
@@ -198,34 +197,39 @@ $("#add_item").on("click", function () {
   console.log($("#id_tr").val());
 });
 
-$(".tax").change(function () {
-  ttotal();
-});
+// Monitoring Tax Field
+// $(".tax").change(function () {
+//   ttotal();
+// });
 
+// Monitoring Quantity Field
 $(document).on("change", ".qty", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
   subtotal = rowcollector(id[0]);
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
-  ttotal()
+  ttotal();
 });
 
+// Monitoring Unit Price Field
 $(document).on("change", ".unitprice", function () {
   var unitpriceid = $(this).attr("id");
   id = unitpriceid.match(/\d+/);
   subtotal = rowcollector(id[0]);
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
-  ttotal()
+  ttotal();
 });
 
+// Monitoring Tax Field
 $(document).on("change", ".tax", function () {
   var taxid = $(this).attr("id");
   id = taxid.match(/\d+/);
   subtotal = rowcollector(id[0]);
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
-  ttotal()
+  ttotal();
 });
 
+// Calculation Sub Total & Total
 function ttotal() {
   var idlist = $("#id_tr").val().split(",");
   total = 0;
@@ -238,6 +242,7 @@ function ttotal() {
   }
 }
 
+// Row Data Calculator
 function rowcollector(id) {
   rowqty = $("#id_quantity" + id).val();
   rowunitprice = $("#id_unitprice" + id).val();
@@ -246,8 +251,29 @@ function rowcollector(id) {
   if (rowqty[0] != "" && rowunitprice[0] != "") {
     total = rowunitprice * rowqty;
     if (rowtax[0] != "") {
-      total += (total*(rowtax/100))
+      total += total * (rowtax / 100);
     }
   }
   return total;
 }
+
+// Customer Ajax
+$("#customerid_id").change(function () {
+  var customerid = $("#customerid_id").val()
+  console.log(customerid);
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "incidents/app/" + customerid,
+    data: customerid,
+    dataType: "json",
+    encode: true,
+  })
+  .done(function( data ) {
+    $("#salesperson_id").val(data.salesperson)
+    $("#bill_id").val(data.billno)
+    $("#ship_id").val(data.shipto)
+  })
+  .fail(function( jqXHR, textStatus, errorThrown ) {
+    alert("No details found against this customer.")
+  });
+});
