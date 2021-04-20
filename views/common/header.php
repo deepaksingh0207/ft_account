@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/bs-stepper/css/bs-stepper.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
-    <script src="<?php echo ROOT; ?>assets/css/new_customer.css"></script>
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/new_customer.css" />
   <?php endif; ?>
 
 
@@ -33,7 +33,12 @@
     <link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
     <link rel="stylesheet" href="assets/dist/css/adminlte.min.css" />
   <?php endif; ?>
-  
+
+  <?php if ($controller == 'orders' && ($action == 'create')) : ?>
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/custom.css" />
+  <?php endif; ?>
+
   <script>
     var baseUrl = '<?php echo HOST . ROOT ?>';
   </script>
