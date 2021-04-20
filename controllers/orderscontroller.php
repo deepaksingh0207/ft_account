@@ -1,5 +1,5 @@
 <?php
-class CustomersController extends Controller
+class OrdersController extends Controller
 {
     
     public function __construct($model, $action) {   

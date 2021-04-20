@@ -14,83 +14,33 @@
                     <thead class="text-center">
                       <tr>
                         <th>Customer</th>
-                        <th>Balance</th>
-                        <th>Due Date</th>
-                        <th>Last Invoice</th>
-                        <th>Sales Person</th>
-                        <th>Group</th>
-                        <th>Statement</th>
-                        <th>Delete</th>
+                        <th>Contact Person</th>
+                        <th>GSTIN</th>
+                        
+                        
+                        
+                        <!--  <th>Statement</th>
+                        <th>Delete</th> -->
                       </tr>
                     </thead>
                     <tbody class="text-center">
+                    <?php foreach ($customers as $customer) : ?>
                       <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
+                        <td class="sublist"><?php echo $customer['name']?></td>
+                        <td class="sublist"><?php echo $customer['contact_person']?></td>
+                        <td class="sublist"><?php echo $customer['gstin']?></td>
+                        
+                        
+                        
+                       <!-- <td data-href="new_customer.html">
                           <i class="far fa-file-alt statement"></i>
                         </td>
                         <td>
                           <i class="fas fa-trash-alt trash" id="1"></i>
-                        </td>
+                        </td> -->
                       </tr>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="2"></i>
-                        </td>
-                      </tr><tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="3"></i>
-                        </td>
-                      </tr><tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="4"></i>
-                        </td>
-                      </tr><tr data-href="new_customer.html">
-                        <td class="sublist">Customer 1</td>
-                        <td class="sublist">₹<span>15.00</span></td>
-                        <td class="sublist">20/02/2020</td>
-                        <td class="sublist">10000</td>
-                        <td class="sublist">prashant</td>
-                        <td class="sublist">Default</td>
-                        <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="5"></i>
-                        </td>
-                      </tr>
+                      <?php endforeach; ?>
+                      
                     </tbody>
                   </table>
                 </div>

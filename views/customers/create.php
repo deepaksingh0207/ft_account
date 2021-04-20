@@ -29,7 +29,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="customername" id="id_customername" />
+                        <input type="text" class="form-control fc ftsm" name="name" id="id_customername" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -39,7 +39,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="contactperson" id="id_contactperson" />
+                        <input type="text" class="form-control fc ftsm" name="contact_person" id="id_contactperson" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -56,7 +56,7 @@
                         <label for="id_pincode"> Pincode </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm" name="pincode" id="pincode_id" maxlength="6" minlength="6" pattern="[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}" />
+                        <input type="tel" class="form-control fc ftsm" name="pincode" id="pincode_id" maxlength="6" minlength="6" pattern="[1-9]{1}[0-9]{5}" />
                       </div>
                     </div>
 
@@ -81,7 +81,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="gst" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
+                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -99,7 +99,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm" name="sphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                        <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -125,7 +125,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="addinfo" id="id_addinfo" />
+                        <input type="text" class="form-control fc ftsm" name="remark" id="id_addinfo" />
                       </div>
                     </div>
                   </div>

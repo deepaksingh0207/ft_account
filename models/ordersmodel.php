@@ -1,6 +1,6 @@
 <?php
 
-class CustomersModel extends Model {
+class OrdersModel extends Model {
     
     
     public function getList() {

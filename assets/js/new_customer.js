@@ -98,7 +98,7 @@ $(function () {
         required: "Please enter a state from the list.",
       },
       gst: {
-        required: "Please enter VAT registration number.",
+        required: "Please enter gstin.",
       },
       pphone: {
         required: "Please enter primary contact.",
@@ -106,9 +106,9 @@ $(function () {
       sphone: {
         required: "Please enter secondary contact.",
       },
-      shippingaddress: {
-        required: "Please enter shipping address.",
-      },
+      //shippingaddress: {
+//        required: "Please enter shipping address.",
+      //},
       fax: {
         required: "Please enter fax number.",
       },
