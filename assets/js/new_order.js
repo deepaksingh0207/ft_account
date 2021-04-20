@@ -228,12 +228,14 @@ $(document).on("change", ".tax", function () {
 
 function ttotal() {
   var idlist = $("#id_tr").val().split(",");
-  total = 0
-  $.each(idlist, function (index, value) {
-    total += parseFloat($("#id_total" + value).text());
-  });
-  $("#subtotal_id").text(parseFloat(total).toFixed(2));
-  $("#total").text(parseFloat(total).toFixed(2));
+  total = 0;
+  if (idlist != "") {
+    $.each(idlist, function (index, value) {
+      total += parseFloat($("#id_total" + value).text());
+    });
+    $("#subtotal_id").text(parseFloat(total).toFixed(2));
+    $("#total").text(parseFloat(total).toFixed(2));
+  }
 }
 
 function rowcollector(id) {
