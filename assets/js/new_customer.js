@@ -1,7 +1,7 @@
 $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
-      alert("Form successful submitted!");
+      form.submit();
     },
   });
   $("#quickForm").validate({
@@ -15,7 +15,15 @@ $(function () {
       address: {
         required: true,
       },
-      vat: {
+      pincode: {
+        required: true,
+        minlength: 6,
+        maxlength: 6,
+      },
+      state: {
+        required: true,
+      },
+      gst: {
         required: true,
         minlength: 15,
         maxlength: 15,
@@ -48,27 +56,27 @@ $(function () {
       addinfo: {
         required: true,
       },
-      active: {
-        required: true,
-      },
-      shippingaddress: {
-        required: true,
-      },
-      exlutax: {
-        required: true,
-      },
-      paymentterms: {
-        required: true,
-      },
-      salesperson: {
-        required: true,
-      },
-      customernotes: {
-        required: true,
-      },
-      customergroup: {
-        required: true,
-      },
+      // active: {
+      //   required: true,
+      // },
+      // shippingaddress: {
+      //   required: true,
+      // },
+      // exlutax: {
+      //   required: true,
+      // },
+      // paymentterms: {
+      //   required: true,
+      // },
+      // salesperson: {
+      //   required: true,
+      // },
+      // customernotes: {
+      //   required: true,
+      // },
+      // customergroup: {
+      //   required: true,
+      // },
     },
     messages: {
       customername: {
@@ -83,7 +91,7 @@ $(function () {
       address: {
         required: "Please enter the address.",
       },
-      vat: {
+      gst: {
         required: "Please enter VAT registration number.",
       },
       pphone: {
@@ -104,27 +112,27 @@ $(function () {
       addinfo: {
         required: "Please enter additional information.",
       },
-      active: {
-        required: "Please select to activate user.",
-      },
-      invoicethru: {
-        required: "Select sent invoice method.",
-      },
-      exlutax: {
-        required: "Select to exclude tax.",
-      },
-      paymentterms: {
-        required: "Select payment term.",
-      },
-      salesperson: {
-        required: "Select sales person.",
-      },
-      customernotes: {
-        required: "Enter customer note.",
-      },
-      customergroup: {
-        required: "Select a group.",
-      },
+      // active: {
+      //   required: "Please select to activate user.",
+      // },
+      // invoicethru: {
+      //   required: "Select sent invoice method.",
+      // },
+      // exlutax: {
+      //   required: "Select to exclude tax.",
+      // },
+      // paymentterms: {
+      //   required: "Select payment term.",
+      // },
+      // salesperson: {
+      //   required: "Select sales person.",
+      // },
+      // customernotes: {
+      //   required: "Enter customer note.",
+      // },
+      // customergroup: {
+      //   required: "Select a group.",
+      // },
     },
     errorElement: "span",
     errorPlacement: function (error, element) {
@@ -138,7 +146,7 @@ $(function () {
       $(element).removeClass("is-invalid");
     },
   });
-  window.stepper = new Stepper(document.querySelector(".bs-stepper"));
+  // window.stepper = new Stepper(document.querySelector(".bs-stepper"));
 });
 
 $(".fc").change(function () {
@@ -154,7 +162,7 @@ $(".fc").change(function () {
   // console.log(count);
   if (count < 1) {
     // $(".vip").show();
-    $(".vip").removeAttr( attributeName )
+    $(".vip").removeAttr("disabled")
   } else {
     // $(".vip").hide();
     $(".vip").attr("disabled", true);

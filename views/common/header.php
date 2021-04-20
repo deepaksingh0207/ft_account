@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="" />
   <meta name="FTSPL" content="" />
-  <link rel="shortcut icon" href="<?php echo ROOT ?>assets/brand/icon.png">
+  <link rel="shortcut icon" href="<?php echo ROOT ?>assets/img/icon.png">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <title>F. T. Help & Support</title>
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/google_font.css" />

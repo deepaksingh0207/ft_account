@@ -6,7 +6,7 @@
         <div class="container">
           <div class="row">
             <div class="col-12">
-              <form action="" method="POST" id="quickForm" novalidate="novalidate">
+              <form action="" method="POST" id="id_quickForm" novalidate="novalidate">
                 <div class="card card-default mt-3">
                   <div class="card-header">
                     <h3 class="card-title" style="line-height: 2.2">
@@ -21,272 +21,111 @@
                       </button>
                     </div>
                   </div>
-                  <div class="card-body p-0">
-                    <div class="bs-stepper">
-                      <div class="bs-stepper-header" role="tablist">
-                        <div class="step" data-target="#logins-part">
-                          <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger" onclick="stepper.previous()">
-                            <span class="bs-stepper-circle">1</span>
-                            <span class="bs-stepper-label">Customer</span>
-                          </button>
-                        </div>
-                        <div class="line"></div>
-                        <div class="step" data-target="#information-part">
-                          <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger" onclick="stepper.next()">
-                            <span class="bs-stepper-circle">2</span>
-                            <span class="bs-stepper-label">
-                              Other information
-                            </span>
-                          </button>
-                        </div>
+                  <div class="card-body p-3">
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_customername">
+                          Customer Name
+                        </label>
                       </div>
-                      <div class="bs-stepper-content">
-                        <!-- your steps content here -->
-                        <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="customername_id">
-                                Customer Name
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="customername" id="customername_id" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="contactperson_id">
-                                Contact Person
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="contactperson" id="contactperson_id" />
-                            </div>
-                          </div>
-                          
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="address_id"> Address </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <textarea class="form-control fc ftsm" name="address" id="address_id" cols="30" rows="3"></textarea>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="vat_id">
-                                Pincode
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="pincode" id="pincode_id" maxlength="6" minlength="6" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="invoicethru_id">
-                                State
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <select class="form-control fc ftsm" name="state" id="state_id" required>
-                                <option value=""></option>
-                                <?php foreach ($states as $state) : ?>
-                                <option value="<?php echo $state['id']?>"><?php echo $state['name']?></option>
-                                <?php endforeach; ?>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="vat_id">
-                                GSTIN
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="vat" id="vat_id" maxlength="15" minlength="15" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="pphone_id"> Phone (primary) </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="pphone" id="pphone_id" pattern="[9,8,7,6]{1}[0-9]{9}" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="sphone_id">
-                                Phone (alternative)
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="sphone" id="sphone_id" pattern="[9,8,7,6]{1}[0-9]{9}" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="fax_id"> Fax </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="tel" class="form-control fc ftsm" name="fax" id="fax_id" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="email_id"> Email </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="email" id="email_id" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="addinfo_id">
-                                Additional Info
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="addinfo" id="addinfo_id" />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              Active Customer
-                            </div>
-                            <div class="col-sm-12 col-lg-4">
-                              <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                  <input type="checkbox" name="active" id="active_id" />
-                                  <label for="active_id"> </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-12 text-right">
-                              <a class="btn btn-default btn-sm" onclick="stepper.next()">
-                                Next &nbsp;
-                                <i class="fas fa-chevron-right"></i>
-                              </a>
-                              <!-- <button
-                                  class="btn btn-primary"
-                                  onclick="stepper.next()"
-                                >
-                                  Next
-                                </button> -->
-                            </div>
-                          </div>
-                        </div>
-                        <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="shippingaddress_id">
-                                Shipping Address
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <textarea class="form-control fc ftsm" name="shippingaddress" id="shippingaddress_id" cols="30" rows="3"></textarea>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="invoicethru_id">
-                                Prefers Invoices By
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <select class="form-control fc ftsm" name="invoicethru" id="invoicethru_id" required>
-                                <option value=""></option>
-                                <option value="1">Email</option>
-                                <option value="5">Print</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              Set tax exempt for this customer
-                            </div>
-                            <div class="col-sm-12 col-lg-3">
-                              <div class="form-group clearfix">
-                                <div class="icheck-primary d-inline">
-                                  <input type="checkbox" name="exlutax" id="exlutax_id" />
-                                  <label for="exlutax_id"> </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="paymentterms_id">
-                                Payment Terms
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <select class="form-control fc ftsm" name="paymentterms" id="paymentterms_id">
-                                <option value=""></option>
-                                <option value="1">COD</option>
-                                <option value="2">Pay in Days</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="ptdays_id">
-                                Payment Terms Days
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control ftsm" name="ptdays" id="ptdays_id" disabled />
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="salesperson_id">
-                                Sales Person
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input class="form-control fc ftsm" list="salespersonlist" name="salesperson" id="salesperson_id" placeholder="Type or search..." />
-                              <datalist id="salespersonlist">
-                                <option value="Mr. X"></option>
-                                <option value="Ms. Y"></option>
-                              </datalist>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="customernotes_id">
-                                Customer Notes:
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <textarea class="form-control fc ftsm" name="customernotes" id="customernotes_id" cols="30" rows="3"></textarea>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-3">
-                              <label for="customergroup_id">
-                                Customer Group
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input class="form-control fc ftsm" list="customergrouplist" name="customergroup" id="customergroup_id" placeholder="Type or search..." />
-                              <datalist id="customergrouplist">
-                                <option value="Default"></option>
-                              </datalist>
-                            </div>
-                          </div>
-                          <div class="row mx-1">
-                            <div class="col-12">
-                              <a class="btn btn-default btn-sm" onclick="stepper.previous()">
-                                <i class="fas fa-chevron-left"></i>
-                                &nbsp; Previous
-                              </a>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="customername" id="id_customername" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_contactperson">
+                          Contact Person
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="contactperson" id="id_contactperson" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_address"> Address </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_pincode"> Pincode </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control fc ftsm" name="pincode" id="pincode_id" maxlength="6" minlength="6" pattern="[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}" />
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_address"> State </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control fc ftsm" name="state" id="state_id">
+                          <option value=""></option>
+                          <?php foreach ($states as $state) : ?>
+                            <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_gst">
+                          GSTIN
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="gst" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_pphone"> Phone (primary) </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_sphone">
+                          Phone (alternative)
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control fc ftsm" name="sphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_fax"> Fax </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control fc ftsm" name="fax" id="id_fax" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_email"> Email </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="email" id="id_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_addinfo">
+                          Additional Info
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="addinfo" id="id_addinfo" />
                       </div>
                     </div>
                   </div>
