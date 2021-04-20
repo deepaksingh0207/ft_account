@@ -12,9 +12,6 @@ $(function () {
       contactperson: {
         required: true,
       },
-      contactfirstname: {
-        required: true,
-      },
       address: {
         required: true,
       },

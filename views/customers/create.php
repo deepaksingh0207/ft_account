@@ -63,16 +63,7 @@
                               <input type="text" class="form-control fc ftsm" name="contactperson" id="contactperson_id" />
                             </div>
                           </div>
-                          <div class="row mx-1">
-                            <div class="col-sm-12 col-lg-2">
-                              <label for="contactfirstname_id">
-                                Contact First Name
-                              </label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="contactfirstname" id="contactfirstname_id" />
-                            </div>
-                          </div>
+                          
                           <div class="row mx-1">
                             <div class="col-sm-12 col-lg-2">
                               <label for="address_id"> Address </label>
@@ -84,11 +75,36 @@
                           <div class="row mx-1">
                             <div class="col-sm-12 col-lg-2">
                               <label for="vat_id">
+                                Pincode
+                              </label>
+                            </div>
+                            <div class="col-sm-12 col-lg-3 form-group">
+                              <input type="text" class="form-control fc ftsm" name="pincode" id="pincode_id" maxlength="6" minlength="6" />
+                            </div>
+                          </div>
+                          <div class="row mx-1">
+                            <div class="col-sm-12 col-lg-3">
+                              <label for="invoicethru_id">
+                                State
+                              </label>
+                            </div>
+                            <div class="col-sm-12 col-lg-3 form-group">
+                              <select class="form-control fc ftsm" name="state" id="state_id" required>
+                                <option value=""></option>
+                                <?php foreach ($states as $state) : ?>
+                                <option value="<?php echo $state['id']?>"><?php echo $state['name']?></option>
+                                <?php endforeach; ?>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="row mx-1">
+                            <div class="col-sm-12 col-lg-2">
+                              <label for="vat_id">
                                 GSTIN
                               </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">
-                              <input type="text" class="form-control fc ftsm" name="vat" id="vat_id" />
+                              <input type="text" class="form-control fc ftsm" name="vat" id="vat_id" maxlength="15" minlength="15" />
                             </div>
                           </div>
                           <div class="row mx-1">
@@ -184,9 +200,6 @@
                               <select class="form-control fc ftsm" name="invoicethru" id="invoicethru_id" required>
                                 <option value=""></option>
                                 <option value="1">Email</option>
-                                <option value="2">Fax</option>
-                                <option value="3">Pay</option>
-                                <option value="4">Record Only</option>
                                 <option value="5">Print</option>
                               </select>
                             </div>
