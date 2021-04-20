@@ -30,10 +30,10 @@ class OrdersController extends Controller
         try {
             $this->_view->set('title', 'Create Customer');
             
-            $states = new StatesModel();
-            $states = $states->list();
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
 
-            $this->_view->set('states', $states);
+            $this->_view->set('customers', $customers);
             
             if(!empty($_POST)) {
                 $data = $_POST;

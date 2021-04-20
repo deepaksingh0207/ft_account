@@ -12,6 +12,16 @@ class CustomersModel extends Model {
         }
         return $user;
     }
+
+    public function getNameList() {
+        $sql = "select id, name from customers where 1=1 and status=1";
+        $this->_setSql($sql);
+        $user = $this->getAll();
+        if (empty($user)){
+            return false;
+        }
+        return $user;
+    }
     
     public function get($id) {
         $sql = "select * from customers where id = ? limit 1";

@@ -28,7 +28,9 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control ftsm" name="customerid" id="customerid_id">
                           <option value=""></option>
-                          <option value="1">User A</option>
+                          <?php foreach($customers as $customer) : ?>
+                          <option value="<?php echo $customer['id']?>"><?php echo $customer['name']?></option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
@@ -40,7 +42,7 @@
                         <input type="date" class="form-control ftsm" name="date" id="date_id" />
                       </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="quote_number_id">Quote Number :</label>
                       </div>
@@ -50,7 +52,6 @@
                           <option value="1">10000</option>
                         </select>
                       </div>
-                    </div>
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="terms_id">Terms :</label>
@@ -63,43 +64,35 @@
                         </select>
                       </div>
                     </div>
+                    -->
+                    
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="days_id">Days :</label>
+                        <label for="days_id">Pay in days :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="tel" class="form-control ftsm" name="days" id="days_id" minlength="1" minlength="3" />
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="tracking_id">Tracking Ref No :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="tracking" id="tracking_id" />
-                      </div>
-                    </div>
+                    
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="customer_id">Customer PO No. :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="customer" id="customer_id" />
+                        <input type="text" class="form-control ftsm" name="po_no" id="customer_id" />
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="salesperson_id"></label>
-                        Salesperson :
+                        Contact Person :
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="salesperson" id="salesperson_id">
-                          <option value=""></option>
-                          <option value="">prashant</option>
-                        </select>
+                      <input type="text" class="form-control ftsm" name="contact_person" id="salesperson_id" />
                       </div>
                     </div>
-                    <div class="row">
+                    <!--<div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="ship_id">Ship By:</label>
                       </div>
@@ -109,7 +102,7 @@
                         </select>
                       </div>
                     </div>
-                    <div class="row">
+                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="tax_id">Tax :</label>
                       </div>
@@ -120,7 +113,7 @@
                           <option value="1">Exempt</option>
                         </select>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="bill_id">Bill To :</label>
@@ -145,14 +138,7 @@
                         <textarea class="form-control" name="comment" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="pvtcomment_id">Private Comments :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="pvtcomment" id="pvtcomment_id" cols="30" rows="2"></textarea>
-                      </div>
-                    </div>
+                    
                     <div class="row">
                       <div class="col-12 table-responsive">
                         <table class="table text-center">
