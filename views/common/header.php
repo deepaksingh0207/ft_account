@@ -39,6 +39,11 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/custom.css" />
   <?php endif; ?>
 
+  <?php if ($controller == 'orders' && ($action == 'index')) : ?>
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/custom.css" />
+  <?php endif; ?>
+
   <script>
     var baseUrl = '<?php echo HOST . ROOT ?>';
   </script>
