@@ -179,7 +179,7 @@
                     <div class="row">
 
                       <div class="col-12 table-responsive">
-                        <table class="table text-center">
+                        <table class="table text-center mb-0">
                           <thead>
                             <tr>
                               <th class="minmax150">Qty</th>
@@ -193,20 +193,19 @@
                           </thead>
                           <tbody id="orderlist"></tbody>
                         </table>
+                        <hr class="mt-0">
                       </div>
-
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-sm-12 col-md-12 mb-2 align-center">
-                            <button type="button" id="add_item" class="btn btn-primary btn-block btn-sm">
-                              <i class="fas fa-plus"></i>
+                          <div class="col-sm-12 col-md-12 mb-2">
+                            <button type="button" id="add_item" class="btn btn-primary btn-sm">
+                              ADD ITEM
                             </button>
                           </div>
                         </div>
                       </div>
 
                     </div>
-
                     <div class="row">
                       <div class="col-12 text-right">
                         <b>Subtotal : </b>₹
