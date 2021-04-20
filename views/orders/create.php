@@ -13,7 +13,7 @@
           <div class="row mb-2">
             <div class="col-12">
               <form action="" method="post" id="quickForm" novalidate="novalidate">
-              <input type="hidden" id="id_tr" name="trid" value="" />
+                <input type="hidden" id="id_tr" name="trid" value="" />
                 <div class="card">
 
                   <div class="card-header">
@@ -221,6 +221,18 @@
 
                   <div class="card-footer">
                     <div class="text-right">
+                      <!-- <button type="submit" class="btn btn-sm btn-default" name="submit" value="save">
+                        Save
+                      </button>
+                      <button type="submit" class="btn btn-sm btn-default" name="submit" value="save_recurring">
+                        Save & Recurring
+                      </button>
+                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_print">
+                        Record & Print
+                      </button>
+                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_email">
+                        Record & Email
+                      </button> -->
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
                       </button>
