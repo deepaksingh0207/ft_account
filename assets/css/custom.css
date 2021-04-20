@@ -15,3 +15,13 @@
 .align-right {
   align-self: right;
 }
+.minmax150 {
+  width: 150px;
+  min-width: 150px;
+}
+.tax {
+  min-width: 110px;
+}
+.min100 {
+  min-width: 100px;
+}

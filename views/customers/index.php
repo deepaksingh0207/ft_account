@@ -120,7 +120,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <p>Are you sure you want to delete ?<span id="username"></span></p>
+                  <p>Are you sure you want to delete ?</p>
                   <input type="hidden" id="trashid" name="deactivate" value="" />
                 </div>
                 <div class="modal-footer justify-content-between">

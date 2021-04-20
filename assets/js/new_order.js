@@ -1,14 +1,13 @@
 $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
-      alert("Form successful submitted!");
+      form.submit();
     },
   });
   $("#quickForm").validate({
     rules: {
       customerid: {
         required: true,
-        number: true,
       },
       date: {
         required: true,
@@ -16,7 +15,6 @@ $(function () {
       },
       quote_number: {
         required: true,
-        number: true,
       },
       terms: {
         required: true,
@@ -56,55 +54,51 @@ $(function () {
         required: true,
         textarea: true,
       },
-      pvtcomment: {
-        required: true,
-        textarea: true,
-      },
     },
     messages: {
       customerid: {
-        required: "Please enter this detail.",
-        number: "Value must be a number.",
+        required: "Please select this customer.",
       },
       date: {
-        required: "Please enter this detail.",
+        required: "Please select a date.",
         date: "Value must be a date.",
       },
       quote_number: {
-        required: "Please enter this detail.",
-        number: "Value must be a number.",
+        required: "Please select quote details.",
       },
       terms: {
-        required: "Please enter this detail.",
+        required: "Please select a term.",
       },
       days: {
-        required: "Please provide a password",
-        tel: "Value must be a number.",
+        required: "Please provide number of days.",
+        tel: "Invalid Detail.",
       },
       tracking: {
-        required: "Please provide a password",
-        tel: "Value must be a number.",
+        required: "Please provide a Tracking Ref Id.",
       },
       customer: {
-        required: "Please provide a password",
+        required: "Please provide a Customer PO Id",
       },
       salesperson: {
         required: "Please select the sales representative.",
       },
       shipby: {
-        required: "Please enter this detail.",
+        required: "Select Shipping Method.",
       },
       tax: {
-        required: "Please select this detail.",
+        required: "Please select on from the list.",
+      },
+      bill: {
+        required: "Enter this detail.",
       },
       ship: {
-        required: "Please select the bill",
+        required: "Enter this detail.",
       },
       comment: {
-        required: "Please ",
+        required: "Enter your comment.",
       },
       pvtcomment: {
-        required: "Please provide a password",
+        required: "Enter your private comment.",
       },
     },
     errorElement: "span",
@@ -125,7 +119,7 @@ function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input type='number' class='form-control ftsm' name='quantity" +
+      "'><td><input type='number' class='form-control ftsm qty' name='quantity" +
       charlie +
       "' id='id_quantity" +
       charlie +
@@ -145,15 +139,11 @@ function addrow(charlie) {
       charlie +
       "' placeholder='Type or select...' /> <datalist id='description" +
       charlie +
-      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm' name='unitprice" +
+      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm unitprice' name='unitprice" +
       charlie +
       "' id='id_unitprice" +
       charlie +
-      "'/></td><td><select class='form-control ftsm' name='tax" +
-      charlie +
-      "' id='id_tax" +
-      charlie +
-      "'><option value=''></option><option value='0'>None</option></select></td><td>₹<span id='id_total" +
+      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax' id='id_tax" + charlie + "'></td><td>₹<span id='id_total" +
       charlie +
       "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' value='" +
       charlie +
@@ -164,8 +154,7 @@ function addrow(charlie) {
 // delete confirmation
 $(document).on("click", "i.trash", function () {
   $(".killrow").attr("id", $(this).attr("value"));
-  $("#order").hide();
-  $("#trash").show();
+  $("#modelactivate").click();
 });
 
 // delete and show main
@@ -174,11 +163,11 @@ $(".killrow").click(function () {
   $("#" + a).remove();
   var arr = $("#id_tr").val().split(",");
   res = jQuery.grep(arr, function (b) {
-    return b !== a ;
+    return b !== a;
   });
   $("#id_tr").val(res);
-  $("#order").show();
-  $("#trash").hide();
+  ttotal()
+  $("#byemodal").click();
 });
 
 // Cancel delete action
@@ -208,3 +197,55 @@ $("#add_item").on("click", function () {
   $("#id_tr").val(a);
   console.log($("#id_tr").val());
 });
+
+$(".tax").change(function () {
+  ttotal();
+});
+
+$(document).on("change", ".qty", function () {
+  var qtyid = $(this).attr("id");
+  id = qtyid.match(/\d+/);
+  subtotal = rowcollector(id[0]);
+  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
+  ttotal()
+});
+
+$(document).on("change", ".unitprice", function () {
+  var unitpriceid = $(this).attr("id");
+  id = unitpriceid.match(/\d+/);
+  subtotal = rowcollector(id[0]);
+  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
+  ttotal()
+});
+
+$(document).on("change", ".tax", function () {
+  var taxid = $(this).attr("id");
+  id = taxid.match(/\d+/);
+  subtotal = rowcollector(id[0]);
+  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
+  ttotal()
+});
+
+function ttotal() {
+  var idlist = $("#id_tr").val().split(",");
+  total = 0
+  $.each(idlist, function (index, value) {
+    total += parseFloat($("#id_total" + value).text());
+  });
+  $("#subtotal_id").text(parseFloat(total).toFixed(2));
+  $("#total").text(parseFloat(total).toFixed(2));
+}
+
+function rowcollector(id) {
+  rowqty = $("#id_quantity" + id).val();
+  rowunitprice = $("#id_unitprice" + id).val();
+  rowtax = $("#id_tax" + id).val();
+  total = 0;
+  if (rowqty[0] != "" && rowunitprice[0] != "") {
+    total = rowunitprice * rowqty;
+    if (rowtax[0] != "") {
+      total += (total*(rowtax/100))
+    }
+  }
+  return total;
+}
