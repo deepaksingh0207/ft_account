@@ -27,7 +27,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_customer.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>
@@ -35,7 +35,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_order.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_order.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 </body>

@@ -26,7 +26,7 @@
                         <label for="customerid_id">Customer : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="customerid" id="customerid_id">
+                        <select class="form-control ftsm" name="customer_id" id="customerid_id">
                           <option value=""></option>
                           <?php foreach($customers as $customer) : ?>
                           <option value="<?php echo $customer['id']?>"><?php echo $customer['name']?></option>
@@ -39,7 +39,7 @@
                         <label for="date_id">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
                       </div>
                     </div>
                     <!-- <div class="row">
@@ -71,7 +71,7 @@
                         <label for="days_id">Pay in days :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control ftsm" name="days" id="days_id" minlength="1" minlength="3" />
+                        <input type="tel" class="form-control ftsm"  name="pay_days" id="days_id" minlength="1" minlength="3" />
                       </div>
                     </div>
                     
@@ -89,7 +89,7 @@
                         Contact Person :
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                      <input type="text" class="form-control ftsm" name="contact_person" id="salesperson_id" />
+                      <input type="text" class="form-control ftsm" name="sales_person" id="salesperson_id" />
                       </div>
                     </div>
                     <!--<div class="row">
@@ -119,7 +119,7 @@
                         <label for="bill_id">Bill To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="bill" id="bill_id" cols="30" rows="2"></textarea>
+                        <textarea class="form-control" name="bill_to" id="bill_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
                     <div class="row">
@@ -127,7 +127,7 @@
                         <label for="ship_id">Ship To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="ship" id="ship_id" cols="30" rows="2"></textarea>
+                        <textarea class="form-control" name="ship_to" id="ship_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
                     <div class="row">
@@ -135,7 +135,7 @@
                         <label for="comment_id">Comments :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="comment" id="comment_id" cols="30" rows="2"></textarea>
+                        <textarea class="form-control" name="remark" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
                     
