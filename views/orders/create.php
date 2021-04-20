@@ -1,26 +1,35 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
   <div class="wrapper">
+
     <div ftsolutions="menu.html"></div>
+
     <div class="content-wrapper">
+
+      <!-- Menu -->
       <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
+
       <div class="content-header">
         <div class="container">
           <div class="row mb-2">
             <div class="col-12">
               <form action="" method="post" id="quickForm" novalidate="novalidate">
                 <input type="hidden" id="id_tr" name="trid" value="" />
-                <input type="hidden" id="id_taxval" name="taxval" value="" />
                 <div class="card">
+
                   <div class="card-header">
                     <div class="card-title">New Sales Order</div>
                     <div class="text-right">
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
                       </button>
-                      <a href="index.html" class="btn btn-sm btn-default">Cancel</a>
+                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                        Back
+                      </a>
                     </div>
                   </div>
+
                   <div class="card-body" id="order" style="display: block">
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="customerid_id">Customer : </label>
@@ -34,6 +43,7 @@
                         </select>
                       </div>
                     </div>
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="date_id">Date :</label>
@@ -42,7 +52,12 @@
                         <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
                       </div>
                     </div>
+<<<<<<< HEAD
                     <!-- <div class="row">
+=======
+
+                    <div class="row">
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                       <div class="col-sm-12 col-lg-2">
                         <label for="quote_number_id">Quote Number :</label>
                       </div>
@@ -52,6 +67,11 @@
                           <option value="1">10000</option>
                         </select>
                       </div>
+<<<<<<< HEAD
+=======
+                    </div>
+
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="terms_id">Terms :</label>
@@ -64,17 +84,37 @@
                         </select>
                       </div>
                     </div>
+<<<<<<< HEAD
                     -->
                     
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="days_id">Pay in days :</label>
+=======
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="days_id">Days :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control ftsm" name="days" id="days_id" minlength="1" minlength="3" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="tracking_id">Tracking Ref No :</label>
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="tel" class="form-control ftsm"  name="pay_days" id="days_id" minlength="1" minlength="3" />
                       </div>
                     </div>
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="customer_id">Customer PO No. :</label>
@@ -83,6 +123,7 @@
                         <input type="text" class="form-control ftsm" name="po_no" id="customer_id" />
                       </div>
                     </div>
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="salesperson_id"></label>
@@ -92,7 +133,12 @@
                       <input type="text" class="form-control ftsm" name="sales_person" id="salesperson_id" />
                       </div>
                     </div>
+<<<<<<< HEAD
                     <!--<div class="row">
+=======
+
+                    <div class="row">
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                       <div class="col-sm-12 col-lg-2">
                         <label for="ship_id">Ship By:</label>
                       </div>
@@ -102,7 +148,12 @@
                         </select>
                       </div>
                     </div>
+<<<<<<< HEAD
                      <div class="row">
+=======
+
+                    <div class="row">
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                       <div class="col-sm-12 col-lg-2">
                         <label for="tax_id">Tax :</label>
                       </div>
@@ -113,7 +164,12 @@
                           <option value="1">Exempt</option>
                         </select>
                       </div>
+<<<<<<< HEAD
                     </div> -->
+=======
+                    </div>
+
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="bill_id">Bill To :</label>
@@ -122,6 +178,7 @@
                         <textarea class="form-control" name="bill_to" id="bill_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="ship_id">Ship To :</label>
@@ -130,16 +187,34 @@
                         <textarea class="form-control" name="ship_to" id="ship_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="comment_id">Comments :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
+<<<<<<< HEAD
                         <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
                     
+=======
+                        <textarea class="form-control" name="comment" id="comment_id" cols="30" rows="2"></textarea>
+                      </div>
+                    </div>
+
                     <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="pvtcomment_id">Private Comments :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <textarea class="form-control" name="pvtcomment" id="pvtcomment_id" cols="30" rows="2"></textarea>
+                      </div>
+                    </div>
+
+>>>>>>> 3780fdcb8bac31b7960933f7d4612556fd44a8c2
+                    <div class="row">
+
                       <div class="col-12 table-responsive">
                         <table class="table text-center">
                           <thead>
@@ -156,16 +231,19 @@
                           <tbody id="orderlist"></tbody>
                         </table>
                       </div>
+
                       <div class="col-12">
                         <div class="row">
                           <div class="col-sm-12 col-md-12 mb-2 align-center">
-                            <button type="button" id="add_item" class="btn btn-block btn-sm btn-primary">
+                            <button type="button" id="add_item" class="btn btn-primary btn-block btn-sm">
                               <i class="fas fa-plus"></i>
                             </button>
                           </div>
                         </div>
                       </div>
+
                     </div>
+
                     <div class="row">
                       <div class="col-12 text-right">
                         <b>Subtotal : </b>₹
@@ -177,20 +255,38 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="card-footer">
                     <div class="text-right">
+                      <!-- <button type="submit" class="btn btn-sm btn-default" name="submit" value="save">
+                        Save
+                      </button>
+                      <button type="submit" class="btn btn-sm btn-default" name="submit" value="save_recurring">
+                        Save & Recurring
+                      </button>
+                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_print">
+                        Record & Print
+                      </button>
+                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_email">
+                        Record & Email
+                      </button> -->
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
                       </button>
-                      <a href="index.html" class="btn btn-sm btn-default">Cancel</a>
+                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+                      </a>
                     </div>
                   </div>
+
                 </div>
+
               </form>
             </div>
           </div>
-          <br><br>
+          <br><br> <!-- Form Bottom Padding -->
         </div>
+
+        <!-- Modal Start -->
         <button type="button" id="modelactivate" style="display: none" data-toggle="modal" data-target="#modal-default">
         </button>
         <div class="modal fade" id="modal-default">
@@ -198,14 +294,14 @@
             <div class="modal-content">
               <form action="" method="post" class="text-center mb-0">
                 <div class="modal-header">
-                  <h4 class="modal-title">Confirm Delete</h4>
+                  <div class="modal-title">ORDER DELETE</div>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <p>
-                    Are you sure you want to delete ?
+                    Please confirm deleting action of this order?
                   </p>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -220,20 +316,9 @@
             </div>
           </div>
         </div>
+        <!-- Modal End -->
+
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </div>
     </div>
-    <footer class="main-footer">
-      <div class="float-right d-none d-sm-inline">
-        <strong>
-          Copyright &copy; 2019
-          <a href="http://www.futuretecsol.com/">F.T. Solutions Pvt. Ltd.</a>
-          | All Rights Reserved. |
-          <a href="http://www.futuretecsol.com/privacy-policy/">
-            Privacy Policy
-          </a>
-        </strong>
-      </div>
-      <strong>&nbsp;</strong>
-    </footer>
   </div>

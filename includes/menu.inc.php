@@ -58,10 +58,10 @@
             </a>
             <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
               <li>
-                <a tabindex="-1" href="new_order.html" class="dropdown-item"> New Order </a>
+                <a tabindex="-1" href="<?php echo ROOT; ?>orders/create" class="dropdown-item"> New Order </a>
               </li>
               <li>
-                <a tabindex="-1" href="list_order.html" class="dropdown-item"> List Orders </a>
+                <a tabindex="-1" href="<?php echo ROOT; ?>orders" class="dropdown-item"> List Orders </a>
               </li>
             </ul>
           </li>
@@ -71,17 +71,17 @@
             </a>
             <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
               <li>
-                <a tabindex="-1" href="new_invoice.html" class="dropdown-item"> New Invoice </a>
+                <a tabindex="-1" href="<?php echo ROOT; ?>invoices/create" class="dropdown-item"> New Invoice </a>
               </li>
               <li>
-                <a tabindex="-1" href="list_invoice.html" class="dropdown-item"> List Invoices </a>
+                <a tabindex="-1" href="<?php echo ROOT; ?>invoices" class="dropdown-item"> List Invoices </a>
               </li>
             </ul>
           </li>
         </ul>
       </li>
       <li class="nav-item dropdown">
-        <a href="index.html" class="nav-link">Log Off</a>
+        <a href="<?php echo ROOT; ?>users/logout" class="nav-link">Log Off</a>
       </li>
       <li class="nav-item">
         <a href="index.html" class="nav-link">Help</a>
