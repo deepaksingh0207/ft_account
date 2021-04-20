@@ -16,9 +16,8 @@
                       <button type="submit" class="btn btn-primary btn-sm vip" disabled>
                         Submit
                       </button>
-                      <button type="reset" class="btn btn-default btn-sm">
-                        Cancel
-                      </button>
+                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+                      </a>
                     </div>
                   </div>
                   <div class="card-body p-3">
@@ -133,9 +132,8 @@
                     <button type="submit" class="btn btn-primary btn-sm vip" disabled>
                       Submit
                     </button>
-                    <button type="reset" class="btn btn-default btn-sm">
-                      Cancel
-                    </button>
+                    <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+                    </a>
                   </div>
                 </div>
               </form>
