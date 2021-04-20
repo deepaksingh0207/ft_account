@@ -4,7 +4,7 @@ $(function () {
       form.submit();
     },
   });
-  $("#quickForm").validate({
+  $("#id_quickForm").validate({
     rules: {
       customername: {
         required: true,
@@ -91,6 +91,12 @@ $(function () {
       address: {
         required: "Please enter the address.",
       },
+      pincode: {
+        required: "Please enter correct pincode.",
+      },
+      state: {
+        required: "Please enter a state from the list.",
+      },
       gst: {
         required: "Please enter VAT registration number.",
       },
@@ -169,7 +175,7 @@ $(".fc").change(function () {
   }
 });
 
-$("#pphone_id").on("keypress", function (event) {
+$("#id_pphone").on("keypress", function (event) {
   var regex = new RegExp("^[0-9]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
   if (!regex.test(key)) {
@@ -178,7 +184,7 @@ $("#pphone_id").on("keypress", function (event) {
   }
 });
 
-$("#sphone_id").on("keypress", function (event) {
+$("#id_sphone_id").on("keypress", function (event) {
   var regex = new RegExp("^[0-9]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
   if (!regex.test(key)) {
@@ -187,7 +193,7 @@ $("#sphone_id").on("keypress", function (event) {
   }
 });
 
-$("#fax_id").on("keypress", function (event) {
+$("#id_fax").on("keypress", function (event) {
   var regex = new RegExp("^[0-9]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
   if (!regex.test(key)) {
