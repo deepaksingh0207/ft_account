@@ -84,7 +84,7 @@
                           <div class="row mx-1">
                             <div class="col-sm-12 col-lg-2">
                               <label for="vat_id">
-                                VAT registration number
+                                GSTIN
                               </label>
                             </div>
                             <div class="col-sm-12 col-lg-3 form-group">

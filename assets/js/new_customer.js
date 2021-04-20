@@ -20,8 +20,8 @@ $(function () {
       },
       vat: {
         required: true,
-        minlength: 11,
-        maxlength: 11,
+        minlength: 15,
+        maxlength: 15,
       },
       pphone: {
         required: true,
