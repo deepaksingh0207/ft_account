@@ -56,10 +56,14 @@ class OrdersController extends Controller
 
                 //print_r($orderItems);
                 //print_r($data); exit;
+                $orderId = $this->_model->save($data);
                 if($this->_model->save($data)) {
 
                     $tblOrderItem = new OrderItemsModel();
-                    $tblOrderItem = $tblOrderItem->save($orderItems);
+                    foreach($orderItems as $orderItem) {
+                        $orderItem['order_id'] = $orderId;
+                        $tblOrderItem->save($orderItem);
+                    }
 
                     $_SESSION['message'] = 'Order added successfully';
                     header("location:". ROOT. "orders"); 

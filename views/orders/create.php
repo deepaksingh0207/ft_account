@@ -135,7 +135,7 @@
                         <label for="comment_id">Comments :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="remark" id="comment_id" cols="30" rows="2"></textarea>
+                        <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
                     

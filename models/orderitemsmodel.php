@@ -54,7 +54,7 @@ class OrderItemsModel extends Model {
         
         $question_marks[] = '('  . $this->placeholders('?', sizeof($data)) . ')';
         $insert_values = array_merge($insert_values, array_values($data));
-        
+
         $sql = "INSERT INTO order_items (" . implode(",", $datafields ) . ") VALUES " .
             implode(',', $question_marks);
             
