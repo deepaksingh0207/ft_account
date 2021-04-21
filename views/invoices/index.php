@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">
                       <br>
-                      <button class="btn btn-sm btn-primary update" type="button" id="1">Update</button>
+                      <button class="btn btn-sm btn-primary update" type="button">Update</button>
                       <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
                         Add New Order
                       </a>
@@ -64,36 +64,36 @@
                             <th>Due</th>
                             <th>Status</th>
                             <th>Email</th>
+                            <th>PDF</th>
+                            <th>Print</th>
                             <th>Package Slip</th>
                             <th>Ship Label</th>
                             <th>Log</th>
                             <th>Apply Payment</th>
                             <th>Edit</th>
-                            <th>PDF</th>
-                            <th>Print</th>
                             <th>Delete</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr id="1" data-href="https://google.co.in">
                             <td>1</td>
-                            <td  class="sublist">200</td>
-                            <td  class="sublist">1000</td>
-                            <td  class="sublist">Balram</td>
-                            <td  class="sublist">Prashant</td>
-                            <td  class="sublist">20000</td>
-                            <td  class="sublist">10001</td>
-                            <td  class="sublist">1</td>
-                            <td  class="sublist">200</td>
-                            <td  class="sublist">1000</td>
-                            <td  class="sublist">Balram</td>
-                            <td  class="sublist">Prashant</td>
-                            <td  class="sublist">20000</td>
-                            <td  class="sublist">10001</td>
-                            <td  class="sublist"><i class='fas fa-pen edit' value='1'></i></td>
-                            <td  class="sublist"><i class='far fa-file-pdf pdf' value='1'></i></td>
-                            <td  class="sublist"><i class='fas fa-print print' value='1'></i></td>
-                            <td  class="sublist"><i class='fas fa-minus-circle delete' value='1'></i></td>
+                            <td class="sublist">200</td>
+                            <td class="sublist">1000</td>
+                            <td class="sublist">Balram</td>
+                            <td class="sublist">Prashant</td>
+                            <td class="sublist">20000</td>
+                            <td class="sublist">10001</td>
+                            <td class="sublist">1</td>
+                            <td class="sublist">200</td>
+                            <td ><i class="far fa-envelope"></i></td>
+                            <td ><i class='far fa-file-pdf pdf'></i></td>
+                            <td ><i class='fas fa-print print'></i></td>
+                            <td ><i class="far fa-clipboard"></i></td>
+                            <td ><i class="fas fa-barcode"></i></td>
+                            <td ><i class='fas fa-pen edit'></i></td>
+                            <td ><i class="fas fa-dollar-sign"></i></td>
+                            <td ><i class="fas fa-pen"></i></td>
+                            <td ><i class='fas fa-minus-circle delete'></i></td>
                           </tr>
                         </tbody>
                       </table>

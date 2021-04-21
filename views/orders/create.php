@@ -82,31 +82,6 @@
                       </div>
                     </div>
 
-                    <!--<div class="row">
-
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="ship_id">Ship By:</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="shipby" id="shipby_id">
-                          <option value=""></option>
-                        </select>
-                      </div>
-                    </div>
-
-                     <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="tax_id">Tax :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="tax" id="tax_id">
-                          <option value=""></option>
-                          <option value="0">Default</option>
-                          <option value="1">Exempt</option>
-                        </select>
-                      </div>
-
-                    </div> -->
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="bill_id">Bill To :</label>

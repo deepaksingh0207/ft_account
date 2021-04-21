@@ -44,6 +44,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/orderindex.js"></script>
@@ -64,6 +65,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/invoiceindex.js"></script>

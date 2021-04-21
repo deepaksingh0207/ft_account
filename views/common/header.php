@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <title>F. T. Help & Support</title>
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/google_font.css" />
+  <link rel="stylesheet" href="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.css" />
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/fontawesome-free/css/all.min.css" />
 
 

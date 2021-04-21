@@ -9,7 +9,13 @@ $(function () {
   });
 });
 
+$(".sublist").click(function () {
+	var parent_id = $(this).parent("tr").attr("data-href");
+	window.location = parent_id;
+});
+
 var period1, start1, end1, customer1;
+
 $("#id_period1").on("change", function () {
   var period1 = $("#id_period1").val();
   if ($(this).val() == "2") {
@@ -40,43 +46,46 @@ $(".update").on("click", function () {
     $("#w").DataTable().destroy();
     fill_datatable(period1, start1, end1, customer1);
   }
+  
 });
 
 $(".edit").on("click", function () {
-  var editlink = "/order/" + (this).val()
+  var editlink = "/order/" + $(this).parent().parent("tr").attr("id");
   window.location = editlink;
 });
 
 $(".pdf").on("click", function () {
-  var pdflink = "/order/pdf/" + (this).val()
+  var pdflink = "/order/pdf/" + $(this).parent().parent("tr").attr("id");
   window.location = pdflink;
 });
 
 $(".print").on("click", function () {
-  var printlink = "/order/print/" + (this).val()
+  var printlink = "/order/print/" + $(this).parent().parent("tr").attr("id");
   window.location = printlink;
 });
 
+var deletemodel;
 $(".delete").on("click", function () {
-  $(".killrow").attr("id", (this).val());
+  deletemodel = $(this).parent().parent("tr").attr("id");
   $("#modelactivate").click();
 });
 
-$(".killrow").on("click", function () {
-  var orderid = $(this).val()
-  console.log(orderid);
+$("#modaldelete").on("click", function () {
   $.ajax({
     type: "POST",
-    url: baseUrl + "incidents/app/" + orderid,
-    data: customerid,
+    url: baseUrl + "incidents/app/",
+    data: deletemodel,
     dataType: "json",
     encode: true,
   })
     .done(function (data) {
-      $("#" + orderid).remove();
+      $("#" + deletemodel).remove();
+      $("#byemodal").click();
+      toastr.success(data.message);
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      alert("Delete Action Failed. Please try again.")
+      toastr.warning("Delete Action Failed. Please try again.");
+      $("#byemodal").click();
     });
 });
 
@@ -86,7 +95,7 @@ $(".sublist").click(function () {
 });
 
 function fill_datatable(period = "", start = "", end = "", customer = "") {
-  var dataTable = $("#w").DataTable({
+  var dataTable = $("#example1").DataTable({
     processing: true,
     serverSide: true,
     order: [],
