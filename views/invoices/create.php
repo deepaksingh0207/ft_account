@@ -17,7 +17,7 @@
                 <div class="card">
 
                   <div class="card-header">
-                    <div class="card-title">New Sales Order</div>
+                    <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
@@ -35,7 +35,7 @@
                         <label for="customerid_id">Customer : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="customer_id" id="customerid_id">
+                        <select class="form-control ftsm" name="customerid" id="customerid_id">
                           <option value=""></option>
                           <?php foreach ($customers as $customer) : ?>
                             <option value="<?php echo $customer['id'] ?>"><?php echo $customer['name'] ?></option>
@@ -46,44 +46,35 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="date_id">Date :</label>
+                        <label for="id_orderid">Order Number:</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
+                        <select name="orderid" id="id_orderid" class="form-control ftsm" disabled>
+                          <option value=""></option>
+                          <option value="">10000</option>
+                        </select>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="days_id">Pay in days :</label>
-
+                        <label for="id_invoicedate">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control ftsm" name="pay_days" id="days_id" minlength="1" maxlength="3" />
+                        <input type="date" class="form-control ftsm" name="invoicedate" id="id_invoicedate" />
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="customer_id">Customer PO No. :</label>
+                        <label for="id_payindays">Pay in days :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="po_no" id="customer_id" />
+                        <input type="tel" class="form-control ftsm" name="payindays" id="id_payindays" minlength="1" minlength="3" />
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="salesperson_id"></label>
-                        Contact Person :
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="sales_person" id="salesperson_id" />
-                      </div>
-                    </div>
-
-                    <!--<div class="row">
-
                       <div class="col-sm-12 col-lg-2">
                         <label for="ship_id">Ship By:</label>
                       </div>
@@ -94,19 +85,66 @@
                       </div>
                     </div>
 
-                     <div class="row">
+                    <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="tax_id">Tax :</label>
+                        <label for="id_shipcost">Shipping Costs:</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="tax" id="tax_id">
-                          <option value=""></option>
-                          <option value="0">Default</option>
-                          <option value="1">Exempt</option>
+                        <input type="text" class="form-control ftsm" name="shipcost" id="id_shipcost" value="0.00" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_shiptax">Shipping Tax :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select name="shiptax" id="id_shiptax" class="form-control ftsm">
+                          <option value="">None</option>
                         </select>
                       </div>
+                    </div>
 
-                    </div> -->
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_tracking">Tracking Ref No.:</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm" name="tracking" id="id_tracking" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="customer_id">Customer PO No. :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm" name="customer" id="customer_id" />
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_salesperson">Salesperson:</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control ftsm" name="salesperson" id="id_salesperson">
+                          <option value="">Prashant</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_tax">Tax:</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control ftsm" name="tax" id="id_tax" disabled>
+                          <option value="">Default</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="bill_id">Bill To :</label>
@@ -130,21 +168,31 @@
                         <label for="comment_id">Comments :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-
                         <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_pcomment">Private Comments :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <textarea class="form-control" name="pcomment" id="id_pcomment" cols="30" rows="2"></textarea>
+                      </div>
+                    </div>
+
                     <div class="row">
 
                       <div class="col-12 table-responsive">
                         <table class="table text-center mb-0">
                           <thead>
                             <tr>
-                              <th class="minmax150">Qty</th>
-                              <th class="min100">Item</th>
+                              <th class="minmax150">Qty </th>
+                              <th class="min100">Item </th>
                               <th class="min100">Description</th>
                               <th class="min100">Unit Price</th>
-                              <th class="tax">Tax (%)</th>
+                              <th class="tax">Discount</th>
+                              <th class="min100">Tax</th>
                               <th class="min100">Total</th>
                               <th class="min100">Delete</th>
                             </tr>
@@ -166,7 +214,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
-                      <input type="hidden" name="ordertotal" id="id_ordertotal">
+                        <input type="hidden" name="ordertotal" id="id_ordertotal">
                         <b>Subtotal : </b>₹
                         <span id="subtotal_id">0.00</span>
                       </div>
