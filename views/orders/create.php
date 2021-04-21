@@ -37,8 +37,8 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control ftsm" name="customer_id" id="customerid_id">
                           <option value=""></option>
-                          <?php foreach($customers as $customer) : ?>
-                          <option value="<?php echo $customer['id']?>"><?php echo $customer['name']?></option>
+                          <?php foreach ($customers as $customer) : ?>
+                            <option value="<?php echo $customer['id'] ?>"><?php echo $customer['name'] ?></option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -52,17 +52,17 @@
                         <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
                       </div>
                     </div>
-                    
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="days_id">Pay in days :</label>
 
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control ftsm"  name="pay_days" id="days_id" minlength="1" minlength="3" />
+                        <input type="tel" class="form-control ftsm" name="pay_days" id="days_id" minlength="1" minlength="3" />
                       </div>
                     </div>
-     
+
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="customer_id">Customer PO No. :</label>
@@ -78,7 +78,7 @@
                         Contact Person :
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                      <input type="text" class="form-control ftsm" name="sales_person" id="salesperson_id" />
+                        <input type="text" class="form-control ftsm" name="sales_person" id="salesperson_id" />
                       </div>
                     </div>
 
@@ -166,6 +166,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
+                      <input type="hidden" name="ordertotal" id="id_ordertotal">
                         <b>Subtotal : </b>₹
                         <span id="subtotal_id">0.00</span>
                       </div>

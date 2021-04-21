@@ -149,7 +149,9 @@ function addrow(charlie) {
       charlie +
       "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
       charlie +
-      "'></td><td>₹<span id='id_total" +
+      "'></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
+      charlie +
+      "'><span id='id_total" +
       charlie +
       "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' value='" +
       charlie +
@@ -227,6 +229,7 @@ $(document).on("change", ".tax", function () {
   var taxid = $(this).attr("id");
   id = taxid.match(/\d+/);
   subtotal = rowcollector(id[0]);
+  $("#total" + id[0]).val(subtotal);
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
@@ -239,6 +242,13 @@ function ttotal() {
     $.each(idlist, function (index, value) {
       total += parseFloat($("#id_total" + value).text());
     });
+    $("#id_ordertotal").val(total);
+    $("#subtotal_id").text(parseFloat(total).toFixed(2));
+    $("#total").text(parseFloat(total).toFixed(2));
+  }
+  else{
+    total = 0.00
+    $("#id_ordertotal").val(total);
     $("#subtotal_id").text(parseFloat(total).toFixed(2));
     $("#total").text(parseFloat(total).toFixed(2));
   }
