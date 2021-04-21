@@ -131,31 +131,23 @@ function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input type='number' class='form-control ftsm qty' name='quantity" +
-      charlie +
-      "' id='id_quantity" +
+      "'><td><input type='number' class='form-control ftsm qty' name='qty[]' id='id_quantity" +
       charlie +
       "'/></td><td><input class='form-control ftsm' list='item" +
       charlie +
-      "_list' name='item" +
-      charlie +
-      "' id='id_item" +
+      "_list' name='item[]' id='id_item" +
       charlie +
       "' placeholder='Type or select...' /><datalist id='item" +
       charlie +
       "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input class='form-control ftsm' list='description" +
       charlie +
-      "_list' name='description" +
-      charlie +
-      "' id='id_description" +
+      "_list' name='description[]' id='id_description" +
       charlie +
       "' placeholder='Type or select...' /> <datalist id='description" +
       charlie +
-      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm unitprice' name='unitprice" +
+      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
       charlie +
-      "' id='id_unitprice" +
-      charlie +
-      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax' id='id_tax" +
+      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
       charlie +
       "'></td><td>₹<span id='id_total" +
       charlie +

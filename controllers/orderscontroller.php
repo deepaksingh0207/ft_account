@@ -4,7 +4,7 @@ class OrdersController extends Controller
     
     public function __construct($model, $action) {   
         parent::__construct($model, $action);
-        $this->_setModel("customers");
+        $this->_setModel("orders");
     }
 
     public function index() {
@@ -30,16 +30,43 @@ class OrdersController extends Controller
         try {
             $this->_view->set('title', 'Create Customer');
             
-            $states = new StatesModel();
-            $states = $states->list();
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
 
-            $this->_view->set('states', $states);
+            $this->_view->set('customers', $customers);
             
             if(!empty($_POST)) {
                 $data = $_POST;
+
+                $orderItems = array();
+
+                foreach($data['item'] as $key => $item) {
+                    $row = array();
+                    $row['item'] = $data['item'][$key];
+                    $row['qty'] = $data['qty'][$key];
+                    $row['description'] = $data['description'][$key];
+                    $row['unit_price'] = $data['unit_price'][$key];;
+                    $row['tax'] = $data['tax'][$key];;
+
+                    $orderItems[] = $row;
+                }
+
+                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], 
+                $data['tax'], $data['trid'], $data['taxval']);
+
+                //print_r($orderItems);
+                //print_r($data); exit;
+                $orderId = $this->_model->save($data);
                 if($this->_model->save($data)) {
-                    $_SESSION['message'] = 'Customer added successfully';
-                    header("location:". ROOT. "customers"); 
+
+                    $tblOrderItem = new OrderItemsModel();
+                    foreach($orderItems as $orderItem) {
+                        $orderItem['order_id'] = $orderId;
+                        $tblOrderItem->save($orderItem);
+                    }
+
+                    $_SESSION['message'] = 'Order added successfully';
+                    header("location:". ROOT. "orders"); 
                 } else {
                     $_SESSION['error'] = 'Fail to add customer';
                 }

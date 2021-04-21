@@ -51,4 +51,13 @@ class CustomersController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+
+    public function getDetails($id) {
+        if($id) {
+            $customer = $this->_model->get($id);
+            echo json_encode($customer);
+        } else {
+            echo false;
+        }
+    }
 }
