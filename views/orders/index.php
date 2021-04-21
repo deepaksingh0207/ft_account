@@ -25,49 +25,51 @@
                   </ul>
                 </div>
                 <div class="card-body">
-                  <div class="tab-content" id="a">
-                    <div class="tab-pane fade active show" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                  <div class="tab-content" id="#tabcontent">
+                    <div class="tab-pane fade active show" id="a" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
                       <div class="row">
                         <div class="col-sm-12 col-lg-2 form-group">
-                          <label for="id_period"> Period : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
-                            <option value="">All</option>
-                            <option value="">Custom Period</option>
-                            <option value="">Today</option>
-                            <option value="">Yesterday</option>
-                            <option value="">Today</option>
-                            <option value="">This Week</option>
-                            <option value="">Last Week</option>
-                            <option value="">This Month</option>
-                            <option value="">Last Month</option>
+                          <label for="id_period1"> Period : </label>
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_period1">
+                            <option value="1">All</option>
+                            <option value="2">Custom Period</option>
+                            <option value="3">Today</option>
+                            <option value="4">Yesterday</option>
+                            <option value="5">Today</option>
+                            <option value="6">This Week</option>
+                            <option value="7">Last Week</option>
+                            <option value="8">This Month</option>
+                            <option value="9">Last Month</option>
                           </select>
                         </div>
                         <div class="col-sm-12 col-lg-5">
                           <div class="row">
                             <div class="col-sm-12 col-lg-6">
-                              <label for="date_id"> Start Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <label for="id_startdate1"> Start Date :</label>
+                              <input type="date" class="form-control ftsm" name="startdate" id="id_startdate1" />
                             </div>
                             <div class="col-sm-12 col-lg-6">
-                              <label for="date_id"> End Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <label for="id_enddate1"> End Date :</label>
+                              <input type="date" class="form-control ftsm" name="enddate" id="id_enddate1" />
                             </div>
                           </div>
                         </div>
                         <div class="col-sm-12 col-lg-2">
-                          <label for="id_period"> Customer : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <label for="id_customer1"> Customer : </label>
+                          <select class="form-control fc ftsm mt-0" name="customer" id="id_customer1">
                             <option value=""></option>
                             <option value="">Customer A</option>
                           </select>
                         </div>
                         <div class="col-sm-12 col-lg-3 pt-2">
                           <br>
-                          <button class="btn btn-sm btn-primary" type="button">Update</button>
-                          <button class="btn btn-sm btn-primary" type="button">Add New Order</button>
+                          <button class="btn btn-sm btn-primary update" type="button" id="1">Update</button>
+                          <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
+                            Add New Order
+                          </a>
                         </div>
                         <div class="col-sm-12 col-lg-12">
-                          <table class="table table-striped table-hover">
+                          <table id="w" class="table table-hover table-striped">
                             <thead>
                               <tr>
                                 <th>DATE</th>
@@ -85,7 +87,7 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td>02/02/2021</td>
+                                <td>1</td>
                                 <td>200</td>
                                 <td>1000</td>
                                 <td>Balram</td>
@@ -103,10 +105,10 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="b" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
-                    <div class="row">
+                      <div class="row">
                         <div class="col-sm-12 col-lg-2 form-group">
-                          <label for="id_period"> Period : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <label for="id_period2"> Period : </label>
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_period2">
                             <option value="">All</option>
                             <option value="">Custom Period</option>
                             <option value="">Today</option>
@@ -121,29 +123,31 @@
                         <div class="col-sm-12 col-lg-5">
                           <div class="row">
                             <div class="col-sm-12 col-lg-6">
-                              <label for="date_id"> Start Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <label for="id_startdate2"> Start Date :</label>
+                              <input type="date" class="form-control ftsm" name="date" id="id_startdate2" />
                             </div>
                             <div class="col-sm-12 col-lg-6">
-                              <label for="date_id"> End Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <label for="id_enddate2"> End Date :</label>
+                              <input type="date" class="form-control ftsm" name="date" id="id_enddate2" />
                             </div>
                           </div>
                         </div>
                         <div class="col-sm-12 col-lg-2">
-                          <label for="id_period"> Customer : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <label for="id_customer2"> Customer : </label>
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_customer2">
                             <option value=""></option>
                             <option value="">Customer A</option>
                           </select>
                         </div>
                         <div class="col-sm-12 col-lg-3 pt-2">
                           <br>
-                          <button class="btn btn-sm btn-primary" type="button">Update</button>
-                          <button class="btn btn-sm btn-primary" type="button">Add New Order</button>
+                          <button class="btn btn-sm btn-primary update" type="button" id="2">Update</button>
+                          <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
+                            Add New Order
+                          </a>
                         </div>
                         <div class="col-sm-12 col-lg-12">
-                          <table class="table table-striped table-hover">
+                          <table id="x" class="table table-hover table-striped">
                             <thead>
                               <tr>
                                 <th>DATE</th>
@@ -161,7 +165,7 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td>02/02/2021</td>
+                                <td>2</td>
                                 <td>200</td>
                                 <td>1000</td>
                                 <td>Balram</td>
@@ -179,10 +183,10 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="c" role="tabpanel" aria-labelledby="custom-tabs-one-messages-tab">
-                    <div class="row">
+                      <div class="row">
                         <div class="col-sm-12 col-lg-2 form-group">
-                          <label for="id_period"> Period : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <label for="id_period3"> Period : </label>
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_period3">
                             <option value="">All</option>
                             <option value="">Custom Period</option>
                             <option value="">Today</option>
@@ -198,28 +202,30 @@
                           <div class="row">
                             <div class="col-sm-12 col-lg-6">
                               <label for="date_id"> Start Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <input type="date" class="form-control ftsm" name="date" id="id_startdate3" />
                             </div>
                             <div class="col-sm-12 col-lg-6">
                               <label for="date_id"> End Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <input type="date" class="form-control ftsm" name="date" id="id_enddate3" />
                             </div>
                           </div>
                         </div>
                         <div class="col-sm-12 col-lg-2">
                           <label for="id_period"> Customer : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_customer3">
                             <option value=""></option>
                             <option value="">Customer A</option>
                           </select>
                         </div>
                         <div class="col-sm-12 col-lg-3 pt-2">
                           <br>
-                          <button class="btn btn-sm btn-primary" type="button">Update</button>
-                          <button class="btn btn-sm btn-primary" type="button">Add New Order</button>
+                          <button class="btn btn-sm btn-primary uodate" type="button" id="3">Update</button>
+                          <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
+                            Add New Order
+                          </a>
                         </div>
                         <div class="col-sm-12 col-lg-12">
-                          <table class="table table-striped table-hover">
+                          <table id="y" class="table table-hover table-striped">
                             <thead>
                               <tr>
                                 <th>DATE</th>
@@ -237,7 +243,7 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td>02/02/2021</td>
+                                <td>3</td>
                                 <td>200</td>
                                 <td>1000</td>
                                 <td>Balram</td>
@@ -255,10 +261,10 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="d" role="tabpanel" aria-labelledby="custom-tabs-one-settings-tab">
-                    <div class="row">
+                      <div class="row">
                         <div class="col-sm-12 col-lg-2 form-group">
-                          <label for="id_period"> Period : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <label for="id_period4"> Period : </label>
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_period4">
                             <option value="">All</option>
                             <option value="">Custom Period</option>
                             <option value="">Today</option>
@@ -273,32 +279,34 @@
                         <div class="col-sm-12 col-lg-5">
                           <div class="row">
                             <div class="col-sm-12 col-lg-6">
-                              <label for="date_id"> Start Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <label for="id_startdate4"> Start Date :</label>
+                              <input type="date" class="form-control ftsm" name="date" id="id_startdate4" />
                             </div>
                             <div class="col-sm-12 col-lg-6">
-                              <label for="date_id"> End Date :</label>
-                              <input type="date" class="form-control ftsm" name="date" id="date_id" />
+                              <label for="id_enddate4"> End Date :</label>
+                              <input type="date" class="form-control ftsm" name="date" id="id_enddate4" />
                             </div>
                           </div>
                         </div>
                         <div class="col-sm-12 col-lg-2">
-                          <label for="id_period"> Customer : </label>
-                          <select class="form-control fc ftsm mt-0" name="period" id="id_period">
+                          <label for="id_customer4"> Customer : </label>
+                          <select class="form-control fc ftsm mt-0" name="period" id="id_customer4">
                             <option value=""></option>
                             <option value="">Customer A</option>
                           </select>
                         </div>
                         <div class="col-sm-12 col-lg-3 pt-2">
                           <br>
-                          <button class="btn btn-sm btn-primary" type="button">Update</button>
-                          <button class="btn btn-sm btn-primary" type="button">Add New Order</button>
+                          <button class="btn btn-sm btn-primary update" type="button" id="4">Update</button>
+                          <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
+                            Add New Order
+                          </a>
                         </div>
                         <div class="col-sm-12 col-lg-12">
-                          <table id="example1" class="table table-hover table-striped">
+                          <table id="z" class="table table-hover table-striped">
                             <thead>
                               <tr>
-                              <th>SELECT REF.</th>
+                                <th>SELECT REF.</th>
                                 <th>CUSTOMER</th>
                                 <th>AMOUNT</th>
                                 <th>INTERVAL</th>
@@ -314,7 +322,7 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td>02/02/2021</td>
+                                <td>4</td>
                                 <td>200</td>
                                 <td>1000</td>
                                 <td>Balram</td>
