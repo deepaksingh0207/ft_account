@@ -50,36 +50,36 @@
                         Add New Order
                       </a>
                     </div>
-                    <div class="col-sm-12 col-lg-12">
-                      <table id="w" class="table table-hover table-striped">
+                    <div class="col-12">
+                      <table id="example1" class="table table-hover table-striped">
                         <thead>
                           <tr>
-                            <th>DATE</th>
-                            <th>ORDER</th>
-                            <th>QUOTE</th>
-                            <th>CUSTOMER</th>
-                            <th>SALESPERSON</th>
-                            <th>AMOUNT</th>
-                            <th>CREATE INVOICE</th>
-                            <th>EDIT</th>
+                            <th>Date</th>
+                            <th>Invoice</th>
+                            <th>Quote</th>
+                            <th>Customer</th>
+                            <th>Salesperson</th>
+                            <th>Amount</th>
+                            <th>Create Invoice</th>
+                            <th>Edit</th>
                             <th>PDF</th>
-                            <th>PRINT</th>
-                            <th>DELETE</th>
+                            <th>Print</th>
+                            <th>Delete</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="{{ #orderid here }}">
-                            <td>1</td>
-                            <td>200</td>
-                            <td>1000</td>
-                            <td>Balram</td>
-                            <td>Prashant</td>
-                            <td>20000</td>
-                            <td>10001</td>
-                            <td><i class='fas fa-pen edit' value='1'></i></td>
-                            <td><i class='far fa-file-pdf pdf' value='1'></i></td>
-                            <td><i class='fas fa-print print' value='1'></i></td>
-                            <td><i class='fas fa-minus-circle delete' value='1'></i></td>
+                          <tr id="{{ #orderid here }}" data-href="">
+                            <td class="sublist">1</td>
+                            <td  class="sublist">200</td>
+                            <td  class="sublist">1000</td>
+                            <td  class="sublist">Balram</td>
+                            <td  class="sublist">Prashant</td>
+                            <td  class="sublist">20000</td>
+                            <td  class="sublist">10001</td>
+                            <td  class="sublist"><i class='fas fa-pen edit' value='1'></i></td>
+                            <td  class="sublist"><i class='far fa-file-pdf pdf' value='1'></i></td>
+                            <td  class="sublist"><i class='fas fa-print print' value='1'></i></td>
+                            <td  class="sublist"><i class='fas fa-minus-circle delete' value='1'></i></td>
                           </tr>
                         </tbody>
                       </table>

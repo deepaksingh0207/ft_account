@@ -7,9 +7,17 @@
 
     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
       <li class="nav-item dropdown">
-        <a href="index.html" class="nav-link">Home</a>
+        <a tabindex="-1" href="<?php echo ROOT; ?>customers" class="nav-link">
+          Customer
+        </a>
       </li>
       <li class="nav-item dropdown">
+        <a tabindex="-1" href="<?php echo ROOT; ?>orders" class="nav-link"> Order </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a tabindex="-1" href="<?php echo ROOT; ?>invoices" class="nav-link"> Invoice </a>
+      </li>
+      <!-- <li class="nav-item dropdown">
         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
           Menu
         </a>
@@ -26,7 +34,7 @@
                 <a tabindex="-1" href="<?php echo ROOT; ?>customers" class="dropdown-item"> List Customers </a>
               </li>
 
-              <!-- <li class="dropdown-submenu">
+              <li class="dropdown-submenu">
                 <a
                   id="dropdownSubMenu3"
                   href="#"
@@ -49,7 +57,7 @@
                     <a href="#" class="dropdown-item">Link 6</a>
                   </li>
                 </ul>
-              </li> -->
+              </li>
             </ul>
           </li>
           <li class="dropdown-submenu dropdown-hover">
@@ -79,13 +87,15 @@
             </ul>
           </li>
         </ul>
-      </li>
+      </li> -->
       <li class="nav-item dropdown">
-        <a href="<?php echo ROOT; ?>users/logout" class="nav-link">Log Off</a>
+        <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
+        <i class="fas fa-power-off mt-1"></i>
+        </a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a href="index.html" class="nav-link">Help</a>
-      </li>
+      </li> -->
     </ul>
   </div>
 </nav>

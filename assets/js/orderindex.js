@@ -1,16 +1,15 @@
 $(function () {
-  $("#w").DataTable({
-    responsive: true,
-    lengthChange: false,
-    autoWidth: false,
-    paging: true,
-    ordering: false,
-    searching: false,
+  $("#example1").DataTable({
+    "responsive": true,
+    "lengthChange": false,
+    "autoWidth": false,
+    "paging": true,
+    "ordering": false,
+    "searching": false,
   });
 });
 
 var period1, start1, end1, customer1;
-
 $("#id_period1").on("change", function () {
   var period1 = $("#id_period1").val();
   if ($(this).val() == "2") {
@@ -73,12 +72,17 @@ $(".killrow").on("click", function () {
     dataType: "json",
     encode: true,
   })
-  .done(function( data ) {
-    $("#"+orderid).remove();
-  })
-  .fail(function( jqXHR, textStatus, errorThrown ) {
-    alert("Delete Action Failed. Please try again.")
-  });
+    .done(function (data) {
+      $("#" + orderid).remove();
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("Delete Action Failed. Please try again.")
+    });
+});
+
+$(".sublist").click(function () {
+  var parent_id = $(this).parent("tr").attr("data-href");
+  window.location = parent_id;
 });
 
 function fill_datatable(period = "", start = "", end = "", customer = "") {
