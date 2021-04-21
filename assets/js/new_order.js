@@ -271,7 +271,7 @@ function rowcollector(id) {
 
 // Customer Ajax
 $("#customerid_id").change(function () {
-  var customerid = $("#customerid_id").val()
+  var customerid = $(this).val()
   console.log(customerid);
   $.ajax({
     type: "POST",
