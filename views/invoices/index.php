@@ -57,6 +57,9 @@
                             <th>Date</th>
                             <th>Invoice</th>
                             <th>Order</th>
+                            <th>Customer's PO</th>
+                            <th>Customer</th>
+                            <th>Salesperson</th>
                             <th>Amount</th>
                           </tr>
                         </thead>
