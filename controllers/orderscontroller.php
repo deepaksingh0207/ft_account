@@ -28,7 +28,7 @@ class OrdersController extends Controller
     
     public function create() {
         try {
-            $this->_view->set('title', 'Create Customer');
+            $this->_view->set('title', 'Create Order');
             
             $customerList = new CustomersModel();
             $customers = $customerList->getNameList();

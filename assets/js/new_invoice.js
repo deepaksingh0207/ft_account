@@ -141,7 +141,7 @@ function addrow(charlie) {
       charlie +
       "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
       charlie +
-      "'></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
+      "'></td><td>₹<input type='hidden' class='form-control ftsm rowtotal'  value='0.00' name='total[]' id='total" +
       charlie +
       "'><span id='id_total" +
       charlie +

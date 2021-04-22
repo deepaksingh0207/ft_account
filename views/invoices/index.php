@@ -61,8 +61,6 @@
                             <th>Customer</th>
                             <th>Salesperson</th>
                             <th>Amount</th>
-                            <th>Due</th>
-                            <th>Status</th>
                             <!-- <th>Email</th>
                             <th>PDF</th>
                             <th>Print</th>
@@ -75,16 +73,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="1" data-href="https://google.co.in">
-                            <td>1</td>
-                            <td class="sublist">200</td>
-                            <td class="sublist">1000</td>
-                            <td class="sublist">Balram</td>
-                            <td class="sublist">Prashant</td>
-                            <td class="sublist">20000</td>
-                            <td class="sublist">10001</td>
-                            <td class="sublist">1</td>
-                            <td class="sublist">200</td>
+                          <?php foreach($invoices as $invoice) : ?>
+                          <tr>
+                            <td><?php echo date('d, M Y', strtotime($invoice['invoice_date']))?></td>
+                            <td class="sublist"><?php echo $invoice['id']?></td>
+                            <td class="sublist"><?php echo $invoice['order_id']?></td>
+                            <td class="sublist"><?php echo $invoice['po_no']?></td>
+                            <td class="sublist"><?php echo $invoice['customer_name']?></td>
+                            <td class="sublist"><?php echo $invoice['sales_person']?></td>
+                            <td class="sublist"><?php echo $invoice['invoicetotal']?></td>
                             <!-- <td ><i class="far fa-envelope"></i></td>
                             <td ><i class='far fa-file-pdf pdf'></i></td>
                             <td ><i class='fas fa-print print'></i></td>
@@ -95,6 +92,7 @@
                             <td ><i class="fas fa-pen"></i></td>
                             <td ><i class='fas fa-minus-circle delete'></i></td> -->
                           </tr>
+                          <?php endforeach; ?>
                         </tbody>
                       </table>
                     </div>

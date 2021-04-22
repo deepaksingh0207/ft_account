@@ -35,7 +35,7 @@
                         <label for="customerid_id">Customer : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="customerid" id="customerid_id">
+                        <select class="form-control ftsm" name="customer_id" id="customerid_id">
                           <option value=""></option>
                           <?php foreach ($customers as $customer) : ?>
                             <option value="<?php echo $customer['id'] ?>"><?php echo $customer['name'] ?></option>
@@ -60,7 +60,7 @@
                         <label for="id_invoicedate">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="invoicedate" id="id_invoicedate" />
+                        <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate" />
                       </div>
                     </div>
 
@@ -152,7 +152,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal">
+                        <input type="hidden" name="invoicetotal" id="id_ordertotal" value="0.00">
                         <b>Subtotal : </b>₹
                         <span id="subtotal_id">0.00</span>
                       </div>
