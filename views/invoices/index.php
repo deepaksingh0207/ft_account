@@ -58,38 +58,22 @@
                             <th>Invoice</th>
                             <th>Order</th>
                             <th>Amount</th>
-                            <!-- <th>Email</th>
-                            <th>PDF</th>
-                            <th>Print</th>
-                            <th>Package Slip</th>
-                            <th>Ship Label</th>
-                            <th>Log</th>
-                            <th>Apply Payment</th>
-                            <th>Edit</th>
-                            <th>Delete</th> -->
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach($invoices as $invoice) : ?>
-                          <tr>
-                            <td><?php echo date('d, M Y', strtotime($invoice['invoice_date']))?></td>
-                            <td class="sublist"><?php echo $invoice['id']?></td>
-                            <td class="sublist"><?php echo $invoice['order_id']?></td>
-                            <td class="sublist"><?php echo $invoice['po_no']?></td>
-                            <td class="sublist"><?php echo $invoice['customer_name']?></td>
-                            <td class="sublist"><?php echo $invoice['sales_person']?></td>
-                            <td class="sublist"><?php echo $invoice['invoicetotal']?></td>
-                            <!-- <td ><i class="far fa-envelope"></i></td>
-                            <td ><i class='far fa-file-pdf pdf'></i></td>
-                            <td ><i class='fas fa-print print'></i></td>
-                            <td ><i class="far fa-clipboard"></i></td>
-                            <td ><i class="fas fa-barcode"></i></td>
-                            <td ><i class='fas fa-pen edit'></i></td>
-                            <td ><i class="fas fa-dollar-sign"></i></td>
-                            <td ><i class="fas fa-pen"></i></td>
-                            <td ><i class='fas fa-minus-circle delete'></i></td> -->
-                          </tr>
-                          <?php endforeach; ?>
+                          <?php if (is_array($invoices) || is_object($invoices)) : ?>
+                            <?php foreach ($invoices as $invoice) : ?>
+                              <tr>
+                                <td><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
+                                <td class="sublist"><?php echo $invoice['id'] ?></td>
+                                <td class="sublist"><?php echo $invoice['order_id'] ?></td>
+                                <td class="sublist"><?php echo $invoice['po_no'] ?></td>
+                                <td class="sublist"><?php echo $invoice['customer_name'] ?></td>
+                                <td class="sublist"><?php echo $invoice['sales_person'] ?></td>
+                                <td class="sublist"><?php echo $invoice['invoicetotal'] ?></td>
+                              </tr>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
                         </tbody>
                       </table>
                     </div>

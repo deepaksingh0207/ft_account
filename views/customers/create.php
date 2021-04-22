@@ -55,7 +55,7 @@
                         <label for="id_pincode"> Pincode </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm" name="pincode" id="pincode_id" maxlength="6" minlength="6" pattern="[1-9]{1}[0-9]{5}" />
+                        <input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id" maxlength="7" minlength="6" pattern="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$" />
                       </div>
                     </div>
 
@@ -87,7 +87,7 @@
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_pphone"> Phone (primary) </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
                       </div>
                     </div>
@@ -97,7 +97,7 @@
                           Phone (alternative)
                         </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
                       </div>
                     </div>
@@ -105,7 +105,7 @@
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_fax"> Fax </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="fax" id="id_fax" />
                       </div>
                     </div>
@@ -114,7 +114,7 @@
                         <label for="id_email"> Email </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="email" id="id_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                        <input type="text" class="form-control fc ftsm" name="email" id="id_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" style="text-transform: lowercase;"/>
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -124,7 +124,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="remark" id="id_addinfo" />
+                        <input type="text" class="form-control ftsm" name="remark" id="id_addinfo" />
                       </div>
                     </div>
                   </div>

@@ -11,8 +11,8 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-12 col-lg-2 form-group">
-                      <label for="id_period1"> Period : </label>
-                      <select class="form-control fc ftsm mt-0" name="period" id="id_period1">
+                      <label for="id_period"> Period : </label>
+                      <select class="form-control fc ftsm mt-0" name="period" id="id_period">
                         <option value="1">All</option>
                         <option value="2">Custom Period</option>
                         <option value="3">Today</option>
@@ -27,12 +27,12 @@
                     <div class="col-sm-12 col-lg-5">
                       <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                          <label for="id_startdate1"> Start Date :</label>
-                          <input type="date" class="form-control ftsm" name="startdate" id="id_startdate1" />
+                          <label for="id_startdate"> Start Date :</label>
+                          <input type="date" class="form-control ftsm" name="startdate" id="id_startdate" disabled="True" />
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                          <label for="id_enddate1"> End Date :</label>
-                          <input type="date" class="form-control ftsm" name="enddate" id="id_enddate1" />
+                          <label for="id_enddate"> End Date :</label>
+                          <input type="date" class="form-control ftsm" name="enddate" id="id_enddate" disabled="True" />
                         </div>
                       </div>
                     </div>
@@ -45,7 +45,9 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">
                       <br>
-                      <button class="btn btn-sm btn-primary update" type="button">Update</button>
+                      <button class="btn btn-sm btn-primary update" type="button">
+                        Update
+                      </button>
                       <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
                         Add New Order
                       </a>
@@ -59,34 +61,20 @@
                             <th>Customer</th>
                             <th>Salesperson</th>
                             <th>Amount</th>
-                            
-                            
-                            
-                            
                           </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($orders as $order) :?>
-                          <tr >
-                            <td class="sublist"><?php echo date('d, M Y', strtotime($order['order_date']))?></td>
-                            <td class="sublist"><?php echo $order['id']?></td>
-                            <td class="sublist"><?php echo $order['customer_name']?></td>
-                            <td class="sublist"><?php echo $order['sales_person']?></td>
-                            <td class="sublist"><?php echo $order['ordertotal']?></td>
-                            <!-- <td>
-                              <i class='fas fa-pen edit'></i>
-                            </td>
-                            <td>
-                              <i class='far fa-file-pdf pdf'></i>
-                            </td>
-                            <td>
-                              <i class='fas fa-print print'></i>
-                            </td>
-                            <td>
-                              <i class='fas fa-minus-circle delete'></i>
-                            </td> -->
-                          </tr>
-                          <?php endforeach; ?>
+                          <?php if (is_array($orders) || is_object($orders)) : ?>
+                            <?php foreach ($orders as $order) : ?>
+                              <tr>
+                                <td class="sublist"><?php echo date('d, M Y', strtotime($order['order_date'])) ?></td>
+                                <td class="sublist"><?php echo $order['id'] ?></td>
+                                <td class="sublist"><?php echo $order['customer_name'] ?></td>
+                                <td class="sublist"><?php echo $order['sales_person'] ?></td>
+                                <td class="sublist"><?php echo $order['ordertotal'] ?></td>
+                              </tr>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
                         </tbody>
                       </table>
                     </div>

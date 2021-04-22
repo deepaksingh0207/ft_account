@@ -16,47 +16,25 @@
                         <th>Customer</th>
                         <th>Contact Person</th>
                         <th>GSTIN</th>
-                        
-                        
-                        
-                        <!--  <th>Statement</th>
-                        <th>Delete</th> -->
                       </tr>
                     </thead>
                     <tbody class="text-center">
-                    <?php foreach ($customers as $customer) : ?>
-                      <tr data-href="new_customer.html">
-                        <td class="sublist"><?php echo $customer['name']?></td>
-                        <td class="sublist"><?php echo $customer['contact_person']?></td>
-                        <td class="sublist"><?php echo $customer['gstin']?></td>
-                        
-                        
-                        
-                       <!-- <td data-href="new_customer.html">
-                          <i class="far fa-file-alt statement"></i>
-                        </td>
-                        <td>
-                          <i class="fas fa-trash-alt trash" id="1"></i>
-                        </td> -->
-                      </tr>
-                      <?php endforeach; ?>
-                      
+                      <?php if (is_array($customers) || is_object($customers)) : ?>
+                        <?php foreach ($customers as $customer) : ?>
+                          <tr data-href="new_customer.html">
+                            <td class=""><?php echo $customer['name'] ?></td>
+                            <td class=""><?php echo $customer['contact_person'] ?></td>
+                            <td class=""><?php echo $customer['gstin'] ?></td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
                     </tbody>
                   </table>
                 </div>
-                <!-- <div class="card-body p-3" id="trash" style="display: none">
-                  <form action="" method="post" class="text-center">
-                    <p>Are you sure you want to delete?</p>
-                    <input type="hidden" id="trashid" name="deactivate" />
-                    <button type="submit" class="btn btn-danger">
-                      Delete
-                    </button>
-                    <a class="list btn btn-light">Cancel</a>
-                  </form>
-                </div> -->
               </div>
             </div>
           </div>
+          <br><br>
         </div>
         <button type="button" id="modelactivate" style="display: none;" data-toggle="modal" data-target="#modal-default"></button>
         <div class="modal fade" id="modal-default">

@@ -1,3 +1,7 @@
+var currentdomain = window.location.origin;
+var currenturl    = window.location.href;
+var currentpath   = window.location.pathname;
+
 $(function () {
   $("#example1")
     .DataTable({
@@ -12,7 +16,7 @@ $(function () {
   $("#yoyo")
     .children("div:first-child")
     .append(
-      '<a href="/ft_account/customers/create" class="btn btn-primary vip">Add New Customer</a>'
+      '<a href="'+currenturl+'/create" class="btn btn-primary btn-sm">Add New Customer</a>'
     );
 });
 $(".sublist").click(function () {

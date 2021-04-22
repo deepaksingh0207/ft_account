@@ -176,7 +176,7 @@ $(".fc").change(function () {
   }
 });
 
-$("#id_pphone").on("keypress", function (event) {
+$(".numberonly").on("keypress", function (event) {
   var regex = new RegExp("^[0-9]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
   if (!regex.test(key)) {
@@ -185,20 +185,7 @@ $("#id_pphone").on("keypress", function (event) {
   }
 });
 
-$("#id_sphone_id").on("keypress", function (event) {
-  var regex = new RegExp("^[0-9]+$");
-  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-  if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-  }
+$("#id_email").on("change", function () {
+  $(this).val($(this).val().toLowerCase());
 });
 
-$("#id_fax").on("keypress", function (event) {
-  var regex = new RegExp("^[0-9]+$");
-  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-  if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-  }
-});

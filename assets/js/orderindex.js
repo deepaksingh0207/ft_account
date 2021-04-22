@@ -9,34 +9,33 @@ $(function () {
   });
 });
 
-// var baseUrl = 'http://google.co.in'
-
 $(".sublist").click(function () {
-	var parent_id = $(this).parent("tr").attr("data-href");
-	//window.location = parent_id;
+  var parent_id = $(this).parent("tr").attr("data-href");
+  //window.location = parent_id;
 });
 
 var period1, start1, end1, customer1;
 
-$("#id_period1").on("change", function () {
-  var period1 = $("#id_period1").val();
+$("#id_period").on("change", function () {
   if ($(this).val() == "2") {
-    $("#id_startdate1").attr("disabled", "true");
-    $("#id_enddate1").attr("disabled", "true");
+    $("#id_startdate").removeAttr("disabled");
+    $("#id_enddate").removeAttr("disabled");
   } else {
-    $("#id_startdate1").removeAttr("disabled");
-    start1 = "";
-    $("#id_enddate1").removeAttr("disabled");
-    end1 = "";
+    $("#id_startdate").attr("disabled", "true");
+    $("#id_enddate").attr("disabled", "true");
   }
+  $("#id_startdate").val("");
+  $("#id_enddate").val("");
+  start1 = "";
+  end1 = "";
 });
 
-$("#id_startdate1").on("change", function () {
-  start1 = $("#id_startdate1").val();
+$("#id_startdate").on("change", function () {
+  start1 = $("#id_startdate").val();
 });
 
-$("#id_enddate1").on("change", function () {
-  end1 = $("#id_enddate1").val();
+$("#id_enddate").on("change", function () {
+  end1 = $("#id_enddate").val();
 });
 
 $("#id_customer1").on("change", function () {
@@ -48,7 +47,7 @@ $(".update").on("click", function () {
     $("#w").DataTable().destroy();
     fill_datatable(period1, start1, end1, customer1);
   }
-  
+
 });
 
 $(".edit").on("click", function () {
