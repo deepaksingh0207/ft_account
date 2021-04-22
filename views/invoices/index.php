@@ -11,8 +11,8 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-12 col-lg-2 form-group">
-                      <label for="id_period1"> Period : </label>
-                      <select class="form-control fc ftsm mt-0" name="period" id="id_period1">
+                      <label for="id_period"> Period : </label>
+                      <select class="form-control fc ftsm mt-0" name="period" id="id_period">
                         <option value="1">All</option>
                         <option value="2">Custom Period</option>
                         <option value="3">Today</option>
@@ -27,18 +27,18 @@
                     <div class="col-sm-12 col-lg-5">
                       <div class="row">
                         <div class="col-sm-12 col-lg-6">
-                          <label for="id_startdate1"> Start Date :</label>
-                          <input type="date" class="form-control ftsm" name="startdate" id="id_startdate1" />
+                          <label for="id_startdate"> Start Date :</label>
+                          <input type="date" class="form-control ftsm" name="startdate" id="id_startdate" disabled="True" />
                         </div>
                         <div class="col-sm-12 col-lg-6">
-                          <label for="id_enddate1"> End Date :</label>
-                          <input type="date" class="form-control ftsm" name="enddate" id="id_enddate1" />
+                          <label for="id_enddate"> End Date :</label>
+                          <input type="date" class="form-control ftsm" name="enddate" id="id_enddate" disabled="True" />
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_customer1"> Customer : </label>
-                      <select class="form-control fc ftsm mt-0" name="customer" id="id_customer1">
+                      <label for="id_customer"> Customer : </label>
+                      <select class="form-control-sm select2" name="customer" id="id_customer">
                         <option value=""></option>
                         <option value="">Customer A</option>
                       </select>

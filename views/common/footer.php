@@ -55,6 +55,7 @@
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_invoice.js?<?php echo time(); ?>"></script>
