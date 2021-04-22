@@ -55,28 +55,25 @@
                         <thead>
                           <tr>
                             <th>Date</th>
-                            <th>Invoice</th>
-                            <th>Quote</th>
+                            <th>Order</th>
                             <th>Customer</th>
                             <th>Salesperson</th>
                             <th>Amount</th>
-                            <th>Create Invoice</th>
-                            <th>Edit</th>
-                            <th>PDF</th>
-                            <th>Print</th>
-                            <th>Delete</th>
+                            
+                            
+                            
+                            
                           </tr>
                         </thead>
                         <tbody>
-                          <tr id="1" data-href="">
-                            <td class="sublist">1</td>
-                            <td class="sublist">200</td>
-                            <td class="sublist">1000</td>
-                            <td class="sublist">Balram</td>
-                            <td class="sublist">Prashant</td>
-                            <td class="sublist">20000</td>
-                            <td class="sublist">10001</td>
-                            <td>
+                        <?php foreach($orders as $order) :?>
+                          <tr >
+                            <td class="sublist"><?php echo date('d, M Y', strtotime($order['order_date']))?></td>
+                            <td class="sublist"><?php echo $order['id']?></td>
+                            <td class="sublist"><?php echo $order['customer_name']?></td>
+                            <td class="sublist"><?php echo $order['sales_person']?></td>
+                            <td class="sublist"><?php echo $order['ordertotal']?></td>
+                            <!-- <td>
                               <i class='fas fa-pen edit'></i>
                             </td>
                             <td>
@@ -87,8 +84,9 @@
                             </td>
                             <td>
                               <i class='fas fa-minus-circle delete'></i>
-                            </td>
+                            </td> -->
                           </tr>
+                          <?php endforeach; ?>
                         </tbody>
                       </table>
                     </div>

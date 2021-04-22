@@ -11,7 +11,7 @@ $(function () {
 
 $(".sublist").click(function () {
 	var parent_id = $(this).parent("tr").attr("data-href");
-	window.location = parent_id;
+	//window.location = parent_id;
 });
 
 var period1, start1, end1, customer1;

@@ -11,10 +11,10 @@ class OrdersController extends Controller
         
         try {
             
-            $customers = $this->_model->getList();
+            $orders = $this->_model->getList();
             
-            $this->_view->set('customers', $customers);
-            $this->_view->set('title', 'Customer List');
+            $this->_view->set('orders', $orders);
+            $this->_view->set('title', 'Order List');
             
             
             return $this->_view->output();
@@ -47,11 +47,12 @@ class OrdersController extends Controller
                     $row['description'] = $data['description'][$key];
                     $row['unit_price'] = $data['unit_price'][$key];;
                     $row['tax'] = $data['tax'][$key];;
+                    $row['total'] = $data['total'][$key];
 
                     $orderItems[] = $row;
                 }
 
-                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], 
+                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total'],
                 $data['tax'], $data['trid'], $data['taxval']);
 
                 //print_r($orderItems);
@@ -76,6 +77,29 @@ class OrdersController extends Controller
             
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();
+        }
+    }
+
+    public function getOrderListByCustomer($id) {
+        if($id) {
+            $oders = $this->_model->getOrderListByCustomer($id);
+            echo json_encode($oders);
+        } else {
+            echo false;
+        }
+    }
+
+    public function getdetails($id) {
+        if($id) {
+            $order = $this->_model->get($id);
+            $oderItems = $this->_model->getOrderItem($id);
+
+            $result = array();
+            $result['order'] = $order;
+            $result['items'] = $oderItems;
+            echo json_encode($result);
+        } else {
+            echo false;
         }
     }
 }

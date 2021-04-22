@@ -46,8 +46,8 @@
                     <div class="col-sm-12 col-lg-3 pt-2">
                       <br>
                       <button class="btn btn-sm btn-primary update" type="button">Update</button>
-                      <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
-                        Add New Order
+                      <a href="<?php echo ROOT; ?>invoices/create" class="btn btn-sm btn-primary">
+                        Add New Invoice
                       </a>
                     </div>
                     <div class="col-sm-12 col-lg-12">
@@ -63,7 +63,7 @@
                             <th>Amount</th>
                             <th>Due</th>
                             <th>Status</th>
-                            <th>Email</th>
+                            <!-- <th>Email</th>
                             <th>PDF</th>
                             <th>Print</th>
                             <th>Package Slip</th>
@@ -71,7 +71,7 @@
                             <th>Log</th>
                             <th>Apply Payment</th>
                             <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Delete</th> -->
                           </tr>
                         </thead>
                         <tbody>
@@ -85,7 +85,7 @@
                             <td class="sublist">10001</td>
                             <td class="sublist">1</td>
                             <td class="sublist">200</td>
-                            <td ><i class="far fa-envelope"></i></td>
+                            <!-- <td ><i class="far fa-envelope"></i></td>
                             <td ><i class='far fa-file-pdf pdf'></i></td>
                             <td ><i class='fas fa-print print'></i></td>
                             <td ><i class="far fa-clipboard"></i></td>
@@ -93,7 +93,7 @@
                             <td ><i class='fas fa-pen edit'></i></td>
                             <td ><i class="fas fa-dollar-sign"></i></td>
                             <td ><i class="fas fa-pen"></i></td>
-                            <td ><i class='fas fa-minus-circle delete'></i></td>
+                            <td ><i class='fas fa-minus-circle delete'></i></td> -->
                           </tr>
                         </tbody>
                       </table>

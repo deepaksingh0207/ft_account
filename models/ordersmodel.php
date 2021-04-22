@@ -5,6 +5,9 @@ class OrdersModel extends Model {
     
     public function getList() {
         $sql = "select * from orders where 1=1 order by updated_date desc";
+
+        $sql = "select orders.*, customers.name customer_name from orders join customers on (orders.customer_id = customers.id) where 1=1 order by updated_date desc";
+
         $this->_setSql($sql);
         $user = $this->getAll();
         if (empty($user)){
@@ -16,7 +19,27 @@ class OrdersModel extends Model {
     public function get($id) {
         $sql = "select * from orders where id = ? limit 1";
         $this->_setSql($sql);
-        $user = $this->getRow(array($id));
+        $order = $this->getRow(array($id));
+        if (empty($order)){
+            return false;
+        }
+        return $order;
+    }
+
+    public function getOrderItem($id) {
+        $sql = "select * from order_items where order_id = ? ";
+        $this->_setSql($sql);
+        $items = $this->getAll(array($id));
+        if (empty($items)){
+            return false;
+        }
+        return $items;
+    }
+
+    public function getOrderListByCustomer($id) {
+        $sql = "select id from orders where customer_id = ? ";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($id));
         if (empty($user)){
             return false;
         }
