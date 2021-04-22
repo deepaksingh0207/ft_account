@@ -35,7 +35,7 @@
                         <label for="customerid_id">Customer : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="customer_id" id="customerid_id">
+                        <select class="form-control select2" name="customer_id" id="customerid_id">
                           <option value=""></option>
                           <?php foreach ($customers as $customer) : ?>
                             <option value="<?php echo $customer['id'] ?>"><?php echo $customer['name'] ?></option>
@@ -141,7 +141,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
-                      <input type="hidden" name="ordertotal" id="id_ordertotal">
+                        <input type="hidden" name="ordertotal" id="id_ordertotal">
                         <b>Subtotal : </b>₹
                         <span id="subtotal_id">0.00</span>
                       </div>

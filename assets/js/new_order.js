@@ -1,4 +1,5 @@
 $(function () {
+  $(".select2").select2();
   // Form Validation
   $.validator.setDefaults({
     submitHandler: function () {
