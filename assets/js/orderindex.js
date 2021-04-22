@@ -1,17 +1,18 @@
 $(function () {
+  $(".select2").select2();
   $("#example1").DataTable({
-    "responsive": true,
-    "lengthChange": false,
-    "autoWidth": false,
-    "paging": true,
-    "ordering": false,
-    "searching": false,
+    responsive: true,
+    lengthChange: false,
+    autoWidth: false,
+    paging: true,
+    ordering: false,
+    searching: false,
   });
 });
 
 $(".sublist").click(function () {
   var parent_id = $(this).parent("tr").attr("data-href");
-  //window.location = parent_id;
+  window.location = parent_id;
 });
 
 var period1, start1, end1, customer1;
@@ -38,8 +39,8 @@ $("#id_enddate").on("change", function () {
   end1 = $("#id_enddate").val();
 });
 
-$("#id_customer1").on("change", function () {
-  customer1 = $("#id_customer1").val();
+$("#id_customer").on("change", function () {
+  customer1 = $("#id_customer").val();
 });
 
 $(".update").on("click", function () {
@@ -47,7 +48,6 @@ $(".update").on("click", function () {
     $("#w").DataTable().destroy();
     fill_datatable(period1, start1, end1, customer1);
   }
-
 });
 
 $(".edit").on("click", function () {
@@ -112,38 +112,3 @@ function fill_datatable(period = "", start = "", end = "", customer = "") {
     },
   });
 }
-
-// mylink Response of table w
-// response = {
-//   draw: 1,
-//   recordsTotal: 36,
-//   recordsFiltered: 2,
-//   data: [
-//     [
-//       "02/02/2020",
-//       "200",
-//       "1000",
-//       "Balram",
-//       "Prashant",
-//       "20000",
-//       "10001",
-//       "<i class='fas fa-pen edit' id='1'></i>",
-//       "<i class='far fa-file-pdf pdf' id='1'></i>",
-//       "<i class='fas fa-print print' id='1'></i>",
-//       "<i class='fas fa-minus-circle delete' id='1'></i>",
-//     ],
-//     [
-//       "02/02/2020",
-//       "200",
-//       "1000",
-//       "Balram",
-//       "Prashant",
-//       "20000",
-//       "10001",
-//       "<i class='fas fa-pen edit' id='2'></i>",
-//       "<i class='far fa-file-pdf pdf' id='2'></i>",
-//       "<i class='fas fa-print print' id='2'></i>",
-//       "<i class='fas fa-minus-circle delete' id='2'></i>",
-//     ],
-//   ],
-// };

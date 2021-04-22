@@ -37,9 +37,8 @@
                       </div>
                     </div>
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_customer1"> Customer : </label>
-                      <select class="form-control fc ftsm mt-0" name="customer" id="id_customer1">
-                        <option value=""></option>
+                      <label for="id_customer"> Customer : </label>
+                      <select class="form-control-sm select2" name="customer" id="id_customer">
                         <option value="">Customer A</option>
                       </select>
                     </div>
