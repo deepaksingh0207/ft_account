@@ -4,7 +4,8 @@ class InvoicesModel extends Model {
     
     
     public function getList() {
-        $sql = "select * from orders where 1=1 order by updated_date desc";
+        //$sql = "select * from invoices where 1=1 order by updated_date desc";
+        $sql = "select invoices.*, customers.name customer_name from invoices join customers on (invoices.customer_id = customers.id) where 1=1 order by updated_date desc";
         $this->_setSql($sql);
         $user = $this->getAll();
         if (empty($user)){
@@ -14,7 +15,7 @@ class InvoicesModel extends Model {
     }
     
     public function get($id) {
-        $sql = "select * from orders where id = ? limit 1";
+        $sql = "select * from invoices where id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         if (empty($user)){
@@ -55,7 +56,7 @@ class InvoicesModel extends Model {
         $question_marks[] = '('  . $this->placeholders('?', sizeof($data)) . ')';
         $insert_values = array_merge($insert_values, array_values($data));
         
-        $sql = "INSERT INTO orders (" . implode(",", $datafields ) . ") VALUES " .
+        $sql = "INSERT INTO invoices (" . implode(",", $datafields ) . ") VALUES " .
             implode(',', $question_marks);
             
             
@@ -68,7 +69,7 @@ class InvoicesModel extends Model {
     }
     
     public function getLastId() {
-        $sql = "select id from orders order by id desc limit 1";
+        $sql = "select id from invoices order by id desc limit 1";
         $this->_setSql($sql);
         $user = $this->getrow();
         if (empty($user)){

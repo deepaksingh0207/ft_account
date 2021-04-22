@@ -272,20 +272,26 @@ function rowcollector(id) {
 // Customer Ajax
 $("#customerid_id").change(function () {
   var customerid = $(this).val()
-  console.log(customerid);
-  $.ajax({
-    type: "POST",
-    url: baseUrl + "incidents/app/" + customerid,
-    data: customerid,
-    dataType: "json",
-    encode: true,
-  })
-  .done(function( data ) {
-    $("#salesperson_id").val(data.salesperson)
-    $("#bill_id").val(data.billno)
-    $("#ship_id").val(data.shipto)
-  })
-  .fail(function( jqXHR, textStatus, errorThrown ) {
-    alert("No details found against this customer.")
-  });
+  if(customerid) {
+    console.log(customerid);
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "customers/getdetails/" + customerid,
+      data: customerid,
+      dataType: "json",
+      encode: true,
+    })
+    .done(function( data ) {
+      $("#salesperson_id").val(data.contact_person)
+      $("#bill_id").val(data.address)
+      $("#ship_id").val(data.address)
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) {
+      alert("No details found against this customer.")
+    });
+  } else {
+    $("#salesperson_id").val("")
+    $("#bill_id").val("")
+    $("#ship_id").val("")
+  }
 });

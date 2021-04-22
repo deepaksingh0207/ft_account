@@ -4,17 +4,17 @@ class InvoicesController extends Controller
     
     public function __construct($model, $action) {   
         parent::__construct($model, $action);
-        $this->_setModel("orders");
+        $this->_setModel("invoices");
     }
 
     public function index() {
         
         try {
             
-            $customers = $this->_model->getList();
+            $invoices = $this->_model->getList();
             
-            $this->_view->set('customers', $customers);
-            $this->_view->set('title', 'Customer List');
+            $this->_view->set('invoices', $invoices);
+            $this->_view->set('title', 'Invoice List');
             
             
             return $this->_view->output();
@@ -28,7 +28,7 @@ class InvoicesController extends Controller
     
     public function create() {
         try {
-            $this->_view->set('title', 'Create Customer');
+            $this->_view->set('title', 'Create Order');
             
             $customerList = new CustomersModel();
             $customers = $customerList->getNameList();
@@ -47,28 +47,29 @@ class InvoicesController extends Controller
                     $row['description'] = $data['description'][$key];
                     $row['unit_price'] = $data['unit_price'][$key];;
                     $row['tax'] = $data['tax'][$key];;
+                    $row['total'] = $data['total'][$key];
 
                     $orderItems[] = $row;
                 }
 
-                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], 
+                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total'],
                 $data['tax'], $data['trid'], $data['taxval']);
 
                 //print_r($orderItems);
                 //print_r($data); exit;
-                $orderId = $this->_model->save($data);
+                $invoiceId = $this->_model->save($data);
                 if($this->_model->save($data)) {
 
-                    $tblOrderItem = new OrderItemsModel();
+                    $tblInvoiceItem = new InvoiceItemsModel();
                     foreach($orderItems as $orderItem) {
-                        $orderItem['order_id'] = $orderId;
-                        $tblOrderItem->save($orderItem);
+                        $orderItem['invoice_id'] = $invoiceId;
+                        $tblInvoiceItem->save($orderItem);
                     }
 
-                    $_SESSION['message'] = 'Order added successfully';
-                    header("location:". ROOT. "orders"); 
+                    $_SESSION['message'] = 'Invoice added successfully';
+                    header("location:". ROOT. "invoices"); 
                 } else {
-                    $_SESSION['error'] = 'Fail to add customer';
+                    $_SESSION['error'] = 'Fail to add invoice';
                 }
             }
             

@@ -139,11 +139,9 @@ function addrow(charlie) {
       charlie +
       "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
       charlie +
-      "'/></td><td><input type='number' class='form-control ftsm discount' name='discount[]' id='id_discount" +
+      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
       charlie +
-      "'></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
-      charlie +
-      "'></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
+      "'></td><td>₹<input type='hidden' class='form-control ftsm rowtotal'  value='0.00' name='total[]' id='total" +
       charlie +
       "'><span id='id_total" +
       charlie +
@@ -281,20 +279,64 @@ function rowcollector(id) {
 // Customer Ajax
 $("#customerid_id").change(function () {
   var customerid = $(this).val();
+  if(customerid) {
   console.log(customerid);
   $.ajax({
     type: "POST",
-    url: baseUrl + "incidents/app/" + customerid,
-    data: customerid,
+    url: baseUrl + "orders/getOrderListByCustomer/" + customerid,
     dataType: "json",
     encode: true,
   })
     .done(function (data) {
-      $("#salesperson_id").val(data.salesperson);
-      $("#bill_id").val(data.billno);
-      $("#ship_id").val(data.shipto);
+
+      $.each(data, function(key, value) {
+        $('#id_orderid')
+             .append($('<option>', { value : value.id })
+             .text(value.id));
+   });
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
     });
+  } else {
+    $('#id_orderid')
+    .find('option')
+    .remove()
+    .end()
+    .append('<option value=""></option>')
+    .val('');
+
+  }
+});
+
+
+$("#id_orderid").change(function () {
+  var orderId = $(this).val();
+  if(orderId) {
+  console.log(orderId);
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "orders/getdetails/" + orderId,
+    dataType: "json",
+    encode: true,
+  })
+    .done(function (data) {
+      $("#id_payindays").val(data.order.pay_days);
+      $("#id_pono").val(data.order.po_no);
+      $("#id_salesperson").val(data.order.sales_person);
+      $("#bill_id").val(data.order.bill_to);
+      $("#ship_id").val(data.order.ship_to);
+
+      $.each(data.items, function(key, value) {
+        addrow(key);
+      });
+
+      
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("No details found against this customer.");
+    });
+  } else {
+    
+  }
 });
