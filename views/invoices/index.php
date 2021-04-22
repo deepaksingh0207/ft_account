@@ -46,8 +46,8 @@
                     <div class="col-sm-12 col-lg-3 pt-2">
                       <br>
                       <button class="btn btn-sm btn-primary update" type="button">Update</button>
-                      <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
-                        Add New Order
+                      <a href="<?php echo ROOT; ?>invoices/create" class="btn btn-sm btn-primary">
+                        Add New Invoice
                       </a>
                     </div>
                     <div class="col-sm-12 col-lg-12">
@@ -57,9 +57,6 @@
                             <th>Date</th>
                             <th>Invoice</th>
                             <th>Order</th>
-                            <th>Customer's PO</th>
-                            <th>Customer</th>
-                            <th>Salesperson</th>
                             <th>Amount</th>
                             <th>Due</th>
                             <th>Status</th>
@@ -72,6 +69,9 @@
                             <th>Apply Payment</th>
                             <th>Edit</th>
                             <th>Delete</th>
+                            <th>Customer's PO</th>
+                            <th>Customer</th>
+                            <th>Salesperson</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -79,9 +79,6 @@
                             <td>1</td>
                             <td class="sublist">200</td>
                             <td class="sublist">1000</td>
-                            <td class="sublist">Balram</td>
-                            <td class="sublist">Prashant</td>
-                            <td class="sublist">20000</td>
                             <td class="sublist">10001</td>
                             <td class="sublist">1</td>
                             <td class="sublist">200</td>
@@ -94,6 +91,9 @@
                             <td ><i class="fas fa-dollar-sign"></i></td>
                             <td ><i class="fas fa-pen"></i></td>
                             <td ><i class='fas fa-minus-circle delete'></i></td>
+                            <td class="sublist">Balram</td>
+                            <td class="sublist">Prashant</td>
+                            <td class="sublist">20000</td>
                           </tr>
                         </tbody>
                       </table>
@@ -124,7 +124,7 @@
                   </p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm killrow">
+                  <button type="button" class="btn btn-danger btn-sm" id="modaldelete">
                     Delete
                   </button>
                   <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">

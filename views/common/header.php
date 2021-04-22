@@ -62,7 +62,6 @@
   <?php endif; ?>
 
   <script>
-    var baseUrl = '<?php echo HOST . ROOT ?>';
+    var baseUrl = "<?php echo HOST . ROOT ?>"
   </script>
-
 </head>

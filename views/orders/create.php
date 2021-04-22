@@ -22,7 +22,7 @@
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
                       </button>
-                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                      <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
@@ -169,7 +169,7 @@
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
                       </button>
-                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+                      <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm"> Back
                       </a>
                     </div>
                   </div>
