@@ -49,7 +49,7 @@
                         <label for="date_id">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
+                        <input type="datetime-local" class="form-control ftsm" name="order_date" id="date_id" />
                       </div>
                     </div>
 
@@ -59,7 +59,7 @@
 
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control ftsm" name="pay_days" id="days_id" minlength="1" maxlength="3" />
+                        <input type="tel" class="form-control ftsm numberonly" name="pay_days" id="days_id" minlength="1" maxlength="3" />
                       </div>
                     </div>
 
@@ -68,7 +68,7 @@
                         <label for="customer_id">Customer PO No. :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="po_no" id="customer_id" />
+                        <input type="text" class="form-control ftsm numberonly" name="po_no" id="customer_id" />
                       </div>
                     </div>
 
@@ -78,7 +78,7 @@
                         Contact Person :
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="sales_person" id="salesperson_id" />
+                        <input type="text" class="form-control ftsm alphaonly" name="sales_person" id="salesperson_id" />
                       </div>
                     </div>
 

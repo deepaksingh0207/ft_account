@@ -1,4 +1,7 @@
+var baseUrl   = window.location.origin + '/ft_account/';
+
 $(function () {
+  $('.select2').select2()
   $.validator.setDefaults({
     submitHandler: function () {
       form.submit();
@@ -107,7 +110,7 @@ $(function () {
         required: "Please enter secondary contact.",
       },
       //shippingaddress: {
-//        required: "Please enter shipping address.",
+      //        required: "Please enter shipping address.",
       //},
       fax: {
         required: "Please enter fax number.",
@@ -118,27 +121,6 @@ $(function () {
       addinfo: {
         required: "Please enter additional information.",
       },
-      // active: {
-      //   required: "Please select to activate user.",
-      // },
-      // invoicethru: {
-      //   required: "Select sent invoice method.",
-      // },
-      // exlutax: {
-      //   required: "Select to exclude tax.",
-      // },
-      // paymentterms: {
-      //   required: "Select payment term.",
-      // },
-      // salesperson: {
-      //   required: "Select sales person.",
-      // },
-      // customernotes: {
-      //   required: "Enter customer note.",
-      // },
-      // customergroup: {
-      //   required: "Select a group.",
-      // },
     },
     errorElement: "span",
     errorPlacement: function (error, element) {
@@ -152,26 +134,19 @@ $(function () {
       $(element).removeClass("is-invalid");
     },
   });
-  
-  // window.stepper = new Stepper(document.querySelector(".bs-stepper"));
 });
 
 $(".fc").change(function () {
   var count = 0;
   $(".fc").each(function () {
     var value = $(this).val();
-    // console.log($(this).attr('name'));
-	// console.log(value);
     if (value.length == 0) {
       count += 1;
     }
   });
-  // console.log(count);
   if (count < 1) {
-    // $(".vip").show();
-    $(".vip").removeAttr("disabled")
+    $(".vip").removeAttr("disabled");
   } else {
-    // $(".vip").hide();
     $(".vip").attr("disabled", true);
   }
 });
@@ -189,3 +164,11 @@ $("#id_email").on("change", function () {
   $(this).val($(this).val().toLowerCase());
 });
 
+$(".alphaonly").on("keypress", function (event) {
+  var regex = new RegExp("^[A-Za-z ]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});

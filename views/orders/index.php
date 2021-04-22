@@ -39,7 +39,8 @@
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control-sm select2" name="customer" id="id_customer">
-                        <option value="">Customer A</option>
+                      <option value=""></option>  
+                      <option value="">Customer A</option>
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">

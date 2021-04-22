@@ -28,7 +28,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="name" id="id_customername" />
+                        <input type="text" class="form-control fc ftsm alphaonly" name="name" id="id_customername" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -38,7 +38,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="contact_person" id="id_contactperson" />
+                        <input type="text" class="form-control fc ftsm alphaonly" name="contact_person" id="id_contactperson" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -64,7 +64,7 @@
                         <label for="id_address"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm" name="state" id="state_id">
+                        <select class="form-control fc ftsm select2" name="state" id="state_id">
                           <option value=""></option>
                           <?php foreach ($states as $state) : ?>
                             <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
@@ -88,7 +88,7 @@
                         <label for="id_pphone"> Phone (primary) </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                        <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -98,7 +98,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" />
+                        <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" />
                       </div>
                     </div>
                     <div class="row mx-1">

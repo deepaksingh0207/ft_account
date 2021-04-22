@@ -1,3 +1,5 @@
+var baseUrl   = window.location.origin + '/ft_account/';
+
 $(function () {
   $(".select2").select2();
   // Form Validation
@@ -118,8 +120,17 @@ $(function () {
   $("#add_item").click();
 });
 
-$("#days_id").on("keypress", function (event) {
-  var regex = new RegExp("^[0-9]+$");
+$(".numberonly").on("keypress", function (event) {
+  var regex = new RegExp("^[0-9]$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+$(".alphaonly").on("keypress", function (event) {
+  var regex = new RegExp("^[A-Za-z ]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
   if (!regex.test(key)) {
     event.preventDefault();
@@ -132,7 +143,7 @@ function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input type='number' class='form-control ftsm qty' name='qty[]' id='id_quantity" +
+      "'><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
       charlie +
       "'/></td><td><input class='form-control ftsm' list='item" +
       charlie +
@@ -154,25 +165,24 @@ function addrow(charlie) {
       charlie +
       "'><span id='id_total" +
       charlie +
-      "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' value='" +
-      charlie +
-      "'></i></td></tr>"
+      "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' ></i></td></tr>"
   );
 }
 
+var deleteid;
+
 // Delete Click Action
 $(document).on("click", "i.trash", function () {
-  $(".killrow").attr("id", $(this).attr("value"));
+  deleteid = $(this).parent().parent().attr("id");
   $("#modelactivate").click();
 });
 
 // Delete & Return
 $(".killrow").click(function () {
-  var a = $(this).attr("id");
-  $("#" + a).remove();
+  $("#" + deleteid).remove();
   var arr = $("#id_tr").val().split(",");
   res = jQuery.grep(arr, function (b) {
-    return b !== a;
+    return b !== deleteid;
   });
   $("#id_tr").val(res);
   ttotal();
