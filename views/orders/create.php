@@ -49,7 +49,7 @@
                         <label for="date_id">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="datetime-local" class="form-control ftsm" name="order_date" id="date_id" />
+                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
                       </div>
                     </div>
 

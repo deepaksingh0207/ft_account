@@ -68,12 +68,12 @@
                             <?php foreach ($invoices as $invoice) : ?>
                               <tr>
                                 <td><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
-                                <td class="sublist"><?php echo $invoice['id'] ?></td>
-                                <td class="sublist"><?php echo $invoice['order_id'] ?></td>
-                                <td class="sublist"><?php echo $invoice['po_no'] ?></td>
-                                <td class="sublist"><?php echo $invoice['customer_name'] ?></td>
-                                <td class="sublist"><?php echo $invoice['sales_person'] ?></td>
-                                <td class="sublist"><?php echo $invoice['invoicetotal'] ?></td>
+                                <td class=""><?php echo $invoice['id'] ?></td>
+                                <td class=""><?php echo $invoice['order_id'] ?></td>
+                                <td class=""><?php echo $invoice['po_no'] ?></td>
+                                <td class=""><?php echo $invoice['customer_name'] ?></td>
+                                <td class=""><?php echo $invoice['sales_person'] ?></td>
+                                <td class=""><?php echo $invoice['invoicetotal'] ?></td>
                               </tr>
                             <?php endforeach; ?>
                           <?php endif; ?>

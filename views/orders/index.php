@@ -67,11 +67,11 @@
                           <?php if (is_array($orders) || is_object($orders)) : ?>
                             <?php foreach ($orders as $order) : ?>
                               <tr>
-                                <td class="sublist"><?php echo date('d, M Y', strtotime($order['order_date'])) ?></td>
-                                <td class="sublist"><?php echo $order['id'] ?></td>
-                                <td class="sublist"><?php echo $order['customer_name'] ?></td>
-                                <td class="sublist"><?php echo $order['sales_person'] ?></td>
-                                <td class="sublist"><?php echo $order['ordertotal'] ?></td>
+                                <td class=""><?php echo date('d, M Y', strtotime($order['order_date'])) ?></td>
+                                <td class=""><?php echo $order['id'] ?></td>
+                                <td class=""><?php echo $order['customer_name'] ?></td>
+                                <td class=""><?php echo $order['sales_person'] ?></td>
+                                <td class=""><?php echo $order['ordertotal'] ?></td>
                               </tr>
                             <?php endforeach; ?>
                           <?php endif; ?>
