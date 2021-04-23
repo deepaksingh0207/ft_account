@@ -10,14 +10,14 @@ $(function () {
   });
   $("#quickForm").validate({
     rules: {
-      customerid: {
+      customer_id: {
         required: true,
       },
-      date: {
+      order_date: {
         required: true,
         date: true,
       },
-      quote_number: {
+      pay_days: {
         required: true,
       },
       terms: {
@@ -27,19 +27,19 @@ $(function () {
         required: true,
         tel: true,
       },
-      tracking: {
+      po_no: {
         required: true,
       },
-      customer: {
+      sales_person: {
         required: true,
       },
       salesperson: {
         required: true,
       },
-      shipby: {
+      bill_to: {
         required: true,
       },
-      tax: {
+      ship_to: {
         required: true,
       },
       bill: {
@@ -50,60 +50,38 @@ $(function () {
         required: true,
         textarea: true,
       },
-      comment: {
+      remarks: {
         required: true,
         textarea: true,
-      },
-      pvtcomment: {
-        required: true,
-        textarea: true,
-      },
+      }
     },
     messages: {
-      customerid: {
-        required: "Please select this customer.",
+      customer_id: {
+        required: "Please select a customer.",
       },
-      date: {
+      order_date: {
         required: "Please select a date.",
         date: "Value must be a date.",
       },
-      quote_number: {
-        required: "Please select quote details.",
+      pay_days: {
+        required: "Please select day details.",
       },
-      terms: {
-        required: "Please select a term.",
+      po_no: {
+        required: "Please select a PO",
       },
-      days: {
-        required: "Please provide number of days.",
+      sales_person: {
+        required: "Please provide you sales person.",
         tel: "Invalid Detail.",
       },
-      tracking: {
-        required: "Please provide a Tracking Ref Id.",
+      bill_to: {
+        required: "Please provide the bill address.",
       },
-      customer: {
-        required: "Please provide a Customer PO Id",
+      ship_to: {
+        required: "Please provide the ship address.",
       },
-      salesperson: {
-        required: "Please select the sales representative.",
-      },
-      shipby: {
-        required: "Select Shipping Method.",
-      },
-      tax: {
-        required: "Please select on from the list.",
-      },
-      bill: {
-        required: "Enter this detail.",
-      },
-      ship: {
-        required: "Enter this detail.",
-      },
-      comment: {
-        required: "Enter your comment.",
-      },
-      pvtcomment: {
-        required: "Enter your private comment.",
-      },
+      remarks: {
+        required: "Please state your remarks.",
+      }
     },
     errorElement: "span",
     errorPlacement: function (error, element) {

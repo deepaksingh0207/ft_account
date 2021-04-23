@@ -10,95 +10,67 @@ $(function () {
   });
   $("#quickForm").validate({
     rules: {
-      customerid: {
+      customer_id: {
         required: true,
       },
-      invoicedate: {
+      invoice_date: {
         required: true,
         date: true,
       },
-      payindays: {
+      order_id: {
         required: true,
       },
-      shipby: {
+      pay_days: {
         required: true,
       },
-      shipcost: {
+      po_no: {
         required: true,
       },
-      shiptax: {
-        required: true,
-      },
-      tracking: {
-        required: true,
-      },
-      customer: {
-        required: true,
-      },
-      salesperson: {
+      sales_person: {
         required: true,
       },
       bill_to: {
         required: true,
-        textarea: true,
       },
       ship_to: {
         required: true,
-        textarea: true,
       },
-      remark: {
+      remarks: {
         required: true,
-        textarea: true,
-      },
-      pcomment: {
-        required: true,
-        textarea: true,
-      },
+      }
     },
     messages: {
-      customerid: {
+      customer_id: {
         required: "Please select this customer.",
       },
-      orderid: {
+      order_id: {
         required: "Please select the order number.",
       },
-      invoicedate: {
+      invoice_date: {
         required: "Please select a date.",
         date: "Value must be a date.",
       },
-      payindays: {
+      pay_days: {
         required: "Please enter days count.",
       },
-      shipby: {
-        required: "Please select Shipped By.",
+      po_no: {
+        required: "Please enter Customer PO.",
       },
-      shipcost: {
-        required: "Please provide Ship cost.",
+      sales_person: {
+        required: "Please provide a salesperson.",
         tel: "Invalid Detail.",
-      },
-      tracking: {
-        required: "Please provide tracking ref id.",
-        tel: "Invalid Detail.",
-      },
-      customer: {
-        required: "Please provide customer PO.",
-        tel: "Invalid Detail.",
-      },
-      salesperson: {
-        required: "Please provide Salesperson.",
       },
       bill_to: {
-        required: "Please provide a Bill To",
+        required: "Please provide a bill to address.",
+        tel: "Invalid Detail.",
       },
       ship_to: {
-        required: "Please provide ship To.",
+        required: "Please provide ship to address.",
+        tel: "Invalid Detail.",
       },
-      remark: {
-        required: "Select enter a remark.",
-      },
-      pcomment: {
-        required: "Please enter private remark.",
-      },
+      remarks: {
+        required: "Please provide your comments.",
+      }
     },
     errorElement: "span",
     errorPlacement: function (error, element) {
