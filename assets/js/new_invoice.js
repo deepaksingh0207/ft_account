@@ -37,7 +37,7 @@ $(function () {
       },
       remarks: {
         required: true,
-      }
+      },
     },
     messages: {
       customer_id: {
@@ -70,7 +70,7 @@ $(function () {
       },
       remarks: {
         required: "Please provide your comments.",
-      }
+      },
     },
     errorElement: "span",
     errorPlacement: function (error, element) {
@@ -84,8 +84,6 @@ $(function () {
       $(element).removeClass("is-invalid");
     },
   });
-  $("#add_item").click();
-  fillorderitems();
 });
 
 $("#days_id").on("keypress", function (event) {
@@ -99,6 +97,7 @@ $("#days_id").on("keypress", function (event) {
 
 // Dynamic Row Appending Function
 function addrow(charlie) {
+  var arr = $("#id_tr").val().split(",");
   $("#orderlist").append(
     "<tr id='" +
       charlie +
@@ -128,6 +127,13 @@ function addrow(charlie) {
       charlie +
       "'></i></td></tr>"
   );
+  if (arr[0] == '' ) {
+    arr[0] = charlie
+  }
+  else {
+    arr.push(charlie);
+  }
+  $("#id_tr").val(arr);
 }
 
 // Delete Click Action
@@ -139,15 +145,19 @@ $(document).on("click", "i.trash", function () {
 // Delete & Return
 $(".killrow").click(function () {
   var a = $(this).attr("id");
+  tridupdate(a);
+  ttotal();
+  $("#byemodal").click();
+});
+
+function tridupdate(a) {
   $("#" + a).remove();
   var arr = $("#id_tr").val().split(",");
   res = jQuery.grep(arr, function (b) {
     return b !== a;
   });
   $("#id_tr").val(res);
-  ttotal();
-  $("#byemodal").click();
-});
+}
 
 // Cancel delete action
 // $(".order").click(function () {
@@ -260,6 +270,7 @@ $("#customerid_id").change(function () {
   var customerid = $(this).val();
   if (customerid) {
     $("#id_orderid").removeAttr("disabled");
+    $("#add_item").removeAttr("disabled");
     $.ajax({
       type: "POST",
       url: baseUrl + "orders/getOrderListByCustomer/" + customerid,
@@ -277,6 +288,15 @@ $("#customerid_id").change(function () {
         alert("No details found against this customer.");
       });
   } else {
+    $("#id_orderid").attr("disabled", "");
+    $("#add_item").attr("disabled", "");
+    $("#id_orderid").val("");
+    var idlist = $("#id_tr").val().split(",");
+    if (idlist != "") {
+      $.each(idlist, function (index, value) {
+        tridupdate(value);
+      });
+    }
     $("#id_orderid")
       .find("option")
       .remove()
@@ -287,6 +307,13 @@ $("#customerid_id").change(function () {
 });
 
 $("#id_orderid").change(function () {
+  total = 0;
+  var idlist = $("#id_tr").val().split(",");
+  if (idlist != "") {
+    $.each(idlist, function (index, value) {
+      tridupdate(value);
+    });
+  }
   var orderId = $(this).val();
   if (orderId) {
     console.log(orderId);
@@ -302,10 +329,7 @@ $("#id_orderid").change(function () {
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
         $("#ship_id").val(data.order.ship_to);
-
-        $.each(data.items, function (key, value) {
-          fillorderitems(value);
-        });
+        fillorderitems(data.items);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
@@ -315,12 +339,13 @@ $("#id_orderid").change(function () {
 });
 
 //orderid must be asc to desc
-datadict = {
-  20: { qt: 1, itm: "a", des: "b", up: 1, tax: 1 },
-  21: { qt: 4, itm: "a", des: "b", up: 4, tax: 4 },
-};
+// datadict = {
+//   20: { qt: 1, itm: "a", des: "b", up: 1, tax: 1 },
+//   21: { qt: 4, itm: "a", des: "b", up: 4, tax: 4 },
+// };
 function fillorderitems(datadict) {
-  var ttotal = 0
+  var ttotal = 0;
+  var arr = $("#id_tr").val().split(",");
   var data = eval(datadict);
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
@@ -331,17 +356,7 @@ function fillorderitems(datadict) {
         var unitprice = data[key].unit_price;
         var tax = data[key].tax;
         var total = data[key].total;
-        var di = parseInt(key, 10);
-        if (key == 1) {
-          $("#id_quantity1").val(quantity);
-          $("#id_item1").val(item);
-          $("#id_description1").val(description);
-          $("#id_unitprice1").val(unitprice);
-          $("#id_tax1").val(tax);
-          $("#id_total1").val(total);
-        } else {
-          $("#1").remove();
-        }
+        var di = parseInt(data[key].id, 10);
         addrow(di);
         $("#id_quantity" + di).val(quantity);
         $("#id_item" + di).val(item);
@@ -366,5 +381,3 @@ function fillorderitems(datadict) {
   $("#subtotal_id").text(parseFloat(ttotal).toFixed(2));
   $("#total").text(parseFloat(ttotal).toFixed(2));
 }
-
-//{"order":{"id":"20","customer_id":"1","order_date":"2021-04-23 00:01:00","pay_days":"23","po_no":"123456","sales_person":"Mangesh","bill_to":"thane","ship_to":"thane","ordertotal":"17.65","remarks":"","status":"1","added_date":"2021-04-23 00:02:16","updated_date":"2021-04-23 00:02:16"},"items":false}
