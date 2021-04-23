@@ -304,7 +304,7 @@ $("#id_orderid").change(function () {
         $("#ship_id").val(data.order.ship_to);
 
         $.each(data.items, function (key, value) {
-          addrow(key);
+          fillorderitems(value);
         });
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -325,11 +325,12 @@ function fillorderitems(datadict) {
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
       if (key != "") {
-        var quantity = data[key].qt;
-        var item = data[key].itm;
-        var description = data[key].des;
-        var unitprice = data[key].up;
+        var quantity = data[key].qty;
+        var item = data[key].item;
+        var description = data[key].description;
+        var unitprice = data[key].unit_price;
         var tax = data[key].tax;
+        var total = data[key].total;
         var di = parseInt(key, 10);
         if (key == 1) {
           $("#id_quantity1").val(quantity);
@@ -337,6 +338,7 @@ function fillorderitems(datadict) {
           $("#id_description1").val(description);
           $("#id_unitprice1").val(unitprice);
           $("#id_tax1").val(tax);
+          $("#id_total1").val(total);
         } else {
           $("#1").remove();
         }
@@ -346,6 +348,7 @@ function fillorderitems(datadict) {
         $("#id_description" + di).val(description);
         $("#id_unitprice" + di).val(unitprice);
         $("#id_tax" + di).val(tax);
+        $("#id_total" + di).val(total);
         var total = 0;
         if (quantity != "" && unitprice != "") {
           total = unitprice * quantity;
