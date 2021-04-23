@@ -5,6 +5,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/login.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 
@@ -17,6 +18,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/customerindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 
@@ -28,6 +30,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>
@@ -37,6 +40,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_order.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'index')) : ?>
@@ -49,6 +53,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/orderindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
@@ -58,6 +63,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_invoice.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'invoices' && ($action == 'index')) : ?>
@@ -70,6 +76,7 @@
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/invoiceindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 </body>
