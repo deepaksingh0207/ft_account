@@ -142,7 +142,7 @@
                       <div class="col-12">
                         <div class="row">
                           <div class="col-sm-12 col-md-12 mb-2">
-                            <button type="button" id="add_item" class="btn btn-primary btn-sm">
+                            <button type="button" id="add_item" class="btn btn-primary btn-sm" disabled>
                               ADD ITEM
                             </button>
                           </div>
