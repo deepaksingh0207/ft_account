@@ -1,4 +1,4 @@
-<script src="<?php echo ROOT; ?>assets/plugins/jquery/jquery.min.js"></script>
+<!-- <script src="<?php echo ROOT; ?>assets/plugins/jquery/jquery.min.js"></script> -->
 <?php if ($controller == 'users') : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
@@ -22,15 +22,23 @@
 <?php endif; ?>
 
 
-<?php if ($controller == 'customers' && ($action == 'create')) : ?>
+<?php if ($controller == 'customers' && ($action == 'create') || ($action == 'edit') || ($action == 'view')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
+<?php endif; ?>
+
+<?php if ($controller == 'customers' && ($action == 'edit')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
+
+<?php if ($controller == 'customers' && ($action == 'create')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/edit_customer.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>

@@ -26,6 +26,42 @@ class CustomersController extends Controller
     }
     
     
+    public function view($id) {
+        
+        try {
+            
+            $customer = $this->_model->get($id);
+            
+            $this->_view->set('customer', $customer);
+            $this->_view->set('title', 'Customer Detail');
+            
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
+
+    public function edit($id) {
+        
+        try {
+            
+            $customer = $this->_model->get($id);
+            
+            $this->_view->set('customer', $customer);
+            $this->_view->set('title', 'Customer Edit');
+            
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
+
     public function create() {
         try {
             $this->_view->set('title', 'Create Customer');
