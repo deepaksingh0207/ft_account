@@ -16,7 +16,7 @@
 											<button type="submit" class="btn btn-primary btn-sm vip" disabled>
 												Update
 											</button>
-											<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+											<a href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
 											</a>
 										</div>
 									</div>
@@ -129,7 +129,7 @@
 										<button type="submit" class="btn btn-primary btn-sm vip" disabled>
 											Update
 										</button>
-										<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+										<a href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
 										</a>
 									</div>
 								</div>
