@@ -1,6 +1,5 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
   <div class="wrapper">
-    <div ftsolutions="menu.html"></div>
     <div class="content-wrapper">
       <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
       <section class="content">
@@ -21,10 +20,10 @@
                     <tbody class="text-center">
                       <?php if (is_array($customers) || is_object($customers)) : ?>
                         <?php foreach ($customers as $customer) : ?>
-                          <tr data-href="new_customer.html">
-                            <td class=""><?php echo $customer['name'] ?></td>
-                            <td class=""><?php echo $customer['contact_person'] ?></td>
-                            <td class=""><?php echo $customer['gstin'] ?></td>
+                          <tr data-href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>">
+                            <td class="sublist"><?php echo $customer['name'] ?></td>
+                            <td class="sublist"><?php echo $customer['contact_person'] ?></td>
+                            <td class="sublist"><?php echo $customer['gstin'] ?></td>
                           </tr>
                         <?php endforeach; ?>
                       <?php endif; ?>
