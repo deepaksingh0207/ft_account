@@ -9,10 +9,10 @@
 							<div class="card card-default mt-3">
 								<div class="card-header">
 									<h3 class="card-title" style="line-height: 2.2">
-										View Customer
+										Company Details 
 									</h3>
 									<div class="text-right">
-										<a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
+										<a href="<?php echo ROOT; ?>company/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 										</a>
 										<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
 										</a>
@@ -21,8 +21,8 @@
 								<div class="card-body">
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_customername">
-												Customer Name
+											<label for="id_companyname">
+											Company Name
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
@@ -41,41 +41,7 @@
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_address"> Address </label>
-										</div>
-										<div class="col-sm-12 col-lg-3 form-group" style="text-align: justify;">
-											<?php echo $customer['address'] ?>
-										</div>
-									</div>
-									<div class="row mx-1">
-										<div class="col-sm-12 col-lg-2">
-											<label for="id_pincode"> Pincode </label>
-										</div>
-										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['pincode'] ?>
-										</div>
-									</div>
-									<div class="row mx-1">
-										<div class="col-sm-12 col-lg-2">
-											<label for="id_address"> State </label>
-										</div>
-										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['state'] ?>
-										</div>
-									</div>
-									<div class="row mx-1">
-										<div class="col-sm-12 col-lg-2">
-											<label for="id_gst">
-												GSTIN
-											</label>
-										</div>
-										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['gstin'] ?>
-										</div>
-									</div>
-									<div class="row mx-1">
-										<div class="col-sm-12 col-lg-2">
-											<label for="id_pphone"> Phone (primary) </label>
+											<label for="id_contact"> Contact </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group numberonly">
 											<?php echo $customer['pphone'] ?>
@@ -83,8 +49,8 @@
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_sphone">
-												Phone (alternative)
+											<label for="id_mobile">
+											Mobile
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group numberonly">
@@ -109,14 +75,41 @@
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_addinfo">
-												Additional Info
+											<label for="id_gst">
+												GSTIN
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['remark'] ?>
+											<?php echo $customer['gstin'] ?>
 										</div>
 									</div>
+
+									<div class="row mx-1">
+										<div class="col-sm-12 col-lg-2">
+											<label for="id_pincode"> Pincode </label>
+										</div>
+										<div class="col-sm-12 col-lg-3 form-group">
+											<?php echo $customer['pincode'] ?>
+										</div>
+									</div>
+									<div class="row mx-1">
+										<div class="col-sm-12 col-lg-2">
+											<label for="id_address"> Address </label>
+										</div>
+										<div class="col-sm-12 col-lg-3 form-group" style="text-align: justify;">
+											<?php echo $customer['address'] ?>
+										</div>
+									</div>
+									
+									<div class="row mx-1">
+										<div class="col-sm-12 col-lg-2">
+											<label for="id_state"> State </label>
+										</div>
+										<div class="col-sm-12 col-lg-3 form-group">
+											<?php echo $customer['state'] ?>
+										</div>
+									</div>									
+									
 								</div>
 								<div class="card-footer text-right">
 									<a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit

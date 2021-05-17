@@ -7,6 +7,11 @@
 
     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
       <li class="nav-item dropdown">
+        <a tabindex="-1" href="<?php echo ROOT; ?>company" class="nav-link">
+          Company
+        </a>
+      </li>
+      <li class="nav-item dropdown">
         <a tabindex="-1" href="<?php echo ROOT; ?>customers" class="nav-link">
           Customer
         </a>
@@ -90,7 +95,7 @@
       </li> -->
       <li class="nav-item dropdown">
         <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
-        <i class="fas fa-power-off mt-1"></i>
+          <i class="fas fa-power-off mt-1"></i>
         </a>
       </li>
       <!-- <li class="nav-item">

@@ -10,7 +10,7 @@
                 <div class="card card-default mt-3">
                   <div class="card-header">
                     <h3 class="card-title" style="line-height: 2.2">
-                      Add New Customer
+                      Add New Company
                     </h3>
                     <div class="text-right">
                       <button type="submit" class="btn btn-primary btn-sm vip" disabled>
@@ -23,14 +23,15 @@
                   <div class="card-body p-3">
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_customername">
-                          Customer Name
+                        <label for="id_companyname">
+                          Company Name
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm alphaonly" name="name" id="id_customername" />
+                        <input type="text" class="form-control fc ftsm alphaonly" name="companyname" id="id_companyname" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_contactperson">
@@ -41,12 +42,51 @@
                         <input type="text" class="form-control fc ftsm alphaonly" name="contact_person" id="id_contactperson" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> Address </label>
+                        <label for="id_pphone"> Contact </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                        <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_sphone">
+                        Mobile
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                        <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" />
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_fax"> Fax </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                        <input type="tel" class="form-control fc ftsm" name="fax" id="id_fax" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_email"> Email </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3"></textarea>
+                        <input type="text" class="form-control fc ftsm" name="email" id="id_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" style="text-transform: lowercase;" />
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_gst">
+                          GSTIN
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
                       </div>
                     </div>
 
@@ -61,6 +101,15 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
+                        <label for="id_address"> Address </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
                         <label for="id_address"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
@@ -70,61 +119,6 @@
                             <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
                           <?php endforeach; ?>
                         </select>
-                      </div>
-                    </div>
-
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_gst">
-                          GSTIN
-                        </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_pphone"> Phone (primary) </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_sphone">
-                          Phone (alternative)
-                        </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_fax"> Fax </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="fax" id="id_fax" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_email"> Email </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="email" id="id_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" style="text-transform: lowercase;"/>
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_addinfo">
-                          Additional Info
-                        </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="remark" id="id_addinfo" />
                       </div>
                     </div>
                   </div>

@@ -14,7 +14,7 @@
 										</h3>
 										<div class="text-right">
 											<button type="submit" class="btn btn-primary btn-sm vip">
-												Submit
+												Update
 											</button>
 											<a href="<?php echo ROOT; ?>companys/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
 											</a>
@@ -90,7 +90,7 @@
 												<label for="id_pincode"> Pincode </label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group">
-												<input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id" maxlength="7" minlength="6" pattern="^[0-9]+$" value="<?php echo $customer['pincode'] ?>" />
+												<input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="id_pincode" maxlength="7" minlength="6" pattern="^[0-9]+$" value="<?php echo $customer['pincode'] ?>" />
 											</div>
 										</div>
 										<div class="row mx-1">
@@ -103,10 +103,10 @@
 										</div>
 										<div class="row mx-1">
 											<div class="col-sm-12 col-lg-2">
-												<label for="id_address"> State </label>
+												<label for="id_state"> State </label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group">
-												<select class="form-control fc ftsm select2" name="state" id="state_id">
+												<select class="form-control fc ftsm select2" name="state" id="id_state">
 													<option value="">Select State</option>
 													<?php foreach ($states as $state) : ?>
 														<option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
@@ -117,7 +117,7 @@
 									</div>
 									<div class="card-footer text-right">
 										<button type="submit" class="btn btn-primary btn-sm vip">
-											Submit
+											Update
 										</button>
 										<a href="<?php echo ROOT; ?>company/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
 										</a>

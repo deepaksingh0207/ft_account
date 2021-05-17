@@ -7,12 +7,12 @@
           <div class="row">
             <div class="col-12">
               <div class="card card-default mt-3">
-                <div class="card-header">View Customers</div>
+                <div class="card-header">Company List</div>
                 <div class="card-body p-3" id="list" style="display: block">
                   <table id="example1" class="table table-hover table-striped">
                     <thead class="text-center">
                       <tr>
-                        <th>Customer</th>
+                        <th>Company</th>
                         <th>Contact Person</th>
                         <th>GSTIN</th>
                       </tr>

@@ -21,6 +21,18 @@
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'company' && ($action == 'index')) : ?>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/companyindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
+<?php endif; ?>
+
 
 <?php if ($controller == 'customers' && ($action == 'create') || ($action == 'edit') || ($action == 'view')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
