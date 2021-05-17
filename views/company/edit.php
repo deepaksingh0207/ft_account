@@ -16,7 +16,7 @@
 											<button type="submit" class="btn btn-primary btn-sm vip">
 												Update
 											</button>
-											<a href="<?php echo ROOT; ?>companys/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
+											<a href="<?php echo ROOT; ?>company/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
 											</a>
 										</div>
 									</div>
@@ -106,8 +106,8 @@
 												<label for="id_state"> State </label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group">
-												<select class="form-control fc ftsm select2" name="state" id="id_state">
-													<option value="">Select State</option>
+											<select class="form-control fc ftsm select2" name="state" id="state_id">
+													<option value="5">Maharashtra</option>
 													<?php foreach ($states as $state) : ?>
 														<option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
 													<?php endforeach; ?>

@@ -14,7 +14,7 @@
 									<div class="text-right">
 										<a href="<?php echo ROOT; ?>company/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 										</a>
-										<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+										<a href="<?php echo ROOT; ?>company" class="btn btn-default btn-sm"> Back
 										</a>
 									</div>
 								</div>
@@ -44,7 +44,7 @@
 											<label for="id_contact"> Contact </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group numberonly">
-											<?php echo $customer['pphone'] ?>
+											<?php echo $customer['contact'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -54,7 +54,7 @@
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group numberonly">
-											<?php echo $customer['aphone'] ?>
+											<?php echo $customer['mobile'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -112,9 +112,9 @@
 									
 								</div>
 								<div class="card-footer text-right">
-									<a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
+									<a href="<?php echo ROOT; ?>company/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 									</a>
-									<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+									<a href="<?php echo ROOT; ?>company" class="btn btn-default btn-sm"> Back
 									</a>
 								</div>
 							</div>

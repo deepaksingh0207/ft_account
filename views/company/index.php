@@ -19,11 +19,11 @@
                     </thead>
                     <tbody class="text-center">
                       <?php if (is_array($customers) || is_object($customers)) : ?>
-                        <?php foreach ($customers as $customer) : ?>
-                          <tr data-href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>">
-                            <td class="sublist"><?php echo $customer['name'] ?></td>
-                            <td class="sublist"><?php echo $customer['contact_person'] ?></td>
-                            <td class="sublist"><?php echo $customer['gstin'] ?></td>
+                        <?php foreach ($customers as $company) : ?>
+                          <tr data-href="<?php echo ROOT; ?>company/view/<?php echo $company['id'] ?>">
+                            <td class="sublist"><?php echo $company['name'] ?></td>
+                            <td class="sublist"><?php echo $company['contact_person'] ?></td>
+                            <td class="sublist"><?php echo $company['gstin'] ?></td>
                           </tr>
                         <?php endforeach; ?>
                       <?php endif; ?>
