@@ -39,10 +39,6 @@ class Controller {
         
         $this->_view->set("user_name", $this->_session->get('cust_name'));
         
-        $this->_view->set('PRIORITY', $this->_utils->getPriority());
-        $this->_view->set('INSTANCE', $this->_utils->getSystem());
-        $this->_view->set('STATUS', $this->_utils->getStatus());
-        
         //echo $this->_session->get('is_admin'); exit;
         $this->_view->set('is_admin', $this->_session->get('is_admin'));
         $this->_view->set('user', $this->_session->get('user'));
