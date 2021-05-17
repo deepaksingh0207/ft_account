@@ -78,4 +78,13 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/custom.css" />
   <?php endif; ?>
+
+  <?php if ($controller == 'company' && ($action == 'create') || ($action == 'edit') || ($action == 'view')) : ?>
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/bs-stepper/css/bs-stepper.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
+  <?php endif; ?>
+
 </head>
