@@ -28,7 +28,7 @@
 												</label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group">
-												<input type="text" class="form-control fc ftsm alphaonly" name="companyname" id="id_companyname" value="<?php echo $customer['name'] ?>" />
+												<input type="text" class="form-control fc ftsm alphaonly" name="name" id="id_companyname" value="<?php echo $customer['name'] ?>" />
 											</div>
 										</div>
 										<div class="row mx-1">
@@ -46,7 +46,7 @@
 												<label for="id_contact"> Contact </label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group numberonly">
-												<input type="tel" class="form-control fc ftsm" name="contact" id="id_contact" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['pphone'] ?>" />
+												<input type="tel" class="form-control fc ftsm" name="contact" id="id_contact" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['contact'] ?>" />
 											</div>
 										</div>
 										<div class="row mx-1">
@@ -56,7 +56,7 @@
 												</label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group numberonly">
-												<input type="tel" class="form-control fc ftsm" name="mobile" id="id_mobile" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['aphone'] ?>" />
+												<input type="tel" class="form-control fc ftsm" name="mobile" id="id_mobile" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['mobile'] ?>" />
 											</div>
 										</div>
 										<div class="row mx-1">

@@ -48,10 +48,15 @@ class CompanyController extends Controller
         
         try {
             
+            $states = new StatesModel();
+            $states = $states->list();
+
+            $this->_view->set('states', $states);
+
             $customer = $this->_model->get($id);
             
             $this->_view->set('customer', $customer);
-            $this->_view->set('title', 'Customer Edit');
+            $this->_view->set('title', 'Company Edit');
             
             
             return $this->_view->output();
