@@ -13,7 +13,7 @@
 											Company Details
 										</h3>
 										<div class="text-right">
-											<button type="submit" class="btn btn-primary btn-sm vip" disabled>
+											<button type="submit" class="btn btn-primary btn-sm vip">
 												Submit
 											</button>
 											<a href="<?php echo ROOT; ?>companys/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
@@ -46,7 +46,7 @@
 												<label for="id_contact"> Contact </label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group numberonly">
-												<input type="tel" class="form-control fc ftsm" name="contact" id="id_contact" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['contact'] ?>" />
+												<input type="tel" class="form-control fc ftsm" name="contact" id="id_contact" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['pphone'] ?>" />
 											</div>
 										</div>
 										<div class="row mx-1">
@@ -56,7 +56,7 @@
 												</label>
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group numberonly">
-												<input type="tel" class="form-control fc ftsm" name="mobile" id="id_mobile" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['mobile'] ?>" />
+												<input type="tel" class="form-control fc ftsm" name="mobile" id="id_mobile" pattern="[9,8,7,6]{1}[0-9]{9}" minlength="10" maxlength="10" value="<?php echo $customer['aphone'] ?>" />
 											</div>
 										</div>
 										<div class="row mx-1">
@@ -116,7 +116,7 @@
 										</div>
 									</div>
 									<div class="card-footer text-right">
-										<button type="submit" class="btn btn-primary btn-sm vip" disabled>
+										<button type="submit" class="btn btn-primary btn-sm vip">
 											Submit
 										</button>
 										<a href="<?php echo ROOT; ?>company/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
