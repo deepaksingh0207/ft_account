@@ -63,9 +63,9 @@
 											</div>
 											<div class="col-sm-12 col-lg-3 form-group">
 												<select class="form-control fc ftsm select2" name="state" id="state_id">
-													<option value="5">Maharashtra</option>
+													<option value=""></option>
 													<?php foreach ($states as $state) : ?>
-														<option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
+														<option value="<?php echo $state['id'] ?>" <?php echo ($customer['state'] == $state['id']) ? 'selected="selected"' : ''?>><?php echo $state['name'] ?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>

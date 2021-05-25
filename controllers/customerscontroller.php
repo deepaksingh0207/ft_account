@@ -35,6 +35,11 @@ class CustomersController extends Controller
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Customer Detail');
             
+            $states = new StatesModel();
+            $state = $states->get($customer['state']);
+            
+            $this->_view->set('state', $state);
+            
             
             return $this->_view->output();
             
@@ -53,6 +58,10 @@ class CustomersController extends Controller
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Customer Edit');
             
+            $states = new StatesModel();
+            $states = $states->list();
+            
+            $this->_view->set('states', $states);
             
             return $this->_view->output();
             

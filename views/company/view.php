@@ -106,7 +106,7 @@
 											<label for="id_state"> State </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['state'] ?>
+											<?php echo $state['name'] ?>
 										</div>
 									</div>									
 									

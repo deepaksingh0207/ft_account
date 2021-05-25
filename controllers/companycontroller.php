@@ -35,6 +35,10 @@ class CompanyController extends Controller
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Customer Detail');
             
+            $states = new StatesModel();
+            $state = $states->get($customer['state']);
+            
+            $this->_view->set('state', $state);
             
             return $this->_view->output();
             

@@ -37,7 +37,7 @@
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
 											<?php echo $customer['contact_person'] ?>
-										</div>
+										</div> 
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
@@ -52,15 +52,15 @@
 											<label for="id_pincode"> Pincode </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['pincode'] ?>
+											<?php echo $customer['pincode'] ?> 
 										</div>
 									</div>
-									<div class="row mx-1">
+									<div class="row mx-1"> 
 										<div class="col-sm-12 col-lg-2">
 											<label for="id_address"> State </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['state'] ?>
+											<?php echo $state['name'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
