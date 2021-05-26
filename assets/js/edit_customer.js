@@ -1,10 +1,10 @@
 $(function () {
 	$.validator.setDefaults({
 	  submitHandler: function () {
-		alert("Form successful submitted!");
+		form.submit();
 	  },
 	});
-	$("#quickForm").validate({
+	$("#id_quickForm").validate({
 	  rules: {
 		customername: {
 		  required: true,
@@ -152,6 +152,17 @@ $(function () {
 	var id_fax = $("#id_fax").val();
 	var id_email = $("#id_email").val();
 	var id_addinfo = $("#id_addinfo").val();
+	var id_pan = $("#id_pan").val();
+  });
+
+  $(".pan").on("keypress", function (event) {
+	$(this).val($(this).val().toUpperCase());
+	var regex = new RegExp("^[A-Z]{5}[0-9]{4}[A-Z]{1}+$");
+	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+	if (!regex.test(key)) {
+	  event.preventDefault();
+	  return false;
+	}
   });
   
   $("#id_customername").change(function () {
@@ -216,6 +227,12 @@ $(function () {
   
   $("#id_addinfo").change(function () {
 	if ($("#id_addinfo").val() != id_addinfo) {
+	  $(".vip").removeAttr("disabled");
+	}
+  });
+
+  $("#id_pan").change(function () {
+	if ($("#id_pan").val() != id_pan) {
 	  $(".vip").removeAttr("disabled");
 	}
   });

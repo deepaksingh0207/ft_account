@@ -46,12 +46,12 @@
 <?php endif; ?>
 
 <?php if ($controller == 'customers' && ($action == 'edit')) : ?>
-  <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/edit_customer.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 
 <?php if ($controller == 'customers' && ($action == 'create')) : ?>
-  <script src="<?php echo ROOT; ?>assets/js/edit_customer.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_customer.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>

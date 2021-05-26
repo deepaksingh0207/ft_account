@@ -160,6 +160,16 @@ $(".numberonly").on("keypress", function (event) {
   }
 });
 
+$(".pan").on("keypress", function (event) {
+  $(this).val($(this).val().toUpperCase());
+  var regex = new RegExp("^[A-Z]{5}[0-9]{4}[A-Z]{1}+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
 $("#id_email").on("change", function () {
   $(this).val($(this).val().toLowerCase());
 });
