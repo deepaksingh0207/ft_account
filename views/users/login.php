@@ -1,4 +1,4 @@
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" id="parallax">
     <div class="login-box">
       <div class="card">
         <div class="card-header text-center">
@@ -6,7 +6,7 @@
             <img src="<?php echo ROOT; ?>assets/img/logo.png" alt="F.T. Solutions Pvt. Ltd." />
           </a>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-0">
           <form action="" method="post" id="quickForm" novalidate="novalidate">
             <div class="input-group form-group mb-3">
               <input
