@@ -27,26 +27,26 @@ $(function () {
         minlength: 9,
         maxlength: 15,
       },
-	  email: {
+      email: {
         required: true,
         email: true,
       },
-	  pan: {
+      pan: {
         required: true,
         minlength: 10,
         maxlength: 10,
       },
-	  sac: {
+      sac: {
         required: true,
         minlength: 6,
         maxlength: 6,
       },
-	  gst: {
+      gst: {
         required: true,
         minlength: 15,
         maxlength: 15,
       },
-	  pincode: {
+      pincode: {
         required: true,
         minlength: 6,
         maxlength: 6,
@@ -54,7 +54,7 @@ $(function () {
       address: {
         required: true,
       },
-	  state: {
+      state: {
         required: true,
       },
     },
@@ -74,25 +74,25 @@ $(function () {
       fax: {
         required: "Please enter fax number.",
       },
-	  email: {
+      email: {
         required: "Please enter the email.",
       },
-	  pan: {
+      pan: {
         required: "Please enter the correct PAN number.",
       },
-	  sac: {
+      sac: {
         required: "Please enter the correct SAC number.",
-      }, 
-	  gst: {
+      },
+      gst: {
         required: "Please enter the correct GSTIN number.",
       },
-	  pincode: {
+      pincode: {
         required: "Please enter the correct Pincode area.",
       },
       address: {
         required: "Please enter the address.",
       },
-	  state: {
+      state: {
         required: "Please select a state.",
       },
     },
@@ -108,18 +108,18 @@ $(function () {
       $(element).removeClass("is-invalid");
     },
   });
-  var id_customername = $("#id_customername").val();
+  var id_companyname = $("#id_companyname").val();
   var id_contactperson = $("#id_contactperson").val();
-  var id_address = $("#id_address").val();
-  var pincode_id = $("#pincode_id").val();
-  var state_id = $("#state_id").val();
-  var id_gst = $("#id_gst").val();
-  var id_pphone = $("#id_pphone").val();
-  var id_sphone = $("#id_sphone").val();
+  var id_contact = $("#id_contact").val();
+  var id_mobile = $("#id_mobile").val();
   var id_fax = $("#id_fax").val();
   var id_email = $("#id_email").val();
-  var id_addinfo = $("#id_addinfo").val();
   var id_pan = $("#id_pan").val();
+  var id_sac = $("#id_sac").val();
+  var id_gst = $("#id_gst").val();
+  var id_pincode = $("#id_pincode").val();
+  var id_address = $("#id_address").val();
+  var id_state = $("#id_state").val();
 });
 
 $(".pan").on("keypress", function (event) {
@@ -132,8 +132,8 @@ $(".pan").on("keypress", function (event) {
   }
 });
 
-$("#id_customername").change(function () {
-  if ($("#id_customername").val() != id_customername) {
+$("#id_companyname").change(function () {
+  if ($("#id_companyname").val() != id_companyname) {
     $(".vip").removeAttr("disabled");
   }
 });
@@ -144,38 +144,14 @@ $("#id_contactperson").change(function () {
   }
 });
 
-$("#id_address").change(function () {
-  if ($("#id_address").val() != id_address) {
+$("#id_contact").change(function () {
+  if ($("#id_contact").val() != id_contact) {
     $(".vip").removeAttr("disabled");
   }
 });
 
-$("#pincode_id").change(function () {
-  if ($("#pincode_id").val() != pincode_id) {
-    $(".vip").removeAttr("disabled");
-  }
-});
-
-$("#state_id").change(function () {
-  if ($("#state_id").val() != state_id) {
-    $(".vip").removeAttr("disabled");
-  }
-});
-
-$("#id_gst").change(function () {
-  if ($("#id_gst").val() != id_gst) {
-    $(".vip").removeAttr("disabled");
-  }
-});
-
-$("#id_pphone").change(function () {
-  if ($("#id_pphone").val() != id_pphone) {
-    $(".vip").removeAttr("disabled");
-  }
-});
-
-$("#id_sphone").change(function () {
-  if ($("#id_sphone").val() != id_sphone) {
+$("#id_mobile").change(function () {
+  if ($("#id_mobile").val() != id_mobile) {
     $(".vip").removeAttr("disabled");
   }
 });
@@ -192,14 +168,38 @@ $("#id_email").change(function () {
   }
 });
 
-$("#id_addinfo").change(function () {
-  if ($("#id_addinfo").val() != id_addinfo) {
+$("#id_pan").change(function () {
+  if ($("#id_pan").val() != id_pan) {
     $(".vip").removeAttr("disabled");
   }
 });
 
-$("#id_pan").change(function () {
-  if ($("#id_pan").val() != id_pan) {
+$("#id_sac").change(function () {
+  if ($("#id_sac").val() != id_sac) {
+    $(".vip").removeAttr("disabled");
+  }
+});
+
+$("#id_gst").change(function () {
+  if ($("#id_gst").val() != id_gst) {
+    $(".vip").removeAttr("disabled");
+  }
+});
+
+$("#id_pincode").change(function () {
+  if ($("#id_pincode").val() != id_pincode) {
+    $(".vip").removeAttr("disabled");
+  }
+});
+
+$("#id_address").change(function () {
+  if ($("#id_address").val() != id_address) {
+    $(".vip").removeAttr("disabled");
+  }
+});
+
+$("#state_id").change(function () {
+  if ($("#state_id").val() != state_id) {
     $(".vip").removeAttr("disabled");
   }
 });

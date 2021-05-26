@@ -115,7 +115,7 @@
 <?php endif; ?>
 
 <?php if ($controller == 'company' && ($action == 'edit')) : ?>
-  <script src="<?php echo ROOT; ?>assets/js/new_company.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/edit_company.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 </body>

@@ -13,7 +13,7 @@
 											Company Details
 										</h3>
 										<div class="text-right">
-											<button type="submit" class="btn btn-primary btn-sm vip">
+											<button type="submit" class="btn btn-primary btn-sm vip" disabled>
 												Update
 											</button>
 											<a href="<?php echo ROOT; ?>company/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
@@ -138,7 +138,7 @@
 										</div>
 									</div>
 									<div class="card-footer text-right">
-										<button type="submit" class="btn btn-primary btn-sm vip">
+										<button type="submit" class="btn btn-primary btn-sm vip" disabled>
 											Update
 										</button>
 										<a href="<?php echo ROOT; ?>company/view/<?php echo $customer['id'] ?>" class="btn btn-default btn-sm"> Back
