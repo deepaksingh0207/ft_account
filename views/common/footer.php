@@ -1,6 +1,6 @@
 <!-- <script src="<?php echo ROOT; ?>assets/plugins/jquery/jquery.min.js"></script> -->
 <?php if ($controller == 'users') : ?>
-  <script src="<?php echo ROOT; ?>assets/js/parallax.js"></script>
+  <!-- <script src="<?php echo ROOT; ?>assets/js/parallax.js"></script> -->
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
