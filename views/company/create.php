@@ -54,7 +54,7 @@
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_sphone">
-                        Mobile
+                          Mobile
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
@@ -79,7 +79,7 @@
                       </div>
                     </div>
 
-					<div class="row mx-1">
+                    <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_pan">
                           PAN No.
@@ -90,70 +90,70 @@
                       </div>
                     </div>
                     
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_sac">
-                          SAC
-                        </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="sac" id="id_sac" " />
-                      </div>
-                    </div>
-                    
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_gst">
-                          GSTIN
-                        </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
+                    <div class=" row mx-1">
+                        <div class="col-sm-12 col-lg-2">
+                          <label for="id_sac">
+                            SAC
+                          </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 form-group">
+                          <input type="text" class="form-control fc ftsm" name="sac" id="id_sac" " />
                       </div>
                     </div>
                     
-                    
+                    <div class=" row mx-1">
+                          <div class="col-sm-12 col-lg-2">
+                            <label for="id_gst">
+                              GSTIN
+                            </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-3 form-group">
+                            <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
+                          </div>
+                        </div>
 
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_pincode"> Pincode </label>
+
+
+                        <div class="row mx-1">
+                          <div class="col-sm-12 col-lg-2">
+                            <label for="id_pincode"> Pincode </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-3 form-group">
+                            <input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id" maxlength="7" minlength="6" pattern="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$" />
+                          </div>
+                        </div>
+
+                        <div class="row mx-1">
+                          <div class="col-sm-12 col-lg-2">
+                            <label for="id_address"> Address </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-3 form-group">
+                            <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3"></textarea>
+                          </div>
+                        </div>
+
+                        <div class="row mx-1">
+                          <div class="col-sm-12 col-lg-2">
+                            <label for="id_address"> State </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-3 form-group">
+                            <select class="form-control fc ftsm select2" name="state" id="state_id">
+                              <option value=""></option>
+                              <?php foreach ($states as $state) : ?>
+                                <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id" maxlength="7" minlength="6" pattern="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$" />
+                      <div class="card-footer text-right">
+                        <button type="submit" class="btn btn-primary btn-sm vip" disabled>
+                          Submit
+                        </button>
+                        <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+                        </a>
                       </div>
                     </div>
-
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> Address </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3"></textarea>
-                      </div>
-                    </div>
-
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> State </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="state" id="state_id">
-                          <option value=""></option>
-                          <?php foreach ($states as $state) : ?>
-                            <option value="<?php echo $state['id'] ?>"><?php echo $state['name'] ?></option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary btn-sm vip" disabled>
-                      Submit
-                    </button>
-                    <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
-                    </a>
-                  </div>
-                </div>
               </form>
             </div>
           </div>

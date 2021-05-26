@@ -110,6 +110,10 @@
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'company' && ($action == 'create')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/new_company.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
 <?php if ($controller == 'company' && ($action == 'edit')) : ?>
   <script src="<?php echo ROOT; ?>assets/js/new_company.js?<?php echo time(); ?>"></script>
 <?php endif; ?>

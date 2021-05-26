@@ -7,7 +7,7 @@
 
     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
       <li class="nav-item dropdown">
-        <a tabindex="-1" href="<?php echo ROOT; ?>company/view/1" class="nav-link">
+        <a tabindex="-1" href="<?php echo ROOT; ?>company" class="nav-link">
           Company
         </a>
       </li>
