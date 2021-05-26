@@ -49,19 +49,18 @@
                         <label for="date_id">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" />
+                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" value=""/>
                       </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="days_id">Pay in days :</label>
-
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="tel" class="form-control ftsm numberonly" name="pay_days" id="days_id" minlength="1" maxlength="3" />
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
@@ -74,8 +73,7 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="salesperson_id"></label>
-                        Contact Person :
+                        <label for="salesperson_id">Contact Person :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="text" class="form-control ftsm alphaonly" name="sales_person" id="salesperson_id" />
@@ -115,11 +113,11 @@
                         <table class="table text-center mb-0">
                           <thead>
                             <tr>
-                              <th class="minmax150">Qty</th>
                               <th class="min100">Item</th>
                               <th class="min100">Description</th>
+                              <th class="minmax150">Qty</th>
                               <th class="min100">Unit Price</th>
-                              <th class="tax">Tax (%)</th>
+                              <!-- <th class="tax">Tax (%)</th> -->
                               <th class="min100">Total</th>
                               <th class="min100">Delete</th>
                             </tr>
@@ -140,11 +138,11 @@
 
                     </div>
                     <div class="row">
-                      <div class="col-12 text-right">
+                      <!-- <div class="col-12 text-right">
                         <input type="hidden" name="ordertotal" id="id_ordertotal">
                         <b>Subtotal : </b>₹
                         <span id="subtotal_id">0.00</span>
-                      </div>
+                      </div> -->
                       <div class="col-12 text-right">
                         <b>Total : </b>₹
                         <span id="total">0.00</span>
