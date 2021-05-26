@@ -71,6 +71,16 @@
 											</div>
 										</div>
 										<div class="row mx-1">
+                                          <div class="col-sm-12 col-lg-2">
+                                            <label for="id_pan">
+                                              PAN No.
+                                            </label>
+                                          </div>
+                                          <div class="col-sm-12 col-lg-3 form-group">
+                                            <input type="text" class="form-control fc ftsm" name="pan" id="id_pan" value="<?php echo $customer['pan'] ?>" />
+                                          </div>
+                                        </div>
+										<div class="row mx-1">
 											<div class="col-sm-12 col-lg-2">
 												<label for="id_gst">
 													GSTIN

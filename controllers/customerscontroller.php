@@ -63,6 +63,16 @@ class CustomersController extends Controller
             
             $this->_view->set('states', $states);
             
+            if(!empty($_POST)) {
+                $data = $_POST;
+                if($this->_model->update($id, $data)) {
+                    $_SESSION['message'] = 'Customer updated successfully';
+                    header("location:". ROOT. "customers/view/$id");
+                } else {
+                    $_SESSION['error'] = 'Fail to update customer';
+                }
+            }
+            
             return $this->_view->output();
             
         } catch (Exception $e) {
