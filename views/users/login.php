@@ -1,5 +1,5 @@
 <body class="hold-transition login-page" id="parallax">
-    <div class="login-box">
+    <div class="login-box boxy">
       <div class="card">
         <div class="card-header text-center">
           <a href="index.html">
