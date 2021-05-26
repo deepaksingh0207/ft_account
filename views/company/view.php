@@ -76,6 +76,26 @@
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
 											<label for="id_gst">
+												PAN No.
+											</label>
+										</div>
+										<div class="col-sm-12 col-lg-3 form-group">
+											<?php echo $customer['pan'] ?>
+										</div>
+									</div>
+									<div class="row mx-1">
+										<div class="col-sm-12 col-lg-2">
+											<label for="id_gst">
+												SAC
+											</label>
+										</div>
+										<div class="col-sm-12 col-lg-3 form-group">
+											<?php echo $customer['sac'] ?>
+										</div>
+									</div>
+									<div class="row mx-1">
+										<div class="col-sm-12 col-lg-2">
+											<label for="id_gst">
 												GSTIN
 											</label>
 										</div>

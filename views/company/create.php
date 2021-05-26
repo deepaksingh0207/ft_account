@@ -79,6 +79,28 @@
                       </div>
                     </div>
 
+					<div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_pan">
+                          PAN No.
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="pan" id="id_pan" " />
+                      </div>
+                    </div>
+                    
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_sac">
+                          SAC
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="sac" id="id_sac" " />
+                      </div>
+                    </div>
+                    
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_gst">
@@ -89,6 +111,8 @@
                         <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15" maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" />
                       </div>
                     </div>
+                    
+                    
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">

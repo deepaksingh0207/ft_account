@@ -11,10 +11,10 @@ class CompanyController extends Controller
         
         try {
             
-            $customers = $this->_model->getList();
+            $companies = $this->_model->getList();
             
-            $this->_view->set('customers', $customers);
-            $this->_view->set('title', 'Customer List');
+            $this->_view->set('customers', $companies);
+            $this->_view->set('title', 'Company List');
             
             
             return $this->_view->output();
@@ -62,6 +62,16 @@ class CompanyController extends Controller
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Company Edit');
             
+            if(!empty($_POST)) {
+                $data = $_POST;
+                if($this->_model->update($id, $data)) {
+                    $_SESSION['message'] = 'Company updated successfully';
+                    header("location:". ROOT. "company/view/$id");
+                } else {
+                    $_SESSION['error'] = 'Fail to add company';
+                }
+            }
+            
             
             return $this->_view->output();
             
@@ -83,10 +93,10 @@ class CompanyController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 if($this->_model->save($data)) {
-                    $_SESSION['message'] = 'Customer added successfully';
-                    header("location:". ROOT. "customers"); 
+                    $_SESSION['message'] = 'Company added successfully';
+                    header("location:". ROOT. "company"); 
                 } else {
-                    $_SESSION['error'] = 'Fail to add customer';
+                    $_SESSION['error'] = 'Fail to add company';
                 }
             }
             
