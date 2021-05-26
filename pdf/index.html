@@ -12,6 +12,10 @@
     />
     <title>Document</title>
     <style>
+      .d {
+        font-size: small;
+        font-weight: 500;
+      }
       .bold {
         font-weight: 700;
       }
@@ -25,18 +29,35 @@
         border-bottom-width: 3px;
         border-bottom-color: #000000;
       }
+      .vl {
+        border-left: 4px solid #c9201b;
+        height: 98px;
+        float: right;
+        align-self: center;
+      }
     </style>
   </head>
-  <body style="font-size: smaller;">
+  <body class="d">
     <div class="row">
       <div class="col-6">
         <img src="../assets/img/logo.png" alt="FT Solutions Pvt Ltd" />
       </div>
       <div class="col-6 text-end">
-        <img src="../assets/img/logo.png" alt="FT Solutions Pvt Ltd" />
+        <div class="row">
+          <div class="col-7 pe-0">
+            <div class="vl"></div>
+          </div>
+          <div class="col-5" style="text-align: justify;">
+            SAP SOLUTIONS<br />
+            ERP SOLUTIONS<br />
+            IT OUTSOURCING<br />
+            IT CONSULTANCY<br />
+            WEB SOLUTIONS
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row text-center">
+    <div class="row text-center mb-3">
       <div class="col-12">
         <b><u>TAX INVOICE</u></b>
       </div>
@@ -110,12 +131,10 @@
             </td>
           </tr>
           <tr>
-            <td class="bold">PAN No.</td>
-            <td class="bold">: AABCA2787L</td>
+            <td class="bold" colspan="2">PAN No.: AABCA2787L</td>
           </tr>
           <tr>
-            <td class="bold">GST No.</td>
-            <td class="bold">: 27AABCA2787L2ZB</td>
+            <td class="bold" colspan="2">GST No.: 27AABCA2787L2ZB</td>
           </tr>
           <tr>
             <td colspan="2" class="py-4">
@@ -135,18 +154,18 @@
       <div class="col-12 mx-1">
         <table class="table border border-start-0 border-end-0 mb-0">
           <tr class="bb">
-            <th>Sr. No.</th>
-            <th>Item Description</th>
-            <th>Qty./Unit</th>
-            <th class="text-end">Unit Price</th>
-            <th>Total Value</th>
+            <th class="py-0">Sr. No.</th>
+            <th class="py-0">Item Description</th>
+            <th class="py-0">Qty./Unit</th>
+            <th class="text-end py-0">Unit Price</th>
+            <th class="py-0">Total Value</th>
           </tr>
           <tr class="bb">
-            <td class="py-0">1</td>
-            <td class="py-0">Issue Support Charges - SAP</td>
-            <td class="py-0">76.5</td>
-            <td class="text-end py-0">6,000.00</td>
-            <td class="py-0">4,59,000.00</td>
+            <td>1</td>
+            <td>Issue Support Charges - SAP</td>
+            <td>76.5</td>
+            <td class="text-end">6,000.00</td>
+            <td>4,59,000.00</td>
           </tr>
           <tr class="bb">
             <td colspan="4" class="text-end py-0">Net Value INR.</td>
@@ -192,10 +211,11 @@
     </div>
     <div class="col-12 mx-3 my-2">For F.T. Solutions Pvt. Ltd.</div>
     <div class="col-12 mx-3 mt-5">Authorised Signature</div>
-    <hr>
+    <hr class="mb-0" />
     <div class="text-center">
-      401, Meet Galaxy, Tika No. 8, Plot No.3, Opp. Raheja Garden, Nr. Teen Hath Naka, Behind Tip Top Plaza,<br> 
-      Thane(W)-400604., Maharashtra, India. Tel.: +91 022 29675556<br>
+      401, Meet Galaxy, Tika No. 8, Plot No.3, Opp. Raheja Garden, Nr. Teen Hath
+      Naka, Behind Tip Top Plaza,<br />
+      Thane(W)-400604., Maharashtra, India. Tel.: +91 022 29675556<br />
       Email: support@futuretecsol.com Website: http://www.futuretecsol.com
     </div>
   </body>

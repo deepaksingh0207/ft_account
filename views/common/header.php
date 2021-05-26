@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
-    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/parallax.css" />
+    <!-- <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/parallax.css" /> -->
   <?php endif; ?>
 
 
