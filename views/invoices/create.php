@@ -20,9 +20,7 @@
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary">
-                        Record
-                      </button>
+                    <button type="submit" class="btn btn-sm btn-primary">Record</button>
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
@@ -222,18 +220,35 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <button type="button" class="btn btn-sm btn-primary">
-                        Record
-                      </button>
+                      <button type="submit" class="btn btn-sm btn-primary">Record</button>
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm"> Back
                       </a>
                     </div>
                   </div>
+                </div>
 
-                  <button type="" class="btn btn-default" data-toggle="modal" data-target="#modal-sm" style="display: none;">
-                  Launch Small Modal
-                </button>
+                <button type="" class="btn btn-default" data-toggle="modal" data-target="#modal-sm" style="display: none;"></button>
 
+                <div class="modal fade" id="modal-sm">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Generate Invoice</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Are you confirm to generate invoice?</p>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-sm btn-default" >Close</button>
+                        <button type="submit" class="btn btn-sm btn-primary" >Save changes</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
                 </div>
 
               </form>
