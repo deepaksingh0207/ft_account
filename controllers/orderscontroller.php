@@ -11,6 +11,10 @@ class OrdersController extends Controller
         
         try {
             
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
+            
             $orders = $this->_model->getList();
             
             $this->_view->set('orders', $orders);

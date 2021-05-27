@@ -39,8 +39,10 @@
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control-sm select2" name="customer" id="id_customer">
-                      <option value=""></option>  
-                      <option value="">Customer A</option>
+                      <option value=""></option>
+                          <?php foreach ($customers as $customer) : ?>
+                            <option value="<?php echo $customer['id'] ?>"><?php echo $customer['name'] ?></option>
+                          <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">
@@ -68,7 +70,7 @@
                             <?php foreach ($orders as $order) : ?>
                               <tr>
                                 <td class=""><?php echo date('d, M Y', strtotime($order['order_date'])) ?></td>
-                                <td class=""><?php echo $order['id'] ?></td>
+                                <td class=""><?php echo $order['po_no'] ?></td>
                                 <td class=""><?php echo $order['customer_name'] ?></td>
                                 <td class=""><?php echo $order['sales_person'] ?></td>
                                 <td class=""><?php echo $order['ordertotal'] ?></td>

@@ -28,7 +28,7 @@ class InvoicesController extends Controller
     
     public function create() {
         try {
-            $this->_view->set('title', 'Create Order');
+            $this->_view->set('title', 'Create Invoice');
             
             $customerList = new CustomersModel();
             $customers = $customerList->getNameList();
@@ -37,7 +37,10 @@ class InvoicesController extends Controller
             
             if(!empty($_POST)) {
                 $data = $_POST;
+                
+                echo '<pre>'; print_r($data); exit;
 
+                /*
                 $orderItems = array();
 
                 foreach($data['item'] as $key => $item) {
@@ -51,20 +54,23 @@ class InvoicesController extends Controller
 
                     $orderItems[] = $row;
                 }
+                
+                */
 
                 unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total'],
                 $data['tax'], $data['trid'], $data['taxval']);
-
+                
+                
                 //print_r($orderItems);
                 //print_r($data); exit;
-                $invoiceId = $this->_model->save($data);
+                //$invoiceId = $this->_model->save($data);
                 if($this->_model->save($data)) {
-
+                    /*
                     $tblInvoiceItem = new InvoiceItemsModel();
                     foreach($orderItems as $orderItem) {
                         $orderItem['invoice_id'] = $invoiceId;
                         $tblInvoiceItem->save($orderItem);
-                    }
+                    } */
 
                     $_SESSION['message'] = 'Invoice added successfully';
                     header("location:". ROOT. "invoices"); 

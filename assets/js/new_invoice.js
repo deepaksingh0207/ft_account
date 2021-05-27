@@ -231,7 +231,7 @@ function fillorderitems(datadict) {
   $("#id_ordertotal").val(ttotal);
   $("#ordertotal").text(parseFloat(ttotal).toFixed(2));
   $("#id_paypercent").val("")
-  $("#id_paytype").val("Advance")
+  $("#id_paytype").val("")
   
   $(".calcy").click();
 }

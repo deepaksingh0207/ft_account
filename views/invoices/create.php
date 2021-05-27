@@ -157,7 +157,8 @@
                               <td class="text-left">
                                 <div class="form-group mb-0">
                                   <select class="form-control ftsm" style="width: 100%;" name="paytype" id="id_paytype">
-                                    <option value="Advance" selected="selected">Advance </option>
+                                  <option value="" selected="selected"></option>
+                                    <option value="Advance">Advance </option>
                                     <option value="UAT Submit">UAT Submit</option>
                                     <option value="GO Live">GO Live </option>
                                     <option value="Support">Support </option>
