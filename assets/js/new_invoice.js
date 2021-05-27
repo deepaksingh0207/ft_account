@@ -172,6 +172,7 @@ $("#customerid_id").change(function () {
       encode: true,
     })
       .done(function (data) {
+        $("#paytype_div").show();
         $.each(data, function (key, value) {
           if (key == "gst") {
             gst = value.gst;
@@ -186,6 +187,7 @@ $("#customerid_id").change(function () {
         alert("No details found against this customer.");
       });
   } else {
+    $("#paytype_div").hide();
     $("#id_orderid").attr("disabled", "");
     $("#add_item").attr("disabled", "");
     $("#id_orderid").val("");

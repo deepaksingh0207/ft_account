@@ -163,7 +163,7 @@
                       </div>
                     </div>
 
-                    <div class="row mt-5">
+                    <div class="row mt-5" id="paytype_div" style="display:none">
                       <div class="col-12 table-responsive">
                         <table class="table text-center mb-0">
                           <thead>
@@ -325,9 +325,6 @@
                         </table>
                         <hr class="mt-0">
                       </div>
-                    </div>
-
-                    <div class="row">
                       <div class="col-6 text-left pl-4">
                         <button type="button" class="btn btn-sm btn-primary ml-5" id="add_item">
                           <i class="fas fa-plus"></i>
