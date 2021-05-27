@@ -153,7 +153,7 @@
                               </td>
                               <td class="text-left">
                                 <div class="form-group mb-0">
-                                  <select class="form-control ftsm" style="width: 100%;" name="payment_term" id="id_paytype">
+                                  <select class="form-control ftsm" style="width: 100%;" name="payment_term" id="id_paytype" required>
                                     <option value="" selected="selected"></option>
                                     <option value="Advance">Advance </option>
                                     <option value="UAT Submit">UAT Submit</option>
@@ -165,7 +165,7 @@
                               </td>
                               <td>
                                 <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent" id="id_paypercent">
+                                  <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent" id="id_paypercent" required>
                                   <div class="input-group-append">
                                     <div class="input-group-text">
                                       <i class="fas fa-percentage"></i>
