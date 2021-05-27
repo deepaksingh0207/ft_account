@@ -131,7 +131,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.00">
+                        <input type="hidden" name="order_total" id="id_ordertotal" value="0.00">
                         <b>Sub Total : </b>₹
                         <span id="ordertotal">0.00</span>
                       </div>
@@ -156,7 +156,7 @@
                               </td>
                               <td class="text-left">
                                 <div class="form-group mb-0">
-                                  <select class="form-control ftsm" style="width: 100%;" name="paytype" id="id_paytype">
+                                  <select class="form-control ftsm" style="width: 100%;" name="payment_term" id="id_paytype">
                                   <option value="" selected="selected"></option>
                                     <option value="Advance">Advance </option>
                                     <option value="UAT Submit">UAT Submit</option>
@@ -168,7 +168,7 @@
                               </td>
                               <td>
                                 <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="paypercent" id="id_paypercent">
+                                  <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent" id="id_paypercent">
                                   <div class="input-group-append">
                                     <div class="input-group-text">
                                       <i class="fas fa-percentage"></i>
@@ -181,7 +181,7 @@
                               </td>
                               <td id="id_paytotal_div">
                                 <div>0</div>
-                                <input type="hidden" name="paytotal" id="id_paytotal">
+                                <input type="hidden" name="sub_total" id="id_paytotal">
                               </td>
                             </tr>
                           </tbody>
@@ -211,7 +211,7 @@
                       </div>
 
                       <div class="col-12 text-right" style="color: crimson;">
-                        <input type="hidden" name="invoicetotal" id="id_invoicetotal" value="">
+                        <input type="hidden" name="invoice_total" id="id_invoicetotal" value="">
                         <b>Total : </b>₹
                         <span id="gstvalue">0.00</span>
                       </div>
