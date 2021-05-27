@@ -192,7 +192,7 @@
                               </td>
                               <td>
                                 <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm subtotal minmax100" name="subtotal" id="id_subtotal">
+                                  <input type="tel" class="form-control ftwm subtotal minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="subtotal" id="id_subtotal">
                                   <div class="input-group-append">
                                     <div class="input-group-text">
                                       <i class="fas fa-percentage"></i>
