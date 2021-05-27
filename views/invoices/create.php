@@ -238,7 +238,7 @@
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">Close</button>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">Save changes</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">Generate</button>
                       </div>
                     </div>
                     <!-- /.modal-content -->
