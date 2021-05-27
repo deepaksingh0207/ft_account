@@ -250,6 +250,9 @@ function fillorderitems(datadict) {
 }
 
 $(document).on("change", "#id_paypercent", function () {
+  if ($(this).val() > 100) {
+    $(this).val("100");
+  }
   if ($(this).val() == 100) {
     $("#id_paytype").val("Full Payment");
   }
