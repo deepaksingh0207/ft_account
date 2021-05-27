@@ -194,7 +194,7 @@ $(".killrow").click(function () {
   $("#" + deleteid).remove();
   var arr = $("#id_tr").val().split(",");
   res = jQuery.grep(arr, function (b) {
-    return b !== deleteid;
+    return b != deleteid;
   });
   $("#id_tr").val(res);
   ttotal();

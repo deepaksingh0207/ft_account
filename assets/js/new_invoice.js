@@ -1,6 +1,13 @@
 var baseUrl = window.location.origin + "/ft_account/";
+var gst = 9;
 
 $(function () {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+  today = yyyy + "-" + mm + "-" + dd;
+  $("#id_invoicedate").val(today);
   $(".select2").select2();
   // Form Validation
   $.validator.setDefaults({
@@ -86,61 +93,34 @@ $(function () {
   });
 });
 
-$("#days_id").on("keypress", function (event) {
-  var regex = new RegExp("^[0-9]+$");
-  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-  if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-  }
-});
-
 // Dynamic Row Appending Function
 function addrow(charlie) {
-  var arr = $("#id_tr").val().split(",");
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
-      charlie +
-      "'/></td><td><input class='form-control ftsm' list='item" +
+      "'><td><input class='form-control ftsm' list='item" +
       charlie +
       "_list' name='item[]' id='id_item" +
       charlie +
-      "' placeholder='Type or select...' /><datalist id='item" +
+      "' placeholder='Type or select...' disabled/><datalist id='item" +
       charlie +
       "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input class='form-control ftsm' list='description" +
       charlie +
       "_list' name='description[]' id='id_description" +
       charlie +
-      "' placeholder='Type or select...' /> <datalist id='description" +
+      "' placeholder='Type or select...' disabled /> <datalist id='description" +
       charlie +
-      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
+      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
       charlie +
-      "'/></td><td><input type='number' class='form-control ftsm tax' name='tax[]' id='id_tax" +
+      "' disabled/></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
       charlie +
-      "'></td><td>₹<input type='hidden' class='form-control ftsm rowtotal'  value='0.00' name='total[]' id='total" +
+      "' disabled/></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
       charlie +
       "'><span id='id_total" +
       charlie +
-      "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' value='" +
-      charlie +
-      "'></i></td></tr>"
+      "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: darkgrey' disabled ></i></td></tr>"
   );
-  if (arr[0] == '' ) {
-    arr[0] = charlie
-  }
-  else {
-    arr.push(charlie);
-  }
-  $("#id_tr").val(arr);
 }
-
-// Delete Click Action
-$(document).on("click", "i.trash", function () {
-  $(".killrow").attr("id", $(this).attr("value"));
-  $("#modelactivate").click();
-});
 
 // Delete & Return
 $(".killrow").click(function () {
@@ -159,41 +139,13 @@ function tridupdate(a) {
   $("#id_tr").val(res);
 }
 
-// Cancel delete action
-// $(".order").click(function () {
-//   $("#order").show();
-//   $("#trash").hide();
-// });
-
-// Add Order Item Click Action
-$("#add_item").on("click", function () {
-  var a = $("#id_tr").val().split(",");
-  console.log(a);
-  if (a.length < 2 && a[0] == "") {
-    addrow(1);
-    a[0] = 1;
-  } else {
-    var lastid = a[a.length - 1];
-    lastid++;
-    addrow(lastid);
-    a.push("" + lastid + "");
-  }
-  $("#id_tr").val(a);
-  console.log($("#id_tr").val());
-});
-
-// Monitoring Tax Field
-// $(".tax").change(function () {
-//   ttotal();
-// });
-
 // Monitoring Quantity Field
 $(document).on("change", ".qty", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
   subtotal = rowcollector(id[0]);
   $("#total" + id[0]).val(subtotal);
-  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
+  // $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
 
@@ -206,64 +158,6 @@ $(document).on("change", ".unitprice", function () {
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
-
-// Monitoring Discount Field
-$(document).on("change", ".discount", function () {
-  var discountid = $(this).attr("id");
-  id = discountid.match(/\d+/);
-  subtotal = rowcollector(id[0]);
-  $("#total" + id[0]).val(subtotal);
-  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
-  ttotal();
-});
-
-// Monitoring Tax Field
-$(document).on("change", ".tax", function () {
-  var taxid = $(this).attr("id");
-  id = taxid.match(/\d+/);
-  subtotal = rowcollector(id[0]);
-  $("#total" + id[0]).val(subtotal);
-  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
-  ttotal();
-});
-
-// Calculation Sub Total & Total
-function ttotal() {
-  var idlist = $("#id_tr").val().split(",");
-  total = 0;
-  if (idlist != "") {
-    $.each(idlist, function (index, value) {
-      total += parseFloat($("#id_total" + value).text());
-    });
-    $("#id_ordertotal").val(total);
-    $("#subtotal_id").text(parseFloat(total).toFixed(2));
-    $("#total").text(parseFloat(total).toFixed(2));
-  } else {
-    total = 0.0;
-    $("#id_ordertotal").val(total);
-    $("#subtotal_id").text(parseFloat(total).toFixed(2));
-    $("#total").text(parseFloat(total).toFixed(2));
-  }
-}
-
-// Row Data Calculator
-function rowcollector(id) {
-  rowqty = $("#id_quantity" + id).val();
-  rowunitprice = $("#id_unitprice" + id).val();
-  rowtax = $("#id_tax" + id).val();
-  rowdiscount = $("#id_discount" + id).val();
-  total = 0;
-  if (rowqty[0] != "" && rowunitprice[0] != "") {
-    total = rowunitprice * rowqty;
-    if (rowdiscount[0] != "") {
-      total -= total * (rowdiscount / 100);
-    }
-    if (rowtax[0] != "") {
-      total += total * (rowtax / 100);
-    }
-  }
-  return total;
-}
 
 // Customer Ajax
 $("#customerid_id").change(function () {
@@ -279,9 +173,13 @@ $("#customerid_id").change(function () {
     })
       .done(function (data) {
         $.each(data, function (key, value) {
-          $("#id_orderid").append(
-            $("<option>", { value: value.id }).text(value.id)
-          );
+          if (key == "gst") {
+            gst = value.gst;
+          } else {
+            $("#id_orderid").append(
+              $("<option>", { value: value.id }).text(value.id)
+            );
+          }
         });
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -338,16 +236,14 @@ $("#id_orderid").change(function () {
   }
 });
 
-//orderid must be asc to desc
-// datadict = {
-//   20: { qt: 1, itm: "a", des: "b", up: 1, tax: 1 },
-//   21: { qt: 4, itm: "a", des: "b", up: 4, tax: 4 },
-// };
 function fillorderitems(datadict) {
   var ttotal = 0;
   var arr = $("#id_tr").val().split(",");
+  var i = 0;
   var data = eval(datadict);
   for (var key in data) {
+    arr[i] = data[key].id;
+    i++;
     if (data.hasOwnProperty(key)) {
       if (key != "") {
         var quantity = data[key].qty;
@@ -367,9 +263,9 @@ function fillorderitems(datadict) {
         var total = 0;
         if (quantity != "" && unitprice != "") {
           total = unitprice * quantity;
-          if (tax != "") {
-            total += total * (tax / 100);
-          }
+          // if (tax != "") {
+          //   total += total * (tax / 100);
+          // }
         }
         $("#total" + di).val(total);
         $("#id_total" + di).text(parseFloat(total).toFixed(2));
@@ -377,7 +273,205 @@ function fillorderitems(datadict) {
     }
     ttotal += total;
   }
+  $("#id_tr").val(arr);
   $("#id_ordertotal").val(ttotal);
-  $("#subtotal_id").text(parseFloat(ttotal).toFixed(2));
+  // $("#subtotal_id").text(parseFloat(ttotal).toFixed(2));
   $("#total").text(parseFloat(ttotal).toFixed(2));
+}
+
+// Monitoring Quantity Field
+$(document).on("change", ".qty", function () {
+  var qtyid = $(this).attr("id");
+  id = qtyid.match(/\d+/);
+  subtotal = rowcollector(id[0]);
+  $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
+  ttotal();
+});
+
+// Calculation Sub Total & Total
+function ttotal() {
+  var idlist = $("#id_tr").val().split(",");
+  total = 0;
+  if (idlist != "") {
+    $.each(idlist, function (index, value) {
+      total += parseFloat($("#id_total" + value).text());
+    });
+    $("#id_ordertotal").val(total);
+    // $("#subtotal_id").text(parseFloat(total).toFixed(2));
+    $("#total").text(parseFloat(total).toFixed(2));
+  } else {
+    total = 0.0;
+    $("#id_ordertotal").val(total);
+    // $("#subtotal_id").text(parseFloat(total).toFixed(2));
+    $("#total").text(parseFloat(total).toFixed(2));
+  }
+}
+
+// Row Data Calculator
+function rowcollector(id) {
+  rowqty = $("#id_quantity" + id).val();
+  rowunitprice = $("#id_unitprice" + id).val();
+  rowtax = $("#id_tax" + id).val();
+  total = 0;
+  if (rowqty[0] != "" && rowunitprice[0] != "") {
+    total = rowunitprice * rowqty;
+    // if (rowtax[0] != "") {
+    //   total += total * (rowtax / 100);
+    // }
+  }
+  return total;
+}
+
+$("#days_id").on("keypress", function (event) {
+  var regex = new RegExp("^[0-9]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+// Add Order Item Click Action
+$("#add_item").on("click", function () {
+  var a = $("#id_paytype_val").val().split(",");
+  console.log(a);
+  if (a.length < 2 && a[0] == "") {
+    addpaytype(1);
+    a[0] = 1;
+  } else {
+    var lastid = a[a.length - 1];
+    lastid++;
+    addpaytype(lastid);
+    a.push("" + lastid + "");
+  }
+  var i = 1;
+  $.each(a, function (index, value) {
+    $("#row" + value)
+      .children()
+      .first()
+      .html(i);
+    i++;
+  });
+  $("#id_paytype_val").val(a);
+  console.log($("#id_paytype_val").val());
+});
+
+function addpaytype(charlie) {
+  $("#id_paytype_body").append(
+    '<tr id="row' +
+      charlie +
+      '"><td>' +
+      charlie +
+      '<input type="hidden" name="pay_typeid[]" id="id_paytypeid' +
+      charlie +
+      '" value="' +
+      charlie +
+      '"></td><td class="text-left"><input type="text" name="paytype[]" id="id_paytype' +
+      charlie +
+      '" class="form-control ftsm"></td><td><div class="input-group" style="justify-content: center;"><input type="tel" class="form-control ftwm ftsm subtotal minmax100" name="subtotal[]" id="id_subtotal' +
+      charlie +
+      '"><div class="input-group-append"><div class="input-group-text"><i class="fas fa-percentage"></i></div></div></div></td><td><i class="fas fa-minus-circle bin mt-1" style="color: red" id="id_bin' +
+      charlie +
+      '"></i></td><td id="gsttotal' +
+      charlie +
+      '"><div></div><input type="hidden" name="paytotal[]" id="id_paytotal' +
+      charlie +
+      '" ></td></tr>"'
+  );
+}
+
+$(".bin").on("click", function () {
+  var qtyid = $(this).attr("id");
+  deleteid = qtyid.match(/\d+/);
+  $("#row" + deleteid).remove();
+  var arr = $("#id_paytype_val").val().split(",");
+  res = jQuery.grep(arr, function (b) {
+    return b != deleteid;
+  });
+  var i = 1;
+  $.each(res, function (index, value) {
+    $("#row" + value)
+      .children()
+      .first()
+      .html(i);
+    i++;
+  });
+  $("#id_paytype_val").val(res);
+  grandtotal();
+});
+
+// function gsttotal() {
+//   var idlist = $("#id_paytype_val").val().split(",");
+//   total = 0;
+//   if (idlist != "") {
+//     $.each(idlist, function (index, value) {
+//       total += parseFloat($("#gsttotal" + value).text());
+//     });
+//     $("#gsttotal").val(total);
+//     // $("#subtotal_id").text(parseFloat(total).toFixed(2));
+//     $("#id_subtotal").text(parseFloat(total).toFixed(2));
+//   } else {
+//     total = 0.0;
+//     $("#gsttotal").val(0.0);
+//     // $("#subtotal_id").text(parseFloat(total).toFixed(2));
+//     $("#id_subtotal").text(0.0);
+//   }
+// }
+
+$(document).on("keypress", ".subtotal", function (event) {
+  var regex = new RegExp("^[0-9]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+$(document).on("change", ".subtotal", function () {
+  var idlist = $("#id_paytype_val").val().split(",");
+  var cent = 100;
+  var total = 0;
+  if (idlist != "") {
+    $.each(idlist, function (index, value) {
+      if ($("#id_subtotal" + value).val() != "") {
+        newval = parseInt($("#id_subtotal" + value).val());
+        total += newval;
+      }
+    });
+  }
+  if (total > cent) {
+    $(this).val($(this).val() - (total - cent));
+  }
+
+  var valeu = parseInt($(this).val());
+  var qtyid = $(this).attr("id");
+  id = qtyid.match(/\d+/);
+  subtotal = parseFloat($("#total").text());
+  breakvalue = (valeu / 100) * subtotal;
+  total = (breakvalue * gst) / 100 + breakvalue;
+  $("#gsttotal" + id[0])
+    .children()
+    .first()
+    .html(total.toFixed(2));
+  $("#id_paytotal" + id[0]).val(total.toFixed(2));
+  grandtotal();
+});
+
+function grandtotal() {
+  var idlist = $("#id_paytype_val").val().split(",");
+  var total = 0.0;
+  if (idlist != "") {
+    $.each(idlist, function (index, value) {
+      if ($("#id_paytotal" + value).val() != "") {
+        total += parseFloat($("#id_paytotal" + value).val());
+      }
+    });
+    $("#id_gsttotal").val(total);
+    $("#gsttotal").text(parseFloat(total.toFixed(2)));
+  } else {
+    total = 0.0;
+    $("#id_gsttotal").val(total);
+    $("#gsttotal").text(parseFloat(total.toFixed(2)));
+  }
 }
