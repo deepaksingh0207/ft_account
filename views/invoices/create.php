@@ -190,21 +190,21 @@
                         <hr class="mt-0">
                       </div>
 
-                      <div class="col-12 text-right" id="sgstdiv" style="display: none;">
+                      <div class="col-12 text-right" id="sgstdiv" style="display: block;">
                         <input type="hidden" name="sgst" id="id_sgst" value="">
                         <b>SGST : </b>₹
                         <span id="sgstvalue">0.00</span>
                         ( <span id="sgstpercent">0</span> % )
                       </div>
 
-                      <div class="col-12 text-right" id="cgstdiv" style="display: none;">
+                      <div class="col-12 text-right" id="cgstdiv" style="display: block;">
                         <input type="hidden" name="cgst" id="id_cgst" value="">
                         <b>CGST : </b>₹
                         <span id="cgstvalue">0.00</span>
                         ( <span id="cgstpercent">0</span> % )
                       </div>
 
-                      <div class="col-12 text-right" id="igstdiv" style="display: none;">
+                      <div class="col-12 text-right" id="igstdiv" style="display: block;">
                         <input type="hidden" name="igst" id="id_igst" value="">
                         <b>IGST : </b>₹
                         <span id="igstvalue">0.00</span>
@@ -222,13 +222,17 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary">
+                      <button type="button" class="btn btn-sm btn-primary">
                         Record
                       </button>
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm"> Back
                       </a>
                     </div>
                   </div>
+
+                  <button type="" class="btn btn-default" data-toggle="modal" data-target="#modal-sm" style="display: none;">
+                  Launch Small Modal
+                </button>
 
                 </div>
 

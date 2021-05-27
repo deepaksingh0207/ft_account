@@ -230,6 +230,9 @@ function fillorderitems(datadict) {
   $("#id_tr").val(arr);
   $("#id_ordertotal").val(ttotal);
   $("#ordertotal").text(parseFloat(ttotal).toFixed(2));
+  $("#id_paypercent").val("")
+  $("#id_paytype").val("Advance")
+  
   $(".calcy").click();
 }
 
@@ -275,7 +278,7 @@ $(".calcy").on("click", function () {
       });
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      alert("No tax details found.");
+      // alert("No tax details found.");
     });
   // test purpose
   $("#sgstpercent").text(sgst);
