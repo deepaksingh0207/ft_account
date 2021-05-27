@@ -246,36 +246,37 @@ $(".calcy").on("click", function () {
   var sgst = 0
   var cgst = 0
   var igst = 0
+  var customerId = $("#customerid_id").val();
   $.ajax({
     type: "POST",
-    url: baseUrl + "orders/" + 9,
+    url: baseUrl + "invoices/gettaxesrate/" + customerId,
     dataType: "json",
     encode: true,
   })
     .done(function (data) {
-      $.each(data, function (key, value) {
-        if (key == "sgst") {
-          if (value != 0){
-            $("#sgstpercent").text(value);
+    
+    	igst = 0;
+    	cgst = 0;
+    	sgst = 0;
+    	
+    	if(data.state == 'same') {
+    		$("#sgstpercent").text(data.sgst);
             $("#sgstdiv").show();
-            sgst = value 
-          }
-        }
-        if (key == "cgst") {
-          if (value != 0){
-            $("#cgstpercent").text(value);
+            sgst = data.sgst;
+            
+            $("#cgstpercent").text(data.cgst);
             $("#cgstdiv").show();
-            cgst = value
-          }
-        }
-        if (key == "igst") {
-          if (value != 0){
-            $("#igstpercent").text(value);
+            cgst = data.cgst;
+            
+            $("#igstdiv").hide();
+            
+    	} else {
+    		$("#igstpercent").text(data.igst);
             $("#igstdiv").show();
-            igst = value
-          }
-        }
-      });
+            igst = data.igst;
+    	}
+    	
+    	grandtotal(sgst, cgst, igst);
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       // alert("No tax details found.");
@@ -308,7 +309,7 @@ function grandtotal(sgst, cgst, igst) {
   sgstval = (sgst * qtyid)/ 100;
   cgstval = (cgst * qtyid)/ 100;
   igstval = (igst * qtyid)/ 100;
-  total = (qtyid+sgst+cgst+igst)
+  total = (qtyid + sgstval + cgstval + igstval)
   $("#sgstvalue").text(sgstval);
   $("#cgstvalue").text(cgstval);
   $("#igstvalue").text(igstval);

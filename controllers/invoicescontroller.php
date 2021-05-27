@@ -85,4 +85,36 @@ class InvoicesController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+    
+    public function getTaxesRate($customerId) {
+        try {
+            $customer = new CustomersModel();
+            $customer = $customer->get($customerId);
+            
+            $company = new CompanyModel();
+            $company = $company->get(1);
+            
+            $itMaster = new ItMasterModel();
+            $itMaster = $itMaster->get(1);
+            
+            
+            $result = array();
+            
+            if($customer['state'] == $company['state']) {
+                $result['state'] = 'same';
+                $result['cgst'] = $itMaster['cgst'];
+                $result['sgst'] = $itMaster['sgst'];
+            } else {
+                $result['state'] = 'other';
+                $result['igst'] = $itMaster['igst'];
+            }
+            echo json_encode($result); exit;
+            
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+    
+    
 }

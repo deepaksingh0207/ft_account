@@ -189,21 +189,21 @@
                         <hr class="mt-0">
                       </div>
 
-                      <div class="col-12 text-right" id="sgstdiv" style="display: block;">
+                      <div class="col-12 text-right" id="sgstdiv" style="display: none;">
                         <input type="hidden" name="sgst" id="id_sgst" value="">
                         <b>SGST : </b>₹
                         <span id="sgstvalue">0.00</span>
                         ( <span id="sgstpercent">0</span> % )
                       </div>
 
-                      <div class="col-12 text-right" id="cgstdiv" style="display: block;">
+                      <div class="col-12 text-right" id="cgstdiv" style="display: none;">
                         <input type="hidden" name="cgst" id="id_cgst" value="">
                         <b>CGST : </b>₹
                         <span id="cgstvalue">0.00</span>
                         ( <span id="cgstpercent">0</span> % )
                       </div>
 
-                      <div class="col-12 text-right" id="igstdiv" style="display: block;">
+                      <div class="col-12 text-right" id="igstdiv" style="display: none;">
                         <input type="hidden" name="igst" id="id_igst" value="">
                         <b>IGST : </b>₹
                         <span id="igstvalue">0.00</span>
