@@ -157,19 +157,11 @@ function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input class='form-control ftsm' list='item" +
+      "'><td><input class='form-control ftsm' name='item[]' id='id_item" +
       charlie +
-      "_list' name='item[]' id='id_item" +
+      "' placeholder='Enter item name' /></td><td><input class='form-control ftsm'  name='description[]' id='id_description" +
       charlie +
-      "' placeholder='Type or select...' /><datalist id='item" +
-      charlie +
-      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input class='form-control ftsm' list='description" +
-      charlie +
-      "_list' name='description[]' id='id_description" +
-      charlie +
-      "' placeholder='Type or select...' /> <datalist id='description" +
-      charlie +
-      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
+      "' placeholder='Enter Description...' /></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
       charlie +
       "'/></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
       charlie +

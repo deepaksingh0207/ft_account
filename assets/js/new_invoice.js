@@ -98,17 +98,13 @@ function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input class='form-control ftsm' list='item" +
+      "'><td><input class='form-control ftsm' name='item[]' id='id_item" +
       charlie +
-      "_list' name='item[]' id='id_item" +
-      charlie +
-      "' placeholder='Type or select...' disabled/><datalist id='item" +
-      charlie +
-      "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input class='form-control ftsm' list='description" +
+      "' placeholder='Enter item name' disabled/></td><td><input class='form-control ftsm' list='description" +
       charlie +
       "_list' name='description[]' id='id_description" +
       charlie +
-      "' placeholder='Type or select...' disabled /> <datalist id='description" +
+      "' placeholder='Enter Description...' disabled /> <datalist id='description" +
       charlie +
       "_list'><option value='a'></option><option value='b'></option></datalist></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
       charlie +
@@ -118,7 +114,7 @@ function addrow(charlie) {
       charlie +
       "'><span id='id_total" +
       charlie +
-      "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: darkgrey' disabled ></i></td></tr>"
+      "'>0.00</span></td></tr>"
   );
 }
 

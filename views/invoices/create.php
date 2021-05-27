@@ -132,7 +132,6 @@
                               <th class="minmax150">Qty </th>
                               <th class="min100">Unit Price</th>
                               <th class="min100">Order Total</th>
-                              <th class="min100">Delete</th>
                             </tr>
                           </thead>
                           <tbody id="orderlist"></tbody>
@@ -182,7 +181,7 @@
                               </td>
                               <td class="text-left">
                                 <div class="form-group mb-0">
-                                  <select class="form-control ftsm select2" style="width: 100%;" name="paytype" id="id_paytype">
+                                  <select class="form-control ftsm" style="width: 100%;" name="paytype" id="id_paytype">
                                     <option value="1"selected="selected">Advance</option>
                                     <option value="2">UAT Submit</option>
                                     <option value="3">GO Live </option>
@@ -202,7 +201,7 @@
                                 </div>
                               </td>
                               <td>
-                              <i class="fas fa-check mt-2 calcy"></i>
+                              <button type="button" class="calcy btn btn-sm btn-primary">Apply</button>
                               </td>
                               <td id="id_paytotal_div">
                                 <div></div>
