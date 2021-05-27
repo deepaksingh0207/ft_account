@@ -324,11 +324,16 @@ function grandtotal(sgst, cgst, igst) {
   } else {
     paypercent = $("#id_paypercent").val();
   }
-  qtyid = (ordertotal * paypercent) / 100;
-  sgstval = (sgst * qtyid) / 100;
-  cgstval = (cgst * qtyid) / 100;
-  igstval = (igst * qtyid) / 100;
-  total = qtyid + sgstval + cgstval + igstval;
+  qtyid = (ordertotal * paypercent)/ 100;
+  sgstval = (sgst * qtyid)/ 100;
+  cgstval = (cgst * qtyid)/ 100;
+  igstval = (igst * qtyid)/ 100;
+  total = (qtyid + sgstval + cgstval + igstval)
+  
+  $("#id_igst").val(igstval);
+  $("#id_cgst").val(cgstval);
+  $("#id_sgst").val(sgstval);
+  
   $("#sgstvalue").text(sgstval);
   $("#cgstvalue").text(cgstval);
   $("#igstvalue").text(igstval);
