@@ -131,7 +131,7 @@
                               <th class="min100">Description</th>
                               <th class="minmax150">Qty </th>
                               <th class="min100">Unit Price</th>
-                              <th class="min100">Total</th>
+                              <th class="min100">Sub Total</th>
                               <th class="min100">Delete</th>
                             </tr>
                           </thead>
@@ -157,7 +157,7 @@
                         <span id="subtotal_id">0.00</span>
                       </div> -->
                       <div class="col-12 text-right">
-                      <input type="hidden" name="invoicetotal" id="id_ordertotal" value="0.00">
+                        <input type="hidden" name="invoicetotal" id="id_ordertotal" value="0.00">
                         <b>Sub Total : </b>₹
                         <span id="total">0.00</span>
                       </div>
@@ -170,9 +170,10 @@
                             <tr>
                               <th class="min100">Sr No. </th>
                               <th class="min100 text-left">Line Items</th>
-                              <th class="">Sub Total </th>
+                              <th class="">% Slab </th>
                               <th class="min100">Delete</th>
-                              <th class="min100">Total</th>
+                              <th class="min100" style="color: crimson;">Sub Total + GST
+                              </th>
                             </tr>
                           </thead>
                           <tbody id="id_paytype_body">
@@ -218,11 +219,11 @@
                                 </div>
                               </td>
                               <td>
-                                <i class='fas fa-minus-circle bin mt-1'  id="id_bin1" style='color: red' disabled></i>
+                                <i class='fas fa-minus-circle bin mt-1' id="id_bin1" style='color: red' disabled></i>
                               </td>
                               <td id="gsttotal1">
-                              <div></div>
-                              <input type="hidden" name="paytotal[]" id="id_paytotal1">
+                                <div></div>
+                                <input type="hidden" name="paytotal[]" id="id_paytotal1">
                               </td>
                             </tr>
                             <tr id="row2">
@@ -245,8 +246,8 @@
                                 <i class='fas fa-minus-circle bin mt-1' id="id_bin2" style='color: red' disabled></i>
                               </td>
                               <td id="gsttotal2">
-                              <div></div>
-                              <input type="hidden" name="paytotal[]" id="id_paytotal2">
+                                <div></div>
+                                <input type="hidden" name="paytotal[]" id="id_paytotal2">
                               </td>
                             </tr>
                             <tr id="row3">
@@ -269,8 +270,8 @@
                                 <i class='fas fa-minus-circle bin mt-1' id="id_bin3" style='color: red' disabled></i>
                               </td>
                               <td id="gsttotal3">
-                              <div></div>
-                              <input type="hidden" name="paytotal[]" id="id_paytotal3">
+                                <div></div>
+                                <input type="hidden" name="paytotal[]" id="id_paytotal3">
                               </td>
                             </tr>
                             <tr id="row4">
@@ -293,8 +294,8 @@
                                 <i class='fas fa-minus-circle bin mt-1' id="id_bin4" style='color: red' disabled></i>
                               </td>
                               <td id="gsttotal4">
-                              <div></div>
-                              <input type="hidden" name="paytotal[]" id="id_paytotal4">
+                                <div></div>
+                                <input type="hidden" name="paytotal[]" id="id_paytotal4">
                               </td>
                             </tr>
                             <tr id="row5">
@@ -331,7 +332,7 @@
                         </button>
                       </div>
                       <div class="col-6 text-right" style="color: crimson;">
-                      <input type="hidden" name="gsttotal" id="id_gsttotal" value="">
+                        <input type="hidden" name="gsttotal" id="id_gsttotal" value="">
                         <b>Total : </b>₹
                         <span id="gsttotal">0.00</span>
                       </div>
