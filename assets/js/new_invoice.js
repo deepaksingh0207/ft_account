@@ -310,6 +310,11 @@ function grandtotal(sgst, cgst, igst) {
   cgstval = (cgst * qtyid)/ 100;
   igstval = (igst * qtyid)/ 100;
   total = (qtyid + sgstval + cgstval + igstval)
+  
+  $("#id_igst").val(igstval);
+  $("#id_cgst").val(cgstval);
+  $("#id_sgst").val(sgstval);
+  
   $("#sgstvalue").text(sgstval);
   $("#cgstvalue").text(cgstval);
   $("#igstvalue").text(igstval);
