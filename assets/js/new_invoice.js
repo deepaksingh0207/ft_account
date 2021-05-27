@@ -145,15 +145,9 @@ $("#customerid_id").change(function () {
         alert("No details found against this customer.");
       });
   } else {
-    $("#paytype_div").hide();
+    resetform()
     $("#id_orderid").attr("disabled", "");
     $("#id_orderid").val("");
-    var idlist = $("#id_tr").val().split(",");
-    if (idlist != "") {
-      $.each(idlist, function (index, value) {
-        tridupdate(value);
-      });
-    }
     $("#id_orderid")
       .find("option")
       .remove()
