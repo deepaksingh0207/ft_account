@@ -13,7 +13,7 @@ $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
       // form.submit();
-      $("#responsemodal").click()
+      $("#responsemodal").click();
     },
   });
   $("#quickForm").validate({
@@ -21,15 +21,12 @@ $(function () {
       customer_id: {
         required: true,
       },
-      invoice_date: {
-        required: true,
-        date: true,
-      },
       order_id: {
         required: true,
       },
-      pay_days: {
+      invoice_date: {
         required: true,
+        date: true,
       },
       po_no: {
         required: true,
@@ -134,7 +131,6 @@ $("#customerid_id").change(function () {
       encode: true,
     })
       .done(function (data) {
-        $("#paytype_div").show();
         $.each(data, function (key, value) {
           if (key == "gst") {
             gst = value.gst;
@@ -167,17 +163,32 @@ $("#customerid_id").change(function () {
   }
 });
 
-$("#id_orderid").change(function () {
-  total = 0;
+function resetform() {
+  $("#id_pono").val("");
+  $("#id_salesperson").val("");
+  $("#bill_id").val("");
+  $("#ship_id").val("");
   var idlist = $("#id_tr").val().split(",");
   if (idlist != "") {
     $.each(idlist, function (index, value) {
       tridupdate(value);
     });
   }
-  var orderId = $(this).val();
-  if (orderId) {
-    console.log(orderId);
+  $("#paytype_div").hide("");
+}
+
+$("#id_orderid").change(function () {
+  if ($(this).val() == "") {
+    resetform();
+  } else {
+    total = 0;
+    var idlist = $("#id_tr").val().split(",");
+    if (idlist != "") {
+      $.each(idlist, function (index, value) {
+        tridupdate(value);
+      });
+    }
+    var orderId = $(this).val();
     $.ajax({
       type: "POST",
       url: baseUrl + "orders/getdetails/" + orderId,
@@ -185,6 +196,7 @@ $("#id_orderid").change(function () {
       encode: true,
     })
       .done(function (data) {
+        $("#paytype_div").show();
         $("#id_pono").val(data.order.po_no);
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
@@ -231,22 +243,30 @@ function fillorderitems(datadict) {
   $("#id_tr").val(arr);
   $("#id_ordertotal").val(ttotal);
   $("#ordertotal").text(parseFloat(ttotal).toFixed(2));
-  $("#id_paypercent").val("")
-  $("#id_paytype").val("")
-  
-  $(".calcy").click();
+  $("#id_paypercent").val("");
+  $("#id_paytype").val("");
+
+  calcy();
 }
+
+$(document).on("change", "#id_paypercent", function () {
+  if ($(this).val() == 100) {
+    $("#id_paytype").val("Full Payment");
+  }
+  calcy();
+});
 
 $(document).on("change", "#id_paytype", function () {
   if ($(this).val() == "Full Payment") {
     $("#id_paypercent").val("100");
   }
+  calcy();
 });
 
-$(".calcy").on("click", function () {
-  var sgst = 0
-  var cgst = 0
-  var igst = 0
+function calcy() {
+  var sgst = 0;
+  var cgst = 0;
+  var igst = 0;
   var customerId = $("#customerid_id").val();
   $.ajax({
     type: "POST",
@@ -255,29 +275,27 @@ $(".calcy").on("click", function () {
     encode: true,
   })
     .done(function (data) {
-    
-    	igst = 0;
-    	cgst = 0;
-    	sgst = 0;
-    	
-    	if(data.state == 'same') {
-    		$("#sgstpercent").text(data.sgst);
-            $("#sgstdiv").show();
-            sgst = data.sgst;
-            
-            $("#cgstpercent").text(data.cgst);
-            $("#cgstdiv").show();
-            cgst = data.cgst;
-            
-            $("#igstdiv").hide();
-            
-    	} else {
-    		$("#igstpercent").text(data.igst);
-            $("#igstdiv").show();
-            igst = data.igst;
-    	}
-    	
-    	grandtotal(sgst, cgst, igst);
+      igst = 0;
+      cgst = 0;
+      sgst = 0;
+
+      if (data.state == "same") {
+        $("#sgstpercent").text(data.sgst);
+        $("#sgstdiv").show();
+        sgst = data.sgst;
+
+        $("#cgstpercent").text(data.cgst);
+        $("#cgstdiv").show();
+        cgst = data.cgst;
+
+        $("#igstdiv").hide();
+      } else {
+        $("#igstpercent").text(data.igst);
+        $("#igstdiv").show();
+        igst = data.igst;
+      }
+
+      grandtotal(sgst, cgst, igst);
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       // alert("No tax details found.");
@@ -287,7 +305,7 @@ $(".calcy").on("click", function () {
   $("#cgstpercent").text(cgst);
   $("#igstpercent").text(igst);
   grandtotal(sgst, cgst, igst);
-});
+}
 
 $(document).on("keypress", ".paypercent", function (event) {
   var regex = new RegExp("^[0-9]+$");
@@ -300,17 +318,17 @@ $(document).on("keypress", ".paypercent", function (event) {
 });
 
 function grandtotal(sgst, cgst, igst) {
-  ordertotal = parseFloat($("#ordertotal").text()).toFixed(2)
-  if ($("#id_paypercent").val() == ""){
-    paypercent = 0
+  ordertotal = parseFloat($("#ordertotal").text()).toFixed(2);
+  if ($("#id_paypercent").val() == "") {
+    paypercent = 0;
   } else {
-    paypercent = $("#id_paypercent").val()
+    paypercent = $("#id_paypercent").val();
   }
-  qtyid = (ordertotal * paypercent)/ 100;
-  sgstval = (sgst * qtyid)/ 100;
-  cgstval = (cgst * qtyid)/ 100;
-  igstval = (igst * qtyid)/ 100;
-  total = (qtyid + sgstval + cgstval + igstval)
+  qtyid = (ordertotal * paypercent) / 100;
+  sgstval = (sgst * qtyid) / 100;
+  cgstval = (cgst * qtyid) / 100;
+  igstval = (igst * qtyid) / 100;
+  total = qtyid + sgstval + cgstval + igstval;
   $("#sgstvalue").text(sgstval);
   $("#cgstvalue").text(cgstval);
   $("#igstvalue").text(igstval);

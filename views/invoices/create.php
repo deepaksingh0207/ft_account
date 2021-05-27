@@ -81,8 +81,6 @@
                       </div>
                     </div>
 
-
-
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="bill_id">Bill To :</label>
@@ -145,7 +143,6 @@
                               <th class="min100">Sr No. </th>
                               <th class="min100 text-left">Line Items</th>
                               <th class="">% Slab </th>
-                              <th class="min100"></th>
                               <th class="min100">Sub Total
                               </th>
                             </tr>
@@ -157,7 +154,7 @@
                               <td class="text-left">
                                 <div class="form-group mb-0">
                                   <select class="form-control ftsm" style="width: 100%;" name="payment_term" id="id_paytype">
-                                  <option value="" selected="selected"></option>
+                                    <option value="" selected="selected"></option>
                                     <option value="Advance">Advance </option>
                                     <option value="UAT Submit">UAT Submit</option>
                                     <option value="GO Live">GO Live </option>
@@ -175,9 +172,6 @@
                                     </div>
                                   </div>
                                 </div>
-                              </td>
-                              <td>
-                                <button type="button" class="calcy btn btn-sm btn-primary">Apply</button>
                               </td>
                               <td id="id_paytotal_div">
                                 <div>0</div>
