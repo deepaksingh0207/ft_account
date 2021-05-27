@@ -131,7 +131,7 @@
                               <th class="min100">Description</th>
                               <th class="minmax150">Qty </th>
                               <th class="min100">Unit Price</th>
-                              <th class="min100">Sub Total</th>
+                              <th class="min100">Order Total</th>
                               <th class="min100">Delete</th>
                             </tr>
                           </thead>
@@ -171,70 +171,29 @@
                               <th class="min100">Sr No. </th>
                               <th class="min100 text-left">Line Items</th>
                               <th class="">% Slab </th>
-                              <th class="min100">Delete</th>
-                              <th class="min100" style="color: crimson;">Sub Total + GST
+                              <th class="min100">Apply</th>
+                              <th class="min100">Sub Total
                               </th>
                             </tr>
                           </thead>
                           <tbody id="id_paytype_body">
-                            <!-- <tr>
-                              <td>1</td>
-                              <td>Advance
-                                <input type="text" list="paytype_list" class="form-control ftsm" name="paytype" id="id_paytype">
-                                <datalist id='paytype_list'>
-                                  <option value='Advance'></option>
-                                  <option value='Design UI/UX'></option>
-                                  <option value='Development & Testing'></option>
-                                  <option value='UAT Submit'></option>
-                                  <option value='Deployment / Go Live'></option>
-                                </datalist>
-                              </td>
-                              <td>
-                                <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm minmax100" name="subtotal[]" id="id_subtotal">
-                                  <div class="input-group-append">
-                                    <div class="input-group-text">
-                                      <i class="fas fa-percentage"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <i class='fas fa-minus-circle bin mt-1' style='color: red' disabled></i>
-                              </td>
-                              <td></td>
-                            </tr> -->
                             <tr id="row1">
                               <td>1
                               </td>
-                              <td class="text-left"><input type="text" name="paytype[]" id="id_paytype1" value="Advance" class="form-control ftsm" disabled></td>
-                              <td>
-                                <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm subtotal minmax100" name="subtotal[]" id="id_subtotal1">
-                                  <div class="input-group-append">
-                                    <div class="input-group-text">
-                                      <i class="fas fa-percentage"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <i class='fas fa-minus-circle bin mt-1' id="id_bin1" style='color: red' disabled></i>
-                              </td>
-                              <td id="gsttotal1">
-                                <div></div>
-                                <input type="hidden" name="paytotal[]" id="id_paytotal1">
-                              </td>
-                            </tr>
-                            <tr id="row2">
-                              <td>2
-                              </td>
                               <td class="text-left">
-                                <input type="text" name="paytype[]" id="id_paytype2" value="Design UI/UX" class="form-control ftsm" disabled>
+                                <div class="form-group mb-0">
+                                  <select class="form-control ftsm select2" style="width: 100%;" name="paytype" id="id_paytype">
+                                    <option value="1"selected="selected">Advance</option>
+                                    <option value="2">UAT Submit</option>
+                                    <option value="3">GO Live </option>
+                                    <option value="4">Support </option>
+                                    <option value="5">Full Payment </option>
+                                  </select>
+                                </div>
                               </td>
                               <td>
                                 <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm subtotal minmax100" name="subtotal[]" id="id_subtotal2">
+                                  <input type="tel" class="form-control ftwm subtotal minmax100" name="subtotal" id="id_subtotal">
                                   <div class="input-group-append">
                                     <div class="input-group-text">
                                       <i class="fas fa-percentage"></i>
@@ -243,98 +202,42 @@
                                 </div>
                               </td>
                               <td>
-                                <i class='fas fa-minus-circle bin mt-1' id="id_bin2" style='color: red' disabled></i>
+                              <i class="fas fa-check mt-2 calcy"></i>
                               </td>
-                              <td id="gsttotal2">
+                              <td id="id_paytotal_div">
                                 <div></div>
-                                <input type="hidden" name="paytotal[]" id="id_paytotal2">
-                              </td>
-                            </tr>
-                            <tr id="row3">
-                              <td>3
-                              </td>
-                              <td class="text-left">
-                                <input type="text" name="paytype[]" id="id_paytype3" value="Development & Testing" class="form-control ftsm" disabled>
-                              </td>
-                              <td>
-                                <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm subtotal minmax100" name="subtotal[]" id="id_subtotal3">
-                                  <div class="input-group-append">
-                                    <div class="input-group-text">
-                                      <i class="fas fa-percentage"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <i class='fas fa-minus-circle bin mt-1' id="id_bin3" style='color: red' disabled></i>
-                              </td>
-                              <td id="gsttotal3">
-                                <div></div>
-                                <input type="hidden" name="paytotal[]" id="id_paytotal3">
-                              </td>
-                            </tr>
-                            <tr id="row4">
-                              <td>4
-                              </td>
-                              <td class="text-left">
-                                <input type="text" name="paytype[]" id="id_paytype4" value="UAT Submit" class="form-control ftsm" disabled>
-                              </td>
-                              <td>
-                                <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm subtotal minmax100" name="subtotal[]" id="id_subtotal4">
-                                  <div class="input-group-append">
-                                    <div class="input-group-text">
-                                      <i class="fas fa-percentage"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <i class='fas fa-minus-circle bin mt-1' id="id_bin4" style='color: red' disabled></i>
-                              </td>
-                              <td id="gsttotal4">
-                                <div></div>
-                                <input type="hidden" name="paytotal[]" id="id_paytotal4">
-                              </td>
-                            </tr>
-                            <tr id="row5">
-                              <td>5
-                              </td>
-                              <td class="text-left">
-                                <input type="text" name="paytype[]" id="id_paytype5" value="Deployment / Go Live" class="form-control ftsm" disabled>
-                              </td>
-                              <td>
-                                <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm subtotal minmax100" name="subtotal[]" id="id_subtotal5">
-                                  <div class="input-group-append">
-                                    <div class="input-group-text">
-                                      <i class="fas fa-percentage"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <i class='fas fa-minus-circle bin mt-1' id="id_bin5" style='color: red' disabled></i>
-                              </td>
-                              <td id="gsttotal5">
-                                <div></div>
-                                <input type="hidden" name="paytotal[]" id="id_paytotal5">
+                                <input type="hidden" name="paytotal" id="id_paytotal">
                               </td>
                             </tr>
                           </tbody>
                         </table>
                         <hr class="mt-0">
                       </div>
-                      <div class="col-6 text-left pl-4">
-                        <button type="button" class="btn btn-sm btn-primary ml-5" id="add_item">
-                          <i class="fas fa-plus"></i>
-                        </button>
+                      
+                      <div class="col-12 text-right">
+                        <input type="hidden" name="sgst" id="id_sgst" value="">
+                        <b>IGST : </b>₹
+                        <span id="sgstvalue">0.00</span>
+                        ( <span id="sgstpercent">0</span> % )
                       </div>
-                      <div class="col-6 text-right" style="color: crimson;">
+
+                      <div class="col-12 text-right">
+                        <input type="hidden" name="cgst" id="id_cgst" value="">
+                        <b>CGST : </b>₹
+                        <span id="cgstvalue">0.00</span>
+                        ( <span id="cgstpercent">0</span> % )
+                      </div>
+                      
+                      <div class="col-12 text-right">
+                        <input type="hidden" name="cgst" id="id_igst" value="">
+                        <b>SGST : </b>₹
+                        <span id="igstvalue">0.00</span>
+                        ( <span id="igstpercent">0</span> % )
+                      </div>
+                      <div class="col-12 text-right" style="color: crimson;">
                         <input type="hidden" name="gsttotal" id="id_gsttotal" value="">
                         <b>Total : </b>₹
-                        <span id="gsttotal">0.00</span>
+                        <span id="gstvalue">0.00</span>
                       </div>
                     </div>
 

@@ -290,6 +290,42 @@ $(document).on("change", ".qty", function () {
   ttotal();
 });
 
+$(document).on("change", "#id_paytype", function () {
+  if ($(this).val() == "5") {
+    $("#id_subtotal").val("100");
+  }
+});
+
+$(".calcy").on("click", function () {
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "orders/" + 9,
+    dataType: "json",
+    encode: true,
+  })
+    .done(function (data) {
+      $.each(data, function (key, value) {
+        if (key == "sgst") {
+          $("#sgstpercent").text(value);
+        }
+        if (key == "cgst") {
+          $("#cgstpercent").text(value);
+        }
+        if (key == "igst") {
+          $("#igstpercent").text(value);
+        }
+      });
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("No tax details found.");
+    });
+    // test purpose
+    $("#sgstpercent").text(9);
+    $("#cgstpercent").text(9);
+    $("#igstpercent").text(9);
+    grandtotal();
+});
+
 // Calculation Sub Total & Total
 function ttotal() {
   var idlist = $("#id_tr").val().split(",");
@@ -430,50 +466,19 @@ $(document).on("keypress", ".subtotal", function (event) {
   }
 });
 
-$(document).on("change", ".subtotal", function () {
-  var idlist = $("#id_paytype_val").val().split(",");
-  var cent = 100;
-  var total = 0;
-  if (idlist != "") {
-    $.each(idlist, function (index, value) {
-      if ($("#id_subtotal" + value).val() != "") {
-        newval = parseInt($("#id_subtotal" + value).val());
-        total += newval;
-      }
-    });
-  }
-  if (total > cent) {
-    $(this).val($(this).val() - (total - cent));
-  }
-
-  var valeu = parseInt($(this).val());
-  var qtyid = $(this).attr("id");
-  id = qtyid.match(/\d+/);
-  subtotal = parseFloat($("#total").text());
-  breakvalue = (valeu / 100) * subtotal;
-  total = (breakvalue * gst) / 100 + breakvalue;
-  $("#gsttotal" + id[0])
-    .children()
-    .first()
-    .html(total.toFixed(2));
-  $("#id_paytotal" + id[0]).val(total.toFixed(2));
-  grandtotal();
-});
-
 function grandtotal() {
-  var idlist = $("#id_paytype_val").val().split(",");
-  var total = 0.0;
-  if (idlist != "") {
-    $.each(idlist, function (index, value) {
-      if ($("#id_paytotal" + value).val() != "") {
-        total += parseFloat($("#id_paytotal" + value).val());
-      }
-    });
-    $("#id_gsttotal").val(total);
-    $("#gsttotal").text(parseFloat(total.toFixed(2)));
-  } else {
-    total = 0.0;
-    $("#id_gsttotal").val(total);
-    $("#gsttotal").text(parseFloat(total.toFixed(2)));
-  }
+  qtyid = parseInt($("#total").text()) * $("#id_subtotal").val();
+  qtyid = qtyid / 100;
+  sgst = ((parseInt($("#sgstpercent").text())/100)* qtyid);
+  cgst = ((parseInt($("#cgstpercent").text())/100)* qtyid);
+  igst = ((parseInt($("#igstpercent").text())/100)* qtyid);
+  total = (parseFloat(qtyid)+parseFloat(sgst)+parseFloat(cgst)+parseFloat(igst)).toFixed(2)
+  $("#sgstvalue").text(sgst.toFixed(2));
+  $("#cgstvalue").text(cgst.toFixed(2));
+  $("#igstvalue").text(igst.toFixed(2));
+  $("#id_paytotal_div").children().first().html(qtyid);
+  $("#id_paytotal").val(qtyid);
+  $("#gstvalue").text(total);
+  $("#id_gsttotal").val(total);
+  
 }
