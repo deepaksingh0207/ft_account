@@ -12,7 +12,8 @@ $(function () {
   // Form Validation
   $.validator.setDefaults({
     submitHandler: function () {
-      form.submit();
+      // form.submit();
+      $("#responsemodal").click()
     },
   });
   $("#quickForm").validate({

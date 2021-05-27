@@ -20,7 +20,7 @@
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                    <button type="submit" class="btn btn-sm btn-primary">Record</button>
+                      <button type="submit" class="btn btn-sm btn-primary">Record</button>
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
@@ -228,7 +228,7 @@
                   </div>
                 </div>
 
-                <button type="" class="btn btn-default" data-toggle="modal" data-target="#modal-sm" style="display: none;"></button>
+                <button type="button" id="responsemodal" class="btn btn-default" data-toggle="modal" data-target="#modal-sm" style="display: none;"></button>
 
                 <div class="modal fade" id="modal-sm">
                   <div class="modal-dialog modal-sm">
@@ -243,8 +243,8 @@
                         <p>Are you confirm to generate invoice?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-sm btn-default" >Close</button>
-                        <button type="submit" class="btn btn-sm btn-primary" >Save changes</button>
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">Close</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">Save changes</button>
                       </div>
                     </div>
                     <!-- /.modal-content -->
