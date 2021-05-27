@@ -226,6 +226,7 @@ $(document).on("change", ".qty", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
   subtotal = rowcollector(id[0]);
+  $("#total" + id[0]).val(subtotal)
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
@@ -235,6 +236,7 @@ $(document).on("change", ".unitprice", function () {
   var unitpriceid = $(this).attr("id");
   id = unitpriceid.match(/\d+/);
   subtotal = rowcollector(id[0]);
+  $("#total" + id[0]).val(subtotal)
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
