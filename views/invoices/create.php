@@ -65,15 +65,6 @@
                       </div>
                     </div>
 
-                    <!-- <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_payindays">Pay in days :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control ftsm" name="pay_days" id="id_payindays" minlength="1" minlength="3" />
-                      </div>
-                    </div> -->
-
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
                         <label for="customer_id">Customer PO No. :</label>
@@ -138,27 +129,13 @@
                         </table>
                         <hr class="mt-0">
                       </div>
-                      <!-- <div class="col-12">
-                        <div class="row">
-                          <div class="col-sm-12 col-md-12 mb-2">
-                            <button type="button" id="add_item" class="btn btn-primary btn-sm" disabled>
-                              ADD ITEM
-                            </button>
-                          </div>
-                        </div>
-                      </div> -->
 
                     </div>
                     <div class="row">
-                      <!-- <div class="col-12 text-right">
-                        <input type="hidden" name="invoicetotal" id="id_ordertotal" value="0.00">
-                        <b>Subtotal : </b>₹
-                        <span id="subtotal_id">0.00</span>
-                      </div> -->
                       <div class="col-12 text-right">
-                        <input type="hidden" name="invoicetotal" id="id_ordertotal" value="0.00">
+                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.00">
                         <b>Sub Total : </b>₹
-                        <span id="total">0.00</span>
+                        <span id="ordertotal">0.00</span>
                       </div>
                     </div>
 
@@ -182,17 +159,17 @@
                               <td class="text-left">
                                 <div class="form-group mb-0">
                                   <select class="form-control ftsm" style="width: 100%;" name="paytype" id="id_paytype">
-                                    <option value="1"selected="selected">Advance</option>
-                                    <option value="2">UAT Submit</option>
-                                    <option value="3">GO Live </option>
-                                    <option value="4">Support </option>
-                                    <option value="5">Full Payment </option>
+                                    <option value="Advance" selected="selected">Advance </option>
+                                    <option value="UAT Submit">UAT Submit</option>
+                                    <option value="GO Live">GO Live </option>
+                                    <option value="Support">Support </option>
+                                    <option value="Full Payment">Full Payment </option>
                                   </select>
                                 </div>
                               </td>
                               <td>
                                 <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm subtotal minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="subtotal" id="id_subtotal">
+                                  <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="paypercent" id="id_paypercent">
                                   <div class="input-group-append">
                                     <div class="input-group-text">
                                       <i class="fas fa-percentage"></i>
@@ -201,7 +178,7 @@
                                 </div>
                               </td>
                               <td>
-                              <button type="button" class="calcy btn btn-sm btn-primary">Apply</button>
+                                <button type="button" class="calcy btn btn-sm btn-primary">Apply</button>
                               </td>
                               <td id="id_paytotal_div">
                                 <div>0</div>
@@ -212,29 +189,30 @@
                         </table>
                         <hr class="mt-0">
                       </div>
-                      
-                      <div class="col-12 text-right">
+
+                      <div class="col-12 text-right" id="sgstdiv" style="display: none;">
                         <input type="hidden" name="sgst" id="id_sgst" value="">
-                        <b>IGST : </b>₹
+                        <b>SGST : </b>₹
                         <span id="sgstvalue">0.00</span>
                         ( <span id="sgstpercent">0</span> % )
                       </div>
 
-                      <div class="col-12 text-right">
+                      <div class="col-12 text-right" id="cgstdiv" style="display: none;">
                         <input type="hidden" name="cgst" id="id_cgst" value="">
                         <b>CGST : </b>₹
                         <span id="cgstvalue">0.00</span>
                         ( <span id="cgstpercent">0</span> % )
                       </div>
-                      
-                      <div class="col-12 text-right">
-                        <input type="hidden" name="cgst" id="id_igst" value="">
-                        <b>SGST : </b>₹
+
+                      <div class="col-12 text-right" id="igstdiv" style="display: none;">
+                        <input type="hidden" name="igst" id="id_igst" value="">
+                        <b>IGST : </b>₹
                         <span id="igstvalue">0.00</span>
                         ( <span id="igstpercent">0</span> % )
                       </div>
+
                       <div class="col-12 text-right" style="color: crimson;">
-                        <input type="hidden" name="gsttotal" id="id_gsttotal" value="">
+                        <input type="hidden" name="invoicetotal" id="id_invoicetotal" value="">
                         <b>Total : </b>₹
                         <span id="gstvalue">0.00</span>
                       </div>
@@ -244,18 +222,6 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <!-- <button type="submit" class="btn btn-sm btn-default" name="submit" value="save">
-                        Save
-                      </button>
-                      <button type="submit" class="btn btn-sm btn-default" name="submit" value="save_recurring">
-                        Save & Recurring
-                      </button>
-                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_print">
-                        Record & Print
-                      </button>
-                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_email">
-                        Record & Email
-                      </button> -->
                       <button type="submit" class="btn btn-sm btn-primary">
                         Record
                       </button>
