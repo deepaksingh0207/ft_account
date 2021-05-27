@@ -170,7 +170,7 @@
                               <th class="min100">Sr No. </th>
                               <th class="min100 text-left">Line Items</th>
                               <th class="">% Slab </th>
-                              <th class="min100">Apply</th>
+                              <th class="min100"></th>
                               <th class="min100">Sub Total
                               </th>
                             </tr>
