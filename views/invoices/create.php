@@ -204,7 +204,7 @@
                               <button type="button" class="calcy btn btn-sm btn-primary">Apply</button>
                               </td>
                               <td id="id_paytotal_div">
-                                <div></div>
+                                <div>0</div>
                                 <input type="hidden" name="paytotal" id="id_paytotal">
                               </td>
                             </tr>

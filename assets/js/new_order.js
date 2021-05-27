@@ -157,9 +157,9 @@ function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
       charlie +
-      "'><td><input class='form-control ftsm' name='item[]' id='id_item" +
+      "'><td><input class='form-control ftsm itmy' name='item[]' id='id_item" +
       charlie +
-      "' placeholder='Enter item name' /></td><td><input class='form-control ftsm'  name='description[]' id='id_description" +
+      "' placeholder='Enter item name' /></td><td><input class='form-control ftsm desp'  name='description[]' id='id_description" +
       charlie +
       "' placeholder='Enter Description...' /></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
       charlie +
@@ -216,17 +216,32 @@ $("#add_item").on("click", function () {
   console.log($("#id_tr").val());
 });
 
-// Monitoring Tax Field
-// $(".tax").change(function () {
-//   ttotal();
-// });
+
+$(document).on("change", ".itmy", function () {
+  var qtyid = $(this).attr("id");
+  id = qtyid.match(/\d+/);
+  if (qtyid.val() != ""){
+    $("#id_unitprice" + id[0]).attr("required");
+    $("#id_quantity" + id[0]).attr("required");
+  }
+});
+
+$(document).on("change", ".desp", function () {
+  var qtyid = $(this).attr("id");
+  id = qtyid.match(/\d+/);
+  if (qtyid.val() != ""){
+    $("#id_unitprice" + id[0]).attr("required");
+    $("#id_quantity" + id[0]).attr("required");
+  }
+});
 
 // Monitoring Quantity Field
 $(document).on("change", ".qty", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
   subtotal = rowcollector(id[0]);
-  $("#total" + id[0]).val(subtotal)
+  $("#id_unitprice" + id[0]).attr("required");
+  $("#total" + id[0]).val(subtotal);
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
@@ -236,7 +251,8 @@ $(document).on("change", ".unitprice", function () {
   var unitpriceid = $(this).attr("id");
   id = unitpriceid.match(/\d+/);
   subtotal = rowcollector(id[0]);
-  $("#total" + id[0]).val(subtotal)
+  $("#id_quantity" + id[0]).attr("required");
+  $("#total" + id[0]).val(subtotal);
   $("#id_total" + id[0]).text(parseFloat(subtotal).toFixed(2));
   ttotal();
 });
@@ -277,6 +293,8 @@ function rowcollector(id) {
   rowtax = $("#id_tax" + id).val();
   total = 0;
   if (rowqty[0] != "" && rowunitprice[0] != "") {
+    $("#id_item" + id).attr("required","");
+    $("#id_description" + id).attr("required","");
     total = rowunitprice * rowqty;
     // if (rowtax[0] != "") {
     //   total += total * (rowtax / 100);
