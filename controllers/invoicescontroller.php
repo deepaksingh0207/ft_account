@@ -61,7 +61,7 @@ class InvoicesController extends Controller
                 //print_r($data); exit;
                 $invoiceId = $this->_model->save($data);
                 if($invoiceId) {
-                    $this->generateInvoice($invoiceId, $data);
+                    $this->generateInvoice($invoiceId);
                     /*
                     $tblInvoiceItem = new InvoiceItemsModel();
                     foreach($orderItems as $orderItem) {
@@ -113,63 +113,65 @@ class InvoicesController extends Controller
         }
     }
     
-    public function generateInvoice($invoiceId, $data) {
-        require_once HOME . DS. 'vendor/autoload.php';
+    public function generateInvoice($invoiceId) {
         
         $invoice = $this->_model->get($invoiceId);
         
         $customer = new CustomersModel();
         $customer = $customer->get($invoice['customer_id']);
         
+        $order = new OrdersModel();
+        $order = $order->get($invoice['order_id']);
+        
         $company = new CompanyModel();
         $company = $company->get(1);
         
+        
         $vars = array(
-            "{{INV_NO}}" => $name,
-            "{{INV_DATE}}" => $customer['cust_num'],
+            "{{INV_NO}}" => $invoiceId,
+            "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
             "{{COMPANY_BILLTO}}" => $company['address'],
             "{{COMP_TEL}}" => $company['contact'],
             "{{COMP_PAN}}" => $company['pan'],
             "{{COMP_SAC}}" => $company['sac'],
             "{{COMP_GSTIN}}" => $company['gstin'],
-            "{{PO_NO}}" => date('d.m.Y'),
-            "{{PO_DATE}}" => date('d.m.Y'),
-            "{{CUST_ADDRESS}}" => date('d.m.Y'),
-            "{{CUST_TEL}}" => date('d.m.Y'),
-            "{{CUST_FAX}}" => date('d.m.Y'),
-            "{{CUST_PAN}}" => date('d.m.Y'),
-            "{{CUST_GST}}" => date('d.m.Y'),
-            "{{CUST_SHIPTO}}" => date('d.m.Y'),
-            "{{CUST_CONT_PERSON}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
+            "{{PO_NO}}" => $invoice['po_no'],
+            "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
+            "{{CUST_ADDRESS}}" => $invoice['bill_to'],
+            "{{CUST_TEL}}" => $customer['pphone'],
+            "{{CUST_FAX}}" => $customer['fax'],
+            "{{CUST_PAN}}" => $customer['pan'],
+            "{{CUST_GST}}" => $customer['gstin'],
+            "{{CUST_SHIPTO}}" => $invoice['ship_to'],
+            "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
+            
         );
         
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
         
+        require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
         $mpdf->Output('pdf/testmail.pdf', 'F');
         
-        sendMail();
+        $this->sendMail($invoice);
     }
     
-    function sendMail() {
+    function sendMail($invoice) {
+        
         $sentMailTo = array();
         $sentMailTo = FXD_EMAIL_IDS;
         
         try {
             $mailer = $this->_utils->getMailer();
-            $message = (new Swift_Message(" Your action is required"))
-            ->setContentType("text/plain")
+            $message = (new Swift_Message("Invoice copy #$invoice[id] against PO $invoice[po_no]" ))
+            ->setContentType("text/html")
             ->setFrom([HD_MAIL_ID => HD_NAME])
             ->setTo($sentMailTo)
             ->setBcc(FXD_EMAIL_IDS)
-            ->setBody("PFA")
+            ->setBody("Hi Sir/Mam, <br><br> PFA invoice <br><br><br><br> Regards,<br>Account")
             ->attach(
-                Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('testmail.pdf')->setContentType('application/pdf')
+                Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
                 );
             
             // Send the message
