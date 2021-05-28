@@ -59,10 +59,9 @@ class InvoicesController extends Controller
                 
                 //print_r($orderItems);
                 //print_r($data); exit;
-                //$invoiceId = $this->_model->save($data);
-                if($this->_model->save($data)) {
-                    
-                    $this->generateInvoice($data);
+                $invoiceId = $this->_model->save($data);
+                if($invoiceId) {
+                    $this->generateInvoice($invoiceId, $data);
                     /*
                     $tblInvoiceItem = new InvoiceItemsModel();
                     foreach($orderItems as $orderItem) {
@@ -114,28 +113,61 @@ class InvoicesController extends Controller
         }
     }
     
-    public function generateInvoice($data) {
+    public function generateInvoice($invoiceId, $data) {
         require_once HOME . DS. 'vendor/autoload.php';
         
+        $invoice = $this->_model->get($invoiceId);
         
+        $customer = new CustomersModel();
+        $customer = $customer->get($invoice['customer_id']);
         
-        $messageBody = file_get_contents('./assets/mail_template/invoice_template.html');
+        $company = new CompanyModel();
+        $company = $company->get(1);
         
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A2-L']);
+        $vars = array(
+            "{{INV_NO}}" => $name,
+            "{{INV_DATE}}" => $customer['cust_num'],
+            "{{COMPANY_BILLTO}}" => $company['address'],
+            "{{COMP_TEL}}" => $company['contact'],
+            "{{COMP_PAN}}" => $company['pan'],
+            "{{COMP_SAC}}" => $company['sac'],
+            "{{COMP_GSTIN}}" => $company['gstin'],
+            "{{PO_NO}}" => date('d.m.Y'),
+            "{{PO_DATE}}" => date('d.m.Y'),
+            "{{CUST_ADDRESS}}" => date('d.m.Y'),
+            "{{CUST_TEL}}" => date('d.m.Y'),
+            "{{CUST_FAX}}" => date('d.m.Y'),
+            "{{CUST_PAN}}" => date('d.m.Y'),
+            "{{CUST_GST}}" => date('d.m.Y'),
+            "{{CUST_SHIPTO}}" => date('d.m.Y'),
+            "{{CUST_CONT_PERSON}}" => date('d.m.Y'),
+            "{{COMP_PAN}}" => date('d.m.Y'),
+            "{{COMP_PAN}}" => date('d.m.Y'),
+            "{{COMP_PAN}}" => date('d.m.Y'),
+            "{{COMP_PAN}}" => date('d.m.Y'),
+        );
+        
+        $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+        
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
         $mpdf->Output('pdf/testmail.pdf', 'F');
         
+        sendMail();
+    }
+    
+    function sendMail() {
         $sentMailTo = array();
         $sentMailTo = FXD_EMAIL_IDS;
         
         try {
             $mailer = $this->_utils->getMailer();
             $message = (new Swift_Message(" Your action is required"))
-            ->setContentType("text/html")
+            ->setContentType("text/plain")
             ->setFrom([HD_MAIL_ID => HD_NAME])
             ->setTo($sentMailTo)
             ->setBcc(FXD_EMAIL_IDS)
-            ->setBody($messageBody)
+            ->setBody("PFA")
             ->attach(
                 Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('testmail.pdf')->setContentType('application/pdf')
                 );

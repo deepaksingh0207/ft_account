@@ -80,7 +80,7 @@ class InvoicesModel extends Model {
     
     
     public function getInvoicesOfOrder($orderId) {
-        $sql = "select * from invoices where order_id = $orderId order by id desc limit 1";
+        $sql = "select * from invoices where order_id = $orderId order by id desc";
         $this->_setSql($sql);
         $invoices = $this->getAll();
         if (empty($invoices)){

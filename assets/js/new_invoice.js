@@ -199,6 +199,7 @@ $("#invoice_list_layout").hide();
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
         $("#ship_id").val(data.order.ship_to);
+        
         fillOrderInvoices(data.invoices);
         fillorderitems(data.items);
       })
@@ -209,15 +210,10 @@ $("#invoice_list_layout").hide();
 });
 
 function fillOrderInvoices(datadict) {
-  var ttotal = 0;
   var arr = $("#id_tr").val().split(",");
-  var i = 0;
   var data = eval(datadict);
-  var total = 0;
   $("#invoice_list_layout").show();
   for (var key in data) {
-    arr[i] = data[key].id;
-    i++;
     if (data.hasOwnProperty(key)) {
       if (key != "") {
         $("#invoicelist").append(

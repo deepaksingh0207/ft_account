@@ -101,8 +101,10 @@ class OrdersController extends Controller
             $invoiceModel = new InvoicesModel();
             $invoices = $invoiceModel->getInvoicesOfOrder($id);
             
-            foreach($invoices as &$invoice) {
-                $invoice['invoice_date'] = date('d M Y', strtotime($invoice['invoice_date']));
+            if($invoices) {
+                foreach($invoices as &$invoice) {
+                    $invoice['invoice_date'] = date('d M Y', strtotime($invoice['invoice_date']));
+                }
             }
             
             $result = array();
