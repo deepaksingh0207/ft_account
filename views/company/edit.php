@@ -136,6 +136,34 @@
 												</select>
 											</div>
 										</div>
+										
+										<div class="row mx-1">
+											<div class="col-sm-12 col-lg-2">
+												<label for="id_pincode"> Bank Name </label>
+											</div>
+											<div class="col-sm-12 col-lg-3 form-group">
+												<input type="tel" class="form-control fc ftsm numberonly" name="bank_name" id="id_bankname"  value="<?php echo $customer['bank_name'] ?>" />
+											</div>
+										</div>
+										
+										<div class="row mx-1">
+											<div class="col-sm-12 col-lg-2">
+												<label for="id_pincode"> Account No. </label>
+											</div>
+											<div class="col-sm-12 col-lg-3 form-group">
+												<input type="tel" class="form-control fc ftsm numberonly" name="account_no" id="id_account" value="<?php echo $customer['account_no'] ?>" />
+											</div>
+										</div>
+										
+										<div class="row mx-1">
+											<div class="col-sm-12 col-lg-2">
+												<label for="id_pincode"> IFSC Code </label>
+											</div>
+											<div class="col-sm-12 col-lg-3 form-group">
+												<input type="tel" class="form-control fc ftsm numberonly" name="ifsc_code" id="id_ifsc"  value="<?php echo $customer['ifsc_code'] ?>" />
+											</div>
+										</div>
+										
 									</div>
 									<div class="card-footer text-right">
 										<button type="submit" class="btn btn-primary btn-sm vip" disabled>
