@@ -13,7 +13,8 @@ class Utils {
     function getMailer() {
         require_once HOME . DS. 'vendor/autoload.php';
         // Create the Transport
-        $transport = (new Swift_SmtpTransport(MAIL_TRANSPORT))
+        //$transport = (new Swift_SmtpTransport(MAIL_TRANSPORT, 587))
+        $transport = (new Swift_SmtpTransport(MAIL_TRANSPORT, 587, 'tls'))
         ->setUsername(HD_MAIL_ID)
         ->setPassword(HD_MAIL_PWD);
         

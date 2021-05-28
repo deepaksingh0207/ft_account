@@ -121,9 +121,11 @@ class InvoicesController extends Controller
         
         $messageBody = file_get_contents('./assets/mail_template/invoice_template.html');
         
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A2-L']);
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
         $mpdf->Output('pdf/testmail.pdf', 'F');
+        
+        
         
         $sentMailTo = array();
         $sentMailTo = FXD_EMAIL_IDS;
