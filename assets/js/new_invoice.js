@@ -2,6 +2,9 @@ var baseUrl = window.location.origin + "/ft_account/";
 var gst = 9;
 var orderidlist = [];
 var invoiceidlist = [];
+var invoicetotal = 0
+var pendingtotal = 0
+var ordertotal = 0
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -167,7 +170,9 @@ function resetform() {
       tridupdate(value);
     });
   }
+  $("#order_list_layout").hide("");
   $("#paytype_div").hide("");
+  $("#invoice_list_layout").hide();
 }
 
 $("#id_orderid").change(function () {
@@ -195,7 +200,6 @@ $("#id_orderid").change(function () {
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
         $("#ship_id").val(data.order.ship_to);
-
         fillOrderInvoices(data.invoices);
         fillorderitems(data.items);
       })
@@ -209,39 +213,32 @@ function fillOrderInvoices(datadict) {
   var data = eval(datadict);
   $("#invoice_list_layout").show();
   $("#order_list_layout").show();
+  invoicetotal = 0
   for (var key in data) {
+    invoicetotal += parseFloat(data[key].sub_total);
+    console.log(invoicetotal);
     if (data.hasOwnProperty(key)) {
       if (key != "") {
         $("#invoicelist").append(
-          "<tr>" +
-            "<td>" +
+          "<tr><td>" +
             data[key].id +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].payment_term +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].pay_percent +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].sub_total +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].igst +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].cgst +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].sgst +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].invoice_total +
-            "</td>" +
-            "<td>" +
+            "</td><td>" +
             data[key].invoice_date +
-            "</td>" +
-            "</tr>"
+            "</td></tr>"
         );
       }
     }
@@ -249,7 +246,7 @@ function fillOrderInvoices(datadict) {
 }
 
 function fillorderitems(datadict) {
-  var ttotal = 0;
+  ordertotal = 0;
   var i = 0;
   var data = eval(datadict);
   var total = 0;
@@ -274,27 +271,29 @@ function fillorderitems(datadict) {
           total = unitprice * quantity;
         }
         $("#ordertotal" + di).text(parseFloat(total).toFixed(2));
+        // ordertotal = parseFloat(total).toFixed(2)
       }
     }
-    ttotal += total;
+    ordertotal += total;
   }
-  $("#id_ordertotal").val(ttotal);
-  $("#ordertotal").text(parseFloat(ttotal).toFixed(2));
+
+  $("#ordertotal").text(parseFloat(ordertotal).toFixed(2));
+  pendingtotal = ordertotal - invoicetotal;
+  $("#pendingbalance").text(pendingtotal);
   $("#id_paypercent").val("");
   $("#id_paytype").val("");
-
   calcy();
 }
 
-$(document).on("change", "#id_paypercent", function () {
-  if ($(this).val() > 100) {
-    $(this).val("100");
-  }
-  if ($(this).val() == 100) {
-    $("#id_paytype").val("Full Payment");
-  }
-  calcy();
-});
+// $(document).on("change", "#id_paypercent", function () {
+//   if ($(this).val() > 100) {
+//     $(this).val("100");
+//   }
+//   if ($(this).val() == 100) {
+//     $("#id_paytype").val("Full Payment");
+//   }
+//   calcy();
+// });
 
 $(document).on("change", "#id_paytype", function () {
   if ($(this).val() == "Full Payment") {
@@ -315,11 +314,8 @@ function calcy() {
     encode: true,
   })
     .done(function (data) {
-      igst = 0;
-      cgst = 0;
-      sgst = 0;
-
       if (data.state == "same") {
+        console.log(data);
         $("#sgstpercent").text(data.sgst);
         $("#sgstdiv").show();
         sgst = data.sgst;
@@ -341,30 +337,33 @@ function calcy() {
       // alert("No tax details found.");
     });
   // test purpose
-  $("#sgstpercent").text(sgst);
-  $("#cgstpercent").text(cgst);
-  $("#igstpercent").text(igst);
+  // $("#sgstpercent").text(sgst);
+  // $("#cgstpercent").text(cgst);
+  // $("#igstpercent").text(igst);
   grandtotal(sgst, cgst, igst);
 }
 
-$(document).on("keypress", ".paypercent", function (event) {
-  var regex = new RegExp("^[0-9]+$");
+$(document).on("keypress", "#id_paypercent", function (event) {
+  // var regex = new RegExp("^[0-9]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
 
-  if (!regex.test(key)) {
-    event.preventDefault();
-    return false;
-  }
+  // if (key > 100) {
+  //   $(this).val("100");
+  // }
+  // if (key == 100) {
+  //   $("#id_paytype").val("Full Payment");
+  // }
+  calcy();
 });
 
 function grandtotal(sgst, cgst, igst) {
-  ordertotal = parseFloat($("#ordertotal").text()).toFixed(2);
   if ($("#id_paypercent").val() == "") {
     paypercent = 0;
   } else {
     paypercent = $("#id_paypercent").val();
   }
   qtyid = (ordertotal * paypercent) / 100;
+  // qtyid = (pendingtotal * paypercent) / 100;
   sgstval = (sgst * qtyid) / 100;
   cgstval = (cgst * qtyid) / 100;
   igstval = (igst * qtyid) / 100;
@@ -379,6 +378,6 @@ function grandtotal(sgst, cgst, igst) {
   $("#igstvalue").text(igstval);
   $("#id_paytotal_div").children().first().html(qtyid);
   $("#id_paytotal").val(qtyid);
-  $("#gstvalue").text(total);
+  $("#gstvalue").text(total.toFixed(2));
   $("#id_invoicetotal").val(total);
 }

@@ -126,7 +126,6 @@
                           </table>
                           <hr class="mt-0">
                           <div class="text-right">
-                            <!-- <input type="hidden" name="order_total" id="id_ordertotal" value="0.00"> -->
                             <b>Sub Total : </b>₹
                             <span id="ordertotal">0.00</span>
                           </div>
@@ -168,7 +167,7 @@
                     <div class="row" id="paytype_div" style="display:none">
                       <div class="col-12 table-responsive card">
                         <div class="card-header">
-                        <b>Generate New Invoice</b>
+                          <b>Generate New Invoice</b>
                         </div>
                         <div class="card-body">
                           <table class="table text-center mb-0">
@@ -215,35 +214,29 @@
                             </tbody>
                           </table>
                           <hr class="mt-0">
+                          <div class="col-12 text-right" id="sgstdiv" style="display: none;">
+                            <input type="hidden" name="sgst" id="id_sgst" value="">
+                            <b>SGST <span id="sgstpercent"></span>% </b>:₹
+                            <span id="sgstvalue">0.00</span>
+                          </div>
+                          <div class="col-12 text-right" id="cgstdiv" style="display: none;">
+                            <input type="hidden" name="cgst" id="id_cgst" value="">
+                            <b>CGST <span id="cgstpercent"></span>% </b>:₹
+                            <span id="cgstvalue">0.00</span>
+                          </div>
+
+                          <div class="col-12 text-right" id="igstdiv" style="display: none;">
+                            <input type="hidden" name="igst" id="id_igst" value="">
+                            <b>IGST <span id="igstpercent"></span>% </b>:₹
+                            <span id="igstvalue">0.00</span>
+                          </div>
+
+                          <div class="col-12 text-right" style="color: crimson;">
+                            <input type="hidden" name="invoice_total" id="id_invoicetotal" value="">
+                            <b>Total : </b>₹
+                            <span id="gstvalue">0.00</span>
+                          </div>
                         </div>
-
-                      </div>
-
-                      <div class="col-12 text-right" id="sgstdiv" style="display: none;">
-                        <input type="hidden" name="sgst" id="id_sgst" value="">
-                        <b>SGST : </b>₹
-                        <span id="sgstvalue">0.00</span>
-                        ( <span id="sgstpercent">0</span> % )
-                      </div>
-
-                      <div class="col-12 text-right" id="cgstdiv" style="display: none;">
-                        <input type="hidden" name="cgst" id="id_cgst" value="">
-                        <b>CGST : </b>₹
-                        <span id="cgstvalue">0.00</span>
-                        ( <span id="cgstpercent">0</span> % )
-                      </div>
-
-                      <div class="col-12 text-right" id="igstdiv" style="display: none;">
-                        <input type="hidden" name="igst" id="id_igst" value="">
-                        <b>IGST : </b>₹
-                        <span id="igstvalue">0.00</span>
-                        ( <span id="igstpercent">0</span> % )
-                      </div>
-
-                      <div class="col-12 text-right" style="color: crimson;">
-                        <input type="hidden" name="invoice_total" id="id_invoicetotal" value="">
-                        <b>Total : </b>₹
-                        <span id="gstvalue">0.00</span>
                       </div>
                     </div>
 
