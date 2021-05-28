@@ -113,50 +113,53 @@ class InvoicesController extends Controller
         }
     }
     
-    public function generateInvoice($invoiceId, $data) {
-        require_once HOME . DS. 'vendor/autoload.php';
+    public function generateInvoice($invoiceId) {
         
+        $invoiceId = 12;
         $invoice = $this->_model->get($invoiceId);
         
         $customer = new CustomersModel();
         $customer = $customer->get($invoice['customer_id']);
         
+        $order = new OrdersModel();
+        $order = $order->get($invoice['order_id']);
+        
         $company = new CompanyModel();
         $company = $company->get(1);
         
+        
         $vars = array(
-            "{{INV_NO}}" => $name,
-            "{{INV_DATE}}" => $customer['cust_num'],
+            "{{INV_NO}}" => $invoiceId,
+            "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
             "{{COMPANY_BILLTO}}" => $company['address'],
             "{{COMP_TEL}}" => $company['contact'],
             "{{COMP_PAN}}" => $company['pan'],
             "{{COMP_SAC}}" => $company['sac'],
             "{{COMP_GSTIN}}" => $company['gstin'],
-            "{{PO_NO}}" => date('d.m.Y'),
-            "{{PO_DATE}}" => date('d.m.Y'),
-            "{{CUST_ADDRESS}}" => date('d.m.Y'),
-            "{{CUST_TEL}}" => date('d.m.Y'),
-            "{{CUST_FAX}}" => date('d.m.Y'),
-            "{{CUST_PAN}}" => date('d.m.Y'),
-            "{{CUST_GST}}" => date('d.m.Y'),
-            "{{CUST_SHIPTO}}" => date('d.m.Y'),
-            "{{CUST_CONT_PERSON}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
-            "{{COMP_PAN}}" => date('d.m.Y'),
+            "{{PO_NO}}" => $invoice['po_no'],
+            "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
+            "{{CUST_ADDRESS}}" => $invoice['bill_to'],
+            "{{CUST_TEL}}" => $customer['pphone'],
+            "{{CUST_FAX}}" => $customer['fax'],
+            "{{CUST_PAN}}" => $customer['pan'],
+            "{{CUST_GST}}" => $customer['gstin'],
+            "{{CUST_SHIPTO}}" => $invoice['ship_to'],
+            "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
+            
         );
         
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
         
+        require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
         $mpdf->Output('pdf/testmail.pdf', 'F');
         
-        sendMail();
+        $this->sendMail();
     }
     
     function sendMail() {
+        
         $sentMailTo = array();
         $sentMailTo = FXD_EMAIL_IDS;
         
