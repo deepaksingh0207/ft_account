@@ -128,6 +128,7 @@
                           <div class="text-right">
                             <b>Sub Total : </b>₹
                             <span id="ordertotal">0.00</span>
+                            <input type="hidden" name="order_total" id="id_order_total">
                           </div>
                         </div>
                       </div>

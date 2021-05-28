@@ -112,3 +112,4 @@ function fill_datatable(period = "", start = "", end = "", customer = "") {
     },
   });
 }
+

@@ -83,6 +83,25 @@ class InvoicesController extends Controller
         }
     }
     
+    
+    public function view($id) {
+        try {
+            $this->_view->set('title', 'View Invoice');
+            
+            $invoice = $this->_model->get($id);
+            $this->_view->set('invoice', $invoice);
+            
+            $customerList = new CustomersModel();
+            $customer = $customerList->get($invoice['customer_id']);
+            $this->_view->set('customer', $customer);
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+    
     public function getTaxesRate($customerId) {
         try {
             $customer = new CustomersModel();

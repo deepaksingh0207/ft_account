@@ -66,14 +66,14 @@
                         <tbody>
                           <?php if (is_array($invoices) || is_object($invoices)) : ?>
                             <?php foreach ($invoices as $invoice) : ?>
-                              <tr>
+                              <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['id'] ?>">
                                 <td><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
-                                <td class=""><?php echo $invoice['id'] ?></td>
-                                <td class=""><?php echo $invoice['po_no'] ?></td>
-                                <td class=""><?php echo $invoice['po_no'] ?></td>
-                                <td class=""><?php echo $invoice['customer_name'] ?></td>
-                                <td class=""><?php echo $invoice['sales_person'] ?></td>
-                                <td class=""><?php echo $invoice['invoice_total'] ?></td>
+                                <td class="sublist"><?php echo $invoice['id'] ?></td>
+                                <td class="sublist"><?php echo $invoice['po_no'] ?></td>
+                                <td class="sublist"><?php echo $invoice['po_no'] ?></td>
+                                <td class="sublist"><?php echo $invoice['customer_name'] ?></td>
+                                <td class="sublist"><?php echo $invoice['sales_person'] ?></td>
+                                <td class="sublist"><?php echo $invoice['invoice_total'] ?></td>
                               </tr>
                             <?php endforeach; ?>
                           <?php endif; ?>

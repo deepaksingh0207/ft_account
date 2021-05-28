@@ -13,6 +13,16 @@ class OrderItemsModel extends Model {
         return $user;
     }
     
+    public function getItemByOrderId($id) {
+        $sql = "select * from order_items where order_id=$id";
+        $this->_setSql($sql);
+        $user = $this->getAll();
+        if (empty($user)){
+            return false;
+        }
+        return $user;
+    }
+    
     public function get($id) {
         $sql = "select * from order_items where id = ? limit 1";
         $this->_setSql($sql);

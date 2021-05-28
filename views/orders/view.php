@@ -1,3 +1,9 @@
+<?php 
+$orderAmount = 0.00;
+$invliceTotal = 0.00;
+$pendingAmount = 0.00;
+?>
+
 <body class="hold-transition sidebar-collapse layout-top-nav">
 	<div class="wrapper">
 		<div class="content-wrapper">
@@ -36,7 +42,7 @@
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['contact_person'] ?>
+											<?php echo date('d, M Y', strtotime($order['order_date'])) ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -44,7 +50,7 @@
 											<label for="id_address"> Customer PO No. : </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group" style="text-align: justify;">
-											<?php echo $customer['address'] ?>
+											<?php echo $order['po_no'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -52,7 +58,7 @@
 											<label for="id_pincode"> Contact Person : </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['pincode'] ?>
+											<?php echo $order['sales_person'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -60,7 +66,7 @@
 											<label for="id_address"> Bill To : </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $state['name'] ?>
+											<?php echo $order['bill_to'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -70,7 +76,7 @@
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['pan'] ?>
+											<?php echo $order['ship_to'] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -80,7 +86,7 @@
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $customer['gstin'] ?>
+											<?php echo $order['remarks'] ?>
 										</div>
 									</div>
 									<div class="table-responsive card">
@@ -96,17 +102,69 @@
 													</tr>
 												</thead>
 												<tbody>
+												<?php foreach($items as $item) : ?>
 													<tr>
-														<td>itema</td>
-														<td>descp</td>
-														<td>2</td>
-														<td>200</td>
-														<td>₹500.00</td>
+														<td><?php echo $item['item']?></td>
+														<td><?php echo $item['description']?></td>
+														<td><?php echo $item['qty']?></td>
+														<td><?php echo $item['unit_price']?></td>
+														<td>₹<?php echo ($item['unit_price'] * $item['qty']) ?></td>
 													</tr>
+													<?php 
+													$orderAmount += ($item['unit_price'] * $item['qty']);
+													
+													endforeach; ?>
 												</tbody>
 											</table>
 										</div>
 									</div>
+									
+									<div class="table-responsive card">
+										<div class="card-header">
+                          					<b>Invoice Details</b>
+                        				</div>
+										<div class="card-body p-3">
+											<table class="table text-center mb-0">
+                                                <thead>
+                                                  <tr>
+                                                    <th class="min100">Invoice No. </th>
+                                                    <th class="min100">Pay Term</th>
+                                                    <th class="min100">Pay Percent </th>
+                                                    <th class="min100">Sub Total</th>
+                                                    <th class="min100">IGST</th>
+                                                    <th class="min100">CGST</th>
+                                                    <th class="min100">SGST</th>
+                                                    <th class="min100">Total</th>
+                                                    <th class="min100">Date</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody id="invoicelist">
+                                                <?php foreach($invoices as $invoice) : ?>
+													<tr>
+														<td><?php echo $invoice['id']?></td>
+														<td><?php echo $invoice['payment_term']?></td>
+														<td><?php echo $invoice['pay_percent']?></td>
+														<td><?php echo $invoice['sub_total']?></td>
+														<td><?php echo $invoice['igst']?></td>
+														<td><?php echo $invoice['sgst']?></td>
+														<td><?php echo $invoice['cgst']?></td>
+														<td><?php echo $invoice['invoice_total']?></td>
+														<td><?php echo date('d, M Y', strtotime($invoice['invoice_date']))?></td>
+													</tr>
+													<?php
+													$invliceTotal += $invoice['sub_total'];
+													endforeach; ?>
+												</tbody>
+                                                </tbody>
+                                              </table>
+                                              <hr class="mt-0">
+                          					<div class="text-right">
+                            					<b>Pending Balance : </b>₹
+                            					<span id="pendingbalance"><?php echo ($orderAmount - $invliceTotal)?></span>
+                          					</div>
+										</div>
+									</div>
+									
 								</div>
 								<div class="card-footer text-right">
 									<!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit

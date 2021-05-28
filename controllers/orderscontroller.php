@@ -29,6 +29,43 @@ class OrdersController extends Controller
         
     }
     
+    public function view($id) {
+        
+        try {
+            
+            $order = $this->_model->get($id);            
+            $this->_view->set('order', $order);
+            
+            $customerList = new CustomersModel();
+            $customer = $customerList->get($order['customer_id']);
+            $this->_view->set('customer', $customer);
+            
+            $tblOrderItem = new OrderItemsModel();
+            $items = $tblOrderItem->getItemByOrderId($id);
+            $this->_view->set('items', $items);
+            
+            $invoiceModel = new InvoicesModel();
+            $invoices = $invoiceModel->getInvoicesOfOrder($id);
+            
+            if($invoices) {
+                foreach($invoices as &$invoice) {
+                    $invoice['invoice_date'] = date('d M Y', strtotime($invoice['invoice_date']));
+                }
+                $this->_view->set('invoices', $invoices);
+            }
+            
+            
+            $this->_view->set('title', 'Order View');
+            
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
+    
     
     public function create() {
         try {

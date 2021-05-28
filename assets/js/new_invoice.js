@@ -278,6 +278,7 @@ function fillorderitems(datadict) {
   }
 
   $("#ordertotal").text(parseFloat(ordertotal).toFixed(2));
+  $("#id_order_total").val(parseFloat(ordertotal).toFixed(2));
   pendingtotal = ordertotal - invoicetotal;
   $("#pendingbalance").text(pendingtotal);
   $("#id_paypercent").val("");
