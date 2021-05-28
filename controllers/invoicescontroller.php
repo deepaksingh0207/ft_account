@@ -61,7 +61,7 @@ class InvoicesController extends Controller
                 //print_r($data); exit;
                 $invoiceId = $this->_model->save($data);
                 if($invoiceId) {
-                    $this->generateInvoice($invoiceId, $data);
+                    $this->generateInvoice($invoiceId);
                     /*
                     $tblInvoiceItem = new InvoiceItemsModel();
                     foreach($orderItems as $orderItem) {
@@ -115,7 +115,6 @@ class InvoicesController extends Controller
     
     public function generateInvoice($invoiceId) {
         
-        $invoiceId = 12;
         $invoice = $this->_model->get($invoiceId);
         
         $customer = new CustomersModel();
@@ -155,24 +154,24 @@ class InvoicesController extends Controller
         $mpdf->WriteHTML($messageBody);
         $mpdf->Output('pdf/testmail.pdf', 'F');
         
-        $this->sendMail();
+        $this->sendMail($invoice);
     }
     
-    function sendMail() {
+    function sendMail($invoice) {
         
         $sentMailTo = array();
         $sentMailTo = FXD_EMAIL_IDS;
         
         try {
             $mailer = $this->_utils->getMailer();
-            $message = (new Swift_Message(" Your action is required"))
-            ->setContentType("text/plain")
+            $message = (new Swift_Message("Invoice copy #$invoice[id] against PO $invoice[po_no]" ))
+            ->setContentType("text/html")
             ->setFrom([HD_MAIL_ID => HD_NAME])
             ->setTo($sentMailTo)
             ->setBcc(FXD_EMAIL_IDS)
-            ->setBody("PFA")
+            ->setBody("Hi Sir/Mam, <br><br> PFA invoice <br><br><br><br> Regards,<br>Account")
             ->attach(
-                Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('testmail.pdf')->setContentType('application/pdf')
+                Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
                 );
             
             // Send the message
