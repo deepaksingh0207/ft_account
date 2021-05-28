@@ -56,10 +56,6 @@ class InvoicesController extends Controller
                 }
                 
                 */
-
-                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total'],
-                $data['tax'], $data['trid'], $data['taxval']);
-                
                 
                 //print_r($orderItems);
                 //print_r($data); exit;
@@ -153,9 +149,6 @@ class InvoicesController extends Controller
             print_r($e);
             
         }
-        
-        
     }
-    
     
 }

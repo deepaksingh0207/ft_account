@@ -2,6 +2,9 @@ var baseUrl = window.location.origin + "/ft_account/";
 var gst = 9;
 
 $(function () {
+
+$("#invoice_list_layout").hide();
+
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -136,7 +139,7 @@ $("#customerid_id").change(function () {
             gst = value.gst;
           } else {
             $("#id_orderid").append(
-              $("<option>", { value: value.id }).text(value.id)
+              $("<option>", { value: value.id }).text(value.po_no)
             );
           }
         });
@@ -178,6 +181,7 @@ function resetform() {
 }
 
 $("#id_orderid").change(function () {
+$("#invoice_list_layout").hide();
   if ($(this).val() == "") {
     resetform();
   } else {
@@ -201,6 +205,7 @@ $("#id_orderid").change(function () {
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
         $("#ship_id").val(data.order.ship_to);
+        fillOrderInvoices(data.invoices);
         fillorderitems(data.items);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -208,6 +213,37 @@ $("#id_orderid").change(function () {
       });
   }
 });
+
+function fillOrderInvoices(datadict) {
+  var ttotal = 0;
+  var arr = $("#id_tr").val().split(",");
+  var i = 0;
+  var data = eval(datadict);
+  var total = 0;
+  $("#invoice_list_layout").show();
+  for (var key in data) {
+    arr[i] = data[key].id;
+    i++;
+    if (data.hasOwnProperty(key)) {
+      if (key != "") {
+        $("#invoicelist").append(
+    		"<tr>" +
+	    		"<td>"+data[key].id+"</td>" +
+	    		"<td>"+data[key].payment_term+"</td>" +
+	    		"<td>"+data[key].pay_percent+"</td>" +
+	    		"<td>"+data[key].sub_total+"</td>" +
+	    		"<td>"+data[key].igst+"</td>" +
+	    		"<td>"+data[key].cgst+"</td>" +
+	    		"<td>"+data[key].sgst+"</td>" +
+	    		"<td>"+data[key].invoice_total+"</td>" +
+	    		"<td>"+data[key].invoice_date+"</td>" +
+    		"</tr>");      
+      }
+    }
+  }
+  
+}
+
 
 function fillorderitems(datadict) {
   var ttotal = 0;

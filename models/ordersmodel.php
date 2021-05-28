@@ -37,7 +37,7 @@ class OrdersModel extends Model {
     }
 
     public function getOrderListByCustomer($id) {
-        $sql = "select id from orders where customer_id = ? ";
+        $sql = "select id,po_no from orders where customer_id = ? ";
         $this->_setSql($sql);
         $user = $this->getAll(array($id));
         if (empty($user)){

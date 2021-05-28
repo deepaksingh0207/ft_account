@@ -107,7 +107,7 @@
                         <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
-
+                    
                     <div class="row">
 
                       <div class="col-12 table-responsive">
@@ -127,6 +127,33 @@
                       </div>
 
                     </div>
+                    
+                    <div class="row" id="invoice_list_layout">
+
+                      <div class="col-12 table-responsive">
+                        <table class="table text-center mb-0">
+                          <thead>
+                            <tr>
+                              <th class="min100">Invoice No </th> 
+                              <th class="min100">Pay Term</th>
+                              <th class="min100">Pay Percent </th>
+                              <th class="min100">Sub Total</th>
+                              <th class="min100">igst</th>
+                              <th class="min100">cgst</th>
+                              <th class="min100">sgst</th>
+                              <th class="min100">Total</th>
+                               <th class="min100">Date</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody id="invoicelist"></tbody>
+                        </table>
+                        <hr class="mt-0">
+                      </div>
+
+                    </div>
+                    
+                    
                     <div class="row">
                       <div class="col-12 text-right">
                         <input type="hidden" name="order_total" id="id_ordertotal" value="0.00">
