@@ -12,8 +12,6 @@
         <div class="container">
           <div class="row mb-2">
             <div class="col-12">
-
-				<input type="hidden" id="id_tr" name="trid" value="" />
               <form action="" method="post" id="quickForm" novalidate="novalidate">
                 <div class="card">
 
@@ -107,107 +105,118 @@
                         <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
-                    
-                    <div class="row">
 
-                      <div class="col-12 table-responsive">
-                        <table class="table text-center mb-0">
-                          <thead>
-                            <tr>
-                              <th class="min100">Item </th>
-                              <th class="min100">Description</th>
-                              <th class="minmax150">Qty </th>
-                              <th class="min100">Unit Price</th>
-                              <th class="min100">Order Total</th>
-                            </tr>
-                          </thead>
-                          <tbody id="orderlist"></tbody>
-                        </table>
-                        <hr class="mt-0">
-                      </div>
-
-                    </div>
-                    
-                    <div class="row" id="invoice_list_layout">
-
-                      <div class="col-12 table-responsive">
-                        <table class="table text-center mb-0">
-                          <thead>
-                            <tr>
-                              <th class="min100">Invoice No </th> 
-                              <th class="min100">Pay Term</th>
-                              <th class="min100">Pay Percent </th>
-                              <th class="min100">Sub Total</th>
-                              <th class="min100">igst</th>
-                              <th class="min100">cgst</th>
-                              <th class="min100">sgst</th>
-                              <th class="min100">Total</th>
-                               <th class="min100">Date</th>
-                              
-                            </tr>
-                          </thead>
-                          <tbody id="invoicelist"></tbody>
-                        </table>
-                        <hr class="mt-0">
-                      </div>
-
-                    </div>
-                    
-                    
-                    <div class="row">
-                      <div class="col-12 text-right">
-                        <input type="hidden" name="order_total" id="id_ordertotal" value="0.00">
-                        <b>Sub Total : </b>₹
-                        <span id="ordertotal">0.00</span>
+                    <div class="row" id="order_list_layout" style="display: none;">
+                      <div class="col-12 table-responsive card">
+                        <div class="card-header">
+                          <b>Order Details</b>
+                        </div>
+                        <div class="card-body py-3">
+                          <table class="table text-center">
+                            <thead>
+                              <tr>
+                                <th class="min100">Item </th>
+                                <th class="min100">Description</th>
+                                <th class="minmax150">Qty </th>
+                                <th class="min100">Unit Price</th>
+                                <th class="min100">Order Total</th>
+                              </tr>
+                            </thead>
+                            <tbody id="orderlist"></tbody>
+                          </table>
+                          <hr class="mt-0">
+                          <div class="text-right">
+                            <!-- <input type="hidden" name="order_total" id="id_ordertotal" value="0.00"> -->
+                            <b>Sub Total : </b>₹
+                            <span id="ordertotal">0.00</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div class="row mt-5" id="paytype_div" style="display:none">
-                      <div class="col-12 table-responsive">
-                        <table class="table text-center mb-0">
-                          <thead>
-                            <tr>
-                              <th class="min100">Sr No. </th>
-                              <th class="min100 text-left">Line Items</th>
-                              <th class="">% Slab </th>
-                              <th class="min100">Sub Total
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody id="id_paytype_body">
-                            <tr id="row1">
-                              <td>1
-                              </td>
-                              <td class="text-left">
-                                <div class="form-group mb-0">
-                                  <select class="form-control ftsm" style="width: 100%;" name="payment_term" id="id_paytype" required>
-                                    <option value="" selected="selected"></option>
-                                    <option value="Advance">Advance </option>
-                                    <option value="UAT Submit">UAT Submit</option>
-                                    <option value="GO Live">GO Live </option>
-                                    <option value="Support">Support </option>
-                                    <option value="Full Payment">Full Payment </option>
-                                  </select>
-                                </div>
-                              </td>
-                              <td>
-                                <div class="input-group" style="justify-content: center;">
-                                  <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent" id="id_paypercent" required>
-                                  <div class="input-group-append">
-                                    <div class="input-group-text">
-                                      <i class="fas fa-percentage"></i>
+                    <div class="row" id="invoice_list_layout" style="display: none;">
+                      <div class="col-12 table-responsive card">
+                        <div class="card-header">
+                          <b>Past Invoice Details</b>
+                        </div>
+                        <div class="card-body">
+                          <table class="table text-center mb-0">
+                            <thead>
+                              <tr>
+                                <th class="min100">Invoice No. </th>
+                                <th class="min100">Pay Term</th>
+                                <th class="min100">Pay Percent </th>
+                                <th class="min100">Sub Total</th>
+                                <th class="min100">IGST</th>
+                                <th class="min100">CGST</th>
+                                <th class="min100">SGST</th>
+                                <th class="min100">Total</th>
+                                <th class="min100">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody id="invoicelist"></tbody>
+                          </table>
+                          <hr class="mt-0">
+                          <div class="text-right">
+                            <b>Pending Balance : </b>₹
+                            <span id="pendingbalance">0.00</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" id="paytype_div" style="display:none">
+                      <div class="col-12 table-responsive card">
+                        <div class="card-header">
+                        <b>Generate New Invoice</b>
+                        </div>
+                        <div class="card-body">
+                          <table class="table text-center mb-0">
+                            <thead>
+                              <tr>
+                                <th class="min100">Sr No. </th>
+                                <th class="min100 text-left">Line Items</th>
+                                <th class="">% Slab </th>
+                                <th class="min100">Sub Total
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody id="id_paytype_body">
+                              <tr id="row1">
+                                <td>1
+                                </td>
+                                <td class="text-left">
+                                  <div class="form-group mb-0">
+                                    <select class="form-control ftsm" style="width: 100%;" name="payment_term" id="id_paytype" required>
+                                      <option value="" selected="selected"></option>
+                                      <option value="Advance">Advance </option>
+                                      <option value="UAT Submit">UAT Submit</option>
+                                      <option value="GO Live">GO Live </option>
+                                      <option value="Support">Support </option>
+                                      <option value="Full Payment">Full Payment </option>
+                                    </select>
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="input-group" style="justify-content: center;">
+                                    <input type="tel" class="form-control ftwm ftsm paypercent minmax100" minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent" id="id_paypercent" required>
+                                    <div class="input-group-append">
+                                      <div class="input-group-text">
+                                        <i class="fas fa-percentage"></i>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td id="id_paytotal_div">
-                                <div>0</div>
-                                <input type="hidden" name="sub_total" id="id_paytotal">
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <hr class="mt-0">
+                                </td>
+                                <td id="id_paytotal_div">
+                                  <div>0</div>
+                                  <input type="hidden" name="sub_total" id="id_paytotal">
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <hr class="mt-0">
+                        </div>
+
                       </div>
 
                       <div class="col-12 text-right" id="sgstdiv" style="display: none;">

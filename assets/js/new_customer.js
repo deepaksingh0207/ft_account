@@ -4,7 +4,7 @@ $(function () {
   $('.select2').select2()
   $.validator.setDefaults({
     submitHandler: function () {
-      form.submit();
+      $("#responsemodal").click();
     },
   });
   $("#id_quickForm").validate({

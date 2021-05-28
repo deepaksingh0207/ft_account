@@ -55,7 +55,7 @@
                         <label for="id_pincode"> Pincode </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id" maxlength="7" minlength="6" pattern="^[1-9]{1}[0-9]{2}\\s{0, 1}[0-9]{3}$" />
+                        <input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id" maxlength="7" minlength="6" pattern="^[0-9]{6}$" />
                       </div>
                     </div>
 
@@ -80,7 +80,7 @@
                         </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm pan" name="pan" id="id_pan" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" minlength="10" maxlength="10"/>
+                        <input type="text" class="form-control fc ftsm pan" name="pan" id="id_pan" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" minlength="10" maxlength="10" />
                       </div>
                     </div>
 
@@ -146,6 +146,29 @@
                     <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
                     </a>
                   </div>
+                </div>
+                <button type="button" id="responsemodal" class="btn btn-default" data-toggle="modal" data-target="#modal-sm" style="display: none;"></button>
+
+                <div class="modal fade" id="modal-sm">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Generate Invoice</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Are you confirm to generate invoice?</p>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">Close</button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">Generate</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
                 </div>
               </form>
             </div>
