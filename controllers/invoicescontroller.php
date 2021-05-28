@@ -38,7 +38,7 @@ class InvoicesController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                echo '<pre>'; print_r($data); exit;
+                //echo '<pre>'; print_r($data); exit;
 
                 /*
                 $orderItems = array();
@@ -56,15 +56,13 @@ class InvoicesController extends Controller
                 }
                 
                 */
-
-                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total'],
-                $data['tax'], $data['trid'], $data['taxval']);
-                
                 
                 //print_r($orderItems);
                 //print_r($data); exit;
                 //$invoiceId = $this->_model->save($data);
                 if($this->_model->save($data)) {
+                    
+                    $this->generateInvoice($data);
                     /*
                     $tblInvoiceItem = new InvoiceItemsModel();
                     foreach($orderItems as $orderItem) {
@@ -116,5 +114,41 @@ class InvoicesController extends Controller
         }
     }
     
+    public function generateInvoice($data) {
+        require_once HOME . DS. 'vendor/autoload.php';
+        
+        
+        
+        $messageBody = file_get_contents('./assets/mail_template/invoice_template.html');
+        
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A2-L']);
+        $mpdf->WriteHTML($messageBody);
+        $mpdf->Output('pdf/testmail.pdf', 'F');
+        
+        $sentMailTo = array();
+        $sentMailTo = FXD_EMAIL_IDS;
+        
+        try {
+            $mailer = $this->_utils->getMailer();
+            $message = (new Swift_Message(" Your action is required"))
+            ->setContentType("text/html")
+            ->setFrom([HD_MAIL_ID => HD_NAME])
+            ->setTo($sentMailTo)
+            ->setBcc(FXD_EMAIL_IDS)
+            ->setBody($messageBody)
+            ->attach(
+                Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('testmail.pdf')->setContentType('application/pdf')
+                );
+            
+            // Send the message
+            $result = $mailer->send($message);
+            
+            echo $result;
+        } catch (Exception $e) {
+            
+            print_r($e);
+            
+        }
+    }
     
 }

@@ -98,9 +98,17 @@ class OrdersController extends Controller
             $order = $this->_model->get($id);
             $oderItems = $this->_model->getOrderItem($id);
 
+            $invoiceModel = new InvoicesModel();
+            $invoices = $invoiceModel->getInvoicesOfOrder($id);
+            
+            foreach($invoices as &$invoice) {
+                $invoice['invoice_date'] = date('d M Y', strtotime($invoice['invoice_date']));
+            }
+            
             $result = array();
             $result['order'] = $order;
             $result['items'] = $oderItems;
+            $result['invoices'] = $invoices;
             echo json_encode($result);
         } else {
             echo false;
