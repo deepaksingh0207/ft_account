@@ -15,17 +15,44 @@
                         <h4>PROFILE</h4>
                       </div>
                       <div class="col-8 text-center p-0">
-                        <img alt="<?php echo $user['cust_name'] ?>" src="<?php echo ROOT ?>assets/img/aarti-logo-color.svg" style="max-width: 150px; max-height: 50px;">
+                        <img
+                          alt="<?php echo $user['cust_name'] ?>"
+                          src="<?php echo ROOT ?>assets/img/aarti-logo-color.svg"
+                          style="max-width: 150px; max-height: 50px"
+                        />
                       </div>
 
                       <div class="col-2 text-right align-vert">
-                        <button type="button" id="edit" class="btn btn-light text-right" data-toggle="tooltip" data-placement="top" title="Edit">
+                        <button
+                          type="button"
+                          id="edit"
+                          class="btn btn-light text-right"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Edit"
+                        >
                           <i class="align-middle" data-feather="edit-2"></i>
                         </button>
-                        <button type="submit" id="submit_id" class="btn btn-light text-right" style="display: none" data-toggle="tooltip" data-placement="top" title="Save">
+                        <button
+                          type="submit"
+                          id="submit_id"
+                          class="btn btn-light text-right"
+                          style="display: none"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Save"
+                        >
                           <i class="align-middle" data-feather="save"></i>
                         </button>
-                        <button type="reset" id="cancel" class="btn btn-light text-right" style="display: none" data-toggle="tooltip" data-placement="top" title="Cancel">
+                        <button
+                          type="reset"
+                          id="cancel"
+                          class="btn btn-light text-right"
+                          style="display: none"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Cancel"
+                        >
                           <i class="fa fa-times"></i>
                         </button>
                       </div>
@@ -35,7 +62,9 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
                     <div class="row">
-                      <div class="col-sm-12 col-md-3 mt-2">Company Number :</div>
+                      <div class="col-sm-12 col-md-3 mt-2">
+                        Company Number :
+                      </div>
                       <div class="col-sm-12 col-md-9 mt-2">
                         <?php echo $user['cust_num'] ?>
                       </div>
@@ -51,15 +80,20 @@
                   </li>
                   <li class="list-group-item">
                     <div class="row">
-                      <div class="col-sm-12 col-md-3 mt-2">
-                        Name :
-                      </div>
+                      <div class="col-sm-12 col-md-3 mt-2">Name :</div>
                       <div class="col-sm-12 col-md-9">
                         <div class="input-group has-validation">
-                          <input type="text" class="form-control ftsm" name="emp_name" id="name_id" value="<?php echo $user['emp_name'] ?>" aria-describedby="inputGroupPrepend" disabled required />
-                          <div class="invalid-feedback">
-                            Name is mandatory
-                          </div>
+                          <input
+                            type="text"
+                            class="form-control ftsm"
+                            name="emp_name"
+                            id="name_id"
+                            value="<?php echo $user['emp_name'] ?>"
+                            aria-describedby="inputGroupPrepend"
+                            disabled
+                            required
+                          />
+                          <div class="invalid-feedback">Name is mandatory</div>
                         </div>
                       </div>
                     </div>
@@ -69,7 +103,18 @@
                       <div class="col-sm-12 col-md-3 mt-2">Mobile :</div>
                       <div class="col-sm-12 col-md-9">
                         <div class="input-group has-validation">
-                          <input type="tel" class="form-control ftsm" name="emp_mobile" id="alt_tel_id" value="<?php echo $user['emp_mobile'] ?>" minlength="10" maxlength="10" aria-describedby="inputGroupPrepend" disabled required />
+                          <input
+                            type="tel"
+                            class="form-control ftsm"
+                            name="emp_mobile"
+                            id="alt_tel_id"
+                            value="<?php echo $user['emp_mobile'] ?>"
+                            minlength="10"
+                            maxlength="10"
+                            aria-describedby="inputGroupPrepend"
+                            disabled
+                            required
+                          />
                           <div class="invalid-feedback">
                             Mobile number is mandatory
                           </div>
@@ -109,6 +154,5 @@
         </form>
       </div>
     </main>
-
   </div>
 </div>
