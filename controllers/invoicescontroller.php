@@ -163,15 +163,42 @@ class InvoicesController extends Controller
             "{{CUST_GST}}" => $customer['gstin'],
             "{{CUST_SHIPTO}}" => $invoice['ship_to'],
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-            
+            "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
         );
+        
+        $taxesLayout = '';
+        if((int)$invoice['igst']) {
+            $taxesLayout = '<tr class="text-right bb">
+            <td colspan="3" class="bb"></td>
+            <td class="text-right bb">IGST @ 18%</td>
+            <td class="bb">'.number_format($invoice['igst']).'</td>
+          </tr>';
+        } else {
+            $taxesLayout = '<tr class="bb">
+            <td colspan="3" class="bb"></td>
+            <td class="bb">
+            CGST @ 9%
+            <br />
+            SGST @ 9%
+            </td>
+            <td class="bb">
+            '.number_format($invoice['cgst'], 2).'
+            <br />
+            '.number_format($invoice['sgst'], 2).'
+            </td>
+            </tr>';
+        }
+        
+        $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
         
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
         
         require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
-        $mpdf->Output('pdf/testmail.pdf', 'F');
+        $mpdf->Output('pdf/invoice_copy.pdf', 'F');
+        
         
         $this->sendMail($invoice);
     }
@@ -190,7 +217,7 @@ class InvoicesController extends Controller
             ->setBcc(FXD_EMAIL_IDS)
             ->setBody("Hi Sir/Mam, <br><br> PFA invoice <br><br><br><br> Regards,<br>Account")
             ->attach(
-                Swift_Attachment::fromPath('./pdf/testmail.pdf')->setFilename('invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
+                Swift_Attachment::fromPath('./pdf/invoice_copy.pdf')->setFilename('invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
                 );
             
             // Send the message
