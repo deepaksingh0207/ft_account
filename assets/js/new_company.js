@@ -9,27 +9,11 @@ $(function () {
   });
   $("#id_quickForm").validate({
     rules: {
-      companyname: {
+      name: {
         required: true,
       },
-      contactperson: {
+      contact_person: {
         required: true,
-      },
-      address: {
-        required: true,
-      },
-      pincode: {
-        required: true,
-        minlength: 6,
-        maxlength: 6,
-      },
-      state: {
-        required: true,
-      },
-      gst: {
-        required: true,
-        minlength: 15,
-        maxlength: 15,
       },
       contact: {
         required: true,
@@ -50,6 +34,28 @@ $(function () {
         required: true,
         email: true,
       },
+      pan: {
+        required: true,
+      },
+      sac: {
+        required: true,
+      },
+      gstin: {
+        required: true,
+        minlength: 15,
+        maxlength: 15,
+      },
+      pincode: {
+        required: true,
+        minlength: 6,
+        maxlength: 6,
+      },
+      address: {
+        required: true,
+      },
+      state: {
+        required: true,
+      },
       bank_name: {
         required: true,
       },
@@ -64,20 +70,8 @@ $(function () {
       name: {
         required: "Please enter company name.",
       },
-      contactperson: {
+      contact_person: {
         required: "Please enter the contact person's name.",
-      },
-      address: {
-        required: "Please enter the address.",
-      },
-      pincode: {
-        required: "Please enter correct pincode.",
-      },
-      state: {
-        required: "Please enter a state from the list.",
-      },
-      gst: {
-        required: "Please enter gstin.",
       },
       contact: {
         required: "Please enter primary contact.",
@@ -90,6 +84,24 @@ $(function () {
       },
       email: {
         required: "Please enter the email.",
+      },
+      pan: {
+        required: "Please enter the PAN details.",
+      },
+      pan: {
+        required: "Please enter the SAC details.",
+      },
+      gstin: {
+        required: "Please enter the GST details.",
+      },
+      pincode: {
+        required: "Please enter correct pincode.",
+      },
+      address: {
+        required: "Please enter the address.",
+      },
+      state: {
+        required: "Please enter a state from the list.",
       },
       bank_name: {
         required: "Please enter bank name.",

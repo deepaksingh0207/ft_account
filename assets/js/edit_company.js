@@ -6,18 +6,18 @@ $(function () {
   });
   $("#id_quickForm").validate({
     rules: {
-      companyname: {
+      name: {
         required: true,
       },
       contact_person: {
         required: true,
       },
-      pphone: {
+      contact: {
         required: true,
         minlength: 10,
         maxlength: 10,
       },
-      sphone: {
+      mobile: {
         required: true,
         minlength: 10,
         maxlength: 10,
@@ -33,15 +33,11 @@ $(function () {
       },
       pan: {
         required: true,
-        minlength: 10,
-        maxlength: 10,
       },
       sac: {
         required: true,
-        minlength: 6,
-        maxlength: 6,
       },
-      gst: {
+      gstin: {
         required: true,
         minlength: 15,
         maxlength: 15,
@@ -68,16 +64,16 @@ $(function () {
       },
     },
     messages: {
-      companyname: {
-        required: "Please enter customer name.",
+      name: {
+        required: "Please enter company name.",
       },
       contact_person: {
-        required: "Please enter contact person.",
+        required: "Please enter the contact person's name.",
       },
-      pphone: {
+      contact: {
         required: "Please enter primary contact.",
       },
-      sphone: {
+      mobile: {
         required: "Please enter secondary contact.",
       },
       fax: {
@@ -87,22 +83,22 @@ $(function () {
         required: "Please enter the email.",
       },
       pan: {
-        required: "Please enter the correct PAN number.",
+        required: "Please enter the PAN details.",
       },
-      sac: {
-        required: "Please enter the correct SAC number.",
+      pan: {
+        required: "Please enter the SAC details.",
       },
-      gst: {
-        required: "Please enter the correct GSTIN number.",
+      gstin: {
+        required: "Please enter the GST details.",
       },
       pincode: {
-        required: "Please enter the correct Pincode area.",
+        required: "Please enter correct pincode.",
       },
       address: {
         required: "Please enter the address.",
       },
       state: {
-        required: "Please select a state.",
+        required: "Please enter a state from the list.",
       },
       bank_name: {
         required: "Please enter bank name.",

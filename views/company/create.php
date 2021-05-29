@@ -265,8 +265,8 @@
                   <div class="card-footer text-right">
                     <button
                       type="submit"
-                      class="btn btn-primary btn-sm vip"
-                      disabled
+                      class="btn btn-primary btn-sm "
+                      
                     >
                       Submit
                     </button>
