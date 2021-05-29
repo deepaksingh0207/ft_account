@@ -154,4 +154,17 @@ class OrdersController extends Controller
             echo false;
         }
     }
+    
+    public function getSearchResult() {
+        if(!empty($_POST)) {
+            $data = $_POST;
+            
+            $orders = $this->_model->getList();
+            
+            if($orders) {
+                echo json_encode($orders);
+            }
+            
+        }
+    }
 }

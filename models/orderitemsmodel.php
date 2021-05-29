@@ -7,9 +7,6 @@ class OrderItemsModel extends Model {
         $sql = "select * from order_items where 1=1 order by updated_date desc";
         $this->_setSql($sql);
         $user = $this->getAll();
-        if (empty($user)){
-            return false;
-        }
         return $user;
     }
     
@@ -17,9 +14,7 @@ class OrderItemsModel extends Model {
         $sql = "select * from order_items where order_id=$id";
         $this->_setSql($sql);
         $user = $this->getAll();
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     
@@ -27,9 +22,7 @@ class OrderItemsModel extends Model {
         $sql = "select * from order_items where id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     
@@ -81,9 +74,7 @@ class OrderItemsModel extends Model {
         $sql = "select id from customers order by id desc limit 1";
         $this->_setSql($sql);
         $user = $this->getrow();
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     

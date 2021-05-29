@@ -10,9 +10,7 @@ class OrdersModel extends Model {
 
         $this->_setSql($sql);
         $user = $this->getAll();
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     

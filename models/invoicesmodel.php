@@ -8,9 +8,7 @@ class InvoicesModel extends Model {
         $sql = "select invoices.*, customers.name customer_name from invoices join customers on (invoices.customer_id = customers.id) where 1=1 order by updated_date desc";
         $this->_setSql($sql);
         $user = $this->getAll();
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     
@@ -18,9 +16,7 @@ class InvoicesModel extends Model {
         $sql = "select * from invoices where id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     
@@ -72,9 +68,7 @@ class InvoicesModel extends Model {
         $sql = "select id from invoices order by id desc limit 1";
         $this->_setSql($sql);
         $user = $this->getrow();
-        if (empty($user)){
-            return false;
-        }
+        
         return $user;
     }
     
@@ -83,9 +77,7 @@ class InvoicesModel extends Model {
         $sql = "select * from invoices where order_id = $orderId order by id desc";
         $this->_setSql($sql);
         $invoices = $this->getAll();
-        if (empty($invoices)){
-            return false;
-        }
+        
         return $invoices;
     }
     
