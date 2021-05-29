@@ -139,8 +139,9 @@ class InvoicesController extends Controller
         $customer = new CustomersModel();
         $customer = $customer->get($invoice['customer_id']);
         
-        $order = new OrdersModel();
-        $order = $order->get($invoice['order_id']);
+        $orderTable = new OrdersModel();
+        $order = $orderTable->get($invoice['order_id']);
+        $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
         $company = new CompanyModel();
         $company = $company->get(1);
@@ -154,9 +155,12 @@ class InvoicesController extends Controller
             "{{COMP_PAN}}" => $company['pan'],
             "{{COMP_SAC}}" => $company['sac'],
             "{{COMP_GSTIN}}" => $company['gstin'],
+            "{{COMP_BANK}}" => $company['bank_name'],
+            "{{COMP_ACCNO}}" => $company['account_no'],
+            "{{COMP_IFSC}}" => $company['ifsc_code'],
             "{{PO_NO}}" => $invoice['po_no'],
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" => $invoice['bill_to'],
+            "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $invoice['bill_to'],
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
@@ -166,6 +170,20 @@ class InvoicesController extends Controller
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
         );
+        
+        $orderBaseTotal = 0.00;
+        $itemList = '';
+        foreach($oderItems as $key => $item) {
+            $itemList .= '<tr>
+            <td>'.($key+1).'</td>
+            <td>'.$item['item'].'</td>
+            <td>'.$item['qty'].'</td>
+            <td>'.number_format($item['unit_price'], 2).'</td>
+            <td>'.number_format($item['total'], 2).'</td>
+            </tr>';
+            
+            $orderBaseTotal += $item['total'];
+        }
         
         $taxesLayout = '';
         if((int)$invoice['igst']) {
@@ -194,6 +212,8 @@ class InvoicesController extends Controller
         }
         
         $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
+        $vars["{{ITEM_LIST}}"] = $itemList;
+        $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
         
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
         

@@ -69,9 +69,9 @@
                 SAC: {{COMP_SAC}}<br />
                 GSTIN NO: {{COMP_GSTIN}} </b
               ><br /><br />
-              Bank Details: HDFC Bank<br />
-              A/C No.: 50200029843099<br />
-              IFSC Code: HDFC0000543
+              Bank Details: {{COMP_BANK}}<br />
+              A/C No.: {{COMP_ACCNO}}<br />
+              IFSC Code: {{COMP_IFSC}}
             </span>
           </td>
           <td width="50%">
@@ -104,13 +104,7 @@
             <hr style="padding: 0px; margin: 0px" />
           </td>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>Issue Support Charges - SAP</td>
-          <td>76.5</td>
-          <td>6,000.00</td>
-          <td>4,59,000.00</td>
-        </tr>
+        {{ITEM_LIST}}
         <tr>
           <td colspan="5" style="padding: 0px">
             <hr style="padding: 0px; margin: 0px" />
@@ -120,7 +114,7 @@
       <table width="100%" cellpadding="0">
         <tr>
           <td style="text-align: right; width: 94%">
-            Net Value INR. &nbsp; &nbsp; 4,59,000.00
+            Net Value INR. &nbsp; &nbsp; {{ORDER_TOTAL}}
           </td>
         </tr>
         <tr>
