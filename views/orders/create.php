@@ -144,6 +144,7 @@
                         <span id="subtotal_id">0.00</span>
                       </div> -->
                       <div class="col-12 text-right">
+                        <input type="hidden" name="ordertotal" id="id_ordertotal">
                         <b>Total : </b>₹
                         <span id="total">0.00</span>
                       </div>
