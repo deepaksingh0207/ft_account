@@ -24,7 +24,7 @@
         padding: 0;
       }
       .container {
-        width: 100%;
+        width: 85%;
         height: 100%;
         margin-right: auto;
         margin-left: auto;
@@ -178,7 +178,9 @@
         <table style="border: 1px solid black">
           <tr>
             <td class="ldiv">
-              Invoice No: {{INV_NO}}<br />
+              <div style="position:fixed; left: 0px;">
+                Invoice No: {{INV_NO}}
+              </div><br />
               Date: {{INV_DATE}}<br /><br />
               Billing Address: {{COMPANY_BILLTO}} Tel.: {{COMP_TEL}}<br /><br />
               <b>Pan No.: {{COMP_PAN}}<br />
