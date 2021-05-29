@@ -180,7 +180,7 @@
             <td class="ldiv">
               Invoice No: {{INV_NO}}<br />
               Date: {{INV_DATE}}<br /><br />
-              Billing Address: {{COMPANY_BILLTO}} Tel.: {{COMP_TEL}}<br /><br />
+              Billing Address: {{COMPANY_BILLTO}} <br /> Tel.: {{COMP_TEL}}<br /><br />
               <b>Pan No.: {{COMP_PAN}}<br />
               SAC: {{COMP_SAC}}<br />
               GSTIN NO: {{COMP_GSTIN}}</b><br /><br />
@@ -196,7 +196,6 @@
               <b>PAN No.: {{CUST_PAN}}<br />
               GST No.: {{CUST_GST}}</b><br /><br />
               Ship To: {{CUST_SHIPTO}}<br />
-              Tel: +91-22-6797 6666 Fax : +91-22-2565 3234<br />
               Kind Attn: {{CUST_CONT_PERSON}}<br />
             </td>
           </tr>
@@ -223,34 +222,17 @@
             <td class="bb">Net Value INR.</td>
             <td class="bb">4,59,000.00</td>
           </tr>
-          <tr class="bb">
-            <td colspan="3" class="bb"></td>
-            <td class="bb">
-              CGST @ 9%
-              <br />
-              SGST @ 9%
-            </td>
-            <td class="bb">
-              41,310.00
-              <br />
-              41,310.00
-            </td>
-          </tr>
-          <tr class="text-right bb">
-            <td colspan="3" class="bb"></td>
-            <td class="text-right bb">IGST @ 9%</td>
-            <td class="bb">41,310.00</td>
-          </tr>
+          {{TAX_LAYOUT}}
           <tr>
             <td colspan="3" class="dbb"></td>
             <td class="dbb text-right">Total Value Including Taxes INR.</td>
-            <td class="dbb"><u>5,41,620.00</u></td>
+            <td class="dbb"><u>{{INV_TOTAL}}</u></td>
           </tr>
         </table>
         <div>
           <i>
             <b>
-              In Words: Five Lakh Forty One Thousand Six Hundred Twenty Rupees
+              In Words: {{AMOUNT_WORD}}
               Only.
             </b>
           </i>
