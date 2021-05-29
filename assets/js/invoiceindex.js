@@ -45,12 +45,31 @@ $("#id_customer1").on("change", function () {
   customer1 = $("#id_customer1").val();
 });
 
-$(".update").on("click", function () {
-  if ($(this).attr("id") == 1) {
-    $("#w").DataTable().destroy();
-    fill_datatable(period1, start1, end1, customer1);
-  }
+$(".update").on("click", function (det) {
+  period = $("#id_period").val()
+  start = $("#id_startdate").val()
+  end = $("#id_enddate").val()
+  customer = $("#id_customer").val()
+  fill_datatable(period, start, end, customer);
 });
+
+// https://www.youtube.com/watch?v=M0cEiFAzwf0
+
+function fill_datatable(period="", start="", end="", customer="") {
+  var dtable = $("#example1").DataTable({
+    "processing": true,
+    "serverSide": true,
+    "order": [],
+    "searching": false,
+    "ajax": {
+      url: "",
+      type: "",
+      data: {
+        period: period, start:start, end:end, customer:customer
+      }
+    }
+  });
+}
 
 $(".edit").on("click", function () {
   var editlink = "/order/" + $(this).parent().parent("tr").attr("id");
@@ -96,21 +115,3 @@ $(".sublist").click(function () {
   var parent_id = $(this).parent("tr").attr("data-href");
   window.location = parent_id;
 });
-
-function fill_datatable(period = "", start = "", end = "", customer = "") {
-  var dataTable = $("#example1").DataTable({
-    processing: true,
-    serverSide: true,
-    order: [],
-    ajax: {
-      url: "mylink",
-      type: "POST",
-      data: {
-        period: period,
-        start: start,
-        end: end,
-        customer: customer,
-      },
-    },
-  });
-}

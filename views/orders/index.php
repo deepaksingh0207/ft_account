@@ -55,8 +55,8 @@
                       </a>
                     </div>
                     <div class="col-12">
-                      <table class="table table-hover table-striped">
-                        <thead>
+                    <table id="example1" class="table table-hover table-striped">
+                    <thead class="text-center">
                           <tr>
                             <th>Date</th>
                             <th>Order</th>
@@ -65,7 +65,7 @@
                             <th>Amount</th>
                           </tr>
                         </thead>
-                        <tbody id="id_tbody">
+                        <tbody class="text-center">
                           <?php if (is_array($orders) || is_object($orders)) : ?>
                             <?php foreach ($orders as $order) : ?>
                               <tr data-href="<?php echo ROOT; ?>orders/view/<?php echo $order['id'] ?>">
@@ -121,4 +121,5 @@
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
     </div>
-  </div
+  </div>
+  

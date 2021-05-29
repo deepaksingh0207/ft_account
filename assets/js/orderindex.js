@@ -43,19 +43,6 @@ $("#id_customer").on("change", function () {
   customer1 = $("#id_customer").val();
 });
 
-$(".update").on("click", function () {
-  $("#id_tbody").empty();
-  period1 = $("#id_period").val();
-  if ($("#id_period").val() == "2") {
-    start1 = $("#id_startdate").val();
-    end1 = $("#id_enddate").val();
-  }
-  start1 = "";
-  end1 = "";
-  customer1 = $("#id_customer").val();
-  fill_datatabl(period1, start1, end1, customer1);
-});
-
 var dat = {
   1: {
     date: "sublist",
@@ -73,16 +60,45 @@ var dat = {
   },
 };
 
-function fill_datatabl(period1, start1, end1, customer1, data = dat) {
-  $.each(data, function (key, value) {
-    $("#id_tbody").append(
-      '<tr id="' + key + '" data-href="\\ft_account\\orders\\view\\' + key + '"></tr>'
-    );
-    $("#" + key).append('<td class="sublist">'+value.date+'</td>');
-    $("#" + key).append('<td class="sublist">'+value.order+'</td>');
-    $("#" + key).append('<td class="sublist">'+value.customer+'</td>');
-    $("#" + key).append('<td class="sublist">'+value.sales+'</td>');
-    $("#" + key).append('<td class="sublist">'+value.amount+'</td>');
+var det = [{
+    date: "sublist",
+    order: "dump",
+    customer: "sublist",
+    sales: "dump",
+    amount: "dump",
+  },{
+    date: "sublist",
+    order: "dump",
+    customer: "sublist",
+    sales: "dump",
+    amount: "dump",
+  }]
+
+  columns = ['date','order','customer','sales','amount']
+
+$(".update").on("click", function (det) {
+  period = $("#id_period").val()
+  start = $("#id_startdate").val()
+  end = $("#id_enddate").val()
+  customer = $("#id_customer").val()
+  fill_datatable(period, start, end, customer);
+});
+
+// https://www.youtube.com/watch?v=M0cEiFAzwf0
+
+function fill_datatable(period="", start="", end="", customer="") {
+  var dtable = $("#example1").DataTable({
+    "processing": true,
+    "serverSide": true,
+    "order": [],
+    "searching": false,
+    "ajax": {
+      url: "",
+      type: "",
+      data: {
+        period: period, start:start, end:end, customer:customer
+      }
+    }
   });
 }
 
@@ -130,42 +146,3 @@ $(".sublist").click(function () {
   var parent_id = $(this).parent("tr").attr("data-href");
   window.location = parent_id;
 });
-
-function fill_datatable(period = "", start = "", end = "", customer = "") {
-  $.ajax({
-    type: "GET",
-    url: baseUrl + "orders/datalist/",
-    data: { period: period, start: start, end: end, customer: customer },
-    dataType: "json",
-    encode: true,
-  })
-    .done(function (data) {
-      // data = {1: {
-      //     date: "sublist",
-      //     order: "dump",
-      //     customer: "sublist",
-      //     sales: "dump",
-      //     amount: "dump",
-      //   },
-      //   2: {
-      //     date: "sublist",
-      //     order: "dump",
-      //     customer: "sublist",
-      //     sales: "dump",
-      //     amount: "dump",
-      //   }}
-      $.each(data, function (key, value) {
-        $("#id_tbody").append(
-          '<tr id="' + key + '" data-href="\\ft_account\\orders\\view\\' + key + '"></tr>'
-        );
-        $("#" + key).append('<td class="sublist">'+value.date+'</td>');
-        $("#" + key).append('<td class="sublist">'+value.order+'</td>');
-        $("#" + key).append('<td class="sublist">'+value.customer+'</td>');
-        $("#" + key).append('<td class="sublist">'+value.sales+'</td>');
-        $("#" + key).append('<td class="sublist">'+value.amount+'</td>');
-      });
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      alert("No details found against this customer.");
-    });
-}
