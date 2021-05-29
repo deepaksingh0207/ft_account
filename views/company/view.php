@@ -34,6 +34,12 @@
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['name'] ?>
                     </div>
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_state"> Bank Name </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['bank_name'] ?>
+                    </div>
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
@@ -42,6 +48,12 @@
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['contact_person'] ?>
                     </div>
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_state"> Account No. </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['account_no'] ?>
+                    </div>
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
@@ -49,6 +61,12 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['contact'] ?>
+                    </div>
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_state"> IFSC </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['ifsc_code'] ?>
                     </div>
                   </div>
                   <div class="row mx-1">
@@ -135,24 +153,6 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['bank_name'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> Account No. </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['account_no'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> IFSC </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['ifsc_code'] ?>
                     </div>
                   </div>
                 </div>
