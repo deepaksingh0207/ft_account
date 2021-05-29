@@ -170,24 +170,27 @@ class InvoicesController extends Controller
         $taxesLayout = '';
         if((int)$invoice['igst']) {
             $taxesLayout = '<tr class="text-right bb">
-            <td colspan="3" class="bb"></td>
-            <td class="text-right bb">IGST @ 18%</td>
-            <td class="bb">'.number_format($invoice['igst']).'</td>
-          </tr>';
+            <td style="text-align: right; width: 94%">
+              IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
+            </td>
+          </tr><tr>
+          <td colspan="5" style="padding: 0px">
+            <hr style="padding: 0px; margin: 0px" />
+          </td>
+        </tr>';
         } else {
-            $taxesLayout = '<tr class="bb">
-            <td colspan="3" class="bb"></td>
-            <td class="bb">
-            CGST @ 9%
-            <br />
-            SGST @ 9%
+            $taxesLayout = '<tr>
+            <td style="text-align: right; width: 94%">
+              CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
+              <br />
+              SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
             </td>
-            <td class="bb">
-            '.number_format($invoice['cgst'], 2).'
-            <br />
-            '.number_format($invoice['sgst'], 2).'
+          </tr>
+          <tr>
+            <td colspan="5" style="padding: 0px">
+              <hr style="padding: 0px; margin: 0px" />
             </td>
-            </tr>';
+          </tr>';
         }
         
         $vars["{{TAX_LAYOUT}}"] = $taxesLayout;

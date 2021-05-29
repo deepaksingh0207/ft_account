@@ -11856,7 +11856,7 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
   }
 }
 .content-wrapper {
-  background-color: #f4f6f9;
+  background-color: lavender;
 }
 .content-wrapper > .content {
   padding: 0 0.5rem;
@@ -11961,6 +11961,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   color: #869099;
   padding: 1rem;
   z-index: 5;
+  left: 0px;
 }
 .main-footer.text-sm,
 .text-sm .main-footer {

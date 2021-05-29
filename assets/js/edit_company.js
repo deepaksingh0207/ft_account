@@ -1,7 +1,7 @@
 $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
-      form.submit();
+      $("#responsemodal").click();
     },
   });
   $("#id_quickForm").validate({

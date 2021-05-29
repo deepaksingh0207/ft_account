@@ -102,6 +102,7 @@ $pendingAmount = 0.00;
 													</tr>
 												</thead>
 												<tbody>
+												<?php if (is_array($items) || is_object($items)) : ?>
 												<?php foreach($items as $item) : ?>
 													<tr>
 														<td><?php echo $item['item']?></td>
@@ -114,6 +115,7 @@ $pendingAmount = 0.00;
 													$orderAmount += ($item['unit_price'] * $item['qty']);
 													
 													endforeach; ?>
+												<?php endif; ?>
 												</tbody>
 											</table>
 										</div>
@@ -139,7 +141,8 @@ $pendingAmount = 0.00;
                                                   </tr>
                                                 </thead>
                                                 <tbody id="invoicelist">
-                                                <?php foreach($invoices as $invoice) : ?>
+												<?php if (is_array($invoices) || is_object($invoices)) : ?>
+													<?php foreach($invoices as $invoice) : ?>
 													<tr>
 														<td><?php echo $invoice['id']?></td>
 														<td><?php echo $invoice['payment_term']?></td>
@@ -151,9 +154,8 @@ $pendingAmount = 0.00;
 														<td><?php echo $invoice['invoice_total']?></td>
 														<td><?php echo date('d, M Y', strtotime($invoice['invoice_date']))?></td>
 													</tr>
-													<?php
-													$invliceTotal += $invoice['sub_total'];
-													endforeach; ?>
+													<?php $invliceTotal += $invoice['sub_total']; endforeach; ?>
+												<?php endif; ?>
 												</tbody>
                                                 </tbody>
                                               </table>
