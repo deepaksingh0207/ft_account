@@ -197,7 +197,7 @@ class InvoicesController extends Controller
         require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
-        $mpdf->Output('pdf/invoice_copy.pdf', 'F');
+        $mpdf->Output('pdf/invoice_'.$invoice['id'].'.pdf', 'F');
         
         
         $this->sendMail($invoice);
@@ -217,7 +217,7 @@ class InvoicesController extends Controller
             ->setBcc(FXD_EMAIL_IDS)
             ->setBody("Hi Sir/Mam, <br><br> PFA invoice <br><br><br><br> Regards,<br>Account")
             ->attach(
-                Swift_Attachment::fromPath('./pdf/invoice_copy.pdf')->setFilename('invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
+                Swift_Attachment::fromPath('./pdf/invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
                 );
             
             // Send the message
