@@ -1,7 +1,7 @@
 <footer class="main-footer">
   <div class="float-left" id="resp_msg">
-  <b style="color: darkgreen; display: none;">Success : <span id="respsuccess"></span></b>
-  <b style="color: crimson; display: none;">Error : <span id="resperror"></span></b>
+  <b style="color: darkgreen;"><span id="respsuccess"></span></b>
+  <b style="color: crimson;"><span id="resperror"></span></b>
   </div>
   <div class="float-right d-none d-sm-inline">
     <strong>
