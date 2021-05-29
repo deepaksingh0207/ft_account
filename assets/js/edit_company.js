@@ -57,6 +57,15 @@ $(function () {
       state: {
         required: true,
       },
+      bank_name: {
+        required: true,
+      },
+      account_no: {
+        required: true,
+      },
+      isfc_code: {
+        required: true,
+      },
     },
     messages: {
       companyname: {
@@ -94,6 +103,15 @@ $(function () {
       },
       state: {
         required: "Please select a state.",
+      },
+      bank_name: {
+        required: "Please enter bank name.",
+      },
+      account_no: {
+        required: "Please enter account number.",
+      },
+      isfc_code: {
+        required: "Please enter the ISFC code.",
       },
     },
     errorElement: "span",

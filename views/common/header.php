@@ -96,5 +96,10 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/bs-stepper/css/bs-stepper.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
   <?php endif; ?>
+  <style>
+    body {
+      background-color: lavender;
+    }
+  </style>
 
 </head>
