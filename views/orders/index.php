@@ -55,7 +55,7 @@
                       </a>
                     </div>
                     <div class="col-12">
-                      <table id="example1" class="table table-hover table-striped">
+                      <table class="table table-hover table-striped">
                         <thead>
                           <tr>
                             <th>Date</th>
@@ -65,7 +65,7 @@
                             <th>Amount</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="id_tbody">
                           <?php if (is_array($orders) || is_object($orders)) : ?>
                             <?php foreach ($orders as $order) : ?>
                               <tr data-href="<?php echo ROOT; ?>orders/view/<?php echo $order['id'] ?>">
