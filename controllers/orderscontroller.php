@@ -78,6 +78,8 @@ class OrdersController extends Controller
             
             if(!empty($_POST)) {
                 $data = $_POST;
+                
+                //print_r($data); exit;
 
                 $orderItems = array();
 
@@ -87,19 +89,18 @@ class OrdersController extends Controller
                     $row['qty'] = $data['qty'][$key];
                     $row['description'] = $data['description'][$key];
                     $row['unit_price'] = $data['unit_price'][$key];;
-                    $row['tax'] = $data['tax'][$key];;
                     $row['total'] = $data['total'][$key];
 
                     $orderItems[] = $row;
                 }
 
-                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total'],
-                $data['tax'], $data['trid'], $data['taxval']);
+                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total']
+                , $data['trid'], $data['taxval']);
 
                 //print_r($orderItems);
                 //print_r($data); exit;
                 $orderId = $this->_model->save($data);
-                if($this->_model->save($data)) {
+                if($orderId) {
 
                     $tblOrderItem = new OrderItemsModel();
                     foreach($orderItems as $orderItem) {
@@ -110,7 +111,7 @@ class OrdersController extends Controller
                     $_SESSION['message'] = 'Order added successfully';
                     header("location:". ROOT. "orders"); 
                 } else {
-                    $_SESSION['error'] = 'Fail to add customer';
+                    $_SESSION['error'] = 'Fail to add order';
                 }
             }
             

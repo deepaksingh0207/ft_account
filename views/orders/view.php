@@ -121,6 +121,7 @@ $pendingAmount = 0.00;
 										</div>
 									</div>
 									
+									<?php if (isset($invoices)) : ?>
 									<div class="table-responsive card">
 										<div class="card-header">
                           					<b>Invoice Details</b>
@@ -141,7 +142,7 @@ $pendingAmount = 0.00;
                                                   </tr>
                                                 </thead>
                                                 <tbody id="invoicelist">
-												<?php if (is_array($invoices) || is_object($invoices)) : ?>
+												
 													<?php foreach($invoices as $invoice) : ?>
 													<tr>
 														<td><?php echo $invoice['id']?></td>
@@ -155,9 +156,7 @@ $pendingAmount = 0.00;
 														<td><?php echo date('d, M Y', strtotime($invoice['invoice_date']))?></td>
 													</tr>
 													<?php $invliceTotal += $invoice['sub_total']; endforeach; ?>
-												<?php endif; ?>
 												</tbody>
-                                                </tbody>
                                               </table>
                                               <hr class="mt-0">
                           					<div class="text-right">
@@ -166,6 +165,7 @@ $pendingAmount = 0.00;
                           					</div>
 										</div>
 									</div>
+									<?php endif;?>
 									
 								</div>
 								<div class="card-footer text-right">
