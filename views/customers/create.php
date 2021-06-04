@@ -44,6 +44,7 @@
                           class="form-control fc ftsm alphaonly"
                           name="name"
                           id="id_customername"
+                          value=""
                         />
                       </div>
                     </div>
@@ -57,6 +58,7 @@
                           class="form-control fc ftsm alphaonly"
                           name="contact_person"
                           id="id_contactperson"
+                          value=""
                         />
                       </div>
                     </div>
@@ -88,6 +90,7 @@
                           maxlength="7"
                           minlength="6"
                           pattern="^[0-9]{6}$"
+			  value=""
                         />
                       </div>
                     </div>
@@ -111,7 +114,7 @@
                         </select>
                       </div>
                     </div>
-
+                    
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_pan"> PAN No. </label>
@@ -125,6 +128,7 @@
                           pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
                           minlength="10"
                           maxlength="10"
+                          value=""
                         />
                       </div>
                     </div>
@@ -142,6 +146,7 @@
                           minlength="15"
                           maxlength="15"
                           pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}"
+                          value=""
                         />
                       </div>
                     </div>
@@ -158,6 +163,7 @@
                           pattern="[9,8,7,6]{1}[0-9]{9}"
                           minlength="10"
                           maxlength="10"
+                          value=""
                         />
                       </div>
                     </div>
@@ -174,6 +180,7 @@
                           pattern="[9,8,7,6]{1}[0-9]{9}"
                           minlength="10"
                           maxlength="10"
+                          value=""
                         />
                       </div>
                     </div>
@@ -187,6 +194,7 @@
                           class="form-control fc ftsm"
                           name="fax"
                           id="id_fax"
+                          value=""
                         />
                       </div>
                     </div>
@@ -201,6 +209,7 @@
                           name="email"
                           id="id_email"
                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                          value=""
                           style="text-transform: lowercase"
                         />
                       </div>
@@ -248,7 +257,7 @@
                   <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Generate Invoice</h4>
+                        <h4 class="modal-title">Add New Customer</h4>
                         <button
                           type="button"
                           class="close"
@@ -259,7 +268,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Are you confirm to generate invoice?</p>
+                        <p>Are you confirm to add new customer?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button
@@ -275,7 +284,7 @@
                           class="btn btn-sm btn-primary"
                           onclick="form.submit()"
                         >
-                          Generate
+                          Add
                         </button>
                       </div>
                     </div>

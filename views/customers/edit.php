@@ -1,7 +1,8 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
   <div class="wrapper">
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
+
       <section class="content">
         <div class="container">
           <div class="row">
@@ -90,8 +91,8 @@
                           id="pincode_id"
                           maxlength="7"
                           minlength="6"
-                          pattern="^[0-9]+$"
-                          value="<?php echo $customer['pincode'] ?>"
+                          pattern="^[0-9]{6}$"
+			  value="<?php echo $customer['pincode'] ?>"
                         />
                       </div>
                     </div>
@@ -256,7 +257,7 @@
                   <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Add New Company</h4>
+                        <h4 class="modal-title">Update Customer</h4>
                         <button
                           type="button"
                           class="close"
@@ -267,7 +268,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Are you confirm to new country record?</p>
+                        <p>Are you confirm to new edit record?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button
@@ -283,7 +284,7 @@
                           class="btn btn-sm btn-primary"
                           onclick="form.submit()"
                         >
-                          Add
+                          Update
                         </button>
                       </div>
                     </div>
