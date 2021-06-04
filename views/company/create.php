@@ -26,7 +26,7 @@
                         Submit
                       </button>
                       <a
-                        href="<?php echo ROOT; ?>customers"
+                        href="<?php echo ROOT; ?>company"
                         class="btn btn-default btn-sm"
                       >
                         Back
@@ -44,6 +44,7 @@
                           class="form-control fc ftsm alphaonly"
                           name="name"
                           id="id_companyname"
+                          value=""
                         />
                       </div>
                     </div>
@@ -58,39 +59,42 @@
                           class="form-control fc ftsm alphaonly"
                           name="contact_person"
                           id="id_contactperson"
+                          value=""
                         />
                       </div>
                     </div>
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_pphone"> Contact </label>
+                        <label for="id_contact"> Contact </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input
                           type="tel"
                           class="form-control fc ftsm"
                           name="contact"
-                          id="id_pphone"
-                          pattern="[9,8,7,6]{1}[0-9]{9}"
+                          id="id_contact"
+                          pattern="[0-9]{10}"
                           minlength="10"
                           maxlength="10"
+                          value=""
                         />
                       </div>
                     </div>
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_sphone"> Mobile </label>
+                        <label for="id_mobile"> Mobile </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input
                           type="tel"
                           class="form-control fc ftsm"
                           name="mobile"
-                          id="id_sphone"
+                          id="id_mobile"
                           pattern="[9,8,7,6]{1}[0-9]{9}"
                           minlength="10"
                           maxlength="10"
+                          value=""
                         />
                       </div>
                     </div>
@@ -105,6 +109,9 @@
                           class="form-control fc ftsm"
                           name="fax"
                           id="id_fax"
+                          minlength="10"
+                          maxlength="15"
+                          value=""
                         />
                       </div>
                     </div>
@@ -119,6 +126,7 @@
                           name="email"
                           id="id_email"
                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                          value=""
                           style="text-transform: lowercase"
                         />
                       </div>
@@ -129,18 +137,31 @@
                         <label for="id_pan"> PAN No. </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm"
-                        name="pan" id="id_pan" " />
+                        <input
+                          type="text"
+                          class="form-control fc ftsm pan"
+                          name="pan"
+                          id="id_pan"
+                          pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                          minlength="10"
+                          maxlength="10"
+                          value=""
+                        />
                       </div>
                     </div>
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_sac"> SAC</label>
+                        <label for="id_sac"> SAC </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm"
-                        name="sac" id="id_sac" " />
+                        <input
+                          type="text"
+                          class="form-control fc ftsm"
+                          name="sac"
+                          id="id_sac"
+                          value=""
+                        />
                       </div>
                     </div>
 
@@ -157,6 +178,7 @@
                           minlength="15"
                           maxlength="15"
                           pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}"
+                          value=""
                         />
                       </div>
                     </div>
@@ -170,10 +192,11 @@
                           type="tel"
                           class="form-control fc ftsm numberonly"
                           name="pincode"
-                          id="pincode_id"
+                          id="id_pincode"
                           maxlength="6"
                           minlength="6"
                           pattern="^[0-9]{6}$"
+                          value=""
                         />
                       </div>
                     </div>
@@ -192,10 +215,10 @@
                         ></textarea>
                       </div>
                     </div>
-
+                    
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> State </label>
+                        <label for="id_state"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select
@@ -208,7 +231,7 @@
                           <option value="<?php echo $state['id'] ?>">
                             <?php echo $state['name'] ?>
                           </option>
-                          <?php endforeach;?>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
@@ -223,6 +246,7 @@
                           class="form-control fc ftsm"
                           name="bank_name"
                           id="id_bank_name"
+                          value=""
                         />
                       </div>
                     </div>
@@ -231,15 +255,16 @@
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_account_no"> Account Number </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <div class="col-sm-12 col-lg-3 form-group">
                         <input
-                          type="text"
-                          class="form-control fc ftsm"
+                          type="tel"
+                          class="form-control fc ftsm numberonly"
                           name="account_no"
                           id="id_account_no"
                           maxlength="18"
                           minlength="18"
                           pattern="^[0-9]{18}$"
+                          value=""
                         />
                       </div>
                     </div>
@@ -248,15 +273,16 @@
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_isfc_code"> IFSC Code </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <div class="col-sm-12 col-lg-3 form-group">
                         <input
                           type="text"
                           class="form-control fc ftsm"
-                          name="isfc_code"
+                          name="ifsc_code"
                           id="id_isfc_code"
                           maxlength="11"
                           minlength="11"
                           pattern="^[A-Z]{4}[0][A-Z0-9]{6}$"
+                          value=""
                         />
                       </div>
                     </div>
@@ -266,12 +292,12 @@
                     <button
                       type="submit"
                       class="btn btn-primary btn-sm "
-                      
+                      disabled
                     >
                       Submit
                     </button>
                     <a
-                      href="<?php echo ROOT; ?>customers"
+                      href="<?php echo ROOT; ?>company"
                       class="btn btn-default btn-sm"
                     >
                       Back
@@ -302,7 +328,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Are you confirm to new country record?</p>
+                        <p>Are you confirm to new company record?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button
@@ -322,9 +348,7 @@
                         </button>
                       </div>
                     </div>
-                    <!-- /.modal-content -->
                   </div>
-                  <!-- /.modal-dialog -->
                 </div>
               </form>
             </div>
@@ -335,4 +359,3 @@
       </section>
     </div>
   </div>
-</body>

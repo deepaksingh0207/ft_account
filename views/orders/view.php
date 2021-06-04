@@ -20,7 +20,7 @@ $pendingAmount = 0.00;
 									<div class="text-right">
 										<!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 										</a> -->
-										<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+										<a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm"> Back
 										</a>
 									</div>
 								</div>
@@ -171,7 +171,7 @@ $pendingAmount = 0.00;
 								<div class="card-footer text-right">
 									<!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 									</a> -->
-									<a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm"> Back
+									<a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm"> Back
 									</a>
 								</div>
 							</div>

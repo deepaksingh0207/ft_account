@@ -1,7 +1,7 @@
 <body class="hold-transition sidebar-collapse layout-top-nav">
   <div class="wrapper">
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php';?>
     <div class="content-wrapper">
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
       <section class="content">
         <div class="container">
           <div class="row">
@@ -15,7 +15,7 @@
                 <div class="card card-default mt-3">
                   <div class="card-header">
                     <h3 class="card-title" style="line-height: 2.2">
-                      Company Details
+                      Edit Company Details
                     </h3>
                     <div class="text-right">
                       <button
@@ -72,7 +72,7 @@
                           class="form-control fc ftsm"
                           name="contact"
                           id="id_contact"
-                          pattern="[9,8,7,6]{1}[0-9]{9}"
+                          pattern="[0-9]{10}"
                           minlength="10"
                           maxlength="10"
                           value="<?php echo $customer['contact'] ?>"
@@ -188,9 +188,9 @@
                           class="form-control fc ftsm numberonly"
                           name="pincode"
                           id="id_pincode"
-                          maxlength="7"
+                          maxlength="6"
                           minlength="6"
-                          pattern="^[0-9]+$"
+                          pattern="^[0-9]{6}$"
                           value="<?php echo $customer['pincode'] ?>"
                         />
                       </div>
@@ -208,8 +208,7 @@
                           rows="3"
                         >
                         <?php echo $customer['address'] ?>
-                    </textarea
-                        >
+                    </textarea>
                       </div>
                     </div>
                     
@@ -235,14 +234,14 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_pincode"> Bank Name </label>
+                        <label for="id_bank_name"> Bank's Name </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input
-                          type="tel"
-                          class="form-control fc ftsm numberonly"
+                          type="text"
+                          class="form-control fc ftsm"
                           name="bank_name"
-                          id="id_bankname"
+                          id="id_bank_name"
                           value="<?php echo $customer['bank_name'] ?>"
                         />
                       </div>
@@ -250,14 +249,17 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_pincode"> Account No. </label>
+                        <label for="id_account_no"> Account Number </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input
                           type="tel"
                           class="form-control fc ftsm numberonly"
                           name="account_no"
-                          id="id_account"
+                          id="id_account_no"
+                          maxlength="18"
+                          minlength="18"
+                          pattern="^[0-9]{18}$"
                           value="<?php echo $customer['account_no'] ?>"
                         />
                       </div>
@@ -265,18 +267,22 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_pincode"> IFSC Code </label>
+                        <label for="id_isfc_code"> IFSC Code </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input
-                          type="tel"
-                          class="form-control fc ftsm numberonly"
+                          type="text"
+                          class="form-control fc ftsm"
                           name="ifsc_code"
-                          id="id_ifsc"
+                          id="id_isfc_code"
+                          maxlength="11"
+                          minlength="11"
+                          pattern="^[A-Z]{4}[0][A-Z0-9]{6}$"
                           value="<?php echo $customer['ifsc_code'] ?>"
                         />
                       </div>
                     </div>
+                    
                   </div>
                   <div class="card-footer text-right">
                     <button
@@ -307,7 +313,7 @@
                   <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Add New Company</h4>
+                        <h4 class="modal-title">Edit Company</h4>
                         <button
                           type="button"
                           class="close"
@@ -318,7 +324,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Are you confirm to new country record?</p>
+                        <p>Are you confirm to edit this company record?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button
@@ -345,7 +351,7 @@
           </div>
           <br /><br /><br />
         </div>
-        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php';?>
       </section>
     </div>
   </div>

@@ -117,7 +117,6 @@
             </div>
           </div>
         </div>
-        <!-- Modal End -->
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
     </div>

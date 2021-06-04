@@ -15,7 +15,7 @@
                     <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 										</a> -->
                     <a
-                      href="<?php echo ROOT; ?>customers"
+                      href="<?php echo ROOT; ?>invoices"
                       class="btn btn-default btn-sm"
                     >
                       Back
@@ -131,7 +131,7 @@
                   <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 									</a> -->
                   <a
-                    href="<?php echo ROOT; ?>customers"
+                    href="<?php echo ROOT; ?>invoices"
                     class="btn btn-default btn-sm"
                   >
                     Back
