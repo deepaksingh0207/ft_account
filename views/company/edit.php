@@ -72,8 +72,8 @@
                           class="form-control fc ftsm"
                           name="contact"
                           id="id_contact"
-                          pattern="[0-9]{10}"
-                          minlength="10"
+                          pattern="[0-9]"
+                          minlength="8"
                           maxlength="10"
                           value="<?php echo $customer['contact'] ?>"
                         />

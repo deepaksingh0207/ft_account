@@ -33,12 +33,12 @@ $(function () {
       },
       pphone: {
         required: true,
-        minlength: 10,
+        minlength: 8,
         maxlength: 10,
       },
       sphone: {
         required: true,
-        minlength: 10,
+        minlength: 8,
         maxlength: 10,
       },
       shipby: {

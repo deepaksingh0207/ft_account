@@ -17,7 +17,7 @@ $(function () {
       },
       contact: {
         required: true,
-        minlength: 10,
+        minlength: 8,
         maxlength: 10,
       },
       mobile: {

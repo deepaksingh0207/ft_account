@@ -99,6 +99,7 @@
 
 <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/menu.js"></script>
 </body>
 
 </html>

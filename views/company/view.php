@@ -147,14 +147,6 @@
                     </div>
                   </div>
 
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> Bank Name </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['bank_name'] ?>
-                    </div>
-                  </div>
                 </div>
                 <div class="card-footer text-right">
                   <a

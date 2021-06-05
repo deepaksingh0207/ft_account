@@ -11,8 +11,8 @@
     <button
       class="navbar-toggler order-1"
       type="button"
-      data-toggle="collapse"
-      data-target="#navbarCollapse"
+      data-widget="pushmenu"
+      role="button"
       aria-controls="navbarCollapse"
       aria-expanded="false"
       aria-label="Toggle navigation"
@@ -60,7 +60,7 @@
       data-accordion="false"
     >
       <li class="nav-item">
-        <a href="<?php echo ROOT; ?>company/view/1" class="nav-link">
+        <a href="<?php echo ROOT; ?>company/view/1" class="nav-link" id="menu_company">
           <i class="far fa-building"></i>
           <p>
             Company
@@ -68,7 +68,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="<?php echo ROOT; ?>customers" class="nav-link active">
+        <a href="<?php echo ROOT; ?>customers" class="nav-link" id="menu_customers">
           <i class="fas fa-users"></i>
           <p>
             Customer
@@ -76,7 +76,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="<?php echo ROOT; ?>orders" class="nav-link">
+        <a href="<?php echo ROOT; ?>orders" class="nav-link" id="menu_orders">
           <i class="fas fa-luggage-cart"></i>
           <p>
             Order
@@ -84,7 +84,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="<?php echo ROOT; ?>invoices" class="nav-link">
+        <a href="<?php echo ROOT; ?>invoices" class="nav-link" id="menu_invoices">
           <i class="fas fa-file-invoice-dollar"></i>
           <p>
             Invoice

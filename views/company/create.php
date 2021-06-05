@@ -74,8 +74,8 @@
                           class="form-control fc ftsm"
                           name="contact"
                           id="id_contact"
-                          pattern="[0-9]{10}"
-                          minlength="10"
+                          pattern="^[0-9]+$"
+                          minlength="8"
                           maxlength="10"
                           value=""
                         />
@@ -262,8 +262,8 @@
                           name="account_no"
                           id="id_account_no"
                           maxlength="18"
-                          minlength="18"
-                          pattern="^[0-9]{18}$"
+                          minlength="11"
+                          pattern="^[0-9]+$"
                           value=""
                         />
                       </div>
@@ -291,7 +291,7 @@
                   <div class="card-footer text-right">
                     <button
                       type="submit"
-                      class="btn btn-primary btn-sm "
+                      class="btn btn-primary btn-sm vip"
                       disabled
                     >
                       Submit

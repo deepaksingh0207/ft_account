@@ -160,8 +160,8 @@
                           class="form-control fc ftsm"
                           name="pphone"
                           id="id_pphone"
-                          pattern="[9,8,7,6]{1}[0-9]{9}"
-                          minlength="10"
+                          pattern="^[0-9]+$"
+                          minlength="8"
                           maxlength="10"
                           value=""
                         />
@@ -177,8 +177,8 @@
                           class="form-control fc ftsm"
                           name="aphone"
                           id="id_sphone"
-                          pattern="[9,8,7,6]{1}[0-9]{9}"
-                          minlength="10"
+                          pattern="^[0-9]+$"
+                          minlength="8"
                           maxlength="10"
                           value=""
                         />
