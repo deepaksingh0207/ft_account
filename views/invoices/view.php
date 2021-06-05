@@ -9,7 +9,7 @@
               <div class="card card-default mt-3">
                 <div class="card-header">
                   <h3 class="card-title" style="line-height: 2.2">
-                    View Invoice
+                    Invoice Details
                   </h3>
                   <div class="text-right">
                     <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
@@ -25,7 +25,7 @@
                 <div class="card-body">
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> Invoice No : </label>
+                      <label for="id_customername"> <b>Invoice No :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $invoice['id'] ?>
@@ -33,7 +33,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> Customer : </label>
+                      <label for="id_customername"> <b>Customer :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['name'] ?>
@@ -42,7 +42,7 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> Order Number: </label>
+                      <label for="id_contactperson"> <b>Order Number:</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $invoice['po_no'] ?>
@@ -50,7 +50,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> Date : </label>
+                      <label for="id_address"> <b>Date :</b> </label>
                     </div>
                     <div
                       class="col-sm-12 col-lg-3 form-group"
@@ -62,7 +62,7 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> Contact Person: </label>
+                      <label for="id_address"> <b>Contact Person:</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $invoice['sales_person'] ?>
@@ -70,7 +70,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> Bill To : </label>
+                      <label for="id_gst"> <b>Bill To :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $invoice['bill_to'] ?>
@@ -78,7 +78,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> Ship To : </label>
+                      <label for="id_gst"> <b>Ship To :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $invoice['ship_to'] ?>
@@ -86,7 +86,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_pphone"> Comments : </label>
+                      <label for="id_pphone"> <b>Comments :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $invoice['remarks'] ?>

@@ -9,7 +9,7 @@
               <div class="card card-default mt-3">
                 <div class="card-header">
                   <h3 class="card-title" style="line-height: 2.2">
-                    View Customer
+                    Customer Details
                   </h3>
                   <div class="text-right">
                     <a
@@ -29,7 +29,7 @@
                 <div class="card-body">
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> Customer Name </label>
+                      <label for="id_customername"> <b>Customer Name</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['name'] ?>
@@ -37,7 +37,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> Contact Person </label>
+                      <label for="id_contactperson"> <b>Contact Person</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['contact_person'] ?>
@@ -45,7 +45,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> Address </label>
+                      <label for="id_address"> <b>Address</b> </label>
                     </div>
                     <div
                       class="col-sm-12 col-lg-3 form-group"
@@ -56,7 +56,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_pincode"> Pincode </label>
+                      <label for="id_pincode"> <b>Pincode</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['pincode'] ?>
@@ -64,7 +64,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> State </label>
+                      <label for="id_address"> <b>State</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $state['name'] ?>
@@ -72,7 +72,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> PAN No. </label>
+                      <label for="id_gst"> <b>PAN No.</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['pan'] ?>
@@ -80,7 +80,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> GSTIN </label>
+                      <label for="id_gst"> <b>GSTIN</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['gstin'] ?>
@@ -88,7 +88,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_pphone"> Phone (primary) </label>
+                      <label for="id_pphone"> <b>Phone (primary)</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['pphone'] ?>
@@ -96,7 +96,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_sphone"> Phone (alternative) </label>
+                      <label for="id_sphone"> <b>Phone (alternative)</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['aphone'] ?>
@@ -104,7 +104,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_fax"> Fax </label>
+                      <label for="id_fax"> <b>Fax</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['fax'] ?>
@@ -112,7 +112,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_email"> Email </label>
+                      <label for="id_email"> <b>Email</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['email'] ?>
@@ -120,7 +120,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_addinfo"> Additional Info </label>
+                      <label for="id_addinfo"> <b>Additional Info</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['remark'] ?>

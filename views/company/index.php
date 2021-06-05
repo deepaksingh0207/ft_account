@@ -12,6 +12,7 @@
                   <table id="example1" class="table table-hover table-striped">
                     <thead class="text-center">
                       <tr>
+                        <th></th>
                         <th>Company</th>
                         <th>Contact Person</th>
                         <th>GSTIN</th>
@@ -23,6 +24,7 @@
                       <tr
                         data-href="<?php echo ROOT; ?>company/view/<?php echo $company['id'] ?>"
                       >
+                        <td></td>
                         <td class="sublist"><?php echo $company['name'] ?></td>
                         <td class="sublist">
                           <?php echo $company['contact_person'] ?>

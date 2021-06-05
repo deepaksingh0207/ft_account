@@ -15,7 +15,7 @@ $pendingAmount = 0.00;
 							<div class="card card-default mt-3">
 								<div class="card-header">
 									<h3 class="card-title" style="line-height: 2.2">
-										View Order
+										Order Details
 									</h3>
 									<div class="text-right">
 										<!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
@@ -28,7 +28,7 @@ $pendingAmount = 0.00;
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
 											<label for="id_customername">
-												Customer :
+												<b>Customer :</b>
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
@@ -38,7 +38,7 @@ $pendingAmount = 0.00;
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
 											<label for="id_contactperson">
-												Date :
+												<b>Date :</b>
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
@@ -47,7 +47,7 @@ $pendingAmount = 0.00;
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_address"> Customer PO No. : </label>
+											<label for="id_address"> <b>Customer PO No. :</b> </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group" style="text-align: justify;">
 											<?php echo $order['po_no'] ?>
@@ -55,7 +55,7 @@ $pendingAmount = 0.00;
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_pincode"> Contact Person : </label>
+											<label for="id_pincode"> <b>Contact Person :</b> </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
 											<?php echo $order['sales_person'] ?>
@@ -63,7 +63,7 @@ $pendingAmount = 0.00;
 									</div>
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
-											<label for="id_address"> Bill To : </label>
+											<label for="id_address"> <b>Bill To :</b> </label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
 											<?php echo $order['bill_to'] ?>
@@ -72,7 +72,7 @@ $pendingAmount = 0.00;
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
 											<label for="id_gst">
-												Ship To :
+												<b>Ship To :</b>
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
@@ -82,7 +82,7 @@ $pendingAmount = 0.00;
 									<div class="row mx-1">
 										<div class="col-sm-12 col-lg-2">
 											<label for="id_gst">
-												Comments :
+												<b>Comments :</b>
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">

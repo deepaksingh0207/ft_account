@@ -21,6 +21,7 @@
                       <button
                         type="submit"
                         class="btn btn-primary btn-sm vip"
+                        title="All fields are mandatory."
                         disabled
                       >
                         Submit
@@ -232,6 +233,7 @@
                     <button
                       type="submit"
                       class="btn btn-primary btn-sm vip"
+                      title="All fields are mandatory."
                       disabled
                     >
                       Submit

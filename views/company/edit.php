@@ -21,6 +21,7 @@
                       <button
                         type="submit"
                         class="btn btn-primary btn-sm vip"
+                        title="Activates only on changes."
                         disabled
                       >
                         Update
@@ -288,6 +289,7 @@
                     <button
                       type="submit"
                       class="btn btn-primary btn-sm vip"
+                      title="Activates only on changes."
                       disabled
                     >
                       Update

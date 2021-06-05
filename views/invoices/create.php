@@ -19,7 +19,11 @@
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary">
+                      <button
+                        type="submit"
+                        class="btn btn-sm btn-primary"
+                        title="All fields are mandatory."
+                      >
                         Record
                       </button>
                       <a
@@ -160,11 +164,11 @@
                       id="order_list_layout"
                       style="display: none"
                     >
-                      <div class="col-12 table-responsive card">
+                      <div class="col-12 card px-0">
                         <div class="card-header">
                           <b>Order Details</b>
                         </div>
-                        <div class="card-body py-3">
+                        <div class="card-body table-responsive py-3">
                           <table class="table text-center">
                             <thead>
                               <tr>
@@ -177,7 +181,9 @@
                             </thead>
                             <tbody id="orderlist"></tbody>
                           </table>
-                          <hr class="mt-0" />
+
+                        </div>
+                        <div class="card-footer">
                           <div class="text-right">
                             <b>Sub Total : </b>₹
                             <span id="ordertotal">0.00</span>
@@ -196,11 +202,11 @@
                       id="invoice_list_layout"
                       style="display: none"
                     >
-                      <div class="col-12 table-responsive card">
+                      <div class="col-12 card px-0">
                         <div class="card-header">
                           <b>Past Invoice Details</b>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body table-responsive">
                           <table class="table text-center mb-0">
                             <thead>
                               <tr>
@@ -217,7 +223,9 @@
                             </thead>
                             <tbody id="invoicelist"></tbody>
                           </table>
-                          <hr class="mt-0" />
+
+                        </div>
+                        <div class="card-footer">
                           <div class="text-right">
                             <b>Pending Balance : </b>₹
                             <span id="pendingbalance">0.00</span>
@@ -227,17 +235,17 @@
                     </div>
 
                     <div class="row" id="paytype_div" style="display: none">
-                      <div class="col-12 table-responsive card">
+                      <div class="col-12 card px-0">
                         <div class="card-header">
                           <b>Generate New Invoice</b>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body table-responsive">
                           <table class="table text-center mb-0">
                             <thead>
                               <tr>
                                 <th class="min100">Sr No.</th>
                                 <th class="min100 text-left">Line Items</th>
-                                <th class="">% Slab</th>
+                                <th class="min100">% Slab</th>
                                 <th class="min100">Sub Total</th>
                               </tr>
                             </thead>
@@ -308,7 +316,7 @@
                               </tr>
                             </tbody>
                           </table>
-                          <hr class="mt-0" />
+
                           <div
                             class="col-12 text-right"
                             id="sgstdiv"
@@ -337,7 +345,6 @@
                             <b>CGST <span id="cgstpercent"></span>% </b>:₹
                             <span id="cgstvalue">0.00</span>
                           </div>
-
                           <div
                             class="col-12 text-right"
                             id="igstdiv"
@@ -352,8 +359,9 @@
                             <b>IGST <span id="igstpercent"></span>% </b>:₹
                             <span id="igstvalue">0.00</span>
                           </div>
-
-                          <div class="col-12 text-right" style="color: crimson">
+                        </div>
+                        <div class="card-footer">
+                          <div class="col-12 text-right" style="color: darkgreen">
                             <input
                               type="hidden"
                               name="invoice_total"
@@ -370,7 +378,11 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary">
+                      <button
+                        type="submit"
+                        class="btn btn-sm btn-primary"
+                        title="All fields are mandatory."
+                      >
                         Record
                       </button>
                       <a
@@ -488,3 +500,4 @@
       </div>
     </div>
   </div>
+</body>

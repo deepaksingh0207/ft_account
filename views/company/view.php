@@ -29,13 +29,13 @@
                 <div class="card-body">
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_companyname"> Company Name </label>
+                      <label for="id_companyname"> <b>Company Name</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['name'] ?>
                     </div>
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> Bank Name </label>
+                      <label for="id_state"> <b>Bank Name</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['bank_name'] ?>
@@ -43,13 +43,13 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> Contact Person </label>
+                      <label for="id_contactperson"> <b>Contact Person</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['contact_person'] ?>
                     </div>
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> Account No. </label>
+                      <label for="id_state"> <b>Account No.</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['account_no'] ?>
@@ -57,13 +57,13 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_contact"> Contact </label>
+                      <label for="id_contact"> <b>Contact</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['contact'] ?>
                     </div>
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> IFSC </label>
+                      <label for="id_state"> <b>IFSC</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['ifsc_code'] ?>
@@ -71,7 +71,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_mobile"> Mobile </label>
+                      <label for="id_mobile"> <b>Mobile</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['mobile'] ?>
@@ -79,7 +79,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_fax"> Fax </label>
+                      <label for="id_fax"> <b>Fax</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['fax'] ?>
@@ -87,7 +87,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_email"> Email </label>
+                      <label for="id_email"> <b>Email</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['email'] ?>
@@ -95,7 +95,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> PAN No. </label>
+                      <label for="id_gst"> <b>PAN No.</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['pan'] ?>
@@ -103,7 +103,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> SAC </label>
+                      <label for="id_gst"> <b>SAC</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['sac'] ?>
@@ -111,7 +111,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> GSTIN </label>
+                      <label for="id_gst"> <b>GSTIN</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['gstin'] ?>
@@ -120,7 +120,7 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_pincode"> Pincode </label>
+                      <label for="id_pincode"> <b>Pincode</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['pincode'] ?>
@@ -128,7 +128,7 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> Address </label>
+                      <label for="id_address"> <b>Address</b> </label>
                     </div>
                     <div
                       class="col-sm-12 col-lg-3 form-group"
@@ -140,7 +140,7 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> State </label>
+                      <label for="id_state"> <b>State</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $state['name'] ?>

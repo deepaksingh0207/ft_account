@@ -19,7 +19,7 @@
                   <div class="card-header">
                     <div class="card-title">New Sales Order</div>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary">
+                      <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
                         Record
                       </button>
                       <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
@@ -52,15 +52,6 @@
                         <input type="date" class="form-control ftsm" name="order_date" id="date_id" value=""/>
                       </div>
                     </div>
-
-                    <!-- <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="days_id">Pay in days :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control ftsm numberonly" name="pay_days" id="days_id" minlength="1" maxlength="3" />
-                      </div>
-                    </div> -->
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
@@ -138,11 +129,6 @@
 
                     </div>
                     <div class="row">
-                      <!-- <div class="col-12 text-right">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal">
-                        <b>Subtotal : </b>₹
-                        <span id="subtotal_id">0.00</span>
-                      </div> -->
                       <div class="col-12 text-right">
                         <input type="hidden" name="ordertotal" id="id_ordertotal">
                         <b>Total : </b>₹
@@ -153,19 +139,7 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <!-- <button type="submit" class="btn btn-sm btn-default" name="submit" value="save">
-                        Save
-                      </button>
-                      <button type="submit" class="btn btn-sm btn-default" name="submit" value="save_recurring">
-                        Save & Recurring
-                      </button>
-                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_print">
-                        Record & Print
-                      </button>
-                      <button type="submit" class="btn btn-sm btn-primary" name="submit" value="submit_email">
-                        Record & Email
-                      </button> -->
-                      <button type="submit" class="btn btn-sm btn-primary">
+                      <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
                         Record
                       </button>
                       <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm"> Back

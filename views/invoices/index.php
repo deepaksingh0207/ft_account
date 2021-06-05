@@ -85,6 +85,7 @@
                       >
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Date</th>
                             <th>Invoice</th>
                             <th>Order</th>
@@ -100,6 +101,7 @@
                           <tr
                             data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['id'] ?>"
                           >
+                            <td></td>
                             <td>
                               <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
                             </td>

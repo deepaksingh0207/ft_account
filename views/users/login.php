@@ -55,6 +55,10 @@
             </div>
           </div>
         </form>
+        <div class="text-center" style="color: crimson; font-style: italic; text-transform: capitalize;">
+        <!-- alert: print alert message in small -->
+        <small></small>
+        </div>
       </div>
     </div>
   </div>
