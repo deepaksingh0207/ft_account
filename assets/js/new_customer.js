@@ -77,9 +77,9 @@ $(function () {
       // customernotes: {
       //   required: true,
       // },
-      // customergroup: {
-      //   required: true,
-      // },
+      customergroup: {
+        required: true,
+      },
     },
     messages: {
       customername: {
@@ -120,6 +120,9 @@ $(function () {
       },
       addinfo: {
         required: "Please enter additional information.",
+      },
+      customergroup: {
+        required: "Please select a Customer Group.",
       },
     },
     errorElement: "span",

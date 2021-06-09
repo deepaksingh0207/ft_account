@@ -126,7 +126,7 @@ $(function () {
 		  required: "Enter customer note.",
 		},
 		customergroup: {
-		  required: "Select a group.",
+		  required: "Please select a Customer Group.",
 		},
 	  },
 	  errorElement: "span",
@@ -142,6 +142,7 @@ $(function () {
 	  },
 	});
 	var id_customername = $("#id_customername").val();
+	var id_customergroup = $("#id_customergroup").val();
 	var id_contactperson = $("#id_contactperson").val();
 	var id_address = $("#id_address").val();
 	var pincode_id = $("#pincode_id").val();
@@ -165,6 +166,12 @@ $(function () {
 	}
   });
   
+  $("#id_customergroup").change(function () {
+	if ($("#id_customergroup").val() != id_customergroup) {
+	  $(".vip").removeAttr("disabled");
+	}
+  });
+
   $("#id_customername").change(function () {
 	if ($("#id_customername").val() != id_customername) {
 	  $(".vip").removeAttr("disabled");
