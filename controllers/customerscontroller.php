@@ -37,8 +37,11 @@ class CustomersController extends Controller
             
             $states = new StatesModel();
             $state = $states->get($customer['state']);
-            
             $this->_view->set('state', $state);
+            
+            $groupTbl = new CustomerGroupsModel();
+            $group = $groupTbl->get($customer['group_id']);
+            $this->_view->set('group', $group);
             
             
             return $this->_view->output();
@@ -60,8 +63,12 @@ class CustomersController extends Controller
             
             $states = new StatesModel();
             $states = $states->list();
-            
             $this->_view->set('states', $states);
+            
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            
             
             if(!empty($_POST)) {
                 $data = $_POST;
@@ -87,8 +94,12 @@ class CustomersController extends Controller
             
             $states = new StatesModel();
             $states = $states->list();
-
             $this->_view->set('states', $states);
+            
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            
             
             if(!empty($_POST)) {
                 $data = $_POST;
@@ -110,6 +121,15 @@ class CustomersController extends Controller
     public function getDetails($id) {
         if($id) {
             $customer = $this->_model->get($id);
+            echo json_encode($customer);
+        } else {
+            echo false;
+        }
+    }
+    
+    public function groupCustomers($id) {
+        if($id) {
+            $customer = $this->_model->getCustomersByGroup($id);
             echo json_encode($customer);
         } else {
             echo false;

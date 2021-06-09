@@ -35,11 +35,11 @@
                         <label for="id_customergroup">Customer Group : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control select2" name="customergroup" id="id_customergroup">
+                        <select class="form-control select2" name="group_id" id="id_customergroup">
                           <option value=""></option>
-                          <?php foreach ($customers as $customer) : ?>
-                          <option value="<?php echo $customer['id'] ?>">
-                            <?php echo $customer['name'] ?>
+                          <?php foreach ($groups as $group) : ?>
+                          <option value="<?php echo $group['id'] ?>">
+                            <?php echo $group['name'] ?>
                           </option>
                           <?php endforeach; ?>
                         </select>

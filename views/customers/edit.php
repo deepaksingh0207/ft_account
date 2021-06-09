@@ -31,12 +31,12 @@
                         <label for="id_customergroup"> Customer Group </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="customergroup" id="id_customergroup">
+                        <select class="form-control fc ftsm select2" name="group_id" id="id_customergroup">
                           <option value=""></option>
-                          <?php foreach ($states as $state) : ?>
-                          <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state']==$state['id'])
+                          <?php foreach ($groups as $group) : ?>
+                          <option value="<?php echo $group['id'] ?>" <?php echo ($customer['group_id']==$group['id'])
                             ? 'selected="selected"' : '' ?>>
-                            <?php echo $state['name'] ?>
+                            <?php echo $group['name'] ?>
                           </option>
                           <?php endforeach; ?>
                         </select>

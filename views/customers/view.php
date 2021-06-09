@@ -27,7 +27,7 @@
                       <label for="id_customergroup"> <b>Customer Group</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['name'] ?>
+                      <?php echo $group['name'] ?>
                     </div>
                   </div>
 

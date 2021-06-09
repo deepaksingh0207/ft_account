@@ -88,5 +88,14 @@ class CustomersModel extends Model {
     }
     
     
+    public function getCustomersByGroup($id) {
+        $sql = "select * from customers where group_id = ? ";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($id));
+        if (empty($user)){
+            return false;
+        }
+        return $user;
+    }
     
 }

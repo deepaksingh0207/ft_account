@@ -341,13 +341,13 @@ $("#id_customergroup").change(function () {
   if (groupid) {
     $.ajax({
       type: "POST",
-      url: baseUrl + "customers/getdetails/" + groupid,
+      url: baseUrl + "customers/groupcustomers/" + groupid,
       data: groupid,
       dataType: "json",
       encode: true,
     })
       .done(function (data) {
-        // groupdetails = data
+        groupdetails = data
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
@@ -379,7 +379,7 @@ function modelfill(checkboxclass){   //groupdetails = [{"id":1, "code": JVM123, 
     $("#row"+row.id).append("<td id='tickcol"+row.id+"'></td>");
     $("#tickcol"+row.id).append("<div class='icheck-primary d-inline'><input type='radio' id='checkbox"+row.id+"' name='id_customer' class='"+checkboxclass+"'><label for='checkbox"+row.id+"'></label></div>");
     $("#row"+row.id).append("<td id='code"+row.id+"'></td>");
-    $("#code"+row.id).text(row.code);
+    $("#code"+row.id).text(row.id);
     $("#row"+row.id).append("<td id='name"+row.id+"'></td>");
     $("#name"+row.id).text(row.name);
     $("#row"+row.id).append("<td id='address"+row.id+"'></td>");

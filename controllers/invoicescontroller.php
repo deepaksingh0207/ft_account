@@ -223,13 +223,14 @@ class InvoicesController extends Controller
         $mpdf->Output('pdf/invoice_'.$invoice['id'].'.pdf', 'F');
         
         
-        $this->sendMail($invoice);
+        $this->sendMail($invoice, $customer);
     }
     
-    function sendMail($invoice) {
+    function sendMail($invoice, $customer) {
         
         $sentMailTo = array();
         $sentMailTo = FXD_EMAIL_IDS;
+        $sentMailTo[] = $customer['email'];
         
         try {
             $mailer = $this->_utils->getMailer();
