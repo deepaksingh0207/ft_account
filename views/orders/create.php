@@ -32,15 +32,55 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="customerid_id">Customer : </label>
+                        <label for="id_customergroup">Customer Group : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control-sm select2" name="customer_id" id="customerid_id">
+                        <select class="form-control select2" name="customergroup" id="id_customergroup">
                           <option value=""></option>
                           <?php foreach ($customers as $customer) : ?>
-                            <option value="<?php echo $customer['id'] ?>"><?php echo $customer['name'] ?></option>
+                          <option value="<?php echo $customer['id'] ?>">
+                            <?php echo $customer['name'] ?>
+                          </option>
                           <?php endforeach; ?>
                         </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="bill_id">Bill To :</label>
+                      </div>
+                      <div class="col-sm-10 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm" name="bill" id="bill_id" />
+                      </div>
+                      <div class="col-sm-2 col-lg-1 form-group">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
+                          id="billaddbtn">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="ship_id">Ship To :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm" name="ship" id="ship_id" />
+                      </div>
+                      <div class="col-sm-2 col-lg-1 form-group">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel" id="shipaddbtn">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2 mb-3">
+                      Customer :
+                      </div>
+                      <div class="col-sm-12 col-lg-3 mb-3">
+                      <span id="customerid_id"></span>
                       </div>
                     </div>
 
@@ -49,7 +89,7 @@
                         <label for="date_id">Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" value=""/>
+                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" value="" />
                       </div>
                     </div>
 
@@ -67,25 +107,8 @@
                         <label for="salesperson_id">Contact Person :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm alphaonly" name="sales_person" id="salesperson_id" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="bill_id">Bill To :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="bill_to" id="bill_id" cols="30" rows="2"></textarea>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="ship_id">Ship To :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="ship_to" id="ship_id" cols="30" rows="2"></textarea>
+                        <input type="text" class="form-control ftsm alphaonly" name="sales_person"
+                          id="salesperson_id" />
                       </div>
                     </div>
 
@@ -94,7 +117,6 @@
                         <label for="comment_id">Comments :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-
                         <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
@@ -185,7 +207,37 @@
             </div>
           </div>
         </div>
-        <!-- Modal End -->
+
+        <div class="modal fade" id="addmodel">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Bill To Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div>
+                  <table class="table table-hover" style="border: 1px solid lightgrey;">
+                    <thead>
+                      <th></th>
+                      <th>Customer Code</th>
+                      <th>Customer Name</th>
+                      <th>Ship To Address</th>
+                    </thead>
+                    <tbody id="addbody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary billtoclick" data-dismiss="modal">Select</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </div>

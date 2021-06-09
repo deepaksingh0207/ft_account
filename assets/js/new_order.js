@@ -1,4 +1,6 @@
 var baseUrl = window.location.origin + "/ft_account/";
+var groupdetails = [{"id":1, "code": "JVM123", "name": "Aartiasdasdasd", "address": "xyz colony"}]
+var code
 
 $(function () {
   var today = new Date();
@@ -156,20 +158,20 @@ $(".alphaonly").on("keypress", function (event) {
 function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
-      charlie +
-      "'><td><input class='form-control ftsm itmy' name='item[]' id='id_item" +
-      charlie +
-      "' placeholder='Enter item name' /></td><td><input class='form-control ftsm desp'  name='description[]' id='id_description" +
-      charlie +
-      "' placeholder='Enter Description...' /></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
-      charlie +
-      "'/></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
-      charlie +
-      "'/></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
-      charlie +
-      "'><span id='id_total" +
-      charlie +
-      "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' ></i></td></tr>"
+    charlie +
+    "'><td><input class='form-control ftsm itmy' name='item[]' id='id_item" +
+    charlie +
+    "' placeholder='Enter item name' /></td><td><input class='form-control ftsm desp'  name='description[]' id='id_description" +
+    charlie +
+    "' placeholder='Enter Description...' /></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
+    charlie +
+    "'/></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
+    charlie +
+    "'/></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
+    charlie +
+    "'><span id='id_total" +
+    charlie +
+    "'>0.00</span></td><td><i class='fas fa-minus-circle trash' style='color: red' ></i></td></tr>"
   );
 }
 
@@ -220,7 +222,7 @@ $("#add_item").on("click", function () {
 $(document).on("change", ".itmy", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
-  if (qtyid.val() != ""){
+  if (qtyid.val() != "") {
     $("#id_unitprice" + id[0]).attr("required");
     $("#id_quantity" + id[0]).attr("required");
   }
@@ -229,7 +231,7 @@ $(document).on("change", ".itmy", function () {
 $(document).on("change", ".desp", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
-  if (qtyid.val() != ""){
+  if (qtyid.val() != "") {
     $("#id_unitprice" + id[0]).attr("required");
     $("#id_quantity" + id[0]).attr("required");
   }
@@ -293,8 +295,8 @@ function rowcollector(id) {
   rowtax = $("#id_tax" + id).val();
   total = 0;
   if (rowqty[0] != "" && rowunitprice[0] != "") {
-    $("#id_item" + id).attr("required","");
-    $("#id_description" + id).attr("required","");
+    $("#id_item" + id).attr("required", "");
+    $("#id_description" + id).attr("required", "");
     total = rowunitprice * rowqty;
     // if (rowtax[0] != "") {
     //   total += total * (rowtax / 100);
@@ -306,6 +308,10 @@ function rowcollector(id) {
 // Customer Ajax
 $("#customerid_id").change(function () {
   var customerid = $(this).val();
+  getcustomerdetails(customerid);
+});
+
+function getcustomerdetails(customerid){
   if (customerid) {
     console.log(customerid);
     $.ajax({
@@ -317,8 +323,8 @@ $("#customerid_id").change(function () {
     })
       .done(function (data) {
         $("#salesperson_id").val(data.contact_person);
-        $("#bill_id").val(data.address);
-        $("#ship_id").val(data.address);
+        // $("#bill_id").val(data.address);
+        // $("#ship_id").val(data.address);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
@@ -328,4 +334,70 @@ $("#customerid_id").change(function () {
     $("#bill_id").val("");
     $("#ship_id").val("");
   }
+}
+
+$("#id_customergroup").change(function () {
+  var groupid = $(this).val();
+  if (groupid) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "customers/getdetails/" + groupid,
+      data: groupid,
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        // groupdetails = data
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("No details found against this customer.");
+      });
+  } else {
+    groupdetails = ""
+    $("#bill_id").val("");
+    $("#ship_id").val("");
+    $(".customer").text("");
+    $("#customer_id").val("");
+    $("#salesperson_id").val("");
+    $("#comment_id").val("");
+  }
+});
+
+
+$("#billaddbtn").on("click", function () {
+  modelfill("billrow")
+});
+
+$("#shipaddbtn").on("click", function () {
+  modelfill("shiprow")
+});
+
+function modelfill(checkboxclass){   //groupdetails = [{"id":1, "code": JVM123, "name": "Aarti", "address": "xyz colony"}]
+  $("#addbody").empty();
+  $.each(groupdetails, function (index, row) {
+    $("#addbody").append("<tr id='row"+row.id+"' ></tr>");
+    $("#row"+row.id).append("<td id='tickcol"+row.id+"'></td>");
+    $("#tickcol"+row.id).append("<div class='icheck-primary d-inline'><input type='radio' id='checkbox"+row.id+"' name='id_customer' class='"+checkboxclass+"'><label for='checkbox"+row.id+"'></label></div>");
+    $("#row"+row.id).append("<td id='code"+row.id+"'></td>");
+    $("#code"+row.id).text(row.code);
+    $("#row"+row.id).append("<td id='name"+row.id+"'></td>");
+    $("#name"+row.id).text(row.name);
+    $("#row"+row.id).append("<td id='address"+row.id+"'></td>");
+    $("#address"+row.id).text(row.address);
+  });
+}
+
+$(document).on("click", ".billrow", function () {
+  id = $(this).attr("id").match(/\d+/)[0];
+  code = $("#code"+id).text();
+  customername = $("#name"+id).text();
+  $("#bill_id").val(code);
+  $("#customerid_id").text(customername);
+  getcustomerdetails(id);
+});
+
+$(document).on("click", ".shiprow", function () {
+  id = $(this).attr("id").match(/\d+/)[0];
+  code = $("#code"+id).text();
+  $("#ship_id").val(code);
 });
