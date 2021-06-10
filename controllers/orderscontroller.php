@@ -99,7 +99,7 @@ class OrdersController extends Controller
                 }
 
                 unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total']
-                , $data['trid'], $data['taxval']);
+                    , $data['trid'], $data['taxval'], $data['group_id']);
 
                 //print_r($orderItems);
                 //print_r($data); exit;
