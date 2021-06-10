@@ -1,5 +1,5 @@
 var baseUrl = window.location.origin + "/ft_account/";
-var groupdetails = [{"id":1, "code": "JVM123", "name": "Aartiasdasdasd", "address": "xyz colony"}]
+var groupdetails
 var code
 var prehigh = 0
 
