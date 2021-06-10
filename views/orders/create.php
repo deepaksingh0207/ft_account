@@ -80,7 +80,8 @@
                       Customer :
                       </div>
                       <div class="col-sm-12 col-lg-3 mb-3">
-                      <span id="customerid_id"></span>
+                      <input type="hidden" name="customer_id" id="customerid_id">
+                      <span id="id_customerid"></span>
                       </div>
                     </div>
 
@@ -152,7 +153,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal">
+                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.00">
                         <b>Total : </b>₹
                         <span id="total">0.00</span>
                       </div>

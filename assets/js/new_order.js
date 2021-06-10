@@ -162,13 +162,13 @@ function addrow(charlie) {
     charlie +
     "'><td><input class='form-control ftsm itmy' name='item[]' id='id_item" +
     charlie +
-    "' placeholder='Enter item name' /></td><td><input class='form-control ftsm desp'  name='description[]' id='id_description" +
+    "' placeholder='Enter item name' /></td><td><input class='form-control ftsm desp' name='description[]' id='id_description" +
     charlie +
-    "' placeholder='Enter Description...' /></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' name='qty[]' id='id_quantity" +
+    "' placeholder='Enter Description...' /></td><td><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' value='0' name='qty[]' id='id_quantity" +
     charlie +
-    "'/></td><td><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" +
+    "'/></td><td><input type='number' class='form-control ftsm unitprice' value='0' name='unit_price[]' id='id_unitprice" +
     charlie +
-    "'/></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' name='total[]' id='total" +
+    "'/></td><td>₹<input type='hidden' class='form-control ftsm rowtotal' value='0' name='total[]' id='total" +
     charlie +
     "'><span id='id_total" +
     charlie +
@@ -392,8 +392,9 @@ $(document).on("click", ".billrow", function () {
   code = $("#code"+id).text();
   customername = $("#name"+id).text();
   $("#bill_id").val(code);
-  $("#customerid_id").text(customername);
+  $("#id_customerid").text(customername);
   $("#row"+id).css('background-color', 'powderblue');
+  $("#customerid_id").val(id);
   getcustomerdetails(id);
 });
 
@@ -431,10 +432,11 @@ function highlight(id) {
   if (modal == "shiprow"){
     $("#ship_id").val(code);
   }
-  $("#customerid_id").text(customername);
+  $("#id_customerid").text(customername);
   $("#row"+prehigh).css('background-color', 'inherit');
   prehigh = id
   $("#checkbox"+id).prop('checked', true);
   $("#row"+id).css('background-color', 'powderblue');
+  $("#customerid_id").val(id);
   getcustomerdetails(id);
 }
