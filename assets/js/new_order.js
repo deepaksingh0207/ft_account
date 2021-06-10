@@ -1,6 +1,7 @@
 var baseUrl = window.location.origin + "/ft_account/";
 var groupdetails = [{"id":1, "code": "JVM123", "name": "Aartiasdasdasd", "address": "xyz colony"}]
 var code
+var prehigh = 0
 
 $(function () {
   var today = new Date();
@@ -204,7 +205,6 @@ $(".killrow").click(function () {
 // Add Order Item Click Action
 $("#add_item").on("click", function () {
   var a = $("#id_tr").val().split(",");
-  console.log(a);
   if (a.length < 2 && a[0] == "") {
     addrow(1);
     a[0] = 1;
@@ -215,7 +215,6 @@ $("#add_item").on("click", function () {
     a.push("" + lastid + "");
   }
   $("#id_tr").val(a);
-  console.log($("#id_tr").val());
 });
 
 
@@ -313,7 +312,6 @@ $("#customerid_id").change(function () {
 
 function getcustomerdetails(customerid){
   if (customerid) {
-    console.log(customerid);
     $.ajax({
       type: "POST",
       url: baseUrl + "customers/getdetails/" + customerid,
@@ -378,26 +376,65 @@ function modelfill(checkboxclass){   //groupdetails = [{"id":1, "code": JVM123, 
     $("#addbody").append("<tr id='row"+row.id+"' ></tr>");
     $("#row"+row.id).append("<td id='tickcol"+row.id+"'></td>");
     $("#tickcol"+row.id).append("<div class='icheck-primary d-inline'><input type='radio' id='checkbox"+row.id+"' name='id_customer' class='"+checkboxclass+"'><label for='checkbox"+row.id+"'></label></div>");
-    $("#row"+row.id).append("<td id='code"+row.id+"'></td>");
+    $("#row"+row.id).append("<td class='cody' id='code"+row.id+"'></td>");
     $("#code"+row.id).text(row.id);
-    $("#row"+row.id).append("<td id='name"+row.id+"'></td>");
+    $("#row"+row.id).append("<td class='namy' id='name"+row.id+"'></td>");
     $("#name"+row.id).text(row.name);
-    $("#row"+row.id).append("<td id='address"+row.id+"'></td>");
+    $("#row"+row.id).append("<td class='addy' id='address"+row.id+"'></td>");
     $("#address"+row.id).text(row.address);
   });
 }
 
 $(document).on("click", ".billrow", function () {
   id = $(this).attr("id").match(/\d+/)[0];
+  $("#row"+prehigh).css('background-color', 'inherit');
+  prehigh = id
   code = $("#code"+id).text();
   customername = $("#name"+id).text();
   $("#bill_id").val(code);
   $("#customerid_id").text(customername);
+  $("#row"+id).css('background-color', 'powderblue');
   getcustomerdetails(id);
 });
 
 $(document).on("click", ".shiprow", function () {
   id = $(this).attr("id").match(/\d+/)[0];
+  $("#row"+prehigh).css('background-color', 'inherit');
+  prehigh = id
   code = $("#code"+id).text();
   $("#ship_id").val(code);
+  $("#row"+id).css('background-color', 'powderblue');
 });
+
+$(document).on("click", ".cody", function () {
+  id = $(this).attr('id').match(/\d+/)[0];
+  highlight(id)
+});
+
+$(document).on("click", ".namy", function () {
+  id = $(this).attr('id').match(/\d+/)[0];
+  highlight(id)
+});
+
+$(document).on("click", ".addy", function () {
+  id = $(this).attr('id').match(/\d+/)[0];
+  highlight(id)
+});
+
+function highlight(id) {
+  code = $("#code"+id).text();
+  customername = $("#name"+id).text();
+  modal = $("#checkbox"+id).attr('class')
+  if (modal == "billrow"){
+    $("#bill_id").val(code);
+  }
+  if (modal == "shiprow"){
+    $("#ship_id").val(code);
+  }
+  $("#customerid_id").text(customername);
+  $("#row"+prehigh).css('background-color', 'inherit');
+  prehigh = id
+  $("#checkbox"+id).prop('checked', true);
+  $("#row"+id).css('background-color', 'powderblue');
+  getcustomerdetails(id);
+}

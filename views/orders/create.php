@@ -51,7 +51,7 @@
                         <label for="bill_id">Bill To :</label>
                       </div>
                       <div class="col-sm-10 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="bill" id="bill_id" />
+                        <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
                       </div>
                       <div class="col-sm-2 col-lg-1 form-group">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
@@ -66,7 +66,7 @@
                         <label for="ship_id">Ship To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="ship" id="ship_id" />
+                        <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
                       <div class="col-sm-2 col-lg-1 form-group">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel" id="shipaddbtn">
