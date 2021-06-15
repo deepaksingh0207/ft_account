@@ -47,8 +47,8 @@
                         <label for="id_contact"> Contact </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="contact" id="id_contact" pattern="[0-9]"
-                          minlength="8" maxlength="10" value="<?php echo $customer['contact'] ?>" />
+                        <input type="tel" class="form-control fc ftsm" name="contact" id="id_contact"
+                        minlength="8" maxlength="10" value="<?php echo $customer['contact'] ?>" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -163,9 +163,7 @@
                         <label for="id_account_no"> Account Number </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm numberonly" name="account_no" id="id_account_no"
-                          maxlength="18" minlength="18" pattern="^[0-9]{18}$"
-                          value="<?php echo $customer['account_no'] ?>" />
+                        <input type="tel" class="form-control fc ftsm numberonly" name="account_no" id="id_account_no" minlength="10" value="<?php echo $customer['account_no'] ?>" />
                       </div>
                     </div>
 

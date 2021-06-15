@@ -375,8 +375,12 @@ function modelfill(checkboxclass, label) {
   $("#mylabel").text(label+' Address');
   if (customerid != '') {
     $("#addhead").empty();
-    $("#addhead").append('<table class="table table-hover" style="border: 1px solid lightgrey;"><thead><th></th><th>Customer Code</th><th>Customer Name</th><th>'+label+' Address</th></thead><tbody id="addbody"></tbody></table>');
+    $("#addhead").append('<table class="table table-hover" style="border: 1px solid lightgrey;"><thead><th></th><th>Code</th><th>Name</th><th>Address</th></thead><tbody id="addbody"></tbody></table>');
     $("#addbody").empty();
+    if (groupdetails == ''){
+      $("#addhead").empty();
+      $("#addhead").append('No Records');
+    }
     $.each(groupdetails, function (index, row) {
       $("#addbody").append("<tr id='row" + row.id + "' ></tr>");
       $("#row" + row.id).append("<td id='tickcol" + row.id + "'></td>");
@@ -385,7 +389,7 @@ function modelfill(checkboxclass, label) {
       $("#code" + row.id).text(row.id);
       $("#row" + row.id).append("<td class='namy' id='name" + row.id + "'></td>");
       $("#name" + row.id).text(row.name);
-      $("#row" + row.id).append("<td class='addy' id='address" + row.id + "'></td>");
+      $("#row" + row.id).append("<td class='addy' id='address" + row.id + "' style='width: 455px'></td>");
       $("#address" + row.id).text(row.address);
     });
   } else {
@@ -434,18 +438,18 @@ $(document).on("click", ".addy", function () {
 function highlight(id) {
   code = $("#code" + id).text();
   customername = $("#name" + id).text();
-  modal = $("#checkbox" + id).attr('class')
-  if (modal == "billrow") {
-    $("#bill_id").val(code);
-  }
-  if (modal == "shiprow") {
-    $("#ship_id").val(code);
-  }
-  $("#id_customerid").text(customername);
+  modal = $("#checkbox" + id).attr('class')  
   $("#row" + prehigh).css('background-color', 'inherit');
   prehigh = id
   $("#checkbox" + id).prop('checked', true);
   $("#row" + id).css('background-color', 'powderblue');
   $("#customerid_id").val(id);
-  getcustomerdetails(id);
+  if (modal == "billrow") {
+    $("#bill_id").val(code);
+    $("#id_customerid").text(customername);
+    getcustomerdetails(id);
+  }
+  if (modal == "shiprow") {
+    $("#ship_id").val(code);
+  }
 }

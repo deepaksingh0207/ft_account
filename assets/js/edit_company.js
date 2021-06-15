@@ -217,3 +217,25 @@ $("#state_id").change(function () {
     $(".vip").removeAttr("disabled");
   }
 });
+
+$(".numberonly").on("keypress", function (event) {
+  var regex = new RegExp("^[0-9]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});
+
+$("#id_email").on("change", function () {
+  $(this).val($(this).val().toLowerCase());
+});
+
+$(".alphaonly").on("keypress", function (event) {
+  var regex = new RegExp("^[A-Za-z ]+$");
+  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!regex.test(key)) {
+    event.preventDefault();
+    return false;
+  }
+});

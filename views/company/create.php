@@ -161,7 +161,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="tel" class="form-control fc ftsm numberonly" name="account_no" id="id_account_no"
-                          maxlength="18" minlength="11" pattern="^[0-9]+$" value="" />
+                          maxlength="18" minlength="10" value="" />
                       </div>
                     </div>
 

@@ -29,7 +29,7 @@
                         <label for="id_customergroup">Customer Group : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control select2" name="group_id" id="id_customergroup">
+                        <select class="form-control" name="group_id" id="id_customergroup">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
@@ -71,20 +71,20 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2 mb-3">
-                        Customer :
+                      <div class="col-sm-12 col-lg-2">
+                        <b>Customer Name:</b>
                       </div>
-                      <div class="col-sm-12 col-lg-3 mb-3">
+                      <div class="col-sm-12 col-lg-3">
                         <input type="hidden" name="customer_id" id="customerid_id">
                         <span id="id_customerid"></span>
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2">
+                      <div class="col-sm-12 col-lg-2 mt-4">
                         <label for="date_id">Date :</label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
+                      <div class="col-sm-12 col-lg-3 form-group mt-4">
                         <input type="date" class="form-control ftsm" name="order_date" id="date_id" value="" />
                       </div>
                     </div>
