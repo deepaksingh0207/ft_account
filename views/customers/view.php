@@ -144,5 +144,4 @@
         </div>
       </section>
     </div>
-  </div>
   <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
