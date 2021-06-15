@@ -11,7 +11,7 @@
             >
           </div>
           <div class="card-body mb-5 table-responsive">
-            <table id="cust_list_table" class="table table-hover table-striped">
+            <table id="cust_list_table" class="table table-striped">
               <thead>
                 <tr>
                   <th>Customer No.</th>

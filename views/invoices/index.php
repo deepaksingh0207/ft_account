@@ -1,4 +1,4 @@
-<body class="hold-transition sidebar-collapse layout-top-nav">
+<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <div class="content-wrapper">
       <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
@@ -52,10 +52,10 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-12 col-lg-2">
+                    <div class="col-sm-12 col-lg-2 form-group">
                       <label for="id_customer"> Customer : </label>
                       <select
-                        class="form-control-sm select2"
+                        class="form-control fc ftsm select2 mt-0"
                         name="customer"
                         id="id_customer"
                       >
@@ -81,7 +81,7 @@
                     <div class="col-sm-12 col-lg-12">
                       <table
                         id="example1"
-                        class="table table-hover table-striped"
+                        class="table table-striped"
                       >
                         <thead>
                           <tr>

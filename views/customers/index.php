@@ -1,4 +1,4 @@
-<body class="hold-transition sidebar-collapse layout-top-nav">
+<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <div class="content-wrapper">
       <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
@@ -9,7 +9,7 @@
               <div class="card card-default mt-3">
                 <div class="card-header">View Customers</div>
                 <div class="card-body p-3" id="list" style="display: block">
-                  <table id="example1" class="table table-hover table-striped">
+                  <table id="example1" class="table table-striped">
                     <thead class="text-center">
                       <tr>
                         <th></th>

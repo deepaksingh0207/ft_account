@@ -1,4 +1,4 @@
-<body class="hold-transition sidebar-collapse layout-top-nav">
+<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <div class="content-wrapper">
       <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>

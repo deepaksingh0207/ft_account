@@ -12874,7 +12874,10 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 }
 [class*="sidebar-dark"] .brand-link,
 [class*="sidebar-dark"] .brand-link .pushmenu {
-  color: rgba(255, 255, 255, 0.8);
+  /* color: rgba(255, 255, 255, 0.8); */
+  background-color: lightblue;
+  color: black;
+  font-size: larger;
 }
 [class*="sidebar-dark"] .brand-link .pushmenu:hover,
 [class*="sidebar-dark"] .brand-link:hover {
@@ -13202,8 +13205,8 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   border-color: rgba(0, 0, 0, 0.1);
 }
 [class*="sidebar-dark-"] {
-  /* background-color: #343a40;  JThayil*/
-  background-color: #2d5277;
+  background-color: #584e94;
+  /* background-color: #343a40; */
 }
 [class*="sidebar-dark-"] .user-panel a:hover {
   color: #fff;
