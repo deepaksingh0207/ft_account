@@ -1,12 +1,12 @@
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
       <section class="content">
-        <div class="container">
-          <div class="row">
+        <div class="container-fluid pb-5">
+          <div class="row my-3">
             <div class="col-12">
-              <div class="card card-default mt-3">
+              <div class="card card-default">
                 <div class="card-header">Company List</div>
                 <div class="card-body p-3" id="list" style="display: block">
                   <table id="example1" class="table table-striped">
@@ -21,15 +21,17 @@
                     <tbody class="text-center">
                       <?php if (is_array($customers) || is_object($customers)) : ?>
                       <?php foreach ($customers as $company) : ?>
-                      <tr
-                        data-href="<?php echo ROOT; ?>company/view/<?php echo $company['id'] ?>"
-                      >
+                      <tr data-href="<?php echo ROOT; ?>company/view/<?php echo $company['id'] ?>">
                         <td></td>
-                        <td class="sublist"><?php echo $company['name'] ?></td>
+                        <td class="sublist">
+                          <?php echo $company['name'] ?>
+                        </td>
                         <td class="sublist">
                           <?php echo $company['contact_person'] ?>
                         </td>
-                        <td class="sublist"><?php echo $company['gstin'] ?></td>
+                        <td class="sublist">
+                          <?php echo $company['gstin'] ?>
+                        </td>
                       </tr>
                       <?php endforeach; ?>
                       <?php endif; ?>
@@ -39,38 +41,22 @@
               </div>
             </div>
           </div>
-          <br /><br />
         </div>
-        <button
-          type="button"
-          id="modelactivate"
-          style="display: none"
-          data-toggle="modal"
-          data-target="#modal-default"
-        ></button>
+        <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
+          data-target="#modal-default"></button>
         <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
               <form action="" method="post" class="text-center mb-0">
                 <div class="modal-header">
                   <h4 class="modal-title">Confirm Delete</h4>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <p>Are you sure you want to delete ?</p>
-                  <input
-                    type="hidden"
-                    id="trashid"
-                    name="deactivate"
-                    value=""
-                  />
+                  <input type="hidden" id="trashid" name="deactivate" value="" />
                 </div>
                 <div class="modal-footer justify-content-between">
                   <button type="submit" class="btn btn-danger btn-sm">
@@ -84,8 +70,7 @@
             </div>
           </div>
         </div>
-        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
     </div>
   </div>
-  
+  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

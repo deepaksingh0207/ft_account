@@ -6,13 +6,13 @@ $pendingAmount = 0.00;
 
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div class="wrapper">
+		<?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
 		<div class="content-wrapper">
-			<?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
 			<section class="content">
-				<div class="container">
-					<div class="row">
+				<div class="container-fluid pb-5">
+					<div class="row my-3">
 						<div class="col-12">
-							<div class="card card-default mt-3">
+							<div class="card card-default">
 								<div class="card-header">
 									<h3 class="card-title" style="line-height: 2.2">
 										Order Details
@@ -102,71 +102,101 @@ $pendingAmount = 0.00;
 													</tr>
 												</thead>
 												<tbody>
-												<?php if (is_array($items) || is_object($items)) : ?>
-												<?php foreach($items as $item) : ?>
+													<?php if (is_array($items) || is_object($items)) : ?>
+													<?php foreach($items as $item) : ?>
 													<tr>
-														<td><?php echo $item['item']?></td>
-														<td><?php echo $item['description']?></td>
-														<td><?php echo $item['qty']?></td>
-														<td><?php echo $item['unit_price']?></td>
-														<td>₹<?php echo ($item['unit_price'] * $item['qty']) ?></td>
+														<td>
+															<?php echo $item['item']?>
+														</td>
+														<td>
+															<?php echo $item['description']?>
+														</td>
+														<td>
+															<?php echo $item['qty']?>
+														</td>
+														<td>
+															<?php echo $item['unit_price']?>
+														</td>
+														<td>₹
+															<?php echo ($item['unit_price'] * $item['qty']) ?>
+														</td>
 													</tr>
 													<?php 
 													$orderAmount += ($item['unit_price'] * $item['qty']);
 													
 													endforeach; ?>
-												<?php endif; ?>
+													<?php endif; ?>
 												</tbody>
 											</table>
 										</div>
 									</div>
-									
+
 									<?php if (isset($invoices)) : ?>
 									<div class="table-responsive card">
 										<div class="card-header">
-                          					<b>Invoice Details</b>
-                        				</div>
+											<b>Invoice Details</b>
+										</div>
 										<div class="card-body p-3">
 											<table class="table text-center mb-0">
-                                                <thead>
-                                                  <tr>
-                                                    <th class="min100">Invoice No. </th>
-                                                    <th class="min100">Pay Term</th>
-                                                    <th class="min100">Pay Percent </th>
-                                                    <th class="min100">Sub Total</th>
-                                                    <th class="min100">IGST</th>
-                                                    <th class="min100">CGST</th>
-                                                    <th class="min100">SGST</th>
-                                                    <th class="min100">Total</th>
-                                                    <th class="min100">Date</th>
-                                                  </tr>
-                                                </thead>
-                                                <tbody id="invoicelist">
-												
+												<thead>
+													<tr>
+														<th class="min100">Invoice No. </th>
+														<th class="min100">Pay Term</th>
+														<th class="min100">Pay Percent </th>
+														<th class="min100">Sub Total</th>
+														<th class="min100">IGST</th>
+														<th class="min100">CGST</th>
+														<th class="min100">SGST</th>
+														<th class="min100">Total</th>
+														<th class="min100">Date</th>
+													</tr>
+												</thead>
+												<tbody id="invoicelist">
+
 													<?php foreach($invoices as $invoice) : ?>
 													<tr>
-														<td><?php echo $invoice['id']?></td>
-														<td><?php echo $invoice['payment_term']?></td>
-														<td><?php echo $invoice['pay_percent']?></td>
-														<td><?php echo $invoice['sub_total']?></td>
-														<td><?php echo $invoice['igst']?></td>
-														<td><?php echo $invoice['sgst']?></td>
-														<td><?php echo $invoice['cgst']?></td>
-														<td><?php echo $invoice['invoice_total']?></td>
-														<td><?php echo date('d, M Y', strtotime($invoice['invoice_date']))?></td>
+														<td>
+															<?php echo $invoice['id']?>
+														</td>
+														<td>
+															<?php echo $invoice['payment_term']?>
+														</td>
+														<td>
+															<?php echo $invoice['pay_percent']?>
+														</td>
+														<td>
+															<?php echo $invoice['sub_total']?>
+														</td>
+														<td>
+															<?php echo $invoice['igst']?>
+														</td>
+														<td>
+															<?php echo $invoice['sgst']?>
+														</td>
+														<td>
+															<?php echo $invoice['cgst']?>
+														</td>
+														<td>
+															<?php echo $invoice['invoice_total']?>
+														</td>
+														<td>
+															<?php echo date('d, M Y', strtotime($invoice['invoice_date']))?>
+														</td>
 													</tr>
 													<?php $invliceTotal += $invoice['sub_total']; endforeach; ?>
 												</tbody>
-                                              </table>
-                                              <hr class="mt-0">
-                          					<div class="text-right">
-                            					<b>Pending Balance : </b>₹
-                            					<span id="pendingbalance"><?php echo ($orderAmount - $invliceTotal)?></span>
-                          					</div>
+											</table>
+											<hr class="mt-0">
+											<div class="text-right">
+												<b>Pending Balance : </b>₹
+												<span id="pendingbalance">
+													<?php echo ($orderAmount - $invliceTotal)?>
+												</span>
+											</div>
 										</div>
 									</div>
 									<?php endif;?>
-									
+
 								</div>
 								<div class="card-footer text-right">
 									<!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
@@ -177,10 +207,8 @@ $pendingAmount = 0.00;
 							</div>
 						</div>
 					</div>
-					<br>
-					<br>
 				</div>
-				<?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
 			</section>
 		</div>
 	</div>
+	<?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

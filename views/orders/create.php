@@ -1,16 +1,10 @@
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
-
-    <div ftsolutions="menu.html"></div>
-
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
-
-      <!-- Menu -->
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
-
-      <div class="content-header">
-        <div class="container">
-          <div class="row mb-2">
+      <section class="content">
+        <div class="container-fluid pb-5">
+          <div class="row my-3">
             <div class="col-12">
               <form action="" method="post" id="quickForm" novalidate="novalidate">
                 <input type="hidden" id="id_tr" name="trid" value="" />
@@ -69,7 +63,8 @@
                         <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
                       <div class="col-sm-2 col-lg-1 form-group">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel" id="shipaddbtn">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
+                          id="shipaddbtn">
                           <i class="fas fa-search"></i>
                         </button>
                       </div>
@@ -77,11 +72,11 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2 mb-3">
-                      Customer :
+                        Customer :
                       </div>
                       <div class="col-sm-12 col-lg-3 mb-3">
-                      <input type="hidden" name="customer_id" id="customerid_id">
-                      <span id="id_customerid"></span>
+                        <input type="hidden" name="customer_id" id="customerid_id">
+                        <span id="id_customerid"></span>
                       </div>
                     </div>
 
@@ -175,7 +170,6 @@
               </form>
             </div>
           </div>
-          <br><br> <!-- Form Bottom Padding -->
         </div>
 
         <!-- Modal Start -->
@@ -240,7 +234,7 @@
           </div>
         </div>
 
-        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
-      </div>
+      </section>
     </div>
   </div>
+  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

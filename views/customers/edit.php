@@ -2,13 +2,12 @@
   <div class="wrapper">
     <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
-
       <section class="content">
-        <div class="container">
-          <div class="row">
+        <div class="container-fluid pb-5">
+          <div class="row my-3">
             <div class="col-12">
               <form action="" method="POST" id="id_quickForm" novalidate="novalidate">
-                <div class="card card-default mt-3">
+                <div class="card card-default">
                   <div class="card-header">
                     <h3 class="card-title" style="line-height: 2.2">
                       Update Customer
@@ -206,9 +205,8 @@
               </form>
             </div>
           </div>
-          <br /><br /><br />
         </div>
-        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
     </div>
   </div>
+  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

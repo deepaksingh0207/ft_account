@@ -1,12 +1,12 @@
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
       <section class="content">
-        <div class="container">
-          <div class="row">
+        <div class="container-fluid pb-5">
+          <div class="row my-3">
             <div class="col-12">
-              <div class="card card-default mt-3">
+              <div class="card card-default">
                 <div class="card-header">
                   <h3 class="card-title" style="line-height: 2.2">
                     Customer Details
@@ -141,9 +141,8 @@
               </div>
             </div>
           </div>
-          <br /><br />
         </div>
-        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
       </section>
     </div>
   </div>
+  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

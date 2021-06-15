@@ -1,13 +1,10 @@
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
-    <div ftsolutions="menu.html"></div>
-
+    <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
-      <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
-
-      <div class="content-header">
-        <div class="container">
-          <div class="row mb-2">
+      <section class="content">
+        <div class="container-fluid pb-5">
+          <div class="row my-3">
             <div class="col-12">
               <form
                 action=""
@@ -450,7 +447,6 @@
               />
             </div>
           </div>
-          <br /><br />
         </div>
 
         <button
@@ -495,9 +491,8 @@
             </div>
           </div>
         </div>
-
-        <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
-      </div>
+        
+      </section>
     </div>
   </div>
-</body>
+  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
