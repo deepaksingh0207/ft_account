@@ -98,18 +98,18 @@ $(function () {
 function addrow(charlie) {
   $("#orderlist").append(
     "<tr id='" +
-      charlie +
-      "'><td id='id_item" +
-      charlie +
-      "'></td><td id='id_description" +
-      charlie +
-      "'></td><td id='id_quantity" +
-      charlie +
-      "'></td><td id='id_unitprice" +
-      charlie +
-      "'></td><td>₹<span id='ordertotal" +
-      charlie +
-      "'></span></td></tr>"
+    charlie +
+    "'><td id='id_item" +
+    charlie +
+    "'></td><td id='id_description" +
+    charlie +
+    "'></td><td id='id_quantity" +
+    charlie +
+    "'></td><td id='id_unitprice" +
+    charlie +
+    "'></td><td>₹<span id='ordertotal" +
+    charlie +
+    "'></span></td></tr>"
   );
 }
 
@@ -221,24 +221,24 @@ function fillOrderInvoices(datadict) {
       if (key != "") {
         $("#invoicelist").append(
           "<tr><td>" +
-            data[key].id +
-            "</td><td>" +
-            data[key].payment_term +
-            "</td><td>" +
-            data[key].pay_percent +
-            "</td><td>" +
-            data[key].sub_total +
-            "</td><td>" +
-            data[key].igst +
-            "</td><td>" +
-            data[key].cgst +
-            "</td><td>" +
-            data[key].sgst +
-            "</td><td>" +
-            data[key].invoice_total +
-            "</td><td>" +
-            data[key].invoice_date +
-            "</td></tr>"
+          data[key].id +
+          "</td><td>" +
+          data[key].payment_term +
+          "</td><td>" +
+          data[key].pay_percent +
+          "</td><td>" +
+          data[key].sub_total +
+          "</td><td>" +
+          data[key].igst +
+          "</td><td>" +
+          data[key].cgst +
+          "</td><td>" +
+          data[key].sgst +
+          "</td><td>" +
+          data[key].invoice_total +
+          "</td><td>" +
+          data[key].invoice_date +
+          "</td></tr>"
         );
       }
     }
@@ -301,6 +301,25 @@ $(document).on("change", "#id_paytype", function () {
     $("#id_paypercent").val("100");
   }
   calcy();
+});
+
+$(document).on("change", "#id_group_id", function () {
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "customers/groupcustomers/" + $(this).val(),
+    data: $(this).val(),
+    dataType: "json",
+    encode: true,
+  })
+    .done(function (data) {
+      $("#customerid_id").append("<option value=''>&nbsp;</option>");
+      $.each(data, function (index, value) {
+        $("#customerid_id").append("<option value='"+value.id+"'>"+value.name+"</option>");
+      });
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("No details found against this customer.");
+    });
 });
 
 function calcy() {
