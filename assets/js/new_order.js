@@ -9,45 +9,6 @@ var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 today = yyyy + "-" + mm + "-" + dd;
 
-$('#quickForm').on('submit', function (event) {
-  $('.qty').each(function () {
-    $(this).rules("add",
-      {
-        required: true,
-        messages: {
-          required: "Quantity Required",
-        }
-      });
-  });
-  $('.unitprice').each(function () {
-    $(this).rules("add",
-      {
-        required: true,
-        messages: {
-          required: "Unit Price Required",
-        }
-      });
-  });
-  $('.itmy').each(function () {
-    $(this).rules("add",
-      {
-        required: true,
-        messages: {
-          required: "Item Required",
-        }
-      });
-  });
-  $('.desp').each(function () {
-    $(this).rules("add",
-      {
-        required: true,
-        messages: {
-          required: "Description Required",
-        }
-      });
-  });
-});
-
 // Validation Classses
 $(".numberonly").on("keypress", function (event) {
   var regex = new RegExp("^[0-9]$");
@@ -72,22 +33,48 @@ function addrow(charlie) {
   $("#orderlist").append("<tr id='" + charlie + "'></tr>");
 
   $("#" + charlie).append("<td class='form-group'><input class='form-control ftsm itmy' name='item[]' id='id_item" + charlie + "' placeholder='Enter item name' /></td>");
-  $("#id_item" + charlie).attr("required", true);
 
   $("#" + charlie).append("<td class='form-group'><input class='form-control ftsm desp' name='description[]' id='id_description" + charlie + "' placeholder='Enter Description...' /></td>");
-  $("#id_description" + charlie).attr("required", true);
 
   $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' value='' name='qty[]' id='id_quantity" + charlie + "' /></td>");
-  $("#id_quantity" + charlie).attr("required", true);
 
   $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' value='' name='unit_price[]' id='id_unitprice" + charlie + "' /></td>");
-  $("#id_unitprice" + charlie).attr("required", true);
 
   $("#" + charlie).append("<td class='form-group'>₹<input type='hidden' class='form-control ftsm rowtotal' value='' name='total[]' id='total" + charlie +
-    "' ><span id='id_total" + charlie + "'>0.00</span></td>");
-  $("#total" + charlie).attr("required", true);
+    "' ><span id='id_total" + charlie + "' >0.00</span></td>");
 
   $("#" + charlie).append("<td><i class='fas fa-minus-circle trash' style='color: red' ></i></td>");
+}
+
+function checker() {
+  var check = true;
+  $('input.itmy').each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass('is-invalid');
+      check = false;
+    }
+  });
+  $('input.desp').each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass('is-invalid');
+      check = false;
+    }
+  });
+  $('input.qty').each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass('is-invalid');
+      check = false;
+    }
+  });
+  $('input.unitprice').each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass('is-invalid');
+      check = false;
+    }
+  });
+  if (check == true) {
+    $("#responsemodal").click();
+  }
 }
 
 $(function () {
@@ -97,7 +84,7 @@ $(function () {
 
   $.validator.setDefaults({
     submitHandler: function () {
-      $("#responsemodal").click();
+      checker()
     },
   });
 
@@ -164,6 +151,7 @@ $(function () {
     },
     highlight: function (element, errorClass, validClass) {
       $(element).addClass("is-invalid");
+      checker()
     },
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid");
@@ -238,7 +226,7 @@ $("#add_item").on("click", function () {
 
 // On quantity Change
 $(document).on("change", ".qty", function () {
-  $(this).val($(this).val()*1.0);
+  $(this).val($(this).val() * 1.0);
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
   rowcollector(id[0]);
@@ -246,7 +234,7 @@ $(document).on("change", ".qty", function () {
 
 // On Unit Price Change
 $(document).on("change", ".unitprice", function () {
-  $(this).val($(this).val()*1.0);
+  $(this).val($(this).val() * 1.0);
   var unitpriceid = $(this).attr("id");
   id = unitpriceid.match(/\d+/);
   rowcollector(id[0]);
