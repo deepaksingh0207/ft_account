@@ -27,7 +27,7 @@
 <?php if ($controller == 'customers' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_customer.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'company' && ($action == 'index')) : ?>

@@ -13,8 +13,7 @@
                       Update Customer
                     </h3>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-primary btn-sm vip" title="Activates only on changes."
-                        disabled>
+                      <button type="submit" class="btn btn-primary btn-sm vip" title="Activates only on changes.">
                         Update
                       </button>
                       <a href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>"
@@ -30,7 +29,7 @@
                         <label for="id_customergroup"> Customer Group </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="group_id" id="id_customergroup">
+                        <select class="form-control fc ftsm" name="group_id" id="id_customergroup">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>" <?php echo ($customer['group_id']==$group['id'])
@@ -86,7 +85,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control fc ftsm select2" name="state" id="state_id">
-                          <option value=""></option>
+                          <option value="">&nbsp;</option>
                           <?php foreach ($states as $state) : ?>
                           <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state']==$state['id'])
                             ? 'selected="selected"' : '' ?>>
@@ -155,6 +154,35 @@
                           style="text-transform: lowercase" />
                       </div>
                     </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managername"> Manager Name </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm alphaonly" name="managername"
+                          id="id_managername" value="<?php echo $customer['remark'] ?>" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_manageremail"> IT Manager Email </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="email" class="form-control fc ftsm" name="manageremail" id="id_manageremail"
+                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<?php echo $customer['remark'] ?>" style="text-transform: lowercase" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managerphone"> Manager's Contact </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control ftsm" name="managerphone" id="id_managerphone" pattern="^[0-9]+$"
+                          minlength="8" maxlength="10" value="<?php echo $customer['remark'] ?>" />
+                      </div>
+                    </div>
+                    
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_addinfo"> Additional Info </label>
@@ -165,35 +193,9 @@
                       </div>
                     </div>
 
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_managername"> Manager Name </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="managername" id="id_managername" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_manageremail"> Manager's Email </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="email" class="form-control ftsm" name="manageremail" id="id_manageremail" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_managerphone"> Manager's Contact </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="managerphone" id="id_managerphone" />
-                      </div>
-                    </div>
-
                   </div>
                   <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary btn-sm vip" title="Activates only on changes."
-                      disabled>
+                    <button type="submit" class="btn btn-primary btn-sm vip" title="Activates only on changes.">
                       Update
                     </button>
                     <a href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>"

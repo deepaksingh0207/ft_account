@@ -123,15 +123,6 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_addinfo"> <b>Additional Info</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['remark'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
                       <label for="id_managername"> <b>Manager's Name</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
@@ -151,6 +142,15 @@
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_managerphone"> <b>Manager's Phone</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['remark'] ?>
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_addinfo"> <b>Additional Info</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['remark'] ?>

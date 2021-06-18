@@ -36,9 +36,9 @@ function addrow(charlie) {
 
   $("#" + charlie).append("<td class='form-group'><input class='form-control ftsm desp' name='description[]' id='id_description" + charlie + "' placeholder='Enter Description...' /></td>");
 
-  $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm qty' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' value='' name='qty[]' id='id_quantity" + charlie + "' /></td>");
+  $("#" + charlie).append("<td class='form-group'><input class='form-control ftsm qty' name='qty[]' id='id_quantity" + charlie + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
 
-  $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' value='' name='unit_price[]' id='id_unitprice" + charlie + "' /></td>");
+  $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" + charlie + "' /></td>");
 
   $("#" + charlie).append("<td class='form-group'>₹<input type='hidden' class='form-control ftsm rowtotal' value='' name='total[]' id='total" + charlie +
     "' ><span id='id_total" + charlie + "' >0.00</span></td>");
@@ -48,18 +48,6 @@ function addrow(charlie) {
 
 function checker() {
   var check = true;
-  $('input.itmy').each(function () {
-    if ($(this).val().length < 1) {
-      $(this).addClass('is-invalid');
-      check = false;
-    }
-  });
-  $('input.desp').each(function () {
-    if ($(this).val().length < 1) {
-      $(this).addClass('is-invalid');
-      check = false;
-    }
-  });
   $('input.qty').each(function () {
     if ($(this).val().length < 1) {
       $(this).addClass('is-invalid');
@@ -67,6 +55,18 @@ function checker() {
     }
   });
   $('input.unitprice').each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass('is-invalid');
+      check = false;
+    }
+  });
+  $('input.itmy').each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass('is-invalid');
+      check = false;
+    }
+  });
+  $('input.desp').each(function () {
     if ($(this).val().length < 1) {
       $(this).addClass('is-invalid');
       check = false;
@@ -85,11 +85,7 @@ $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
       checker()
-    },
-  });
-
   $("#quickForm").validate({
-    rules: {
       group_id: {
         required: true,
       },
@@ -155,7 +151,7 @@ $(function () {
     },
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid");
-    },
+    }
   });
 
   $("#add_item").click();

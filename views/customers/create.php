@@ -13,8 +13,7 @@
                       Add New Customer
                     </h3>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory."
-                        disabled>
+                      <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                         Submit
                       </button>
                       <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
@@ -26,10 +25,13 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_customergroup"> Customer Group </label>
+                        <label for="id_customergroup">
+                          Customer Group :
+                        </label>
                       </div>
+
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="group_id" id="id_customergroup">
+                        <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
@@ -45,7 +47,7 @@
                         <label for="id_customername"> Customer Name </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm alphaonly" name="name" id="id_customername"
+                        <input type="text" class="form-control ftsm alphaonly" name="name" id="id_customername"
                           value="" />
                       </div>
                     </div>
@@ -55,16 +57,17 @@
                         <label for="id_contactperson"> Contact Person </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm alphaonly" name="contact_person"
+                        <input type="text" class="form-control ftsm alphaonly" name="contact_person"
                           id="id_contactperson" value="" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_address"> Address </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30"
+                        <textarea class="form-control ftsm" name="address" id="id_address" cols="30"
                           rows="3"></textarea>
                       </div>
                     </div>
@@ -74,8 +77,8 @@
                         <label for="id_pincode"> Pincode </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="tel" class="form-control fc ftsm numberonly" name="pincode" id="pincode_id"
-                          maxlength="7" minlength="6" pattern="^[0-9]{6}$" value="" />
+                        <input type="tel" class="form-control ftsm numberonly" name="pincode" id="pincode_id"
+                          maxlength="6" minlength="6" pattern="^[0-9]{6}$" value="" />
                       </div>
                     </div>
 
@@ -84,8 +87,8 @@
                         <label for="id_address"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="state" id="state_id">
-                          <option value=""></option>
+                        <select class="form-control ftsm select2" name="state" id="state_id">
+                          <option value="">&nbsp;</option>
                           <?php foreach ($states as $state) : ?>
                           <option value="<?php echo $state['id'] ?>">
                             <?php echo $state['name'] ?>
@@ -100,7 +103,7 @@
                         <label for="id_pan"> PAN No. </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm pan" name="pan" id="id_pan"
+                        <input type="text" class="form-control ftsm pan" name="pan" id="id_pan"
                           pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" minlength="10" maxlength="10" value="" />
                       </div>
                     </div>
@@ -110,19 +113,21 @@
                         <label for="id_gst"> GSTIN </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15"
+                        <input type="text" class="form-control ftsm" name="gstin" id="id_gst" minlength="15"
                           maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" value="" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_pphone"> Phone (primary) </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="^[0-9]+$"
+                        <input type="tel" class="form-control ftsm" name="pphone" id="id_pphone" pattern="^[0-9]+$"
                           minlength="8" maxlength="10" value="" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_sphone"> Phone (alternative) </label>
@@ -132,6 +137,7 @@
                           minlength="8" maxlength="10" value="" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_fax"> Fax </label>
@@ -140,15 +146,47 @@
                         <input type="tel" class="form-control ftsm" name="fax" id="id_fax" value="" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_email"> Email </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="email" id="id_email"
+                        <input type="text" class="form-control ftsm" name="email" id="id_email"
                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="" style="text-transform: lowercase" />
                       </div>
                     </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managername"> IT Manager Name </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm alphaonly" name="managername" id="id_managername"
+                          value="" />
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_manageremail"> IT Manager Email </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="email" class="form-control ftsm" name="manageremail" id="id_manageremail"
+                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="" style="text-transform: lowercase" />
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managerphone"> IT Manager Contact </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="tel" class="form-control ftsm" name="managerphone" id="id_managerphone"
+                          pattern="^[0-9]+$" minlength="8" maxlength="10" value="" />
+                      </div>
+                    </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_addinfo"> Additional Info </label>
@@ -158,34 +196,9 @@
                       </div>
                     </div>
 
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_managername"> Manager Name </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="managername" id="id_managername" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_manageremail"> Manager's Email </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="manageremail" id="id_manageremail" />
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_managerphone"> Manager's Contact </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="managerphone" id="id_managerphone" />
-                      </div>
-                    </div>
-                    
                   </div>
                   <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory." disabled>
+                    <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                       Submit
                     </button>
                     <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
