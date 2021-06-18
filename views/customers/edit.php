@@ -164,6 +164,32 @@
                           value="<?php echo $customer['remark'] ?>" id="id_addinfo" />
                       </div>
                     </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managername"> Manager Name </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm" name="managername" id="id_managername" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_manageremail"> Manager's Email </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="email" class="form-control ftsm" name="manageremail" id="id_manageremail" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managerphone"> Manager's Contact </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control ftsm" name="managerphone" id="id_managerphone" />
+                      </div>
+                    </div>
+
                   </div>
                   <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary btn-sm vip" title="Activates only on changes."

@@ -36,21 +36,11 @@ $(function () {
         minlength: 8,
         maxlength: 10,
       },
-      sphone: {
-        required: true,
-        minlength: 8,
-        maxlength: 10,
-      },
       shipby: {
         required: true,
       },
       invoicethru: {
         required: true,
-      },
-      fax: {
-        required: true,
-        minlength: 9,
-        maxlength: 15,
       },
       email: {
         required: true,
@@ -59,24 +49,15 @@ $(function () {
       addinfo: {
         required: true,
       },
-      // active: {
-      //   required: true,
-      // },
-      // shippingaddress: {
-      //   required: true,
-      // },
-      // exlutax: {
-      //   required: true,
-      // },
-      // paymentterms: {
-      //   required: true,
-      // },
-      // salesperson: {
-      //   required: true,
-      // },
-      // customernotes: {
-      //   required: true,
-      // },
+      managername: {
+        required: true,
+      },
+      manageremail: {
+        required: true,
+      },
+      managerphone: {
+        required: true,
+      },
       customergroup: {
         required: true,
       },
@@ -122,6 +103,15 @@ $(function () {
         required: "Please enter additional information.",
       },
       customergroup: {
+        required: "Please select a Customer Group.",
+      },
+      managername: {
+        required: "Please select a Customer Group.",
+      },
+      manageremail: {
+        required: "Please select a Customer Group.",
+      },
+      managerphone: {
         required: "Please select a Customer Group.",
       },
     },

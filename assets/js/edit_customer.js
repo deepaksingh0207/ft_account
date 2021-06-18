@@ -72,6 +72,15 @@ $(function () {
 		customergroup: {
 		  required: true,
 		},
+		managername: {
+			required: true,
+		},
+		manageremail: {
+			required: true,
+		},
+		managerphone: {
+			required: true,
+		},
 	  },
 	  messages: {
 		customername: {
@@ -128,6 +137,15 @@ $(function () {
 		customergroup: {
 		  required: "Please select a Customer Group.",
 		},
+		managername: {
+		  required: "Please select a Customer Group.",
+		},
+		manageremail: {
+		  required: "Please select a Customer Group.",
+		},
+		managerphone: {
+		  required: "Please select a Customer Group.",
+		},
 	  },
 	  errorElement: "span",
 	  errorPlacement: function (error, element) {
@@ -154,6 +172,10 @@ $(function () {
 	var id_email = $("#id_email").val();
 	var id_addinfo = $("#id_addinfo").val();
 	var id_pan = $("#id_pan").val();
+	var id_managername = $("#id_managername").val();
+	var id_manageremail = $("#id_manageremail").val();
+	var id_managerphone = $("#id_managerphone").val();
+
   });
 
   $(".pan").on("keypress", function (event) {
@@ -166,6 +188,24 @@ $(function () {
 	}
   });
   
+  $("#id_managername").change(function () {
+	if ($("#id_managername").val() != id_managername) {
+	  $(".vip").removeAttr("disabled");
+	}
+  });
+
+  $("#id_manageremail").change(function () {
+	if ($("#id_manageremail").val() != id_manageremail) {
+	  $(".vip").removeAttr("disabled");
+	}
+  });
+
+  $("#id_managerphone").change(function () {
+	if ($("#id_managerphone").val() != id_managerphone) {
+	  $(".vip").removeAttr("disabled");
+	}
+  });
+
   $("#id_customergroup").change(function () {
 	if ($("#id_customergroup").val() != id_customergroup) {
 	  $(".vip").removeAttr("disabled");

@@ -128,7 +128,7 @@
                         <label for="id_sphone"> Phone (alternative) </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="^[0-9]+$"
+                        <input type="tel" class="form-control ftsm" name="aphone" id="id_sphone" pattern="^[0-9]+$"
                           minlength="8" maxlength="10" value="" />
                       </div>
                     </div>
@@ -137,7 +137,7 @@
                         <label for="id_fax"> Fax </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="fax" id="id_fax" value="" />
+                        <input type="tel" class="form-control ftsm" name="fax" id="id_fax" value="" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -157,6 +157,32 @@
                         <input type="text" class="form-control ftsm" name="remark" id="id_addinfo" />
                       </div>
                     </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managername"> Manager Name </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="managername" id="id_managername" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_manageremail"> Manager's Email </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="manageremail" id="id_manageremail" />
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_managerphone"> Manager's Contact </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="managerphone" id="id_managerphone" />
+                      </div>
+                    </div>
+                    
                   </div>
                   <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory." disabled>
@@ -199,4 +225,4 @@
         </div>
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

@@ -120,6 +120,7 @@
                       <?php echo $customer['email'] ?>
                     </div>
                   </div>
+
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_addinfo"> <b>Additional Info</b> </label>
@@ -128,6 +129,34 @@
                       <?php echo $customer['remark'] ?>
                     </div>
                   </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_managername"> <b>Manager's Name</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['remark'] ?>
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_manageremail"> <b>Manager's Email</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['remark'] ?>
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_managerphone"> <b>Manager's Phone</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['remark'] ?>
+                    </div>
+                  </div>
+
                 </div>
                 <div class="card-footer text-right">
                   <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>"
@@ -144,4 +173,4 @@
         </div>
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
