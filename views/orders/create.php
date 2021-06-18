@@ -6,30 +6,37 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
-              <form action="" method="post" id="quickForm" novalidate="novalidate">
+              <form method="post" id="quickForm" novalidate="novalidate">
                 <input type="hidden" id="id_tr" name="trid" value="" />
                 <div class="card">
 
                   <div class="card-header">
+
                     <div class="card-title">New Sales Order</div>
+
                     <div class="text-right">
                       <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
                         Record
                       </button>
+
                       <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
+
                   </div>
 
                   <div class="card-body" id="order" style="display: block">
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_customergroup">Customer Group : </label>
+                        <label for="id_customergroup">
+                          Customer Group :
+                        </label>
                       </div>
+
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="group_id" id="id_customergroup">
+                        <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
@@ -42,11 +49,15 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="bill_id">Bill To :</label>
+                        <label for="bill_id">
+                          Bill To :
+                        </label>
                       </div>
+
                       <div class="col-sm-10 col-lg-3 form-group">
                         <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
                       </div>
+
                       <div class="col-sm-2 col-lg-1 form-group">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
                           id="billaddbtn">
@@ -59,9 +70,11 @@
                       <div class="col-sm-12 col-lg-2">
                         <label for="ship_id">Ship To :</label>
                       </div>
+
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
+
                       <div class="col-sm-2 col-lg-1 form-group">
                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
                           id="shipaddbtn">
@@ -72,19 +85,22 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <b>Customer Name:</b>
+                        <label for="bill_id">
+                          Customer Name:
+                        </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3">
-                        <input type="hidden" name="customer_id" id="customerid_id">
-                        <span id="id_customerid"></span>
+
+                      <div class="col-sm-10 col-lg-3 form-group">
+                        <input type="hidden" class="form-control ftsm" name="customer_id" id="id_customer_id" />
+                        <span id="id_customertext"></span>
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2 mt-4">
+                      <div class="col-sm-12 col-lg-2 pt-1">
                         <label for="date_id">Date :</label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group mt-4">
+                      <div class="col-sm-12 col-lg-3 form-group">
                         <input type="date" class="form-control ftsm" name="order_date" id="date_id" value="" />
                       </div>
                     </div>
@@ -94,7 +110,7 @@
                         <label for="customer_id">Customer PO No. :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm numberonly" name="po_no" id="customer_id" />
+                        <input type="text" class="form-control ftsm numberonly" name="po_no" id="id_po_no" />
                       </div>
                     </div>
 
@@ -126,7 +142,6 @@
                               <th class="min100">Description</th>
                               <th class="minmax150">Qty</th>
                               <th class="min100">Unit Price</th>
-                              <!-- <th class="tax">Tax (%)</th> -->
                               <th class="min100">Total</th>
                               <th class="min100">Delete</th>
                             </tr>
@@ -148,7 +163,7 @@
                     </div>
                     <div class="row">
                       <div class="col-12 text-right">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.00">
+                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.0">
                         <b>Total : </b>₹
                         <span id="total">0.00</span>
                       </div>
@@ -160,13 +175,39 @@
                       <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
                         Record
                       </button>
+
                       <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm"> Back
                       </a>
                     </div>
                   </div>
 
                 </div>
+                <button type="button" id="responsemodal" class="btn btn-default" data-toggle="modal"
+                  data-target="#modal-sm" style="display: none"></button>
 
+                <div class="modal fade" id="modal-sm">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">Add New Company</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Are you confirm to new company record?</p>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">
+                          Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
@@ -236,4 +277,4 @@
 
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
