@@ -47,7 +47,7 @@
                         <label for="customerid_id">Customer : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="customer_id" id="customerid_id">
+                        <select class="form-control" name="customer_id" id="customerid_id" disabled>
                         </select>
                       </div>
                     </div>
@@ -58,7 +58,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select name="order_id" id="id_orderid" class="form-control select2" disabled>
-                          <option value=""></option>
+                          <option value="">&nbsp;</option>
                         </select>
                       </div>
                     </div>

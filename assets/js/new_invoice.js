@@ -124,6 +124,12 @@ function tridupdate(a) {
 // Customer Ajax
 $("#customerid_id").change(function () {
   var customerid = $(this).val();
+  $("#id_orderid").val("");
+  $("#id_orderid")
+    .find("option")
+    .remove()
+    .end()
+    .val("");
   if (customerid) {
     $("#id_orderid").removeAttr("disabled");
     $.ajax({
@@ -314,11 +320,23 @@ $(document).on("change", "#id_group_id", function () {
     .done(function (data) {
       $("#customerid_id").append("<option value=''>&nbsp;</option>");
       $.each(data, function (index, value) {
-        $("#customerid_id").append("<option value='"+value.id+"'>"+value.name+"</option>");
+        $("#customerid_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
       });
+      $("#customerid_id").removeAttr('disabled');
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
+      $("#customerid_id").attr('disabled', true);
+      $("#customerid_id").empty();
+      resetform();
+      $("#id_orderid").attr("disabled", "");
+      $("#id_orderid").val("");
+      $("#id_orderid")
+        .find("option")
+        .remove()
+        .end()
+        .append('<option value=""></option>')
+        .val("");
     });
 });
 
