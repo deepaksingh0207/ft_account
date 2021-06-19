@@ -21,6 +21,9 @@ $(function () {
   });
   $("#quickForm").validate({
     rules: {
+      id_group_id: {
+        required: true,
+      },
       customer_id: {
         required: true,
       },
@@ -48,6 +51,9 @@ $(function () {
       },
     },
     messages: {
+      id_group_id: {
+        required: "Please select customer group.",
+      },
       customer_id: {
         required: "Please select this customer.",
       },
