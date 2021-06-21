@@ -87,27 +87,47 @@ class OrdersController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                echo '<pre>';print_r($data); exit;
+                //echo '<pre>';print_r($data); exit;
 
+                $orderData = array();
                 $orderItems = array();
 
+                $orderData = array();
+                $orderData['group_id'] = $data['group_id'];
+                $orderData['customer_id'] = $data['customer_id'];
+                $orderData['order_date'] = $data['order_date'];
+                $orderData['po_no'] = $data['po_no'];
+                $orderData['sales_person'] = $data['sales_person'];
+                $orderData['bill_to'] = $data['bill_to'];
+                $orderData['ship_to'] = $data['ship_to'];
+                $orderData['order_type'] = $data['ordertype'];
+                $orderData['sub_total'] = $data['ordersubtotal'];
+                $orderData['sgst'] = $data['sgst'];
+                $orderData['cgst'] = $data['cgst'];
+                $orderData['igst'] = $data['igst'];
+                $orderData['tax_rate'] = $data['taxrate'];
+                $orderData['ordertotal'] = $data['ordertotal'];
+                $orderData['remarks'] = $data['remarks'];
+                
+                
+                
+                
                 foreach($data['item'] as $key => $item) {
                     $row = array();
                     $row['item'] = $data['item'][$key];
-                    $row['qty'] = $data['qty'][$key];
                     $row['description'] = $data['description'][$key];
+                    $row['qty'] = $data['qty'][$key];
+                    $row['uom_id'] = $data['uom'][$key];
                     $row['unit_price'] = $data['unit_price'][$key];;
                     $row['total'] = $data['total'][$key];
 
                     $orderItems[] = $row;
                 }
 
-                unset($data['item'], $data['qty'], $data['description'], $data['unit_price'], $data['total']
-                    , $data['trid'], $data['taxval'], $data['group_id']);
-
+                
                 //print_r($orderItems);
                 //print_r($data); exit;
-                $orderId = $this->_model->save($data);
+                $orderId = $this->_model->save($orderData);
                 if($orderId) {
 
                     $tblOrderItem = new OrderItemsModel();
