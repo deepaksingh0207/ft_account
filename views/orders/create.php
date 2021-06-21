@@ -11,22 +11,18 @@
                 <div class="card">
 
                   <div class="card-header">
-
                     <div class="card-title">New Sales Order</div>
-
-                    <div class="text-right">
+                    <div class="text-right" id="id_cardheader">
                       <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
                         Record
                       </button>
-
                       <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
-
                   </div>
 
-                  <div class="card-body" id="order" style="display: block">
+                  <div class="card-body">
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
@@ -34,7 +30,6 @@
                           Customer Group :
                         </label>
                       </div>
-
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
@@ -132,8 +127,27 @@
                         <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                       </div>
                     </div>
-                    <div class="row">
 
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_ordertype">
+                          Order Type :
+                        </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control" name="ordertype" id="id_ordertype">
+                          <option value="">&nbsp;</option>
+                          <option value="1">On-Site Support Sale</option>
+                          <option value="2">Project Sale</option>
+                          <option value="3">AMC Support Sale</option>
+                          <option value="4">Man-days-Support Sale</option>
+                          <option value="5">SAP License Sale</option>
+                          <option value="5">Hardware Sale</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row field" style="display: none;">
                       <div class="col-12 table-responsive">
                         <table class="table text-center mb-0">
                           <thead>
@@ -141,42 +155,76 @@
                               <th class="min100">Item</th>
                               <th class="min100">Description</th>
                               <th class="minmax150">Qty</th>
+                              <th class="minmax150">Unit of Measure</th>
                               <th class="min100">Unit Price</th>
                               <th class="min100">Total</th>
                               <th class="min100">Delete</th>
                             </tr>
                           </thead>
-                          <tbody id="orderlist"></tbody>
+                          <tbody id="orderlist">
+                          </tbody>
                         </table>
                         <hr class="mt-0">
                       </div>
                       <div class="col-12">
                         <div class="row">
-                          <div class="col-sm-12 col-md-12 mb-2">
+                          <div class="col-6 mb-2">
                             <button type="button" id="add_item" class="btn btn-primary btn-sm">
                               ADD ITEM
                             </button>
                           </div>
+                          <div class="col-6 mb-2">
+                            <div class="col-12 text-right">
+                              <input type="hidden" name="ordersubtotal" id="id_ordersubtotal" value="0.0">
+                              <b>Sub Total : &nbsp; &nbsp; &nbsp;</b>
+                              <span id="subtotal">0.00</span>
+                            </div>
+                            <div class="col-12 text-right" id="sgstdiv" style="display: none">
+                              <input type="hidden" name="sgst" id="id_sgst" value="0.0" />
+                              <b>SGST <span id="sgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
+                              <span id="sgstvalue">0.00</span>
+                            </div>
+                            <div class="col-12 text-right" id="cgstdiv" style="display: none">
+                              <input type="hidden" name="cgst" id="id_cgst" value="0.0" />
+                              <b>CGST <span id="cgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
+                              <span id="cgstvalue">0.00</span>
+                            </div>
+                            <div class="col-12 text-right" id="igstdiv" style="display: none">
+                              <input type="hidden" name="igst" id="id_igst" value="0.0" />
+                              <b>IGST <span id="igstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
+                              <span id="igstvalue">0.00</span>
+                            </div>
+                          </div>
                         </div>
+                        <hr>
                       </div>
-
                     </div>
-                    <div class="row">
+
+                    <div class="row field mb-5" style="display: none;">
                       <div class="col-12 text-right">
                         <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.0">
-                        <b>Total : </b>₹
+                        <b>Total : &nbsp; &nbsp; &nbsp;</b>
                         <span id="total">0.00</span>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12 table-responsive" id="id_project">
+                      </div>
+                      <div class="col-12" id="id_projectsummary">
+                        
                       </div>
                     </div>
                   </div>
 
                   <div class="card-footer">
-                    <div class="text-right">
+                    <div class="text-right" id="id_cardfooter">
                       <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
                         Record
                       </button>
 
-                      <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm"> Back
+                      <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
+                        Back
                       </a>
                     </div>
                   </div>
@@ -189,13 +237,13 @@
                   <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Add New Company</h4>
+                        <h4 class="modal-title">Add New Order</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Are you confirm to new company record?</p>
+                        <p>Are you confirm to add new order.?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
@@ -219,27 +267,25 @@
         <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form action="" method="post" class="text-center mb-0">
-                <div class="modal-header">
-                  <div class="modal-title">ORDER DELETE</div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>
-                    Please confirm deleting action of this order?
-                  </p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm killrow">
-                    Delete
-                  </button>
-                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                </div>
-              </form>
+              <div class="modal-header">
+                <div class="modal-title">ORDER DELETE</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Please confirm deleting action of this record?
+                </p>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger btn-sm killrow">
+                  Delete
+                </button>
+                <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>
