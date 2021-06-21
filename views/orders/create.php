@@ -6,8 +6,8 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
+            <input type="hidden" id="id_tr" name="trid" value="" />
               <form method="post" id="quickForm" novalidate="novalidate">
-                <input type="hidden" id="id_tr" name="trid" value="" />
                 <div class="card">
 
                   <div class="card-header">
