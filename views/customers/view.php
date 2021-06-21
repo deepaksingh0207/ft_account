@@ -126,7 +126,7 @@
                       <label for="id_managername"> <b>Manager's Name</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['remark'] ?>
+                      <?php echo $customer['managername'] ?>
                     </div>
                   </div>
 
@@ -135,7 +135,7 @@
                       <label for="id_manageremail"> <b>Manager's Email</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['remark'] ?>
+                      <?php echo $customer['manageremail'] ?> 
                     </div>
                   </div>
 
@@ -144,7 +144,7 @@
                       <label for="id_managerphone"> <b>Manager's Phone</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['remark'] ?>
+                      <?php echo $customer['managerphone'] ?>
                     </div>
                   </div>
 

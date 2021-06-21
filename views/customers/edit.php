@@ -66,7 +66,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3">
-                          <?php echo $customer['address'] ?>
+                          <?php echo trim($customer['address']) ?>
                         </textarea>
                       </div>
                     </div>
@@ -161,7 +161,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="text" class="form-control fc ftsm alphaonly" name="managername"
-                          id="id_managername" value="<?php echo $customer['remark'] ?>" />
+                          id="id_managername" value="<?php echo $customer['managername'] ?>" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -170,7 +170,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="email" class="form-control fc ftsm" name="manageremail" id="id_manageremail"
-                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<?php echo $customer['remark'] ?>" style="text-transform: lowercase" />
+                          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="<?php echo $customer['manageremail'] ?>" style="text-transform: lowercase" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -179,7 +179,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="tel" class="form-control ftsm" name="managerphone" id="id_managerphone" pattern="^[0-9]+$"
-                          minlength="8" maxlength="10" value="<?php echo $customer['remark'] ?>" />
+                          minlength="8" maxlength="10" value="<?php echo $customer['managerphone'] ?>" />
                       </div>
                     </div>
                     

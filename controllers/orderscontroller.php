@@ -83,7 +83,7 @@ class OrdersController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                //print_r($data); exit;
+                echo '<pre>';print_r($data); exit;
 
                 $orderItems = array();
 
