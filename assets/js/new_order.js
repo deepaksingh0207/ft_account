@@ -1,5 +1,5 @@
 var baseUrl = window.location.origin + "/ft_account/";
-var groupdetails
+var groupdetails = ""
 var code
 var deleteid;
 var prehigh = 0
