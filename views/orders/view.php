@@ -89,45 +89,134 @@ $pendingAmount = 0.00;
 											<?php echo $order['remarks'] ?>
 										</div>
 									</div>
-									<div class="table-responsive card">
-										<div class="card-body p-3">
-											<table class="table text-center">
-												<thead>
-													<tr>
-														<th class="min100">Item</th>
-														<th class="min100">Description</th>
-														<th class="minmax150">Qty</th>
-														<th class="min100">Unit Price</th>
-														<th class="min100">Total</th>
-													</tr>
-												</thead>
-												<tbody>
-													<?php if (is_array($items) || is_object($items)) : ?>
-													<?php foreach($items as $item) : ?>
-													<tr>
-														<td>
-															<?php echo $item['item']?>
-														</td>
-														<td>
-															<?php echo $item['description']?>
-														</td>
-														<td>
-															<?php echo $item['qty']?>
-														</td>
-														<td>
-															<?php echo $item['unit_price']?>
-														</td>
-														<td>₹
-															<?php echo ($item['unit_price'] * $item['qty']) ?>
-														</td>
-													</tr>
-													<?php 
-													$orderAmount += ($item['unit_price'] * $item['qty']);
-													
-													endforeach; ?>
-													<?php endif; ?>
-												</tbody>
-											</table>
+									<div class="row mx-1">
+										<div class="col-12 card">
+											<div class="card-header">
+												<b>Order Items</b>
+											</div>
+											<div class="table-responsive card-body">
+												<table class="table text-center">
+													<thead>
+														<tr>
+															<th class="min100">Item</th>
+															<th class="min100">Description</th>
+															<th class="minmax150">Qty</th>
+															<th class="min100">Unit Price</th>
+															<th class="min100">Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php if (is_array($items) || is_object($items)) : ?>
+														<?php foreach($items as $item) : ?>
+														<tr>
+															<td>
+																<?php echo $item['item']?>
+															</td>
+															<td>
+																<?php echo $item['description']?>
+															</td>
+															<td>
+																<?php echo $item['qty']?>
+															</td>
+															<td>
+																<?php echo $item['unit_price']?>
+															</td>
+															<td>₹
+																<?php echo ($item['unit_price'] * $item['qty']) ?>
+															</td>
+														</tr>
+														<?php 
+														$orderAmount += ($item['unit_price'] * $item['qty']);
+														
+														endforeach; ?>
+														<?php endif; ?>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="row mx-1 text-center">
+										<div class="col-sm-12 col-lg-3">
+											<label for="id_gst">
+												<b>Sub Total :</b>
+											</label>
+											<p>
+												<?php echo $order['remarks'] ?>
+											</p>
+										</div>
+										<div class="col-sm-12 col-lg-3">
+											<label for="id_gst">
+												<b>SGST (9%) :</b>
+											</label>
+											<p>
+												<?php echo $order['remarks'] ?>
+											</p>
+										</div>
+										<div class="col-sm-12 col-lg-3">
+											<label for="id_gst">
+												<b>CGST (9%) : </b>
+											</label>
+											<p>
+												<?php echo $order['remarks'] ?>
+											</p>
+										</div>
+										<div class="col-sm-12 col-lg-3" style="display: none;">
+											<label for="id_gst">
+												<b>IGST (18%) : </b>
+											</label>
+											<p>
+												<?php echo $order['remarks'] ?>
+											</p>
+										</div>
+										<div class="col-sm-12 col-lg-3" style="color: mediumslateblue;">
+											<label for="id_gst">
+												<b>Total : </b>
+											</label>
+											<p>
+												<?php echo $order['remarks'] ?>
+											</p>
+										</div>
+									</div>
+									<div class="row mx-1">
+										<div class="col-12 card">
+											<div class="card-header">
+												<b>Payment Terms</b>
+											</div>
+											<div class="table-responsive card-body">
+												<table class="table text-center">
+													<thead>
+														<tr>
+															<th class="min100">Item</th>
+															<th class="min100">Payment Term</th>
+															<th class="minmax150">Qty</th>
+															<th class="min100">Unit of Measure
+															</th>
+															<th class="min100">Unit Price</th>
+															<th class="min100">Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<?php echo $order['remarks'] ?>
+															</td>
+															<td>
+																<?php echo $order['remarks'] ?>
+															</td>
+															<td>
+																<?php echo $order['remarks'] ?>
+															</td>
+															<td>Percentage (%)</td>
+															<td>
+																<?php echo $order['remarks'] ?>
+															</td>
+															<td>
+																<?php echo $order['remarks'] ?>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 
