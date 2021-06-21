@@ -104,7 +104,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="text" class="form-control ftsm pan" name="pan" id="id_pan"
-                          pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" minlength="10" maxlength="10" value="" />
+                          pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" minlength="10" maxlength="10" value="" style="text-transform: uppercase;" />
                       </div>
                     </div>
 
@@ -114,7 +114,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="text" class="form-control ftsm" name="gstin" id="id_gst" minlength="15"
-                          maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" value="" />
+                          maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" value="" style="text-transform: uppercase;" />
                       </div>
                     </div>
 

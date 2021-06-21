@@ -57,7 +57,7 @@
                         <label for="id_orderid">Order Number:</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select name="order_id" id="id_orderid" class="form-control select2" disabled>
+                        <select name="order_id" id="id_orderid" class="form-control" disabled>
                           <option value="">&nbsp;</option>
                         </select>
                       </div>
