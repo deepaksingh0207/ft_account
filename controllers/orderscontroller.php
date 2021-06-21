@@ -79,6 +79,10 @@ class OrdersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
             
+            $ordTypeTbl = new OrderTypesModel();
+            $orderTypes = $ordTypeTbl->list();
+            $this->_view->set('orderTypes', $orderTypes);
+            
             
             if(!empty($_POST)) {
                 $data = $_POST;

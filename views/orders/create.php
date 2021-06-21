@@ -137,12 +137,11 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="ordertype" id="id_ordertype">
                           <option value="">&nbsp;</option>
-                          <option value="1">On-Site Support Sale</option>
-                          <option value="2">Project Sale</option>
-                          <option value="3">AMC Support Sale</option>
-                          <option value="4">Man-days-Support Sale</option>
-                          <option value="5">SAP License Sale</option>
-                          <option value="5">Hardware Sale</option>
+                          <?php foreach ($orderTypes as $orderType) : ?>
+                          <option value="<?php echo $orderType['id'] ?>">
+                            <?php echo $orderType['title'] ?>
+                          </option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
