@@ -42,7 +42,7 @@ function addrow(charlie) {
 
   $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm qty' name='qty[]' id='id_quantity" + charlie + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
 
-  $("#" + charlie).append('<td class="form-group"><select class="form-control uom" name="uom[]" id="id_uom"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>');
+  $("#" + charlie).append('<td class="form-group"><select class="form-control uom" name="uom[]" id="id_uom' + charlie +'"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>');
 
   $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" + charlie + "' /></td>");
 
@@ -63,7 +63,7 @@ function projectdiv() {
   $("#projecttableheader").append('<th class="min100">Total</th>');
   $("#projecttableheader").append('<th class="min100">Delete</th>');
   $("#projectable").append('<tbody id="projecttablebody"></tbody>');
-  $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2">    <button type="button" id="add_pt" class="btn btn-primary btn-sm">Add Payment Terms</button></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="pttotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
+  $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2">    <button type="button" id="add_pt" class="btn btn-primary btn-sm">Add Payment Terms</button></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="ptsubtotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
 }
 
 function projecttablebody(charlie) {
@@ -403,10 +403,14 @@ function rowcollector(id) {
   rowqty = $("#id_quantity" + id).val();
   rowunitprice = $("#id_unitprice" + id).val();
   rowtax = $("#id_tax" + id).val();
+  rowuom = $("#id_uom" + id).val();
   subtotal = 0;
   if (rowqty[0] != "" && rowunitprice[0] != "") {
 
     subtotal = rowunitprice * rowqty;
+    if($("#id_ordertype").val() == 2 && rowuom == 3) {
+    	subtotal = rowunitprice * (rowqty / 100);
+    }
   }
   $("#total" + id).val(subtotal);
   $("#id_total" + id).text(parseFloat(subtotal).toFixed(2));
@@ -419,7 +423,8 @@ function ptcollector(id) {
   rowunitprice = $("#id_ptunitprice" + id).val();
   subtotal = 0;
   if (rowqty[0] != "" && rowunitprice[0] != "") {
-    subtotal = rowunitprice * rowqty;
+    //subtotal = rowunitprice * rowqty;
+    subtotal = rowunitprice * (rowqty / 100);
   }
   $("#pttotal" + id).val(subtotal);
   $("#id_pttotal" + id).text(parseFloat(subtotal).toFixed(2));

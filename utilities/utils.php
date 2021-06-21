@@ -24,24 +24,24 @@ class Utils {
     }
     
     
-    function getPriority($id = null, $val = null) {
+    function getOrderType($id = null, $val = null) {
         if($id) {
-            return PRIORITY[$id];
+            return ORDER_TYPE[$id];
         }
         if($val) {
-            return array_search($val, PRIORITY);
+            return array_search($val, ORDER_TYPE);
         }
-        return PRIORITY;
+        return ORDER_TYPE;
         
     }
-    function getStatus($id = null, $val = null) {
+    function getUOM($id = null, $val = null) {
         if($id) {
-            return STATUS[$id];
+            return UOM[$id];
         }
         if($val) {
-            return array_search($val, STATUS);
+            return array_search($val, UOM);
         }
-        return STATUS;
+        return UOM;
     }
     function getSystem($id = null, $val = null) {
         if($id) {

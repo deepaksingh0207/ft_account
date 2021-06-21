@@ -96,7 +96,7 @@ $pendingAmount = 0.00;
 											</label>
 										</div>
 										<div class="col-sm-12 col-lg-3 form-group">
-											<?php echo $order['remarks'] ?>
+											<?php echo $ORDER_TYPE[$order['order_type']] ?>
 										</div>
 									</div>
 									<div class="row mx-1">
@@ -114,7 +114,7 @@ $pendingAmount = 0.00;
 															<th class="min100">Unit of Measure
 															</th>
 															<th class="min100">Unit Price</th>
-															<th class="min100">Qty x Unit Price</th>
+															<th class="min100">Total</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -131,17 +131,17 @@ $pendingAmount = 0.00;
 																<?php echo $item['qty']?>
 															</td>
 															<td>
-																<?php echo $item['qty']?>
+																<?php echo $UOM[$item['uom_id']] ?>
 															</td>
 															<td>
 																<?php echo $item['unit_price']?>
 															</td>
 															<td>₹
-																<?php echo ($item['unit_price'] * $item['qty']) ?>
+																<?php echo $item['total'] ?>
 															</td>
 														</tr>
 														<?php 
-														$orderAmount += ($item['unit_price'] * $item['qty']);
+														$orderAmount += $item['total'];
 														
 														endforeach; ?>
 														<?php endif; ?>
@@ -156,42 +156,46 @@ $pendingAmount = 0.00;
 												<b>Sub Total :</b>
 											</label>
 											<p>
-												<?php echo $order['remarks'] ?>
+												<?php echo $order['sub_total'] ?>
+											</p>
+										</div>
+										<?php if (floatval($order['igst']) == 0.0) :  ?>
+										<div class="col-sm-12 col-lg-3">
+											<label for="id_gst">
+												<b>SGST (<?php echo $order['tax_rate'] ?>%) :</b>
+											</label>
+											<p>
+												<?php echo $order['sgst'] ?>
 											</p>
 										</div>
 										<div class="col-sm-12 col-lg-3">
 											<label for="id_gst">
-												<b>SGST (9%) :</b>
+												<b>CGST (<?php echo $order['tax_rate'] ?>%) : </b>
 											</label>
 											<p>
-												<?php echo $order['remarks'] ?>
+												<?php echo $order['cgst'] ?>
 											</p>
 										</div>
+										<?php else :  ?>
 										<div class="col-sm-12 col-lg-3">
 											<label for="id_gst">
-												<b>CGST (9%) : </b>
+												<b>IGST (<?php echo $order['tax_rate'] ?>%) : </b>
 											</label>
 											<p>
-												<?php echo $order['remarks'] ?>
+												<?php echo $order['igst'] ?>
 											</p>
 										</div>
-										<div class="col-sm-12 col-lg-3" style="display: none;">
-											<label for="id_gst">
-												<b>IGST (18%) : </b>
-											</label>
-											<p>
-												<?php echo $order['remarks'] ?>
-											</p>
-										</div>
+										<?php endif;  ?>
 										<div class="col-sm-12 col-lg-3" style="color: mediumslateblue;">
 											<label for="id_gst">
 												<b>Total : </b>
 											</label>
 											<p>
-												<?php echo $order['remarks'] ?>
+												<?php echo $order['ordertotal'] ?>
 											</p>
 										</div>
 									</div>
+									<?php if ($order['order_type'] == 2) : // project sale ?>
 									<div class="row mx-1">
 										<div class="col-12 card">
 											<div class="card-header">
@@ -211,29 +215,39 @@ $pendingAmount = 0.00;
 														</tr>
 													</thead>
 													<tbody>
+													<?php if (is_array($payterms) || is_object($payterms)) : ?>
+														<?php foreach($payterms as $payterm) : ?>
+														
 														<tr>
 															<td>
-																<?php echo $order['remarks'] ?>
+																<?php echo $payterm['item']?>
 															</td>
 															<td>
-																<?php echo $order['remarks'] ?>
+																<?php echo $payterm['description']?>
 															</td>
 															<td>
-																<?php echo $order['remarks'] ?>
-															</td>
-															<td>Percentage (%)</td>
-															<td>
-																<?php echo $order['remarks'] ?>
+																<?php echo $payterm['qty']?>
 															</td>
 															<td>
-																<?php echo $order['remarks'] ?>
+																<?php echo $UOM[$payterm['uom_id']] ?>
+															</td>
+															<td>
+																<?php echo $payterm['unit_price']?>
+															</td>
+															<td>₹
+																<?php echo $payterm['total'] ?>
 															</td>
 														</tr>
+														<?php
+														
+														endforeach; ?>
+														<?php endif; ?>
 													</tbody>
 												</table>
 											</div>
 										</div>
 									</div>
+									<?php endif; ?>
 
 									<?php if (isset($invoices)) : ?>
 									<div class="table-responsive card">

@@ -138,9 +138,9 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="ordertype" id="id_ordertype">
                           <option value="">&nbsp;</option>
-                          <?php foreach ($orderTypes as $orderType) : ?>
-                          <option value="<?php echo $orderType['id'] ?>">
-                            <?php echo $orderType['title'] ?>
+                          <?php foreach ($ORDER_TYPE as $key => $val) : ?>
+                          <option value="<?php echo $key ?>">
+                            <?php echo $val ?>
                           </option>
                           <?php endforeach; ?>
                         </select>

@@ -44,6 +44,10 @@ class OrdersController extends Controller
             $items = $tblOrderItem->getItemByOrderId($id);
             $this->_view->set('items', $items);
             
+            $tblOrderPayterm = new OrderPaytermsModel();
+            $payterms = $tblOrderPayterm->getPaytermByOrderId($id);
+            $this->_view->set('payterms', $payterms);
+            
             $invoiceModel = new InvoicesModel();
             $invoices = $invoiceModel->getInvoicesOfOrder($id);
             
@@ -79,10 +83,6 @@ class OrdersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
             
-            $ordTypeTbl = new OrderTypesModel();
-            $orderTypes = $ordTypeTbl->list();
-            $this->_view->set('orderTypes', $orderTypes);
-            
             
             if(!empty($_POST)) {
                 $data = $_POST;
@@ -91,6 +91,7 @@ class OrdersController extends Controller
 
                 $orderData = array();
                 $orderItems = array();
+                $orderPayTerms = array();
 
                 $orderData = array();
                 $orderData['group_id'] = $data['group_id'];
@@ -110,6 +111,18 @@ class OrdersController extends Controller
                 $orderData['remarks'] = $data['remarks'];
                 
                 
+                if($orderData['order_type'] == 2) {
+                    foreach($data['ptitem'] as $key => $item) {
+                        $row = array();
+                        $row['item'] = $data['ptitem'][$key];
+                        $row['description'] = $data['paymentterm'][$key];
+                        $row['qty'] = $data['ptqty'][$key];
+                        $row['uom_id'] = 3;
+                        $row['unit_price'] = $data['ptunit_price'][$key];
+                        $row['total'] = $data['pttotal'][$key];
+                        $orderPayTerms[] = $row;
+                    }
+                }
                 
                 
                 foreach($data['item'] as $key => $item) {
@@ -134,6 +147,14 @@ class OrdersController extends Controller
                     foreach($orderItems as $orderItem) {
                         $orderItem['order_id'] = $orderId;
                         $tblOrderItem->save($orderItem);
+                    }
+                    
+                    if($orderData['order_type'] == 2) {
+                        $tblOrderItem = new OrderPaytermsModel();
+                        foreach($orderPayTerms as $orderPayTerm) {
+                            $orderPayTerm['order_id'] = $orderId;
+                            $tblOrderItem->save($orderPayTerm);
+                        }
                     }
 
                     $_SESSION['message'] = 'Order added successfully';

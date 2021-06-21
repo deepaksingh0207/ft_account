@@ -43,6 +43,9 @@ class Controller {
         $this->_view->set('is_admin', $this->_session->get('is_admin'));
         $this->_view->set('user', $this->_session->get('user'));
         
+        $this->_view->set('ORDER_TYPE', $this->_utils->getOrderType());
+        $this->_view->set('UOM', $this->_utils->getUOM());
+        
         
     }
 
