@@ -79,13 +79,13 @@ function checker() {
 
 $(function () {
   $("#date_id").val(today);
-
-  // $(".select2").select2();
-
   $.validator.setDefaults({
     submitHandler: function () {
-      checker()
+      checker();
+    },
+  });
   $("#quickForm").validate({
+    rules: {
       group_id: {
         required: true,
       },
@@ -147,7 +147,6 @@ $(function () {
     },
     highlight: function (element, errorClass, validClass) {
       $(element).addClass("is-invalid");
-      checker()
     },
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid");
