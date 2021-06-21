@@ -65,9 +65,7 @@
                         <label for="id_address"> Address </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3">
-                          <?php echo trim($customer['address']) ?>
-                        </textarea>
+                        <textarea class="form-control fc ftsm" name="address" id="id_address" cols="30" rows="3"><?php echo trim($customer['address']) ?></textarea>
                       </div>
                     </div>
                     <div class="row mx-1">
