@@ -87,6 +87,7 @@
 
                       <div class="col-sm-10 col-lg-3 form-group">
                         <input type="hidden" class="form-control ftsm" name="customer_id" id="id_customer_id" />
+                        <input type="hidden" class="form-control ftsm" name="taxrate" id="id_taxrate" />
                         <span id="id_customertext"></span>
                       </div>
                     </div>

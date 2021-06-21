@@ -154,6 +154,9 @@ $("#customerid_id").change(function () {
             );
           }
         });
+        $("#id_orderid").prepend(
+          $("<option>", { value: "", selected: true }).text("")
+        );
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");

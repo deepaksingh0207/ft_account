@@ -552,9 +552,11 @@ function getgst(customerid) {
 
         $("#igstdiv").hide();
         igst = 0;
+        $("#id_taxrate").val(data.cgst);
       } else {
         $("#sgstdiv").hide();
         $("#cgstdiv").hide();
+        $("#id_taxrate").val(data.igst);
         $("#igstpercent").text(data.igst);
         $("#igstdiv").show();
         cgst = 0;
