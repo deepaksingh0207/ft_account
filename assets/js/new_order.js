@@ -495,6 +495,7 @@ function modelfill(checkboxclass, label) {
     $("#addhead").append('<table class="table table-hover" style="border: 1px solid lightgrey;"><thead><th></th><th>Code</th><th>Name</th><th>Address</th></thead><tbody id="addbody"></tbody></table>');
     $("#addbody").empty();
     $.each(groupdetails, function (index, row) {
+      console.log(row);
       $("#addbody").append("<tr id='row" + row.id + "' ></tr>");
       $("#row" + row.id).append("<td id='tickcol" + row.id + "'></td>");
       $("#tickcol" + row.id).append("<div class='icheck-primary d-inline'><input type='radio' id='checkbox" + row.id + "' name='id_customer' class='" + checkboxclass + "'><label for='checkbox" + row.id + "'></label></div>");
