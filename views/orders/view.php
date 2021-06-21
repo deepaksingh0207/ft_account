@@ -90,6 +90,16 @@ $pendingAmount = 0.00;
 										</div>
 									</div>
 									<div class="row mx-1">
+										<div class="col-sm-12 col-lg-2">
+											<label for="id_gst">
+												<b>Order Type :</b>
+											</label>
+										</div>
+										<div class="col-sm-12 col-lg-3 form-group">
+											<?php echo $order['remarks'] ?>
+										</div>
+									</div>
+									<div class="row mx-1">
 										<div class="col-12 card">
 											<div class="card-header">
 												<b>Order Items</b>
