@@ -101,8 +101,10 @@ $pendingAmount = 0.00;
 															<th class="min100">Item</th>
 															<th class="min100">Description</th>
 															<th class="minmax150">Qty</th>
+															<th class="min100">Unit of Measure
+															</th>
 															<th class="min100">Unit Price</th>
-															<th class="min100">Total</th>
+															<th class="min100">Qty x Unit Price</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -114,6 +116,9 @@ $pendingAmount = 0.00;
 															</td>
 															<td>
 																<?php echo $item['description']?>
+															</td>
+															<td>
+																<?php echo $item['qty']?>
 															</td>
 															<td>
 																<?php echo $item['qty']?>
