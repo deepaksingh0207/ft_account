@@ -125,7 +125,7 @@
                       </div>
                     </div>
 
-                    <div class="row" id="order_list_layout" style="display: none">
+                    <div class="row" id="order_list_layout" style="display: none; justify-content: flex-end;">
                       <div class="col-12 card px-0">
                         <div class="card-header">
                           <b>Order Details</b>
@@ -148,26 +148,26 @@
                         </div>
                         <div class="card-footer">
                           <div class="text-right">
-                            <b>Sub Total : </b>₹
+                            <b>Sub Total : </b>
                             <span id="ordertotal">0.00</span>
                             <input type="hidden" name="order_total" id="id_order_total" />
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="ordersgstdiv" style="display: none;">
-                        <p id="sgst"></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="ordersgstdiv" style="display: none;">
+                        <p class="mb-0" id="sgst"></p>
                         <p id="sgstval"></p>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="ordercgstdiv" style="display: none;">
-                        <p id="cgst"></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="ordercgstdiv" style="display: none;">
+                        <p class="mb-0" id="cgst"></p>
                         <p id="cgstval"></p>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="orderigstdiv" style="display: none;">
-                        <p id="igst"></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="orderigstdiv" style="display: none;">
+                        <p class="mb-0" id="igst"></p>
                         <p id="igstval"></p>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="totaldiv" style="color: mediumslateblue;">
-                        <p><b>Total : </b></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="totaldiv" style="color: mediumslateblue;">
+                        <p class="mb-0"><b>Total</b></p>
                         <p id="totalval"></p>
                       </div>
                     </div>
@@ -190,7 +190,7 @@
                         </div>
                         <div class="card-footer">
                           <div class="text-right">
-                            <b>Balance Amount : </b>₹
+                            <b>Balance Amount : </b>
                             <span id="pendingbalance">0.00</span>
                           </div>
                         </div>
@@ -300,7 +300,7 @@
                                 <th class="min100">Total</th>
                               </tr>
                             </thead>
-                            <tbody id="id_paymentterm_list"></tbody>
+                            <tbody id="id_paymentterm_list" class="text-left"></tbody>
                           </table>
                           <hr class="mt-0">
                         </div>

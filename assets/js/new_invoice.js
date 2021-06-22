@@ -14,6 +14,15 @@ var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
 
+// Amount Representation
+function humanamount(val) {
+  var val = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR'
+  }).format(val);
+  return val
+}
+
 $(function () {
   $("#id_invoicedate").val(today);
   $(".select2").select2();
@@ -118,7 +127,7 @@ function addrow(charlie) {
     charlie +
     "'></td><td id='id_unitprice" +
     charlie +
-    "'></td><td>₹<span id='ordertotal" +
+    "'></td><td><span id='ordertotal" +
     charlie +
     "'></span></td></tr>"
   );
@@ -244,6 +253,7 @@ $("#id_orderid").change(function () {
       encode: true,
     })
       .done(function (data) {
+        payment_term = data.payment_term
         $("#id_pono").val(data.order.po_no);
         if (data.order.order_type == 1) {
           $("#id_ordertype").text("On-Site Support Sale");
@@ -271,16 +281,16 @@ $("#id_orderid").change(function () {
           fillOrderInvoices(data.invoices);
         }
         if (igst > 0) {
-          $("#igst").append('<b>IGST ( ' + igst + '.00% ) : </b>');
-          $("#igstval").append(data.order.igst);
+          $("#igst").append('<b>IGST ( ' + igst + '.00% )</b>');
+          $("#igstval").append(humanamount(data.order.igst));
         }
         else {
-          $("#sgst").append('<b>SGST ( ' + sgst + '.00% ) : </b>');
-          $("#sgstval").append(data.order.sgst);
-          $("#cgst").append('<b>CGST ( ' + cgst + '.00% ) : </b>');
-          $("#cgstval").append(data.order.cgst);
+          $("#sgst").append('<b>SGST ( ' + sgst + '.00% )</b>');
+          $("#sgstval").append(humanamount(data.order.sgst));
+          $("#cgst").append('<b>CGST ( ' + cgst + '.00% )</b>');
+          $("#cgstval").append(humanamount(data.order.cgst));
         }
-          $("#totalval").append(data.order.ordertotal);
+          $("#totalval").append(humanamount(data.order.ordertotal));
         fillorderitems(data.items);
         $("#invoice_list_layout").show();
         $("#order_list_layout").show();
@@ -288,15 +298,16 @@ $("#id_orderid").change(function () {
           $("#paytype_div").hide();
           $("#id_paymenttermdiv").show();
           $("#id_paymentterm_list").empty();
-          $.each(data.payment_term, function (key, value) {
+          
+          $.each(payment_term, function (key, value) {
             $("#id_paymentterm_list").append('<tr id="id_tr' + value.id + '"></tr>');
-            $("#id_tr" + value).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="' + value.id + '"></td>');
-            $("#id_tr" + value).append('<td>' + value.item + '</td>');
-            $("#id_tr" + value).append('<td>' + value.description + '</td>');
-            $("#id_tr" + value).append('<td>' + value.qty + '</td>');
-            $("#id_tr" + value).append('<td>' + value.uom_id + '</td>');
-            $("#id_tr" + value).append('<td>' + value.unit_price + '</td>');
-            $("#id_tr" + value).append('<td>' + value.total + '</td>');
+            $("#id_tr" + value.id).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="' + value.id + '"></td>');
+            $("#id_tr" + value.id).append('<td>' + value.item + '</td>');
+            $("#id_tr" + value.id).append('<td>' + value.description + '</td>');
+            $("#id_tr" + value.id).append('<td>' + value.qty + '</td>');
+            $("#id_tr" + value.id).append('<td>' + value.uom_id + '</td>');
+            $("#id_tr" + value.id).append('<td>' + value.unit_price + '</td>');
+            $("#id_tr" + value.id).append('<td>' + humanamount(value.total) + '</td>');
           });
         } else {
           $("#id_paymenttermdiv").hide();
@@ -380,21 +391,21 @@ function fillorderitems(datadict) {
         $("#id_item" + di).text(item);
         $("#id_description" + di).text(description);
         $("#id_unitprice" + di).text(unitprice);
-        if (quantity != "" && unitprice != "") {
-          total = 0;
-          total = unitprice * quantity;
-        }
-        $("#ordertotal" + di).text(parseFloat(total).toFixed(2));
+        // if (quantity != "" && unitprice != "") {
+        //   total = 0;
+        //   total = unitprice * quantity;
+        // }
+        $("#ordertotal" + di).text(humanamount(parseFloat(total).toFixed(2)));
         // ordertotal = parseFloat(total).toFixed(2)
       }
     }
     ordertotal += total;
   }
 
-  $("#ordertotal").text(parseFloat(ordertotal).toFixed(2));
+  $("#ordertotal").text(humanamount(parseFloat(ordertotal).toFixed(2)));
   $("#id_order_total").val(parseFloat(ordertotal).toFixed(2));
   pendingtotal = ordertotal - invoicetotal;
-  $("#pendingbalance").text(pendingtotal);
+  $("#pendingbalance").text(humanamount(pendingtotal));
   $("#id_paypercent").val("");
   $("#id_paytype").val("");
   calcy();
