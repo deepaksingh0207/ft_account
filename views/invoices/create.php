@@ -217,7 +217,7 @@
                                 <td>1</td>
                                 <td class="text-left">
                                   <div class="form-group mb-0">
-                                    <select class="form-control ftsm" style="width: 100%" name="payment_term"
+                                    <!-- <select class="form-control ftsm" style="width: 100%" name="payment_term"
                                       id="id_paytype" required>
                                       <option value="" selected="selected"></option>
                                       <option value="Advance">Advance</option>
@@ -229,19 +229,19 @@
                                       <option value="Full Payment">
                                         Full Payment
                                       </option>
-                                    </select>
+                                    </select> -->
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group" style="justify-content: center">
-                                    <input type="tel" class="
+                                    <!-- <input type="tel" class="
                                         form-control
                                         ftwm
                                         ftsm
                                         paypercent
                                         minmax100
                                       " minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent"
-                                      id="id_paypercent" required />
+                                      id="id_paypercent" required /> -->
                                     <div class="input-group-append">
                                       <div class="input-group-text">
                                         <i class="fas fa-percentage"></i>
@@ -251,31 +251,31 @@
                                 </td>
                                 <td id="id_paytotal_div">
                                   <div>0</div>
-                                  <input type="hidden" name="sub_total" id="id_paytotal" />
+                                  <!-- <input type="hidden" name="sub_total" id="id_paytotal" /> -->
                                 </td>
                               </tr>
                             </tbody>
                           </table>
 
                           <div class="col-12 text-right" id="sgstdiv" style="display: none">
-                            <input type="hidden" name="sgst" id="id_sgst" value="" />
+                            <input type="hidden" name="sgst" id="id_sgst" value="0" />
                             <b>SGST <span id="sgstpercent"></span>% </b>:₹
                             <span id="sgstvalue">0.00</span>
                           </div>
                           <div class="col-12 text-right" id="cgstdiv" style="display: none">
-                            <input type="hidden" name="cgst" id="id_cgst" value="" />
+                            <input type="hidden" name="cgst" id="id_cgst" value="0" />
                             <b>CGST <span id="cgstpercent"></span>% </b>:₹
                             <span id="cgstvalue">0.00</span>
                           </div>
                           <div class="col-12 text-right" id="igstdiv" style="display: none">
-                            <input type="hidden" name="igst" id="id_igst" value="" />
+                            <input type="hidden" name="igst" id="id_igst" value="0" />
                             <b>IGST <span id="igstpercent"></span>% </b>:₹
                             <span id="igstvalue">0.00</span>
                           </div>
                         </div>
                         <div class="card-footer">
                           <div class="col-12 text-right" style="color: darkslateblue;">
-                            <input type="hidden" name="invoice_total" id="id_invoicetotal" value="" />
+                            <input type="hidden" name="invoice_total" id="id_invoicetotal" value="0" />
                             <b>Total : </b>₹
                             <span id="gstvalue">0.00</span>
                           </div>
