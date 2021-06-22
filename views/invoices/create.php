@@ -258,6 +258,30 @@
                         </div>
                       </div>
                     </div>
+                    <div class="row" id="id_paymenttermdiv" style="display: none">
+                      <div class="col-12 card px-0">
+                        <div class="card-header">
+                          <b>Generate New Invoice</b>
+                        </div>
+                        <div class="card-body table-responsive">
+                          <table class="table text-center mb-0">
+                            <thead>
+                              <tr>
+                                <th style="min-width: 40px;"></th>
+                                <th class="min100">Item</th>
+                                <th class="min100">Description</th>
+                                <th class="minmax150">Qty</th>
+                                <th class="minmax150">Unit of Measure</th>
+                                <th class="min100">Unit Price</th>
+                                <th class="min100">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody id="id_paymentterm_list"></tbody>
+                          </table>
+                          <hr class="mt-0">
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="card-footer">

@@ -284,7 +284,6 @@ $("#add_item").on("click", function () {
   $("#id_tr").val(a);
 });
 
-// Add new payment term function
 // On hovering Address column
 $(document).on("click", "#add_pt", function () {
   if (ptlist.length == 0) {

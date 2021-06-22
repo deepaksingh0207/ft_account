@@ -21,7 +21,7 @@ $(function () {
   });
   $("#quickForm").validate({
     rules: {
-      id_group_id: {
+      group_id: {
         required: true,
       },
       customer_id: {
@@ -51,7 +51,7 @@ $(function () {
       },
     },
     messages: {
-      id_group_id: {
+      group_id: {
         required: "Please select customer group.",
       },
       customer_id: {
@@ -209,8 +209,6 @@ $("#id_orderid").change(function () {
       encode: true,
     })
       .done(function (data) {
-        console.log(data);
-        $("#paytype_div").show();
         $("#id_pono").val(data.order.po_no);
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
@@ -222,6 +220,21 @@ $("#id_orderid").change(function () {
         fillorderitems(data.items);
         $("#invoice_list_layout").show();
         $("#order_list_layout").show();
+        if (data.order.order_type == 2){
+          $("#id_paymenttermdiv").show();
+          $.each(data, function (key, value) {
+            $("#id_paymenttermdiv").append('<tr id="id_tr'+ value.id +'"></tr>');
+            $("#id_tr"+value).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="'+ value.id +'"></td>');
+            $("#id_tr"+value).append('<td>'+ value.item +'</td>');
+            $("#id_tr"+value).append('<td>'+ value.description +'</td>');
+            $("#id_tr"+value).append('<td>'+ value.qty +'</td>');
+            $("#id_tr"+value).append('<td>'+ value.uom_id +'</td>');
+            $("#id_tr"+value).append('<td>'+ value.unit_price +'</td>');
+            $("#id_tr"+value).append('<td>'+ value.total +'</td>');
+          });
+        } else {
+          $("#paytype_div").show();
+        }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No Order Item details found against this order.");
@@ -325,6 +338,7 @@ $(document).on("change", "#id_paytype", function () {
 });
 
 $(document).on("change", "#id_group_id", function () {
+  $("#customerid_id").empty();
   $.ajax({
     type: "POST",
     url: baseUrl + "customers/groupcustomers/" + $(this).val(),
