@@ -35,6 +35,10 @@ class InvoicesController extends Controller
 
             $this->_view->set('customers', $customers);
             
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            
             if(!empty($_POST)) {
                 $data = $_POST;
                 

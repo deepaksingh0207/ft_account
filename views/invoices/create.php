@@ -32,12 +32,10 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
-                          <option value="1">GSM</option>
-                          <option value="3">Aarti Industries Pvt. Ltd</option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
                             <?php echo $group['name'] ?>
-                          </option>
+                          </option> 
                           <?php endforeach; ?>
                         </select>
                       </div>
