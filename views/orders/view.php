@@ -108,13 +108,13 @@ $pendingAmount = 0.00;
 												<table class="table text-center">
 													<thead>
 														<tr>
-															<th class="min100">Item</th>
-															<th class="min100">Description</th>
-															<th class="minmax150">Qty</th>
-															<th class="min100">Unit of Measure
+															<th class="min150">Item</th>
+															<th class="min150">Description</th>
+															<th class="minmax100">Qty</th>
+															<th class="min150">Unit of Measure
 															</th>
 															<th class="min100">Unit Price</th>
-															<th class="min100">Total</th>
+															<th class="min150">Total</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -205,13 +205,12 @@ $pendingAmount = 0.00;
 												<table class="table text-center">
 													<thead>
 														<tr>
-															<th class="min100">Item</th>
-															<th class="min100">Payment Term</th>
-															<th class="minmax150">Qty</th>
-															<th class="min100">Unit of Measure
-															</th>
+															<th class="min150">Item</th>
+															<th class="min150">Payment Term</th>
+															<th class="minmax100">Qty</th>
+															<th class="min150">Unit of Measure</th>
 															<th class="min100">Unit Price</th>
-															<th class="min100">Total</th>
+															<th class="min150">Total</th>
 														</tr>
 													</thead>
 													<tbody>

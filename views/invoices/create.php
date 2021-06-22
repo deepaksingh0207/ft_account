@@ -32,7 +32,8 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
-                          <option value="1">JBM</option>
+                          <option value="1">GSM</option>
+                          <option value="3">Aarti Industries Pvt. Ltd</option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
                             <?php echo $group['name'] ?>
@@ -154,17 +155,9 @@
                         </div>
                         <div class="card-body table-responsive">
                           <table class="table text-center mb-0">
-                            <thead>
+                            <thead id="invoiceheader">
                               <tr>
-                                <th class="min100">Invoice No.</th>
-                                <th class="min100">Pay Term</th>
-                                <th class="min100">Pay Percent</th>
-                                <th class="min100">Sub Total</th>
-                                <th class="min100">IGST</th>
-                                <th class="min100">CGST</th>
-                                <th class="min100">SGST</th>
-                                <th class="min100">Total</th>
-                                <th class="min100">Date</th>
+                                <td colspan="9">No Past Invoice</td>
                               </tr>
                             </thead>
                             <tbody id="invoicelist"></tbody>
@@ -173,7 +166,7 @@
                         </div>
                         <div class="card-footer">
                           <div class="text-right">
-                            <b>Pending Balance : </b>₹
+                            <b>Balance Amount : </b>₹
                             <span id="pendingbalance">0.00</span>
                           </div>
                         </div>
@@ -257,7 +250,7 @@
                           </div>
                         </div>
                         <div class="card-footer">
-                          <div class="col-12 text-right" style="color: darkgreen">
+                          <div class="col-12 text-right" style="color: darkslateblue;">
                             <input type="hidden" name="invoice_total" id="id_invoicetotal" value="" />
                             <b>Total : </b>₹
                             <span id="gstvalue">0.00</span>

@@ -145,6 +145,14 @@ $(".fc").change(function () {
 	}
 });
 
+$(".pan").on("keyup", function (event) {
+	$(this).val($(this).val().toUpperCase());
+});
+
+$(".gst").on("keyup", function (event) {
+	$(this).val($(this).val().toUpperCase());
+});
+
 $(".numberonly").on("keypress", function (event) {
 	var regex = new RegExp("^[0-9]+$");
 	var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);

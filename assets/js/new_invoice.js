@@ -215,8 +215,13 @@ $("#id_orderid").change(function () {
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
         $("#ship_id").val(data.order.ship_to);
-        fillOrderInvoices(data.invoices);
+        var invoicedata = data.invoices
+        if (invoicedata.length > 0) {
+          fillOrderInvoices(data.invoices);
+        }
         fillorderitems(data.items);
+        $("#invoice_list_layout").show();
+        $("#order_list_layout").show();
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No Order Item details found against this order.");
@@ -224,11 +229,12 @@ $("#id_orderid").change(function () {
   }
 });
 
+
 function fillOrderInvoices(datadict) {
   var data = eval(datadict);
-  $("#invoice_list_layout").show();
-  $("#order_list_layout").show();
   invoicetotal = 0
+  $("#invoiceheader").empty();
+  $("#invoiceheader").append('<tr> <th class="min100">Invoice No.</th> <th class="min100">Pay Term</th> <th class="min100">Pay Percent</th> <th class="min100">Sub Total</th> <th class="min100">IGST</th> <th class="min100">CGST</th> <th class="min100">SGST</th> <th class="min100">Total</th> <th class="min100">Date</th></tr>');
   for (var key in data) {
     invoicetotal += parseFloat(data[key].sub_total);
     console.log(invoicetotal);
