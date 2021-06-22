@@ -129,6 +129,7 @@ function tridupdate(a) {
 
 // Customer Ajax
 $("#customerid_id").change(function () {
+  resetform()
   var customerid = $(this).val();
   $("#id_orderid").val("");
   $("#id_orderid")
@@ -221,7 +222,9 @@ $("#id_orderid").change(function () {
         $("#invoice_list_layout").show();
         $("#order_list_layout").show();
         if (data.order.order_type == 2){
+          $("#paytype_div").hide();
           $("#id_paymenttermdiv").show();
+          $("#id_paymentterm_list").empty();
           $.each(data.payment_term, function (key, value) {
             $("#id_paymentterm_list").append('<tr id="id_tr'+ value.id +'"></tr>');
             $("#id_tr"+value).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="'+ value.id +'"></td>');
@@ -233,6 +236,7 @@ $("#id_orderid").change(function () {
             $("#id_tr"+value).append('<td>'+ value.total +'</td>');
           });
         } else {
+          $("#id_paymenttermdiv").hide();
           $("#paytype_div").show();
         }
       })
@@ -339,6 +343,7 @@ $(document).on("change", "#id_paytype", function () {
 
 $(document).on("change", "#id_group_id", function () {
   $("#customerid_id").empty();
+  resetform()
   $.ajax({
     type: "POST",
     url: baseUrl + "customers/groupcustomers/" + $(this).val(),

@@ -259,7 +259,7 @@
                     <div class="row" id="id_paymenttermdiv" style="display: none">
                       <div class="col-12 card px-0">
                         <div class="card-header">
-                          <b>Generate New Invoice</b>
+                          <b>Payment Terms</b>
                         </div>
                         <div class="card-body table-responsive">
                           <table class="table text-center mb-0">
