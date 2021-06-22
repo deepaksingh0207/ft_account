@@ -194,10 +194,15 @@ class OrdersController extends Controller
                 }
             }
             
+            $payTermTbl = new OrderPaytermsModel();
+            $paymentTerms = $payTermTbl->getPaytermByOrderId($id);
+            
+            
             $result = array();
             $result['order'] = $order;
             $result['items'] = $oderItems;
             $result['invoices'] = $invoices;
+            $result['payment_term'] = $paymentTerms;
             echo json_encode($result);
         } else {
             echo false;

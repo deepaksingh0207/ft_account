@@ -176,6 +176,7 @@ $("#customerid_id").change(function () {
 });
 
 function resetform() {
+  $("#id_orderid").val("");
   $("#id_pono").val("");
   $("#id_salesperson").val("");
   $("#bill_id").val("");
