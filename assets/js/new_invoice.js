@@ -222,8 +222,8 @@ $("#id_orderid").change(function () {
         $("#order_list_layout").show();
         if (data.order.order_type == 2){
           $("#id_paymenttermdiv").show();
-          $.each(data, function (key, value) {
-            $("#id_paymenttermdiv").append('<tr id="id_tr'+ value.id +'"></tr>');
+          $.each(data.payment_term, function (key, value) {
+            $("#id_paymentterm_list").append('<tr id="id_tr'+ value.id +'"></tr>');
             $("#id_tr"+value).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="'+ value.id +'"></td>');
             $("#id_tr"+value).append('<td>'+ value.item +'</td>');
             $("#id_tr"+value).append('<td>'+ value.description +'</td>');
