@@ -273,15 +273,13 @@ $("#id_orderid").change(function () {
         if (igst > 0) {
           $("#igst").append('<b>IGST ( ' + igst + '.00% )</b>');
           $("#igstval").append(humanamount(order.igst));
-          $("#id_igst").val(order.igst);
         }
         else {
           $("#sgst").append('<b>SGST ( ' + sgst + '.00% )</b>');
-          $("#id_sgst").val(order.sgst);
           $("#sgstval").append(humanamount(order.sgst));
           $("#cgst").append('<b>CGST ( ' + cgst + '.00% )</b>');
           $("#cgstval").append(humanamount(order.cgst));
-          $("#id_cgst").val(order.cgst);
+
         }
         $("#totalval").append(humanamount(order.ordertotal));
         $("#id_invoicetotal").val(order.ordertotal);
@@ -337,7 +335,14 @@ $(document).on("click", ".paytrm", function () {
   id = $(this).val()
   $.each(payment_term, function (key, value) {
     if (value.id == id) {
-      data = parseFloat(value.total) + parseFloat(sgstval) + parseFloat(cgstval) + parseFloat(igstval);
+      cgst = parseFloat(value.total) + (parseFloat(cgst) / 100);
+      sgst = parseFloat(value.total) + (parseFloat(sgst) / 100);
+      igst = parseFloat(value.total) + (parseFloat(igst) / 100);
+      $("#id_cgst").val(cgst);
+      $("#id_igst").val(igst);
+      $("#id_sgst").val(sgst);
+      data = parseFloat(value.total) + cgst + sgst + igst
+      $("id_order_total").val(value.total)
       $("#id_invoicetotal").val(data)
     }
   });
