@@ -125,7 +125,7 @@
                       </div>
                     </div>
 
-                    <div class="row" id="order_list_layout" style="display: none">
+                    <div class="row" id="order_list_layout" style="display: none; justify-content: flex-end;">
                       <div class="col-12 card px-0">
                         <div class="card-header">
                           <b>Order Details</b>
@@ -148,26 +148,26 @@
                         </div>
                         <div class="card-footer">
                           <div class="text-right">
-                            <b>Sub Total : </b>₹
+                            <b>Sub Total : </b>
                             <span id="ordertotal">0.00</span>
                             <input type="hidden" name="order_total" id="id_order_total" />
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="ordersgstdiv" style="display: none;">
-                        <p id="sgst"></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="ordersgstdiv" style="display: none;">
+                        <p class="mb-0" id="sgst"></p>
                         <p id="sgstval"></p>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="ordercgstdiv" style="display: none;">
-                        <p id="cgst"></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="ordercgstdiv" style="display: none;">
+                        <p class="mb-0" id="cgst"></p>
                         <p id="cgstval"></p>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="orderigstdiv" style="display: none;">
-                        <p id="igst"></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="orderigstdiv" style="display: none;">
+                        <p class="mb-0" id="igst"></p>
                         <p id="igstval"></p>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-center" id="totaldiv" style="color: mediumslateblue;">
-                        <p><b>Total : </b></p>
+                      <div class="col-sm-12 col-lg-3 text-right" id="totaldiv" style="color: mediumslateblue;">
+                        <p class="mb-0"><b>Total</b></p>
                         <p id="totalval"></p>
                       </div>
                     </div>
@@ -190,7 +190,7 @@
                         </div>
                         <div class="card-footer">
                           <div class="text-right">
-                            <b>Balance Amount : </b>₹
+                            <b>Balance Amount : </b>
                             <span id="pendingbalance">0.00</span>
                           </div>
                         </div>
@@ -217,7 +217,7 @@
                                 <td>1</td>
                                 <td class="text-left">
                                   <div class="form-group mb-0">
-                                    <select class="form-control ftsm" style="width: 100%" name="payment_term"
+                                    <!-- <select class="form-control ftsm" style="width: 100%" name="payment_term"
                                       id="id_paytype" required>
                                       <option value="" selected="selected"></option>
                                       <option value="Advance">Advance</option>
@@ -229,19 +229,19 @@
                                       <option value="Full Payment">
                                         Full Payment
                                       </option>
-                                    </select>
+                                    </select> -->
                                   </div>
                                 </td>
                                 <td>
                                   <div class="input-group" style="justify-content: center">
-                                    <input type="tel" class="
+                                    <!-- <input type="tel" class="
                                         form-control
                                         ftwm
                                         ftsm
                                         paypercent
                                         minmax100
                                       " minlength="1" maxlength="3" pattern="^[0-9]+$" name="pay_percent"
-                                      id="id_paypercent" required />
+                                      id="id_paypercent" required /> -->
                                     <div class="input-group-append">
                                       <div class="input-group-text">
                                         <i class="fas fa-percentage"></i>
@@ -251,31 +251,31 @@
                                 </td>
                                 <td id="id_paytotal_div">
                                   <div>0</div>
-                                  <input type="hidden" name="sub_total" id="id_paytotal" />
+                                  <!-- <input type="hidden" name="sub_total" id="id_paytotal" /> -->
                                 </td>
                               </tr>
                             </tbody>
                           </table>
 
                           <div class="col-12 text-right" id="sgstdiv" style="display: none">
-                            <input type="hidden" name="sgst" id="id_sgst" value="" />
+                            <input type="hidden" name="sgst" id="id_sgst" value="0" />
                             <b>SGST <span id="sgstpercent"></span>% </b>:₹
                             <span id="sgstvalue">0.00</span>
                           </div>
                           <div class="col-12 text-right" id="cgstdiv" style="display: none">
-                            <input type="hidden" name="cgst" id="id_cgst" value="" />
+                            <input type="hidden" name="cgst" id="id_cgst" value="0" />
                             <b>CGST <span id="cgstpercent"></span>% </b>:₹
                             <span id="cgstvalue">0.00</span>
                           </div>
                           <div class="col-12 text-right" id="igstdiv" style="display: none">
-                            <input type="hidden" name="igst" id="id_igst" value="" />
+                            <input type="hidden" name="igst" id="id_igst" value="0" />
                             <b>IGST <span id="igstpercent"></span>% </b>:₹
                             <span id="igstvalue">0.00</span>
                           </div>
                         </div>
                         <div class="card-footer">
                           <div class="col-12 text-right" style="color: darkslateblue;">
-                            <input type="hidden" name="invoice_total" id="id_invoicetotal" value="" />
+                            <input type="hidden" name="invoice_total" id="id_invoicetotal" value="0" />
                             <b>Total : </b>₹
                             <span id="gstvalue">0.00</span>
                           </div>
@@ -300,7 +300,7 @@
                                 <th class="min100">Total</th>
                               </tr>
                             </thead>
-                            <tbody id="id_paymentterm_list"></tbody>
+                            <tbody id="id_paymentterm_list" class="text-left"></tbody>
                           </table>
                           <hr class="mt-0">
                         </div>
