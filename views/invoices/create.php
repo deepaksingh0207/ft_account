@@ -35,7 +35,7 @@
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
                             <?php echo $group['name'] ?>
-                          </option> 
+                          </option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -116,6 +116,15 @@
                       </div>
                     </div>
 
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_ordertype">Order Type :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group" id="id_ordertype">
+
+                      </div>
+                    </div>
+
                     <div class="row" id="order_list_layout" style="display: none">
                       <div class="col-12 card px-0">
                         <div class="card-header">
@@ -128,6 +137,7 @@
                                 <th class="min100">Item</th>
                                 <th class="min100">Description</th>
                                 <th class="minmax150">Qty</th>
+                                <th class="minmax150">Unit of Measure</th>
                                 <th class="min100">Unit Price</th>
                                 <th class="min100">Order Total</th>
                               </tr>
@@ -143,6 +153,22 @@
                             <input type="hidden" name="order_total" id="id_order_total" />
                           </div>
                         </div>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-center" id="ordersgstdiv" style="display: none;">
+                        <p id="sgst"></p>
+                        <p id="sgstval"></p>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-center" id="ordercgstdiv" style="display: none;">
+                        <p id="cgst"></p>
+                        <p id="cgstval"></p>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-center" id="orderigstdiv" style="display: none;">
+                        <p id="igst"></p>
+                        <p id="igstval"></p>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-center" id="totaldiv" style="color: mediumslateblue;">
+                        <p><b>Total : </b></p>
+                        <p id="totalval"></p>
                       </div>
                     </div>
 

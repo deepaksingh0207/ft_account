@@ -318,6 +318,10 @@ $(document).on("change", ".unitprice", function () {
   }
 });
 
+$(document).on("change", ".uom", function () {
+  rowcollector(id[0]);
+});
+
 // Order Type Change
 $(document).on("change", "#id_ordertype", function () {
   if ($(this).val() == "") {

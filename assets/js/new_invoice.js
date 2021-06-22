@@ -2,9 +2,12 @@ var baseUrl = window.location.origin + "/ft_account/";
 var gst = 9;
 var orderidlist = [];
 var invoiceidlist = [];
-var invoicetotal = 0
-var pendingtotal = 0
-var ordertotal = 0
+var invoicetotal = 0;
+var pendingtotal = 0;
+var ordertotal = 0;
+var sgst = 0;
+var cgst = 0;
+var igst = 0;
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -111,6 +114,8 @@ function addrow(charlie) {
     charlie +
     "'></td><td id='id_quantity" +
     charlie +
+    "'></td><td id='id_uom" +
+    charlie +
     "'></td><td id='id_unitprice" +
     charlie +
     "'></td><td>₹<span id='ordertotal" +
@@ -131,12 +136,7 @@ function tridupdate(a) {
 $("#customerid_id").change(function () {
   resetform()
   var customerid = $(this).val();
-  $("#id_orderid").val("");
-  $("#id_orderid")
-    .find("option")
-    .remove()
-    .end()
-    .val("");
+  $("#id_orderid").val("").empty().attr("disabled", true);
   if (customerid) {
     $("#id_orderid").removeAttr("disabled");
     $.ajax({
@@ -162,20 +162,53 @@ $("#customerid_id").change(function () {
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
       });
-  } else {
-    resetform();
-    $("#id_orderid").attr("disabled", "");
-    $("#id_orderid").val("");
-    $("#id_orderid")
-      .find("option")
-      .remove()
-      .end()
-      .append('<option value=""></option>')
-      .val("");
+    getgst(customerid);
   }
 });
 
+function getgst(customerid) {
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "invoices/gettaxesrate/" + customerid,
+    dataType: "json",
+    encode: true,
+  })
+    .done(function (data) {
+      if (data.state == "same") {
+        console.log(data);
+        $("#sgstpercent").text(data.sgst);
+        $("#sgstdiv").show();
+        $("#ordersgstdiv").show();
+        sgst = data.sgst;
+
+        $("#cgstpercent").text(data.cgst);
+        $("#cgstdiv").show();
+        $("#ordercgstdiv").show();
+        cgst = data.cgst;
+        igst = 0;
+
+        $("#igstdiv").hide();
+        $("#orderigstdiv").hide();
+      } else {
+        $("#ordercgstdiv").hide();
+        $("#ordersgstdiv").hide();
+        $("#igstpercent").text(data.igst);
+        $("#orderigstdiv").show();
+        $("#igstdiv").show();
+        $("#cgstdiv").show();
+        $("#sgstdiv").show();
+        igst = data.igst;
+        sgst = 0;
+        cgst = 0;
+      }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("No tax details found.");
+    });
+}
+
 function resetform() {
+  $("#id_ordertype").text("");
   $("#id_orderid").val("");
   $("#id_pono").val("");
   $("#id_salesperson").val("");
@@ -212,6 +245,24 @@ $("#id_orderid").change(function () {
     })
       .done(function (data) {
         $("#id_pono").val(data.order.po_no);
+        if (data.order.order_type == 1) {
+          $("#id_ordertype").text("On-Site Support Sale");
+        }
+        if (data.order.order_type == 2) {
+          $("#id_ordertype").text("Project Sale");
+        }
+        if (data.order.order_type == 3) {
+          $("#id_ordertype").text("AMC Support Sale");
+        }
+        if (data.order.order_type == 4) {
+          $("#id_ordertype").text("Man-days-Support Sale");
+        }
+        if (data.order.order_type == 5) {
+          $("#id_ordertype").text("SAP License Sale");
+        }
+        if (data.order.order_type == 6) {
+          $("#id_ordertype").text("Hardware Sale");
+        }        
         $("#id_salesperson").val(data.order.sales_person);
         $("#bill_id").val(data.order.bill_to);
         $("#ship_id").val(data.order.ship_to);
@@ -219,26 +270,37 @@ $("#id_orderid").change(function () {
         if (invoicedata.length > 0) {
           fillOrderInvoices(data.invoices);
         }
+        if (igst > 0) {
+          $("#igst").append('<b>IGST ( ' + igst + '.00% ) : </b>');
+          $("#igstval").append(data.order.igst);
+        }
+        else {
+          $("#sgst").append('<b>SGST ( ' + sgst + '.00% ) : </b>');
+          $("#sgstval").append(data.order.sgst);
+          $("#cgst").append('<b>CGST ( ' + cgst + '.00% ) : </b>');
+          $("#cgstval").append(data.order.cgst);
+        }
+          $("#totalval").append(data.order.ordertotal);
         fillorderitems(data.items);
         $("#invoice_list_layout").show();
         $("#order_list_layout").show();
-        if (data.order.order_type == 2){
+        if (data.order.order_type == 2) {
           $("#paytype_div").hide();
           $("#id_paymenttermdiv").show();
           $("#id_paymentterm_list").empty();
           $.each(data.payment_term, function (key, value) {
-            $("#id_paymentterm_list").append('<tr id="id_tr'+ value.id +'"></tr>');
-            $("#id_tr"+value).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="'+ value.id +'"></td>');
-            $("#id_tr"+value).append('<td>'+ value.item +'</td>');
-            $("#id_tr"+value).append('<td>'+ value.description +'</td>');
-            $("#id_tr"+value).append('<td>'+ value.qty +'</td>');
-            $("#id_tr"+value).append('<td>'+ value.uom_id +'</td>');
-            $("#id_tr"+value).append('<td>'+ value.unit_price +'</td>');
-            $("#id_tr"+value).append('<td>'+ value.total +'</td>');
+            $("#id_paymentterm_list").append('<tr id="id_tr' + value.id + '"></tr>');
+            $("#id_tr" + value).append('<td><input type="radio" name="paytm" class="form-control" id="id_paytrm" value="' + value.id + '"></td>');
+            $("#id_tr" + value).append('<td>' + value.item + '</td>');
+            $("#id_tr" + value).append('<td>' + value.description + '</td>');
+            $("#id_tr" + value).append('<td>' + value.qty + '</td>');
+            $("#id_tr" + value).append('<td>' + value.uom_id + '</td>');
+            $("#id_tr" + value).append('<td>' + value.unit_price + '</td>');
+            $("#id_tr" + value).append('<td>' + value.total + '</td>');
           });
         } else {
           $("#id_paymenttermdiv").hide();
-          $("#paytype_div").show();
+          $("#paytype_div").hide();
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -295,12 +357,25 @@ function fillorderitems(datadict) {
     if (data.hasOwnProperty(key)) {
       if (key != "") {
         var quantity = data[key].qty;
+        var uom = data[key].uom_id;
         var item = data[key].item;
         var description = data[key].description;
         var unitprice = data[key].unit_price;
         var total = data[key].total;
         var di = parseInt(data[key].id, 10);
         addrow(di);
+        if (uom == 1) {
+          $("#id_uom" + di).text('Day(s)');
+        }
+        if (uom == 2) {
+          $("#id_uom" + di).text('Nos');
+        }
+        if (uom == 3) {
+          $("#id_uom" + di).text('Percentage (%)');
+        }
+        if (uom == 4) {
+          $("#id_uom" + di).text('PC');
+        }
         $("#id_quantity" + di).text(quantity);
         $("#id_item" + di).text(item);
         $("#id_description" + di).text(description);
@@ -325,15 +400,6 @@ function fillorderitems(datadict) {
   calcy();
 }
 
-// $(document).on("change", "#id_paypercent", function () {
-//   if ($(this).val() > 100) {
-//     $(this).val("100");
-//   }
-//   if ($(this).val() == 100) {
-//     $("#id_paytype").val("Full Payment");
-//   }
-//   calcy();
-// });
 
 $(document).on("change", "#id_paytype", function () {
   if ($(this).val() == "Full Payment") {
@@ -376,56 +442,13 @@ $(document).on("change", "#id_group_id", function () {
 });
 
 function calcy() {
-  var sgst = 0;
-  var cgst = 0;
-  var igst = 0;
   var customerId = $("#customerid_id").val();
-  $.ajax({
-    type: "POST",
-    url: baseUrl + "invoices/gettaxesrate/" + customerId,
-    dataType: "json",
-    encode: true,
-  })
-    .done(function (data) {
-      if (data.state == "same") {
-        console.log(data);
-        $("#sgstpercent").text(data.sgst);
-        $("#sgstdiv").show();
-        sgst = data.sgst;
-
-        $("#cgstpercent").text(data.cgst);
-        $("#cgstdiv").show();
-        cgst = data.cgst;
-
-        $("#igstdiv").hide();
-      } else {
-        $("#igstpercent").text(data.igst);
-        $("#igstdiv").show();
-        igst = data.igst;
-      }
-
-      grandtotal(sgst, cgst, igst);
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      // alert("No tax details found.");
-    });
-  // test purpose
-  // $("#sgstpercent").text(sgst);
-  // $("#cgstpercent").text(cgst);
-  // $("#igstpercent").text(igst);
   grandtotal(sgst, cgst, igst);
 }
 
 $(document).on("keypress", "#id_paypercent", function (event) {
   // var regex = new RegExp("^[0-9]+$");
   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-
-  // if (key > 100) {
-  //   $(this).val("100");
-  // }
-  // if (key == 100) {
-  //   $("#id_paytype").val("Full Payment");
-  // }
   calcy();
 });
 
