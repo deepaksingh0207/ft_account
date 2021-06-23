@@ -150,30 +150,22 @@
                           <div class="text-right">
                             <b>Sub Total : </b>
                             <span id="ordertotal">0.00</span>
-                            <input type="hidden" name="order_total" id="id_order_total" />
-                            <input type="hidden" name="sub_total" id="id_sub_total" />
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-12 col-lg-3 text-right" id="ordersgstdiv" style="display: none;">
-                        <input type="hidden" name="sgst" id="id_sgst" value="">
                         <p class="mb-0" id="sgst"></p>
                         <p id="sgstval"></p>
                       </div>
                       <div class="col-sm-12 col-lg-3 text-right" id="ordercgstdiv" style="display: none;">
-                        <input type="hidden" name="cgst" id="id_cgst" value="">
                         <p class="mb-0" id="cgst"></p>
                         <p id="cgstval"></p>
                       </div>
                       <div class="col-sm-12 col-lg-3 text-right" id="orderigstdiv" style="display: none;">
-                        <input type="hidden" name="igst" id="id_igst" value="">
                         <p class="mb-0" id="igst"></p>
                         <p id="igstval"></p>
                       </div>
                       <div class="col-sm-12 col-lg-3 text-right" id="totaldiv" style="color: mediumslateblue;">
-                        <input type="hidden" name="invoice_total" id="id_ordertotal" value="">
-                        <input type="hidden" name="pay_percent" id="id_pay_percent" value="0">
-                        <!-- <input type="hidden" name="uom_id" id="id_uom_id" value=""> -->
                         <p class="mb-0"><b>Total</b></p>
                         <p id="totalval"></p>
                       </div>
@@ -201,6 +193,58 @@
                             <span id="pendingbalance">0.00</span>
                           </div>
                         </div>
+                      </div>
+                    </div>
+
+                    <div class="row" id="order_list_layout_edit" style="display: none; justify-content: flex-end;">
+                      <div class="col-12 card px-0">
+                        <div class="card-header">
+                          <b>Order Details</b>
+                        </div>
+                        <div class="card-body table-responsive py-3">
+                          <table class="table text-center">
+                            <thead>
+                              <tr>
+                                <th class="min100">Item</th>
+                                <th class="min100">Description</th>
+                                <th class="minmax150">Qty</th>
+                                <th class="minmax150">Unit of Measure</th>
+                                <th class="min100">Unit Price</th>
+                                <th class="min100">Order Total</th>
+                              </tr>
+                            </thead>
+                            <tbody id="orderlist_edit"></tbody>
+                          </table>
+
+                        </div>
+                        <div class="card-footer">
+                          <div class="text-right">
+                            <b>Sub Total : </b>
+                            <span id="ordertotal_edit">0.00</span>
+                            <input type="hidden" name="order_total" id="id_order_total_edit" />
+                            <input type="hidden" name="sub_total" id="id_sub_total_edit" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-right" id="ordersgstdiv_edit" style="display: none;">
+                        <input type="hidden" name="sgst" id="id_sgst_edit" value="0">
+                        <p class="mb-0" id="sgst_edit"></p>
+                        <p id="sgstval_edit"></p>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-right" id="ordercgstdiv_edit" style="display: none;">
+                        <input type="hidden" name="cgst" id="id_cgst_edit" value="0">
+                        <p class="mb-0" id="cgst_edit"></p>
+                        <p id="cgstval_edit"></p>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-right" id="orderigstdiv_edit" style="display: none;">
+                        <input type="hidden" name="igst" id="id_igst_edit" value="0">
+                        <p class="mb-0" id="igst_edit"></p>
+                        <p id="igstval_edit"></p>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 text-right" id="totaldiv_edit" style="color: mediumslateblue;">
+                        <input type="hidden" name="invoice_total" id="id_ordertotal_edit" value="">
+                        <p class="mb-0"><b>Total</b></p>
+                        <p id="totalval_edit"></p>
                       </div>
                     </div>
 

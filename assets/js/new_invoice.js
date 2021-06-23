@@ -154,7 +154,9 @@ function resetform() {
   $("#ship_id").val("");
   $("#comment_id").val("");
   $("#id_ordertype").text("");
+  $("#orderlist_edit").empty();
   tridupdate("")
+  $("#order_list_layout_edit").hide();
   $("#order_list_layout").hide();
   $("#invoice_list_layout").hide();
   $("#id_paymenttermdiv").hide();
@@ -201,7 +203,7 @@ function getgst(customerid) {
         cgst = parseFloat(gstdict.cgst);
         sgst = parseFloat(gstdict.sgst);
       } else {
-        sgst = parseFloat(gstdict.igst);
+        igst = parseFloat(gstdict.igst);
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -214,6 +216,7 @@ $("#customerid_id").change(function () {
   resetform()
   customerid = $(this).val();
   if (customerid) {
+    igst = cgst = sgst = 0;
     getgst(customerid);
     $.ajax({
       type: "POST",
@@ -238,15 +241,18 @@ $("#customerid_id").change(function () {
 function setordertype(val) {
   if (val == 1) {
     $("#id_ordertype").text("On-Site Support Sale");
+    filledititems(orderlist.items);
   }
   if (val == 2) {
     $("#id_ordertype").text("Project Sale");
   }
   if (val == 3) {
     $("#id_ordertype").text("AMC Support Sale");
+    filledititems(orderlist.items);
   }
   if (val == 4) {
     $("#id_ordertype").text("Man-days-Support Sale");
+    filledititems(orderlist.items);
   }
   if (val == 5) {
     $("#id_ordertype").text("SAP License Sale");
@@ -288,9 +294,12 @@ function fillitems(list) {
       $("#ordersgstdiv").show();
       $("#ordercgstdiv").show();
       $("#orderigstdiv").hide();
+      $("#sgst").empty();
       $("#sgst").append('<b>SGST ( ' + sgst + '.00% )</b>');
+      $("#cgst").empty();
       $("#cgst").append('<b>CGST ( ' + cgst + '.00% )</b>');
     } else {
+      $("#igst").empty();
       $("#igst").append('<b>IGST ( ' + igst + '.00% )</b>');
       $("#ordersgstdiv").hide();
       $("#ordercgstdiv").hide();
@@ -303,12 +312,102 @@ function fillitems(list) {
     $("#order_list_layout").show();
     $("#id_order_total").val(orderlist.order.sub_total);
     $("#id_sub_total").val(orderlist.order.sub_total);
-    $("#id_ordertotal").val(orderlist.order.ordertotal);
-    $("#id_sgst").val(orderlist.order.sgst);
-    $("#id_cgst").val(orderlist.order.cgst);
-    $("#id_igst").val(orderlist.order.igst);
+    // $("#id_ordertotal").val(orderlist.order.ordertotal);
   }
 }
+
+function filledititems(list) {
+  if (list != "") {
+    $("#orderlist_edit").empty();
+    $.each(list, function (index, value) {
+      $("#orderlist_edit").append('<tr id="order_edit' + value.id + '"></tr>');
+
+      $("#order_edit" + value.id).append('<td id="item_edit' + value.id + '" class="pt-3">' + value.item + '</td>');
+      $("#item_edit" + value.id).append('<input type="hidden" class="form-control" name="item[]" id="id_item' + value.id + '" value="' + value.item + '">');
+
+      $("#order_edit" + value.id).append('<td id="description_edit' + value.id + '" class="pt-2"></td>');
+      $("#description_edit" + value.id).append('<input type="text" class="form-control desp" name="description[]" id="id_descp' + value.id + '" value="' + value.description + '">');
+
+      $("#order_edit" + value.id).append('<td id="qty_edit' + value.id + '" class="pt-2"></td>');
+      $("#qty_edit" + value.id).append('<input type="number" class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="1" value="' + value.qty + '">');
+
+      $("#order_edit" + value.id).append('<td id="uom_id_edit' + value.id + '" class="pt-3">' + setuom(value.uom_id) + '</td>');
+      $("#uom_id_edit" + value.id).append('<input type="hidden" class="form-control" name="uom[]" id="id_uom' + value.id + '" value="' + value.uom_id + '">');
+
+      $("#order_edit" + value.id).append('<td id="unit_price_edit' + value.id + '" class="pt-3">' + value.unit_price + '</td>');
+      $("#unit_price_edit" + value.id).append('<input type="hidden" class="form-control" name="unit_price[]" id="id_unitprice' + value.id + '" value="' + value.unit_price + '">');
+
+      $("#order_edit" + value.id).append('<td id="total_edit' + value.id + '" class="pt-3">' + humanamount(value.total) + '</td>');
+      $("#orderlist_edit").append('<input type="hidden" class="form-control" name="total[]" id="id_total' + value.id + '" value="' + value.total + '">');
+
+    });
+    $("#ordertotal_edit").text(humanamount(orderlist.order.sub_total));
+    $("#id_sub_total_edit").val(orderlist.order.sub_total);
+    $("#id_sub_total_edit").val(orderlist.order.sub_total);
+    if (gstdict.state == "same") {
+      $("#ordersgstdiv_edit").show();
+      $("#ordercgstdiv_edit").show();
+      $("#orderigstdiv_edit").hide();
+      $("#sgst_edit").empty();
+      $("#sgst_edit").append('<b>SGST ( ' + sgst + '.00% )</b>');
+      $("#cgst_edit").empty();
+      $("#cgst_edit").append('<b>CGST ( ' + cgst + '.00% )</b>');
+    } else {
+      $("#igst_edit").empty();
+      $("#igst_edit").append('<b>IGST ( ' + igst + '.00% )</b>');
+      $("#ordersgstdiv_edit").hide();
+      $("#ordercgstdiv_edit").hide();
+      $("#orderigstdiv_edit").show();
+    }
+    $("#sgstval_edit").text(humanamount(orderlist.order.sgst));
+    $("#cgstval_edit").text(humanamount(orderlist.order.cgst));
+    $("#igstval_edit").text(humanamount(orderlist.order.igst));
+    $("#totalval_edit").text(humanamount(orderlist.order.ordertotal));
+    $("#order_list_layout_edit").show();
+  }
+}
+
+// On quantity Change
+$(document).on("change", ".qty", function () {
+  qty_id = $(this).attr("id");
+  id = qty_id.match(/\d+/)[0];
+  qty_val = $(this).val();
+  unitprice_val = $("#id_unitprice" + id).val();
+  if ($("#id_uom" + id).val() != 3) {
+    rowvalue = qty_val * unitprice_val
+  } else {
+    rowvalue = (qty_val / 100) * unitprice_val
+  }
+  $("#id_total" + id).val(rowvalue);
+  $("#total_edit" + id).text(humanamount(rowvalue));
+  total = 0;
+  $.each(orderlist.items, function (index, value) {
+    total += parseFloat($("#id_total" + value.id).val());
+  });
+  total = parseFloat(total)
+  $("#id_ordertotal_edit").val(total);
+  $("#id_sub_total_edit").val(total);
+  $("#ordertotal_edit").text(humanamount(total));
+  if (gstdict.state == "same") {
+    cgstval = (cgst / 100) * total
+    cgstval = parseFloat(cgstval)
+    $("#cgstval_edit").text(humanamount(cgstval));
+    $("#id_cgst_edit").val(cgstval);
+    sgstval = (sgst / 100) * total
+    sgstval = parseFloat(sgstval)
+    $("#sgstval_edit").text(humanamount(sgstval));
+    $("#id_sgst_edit").val(sgstval);
+    grandtotal = total + cgstval + sgstval;
+  } else {
+    igstval = (igst / 100) * total
+    igstval = parseFloat(igstval)
+    $("#igstval_edit").text(humanamount(igstval));
+    $("#id_igst_edit").val(igstval);
+    grandtotal = total + igstval;
+  }
+  $("#totalval_edit").text(humanamount(grandtotal));
+  $("#id_ordertotal_edit").val(grandtotal);
+});
 
 function fillinvoices(list) {
   if (list.length > 0) {
@@ -361,12 +460,17 @@ $("#id_orderid").change(function () {
         fillitems(orderlist.items);
         fillinvoices(orderlist.invoices);
         if (orderlist.order.order_type != 2) {
-          $("#id_sgst").val(orderlist.order.sgst);
-          $("#id_cgst").val(orderlist.order.cgst);
-          $("#id_igst").val(orderlist.order.igst);
+          // $("#id_sgst").val(orderlist.order.sgst);
+          // $("#id_cgst").val(orderlist.order.cgst);
+          // $("#id_igst").val(orderlist.order.igst);
+          $("#id_sgst_edit").val(orderlist.order.sgst);
+          $("#id_cgst_edit").val(orderlist.order.cgst);
+          $("#id_igst_edit").val(orderlist.order.igst);
         } else {
           fillpaymentterm(orderlist.payment_term);
         }
+        $("#id_order_total_edit").val(orderlist.order.sub_total);
+        $("#id_ordertotal_edit").val(orderlist.order.ordertotal);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No Order Item details found against this order.");
@@ -379,16 +483,16 @@ $(document).on("click", ".paytrm", function () {
   $.each(orderlist.payment_term, function (key, value) {
     if (value.id == id) {
       subtotal = parseFloat(value.total);
-      $("#totaldiv").append('<input type="hidden" name="pay_percent" id="id_pay_percent" value="'+value.qty+'"></input>');
+      $("#totaldiv_edit").append('<input type="hidden" name="pay_percent" id="id_pay_percent" value="' + value.qty + '"></input>');
       cgstval = subtotal * (cgst / 100);
       sgstval = subtotal * (sgst / 100);
       igstval = subtotal * (igst / 100);
     }
   });
   total = igstval + sgstval + cgstval + subtotal
-  $("#id_sub_total").val(subtotal);
-  $("#id_ordertotal").val(total);
-  $("#id_sgst").val(sgstval);
-  $("#id_cgst").val(cgstval);
-  $("#id_igst").val(igstval);
+  $("#id_sub_total_edit").val(subtotal);
+  $("#id_ordertotal_edit").val(total);
+  $("#id_sgst_edit").val(sgstval);
+  $("#id_cgst_edit").val(cgstval);
+  $("#id_igst_edit").val(igstval);
 });
