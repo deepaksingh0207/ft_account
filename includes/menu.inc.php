@@ -23,6 +23,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?php echo ROOT; ?>group" class="nav-link" id="menu_group">
+            <i class="fas fa-users"></i>
+            <p>
+              Customer Group
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?php echo ROOT; ?>customers" class="nav-link" id="menu_customers">
             <i class="fas fa-users"></i>
             <p>

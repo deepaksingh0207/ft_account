@@ -14,4 +14,7 @@ $(document).ready(function () {
   if (menu == 'orders'){
     $("#menu_orders").addClass("active"); 
   }
+  if (menu == 'group'){
+    $("#menu_group").addClass("active"); 
+  }
 });
