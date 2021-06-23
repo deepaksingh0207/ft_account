@@ -30,6 +30,10 @@
   <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'customergroups' && ($action == 'index')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/new_group.js?<?php echo time(); ?>"></script>
+  <?php endif; ?>
+
 <?php if ($controller == 'company' && ($action == 'index')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

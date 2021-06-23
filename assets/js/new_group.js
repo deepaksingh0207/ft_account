@@ -44,7 +44,7 @@ $(".groupy").on("click", function () {
 	valy = $(this).children("td.name").text();
 	id = $(this).children("td.id").text();
 	$("#id_group_id").val(valy);
-	$("#update").attr("formaction", baseUrl + "update/" + id);
+	$("#update").attr("formaction", baseUrl + "customergroups/update/" + id);
 	$("#add").hide();
 	$("#update").show();
 });
