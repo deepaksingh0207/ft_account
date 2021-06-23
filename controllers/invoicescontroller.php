@@ -62,8 +62,9 @@ class InvoicesController extends Controller
                 $invoiceeData['igst'] = $data['igst'];
                 $invoiceeData['invoice_total'] = $data['invoice_total'];
                 
-                $invoiceeData['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : '' ;
-                $invoiceeData['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : '' ;
+                $invoiceeData['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
+                $invoiceeData['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
+                $invoiceeData['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
                 
                 $invoiceeData['remarks'] = $data['remarks'];
                 
@@ -180,9 +181,7 @@ class InvoicesController extends Controller
             $dataItem = $invoiceItem;
         } else if($order['order_type']  == 2) {
             $row = array();
-            $tblOrderItem = new OrderPaytermsModel();
-            $orderPayterm = $tblOrderItem->get($invoice['payment_term']);
-            $row['description'] = $oderItems[0]['description'].'<br />'.$orderPayterm['description'];
+            $row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
             $row['qty'] = $invoice['pay_percent'];
             $row['unit_price'] = $invoice['order_total'];
             $row['total'] = $invoice['sub_total'];

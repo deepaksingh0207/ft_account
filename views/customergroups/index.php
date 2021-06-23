@@ -16,7 +16,7 @@
                             <label for="id_group_id"> Customer Group </label>
                           </div>
                           <div class="col-12 form-group">
-                            <input type="text" class="form-control ftsm" required="" name="group_id" id="id_group_id"
+                            <input type="text" class="form-control ftsm" required="" name="name" id="id_group_id"
                               value="" />
                           </div>
                         </div>
@@ -27,7 +27,7 @@
                           Update
                         </button>
                         <button class="btn btn btn-primary update" type="submit" id="add" formaction="">
-                          New Customer Group
+                          Add
                         </button>
                         <button type="reset" class="btn btn btn-primary"  id="cancel">Cancel</button>
                       </div>
@@ -43,10 +43,17 @@
                           </tr>
                         </thead>
                         <tbody>
+                        <?php if(count($customergroups)) : 
+                        foreach ($customergroups as $groups) :
+                        ?>
                           <tr class="groupy">
-                            <td class="id">1</td>
-                            <td class="name">Aaarti</td>
+                            <td class="id"><?php echo $groups['id']?></td>
+                            <td class="name"><?php echo $groups['name']?></td>
                           </tr>
+                          <?php 
+                          endforeach;
+                          endif;
+                          ?>
                         </tbody>
                       </table>
                     </div>
