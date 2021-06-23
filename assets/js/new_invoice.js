@@ -273,6 +273,7 @@ function setuom(val) {
 
 function fillitems(list) {
   if (list != "") {
+    $("#orderlist").empty();
     $.each(list, function (index, value) {
       $("#orderlist").append('<tr id="order' + value.id + '"></tr>');
       $("#order" + value.id).append('<td id="item' + value.id + '">' + value.item + '</td>');
