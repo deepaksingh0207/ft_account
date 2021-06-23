@@ -63,29 +63,15 @@ class CustomerGroupsController extends Controller
         
     }
 
-    public function edit($id) {
+    public function update($id) {
         
         try {
-            
-            $customer = $this->_model->get($id);
-            
-            $this->_view->set('customer', $customer);
-            $this->_view->set('title', 'Customer Edit');
-            
-            $states = new StatesModel();
-            $states = $states->list();
-            $this->_view->set('states', $states);
-            
-            $groupTbl = new CustomerGroupsModel();
-            $groups = $groupTbl->list();
-            $this->_view->set('groups', $groups);
-            
             
             if(!empty($_POST)) {
                 $data = $_POST;
                 if($this->_model->update($id, $data)) {
-                    $_SESSION['message'] = 'Customer updated successfully';
-                    header("location:". ROOT. "customers/view/$id");
+                    $_SESSION['message'] = 'Group updated successfully';
+                    header("location:". ROOT. "customergroups");
                 } else {
                     $_SESSION['error'] = 'Fail to update customer';
                 }
