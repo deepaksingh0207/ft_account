@@ -138,9 +138,11 @@ function tridupdate(a) {
     });
   }
   else {
-    $.each(orderlist, function (index, value) {
-      tridupdate(value);
-    });
+    if ( orderlist.length > 0) {
+      $.each(orderlist, function (index, value) {
+        tridupdate(value);
+      });
+    }
   }
   debug(orderlist)
 }
@@ -299,6 +301,7 @@ function fillitems(list) {
     $("#totalval").text(humanamount(orderlist.order.ordertotal));
     $("#order_list_layout").show();
     $("#id_order_total").val(orderlist.order.sub_total);
+    $("#id_sub_total").val(orderlist.order.sub_total);
     $("#id_ordertotal").val(orderlist.order.ordertotal);
     $("#id_sgst").val(orderlist.order.sgst);
     $("#id_cgst").val(orderlist.order.cgst);
@@ -381,6 +384,7 @@ $(document).on("click", ".paytrm", function () {
   });
   total = igstval + sgstval + cgstval + subtotal
   $("#id_order_total").val(subtotal);
+  $("#id_sub_total").val(subtotal);
   $("#id_ordertotal").val(total);
   $("#id_sgst").val(sgstval);
   $("#id_cgst").val(cgstval);

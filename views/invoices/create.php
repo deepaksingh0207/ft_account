@@ -151,6 +151,7 @@
                             <b>Sub Total : </b>
                             <span id="ordertotal">0.00</span>
                             <input type="hidden" name="order_total" id="id_order_total" />
+                            <input type="hidden" name="sub_total" id="id_sub_total" />
                           </div>
                         </div>
                       </div>
@@ -170,7 +171,7 @@
                         <p id="igstval"></p>
                       </div>
                       <div class="col-sm-12 col-lg-3 text-right" id="totaldiv" style="color: mediumslateblue;">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="">
+                        <input type="hidden" name="invoice_total" id="id_ordertotal" value="">
                         <p class="mb-0"><b>Total</b></p>
                         <p id="totalval"></p>
                       </div>
