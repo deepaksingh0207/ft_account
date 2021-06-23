@@ -4,7 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, DEBUG = true;
+var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid=0, DEBUG = true;
 
 function debug(val) {
   if (DEBUG == true) {
@@ -430,7 +430,7 @@ function fillpaymentterm(list) {
       $("#id_paymentterm_list").append('<tr id="id_tr' + value.id + '"></tr>');
       $("#id_tr" + value.id).append('<td><div class="icheck-primary d-inline"><input required="" type="radio" id="id_paytrm' + value.id + '" name="payment_term" class="paytrm" value="' + value.id + '"><label for="id_paytrm' + value.id + '"></label></div></td>');
       $("#id_tr" + value.id).append('<td>' + value.item + '</td>');
-      $("#id_tr" + value.id).append('<td>' + value.description + '</td>');
+      $("#id_tr" + value.id).append('<td id="paytrm'+value.id+'">' + value.description + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.qty + '</td>');
       $("#id_tr" + value.id).append('<td>' + setuom(value.uom_id) + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.unit_price + '</td>');
@@ -479,7 +479,16 @@ $("#id_orderid").change(function () {
 });
 
 $(document).on("click", ".paytrm", function () {
+  if (oldid != 0){
+    olddata = $("#id_description").val();
+    $("#paytrm" + oldid).empty();
+    $("#paytrm" + oldid).text(olddata);
+  }
   id = $(this).val();
+  oldid = id;
+  value = $("#paytrm" + id).text();
+  $("#paytrm" + id).empty();
+  $("#paytrm" + id).append('<input type="text" name="payment_description" id="id_description" class="form-control" value="'+value+'">');
   $.each(orderlist.payment_term, function (key, value) {
     if (value.id == id) {
       subtotal = parseFloat(value.total);

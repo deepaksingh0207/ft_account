@@ -86,20 +86,25 @@
                       <?php echo $invoice['remarks'] ?>
                     </div>
                   </div>
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_pphone"> <b>Order Type :</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <?php echo $invoice['remarks'] ?>
+                    </div>
+                  </div>
                   <div class="table-responsive card">
                     <div class="card-body p-3">
                       <table class="table text-center mb-0">
                         <thead>
                           <tr>
-                            <th class="min100">Order Amount</th>
-                            <th class="min100">Pay Term</th>
-                            <th class="min100">Pay Percent</th>
-                            <th class="min100">Sub Total</th>
-                            <th class="min100">IGST</th>
-                            <th class="min100">CGST</th>
-                            <th class="min100">SGST</th>
-                            <th class="min100">Total</th>
-                            <th class="min100">Date</th>
+                            <th class="min100">Item</th>
+                            <th class="min100">Description</th>
+                            <th class="min100">Qty</th>
+                            <th class="min100">Unit of Measure</th>
+                            <th class="min100">Unit Price</th>
+                            <th class="min100">Order Total</th>
                           </tr>
                         </thead>
                         <tbody id="invoicelist">
