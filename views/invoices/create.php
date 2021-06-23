@@ -11,7 +11,7 @@
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
+                      <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
                         Record
                       </button>
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
@@ -276,7 +276,7 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary" title="All fields are mandatory.">
+                      <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
                         Record
                       </button>
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">

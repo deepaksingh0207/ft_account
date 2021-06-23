@@ -148,6 +148,7 @@ function tridupdate(a) {
 }
 
 function resetform() {
+  $(".record").removeAttr("disabled").show();
   $("#id_pono").val("");
   $("#id_salesperson").val("");
   $("#bill_id").val("");
@@ -338,7 +339,7 @@ function filledititems(list) {
 
       $("#order_edit" + value.id).append('<td id="qty_edit' + value.id + '" class="pt-2"></td>');
       
-      $("#qty_edit" + value.id).append('<input type="number" '+ readOnly +' class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="1" value="' + value.bal_qty + '">');
+      $("#qty_edit" + value.id).append('<input type="number" '+ readOnly +' class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="0" value="' + value.bal_qty + '" max="' + value.bal_qty + '">');
 
       $("#order_edit" + value.id).append('<td id="uom_id_edit' + value.id + '" class="pt-3">' + setuom(value.uom_id) + '</td>');
       $("#uom_id_edit" + value.id).append('<input type="hidden"  name="uom[]" id="id_uom' + value.id + '" value="' + value.uom_id + '">');
@@ -396,6 +397,9 @@ $(document).on("change", ".qty", function () {
     total += parseFloat($("#id_total" + value.id).val());
   });
   total = parseFloat(total)
+  if (total < 1.0) {
+    $(".record").attr("disabled", true).hide();
+  }
   $("#id_ordertotal_edit").val(total);
   $("#id_sub_total_edit").val(total);
   $("#ordertotal_edit").text(humanamount(total));
