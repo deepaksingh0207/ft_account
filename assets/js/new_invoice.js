@@ -321,9 +321,10 @@ function filledititems(list) {
     $("#orderlist_edit").empty();
     $.each(list, function (index, value) {
       $("#orderlist_edit").append('<tr id="order_edit' + value.id + '"></tr>');
+      $("#orderlist_edit").append('<input type="hidden" name="order_item_id[]" id="id_order_item_id' + value.id + '" value="' + value.id + '">');
 
       $("#order_edit" + value.id).append('<td id="item_edit' + value.id + '" class="pt-3">' + value.item + '</td>');
-      $("#item_edit" + value.id).append('<input type="hidden" class="form-control" name="item[]" id="id_item' + value.id + '" value="' + value.item + '">');
+      $("#item_edit" + value.id).append('<input type="hidden"  name="item[]" id="id_item' + value.id + '" value="' + value.item + '">');
 
       $("#order_edit" + value.id).append('<td id="description_edit' + value.id + '" class="pt-2"></td>');
       $("#description_edit" + value.id).append('<input type="text" class="form-control desp" name="description[]" id="id_descp' + value.id + '" value="' + value.description + '">');
@@ -332,13 +333,13 @@ function filledititems(list) {
       $("#qty_edit" + value.id).append('<input type="number" class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="1" value="' + value.qty + '">');
 
       $("#order_edit" + value.id).append('<td id="uom_id_edit' + value.id + '" class="pt-3">' + setuom(value.uom_id) + '</td>');
-      $("#uom_id_edit" + value.id).append('<input type="hidden" class="form-control" name="uom[]" id="id_uom' + value.id + '" value="' + value.uom_id + '">');
+      $("#uom_id_edit" + value.id).append('<input type="hidden"  name="uom[]" id="id_uom' + value.id + '" value="' + value.uom_id + '">');
 
       $("#order_edit" + value.id).append('<td id="unit_price_edit' + value.id + '" class="pt-3">' + value.unit_price + '</td>');
-      $("#unit_price_edit" + value.id).append('<input type="hidden" class="form-control" name="unit_price[]" id="id_unitprice' + value.id + '" value="' + value.unit_price + '">');
+      $("#unit_price_edit" + value.id).append('<input type="hidden"  name="unit_price[]" id="id_unitprice' + value.id + '" value="' + value.unit_price + '">');
 
       $("#order_edit" + value.id).append('<td id="total_edit' + value.id + '" class="pt-3">' + humanamount(value.total) + '</td>');
-      $("#orderlist_edit").append('<input type="hidden" class="form-control" name="total[]" id="id_total' + value.id + '" value="' + value.total + '">');
+      $("#orderlist_edit").append('<input type="hidden"  name="total[]" id="id_total' + value.id + '" value="' + value.total + '">');
 
     });
     $("#ordertotal_edit").text(humanamount(orderlist.order.sub_total));

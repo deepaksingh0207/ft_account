@@ -94,53 +94,127 @@
                       <?php echo $invoice['remarks'] ?>
                     </div>
                   </div>
-                  <div class="table-responsive card">
-                    <div class="card-body p-3">
-                      <table class="table text-center mb-0">
-                        <thead>
-                          <tr>
-                            <th class="min100">Item</th>
-                            <th class="min100">Description</th>
-                            <th class="min100">Qty</th>
-                            <th class="min100">Unit of Measure</th>
-                            <th class="min100">Unit Price</th>
-                            <th class="min100">Order Total</th>
-                          </tr>
-                        </thead>
-                        <tbody id="invoicelist">
-                          <tr>
-                            <td>
-                              <?php echo $invoice['order_total']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['payment_term']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['pay_percent']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['sub_total']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['igst']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['cgst']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['sgst']?>
-                            </td>
-                            <td>
-                              <?php echo $invoice['invoice_total']?>0
-                            </td>
-                            <td>
-                              <?php echo date('d, M Y', strtotime($invoice['invoice_date']))?>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+
+                  <div class="row mx-1">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <b>Order Details</b>
+                        </div>
+                        <div class="table-responsive card-body p-3">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th class="min100">Item</th>
+                                <th class="min100">Description</th>
+                                <th class="min100">Qty</th>
+                                <th class="min100">Unit of Measure</th>
+                                <th class="min100">Unit Price</th>
+                                <th class="min100">Order Total</th>
+                              </tr>
+                            </thead>
+                            <tbody id="invoicelist">
+                              <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
                     </div>
                   </div>
+
+                  <div class="row mx-1">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <b>Past Invoice Details</b>
+                        </div>
+                        <div class="table-responsive card-body p-3">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th class="min100">Item</th>
+                                <th class="min100">Description</th>
+                                <th class="min100">Qty</th>
+                                <th class="min100">Unit of Measure</th>
+                                <th class="min100">Unit Price</th>
+                                <th class="min100">Order Total</th>
+                              </tr>
+                            </thead>
+                            <tbody id="invoicelist">
+                              <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <b>Payment Terms</b>
+                        </div>
+                        <div class="table-responsive card-body p-3">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th class="min100">Item</th>
+                                <th class="min100">Description</th>
+                                <th class="min100">Qty</th>
+                                <th class="min100">Unit of Measure</th>
+                                <th class="min100">Unit Price</th>
+                                <th class="min100">Order Total</th>
+                              </tr>
+                            </thead>
+                            <tbody id="invoicelist">
+                              <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
                 <div class="card-footer text-right">
                   <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
@@ -155,4 +229,4 @@
         </div>
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
