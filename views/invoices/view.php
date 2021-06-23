@@ -67,7 +67,7 @@
                       <label for="id_gst"> <b>Bill To :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['bill_to'] ?>
+                      <?php echo $customer['address'] ?>
                     </div>
                   </div>
                   <div class="row mx-1">
@@ -75,7 +75,7 @@
                       <label for="id_gst"> <b>Ship To :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['ship_to'] ?>
+                      <?php echo $shipToAddress ?>
                     </div>
                   </div>
                   <div class="row mx-1">
