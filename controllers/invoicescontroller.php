@@ -32,7 +32,6 @@ class InvoicesController extends Controller
             
             $customerList = new CustomersModel();
             $customers = $customerList->getNameList();
-
             $this->_view->set('customers', $customers);
             
             $groupTbl = new CustomerGroupsModel();
@@ -44,34 +43,54 @@ class InvoicesController extends Controller
                 
                 //echo '<pre>'; print_r($data); exit;
 
-                /*
-                $orderItems = array();
+                $invoiceeData = array();
+                $invoiceItems = array();
+                
+                
+                $invoiceeData['group_id'] = $data['group_id'];
+                $invoiceeData['customer_id'] = $data['customer_id'];
+                $invoiceeData['order_id'] = $data['order_id'];
+                $invoiceeData['invoice_date'] = $data['invoice_date'];
+                $invoiceeData['po_no'] = $data['po_no'];
+                $invoiceeData['sales_person'] = $data['sales_person'];
+                $invoiceeData['bill_to'] = $data['bill_to'];
+                $invoiceeData['ship_to'] = $data['ship_to'];
+                $invoiceeData['order_total'] = $data['order_total'];
+                $invoiceeData['sub_total'] = $data['sub_total'];
+                $invoiceeData['sgst'] = $data['sgst'];
+                $invoiceeData['cgst'] = $data['cgst'];
+                $invoiceeData['igst'] = $data['igst'];
+                $invoiceeData['invoice_total'] = $data['invoice_total'];
+                
+                $invoiceeData['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : '' ;
+                $invoiceeData['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : '' ;
+                
+                $invoiceeData['remarks'] = $data['remarks'];
+                
 
                 foreach($data['item'] as $key => $item) {
                     $row = array();
                     $row['item'] = $data['item'][$key];
-                    $row['qty'] = $data['qty'][$key];
                     $row['description'] = $data['description'][$key];
-                    $row['unit_price'] = $data['unit_price'][$key];;
-                    $row['tax'] = $data['tax'][$key];;
+                    $row['qty'] = $data['qty'][$key];
+                    $row['uom_id'] = $data['uom'][$key];
+                    $row['unit_price'] = $data['unit_price'][$key];
                     $row['total'] = $data['total'][$key];
 
-                    $orderItems[] = $row;
+                    $invoiceItems[] = $row;
                 }
                 
-                */
                 
-                //print_r($orderItems);
-                //print_r($data); exit;
-                $invoiceId = $this->_model->save($data);
+
+                $invoiceId = $this->_model->save($invoiceeData);
                 if($invoiceId) {
-                    $this->generateInvoice($invoiceId);
-                    /*
                     $tblInvoiceItem = new InvoiceItemsModel();
-                    foreach($orderItems as $orderItem) {
-                        $orderItem['invoice_id'] = $invoiceId;
-                        $tblInvoiceItem->save($orderItem);
-                    } */
+                    foreach($invoiceItems as $invoiceItem) {
+                        $invoiceItem['invoice_id'] = $invoiceId;
+                        $tblInvoiceItem->save($invoiceItem);
+                    }
+                    
+                    $this->generateInvoice($invoiceId); 
 
                     $_SESSION['message'] = 'Invoice added successfully';
                     header("location:". ROOT. "invoices"); 
@@ -95,9 +114,13 @@ class InvoicesController extends Controller
             $invoice = $this->_model->get($id);
             $this->_view->set('invoice', $invoice);
             
-            $customerList = new CustomersModel();
-            $customer = $customerList->get($invoice['customer_id']);
+            $customerTbl = new CustomersModel();
+            $customer = $customerTbl->get($invoice['customer_id']);
             $this->_view->set('customer', $customer);
+            
+            $customerShipTo = $customerTbl->get($invoice['ship_to']);
+            $this->_view->set('shipToAddress', $customerShipTo['address']);
+            
             
             return $this->_view->output();
             
@@ -138,14 +161,37 @@ class InvoicesController extends Controller
     
     public function generateInvoice($invoiceId) {
         
-        $invoice = $this->_model->get($invoiceId);
+        $dataItem = array();
         
-        $customer = new CustomersModel();
-        $customer = $customer->get($invoice['customer_id']);
+        $invoice = $this->_model->get($invoiceId);
+        $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
+        
+        $customerTbl = new CustomersModel();
+        $customer = $customerTbl->get($invoice['customer_id']);
+        
+        $customerShipTo = $customerTbl->get($invoice['ship_to']);
         
         $orderTable = new OrdersModel();
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
+        
+        $descriptionAppendTxt = '';
+        if(in_array($order['order_type'], array(1, 3, 4))) {
+            $dataItem = $invoiceItem;
+        } else if($order['order_type']  == 2) {
+            $row = array();
+            $tblOrderItem = new OrderPaytermsModel();
+            $orderPayterm = $tblOrderItem->get($invoice['payment_term']);
+            $row['description'] = $oderItems['description'].' '.$orderPayterm['description'];
+            $row['qty'] = $invoice['pay_percent'];
+            $row['unit_price'] = $invoice['order_total'];
+            $row['total'] = $invoice['sub_total'];
+            
+            $dataItem[] = $row;
+            
+        } else {
+            $dataItem =  $oderItems;
+        }
         
         $company = new CompanyModel();
         $company = $company->get(1);
@@ -164,12 +210,12 @@ class InvoicesController extends Controller
             "{{COMP_IFSC}}" => $company['ifsc_code'],
             "{{PO_NO}}" => $invoice['po_no'],
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $invoice['bill_to'],
+            "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $customer['address'],
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
             "{{CUST_GST}}" => $customer['gstin'],
-            "{{CUST_SHIPTO}}" => $invoice['ship_to'],
+            "{{CUST_SHIPTO}}" => $customerShipTo['address'],
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
@@ -177,10 +223,10 @@ class InvoicesController extends Controller
         
         $orderBaseTotal = 0.00;
         $itemList = '';
-        foreach($oderItems as $key => $item) {
+        foreach($dataItem as $key => $item) {
             $itemList .= '<tr>
             <td>'.($key+1).'</td>
-            <td>'.$item['item'].'</td>
+            <td>'.$item['description'].'</td>
             <td>'.$item['qty'].'</td>
             <td>'.number_format($item['unit_price'], 2).'</td>
             <td>'.number_format($item['total'], 2).'</td>

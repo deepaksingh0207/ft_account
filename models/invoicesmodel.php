@@ -82,5 +82,15 @@ class InvoicesModel extends Model {
     }
     
     
+    public function getInvoiceItem($id) {
+        $sql = "select * from invoice_items where invoice_id = ? ";
+        $this->_setSql($sql);
+        $items = $this->getAll(array($id));
+        if (empty($items)){
+            return false;
+        }
+        return $items;
+    }
+    
     
 }
