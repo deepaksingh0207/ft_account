@@ -182,7 +182,7 @@ class InvoicesController extends Controller
             $row = array();
             $tblOrderItem = new OrderPaytermsModel();
             $orderPayterm = $tblOrderItem->get($invoice['payment_term']);
-            $row['description'] = $oderItems['description'].' '.$orderPayterm['description'];
+            $row['description'] = $oderItems[0]['description'].'<br />'.$orderPayterm['description'];
             $row['qty'] = $invoice['pay_percent'];
             $row['unit_price'] = $invoice['order_total'];
             $row['total'] = $invoice['sub_total'];
