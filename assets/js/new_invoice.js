@@ -4,7 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal=0, DEBUG = true;
+var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, DEBUG = true;
 
 function debug(val) {
   if (DEBUG == true) {
@@ -138,7 +138,7 @@ function tridupdate(a) {
     });
   }
   else {
-    if ( orderlist.length > 0) {
+    if (orderlist.length > 0) {
       $.each(orderlist, function (index, value) {
         tridupdate(value);
       });
@@ -319,9 +319,10 @@ function fillinvoices(list) {
       invoicetotal += value.invoice_total
     });
   }
-  $("#pendingbalance").text(orderlist.order.ordertotal-invoicetotal);
+  $("#pendingbalance").text(orderlist.order.ordertotal - invoicetotal);
   $("#invoice_list_layout").show();
 }
+
 
 function fillpaymentterm(list) {
   if (orderlist.order.order_type == 2) {
@@ -332,7 +333,7 @@ function fillpaymentterm(list) {
       $("#id_tr" + value.id).append('<td>' + value.item + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.description + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.qty + '</td>');
-      $("#id_tr" + value.id).append('<td>' + value.uom_id + '</td>');
+      $("#id_tr" + value.id).append('<td>' + setuom(value.uom_id) + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.unit_price + '</td>');
       $("#id_tr" + value.id).append('<td>' + humanamount(value.total) + '</td>');
     });
@@ -378,6 +379,7 @@ $(document).on("click", ".paytrm", function () {
   $.each(orderlist.payment_term, function (key, value) {
     if (value.id == id) {
       subtotal = parseFloat(value.total);
+      $("#id_pay_percent").val(value.qty);
       cgstval = subtotal * (cgst / 100);
       sgstval = subtotal * (sgst / 100);
       igstval = subtotal * (igst / 100);
