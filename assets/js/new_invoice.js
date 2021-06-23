@@ -379,14 +379,13 @@ $(document).on("click", ".paytrm", function () {
   $.each(orderlist.payment_term, function (key, value) {
     if (value.id == id) {
       subtotal = parseFloat(value.total);
-      $("#id_pay_percent").val(value.qty);
+      $("#totaldiv").append('<input type="hidden" name="pay_percent" id="id_pay_percent" value="'+value.qty+'"></input>');
       cgstval = subtotal * (cgst / 100);
       sgstval = subtotal * (sgst / 100);
       igstval = subtotal * (igst / 100);
     }
   });
   total = igstval + sgstval + cgstval + subtotal
-  $("#id_order_total").val(subtotal);
   $("#id_sub_total").val(subtotal);
   $("#id_ordertotal").val(total);
   $("#id_sgst").val(sgstval);

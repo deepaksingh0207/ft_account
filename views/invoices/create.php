@@ -172,7 +172,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 text-right" id="totaldiv" style="color: mediumslateblue;">
                         <input type="hidden" name="invoice_total" id="id_ordertotal" value="">
-                        <input type="hidden" name="pay_percent" id="id_pay_percent" value="">
+                        <input type="hidden" name="pay_percent" id="id_pay_percent" value="0">
                         <!-- <input type="hidden" name="uom_id" id="id_uom_id" value=""> -->
                         <p class="mb-0"><b>Total</b></p>
                         <p id="totalval"></p>
