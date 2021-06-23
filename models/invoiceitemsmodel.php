@@ -77,4 +77,14 @@ class InvoiceItemsModel extends Model {
         return $user;
     }
     
+    public function getInvoiceQtyOfItem($orderItemId) {
+        $sql = "select sum(qty) item_qty from invoice_items group by order_item_id having order_item_id = ? limit 1";
+        $this->_setSql($sql);
+        $user = $this->getRow(array($orderItemId));
+        if (empty($user)){
+            return false;
+        }
+        return $user['item_qty'];
+    }
+    
 }

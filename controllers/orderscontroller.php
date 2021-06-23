@@ -198,6 +198,19 @@ class OrdersController extends Controller
             $paymentTerms = $payTermTbl->getPaytermByOrderId($id);
             
             
+            $invoiceItemModel = new InvoiceItemsModel();
+            foreach($oderItems as &$oderItem) {
+                $result = $invoiceItemModel->getInvoiceQtyOfItem($oderItem['id']);
+                $oderItem['bal_qty'] = ($oderItem['qty'] - $result);
+                $oderItem['total'] = ($oderItem['bal_qty'] * $oderItem['unit_price']);
+            }
+            
+            foreach($invoices as &$invoice) {
+                $invoice['payment_term'] = $invoice['payment_term'] ? $invoice['payment_term'] : '-';
+                $invoice['pay_percent'] = $invoice['pay_percent'] ? $invoice['pay_percent'] : '-';
+            }
+            
+            
             $result = array();
             $result['order'] = $order;
             $result['items'] = $oderItems;

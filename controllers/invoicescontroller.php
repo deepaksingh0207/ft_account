@@ -71,6 +71,7 @@ class InvoicesController extends Controller
 
                 foreach($data['item'] as $key => $item) {
                     $row = array();
+                    $row['order_item_id'] = $data['order_item_id'][$key];
                     $row['item'] = $data['item'][$key];
                     $row['description'] = $data['description'][$key];
                     $row['qty'] = $data['qty'][$key];
@@ -176,7 +177,6 @@ class InvoicesController extends Controller
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
-        $descriptionAppendTxt = '';
         if(in_array($order['order_type'], array(1, 3, 4))) {
             $dataItem = $invoiceItem;
         } else if($order['order_type']  == 2) {
