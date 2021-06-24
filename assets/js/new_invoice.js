@@ -260,6 +260,7 @@ function setordertype(val) {
   }
   if (val == 6) {
     $("#id_ordertype").text("Hardware Sale");
+    filledititems(orderlist.items);
   }
 }
 
