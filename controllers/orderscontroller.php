@@ -202,7 +202,8 @@ class OrdersController extends Controller
             foreach($oderItems as &$oderItem) {
                 $result = $invoiceItemModel->getInvoiceQtyOfItem($oderItem['id']);
                 $oderItem['bal_qty'] = ($oderItem['qty'] - $result);
-                $oderItem['total'] = ($oderItem['bal_qty'] * $oderItem['unit_price']);
+                $oderItem['bal_total'] = ($oderItem['bal_qty'] * $oderItem['unit_price']);
+                
             }
             
             foreach($invoices as &$invoice) {
