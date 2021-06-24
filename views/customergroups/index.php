@@ -23,10 +23,10 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 pt-3">
                         <br>
-                        <button class="btn btn btn-primary update" type="submit" id="update" style="display: none;" formaction="">
+                        <button class="btn btn btn-primary" type="submit" id="update" style="display: none;" formaction="">
                           Update
                         </button>
-                        <button class="btn btn btn-primary update" type="submit" id="add" formaction="">
+                        <button class="btn btn btn-primary" type="submit" id="add">
                           Add
                         </button>
                         <button type="reset" class="btn btn btn-primary"  id="cancel">Cancel</button>

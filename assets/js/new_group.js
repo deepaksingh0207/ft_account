@@ -1,19 +1,22 @@
 var baseUrl = window.location.origin + '/ft_account/';
 
 $(function () {
-	$.validator.setDefaults({
-		submitHandler: function () {
-			$("#responsemodal").click();
-		},
-	});
+	$("#example1").DataTable({
+		responsive: false,
+		lengthChange: false,
+		autoWidth: true,
+		paging: true,
+		ordering: false,
+		searching: false,
+	  });
 	$("#id_quickForm").validate({
 		rules: {
-			group_id: {
+			name: {
 				required: true,
 			},
 		},
 		messages: {
-			group_id: {
+			name: {
 				required: "Select a customer group.",
 			},
 		},
@@ -29,16 +32,7 @@ $(function () {
 			$(element).removeClass("is-invalid");
 		},
 	});
-	$("#add").attr("formaction", baseUrl + "add/");
 });
-
-$(".groupy").hover(
-	function () {
-		$(this).css('background-color', 'powderblue');
-	}, function () {
-		$(this).css('background-color', 'white');
-	}
-);
 
 $(".groupy").on("click", function () {
 	valy = $(this).children("td.name").text();
