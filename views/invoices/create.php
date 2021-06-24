@@ -305,9 +305,10 @@
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                           Close
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">
+                        <button type="button" class="btn btn-sm btn-primary generate">
                           Generate
                         </button>
+                        <button type="button" id="id_go" style="display:none;" onclick="form.submit()"></button>
                       </div>
                     </div>
                   </div>

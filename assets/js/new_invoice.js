@@ -4,7 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid=0, DEBUG = true;
+var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid = 0, DEBUG = true;
 
 function debug(val) {
   if (DEBUG == true) {
@@ -26,6 +26,7 @@ $(function () {
   $.validator.setDefaults({
     submitHandler: function () {
       $("#responsemodal").click(); //Activating Modal
+
     },
   });
   $("#quickForm").validate({
@@ -319,16 +320,16 @@ function fillitems(list) {
 }
 
 function filledititems(list) {
-	
+
   if (list != "") {
     $("#orderlist_edit").empty();
     $.each(list, function (index, value) {
-    	
+
       readOnly = "";
-      if(value.bal_qty == 0) {
-       readOnly = 'readonly="readonly"';
+      if (value.bal_qty == 0) {
+        readOnly = 'readonly="readonly"';
       }
-      
+
       $("#orderlist_edit").append('<tr id="order_edit' + value.id + '"></tr>');
       $("#orderlist_edit").append('<input type="hidden" name="order_item_id[]" id="id_order_item_id' + value.id + '" value="' + value.id + '">');
 
@@ -336,11 +337,11 @@ function filledititems(list) {
       $("#item_edit" + value.id).append('<input type="hidden"  name="item[]" id="id_item' + value.id + '" value="' + value.item + '">');
 
       $("#order_edit" + value.id).append('<td id="description_edit' + value.id + '" class="pt-2"></td>');
-      $("#description_edit" + value.id).append('<input type="text" '+ readOnly +' class="form-control desp" name="description[]" id="id_descp' + value.id + '" value="' + value.description + '">');
+      $("#description_edit" + value.id).append('<input type="text" ' + readOnly + ' class="form-control desp" name="description[]" id="id_descp' + value.id + '" value="' + value.description + '">');
 
-      $("#order_edit" + value.id).append('<td id="qty_edit' + value.id + '" class="pt-2"></td>');
-      
-      $("#qty_edit" + value.id).append('<input type="number" '+ readOnly +' class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="0" value="' + value.bal_qty + '" max="' + value.bal_qty + '">');
+      $("#order_edit" + value.id).append('<td id="qty_edit' + value.id + '" class="pt-2 minmax150"></td>');
+
+      $("#qty_edit" + value.id).append('<input type="number" ' + readOnly + ' class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="0" value="' + value.bal_qty + '" max="' + value.bal_qty + '">');
 
       $("#order_edit" + value.id).append('<td id="uom_id_edit' + value.id + '" class="pt-3">' + setuom(value.uom_id) + '</td>');
       $("#uom_id_edit" + value.id).append('<input type="hidden"  name="uom[]" id="id_uom' + value.id + '" value="' + value.uom_id + '">');
@@ -350,7 +351,7 @@ function filledititems(list) {
 
       $("#order_edit" + value.id).append('<td id="total_edit' + value.id + '" class="pt-3">' + humanamount(value.total) + '</td>');
       $("#orderlist_edit").append('<input type="hidden"  name="total[]" id="id_total' + value.id + '" value="' + value.total + '">');
-      
+
     });
     $("#ordertotal_edit").text(humanamount(orderlist.order.sub_total));
     $("#id_sub_total_edit").val(orderlist.order.sub_total);
@@ -375,8 +376,8 @@ function filledititems(list) {
     $("#igstval_edit").text(humanamount(orderlist.order.igst));
     $("#totalval_edit").text(humanamount(orderlist.order.ordertotal));
     $("#order_list_layout_edit").show();
-    
-    $( ".qty" ).trigger( "change" );
+
+    $(".qty").trigger("change");
   }
 }
 
@@ -395,6 +396,10 @@ $(document).on("change", ".qty", function () {
   $("#total_edit" + id).text(humanamount(rowvalue));
   total = 0;
   $.each(orderlist.items, function (index, value) {
+    if (parseFloat($("#id_qty" + value.id).attr("max")) < parseFloat($("#id_qty" + value.id).val())) {
+      $("#id_qty" + value.id + "-error").remove();
+      $("#qty_edit" + value.id).append('<span id="id_qty' + value.id + '-error" class="error invalid-feedback">Quanitiy overlimit.</span>');
+    }
     total += parseFloat($("#id_total" + value.id).val());
   });
   total = parseFloat(total)
@@ -436,8 +441,8 @@ function fillinvoices(list) {
     });
   }
   balTotal = orderlist.order.ordertotal - invoicetotal;
-  if(balTotal < 0) {
-  	balTotal = 0;
+  if (balTotal < 0) {
+    balTotal = 0;
   }
   $("#pendingbalance").text(balTotal);
   $("#invoice_list_layout").show();
@@ -451,7 +456,7 @@ function fillpaymentterm(list) {
       $("#id_paymentterm_list").append('<tr id="id_tr' + value.id + '"></tr>');
       $("#id_tr" + value.id).append('<td><div class="icheck-primary d-inline"><input required="" type="radio" id="id_paytrm' + value.id + '" name="payment_term" class="paytrm" value="' + value.id + '"><label for="id_paytrm' + value.id + '"></label></div></td>');
       $("#id_tr" + value.id).append('<td>' + value.item + '</td>');
-      $("#id_tr" + value.id).append('<td id="paytrm'+value.id+'">' + value.description + '</td>');
+      $("#id_tr" + value.id).append('<td id="paytrm' + value.id + '">' + value.description + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.qty + '</td>');
       $("#id_tr" + value.id).append('<td>' + setuom(value.uom_id) + '</td>');
       $("#id_tr" + value.id).append('<td>' + value.unit_price + '</td>');
@@ -500,7 +505,7 @@ $("#id_orderid").change(function () {
 });
 
 $(document).on("click", ".paytrm", function () {
-  if (oldid != 0){
+  if (oldid != 0) {
     olddata = $("#id_description").val();
     $("#paytrm" + oldid).empty();
     $("#paytrm" + oldid).text(olddata);
@@ -509,7 +514,7 @@ $(document).on("click", ".paytrm", function () {
   oldid = id;
   value = $("#paytrm" + id).text();
   $("#paytrm" + id).empty();
-  $("#paytrm" + id).append('<input type="text" name="payment_description" id="id_description" class="form-control" value="'+value+'">');
+  $("#paytrm" + id).append('<input type="text" name="payment_description" id="id_description" class="form-control" value="' + value + '">');
   $.each(orderlist.payment_term, function (key, value) {
     if (value.id == id) {
       subtotal = parseFloat(value.total);
@@ -525,4 +530,21 @@ $(document).on("click", ".paytrm", function () {
   $("#id_sgst_edit").val(sgstval);
   $("#id_cgst_edit").val(cgstval);
   $("#id_igst_edit").val(igstval);
+});
+
+$(document).on("click", ".generate", function () {
+  $.each(orderlist.items, function (index, value) {
+    id = value.id;
+    if (parseFloat($("#id_qty"+id).val()) < 1 ){
+      $("#id_qty"+id).remove();
+      $("#id_descp"+id).remove();
+      $("#id_item"+id).remove();
+      $("#id_uom"+id).remove();
+      $("#id_unitprice"+id).remove();
+      $("#id_order_item_id"+id).remove();
+      $("#id_total"+id).remove();
+      
+    }
+  });
+  $("#id_go").click();
 });
