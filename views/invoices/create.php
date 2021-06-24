@@ -290,23 +290,22 @@
                   data-target="#modal-sm" style="display: none"></button>
 
                 <div class="modal fade" id="modal-sm">
-                  <div class="modal-dialog modal-sm">
+                  <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Generate Invoice</h4>
+                        <h4 class="modal-title">Preview Invoice</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
-                        <p>Are you confirm to generate invoice?</p>
+                      <div class="modal-body" id="preview_invoice">
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                           Close
                         </button>
                         <button type="button" class="btn btn-sm btn-primary generate">
-                          Generate
+                          Generate Invoice
                         </button>
                         <button type="button" id="id_go" style="display:none;" onclick="form.submit()"></button>
                       </div>

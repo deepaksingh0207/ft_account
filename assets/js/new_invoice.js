@@ -539,16 +539,49 @@ $(document).on("click", ".paytrm", function () {
 $(document).on("click", ".generate", function () {
   $.each(orderlist.items, function (index, value) {
     id = value.id;
-    if (parseFloat($("#id_qty"+id).val()) < 1 ){
-      $("#id_qty"+id).remove();
-      $("#id_descp"+id).remove();
-      $("#id_item"+id).remove();
-      $("#id_uom"+id).remove();
-      $("#id_unitprice"+id).remove();
-      $("#id_order_item_id"+id).remove();
-      $("#id_total"+id).remove();
-      
+    if (parseFloat($("#id_qty" + id).val()) < 1) {
+      $("#id_qty" + id).remove();
+      $("#id_descp" + id).remove();
+      $("#id_item" + id).remove();
+      $("#id_uom" + id).remove();
+      $("#id_unitprice" + id).remove();
+      $("#id_order_item_id" + id).remove();
+      $("#id_total" + id).remove();
+
     }
   });
   $("#id_go").click();
+});
+
+$.fn.serializeObject = function () {
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function () {
+    if (o[this.name] !== undefined) {
+      if (!o[this.name].push) {
+        o[this.name] = [o[this.name]];
+      }
+      o[this.name].push(this.value || '');
+    } else {
+      o[this.name] = this.value || '';
+    }
+  });
+  return o;
+};
+
+$(document).on("click", ".record", function () {
+  var form_data = JSON.stringify($('#quickForm').serializeObject())
+  // var form_data = $("#quickForm").serializeObject();
+  debug(form_data);
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "",
+    data: form_data,
+  })
+    .done(function (data) {
+      $("#preview_invoice").append(data);
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      $("#preview_invoice").append("Couldn't generate a preview due to technical issues.");
+    });
 });
