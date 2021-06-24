@@ -94,7 +94,7 @@
                         <label for="bill_id">Bill To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="bill_to" id="bill_id" cols="30" rows="2"></textarea>
+                      <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
                       </div>
                     </div>
 
@@ -103,7 +103,7 @@
                         <label for="ship_id">Ship To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="ship_to" id="ship_id" cols="30" rows="2"></textarea>
+                      <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
                     </div>
 
