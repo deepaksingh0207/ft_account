@@ -341,7 +341,7 @@ function filledititems(list) {
 
       $("#order_edit" + value.id).append('<td id="qty_edit' + value.id + '" class="pt-2 minmax150"></td>');
 
-      $("#qty_edit" + value.id).append('<input type="number" ' + readOnly + ' class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="0" value="' + value.bal_qty + '" max="' + value.bal_qty + '">');
+      $("#qty_edit" + value.id).append('<input type="number" ' + readOnly + ' class="form-control qty" name="qty[]" id="id_qty' + value.id + '" min="0" value="0" max="' + value.bal_qty + '">');
 
       $("#order_edit" + value.id).append('<td id="uom_id_edit' + value.id + '" class="pt-3">' + setuom(value.uom_id) + '</td>');
       $("#uom_id_edit" + value.id).append('<input type="hidden"  name="uom[]" id="id_uom' + value.id + '" value="' + value.uom_id + '">');
@@ -403,9 +403,6 @@ $(document).on("change", ".qty", function () {
     total += parseFloat($("#id_total" + value.id).val());
   });
   total = parseFloat(total)
-  if (total < 1.0) {
-    $(".record").attr("disabled", true).hide();
-  }
   $("#id_ordertotal_edit").val(total);
   $("#id_sub_total_edit").val(total);
   $("#ordertotal_edit").text(humanamount(total));
@@ -430,19 +427,21 @@ $(document).on("change", ".qty", function () {
   $("#id_ordertotal_edit").val(grandtotal);
 });
 
-invoicetotal = 0;
 function fillinvoices(list) {
   if (list.length > 0) {
     $("#invoiceheader").empty();
     $("#invoiceheader").append('<tr> <th class="min100">Invoice No.</th> <th class="min100">Pay Term</th> <th class="min100">Pay Percent</th> <th class="min100">Sub Total</th> <th class="min100">IGST</th> <th class="min100">CGST</th> <th class="min100">SGST</th> <th class="min100">Total</th> <th class="min100">Date</th></tr>');
+    $("#invoicelist").empty();
+    invoicetotal = 0;
     $.each(list, function (index, value) {
       $("#invoicelist").append("<tr><td>" + value.id + "</td><td>" + value.payment_term + "</td><td>" + value.pay_percent + "</td><td>" + value.sub_total + "</td><td>" + value.igst + "</td><td>" + value.cgst + "</td><td>" + value.sgst + "</td><td>" + value.invoice_total + "</td><td>" + value.invoice_date + "</td></tr>");
       invoicetotal += parseFloat(value.invoice_total)
     });
   }
   balTotal = orderlist.order.ordertotal - invoicetotal;
-  if (balTotal < 0) {
+  if (balTotal <= 0) {
     balTotal = 0;
+    $(".record").attr("disabled", true).hide();
   }
   $("#pendingbalance").text(balTotal);
   $("#invoice_list_layout").show();
