@@ -424,16 +424,21 @@ $(document).on("change", ".qty", function () {
   $("#id_ordertotal_edit").val(grandtotal);
 });
 
+invoicetotal = 0;
 function fillinvoices(list) {
   if (list.length > 0) {
     $("#invoiceheader").empty();
     $("#invoiceheader").append('<tr> <th class="min100">Invoice No.</th> <th class="min100">Pay Term</th> <th class="min100">Pay Percent</th> <th class="min100">Sub Total</th> <th class="min100">IGST</th> <th class="min100">CGST</th> <th class="min100">SGST</th> <th class="min100">Total</th> <th class="min100">Date</th></tr>');
     $.each(list, function (index, value) {
       $("#invoicelist").append("<tr><td>" + value.id + "</td><td>" + value.payment_term + "</td><td>" + value.pay_percent + "</td><td>" + value.sub_total + "</td><td>" + value.igst + "</td><td>" + value.cgst + "</td><td>" + value.sgst + "</td><td>" + value.invoice_total + "</td><td>" + value.invoice_date + "</td></tr>");
-      invoicetotal += value.invoice_total
+      invoicetotal += parseFloat(value.invoice_total)
     });
   }
-  $("#pendingbalance").text(orderlist.order.ordertotal - invoicetotal);
+  balTotal = orderlist.order.ordertotal - invoicetotal;
+  if(balTotal < 0) {
+  	balTotal = 0;
+  }
+  $("#pendingbalance").text(balTotal);
   $("#invoice_list_layout").show();
 }
 
