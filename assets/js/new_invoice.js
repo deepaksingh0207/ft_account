@@ -403,6 +403,11 @@ $(document).on("change", ".qty", function () {
     total += parseFloat($("#id_total" + value.id).val());
   });
   total = parseFloat(total)
+  if (total < 1.0) {
+    $(".record").attr("disabled", true);
+  } else {
+    $(".record").removeAttr("disabled");
+  }
   $("#id_ordertotal_edit").val(total);
   $("#id_sub_total_edit").val(total);
   $("#ordertotal_edit").text(humanamount(total));
