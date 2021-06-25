@@ -354,113 +354,114 @@ class InvoicesController extends Controller
                 
                 $invoiceItems[] = $row;
             }
-        }
         
-        $customerTbl = new CustomersModel();
-        $customer = $customerTbl->get($invoice['customer_id']);
-        $customerShipTo = $customerTbl->get($invoice['ship_to']);
         
-        $orderTable = new OrdersModel();
-        $order = $orderTable->get($invoice['order_id']);
-        $oderItems = $orderTable->getOrderItem($invoice['order_id']);
-        
-        if(in_array($order['order_type'], array(1, 3, 4, 6))) {
-            $dataItem = $invoiceItems;
-        } else if($order['order_type']  == 2) {
-            $row = array();
-            $row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
-            $row['qty'] = $invoice['pay_percent'];
-            $row['unit_price'] = $invoice['order_total'];
-            $row['total'] = $invoice['sub_total'];
+            $customerTbl = new CustomersModel();
+            $customer = $customerTbl->get($invoice['customer_id']);
+            $customerShipTo = $customerTbl->get($invoice['ship_to']);
             
-            $dataItem[] = $row;
+            $orderTable = new OrdersModel();
+            $order = $orderTable->get($invoice['order_id']);
+            $oderItems = $orderTable->getOrderItem($invoice['order_id']);
             
-        } else {
-            $dataItem =  $oderItems;
-        }
-        
-        $company = new CompanyModel();
-        $company = $company->get(1);
-        
-        
-        $vars = array(
-            "{{INV_NO}}" => $invoiceId,
-            "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-            "{{COMPANY_BILLTO}}" => $company['address'],
-            "{{COMP_TEL}}" => $company['contact'],
-            "{{COMP_PAN}}" => $company['pan'],
-            "{{COMP_SAC}}" => $company['sac'],
-            "{{COMP_GSTIN}}" => $company['gstin'],
-            "{{COMP_BANK}}" => $company['bank_name'],
-            "{{COMP_ACCNO}}" => $company['account_no'],
-            "{{COMP_IFSC}}" => $company['ifsc_code'],
-            "{{PO_NO}}" => $invoice['po_no'],
-            "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $customer['address'],
-            "{{CUST_TEL}}" => $customer['pphone'],
-            "{{CUST_FAX}}" => $customer['fax'],
-            "{{CUST_PAN}}" => $customer['pan'],
-            "{{CUST_GST}}" => $customer['gstin'],
-            "{{CUST_SHIPTO}}" => $customerShipTo['address'],
-            "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-            "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
-        );
-        
-        $orderBaseTotal = 0.00;
-        $itemList = '';
-        foreach($dataItem as $key => $item) {
-            $itemList .= '<tr>
-            <td>'.($key+1).'</td>
-            <td>'.$item['description'].'</td>
-            <td>'.$item['qty'].'</td>
-            <td>'.number_format($item['unit_price'], 2).'</td>
-            <td>'.number_format($item['total'], 2).'</td>
+            if(in_array($order['order_type'], array(1, 3, 4, 6))) {
+                $dataItem = $invoiceItems;
+            } else if($order['order_type']  == 2) {
+                $row = array();
+                $row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
+                $row['qty'] = $invoice['pay_percent'];
+                $row['unit_price'] = $invoice['order_total'];
+                $row['total'] = $invoice['sub_total'];
+                
+                $dataItem[] = $row;
+                
+            } else {
+                $dataItem =  $oderItems;
+            }
+            
+            $company = new CompanyModel();
+            $company = $company->get(1);
+            
+            
+            $vars = array(
+                "{{INV_NO}}" => $invoiceId,
+                "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
+                "{{COMPANY_BILLTO}}" => $company['address'],
+                "{{COMP_TEL}}" => $company['contact'],
+                "{{COMP_PAN}}" => $company['pan'],
+                "{{COMP_SAC}}" => $company['sac'],
+                "{{COMP_GSTIN}}" => $company['gstin'],
+                "{{COMP_BANK}}" => $company['bank_name'],
+                "{{COMP_ACCNO}}" => $company['account_no'],
+                "{{COMP_IFSC}}" => $company['ifsc_code'],
+                "{{PO_NO}}" => $invoice['po_no'],
+                "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
+                "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $customer['address'],
+                "{{CUST_TEL}}" => $customer['pphone'],
+                "{{CUST_FAX}}" => $customer['fax'],
+                "{{CUST_PAN}}" => $customer['pan'],
+                "{{CUST_GST}}" => $customer['gstin'],
+                "{{CUST_SHIPTO}}" => $customerShipTo['address'],
+                "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
+                "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
+                "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+            );
+            
+            $orderBaseTotal = 0.00;
+            $itemList = '';
+            foreach($dataItem as $key => $item) {
+                $itemList .= '<tr>
+                <td>'.($key+1).'</td>
+                <td>'.$item['description'].'</td>
+                <td>'.$item['qty'].'</td>
+                <td>'.number_format($item['unit_price'], 2).'</td>
+                <td>'.number_format($item['total'], 2).'</td>
+                </tr>';
+                
+                $orderBaseTotal += $item['total'];
+            }
+            
+            $taxesLayout = '';
+            if((int)$invoice['igst']) {
+                $taxesLayout = '<tr class="text-right bb">
+                <td style="text-align: right; width: 94%">
+                  IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
+                </td>
+              </tr><tr>
+              <td colspan="5" style="padding: 0px">
+                <hr style="padding: 0px; margin: 0px" />
+              </td>
             </tr>';
+            } else {
+                $taxesLayout = '<tr>
+                <td style="text-align: right; width: 94%">
+                  CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
+                  <br />
+                  SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" style="padding: 0px">
+                  <hr style="padding: 0px; margin: 0px" />
+                </td>
+              </tr>';
+            }
             
-            $orderBaseTotal += $item['total'];
+            $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
+            $vars["{{ITEM_LIST}}"] = $itemList;
+            $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
+            
+            $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+            
+            /*
+            require_once HOME . DS. 'vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
+            $mpdf->WriteHTML($messageBody);
+            $mpdf->Output('pdf/invoice_'.$invoice['id'].'.pdf', 'F');
+            */
+            
+            echo $messageBody;
         }
-        
-        $taxesLayout = '';
-        if((int)$invoice['igst']) {
-            $taxesLayout = '<tr class="text-right bb">
-            <td style="text-align: right; width: 94%">
-              IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
-            </td>
-          </tr><tr>
-          <td colspan="5" style="padding: 0px">
-            <hr style="padding: 0px; margin: 0px" />
-          </td>
-        </tr>';
-        } else {
-            $taxesLayout = '<tr>
-            <td style="text-align: right; width: 94%">
-              CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
-              <br />
-              SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
-            </td>
-          </tr>
-          <tr>
-            <td colspan="5" style="padding: 0px">
-              <hr style="padding: 0px; margin: 0px" />
-            </td>
-          </tr>';
-        }
-        
-        $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
-        $vars["{{ITEM_LIST}}"] = $itemList;
-        $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
-        
-        $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
-        
-        /*
-        require_once HOME . DS. 'vendor/autoload.php';
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
-        $mpdf->WriteHTML($messageBody);
-        $mpdf->Output('pdf/invoice_'.$invoice['id'].'.pdf', 'F');
-        */
-        
-        echo $messageBody;
         
     }
     
