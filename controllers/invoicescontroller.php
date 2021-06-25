@@ -352,7 +352,9 @@ class InvoicesController extends Controller
                 $row['unit_price'] = $data['unit_price'][$key];
                 $row['total'] = $data['total'][$key];
                 
-                $invoiceItems[] = $row;
+                if(intval($data['total'][$key]) > 0) {
+                    $invoiceItems[] = $row;
+                }
             }
         
         
