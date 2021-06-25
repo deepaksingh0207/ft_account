@@ -305,7 +305,7 @@ class InvoicesController extends Controller
     }
     
     
-    public function previewInvoice() {
+    public function preview() {
         
         $dataItem = array();
         
