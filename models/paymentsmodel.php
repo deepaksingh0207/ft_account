@@ -1,9 +1,9 @@
 <?php
 
-class InvoicesModel extends Model {
+class PaymentsModel extends Model {
     
     
-    public function getList() {
+    public function list() {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
         $sql = "select invoices.*, customers.name customer_name from invoices join customers on (invoices.customer_id = customers.id) where 1=1 order by updated_date desc";
         $this->_setSql($sql);
@@ -78,27 +78,6 @@ class InvoicesModel extends Model {
         $user = $this->getrow();
         
         return $user['id'];
-    }
-    
-    
-    public function getInvoicesOfOrder($orderId) {
-        $sql = "select * from invoices where order_id = $orderId order by id desc";
-        $this->_setSql($sql);
-        $invoices = $this->getAll();
-        
-        return $invoices;
-    }
-    
-    
-    public function getInvoiceItem($id) {
-        $sql = "select * from invoice_items where invoice_id = ? ";
-        $this->_setSql($sql);
-        $items = $this->getAll(array($id));
-        if (empty($items)){
-            return false;
-        }
-        return $items;
-    }
-    
+    }    
     
 }
