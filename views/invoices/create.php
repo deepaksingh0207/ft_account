@@ -64,7 +64,7 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_invoicedate">Date :</label>
+                        <label for="id_invoicedate">Invoice Date :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate" />
@@ -218,11 +218,24 @@
 
                         </div>
                         <div class="card-footer">
-                          <div class="text-right">
-                            <b>Sub Total : </b>
-                            <span id="ordertotal_edit">0.00</span>
-                            <input type="hidden" name="order_total" id="id_order_total_edit" />
-                            <input type="hidden" name="sub_total" id="id_sub_total_edit" />
+                          <div class="row">
+                            <div class="col-6">
+                              <div class="row">
+                                <div class="col-sm-12 col-lg-2 pt-2">
+                                  <label for="id_due_date">Due Date</label>
+                                </div>
+                                <div class="col-sm-12 col-lg-6 form-group" id="duedate_grp">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-6">
+                              <div class="text-right">
+                                <b>Sub Total : </b>
+                                <span id="ordertotal_edit">0.00</span>
+                                <input type="hidden" name="order_total" id="id_order_total_edit" />
+                                <input type="hidden" name="sub_total" id="id_sub_total_edit" />
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

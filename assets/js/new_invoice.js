@@ -4,6 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
+var tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd)+1);
 var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid = 0, DEBUG = true, postdata;
 
 function debug(val) {
@@ -44,6 +45,10 @@ $(function () {
         required: true,
         date: true,
       },
+      due_date: {
+        required: true,
+        date: true,
+      },
       po_no: {
         required: true,
       },
@@ -71,6 +76,10 @@ $(function () {
         required: "Please select the order number.",
       },
       invoice_date: {
+        required: "Please select a date.",
+        date: "Value must be a date.",
+      },
+      due_date: {
         required: "Please select a date.",
         date: "Value must be a date.",
       },
@@ -149,6 +158,7 @@ function tridupdate(a) {
 }
 
 function resetform() {
+  $("#duedate_grp").empty();
   $(".record").removeAttr("disabled").show();
   $("#id_pono").val("");
   $("#id_salesperson").val("");
@@ -320,7 +330,6 @@ function fillitems(list) {
 }
 
 function filledititems(list) {
-
   if (list != "") {
     $("#orderlist_edit").empty();
     $.each(list, function (index, value) {
@@ -378,6 +387,7 @@ function filledititems(list) {
 
     $(".qty").trigger("change");
   }
+  settomorrow();
 }
 
 // On quantity Change
@@ -575,8 +585,14 @@ $(document).on("click", ".record", function () {
     url: baseUrl + "invoices/preview",
     data: formdata,
   }).done(function (data) {
-    $("#preview_invoice").empty().append(data).find('style').remove().children("div.container").children("img").css("max-width","925px");
+    $("#preview_invoice").empty().append(data).find('style').remove().children("div.container").children("img").css("max-width", "925px");
   }).fail(function (data) {
     debug("FAILED");
   });
 });
+
+
+function settomorrow() {
+  $("#duedate_grp").append('<input type="date" class="form-control" name="due_date" id="id_due_date">');
+  $('#id_due_date').attr("min", tomorrow);
+}
