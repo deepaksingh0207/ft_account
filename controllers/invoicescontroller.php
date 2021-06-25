@@ -68,18 +68,20 @@ class InvoicesController extends Controller
                 
                 $invoiceeData['remarks'] = $data['remarks'];
                 
-
-                foreach($data['item'] as $key => $item) {
-                    $row = array();
-                    $row['order_item_id'] = $data['order_item_id'][$key];
-                    $row['item'] = $data['item'][$key];
-                    $row['description'] = $data['description'][$key];
-                    $row['qty'] = $data['qty'][$key];
-                    $row['uom_id'] = $data['uom'][$key];
-                    $row['unit_price'] = $data['unit_price'][$key];
-                    $row['total'] = $data['total'][$key];
-
-                    $invoiceItems[] = $row;
+                
+                if(isset($data['item'])) {
+                    foreach($data['item'] as $key => $item) {
+                        $row = array();
+                        $row['order_item_id'] = $data['order_item_id'][$key];
+                        $row['item'] = $data['item'][$key];
+                        $row['description'] = $data['description'][$key];
+                        $row['qty'] = $data['qty'][$key];
+                        $row['uom_id'] = $data['uom'][$key];
+                        $row['unit_price'] = $data['unit_price'][$key];
+                        $row['total'] = $data['total'][$key];
+    
+                        $invoiceItems[] = $row;
+                    }
                 }
                 
                 
@@ -341,18 +343,21 @@ class InvoicesController extends Controller
             
             $invoice['remarks'] = $data['remarks'];
             
-            
-            foreach($data['item'] as $key => $item) {
-                $row = array();
-                $row['order_item_id'] = $data['order_item_id'][$key];
-                $row['item'] = $data['item'][$key];
-                $row['description'] = $data['description'][$key];
-                $row['qty'] = $data['qty'][$key];
-                $row['uom_id'] = $data['uom'][$key];
-                $row['unit_price'] = $data['unit_price'][$key];
-                $row['total'] = $data['total'][$key];
-                
-                $invoiceItems[] = $row;
+            if(isset($data['item'])) {
+                foreach($data['item'] as $key => $item) {
+                    $row = array();
+                    $row['order_item_id'] = $data['order_item_id'][$key];
+                    $row['item'] = $data['item'][$key];
+                    $row['description'] = $data['description'][$key];
+                    $row['qty'] = $data['qty'][$key];
+                    $row['uom_id'] = $data['uom'][$key];
+                    $row['unit_price'] = $data['unit_price'][$key];
+                    $row['total'] = $data['total'][$key];
+                    
+                    if(intval($data['total'][$key]) > 0) {
+                        $invoiceItems[] = $row;
+                    }
+                }
             }
         
         
