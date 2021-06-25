@@ -4,7 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid = 0, DEBUG = true;
+var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid = 0, DEBUG = true, postdata;
 
 function debug(val) {
   if (DEBUG == true) {
@@ -570,18 +570,14 @@ $.fn.serializeObject = function () {
 };
 
 $(document).on("click", ".record", function () {
-  var form_data = JSON.stringify($('#quickForm').serializeObject())
-  // var form_data = $("#quickForm").serializeObject();
-  debug(form_data);
+  var formdata = $("#quickForm").serialize();
   $.ajax({
     type: "POST",
-    url: baseUrl + "",
-    data: form_data,
-  })
-    .done(function (data) {
-      $("#preview_invoice").append(data);
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      $("#preview_invoice").append("Couldn't generate a preview due to technical issues.");
-    });
+    url: baseUrl + "invoices/preview",
+    data: formdata,
+  }).done(function (data) {
+    $("#preview_invoice").empty().append(data).find('style').remove().children("div.container").children("img").css("max-width","925px");
+  }).fail(function (data) {
+    debug("FAILED");
+  });
 });

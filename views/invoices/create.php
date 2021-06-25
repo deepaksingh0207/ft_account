@@ -94,7 +94,7 @@
                         <label for="bill_id">Bill To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                      <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
+                        <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
                       </div>
                     </div>
 
@@ -103,7 +103,7 @@
                         <label for="ship_id">Ship To :</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                      <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
+                        <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
                     </div>
 
@@ -293,7 +293,7 @@
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Preview Invoice</h4>
+                        <h5 class="modal-title">Preview Invoice</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
