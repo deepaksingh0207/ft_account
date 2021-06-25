@@ -313,8 +313,8 @@ function fillitems(list) {
     $("#igstval").text(humanamount(orderlist.order.igst));
     $("#totalval").text(humanamount(orderlist.order.ordertotal));
     $("#order_list_layout").show();
-    $("#id_order_total").val(orderlist.order.sub_total);
-    $("#id_sub_total").val(orderlist.order.sub_total);
+    $("#id_order_total_edit").val(orderlist.order.sub_total);
+    $("#id_sub_total_edit").val(orderlist.order.sub_total);
     // $("#id_ordertotal").val(orderlist.order.ordertotal);
   }
 }
@@ -354,7 +354,6 @@ function filledititems(list) {
 
     });
     $("#ordertotal_edit").text(humanamount(orderlist.order.sub_total));
-    $("#id_sub_total_edit").val(orderlist.order.sub_total);
     $("#id_sub_total_edit").val(orderlist.order.sub_total);
     if (gstdict.state == "same") {
       $("#ordersgstdiv_edit").show();
