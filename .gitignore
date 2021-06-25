@@ -2,3 +2,4 @@ new_config.php
 views/customers/create.php.old
 *.pdf
 *.sql
+*.xlsx
