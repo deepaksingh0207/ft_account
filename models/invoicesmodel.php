@@ -69,7 +69,7 @@ class InvoicesModel extends Model {
         $this->_setSql($sql);
         $user = $this->getrow();
         
-        return $user;
+        return $user['id'];
     }
     
     
