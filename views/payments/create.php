@@ -103,10 +103,10 @@
                                   <input type="text" class="form-control" name="cheque" id="id_cheque">
                                 </td>
                                 <td class="form-group">
-                                  <input type="number" class="form-control" name="received_amt" id="id_received_amt">
+                                  <input type="number" class="form-control" name="received_amt" min="1" id="id_received_amt">
                                 </td>
                                 <!-- <td class="form-group">
-                                  <input type="number" class="form-control" name="allocated_amt" id="id_allocated_amt">
+                                  <input type="number" class="form-control" name="allocated_amt" min="1" id="id_allocated_amt">
                                 </td> -->
                               </tbody>
                             </table>

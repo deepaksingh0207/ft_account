@@ -16,7 +16,7 @@ $(function () {
   });
   $("#id_quickForm").validate({
     rules: {
-      invoice_no: {
+      invoice_id: {
         required: true,
       },
       payment_date: {
@@ -33,7 +33,7 @@ $(function () {
       },
     },
     messages: {
-      invoice_no: {
+      invoice_id: {
         required: "Please select a invoice number.",
       },
       payment_date: {
