@@ -47,3 +47,7 @@
 .max150 {
   max-width: 150px;
 }
+
+.www {
+  min-width: 220px;
+}
