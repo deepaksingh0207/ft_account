@@ -89,7 +89,7 @@
   <script src="<?php echo ROOT; ?>assets/js/invoiceindex.js"></script>
 <?php endif; ?>
 
-<?php if ($controller == 'payment' && ($action == 'index')) : ?>
+<?php if ($controller == 'payments' && ($action == 'index')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -97,7 +97,7 @@
   <script src="<?php echo ROOT; ?>assets/js/paymentindex.js"></script>
 <?php endif; ?>
 
-<?php if ($controller == 'payment' && ($action == 'create')) : ?>
+<?php if ($controller == 'payments' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_payment.js?<?php echo time(); ?>"></script>

@@ -55,7 +55,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?php echo ROOT; ?>payment" class="nav-link" id="menu_payment">
+          <a href="<?php echo ROOT; ?>payments" class="nav-link" id="menu_payment">
             <i class="far fa-handshake"></i>
             <p>
               Payment

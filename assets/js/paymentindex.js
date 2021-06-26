@@ -10,25 +10,10 @@ $(function () {
       autoWidth: false,
       paging: true,
       ordering: false,
-      searching: true,
+      searching: false,
     });
-  $("#example1_wrapper").children("div:first-child").attr("id", "yoyo");
-  $("#yoyo")
-    .children("div:first-child")
-    .append(
-      '<a href="'+currenturl+'/create" class="btn btn-primary btn-sm mb-2">Add New Payment</a>'
-    );
 });
 $(".sublist").click(function () {
   var parent_id = $(this).parent("tr").attr("data-href");
   window.location = parent_id;
-});
-$(".statement").click(function () {
-  var parent_id = $(this).parent("td").attr("data-href");
-  window.location = parent_id;
-});
-$(".trash").click(function () {
-  var a = $(this).attr("id");
-  $("#trashid").val(a);
-  $("#modelactivate").click();
 });
