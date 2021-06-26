@@ -11,6 +11,9 @@ class PaymentsController extends Controller
         
         try {
             
+            $payments = $this->_model->list();
+            $this->_view->set('payments', $payments);
+            
             return $this->_view->output();
             
         } catch (Exception $e) {
@@ -33,7 +36,15 @@ class PaymentsController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                //echo '<pre>'; print_r($data); exit;
+                echo '<pre>'; print_r($data); exit;
+                
+                $paymentId = $this->_model->save($data);
+                if($paymentId) {
+                    $_SESSION['message'] = 'Payment added successfully';
+                    header("location:". ROOT. "payments");
+                } else {
+                    $_SESSION['error'] = 'Fail to add payment';
+                }
 
                 
             }

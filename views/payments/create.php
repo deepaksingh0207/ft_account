@@ -100,7 +100,7 @@
                                   <input type="date" class="form-control" name="payment_date" id="id_payment_date">
                                 </td>
                                 <td class="form-group">
-                                  <input type="text" class="form-control" name="cheque" id="id_cheque">
+                                  <input type="text" class="form-control" name="cheque_utr_no" id="id_cheque">
                                 </td>
                                 <td class="form-group">
                                   <input type="number" class="form-control" name="received_amt" min="1" id="id_received_amt">
