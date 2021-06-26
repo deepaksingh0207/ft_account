@@ -35,11 +35,11 @@
                                   </label>
                                 </div>
                                 <div class="col-sm-12 col-lg-3 form-group">
-                                  <select class="form-control" name="invoice_no" id="id_invoice_no">
+                                  <select class="form-control" name="invoice_id" id="id_invoice_no">
                                     <option value=""></option>
-                                    <?php foreach ($groups as $group) : ?>
-                                    <option value="<?php echo $group['id'] ?>">
-                                      <?php echo $group['name'] ?>
+                                    <?php foreach ($invoices as $invoice) : ?>
+                                    <option value="<?php echo $invoice['id'] ?>">
+                                      <?php echo $invoice['id'] ?>
                                     </option>
                                     <?php endforeach; ?>
                                   </select>

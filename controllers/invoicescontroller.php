@@ -67,6 +67,7 @@ class InvoicesController extends Controller
                 $invoiceeData['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
                 
                 $invoiceeData['remarks'] = $data['remarks'];
+                $invoiceeData['due_date'] = $data['due_date'];
                 
                 
                 if(isset($data['item'])) {
@@ -467,6 +468,12 @@ class InvoicesController extends Controller
             
             echo $messageBody;
         }
+        
+    }
+    
+    public function getDetails($invoiceId) {
+        $invoice = $this->_model->get($invoiceId);
+        echo json_encode($invoice);
         
     }
     
