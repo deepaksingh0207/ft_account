@@ -4,7 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var ptlist = []
-tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd)+1);
+tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd) + 1);
 var receiveableamt = allocateamt = 0;
 
 $(function () {
@@ -103,7 +103,19 @@ function humanamount(val) {
 }
 
 function resetform() {
-
+  $("#table_two").hide();
+  $("#receivable_amt_div").hide();
+  $("#table_one").hide();
+  basicvalue();
+  gstamount();
+  invoiceamount();
+  tdspercent();
+  tdsdeduction();
+  receivableamt();
+  cheque();
+  receivedamt();
+  allocatedamt();
+  balanceamount();
 }
 
 $(document).on("change", "#id_tds_percent", function () {
@@ -121,63 +133,59 @@ $(document).on("change", "#id_allocated_amt", function () {
   func_balanceamount();
 });
 
-function func_balanceamount(){
-  balanceamount(receiveableamt - allocateamt);  
+function func_balanceamount() {
+  balanceamount(receiveableamt - allocateamt);
 }
 
-function basicvalue(newval) {
+function basicvalue(newval = 0) {
   $("#id_basic_value").val(parseFloat(newval));
   $("#id_basicvalue").text(humanamount(newval));
 }
 
-function gstamount(newval) {
+function gstamount(newval = 0) {
   $("#id_gst_amount").val(parseFloat(newval));
   $("#id_gstamount").text(humanamount(newval));
 }
 
-function invoiceamount(newval) {
+function invoiceamount(newval = 0) {
   $("#id_invoice_amount").val(parseFloat(newval));
   $("#id_invoiceamount").text(humanamount(newval));
 }
 
-function tdspercent(newval) {
+function tdspercent(newval = 0) {
   $("#id_tds_percent").val(parseFloat(newval));
-  $("#id_tdspercent").text(humanamount(newval));
 }
 
-function tdsdeduction(newval) {
+function tdsdeduction(newval = 0) {
   $("#id_tds_deducted").val(parseFloat(newval));
   $("#id_tdsdeducted").text(humanamount(newval));
 }
 
-function receivableamt(newval) {
-  $("#id_allocated_amt").attr("max",newval);
+function receivableamt(newval = 0) {
+  $("#id_allocated_amt").attr("max", newval);
   receiveableamt = parseFloat(newval);
   $("#id_receivable_amt").val(parseFloat(newval));
   $("#id_receivableamt").text(humanamount(newval));
 }
 
-function paymentdate(newval) {
+function paymentdate(newval = tomorrow) {
   $("#id_payment_date").val(parseFloat(newval));
   $("#id_paymentdate").text(humanamount(newval));
 }
 
-function cheque(newval) {
-  $("#id_cheque").val(parseFloat(newval));
-  $("#id_chequeno").text(humanamount(newval));
+function cheque(newval = "") {
+  $("#id_cheque").val(newval);
 }
 
-function receivedamt(newval) {
-  $("#id_cheque").val(parseFloat(newval));
-  $("#id_chequeno").text(humanamount(newval));
+function receivedamt(newval = 0) {
+  $("#id_received_amt").val(parseFloat(newval));
 }
 
-function allocatedamt(newval) {
-  $("#id_allocatedamt").val(parseFloat(newval));
-  $("#id_allocated_amt").text(humanamount(newval));
+function allocatedamt(newval = 0) {
+  $("#id_allocated_amt").val(parseFloat(newval));
 }
 
-function balanceamount(newval) {
+function balanceamount(newval = 0) {
   $("#id_balance_amt").val(parseFloat(newval));
   $("#id_balanceamount").text(humanamount(newval));
 }

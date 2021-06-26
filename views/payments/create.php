@@ -69,7 +69,6 @@
                                   94400
                                 </td>
                                 <td class="max150 py-1">
-                                  <span id="id_tdspercent"></span>
                                   <input type="number" class="form-control" name="tds_percent" min="0"
                                     id="id_tds_percent" style="width: 75px;">
                                 </td>
@@ -98,19 +97,15 @@
                               </thead>
                               <tbody>
                                 <td class="form-group">
-                                  <span id="id_paymentdate"></span>
                                   <input type="date" class="form-control" name="payment_date" id="id_payment_date">
                                 </td>
                                 <td class="form-group">
-                                  <span id="id_chequeno"></span>
                                   <input type="text" class="form-control" name="cheque" id="id_cheque">
                                 </td>
                                 <td class="form-group">
-                                  <span id="id_receivedamt"></span>
                                   <input type="number" class="form-control" name="received_amt" id="id_received_amt">
                                 </td>
                                 <td class="form-group">
-                                  <span id="id_allocatedamt"></span>
                                   <input type="number" class="form-control" name="allocated_amt" id="id_allocated_amt">
                                 </td>
                               </tbody>

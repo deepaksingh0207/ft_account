@@ -17,7 +17,7 @@ $(document).ready(function () {
   if (menu == 'group'){
     $("#menu_group").addClass("active"); 
   }
-  if (menu == 'payment'){
+  if (menu == 'payments'){
     $("#menu_payment").addClass("active"); 
   }
 });
