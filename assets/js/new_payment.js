@@ -124,7 +124,7 @@ $(document).on("change", "#id_tds_percent", function () {
   invoiceamt = parseFloat($("#id_invoice_amount").val());
   less_TDS = tds_percent * base_val
   tdsdeduction(less_TDS);
-  receivableamt(invoiceamt + less_TDS);
+  receivableamt(invoiceamt - less_TDS);
   func_balanceamount();
 });
 

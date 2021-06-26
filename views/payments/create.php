@@ -93,7 +93,7 @@
                                 <th>Payment Date </th>
                                 <th>Cheque/UTR no.</th>
                                 <th>Received Amt</th>
-                                <th>Allocated Amt</th>
+                                <!-- <th>Allocated Amt</th> -->
                               </thead>
                               <tbody>
                                 <td class="form-group">
@@ -105,9 +105,9 @@
                                 <td class="form-group">
                                   <input type="number" class="form-control" name="received_amt" id="id_received_amt">
                                 </td>
-                                <td class="form-group">
+                                <!-- <td class="form-group">
                                   <input type="number" class="form-control" name="allocated_amt" id="id_allocated_amt">
-                                </td>
+                                </td> -->
                               </tbody>
                             </table>
                           </div>
