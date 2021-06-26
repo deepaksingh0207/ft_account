@@ -83,8 +83,8 @@ $(document).on("change", "#id_invoice_no", function () {
         $("#table_one").show();
         basicvalue(data.sub_total);
         gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst));
-        invoiceamount(data.order_total);
-        receivableamt(data.order_total);
+        invoiceamount(data.invoice_total);
+        receivableamt(data.invoice_total);
         func_balanceamount();
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -172,6 +172,7 @@ function receivableamt(newval = 0) {
   receiveableamt = parseFloat(newval);
   $("#id_receivable_amt").val(parseFloat(newval));
   $("#id_receivableamt").text(humanamount(newval));
+  $("#id_received_amt").attr("max", newval);
 }
 
 function paymentdate(newval = tomorrow) {
