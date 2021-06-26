@@ -5,7 +5,7 @@ class PaymentsModel extends Model {
     
     public function list() {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "select invoices.*, customers.name customer_name from invoices join customers on (invoices.customer_id = customers.id) where 1=1 order by updated_date desc";
+        $sql = "select * from payments";
         $this->_setSql($sql);
         $user = $this->getAll();
         
@@ -33,7 +33,7 @@ class PaymentsModel extends Model {
         
         $fields = array_keys($updateRecord);
         
-        $sql = "update orders set ";
+        $sql = "update payments set ";
         
         foreach ($fields as $field) {
             $sql .= " $field = ?,";
@@ -60,7 +60,7 @@ class PaymentsModel extends Model {
         $question_marks[] = '('  . $this->placeholders('?', sizeof($data)) . ')';
         $insert_values = array_merge($insert_values, array_values($data));
         
-        $sql = "INSERT INTO invoices (" . implode(",", $datafields ) . ") VALUES " .
+        $sql = "INSERT INTO payments (" . implode(",", $datafields ) . ") VALUES " .
             implode(',', $question_marks);
             
             
@@ -73,7 +73,7 @@ class PaymentsModel extends Model {
     }
     
     public function getLastId() {
-        $sql = "select id from invoices order by id desc limit 1";
+        $sql = "select id from payments order by id desc limit 1";
         $this->_setSql($sql);
         $user = $this->getrow();
         

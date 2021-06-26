@@ -56,35 +56,40 @@
                       <table id="example1" class="table table-striped">
                         <thead class="text-center">
                           <tr>
-                            <th></th>
-                            <th>#</th>
+                            <th>Invoice No.</th>
                             <th>Basic Value</th>
                             <th>GST</th>
                             <th>Invoice Amt</th>
                             <th>TDS %</th>
-                            <th>Net Amt</th>
-                            <th>Payment Amt</th>
-                            <th>Cheque</th>
+                            <th>Less TDS</th>
+                            <th>Net Receivable Amt</th>
+                            <th>Cheque/UTR</th>
                             <th>Received Amt</th>
-                            <th>Allocated Amt</th>
                             <th>Balance Amt</th>
+                            <th>Payment Date</th>
                           </tr>
                         </thead>
                         <tbody class="text-center">
+                        <?php if(count($payments)) :
+                        foreach($payments as $payment) :
+                        ?>
                           <tr data-href="">
-                            <td></td>
-                            <td class="sublist">1</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">10</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">02/02/2020</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">5000</td>
-                            <td class="sublist">5000</td>
+                            <td class="sublist"><?php echo $payment['invoice_id']?></td>
+                            <td class="sublist"><?php echo $payment['basic_value']?></td>
+                            <td class="sublist"><?php echo $payment['gst_amount']?></td>
+                            <td class="sublist"><?php echo $payment['invoice_amount']?></td>
+                            <td class="sublist"><?php echo $payment['tds_percent']?></td>
+                            <td class="sublist"><?php echo $payment['tds_deducted']?></td>
+                            <td class="sublist"><?php echo $payment['receivable_amt']?></td>
+                            <td class="sublist"><?php echo $payment['cheque_utr_no']?></td>
+                            <td class="sublist"><?php echo $payment['received_amt']?></td>
+                            <td class="sublist"><?php echo $payment['balance_amt']?></td>
+                            <td class="sublist"><?php echo date('d, M Y', strtotime($payment['payment_date']))?></td>
                           </tr>
+                          
+                          <?php endforeach;
+                            endif;
+                        ?>
                         </tbody>
                       </table>
                     </div>
