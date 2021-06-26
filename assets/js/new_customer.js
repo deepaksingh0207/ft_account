@@ -1,7 +1,7 @@
 var baseUrl = window.location.origin + '/ft_account/';
 
 $(function () {
-	$('.select2').select2()
+	$('.select2').select2();
 	$.validator.setDefaults({
 		submitHandler: function () {
 			$("#responsemodal").click();

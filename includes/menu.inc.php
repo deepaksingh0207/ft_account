@@ -55,8 +55,16 @@
           </a>
         </li>
         <li class="nav-item">
-        <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
-          <i class="fas fa-power-off"></i>
+          <a href="<?php echo ROOT; ?>payments" class="nav-link" id="menu_payment">
+            <i class="far fa-handshake"></i>
+            <p>
+              Payment
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
+            <i class="fas fa-power-off"></i>
             <p>
               Logout
             </p>

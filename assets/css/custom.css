@@ -39,3 +39,11 @@
 .min150 {
   min-width: 150px;
 }
+
+.max100 {
+  max-width: 100px;
+}
+
+.max150 {
+  max-width: 150px;
+}
