@@ -130,11 +130,16 @@ $(document).on("change", "#id_tds_percent", function () {
 
 $(document).on("change", "#id_allocated_amt", function () {
   allocateamt = parseFloat($("#id_allocated_amt").val());
-  func_balanceamount();
+  func_balanceamount(allocateamt);
 });
 
-function func_balanceamount() {
-  balanceamount(receiveableamt - allocateamt);
+$(document).on("change", "#id_received_amt", function () {
+  receivedamt = parseFloat($("#id_received_amt").val());
+  func_balanceamount(receivedamt);
+});
+
+function func_balanceamount(val) {
+  balanceamount(receiveableamt - val);
 }
 
 function basicvalue(newval = 0) {
