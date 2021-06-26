@@ -5,7 +5,7 @@ var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var ptlist = []
 tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd) + 1);
-var receiveableamt = allocateamt = 0;
+var receiveableamt = allocateamt = balanceamt = 0;
 
 $(function () {
   $('.select2').select2();
@@ -130,16 +130,17 @@ $(document).on("change", "#id_tds_percent", function () {
 
 $(document).on("change", "#id_allocated_amt", function () {
   allocateamt = parseFloat($("#id_allocated_amt").val());
-  func_balanceamount(allocateamt);
+  func_balanceamount();
 });
 
 $(document).on("change", "#id_received_amt", function () {
   receivedamt = parseFloat($("#id_received_amt").val());
-  func_balanceamount(receivedamt);
+  func_balanceamount();
 });
 
-function func_balanceamount(val) {
-  balanceamount(receiveableamt - val);
+function func_balanceamount() {
+  balanceamt = receiveableamt - receivedamt - allocateamt
+  balanceamount(balanceamt);
 }
 
 function basicvalue(newval = 0) {
@@ -183,10 +184,12 @@ function cheque(newval = "") {
 }
 
 function receivedamt(newval = 0) {
+  receivedamt = newval
   $("#id_received_amt").val(parseFloat(newval));
 }
 
 function allocatedamt(newval = 0) {
+  allocateamt = newval
   $("#id_allocated_amt").val(parseFloat(newval));
 }
 
