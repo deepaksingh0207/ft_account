@@ -16,7 +16,7 @@ $(function () {
   $("#yoyo")
     .children("div:first-child")
     .append(
-      '<a href="'+currenturl+'/create" class="btn btn-primary btn-sm mb-2">Add New Customer</a>'
+      '<a href="'+currenturl+'/create" class="btn btn-primary btn-flat mb-2">Add New Customer</a>'
     );
 });
 $(".sublist").click(function () {

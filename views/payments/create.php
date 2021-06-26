@@ -17,7 +17,7 @@
                       <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                         Submit
                       </button>
-                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                      <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
@@ -45,7 +45,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="card-body" id="table_one" style="display: none;">
+                          <div class="card-body table-responsive" id="table_one" style="display: none;">
                             <table class="table mb-0">
                               <thead>
                                 <th>Basic Value</th>
@@ -87,7 +87,7 @@
                           </div>
                         </div>
                         <div class="card" id="table_two" style="display: none;">
-                          <div class="card-body">
+                          <div class="card-body table-responsive">
                             <table class="table mb-0">
                               <thead>
                                 <th>Payment Date </th>
@@ -126,7 +126,7 @@
                     <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                       Submit
                     </button>
-                    <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                    <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
                       Back
                     </a>
                   </div>
