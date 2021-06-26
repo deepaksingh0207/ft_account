@@ -9,219 +9,112 @@
               <div class="card card-default">
                 <div class="card-header">
                   <h3 class="card-title" style="line-height: 2.2">
-                    Invoice Details
+                    View Payment Details
                   </h3>
                   <div class="text-right">
-                    <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
-										</a> -->
-                    <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                    <!-- <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
+                        Edit
+                      </button> -->
+                    <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
                       Back
                     </a>
                   </div>
                 </div>
-                <div class="card-body">
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> <b>Invoice No :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['id'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> <b>Customer :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['name'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> <b>Order Number:</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['po_no'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> <b>Date :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group" style="text-align: justify">
-                      <?php echo $invoice['invoice_date'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> <b>Contact Person:</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['sales_person'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>Bill To :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['address'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>Ship To :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $shipToAddress ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_pphone"> <b>Comments :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $invoice['remarks'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_pphone"> <b>Order Type :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $invoice['remarks'] ?>
-                    </div>
-                  </div>
-
+                <div class="card-body p-3">
                   <div class="row mx-1">
                     <div class="col-12">
                       <div class="card">
-                        <div class="card-header">
-                          <b>Order Details</b>
-                        </div>
-                        <div class="table-responsive card-body p-3">
-                          <table class="table">
+                        <div class="card-body" id="table_one">
+                          <table class="table mb-0">
                             <thead>
-                              <tr>
-                                <th class="min100">Item</th>
-                                <th class="min100">Description</th>
-                                <th class="min100">Qty</th>
-                                <th class="min100">Unit of Measure</th>
-                                <th class="min100">Unit Price</th>
-                                <th class="min100">Order Total</th>
-                              </tr>
+                              <th>Invoice Number</th>
+                              <th>Basic Value</th>
+                              <th>GST Amount</th>
+                              <th>Total Invoice Amount</th>
+                              <th>TDS %</th>
+                              <th>Less TDS</th>
                             </thead>
-                            <tbody id="invoicelist">
+                            <tbody>
                               <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-header">
-                          <b>Past Invoice Details</b>
+                        <div class="card-footer" id="receivable_amt_div">
+                          <div class="text-right">
+                            <b>Net Receivable Amount : </b>
+                            <span id="id_receivableamt">₹2,55,000.00</span>
+                          </div>
                         </div>
-                        <div class="table-responsive card-body p-3">
-                          <table class="table">
+                      </div>
+                      <div class="card" id="table_two">
+                        <div class="card-body">
+                          <table class="table mb-0">
                             <thead>
-                              <tr>
-                                <th class="min100">Item</th>
-                                <th class="min100">Description</th>
-                                <th class="min100">Qty</th>
-                                <th class="min100">Unit of Measure</th>
-                                <th class="min100">Unit Price</th>
-                                <th class="min100">Order Total</th>
-                              </tr>
+                              <th>Payment Date </th>
+                              <th>Cheque/UTR no.</th>
+                              <th>Received Amt</th>
+                              <th>Allocated Amt</th>
                             </thead>
-                            <tbody id="invoicelist">
-                              <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                              </tr>
+                            <tbody>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
                             </tbody>
                           </table>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-header">
-                          <b>Payment Terms</b>
-                        </div>
-                        <div class="table-responsive card-body p-3">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th class="min100">Item</th>
-                                <th class="min100">Description</th>
-                                <th class="min100">Qty</th>
-                                <th class="min100">Unit of Measure</th>
-                                <th class="min100">Unit Price</th>
-                                <th class="min100">Order Total</th>
-                              </tr>
-                            </thead>
-                            <tbody id="invoicelist">
-                              <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                        <div class="card-footer">
+                          <div class="text-right">
+                            <input type="hidden" class="form-control" name="balance_amt" id="id_balance_amt">
+                            <b>Balance Amount : </b>
+                            <span id="id_balanceamount"></span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
                 </div>
                 <div class="card-footer text-right">
-                  <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
-									</a> -->
-                  <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                  <!-- <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
+                    Edit
+                  </button> -->
+                  <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
                     Back
                   </a>
+                </div>
+              </div>
+
+              <button type="button" id="responsemodal" class="btn btn-default" data-toggle="modal"
+                data-target="#modal-sm" style="display: none"></button>
+
+              <div class="modal fade" id="modal-sm">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Add New Payment</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Are you confirm to add new payment?</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                      <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                        Close
+                      </button>
+                      <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">
+                        Add
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
