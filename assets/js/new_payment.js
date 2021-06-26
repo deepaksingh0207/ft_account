@@ -1,9 +1,17 @@
 var baseUrl = window.location.origin + "/ft_account/";
-var receiveableamt;
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, "0");
+var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+var yyyy = today.getFullYear();
+var ptlist = []
+tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd)+1);
+var receiveableamt = allocateamt = 0;
 
 $(function () {
+  $('.select2').select2();
   $.validator.setDefaults({
     submitHandler: function () {
+      $("#responsemodal").click();
     },
   });
   $("#id_quickForm").validate({
@@ -16,7 +24,6 @@ $(function () {
       },
       cheque: {
         required: true,
-        date: true,
       },
       received_amt: {
         required: true,
@@ -55,25 +62,30 @@ $(function () {
       $(element).removeClass("is-invalid");
     }
   });
-  
+  $("#id_payment_date").val(tomorrow);
+  $("#id_payment_date").attr("min", tomorrow);
 });
 
-$(document).on("change", "#id_invoice", function () {
+$(document).on("change", "#id_invoice_no", function () {
   resetform();
   invoice_id = $(this).val();
   if (invoice_id) {
     $.ajax({
       type: "POST",
-      url: baseUrl + "payment/invoice/" + $(this).val(),
+      url: baseUrl + "invoices/getdetails/" + $(this).val(),
       data: $(this).val(),
       dataType: "json",
       encode: true,
     })
       .done(function (data) {
-        $("#id_basicvalue").text(data);
-        $("#id_gstamount").text(data);
-        $("#id_invoiceamount").text(data);
-        $("#id_receivableamt").text(humanamount(data));
+        $("#table_two").show();
+        $("#receivable_amt_div").show();
+        $("#table_one").show();
+        basicvalue(data.sub_total);
+        gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst));
+        invoiceamount(data.order_total);
+        receivableamt(data.order_total);
+        func_balanceamount();
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this invoice number.");
@@ -90,76 +102,82 @@ function humanamount(val) {
   return val
 }
 
-function resetform(){
+function resetform() {
 
 }
 
 $(document).on("change", "#id_tds_percent", function () {
   tds_percent = parseFloat($(this).val()) / 100;
   base_val = parseFloat($("#id_basic_value").val());
+  invoiceamt = parseFloat($("#id_invoice_amount").val());
   less_TDS = tds_percent * base_val
   tdsdeduction(less_TDS);
-  invoiceamt = parseFloat($("#id_invoice_amount").val());
-  receiveableamt = invoiceamt + less_TDS;
-  receivableamt(humanamount(receiveableamt));
+  receivableamt(invoiceamt + less_TDS);
+  func_balanceamount();
 });
 
-$(document).on("change", "#id_tds_percent", function () {
+$(document).on("change", "#id_allocated_amt", function () {
   allocateamt = parseFloat($("#id_allocated_amt").val());
-  balanceamount(humanamount(allocateamt + receiveableamt));
+  func_balanceamount();
 });
+
+function func_balanceamount(){
+  balanceamount(receiveableamt - allocateamt);  
+}
 
 function basicvalue(newval) {
-  $("#id_basic_value").val(newval);
-  $("#id_basicvalue").text(newval);
+  $("#id_basic_value").val(parseFloat(newval));
+  $("#id_basicvalue").text(humanamount(newval));
 }
 
 function gstamount(newval) {
-  $("#id_gst_amount").val(newval);
-  $("#id_gstamount").text(newval);
+  $("#id_gst_amount").val(parseFloat(newval));
+  $("#id_gstamount").text(humanamount(newval));
 }
 
 function invoiceamount(newval) {
-  $("#id_invoice_amount").val(newval);
-  $("#id_invoiceamount").text(newval);
+  $("#id_invoice_amount").val(parseFloat(newval));
+  $("#id_invoiceamount").text(humanamount(newval));
 }
 
 function tdspercent(newval) {
-  $("#id_tds_percent").val(newval);
-  $("#id_tdspercent").text(newval);
+  $("#id_tds_percent").val(parseFloat(newval));
+  $("#id_tdspercent").text(humanamount(newval));
 }
 
 function tdsdeduction(newval) {
-  $("#id_tds_deducted").val(newval);
-  $("#id_tdsdeducted").text(newval);
+  $("#id_tds_deducted").val(parseFloat(newval));
+  $("#id_tdsdeducted").text(humanamount(newval));
 }
 
 function receivableamt(newval) {
-  $("#id_receivable_amt").val(newval);
-  $("#id_receivableamt").text(newval);
+  $("#id_allocated_amt").attr("max",newval);
+  receiveableamt = parseFloat(newval);
+  $("#id_receivable_amt").val(parseFloat(newval));
+  $("#id_receivableamt").text(humanamount(newval));
 }
 
 function paymentdate(newval) {
-  $("#id_payment_date").val(newval);
-  $("#id_paymentdate").text(newval);
+  $("#id_payment_date").val(parseFloat(newval));
+  $("#id_paymentdate").text(humanamount(newval));
 }
 
 function cheque(newval) {
-  $("#id_cheque").val(newval);
-  $("#id_chequeno").text(newval);
+  $("#id_cheque").val(parseFloat(newval));
+  $("#id_chequeno").text(humanamount(newval));
 }
 
 function receivedamt(newval) {
-  $("#id_cheque").val(newval);
-  $("#id_chequeno").text(newval);
+  $("#id_cheque").val(parseFloat(newval));
+  $("#id_chequeno").text(humanamount(newval));
 }
 
 function allocatedamt(newval) {
-  $("#id_allocatedamt").val(newval);
-  $("#id_allocated_amt").text(newval);
+  $("#id_allocatedamt").val(parseFloat(newval));
+  $("#id_allocated_amt").text(humanamount(newval));
 }
 
 function balanceamount(newval) {
-  $("#id_balance_amt").val(newval);
-  $("#id_balanceamount").text(newval);
+  $("#id_balance_amt").val(parseFloat(newval));
+  $("#id_balanceamount").text(humanamount(newval));
 }
