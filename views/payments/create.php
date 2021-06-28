@@ -6,86 +6,55 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
-              <form action="" method="POST" id="id_quickForm" novalidate="novalidate">
-                <div class="card card-default">
-
+              <form action="" method="post" id="quickForm" novalidate="novalidate">
+                <div class="card">
                   <div class="card-header">
-                    <h3 class="card-title" style="line-height: 2.2">
-                      Add New Payments
-                    </h3>
+                    <div class="card-title">Add New Payments</div>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
-                        Submit
+                      <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
+                        Record
                       </button>
-                      <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
+                      <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
                   </div>
-                  <div class="card-body p-3">
-                    <div class="row mx-1">
-                      <div class="col-12">
-                        <div class="card">
-                          <div class="card-header">
-                            <div class="row">
-                              <div class="col-sm-12 col-lg-2 pt-1">
-                                <label for="id_invoice_no">
-                                  Invoice Number :
-                                </label>
-                              </div>
-                              <div class="col-sm-12 col-lg-3 form-group mb-0">
-                                <select class="form-control select2" name="invoice_id" id="id_invoice_no">
-                                  <option value="">&nbsp;</option>'
-                                  <?php foreach ($invoices as $invoice) : ?>
-                                  <option value="<?php echo $invoice['id'] ?>">
-                                    <?php echo $invoice['id'] ?>
-                                  </option>
-                                  <?php endforeach; ?>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="card-body table-responsive" id="table_one" style="display: none;">
-                            <table class="table mb-0">
-                              <thead>
-                                <th>Basic Value</th>
-                                <th>GST Amount</th>
-                                <th>Total Invoice Amount</th>
-                                <th>TDS %</th>
-                                <th>Less TDS</th>
-                              </thead>
-                              <tbody>
-                                <input type="hidden" class="form-control" name="basic_value" id="id_basic_value"
-                                  value="80000">
-                                <td id="id_basicvalue" class="max150">
-                                  80000
-                                </td>
-                                <input type="hidden" class="form-control" name="gst_amount" id="id_gst_amount">
-                                <td id="id_gstamount" class="max150">
-                                  4400
-                                </td>
-                                <input type="hidden" class="form-control" name="invoice_amount" id="id_invoice_amount">
-                                <td id="id_invoiceamount" class="max150">
-                                  94400
-                                </td>
-                                <td class="max150 py-1">
-                                  <input type="number" class="form-control" name="tds_percent" min="0"
-                                    id="id_tds_percent" style="width: 75px;">
-                                </td>
-                                <input type="hidden" class="form-control" name="tds_deducted" id="id_tds_deducted">
-                                <td id="id_tdsdeducted" class="max150">
-                                </td>
-                              </tbody>
-                            </table>
-                          </div>
-                          <div class="card-footer" id="receivable_amt_div" style="display: none;">
-                            <div class="text-right">
-                              <input type="hidden" class="form-control" name="receivable_amt" id="id_receivable_amt">
-                              <b>Net Receivable Amount : </b>
-                              <span id="id_receivableamt">₹2,55,000.00</span>
-                            </div>
-                          </div>
-                        </div>
+
+                  <div class="card-body" id="order" style="display: block">
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_customergroup">
+                          Customer Group :
+                        </label>
+                      </div>
+
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control" name="group_id" id="id_group_id">
+                          <option value=""></option>
+                          <option value="1">JBM</option>
+                          <option value="3">Aarti</option>
+                          <?php foreach ($groups as $group) : ?>
+                          <option value="<?php echo $group['id'] ?>">
+                            <?php echo $group['name'] ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="customerid_id">Customer : </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control" name="customer_id" id="customerid_id">
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12 pt-1">
                         <div class="card" id="table_two" style="display: none;">
                           <div class="card-body table-responsive">
                             <table class="table mb-0">
@@ -93,42 +62,77 @@
                                 <th>Payment Date </th>
                                 <th>Cheque/UTR no.</th>
                                 <th>Received Amt</th>
-                                <!-- <th>Allocated Amt</th> -->
                               </thead>
                               <tbody>
                                 <td class="form-group">
                                   <input type="date" class="form-control www" name="payment_date" id="id_payment_date">
                                 </td>
                                 <td class="form-group">
-                                  <input type="text" class="form-control www" name="cheque_utr_no" id="id_cheque">
+                                  <input type="text" class="form-control www" name="cheque_utr_no" required id="id_cheque">
                                 </td>
                                 <td class="form-group">
-                                  <input type="number" class="form-control www" name="received_amt" min="1" id="id_received_amt">
+                                  <input type="number" class="form-control www" name="received_amt" min="1"
+                                    id="id_received_amt" min="0" value="0">
                                 </td>
-                                <!-- <td class="form-group">
-                                  <input type="number" class="form-control" name="allocated_amt" min="1" id="id_allocated_amt">
-                                </td> -->
                               </tbody>
                             </table>
                           </div>
-                          <div class="card-footer">
+                          <!-- <div class="card-footer">
                             <div class="text-right">
                               <input type="hidden" class="form-control" name="balance_amt" id="id_balance_amt">
                               <b>Balance Amount : </b>
                               <span id="id_balanceamount"></span>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                     </div>
+
+                    <div class="row">
+                      <div class="col-12 pt-1">
+                        <div class="table-responsive" id="table_one" style="display: none;">
+                          <table class="table mb-0">
+                            <thead class="text-center">
+                              <th></th>
+                              <th>Invoice Id</th>
+                              <th>Basic Value</th>
+                              <th>GST Amount</th>
+                              <th>Total Invoice Amount</th>
+                              <th>TDS %</th>
+                              <th>Less TDS</th>
+                              <th>Allocated Amt</th>
+                            </thead>
+                            <tbody id="id_invoicebody">
+                            </tbody>
+                            <tfoot style="background-color: #f7f7f7;">
+                              <tr>
+                                <td>
+                                  <button type="button" id="add_row" class="btn btn-sm btn-info">Add Row</button>
+                                </td>
+                                <td colspan="7" class="text-right align-middle">
+                                  <b id="id_balanceamt" style="display: none;">
+                                    Balance Amount :
+                                  </b>
+                                  <span id="id_balance_amt"></span>
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
-                  <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
-                      Submit
-                    </button>
-                    <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
-                      Back
-                    </a>
+
+                  <div class="card-footer">
+                    <div class="text-right">
+                      <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
+                        Record
+                      </button>
+                      <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                        Back
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -136,33 +140,71 @@
                   data-target="#modal-sm" style="display: none"></button>
 
                 <div class="modal fade" id="modal-sm">
-                  <div class="modal-dialog modal-sm">
+                  <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h4 class="modal-title">Add New Payment</h4>
+                        <h5 class="modal-title">Preview Invoice</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
-                        <p>Are you confirm to add new payment?</p>
+                      <div class="modal-body" id="preview_invoice">
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                           Close
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">
-                          Add
+                        <button type="button" class="btn btn-sm btn-primary generate">
+                          Generate Invoice
                         </button>
+                        <button type="button" id="id_go" style="display:none;" onclick="form.submit()"></button>
                       </div>
                     </div>
                   </div>
                 </div>
+              </form>
+              <input type="hidden" name="paytype_body" id="id_paytype_val" value="1,2,3,4,5" />
+            </div>
+          </div>
+        </div>
 
+        <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
+          data-target="#modal-default"></button>
+        <div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form action="" method="post" class="text-center mb-0">
+                <div class="modal-header">
+                  <div class="modal-title">ORDER DELETE</div>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Please confirm deleting action of this order?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-danger btn-sm killrow">
+                    Delete
+                  </button>
+                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
+                    Cancel
+                  </button>
+                </div>
               </form>
             </div>
           </div>
         </div>
+
       </section>
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <script>
+      var invoicelist = [], newinvoicelist = [];
+      $(function () {
+        <?php foreach ($invoices as $invoice) : ?>
+        invoicelist.push("<?php echo $invoice['id'] ?>");
+        newinvoicelist.push("<?php echo $invoice['id'] ?>");
+        <?php endforeach; ?>
+      });
+    </script>
