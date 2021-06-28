@@ -22,7 +22,7 @@ $(function () {
       payment_date: {
         required: true,
       },
-      cheque: {
+      cheque_utr_no: {
         required: true,
       },
       received_amt: {
@@ -40,8 +40,8 @@ $(function () {
         required: "Enter Payment date.",
         date: "Value must be a date.",
       },
-      cheque: {
-        required: "Enter cheque number.",
+      cheque_utr_no: {
+        required: "Enter cheque/UTR number.",
       },
       received_amt: {
         required: "Enter a received amount",
