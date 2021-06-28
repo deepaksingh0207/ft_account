@@ -24,6 +24,37 @@
                   </div>
                   <div class="card-body p-3">
                     <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_customergroup">
+                          Customer Group :
+                        </label>
+                      </div>
+
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control" name="group_id" id="id_group_id">
+                          <option value=""></option>
+                          <option value="1">JBM</option>
+                          <option value="3">Aarti</option>
+                          <?php foreach ($groups as $group) : ?>
+                          <option value="<?php echo $group['id'] ?>">
+                            <?php echo $group['name'] ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="customerid_id">Customer : </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control" name="customer_id" id="customerid_id">
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
 
                       <div class="col-12">
                         <div class="card" id="table_two" style="display: block;">
