@@ -6,7 +6,7 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
-              <form action="" method="post" id="quickForm" novalidate="novalidate">
+              <form action="" method="post" id="id_quickForm" novalidate="novalidate">
                 <div class="card">
                   <div class="card-header">
                     <div class="card-title">Add New Payments</div>
@@ -68,7 +68,8 @@
                                   <input type="date" class="form-control www" name="payment_date" id="id_payment_date">
                                 </td>
                                 <td class="form-group">
-                                  <input type="text" class="form-control www" name="cheque_utr_no" required id="id_cheque">
+                                  <input type="text" class="form-control www" name="cheque_utr_no" required
+                                    id="id_cheque">
                                 </td>
                                 <td class="form-group">
                                   <input type="number" class="form-control www" name="received_amt" min="1"
@@ -77,13 +78,6 @@
                               </tbody>
                             </table>
                           </div>
-                          <!-- <div class="card-footer">
-                            <div class="text-right">
-                              <input type="hidden" class="form-control" name="balance_amt" id="id_balance_amt">
-                              <b>Balance Amount : </b>
-                              <span id="id_balanceamount"></span>
-                            </div>
-                          </div> -->
                         </div>
                       </div>
                     </div>
@@ -140,24 +134,24 @@
                   data-target="#modal-sm" style="display: none"></button>
 
                 <div class="modal fade" id="modal-sm">
-                  <div class="modal-dialog modal-xl">
+                  <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Preview Invoice</h5>
+                        <h5 class="modal-title">Generate New Payment</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body" id="preview_invoice">
+                        <p>Are you confirm to add new payment.?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
                           Close
                         </button>
-                        <button type="button" class="btn btn-sm btn-primary generate">
+                        <button type="button" class="btn btn-sm btn-primary generate" onclick="form.submit()">
                           Generate Invoice
                         </button>
-                        <button type="button" id="id_go" style="display:none;" onclick="form.submit()"></button>
                       </div>
                     </div>
                   </div>
@@ -199,12 +193,3 @@
       </section>
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
-    <script>
-      var invoicelist = [], newinvoicelist = [];
-      $(function () {
-        <?php foreach ($invoices as $invoice) : ?>
-        invoicelist.push("<?php echo $invoice['id'] ?>");
-        newinvoicelist.push("<?php echo $invoice['id'] ?>");
-        <?php endforeach; ?>
-      });
-    </script>
