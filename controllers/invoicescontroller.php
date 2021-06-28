@@ -477,4 +477,10 @@ class InvoicesController extends Controller
         
     }
     
+    public function getInvoiceIdsByCustomer($custId) {
+        $invoice = $this->_model->getInvoiceIdsByCustomer($custId);
+        echo json_encode($invoice);
+        
+    }
+    
 }

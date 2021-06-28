@@ -28,6 +28,14 @@ class InvoicesModel extends Model {
         return $user;
     }
     
+    public function getInvoiceIdsByCustomer($customerId) {
+        $sql = "select id from invoices where customer_id=$customerId";
+        $this->_setSql($sql);
+        $user = $this->getAll();
+        
+        return $user;
+    }
+    
     
     public function update($id, $updateRecord) {
         
