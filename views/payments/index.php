@@ -56,6 +56,7 @@
                       <table id="example1" class="table table-striped">
                         <thead class="text-center">
                           <tr>
+                            <th></th>
                             <th>Invoice No.</th>
                             <th>Basic Value</th>
                             <th>GST</th>
@@ -70,10 +71,11 @@
                           </tr>
                         </thead>
                         <tbody class="text-center">
-                        <?php if(count($payments)) :
+                          <?php if(count($payments)) :
                         foreach($payments as $payment) :
                         ?>
-                          <tr data-href="">
+                          <tr data-href="payments/view/<?php echo $payment['invoice_id']?>">
+                            <td></td>
                             <td class="sublist"><?php echo $payment['invoice_id']?></td>
                             <td class="sublist"><?php echo $payment['basic_value']?></td>
                             <td class="sublist"><?php echo $payment['gst_amount']?></td>

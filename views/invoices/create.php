@@ -219,7 +219,7 @@
                         </div>
                         <div class="card-footer">
                           <div class="row">
-                            <div class="col-6">
+                            <div class="col-sm-12 col-lg-6">
                               <div class="row">
                                 <div class="col-sm-12 col-lg-2 pt-2">
                                   <label for="id_due_date">Due Date</label>
@@ -228,7 +228,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-sm-12 col-lg-6">
                               <div class="text-right">
                                 <b>Sub Total : </b>
                                 <span id="ordertotal_edit">0.00</span>

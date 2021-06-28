@@ -1,11 +1,13 @@
 var baseUrl = window.location.origin + "/ft_account/";
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+var mm = String(today.getMonth() + 1).padStart(2, "0");
 var yyyy = today.getFullYear();
 var ptlist = []
 tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd) + 1);
-var receiveableamt = allocateamt = balanceamt = 0;
+var receiveableamt = 0, receivedamt = 0, allocateamt = 0, balanceamt = 0
+var customerlist = [], grouplist = [], rowlist = [], allocateamtlist = [], invoicelist = [], newinvoicelist = [];
+
 
 $(function () {
   $('.select2').select2();
@@ -16,16 +18,31 @@ $(function () {
   });
   $("#id_quickForm").validate({
     rules: {
-      invoice_id: {
+      group_id: {
+        required: true,
+      },
+      customer_id: {
         required: true,
       },
       payment_date: {
         required: true,
       },
-      cheque: {
+      cheque_utr_no: {
         required: true,
       },
       received_amt: {
+        required: true,
+      },
+      invoice_no: {
+        required: true,
+      },
+      basic_value: {
+        required: true,
+      },
+      gst_amount: {
+        required: true,
+      },
+      invoice_amount: {
         required: true,
       },
       allocated_amt: {
@@ -33,18 +50,33 @@ $(function () {
       },
     },
     messages: {
-      invoice_id: {
-        required: "Please select a invoice number.",
+      group_id: {
+        required: "Please select cutomer group.",
+      },
+      customer_id: {
+        required: "Please select cutomer.",
       },
       payment_date: {
-        required: "Enter Payment date.",
+        required: "Enter the payment date.",
         date: "Value must be a date.",
       },
-      cheque: {
-        required: "Enter cheque number.",
+      cheque_utr_no: {
+        required: "Enter Cheque/UTR No.",
       },
       received_amt: {
-        required: "Enter a received amount",
+        required: "Enter Received amount.",
+      },
+      invoice_no: {
+        required: "Enter Invoice amount.",
+      },
+      basic_value: {
+        required: "Enter Basic amount.",
+      },
+      gst_amount: {
+        required: "Enter GST amount.",
+      },
+      invoice_amount: {
+        required: "Enter Total Invoice amount.",
       },
       allocated_amt: {
         required: "Enter Allocated amount.",
@@ -63,37 +95,9 @@ $(function () {
     }
   });
   $("#id_payment_date").val(tomorrow);
-  $("#id_payment_date").attr("min", tomorrow);
+  $("#id_payment_date").attr("min", tomorrow)
 });
 
-$(document).on("change", "#id_invoice_no", function () {
-  resetform();
-  invoice_id = $(this).val();
-  if (invoice_id) {
-    $.ajax({
-      type: "POST",
-      url: baseUrl + "invoices/getdetails/" + $(this).val(),
-      data: $(this).val(),
-      dataType: "json",
-      encode: true,
-    })
-      .done(function (data) {
-        $("#table_two").show();
-        $("#receivable_amt_div").show();
-        $("#table_one").show();
-        basicvalue(data.sub_total);
-        gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst));
-        invoiceamount(data.invoice_total);
-        receivableamt(data.invoice_total);
-        func_balanceamount();
-      })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("No details found against this invoice number.");
-      });
-  }
-});
-
-// Amount Representation
 function humanamount(val) {
   var val = new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -102,77 +106,238 @@ function humanamount(val) {
   return val
 }
 
+$(document).on("click", "i.trash", function () {
+  deleteid = $(this).parent().parent().attr("id");
+  $("#modelactivate").click();
+});
+
+$(".killrow").click(function () {
+  $("#" + deleteid).remove();
+  id = deleteid.match(/\d+/);
+  rowlist = jQuery.grep(rowlist, function (b) {
+    return b != id;
+  });
+  updateAllocateAmount();
+  $("#byemodal").click();
+  $("#add_row").show();
+});
+
 function resetform() {
+  $("#table_one").hide();
   $("#table_two").hide();
   $("#receivable_amt_div").hide();
-  $("#table_one").hide();
-  basicvalue();
-  gstamount();
-  invoiceamount();
-  tdspercent();
-  tdsdeduction();
-  receivableamt();
-  cheque();
-  receivedamt();
-  allocatedamt();
-  balanceamount();
+  $("#id_invoicebody").empty();
 }
 
-$(document).on("change", "#id_tds_percent", function () {
-  tds_percent = parseFloat($(this).val()) / 100;
-  base_val = parseFloat($("#id_basic_value").val());
-  invoiceamt = parseFloat($("#id_invoice_amount").val());
-  less_TDS = tds_percent * base_val
-  tdsdeduction(less_TDS);
-  receivableamt(invoiceamt - less_TDS);
-  func_balanceamount();
+function getid(val) {
+  id = val.match(/\d+/);
+  return id;
+}
+
+$(document).on("change", ".inv", function () {
+  invoice_id = $(this).val();
+  id = getid($(this).attr("id"));
+  if (invoice_id) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "invoices/getdetails/" + invoice_id,
+      data: $(this).val(),
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        if (data != false) {
+          $("#table_two").show();
+          $("#receivable_amt_div").show();
+          $("#table_one").show();
+          basicvalue(data.sub_total, parseInt(id));
+          gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst), parseInt(id));
+          invoiceamount(data.invoice_total, parseInt(id));
+          allocatedamt(data.invoice_total, parseInt(id));
+        } else {
+          basicvalue(0, parseInt(id));
+          gstamount(0, parseInt(id));
+          invoiceamount(0, parseInt(id));
+          allocatedamt(0, parseInt(id));
+        }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("No details found against this invoice number.");
+      });
+  }
+  invoiceoption();
 });
 
-$(document).on("change", "#id_allocated_amt", function () {
-  allocateamt = parseFloat($("#id_allocated_amt").val());
-  func_balanceamount();
+function invoiceoption() {
+  $.each(rowlist, function (index, value) {
+    invoiceid = $("#id_invoice_no" + value).val();
+    if (invoiceid == "") {
+      $("#id_invoice_no" + val).append('<option>&nbsp;</option>');
+      $.each(newinvoicelist, function (index, value) {
+        $("#id_invoice_no" + val).append('<option val="' + value + '" class="pt-3">' + value + '</option>');
+      });
+    } else {
+      newinvoicelist = jQuery.grep(rowlist, function (b) {
+        return b != invoiceid;
+      });
+    };
+  });
+
+}
+
+$(document).on("change", "#id_group_id", function () {
+  resetform();
+  $("#customerid_id").val("").empty().attr("disabled", true);
+  groupid = $(this).val();
+  if (groupid) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "customers/groupcustomers/" + $(this).val(),
+      data: $(this).val(),
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        grouplist = data
+        $("#customerid_id").append("<option></option>");
+        $.each(grouplist, function (index, value) {
+          $("#customerid_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+        });
+        $("#customerid_id").removeAttr('disabled');
+
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("No details found against this customer.");
+      });
+  }
 });
+
+$("#customerid_id").change(function () {
+  resetform();
+  customerid = $(this).val();
+  customerchange(customerid);
+  $("#table_two").show();
+  $("#table_one").show();
+  $("#add_row").click();
+
+});
+
+function customerchange(customerid) {
+  if (customerid) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "invoices/getInvoiceIdsByCustomer/" + customerid,
+      data: customerid,
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        $.each(data, function (index, value) {
+          invoicelist.push(value.id);
+          newinvoicelist.push(value.id);
+        });
+        invoiceoption();
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("No details found against this customer.");
+      });
+  }
+}
+
+$(document).on("click", "#add_row", function () {
+  if (rowlist.length < 1) {
+    addrow(1);
+    rowlist[0] = 1;
+  } else {
+    var lastid = rowlist[rowlist.length - 1];
+    lastid++;
+    if (addrow(lastid) == true) {
+      rowlist.push(lastid);
+    }
+  }
+  if (rowlist.length >= invoicelist) {
+    $("#add_row").hide();
+  } else {
+    $("#add_row").show();
+  }
+
+});
+
+function addrow(val) {
+  $("#id_invoicebody").append('<tr id="id_row' + val + '" class="text-center"></tr>');
+  $("#id_row" + val).append('<td class="text-center align-middle" ><i class="fas fa-minus-circle trash" style="color: red"></i></td>');
+  $("#id_row" + val).append('<td id="id_invoiceno' + val + '"></td>');
+  $("#id_invoiceno" + val).append('<select class="form-control inv" name="invoice_no[]" id="id_invoice_no' + val + '"></select>');
+  invoiceoption();
+  $("#id_row" + val).append('<input type="hidden" name="basic_value[]" id="id_basic_value' + val + '">');
+  $("#id_row" + val).append('<td id="id_basicvalue' + val + '" class="pt-3">₹0.00</td>');
+  $("#id_row" + val).append('<input type="hidden" name="gst_amount[]" id="id_gst_amount' + val + '">');
+  $("#id_row" + val).append('<td id="id_gstamount' + val + '" class="pt-3">₹0.00</td>');
+  $("#id_row" + val).append('<input type="hidden" name="invoice_amount[]" id="id_invoice_amount' + val + '">');
+  $("#id_row" + val).append('<td id="id_invoiceamount' + val + '" class="pt-3">₹0.00</td>');
+  $("#id_row" + val).append('<td id="id_tdspercent' + val + '"></td>');
+  $("#id_tdspercent" + val).append('<input type="number" class="form-control max100 up" name="tds_percent[]" min="0" id="id_tds_percent' + val + '">');
+  $("#id_row" + val).append('<input type="hidden" class="form-control max150" name="tds_deducted[]" id="id_tds_deducted' + val + '">');
+  $("#id_row" + val).append('<td id="id_tdsdeducted' + val + '" class="pt-3">₹0.00</td>');
+  $("#id_row" + val).append('<td id="id_allocatedamt' + val + '" class="pt-3">₹0.00</td>');
+  $("#id_row" + val).append('<input type="hidden" class="form-control" name="allocated_amt[]" id="id_allocated_amt' + val + '">');
+  return true
+}
+
+
+function updateAllocateAmount() {
+  allocateamt = 0;
+  $.each(rowlist, function (index, value) {
+    allocateamt += parseFloat($("#id_allocated_amt" + value).val());
+  });
+  func_balanceamount();
+
+}
 
 $(document).on("change", "#id_received_amt", function () {
-  receivedamt = parseFloat($("#id_received_amt").val());
   func_balanceamount();
 });
 
 function func_balanceamount() {
-  balanceamt = receiveableamt - receivedamt - allocateamt
-  balanceamount(balanceamt);
+  receivedamt = parseFloat($("#id_received_amt").val());
+  if (allocateamt > 0.0) {
+    if (receivedamt > 0.0) {
+      balanceamt = allocateamt - receivedamt;
+      balanceamount(balanceamt);
+      $("#id_balanceamt").show();
+    } else {
+      balanceamount(allocateamt);
+      $("#id_balanceamt").show();
+    }
+  } else {
+    balanceamount(0);
+    $("#id_balanceamt").hide();
+  }
+
 }
 
-function basicvalue(newval = 0) {
-  $("#id_basic_value").val(parseFloat(newval));
-  $("#id_basicvalue").text(humanamount(newval));
+function basicvalue(newval = 0, id) {
+  $("#id_basic_value" + id).val(parseFloat(newval));
+  $("#id_basicvalue" + id).text(humanamount(newval));
 }
 
-function gstamount(newval = 0) {
-  $("#id_gst_amount").val(parseFloat(newval));
-  $("#id_gstamount").text(humanamount(newval));
+function gstamount(newval = 0, id) {
+  $("#id_gst_amount" + id).val(parseFloat(newval));
+  $("#id_gstamount" + id).text(humanamount(newval));
 }
 
-function invoiceamount(newval = 0) {
-  $("#id_invoice_amount").val(parseFloat(newval));
-  $("#id_invoiceamount").text(humanamount(newval));
+function invoiceamount(newval = 0, id) {
+  $("#id_invoice_amount" + id).val(parseFloat(newval));
+  $("#id_invoiceamount" + id).text(humanamount(newval));
 }
 
 function tdspercent(newval = 0) {
   $("#id_tds_percent").val(parseFloat(newval));
 }
 
-function tdsdeduction(newval = 0) {
-  $("#id_tds_deducted").val(parseFloat(newval));
-  $("#id_tdsdeducted").text(humanamount(newval));
-}
-
-function receivableamt(newval = 0) {
-  $("#id_allocated_amt").attr("max", newval);
-  receiveableamt = parseFloat(newval);
-  $("#id_receivable_amt").val(parseFloat(newval));
-  $("#id_receivableamt").text(humanamount(newval));
-  $("#id_received_amt").attr("max", newval);
+function tdsdeduction(newval = 0, id) {
+  $("#id_tds_deducted" + id).val(parseFloat(newval));
+  $("#id_tdsdeducted" + id).text(humanamount(newval));
 }
 
 function paymentdate(newval = tomorrow) {
@@ -189,12 +354,26 @@ function receivedamt(newval = 0) {
   $("#id_received_amt").val(parseFloat(newval));
 }
 
-function allocatedamt(newval = 0) {
-  allocateamt = newval
-  $("#id_allocated_amt").val(parseFloat(newval));
+function allocatedamt(newval = 0, id) {
+  $("#id_allocated_amt" + id).attr("max", newval);
+  $("#id_allocated_amt" + id).val(newval);
+  $("#id_allocatedamt" + id).text(humanamount(newval));
+  updateAllocateAmount();
 }
 
 function balanceamount(newval = 0) {
   $("#id_balance_amt").val(parseFloat(newval));
-  $("#id_balanceamount").text(humanamount(newval));
+  $("#id_balanceamount").text();
+  $("#id_balance_amt").text(humanamount(newval));
 }
+
+$(document).on("change", ".up", function () {
+  id = getid($(this).attr("id"));
+  val = parseFloat($(this).val());
+  baseval = parseFloat($("#id_basic_value" + id).val());
+  lesstds = baseval * (val / 100);
+  tdsdeduction(lesstds, id);
+  inval = parseFloat($("#id_invoice_amount" + id).val());
+  allocatedamt(inval - lesstds, id);
+
+});

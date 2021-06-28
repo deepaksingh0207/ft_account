@@ -49,15 +49,14 @@
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">
-                      <br>
-                      <button class="btn btn-sm btn-primary update" type="button">
+                      <button class="btn btn btn-primary update mt-4" type="button">
                         Update
                       </button>
-                      <a href="<?php echo ROOT; ?>orders/create" class="btn btn-sm btn-primary">
+                      <a href="<?php echo ROOT; ?>orders/create" class="btn btn btn-primary mt-4">
                         Add New Order
                       </a>
                     </div>
-                    <div class="col-12">
+                    <div class="col-sm-12 col-lg-12">
                       <table id="example1" class="table table-striped">
                         <thead class="text-center">
                           <tr>
