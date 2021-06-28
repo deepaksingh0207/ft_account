@@ -15,7 +15,7 @@
                     <!-- <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                         Edit
                       </button> -->
-                    <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                    <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
                       Back
                     </a>
                   </div>
@@ -24,7 +24,7 @@
                   <div class="row mx-1">
                     <div class="col-12">
                       <div class="card">
-                        <div class="card-body" id="table_one">
+                        <div class="card-body table-responsive" id="table_one">
                           <table class="table mb-0">
                             <thead>
                               <th>Invoice Number</th>
@@ -54,7 +54,7 @@
                         </div>
                       </div>
                       <div class="card" id="table_two">
-                        <div class="card-body">
+                        <div class="card-body table-responsive">
                           <table class="table mb-0">
                             <thead>
                               <th>Payment Date </th>
@@ -85,36 +85,9 @@
                   <!-- <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                     Edit
                   </button> -->
-                  <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                  <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
                     Back
                   </a>
-                </div>
-              </div>
-
-              <button type="button" id="responsemodal" class="btn btn-default" data-toggle="modal"
-                data-target="#modal-sm" style="display: none"></button>
-
-              <div class="modal fade" id="modal-sm">
-                <div class="modal-dialog modal-sm">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h4 class="modal-title">Add New Payment</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <p>Are you confirm to add new payment?</p>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                        Close
-                      </button>
-                      <button type="button" class="btn btn-sm btn-primary" onclick="form.submit()">
-                        Add
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

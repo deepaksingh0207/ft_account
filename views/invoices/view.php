@@ -215,6 +215,44 @@
                     </div>
                   </div>
 
+                  <div class="row mx-1">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <b>Payment Details</b>
+                        </div>
+                        <div class="table-responsive card-body p-3">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th class="min100">TDS %</th>
+                                <th class="min100">Less TDS</th>
+                                <th class="min100">Net Receivable Amt</th>
+                                <th class="min100">Payment Date</th>
+                                <th class="min100">Cheque/UTR no.</th>
+                                <th class="min100">Received Amt</th>
+                                <th class="min100">Allocated Amt</th>
+                                <th class="min100">Balance Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody id="invoicelist">
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
                 <div class="card-footer text-right">
                   <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit

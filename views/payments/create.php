@@ -17,7 +17,7 @@
                       <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                         Submit
                       </button>
-                      <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                      <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
@@ -33,7 +33,7 @@
                                   Invoice Number :
                                 </label>
                               </div>
-                              <div class="col-sm-12 col-lg-3 form-group">
+                              <div class="col-sm-12 col-lg-3 form-group mb-0">
                                 <select class="form-control select2" name="invoice_id" id="id_invoice_no">
                                   <option value="">&nbsp;</option>'
                                   <?php foreach ($invoices as $invoice) : ?>
@@ -45,7 +45,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="card-body" id="table_one" style="display: none;">
+                          <div class="card-body table-responsive" id="table_one" style="display: none;">
                             <table class="table mb-0">
                               <thead>
                                 <th>Basic Value</th>
@@ -87,7 +87,7 @@
                           </div>
                         </div>
                         <div class="card" id="table_two" style="display: none;">
-                          <div class="card-body">
+                          <div class="card-body table-responsive">
                             <table class="table mb-0">
                               <thead>
                                 <th>Payment Date </th>
@@ -97,13 +97,13 @@
                               </thead>
                               <tbody>
                                 <td class="form-group">
-                                  <input type="date" class="form-control" name="payment_date" id="id_payment_date">
+                                  <input type="date" class="form-control www" name="payment_date" id="id_payment_date">
                                 </td>
                                 <td class="form-group">
-                                  <input type="text" class="form-control" name="cheque_utr_no" id="id_cheque">
+                                  <input type="text" class="form-control www" name="cheque_utr_no" id="id_cheque">
                                 </td>
                                 <td class="form-group">
-                                  <input type="number" class="form-control" name="received_amt" min="1" id="id_received_amt">
+                                  <input type="number" class="form-control www" name="received_amt" min="1" id="id_received_amt">
                                 </td>
                                 <!-- <td class="form-group">
                                   <input type="number" class="form-control" name="allocated_amt" min="1" id="id_allocated_amt">
@@ -126,7 +126,7 @@
                     <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
                       Submit
                     </button>
-                    <a href="<?php echo ROOT; ?>customers" class="btn btn-default btn-sm">
+                    <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
                       Back
                     </a>
                   </div>
