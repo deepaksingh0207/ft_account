@@ -142,7 +142,6 @@ $("#customerid_id").change(function () {
         });
         $("#table_one").show();
         $("#allocated_amt_div1").show();
-        $(".addy").parent().show();
         $(".add_row").click();
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -228,27 +227,30 @@ $(document).on("click", ".trash", function () {
   if (rowlist.length < 1) {
     $(".add_row").click();
   }
+  $(".addy").parent().show();
   console.log(rowlist);
 });
 
 $(document).on("click", ".add_row", function () {
-  if (rowlist.length < 1) {
-    addrow(1);
-    rowlist[0] = 1;
+  if (rowlist.length >= invoicelist.length) {
+    $(".addy").parent().hide();
   } else {
-    var lastid = rowlist[rowlist.length - 1];
-    lastid++;
-    if (addrow(lastid) == true) {
-      rowlist.push(lastid);
+    if (rowlist.length < 1) {
+      addrow(1);
+      rowlist[0] = 1;
+    } else {
+      var lastid = rowlist[rowlist.length - 1];
+      lastid++;
+      if (addrow(lastid) == true) {
+        rowlist.push(lastid);
+      }
+    }
+    if (invoicelist.length > 1 ){
+      $(".addy").parent().show();
     }
   }
   syn();
   console.log(rowlist);
-  // if (rowlist.length >= invoicelist) {
-  //   $(".addy").hide();
-  // } else {
-  //   $(".addy").show();
-  // }
 });
 
 function addrow(val) {
