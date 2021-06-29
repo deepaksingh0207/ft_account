@@ -27,6 +27,14 @@ class PaymentsController extends Controller
         try {
             $this->_view->set('title', 'Add Payment');
             
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
+            
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            
             $invoiceTbl = new InvoicesModel();
             $invoices = $invoiceTbl->getInvoiceIds();
             $this->_view->set('invoices', $invoices);

@@ -4,7 +4,7 @@
     <div class="content-wrapper">
       <section class="content">
         <div class="container-fluid pb-5">
-          <div class="row my-3">
+          <div class="row my-3"> 
             <div class="col-12">
               <form action="" method="post" id="id_quickForm" novalidate="novalidate">
                 <div class="card">
@@ -32,8 +32,6 @@
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
-                          <option value="1">JBM</option>
-                          <option value="3">Aarti</option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
                             <?php echo $group['name'] ?>
