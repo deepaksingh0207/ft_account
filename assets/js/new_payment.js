@@ -115,7 +115,7 @@ $(function () {
   $("#id_payment_date").attr("max", today)
 });
 
-$(document).on("change", ".rev", function () {
+$(document).on("keyup", ".rev", function () {
   a = $(this).val();
   receivedamt(a);
 });
@@ -224,7 +224,7 @@ function resetform() {
   $("#1").hide();
 }
 
-$(document).on("change", ".tds_percent", function () {
+$(document).on("keyup", ".tds_percent", function () {
   tds_percent_val = parseFloat($(this).val()) / 100;
   id = $(this).attr("data-row");
   base_val = parseFloat($("#id_basic_value" + id).val());
@@ -236,7 +236,7 @@ $(document).on("change", ".tds_percent", function () {
   balanceamt(invoiceamt - less_TDS - allocatedamt, id);
 });
 
-$(document).on("change", ".allocated_amt", function () {
+$(document).on("keyup", ".allocated_amt", function () {
   id = $(this).attr("data-row");
   rec_val = parseFloat($("#id_receivable_amt" + id).val());
   altamt = parseFloat($("#id_allocated_amt" + id).val());
@@ -280,7 +280,7 @@ $(document).on("click", ".add_row", function () {
 });
 
 function addrow(val) {
-  $("#new").append('<div class="card" id="' + val + '"> <div class="card-header px-1"> <div class="row"> <div class="col-sm-12 col-lg-2 pt-1 text-center"> <label for="id_invoice_no"> Invoice Number : </label> </div> <div class="col-sm-12 col-lg-3 form-group mb-0"> <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no' + val + '" data-row="' + val + '"> <option value=""></option> </select> </div> <div class="col-sm-12 col-lg-7 text-right pt-1"><button type="button" class="btn btn-default mr-3 trash" data-row="' + val + '"><i class="fas fa-times" style="color: crimson;"></i></button> </div> </div> </div> <div class="card-body" id="tablebody' + val + '" style="display: none;"> <table class="table mb-0"> <thead> <th>Basic Value</th> <th>GST Amount</th> <th>Total Invoice Amount</th> <th>TDS %</th> <th>Less TDS</th> <th>Net Receivable Amount </th> </thead> <tbody> <tr> <input type="hidden" data-row="' + val + '" name="basic_value[]" id="id_basic_value' + val + '"> <td id="id_basicvalue' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="gst_amount[]" id="id_gst_amount' + val + '"> <td id="id_gstamount' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="invoice_amount[]" id="id_invoice_amount' + val + '"> <td id="id_invoiceamount' + val + '" class="max150">₹0.00</td> <td class="max150 py-1"> <input type="number" data-row="' + val + '" class="form-control tds_percent" name="tds_percent[]" value="0" min="0" id="id_tds_percent' + val + '"></td> <input type="hidden" data-row="' + val + '" name="tds_deducted[]" value="0" id="id_tds_deducted' + val + '"> <td id="id_tdsdeducted' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="receivable_amt[]" id="id_receivable_amt' + val + '" value="0.0"> <td id="id_receivableamt' + val + '">₹0.00</td> </tr> </tbody> </table> </div> <div class="card-footer" id="tablefoot' + val + '" style="display: none;"> <div class="row"> <div class="col-2 pt-2 text-center"> <b>Allocated Amount : </b> </div> <div class="col-3"> <input type="number" data-row="' + val + '" class="form-control allocated_amt" min="1" name="allocated_amt[]" id="id_allocated_amt' + val + '" value="0"> </div> <div class="col-7"> <div class="text-right pt-2"> <input type="hidden" data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> <b>Balance Amount : </b><span id="id_balanceamt' + val + '">₹0.00</span> </div> </div> </div> </div></div>');
+  $("#new").append('<div class="card" id="' + val + '"> <div class="card-header px-1"> <div class="row"> <div class="col-sm-12 col-lg-2 pt-1 text-center"> <label for="id_invoice_no"> Invoice Number : </label> </div> <div class="col-sm-12 col-lg-3 form-group mb-0"> <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no' + val + '" data-row="' + val + '"> <option value=""></option> </select> </div> <div class="col-sm-12 col-lg-7 text-right pt-1"><button type="button" class="btn btn-default mr-3 trash" data-row="' + val + '"><i class="fas fa-times" style="color: crimson;"></i></button> </div> </div> </div> <div class="card-body" id="tablebody' + val + '" style="display: none;"> <table class="table mb-0"> <thead> <th>Basic Value</th> <th>GST Amount</th> <th>Total Invoice Amount</th> <th>TDS %</th> <th>Less TDS</th> <th>Net Receivable Amount </th> </thead> <tbody> <tr> <input type="hidden" data-row="' + val + '" name="basic_value[]" id="id_basic_value' + val + '"> <td id="id_basicvalue' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="gst_amount[]" id="id_gst_amount' + val + '"> <td id="id_gstamount' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="invoice_amount[]" id="id_invoice_amount' + val + '"> <td id="id_invoiceamount' + val + '" class="max150">₹0.00</td> <td class="max150 py-1"> <input type="number" data-row="' + val + '" class="form-control tds_percent" max="100" name="tds_percent[]" value="0" min="0" id="id_tds_percent' + val + '"></td> <input type="hidden" data-row="' + val + '" name="tds_deducted[]" value="0" id="id_tds_deducted' + val + '"> <td id="id_tdsdeducted' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="receivable_amt[]" id="id_receivable_amt' + val + '" value="0.0"> <td id="id_receivableamt' + val + '">₹0.00</td> </tr> </tbody> </table> </div> <div class="card-footer" id="tablefoot' + val + '" style="display: none;"> <div class="row"> <div class="col-2 pt-2 text-center"> <b>Allocated Amount : </b> </div> <div class="col-3"> <input type="number" data-row="' + val + '" class="form-control allocated_amt" min="1" name="allocated_amt[]" id="id_allocated_amt' + val + '" value="0"> </div> <div class="col-7"> <div class="text-right pt-2"> <input type="hidden" data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> <b>Balance Amount : </b><span id="id_balanceamt' + val + '">₹0.00</span> </div> </div> </div> </div></div>');
   return true
 }
 
