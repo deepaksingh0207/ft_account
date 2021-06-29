@@ -49,7 +49,7 @@
                         <label for="customerid_id">Customer : </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="customer_id" id="customerid_id">
+                        <select class="form-control" name="customer_id" id="customerid_id" disabled>
                         </select>
                       </div>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="row mx-1">
 
                       <div class="col-12">
-                        <div class="card" id="table_two" style="display: block;">
+                        <div class="card" id="table_one" style="display: none;">
                           <div class="card-body">
                             <table class="table mb-0">
                               <thead>
@@ -77,9 +77,6 @@
                                   <input type="number" class="form-control www" name="received_amt" min="1"
                                     id="id_received_amt">
                                 </td>
-                                <!-- <td class="form-group">
-                                <input type="number" class="form-control" name="allocated_amt" min="1" id="id_allocated_amt">
-                              </td> -->
                               </tbody>
                             </table>
                           </div>
@@ -93,32 +90,29 @@
                         </div>
                       </div>
 
-                      <div class="col-12">
-                        <div class="card">
-                          <div class="card-header">
+                      <div class="col-12" id="new">
+                        <div class="card" id="1" style="display: none;">
+                          <div class="card-header px-1">
                             <div class="row">
-                              <div class="col-sm-12 col-lg-2 pt-1">
+                              <div class="col-sm-12 col-lg-2 pt-1 text-center">
                                 <label for="id_invoice_no">
                                   Invoice Number :
                                 </label>
                               </div>
                               <div class="col-sm-12 col-lg-3 form-group mb-0">
-                                <select class="form-control select2" name="invoice_id[]" id="id_invoice_no1"
+                                <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no1"
                                   data-row="1">
-                                  <option value="">&nbsp;</option>'
-                                  <?php foreach ($invoices as $invoice) : ?>
-                                  <option value="<?php echo $invoice['id'] ?>">
-                                    <?php echo $invoice['id'] ?>
-                                  </option>
-                                  <?php endforeach; ?>
+                                  <option value=""></option>
                                 </select>
                               </div>
                               <div class="col-sm-12 col-lg-7 text-right pt-1">
-                                <button type="button" class="btn btn-sm btn-primary" data-row="1">Add New</button>
+                                <button type="button" class="btn btn-default mr-3 trash" data-row="1">
+                                  <i class="fas fa-times" style="color: crimson;"></i>
+                                </button>
                               </div>
                             </div>
                           </div>
-                          <div class="card-body" id="table_one1" style="display: block;">
+                          <div class="card-body" id="table1">
                             <table class="table mb-0">
                               <thead>
                                 <th>Basic Value</th>
@@ -137,7 +131,7 @@
                                   <input type="hidden" data-row="1" name="invoice_amount[]" id="id_invoice_amount1">
                                   <td id="id_invoiceamount1" class="max150"></td>
                                   <td class="max150 py-1">
-                                    <input type="number" data-row="1" class="form-control" name="tds_percent[]" min="0"
+                                    <input type="number" data-row="1" class="form-control tds_percent" name="tds_percent[]" min="0"
                                       id="id_tds_percent1">
                                   </td>
                                   <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1">
@@ -148,14 +142,14 @@
                               </tbody>
                             </table>
                           </div>
-                          <div class="card-footer" id="receivable_amt_div1" style="display: block;">
+                          <div class="card-footer" id="allocated_amt_div1">
                             <div class="row">
                               <div class="col-2 pt-2 text-center">
-                                <b>Allocated Amount : </b>
+                                <label for="id_allocated_amt1">Allocated Amount :</label>
                               </div>
-                              <div class="col-3">
-                                <input type="number" data-row="1" class="form-control" name="allocated_amt[]"
-                                  id="id_allocated_amt1">
+                              <div class="col-3 form-group">
+                                <input type="number" data-row="1" class="form-control allocated_amt" required name="allocated_amt[]"
+                                  id="id_allocated_amt1" value="0">
                               </div>
                               <div class="col-7">
                                 <div class="text-right pt-2">
@@ -166,6 +160,11 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div class="col-12 text-center" style="display: none;">
+                        <button type="button" class="btn btn-default mr-2 addy add_row" data-row="1">
+                          <i class="fas fa-plus" style="color: #007bff;"></i>
+                        </button>
                       </div>
 
                     </div>
