@@ -194,8 +194,13 @@ $(document).on("change", ".invoice_no", function () {
           $("#receivable_amt_div").show();
           $("#tablebody" + id).show();
           $("#tablefoot" + id).show();
-          if (data.payments.paid_amount){
+          if (data.payments.paid_amount) {
             paidamount(data.payments.paid_amount, id)
+            if (data.payments.tds_percent > 0.0) {
+              $("#id_tds_percent" + id).attr("disabled", true);
+              tdspercent(data.payments.tds_percent, id);
+              tdsdeduction(data.payments.tds_deducted, id);
+            }
           } else {
             paidamount(0, id)
           }
@@ -230,7 +235,7 @@ function resetform() {
 }
 
 $(document).on("change", ".tds_percent", function () {
-  if ($(this).val() == null || $(this).val() == ""){
+  if ($(this).val() == null || $(this).val() == "") {
     $(this).val("0");
   } else if ($(this).val() > 100) {
     $(this).val("100");
@@ -239,17 +244,17 @@ $(document).on("change", ".tds_percent", function () {
   id = $(this).attr("data-row");
   base_val = parseFloat($("#id_basic_value" + id).val());
   invoiceamt = parseFloat($("#id_invoice_amount" + id).val());
-  allocatedamt = parseFloat($("#id_allocated_amt" + id).val());
+  // allocatedamt = parseFloat($("#id_allocated_amt" + id).val());
   less_TDS = tds_percent_val * base_val
   tdsdeduction(less_TDS, id);
   receivableamt(invoiceamt - less_TDS, id);
-  balanceamt(invoiceamt - less_TDS - allocatedamt, id);
+  // balanceamt(invoiceamt - less_TDS - allocatedamt, id);
 });
 
-$(document).on("keyup", ".allocated_amt", function () {
+$(document).on("change", ".allocated_amt", function () {
   id = $(this).attr("data-row");
   ped_val = parseFloat($("#id_pendingamt" + id).data("amt"));
-  altamt = parseFloat($("#id_allocated_amt" + id).val());
+  altamt = parseFloat($(this).val());
   balanceamt(ped_val - altamt, id);
   reallocat();
 });
@@ -326,8 +331,8 @@ function invoiceamount(newval = 0, id) {
   $("#id_invoiceamount" + id).text(humanamount(newval));
 }
 
-function tdspercent(newval = 0) {
-  $("#id_tds_percent").val(parseFloat(newval));
+function tdspercent(newval = 0, id) {
+  $("#id_tds_percent" + id).val(parseFloat(newval));
 }
 
 function tdsdeduction(newval = 0, id) {
@@ -358,14 +363,15 @@ function paidamount(newval = 0, id) {
 function pendingamount(newval = 0, id) {
   $("#id_pendingamt" + id).data("amt", parseFloat(newval));
   $("#id_pendingamt" + id).text(humanamount(newval));
-  balanceamt(parseFloat(newval), id);
+  all_amt = parseFloat($("#id_allocated_amt" + id).val());
+  balanceamt(parseFloat(newval)-all_amt, id);
 }
 
-function allocatedamt(newval = 0, id) {
-  $("#id_allocated_amt" + id).attr("max", newval);
-  $("#id_allocated_amt" + id).val(newval);
-  $("#id_allocatedamt" + id).text(humanamount(newval));
-}
+// function allocatedamt(newval = 0, id) {
+//   $("#id_allocated_amt" + id).attr("max", newval);
+//   $("#id_allocated_amt" + id).val(newval);
+//   $("#id_allocatedamt" + id).text(humanamount(newval));
+// }
 
 function syn() {
   selectedinvoice = []
