@@ -478,11 +478,14 @@ class InvoicesController extends Controller
         $payments = $paymentTbl->getDetailsByInvoiceId($invoiceId);
         $paidAmount = 0;
         $payment = array();
-        foreach($payments as $payments) {
-            $paidAmount += $payments['allocated_amt'];
-            if(intval($payments['tds_percent'])) {
-                $payment = $payments;
-            }
+        foreach($payments as $row) {
+            $paidAmount += $row['allocated_amt'];
+            if(intval($row['tds_percent'])) {
+                $payment = $row;
+            } 
+        }
+        if(empty($payment)) {
+            $payment = $payments[0];
         }
         $payment['paid_amount'] = $paidAmount;
         $payment['balance_amt'] = $payment['receivable_amt'] - $paidAmount;
