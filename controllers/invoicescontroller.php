@@ -473,6 +473,11 @@ class InvoicesController extends Controller
     
     public function getDetails($invoiceId) {
         $invoice = $this->_model->get($invoiceId);
+        
+        $paymentTbl = new PaymentsModel();
+        $payments = $paymentTbl->getDetailsByInvoiceId($invoiceId);
+        $invoice['payments'] = $payments;
+        
         echo json_encode($invoice);
         
     }

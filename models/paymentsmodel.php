@@ -13,9 +13,17 @@ class PaymentsModel extends Model {
     }
     
     public function get($id) {
-        $sql = "select * from invoices where id = ? limit 1";
+        $sql = "select * from payments where id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
+        
+        return $user;
+    }
+    
+    public function getDetailsByInvoiceId($invoiceId) {
+        $sql = "select * from payments where invoice_id = ? limit 1";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($invoiceId));
         
         return $user;
     }
