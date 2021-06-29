@@ -21,7 +21,7 @@ class PaymentsModel extends Model {
     }
     
     public function getDetailsByInvoiceId($invoiceId) {
-        $sql = "select * from payments where invoice_id = ? limit 1";
+        $sql = "select * from payments where invoice_id = ?";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
         
