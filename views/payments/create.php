@@ -134,7 +134,7 @@
                                   </td>
                                   <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1">
                                   <td id="id_tdsdeducted1" class="max150">₹0.00</td>
-                                  <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1">
+                                  <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1" value="0.0">
                                   <td id="id_receivableamt1">₹0.00</td>
                                 </tr>
                               </tbody>
