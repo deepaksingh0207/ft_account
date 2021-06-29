@@ -194,20 +194,21 @@ $(document).on("change", ".invoice_no", function () {
           $("#receivable_amt_div").show();
           $("#tablebody" + id).show();
           $("#tablefoot" + id).show();
+          basicvalue(data.sub_total, id);
+          gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst), id);
+          invoiceamount(data.invoice_total, id);
+          receivableamt(data.invoice_total, id);
           if (data.payments.paid_amount) {
             paidamount(data.payments.paid_amount, id)
             if (data.payments.tds_percent > 0.0) {
               $("#id_tds_percent" + id).attr("disabled", true);
               tdspercent(data.payments.tds_percent, id);
               tdsdeduction(data.payments.tds_deducted, id);
+              receivableamt(parseFloat(data.invoice_total) - parseFloat(data.payments.tds_deducted), id);
             }
           } else {
-            paidamount(0, id)
+            paidamount(0, id);
           }
-          basicvalue(data.sub_total, id);
-          gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst), id);
-          invoiceamount(data.invoice_total, id);
-          receivableamt(data.invoice_total, id);
           // balanceamt(data.invoice_total, id);
         }
       })
