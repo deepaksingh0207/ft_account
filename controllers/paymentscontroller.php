@@ -57,6 +57,7 @@ class PaymentsController extends Controller
                 $customerPayments['payment_date'] = $data['payment_date'];
                 $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
                 $customerPayments['received_amt'] = $data['received_amt'];
+                $customerPayments['remarks'] = $data['remarks'];
                 
                 $customerPayTbl = new CustomerPaymentsModel();
                 $custPaymentId = $customerPayTbl->save($customerPayments);

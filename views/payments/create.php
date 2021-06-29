@@ -4,7 +4,7 @@
     <div class="content-wrapper">
       <section class="content">
         <div class="container-fluid pb-5">
-          <div class="row my-3"> 
+          <div class="row my-3">
             <div class="col-12">
               <form action="" method="POST" id="id_quickForm" novalidate="novalidate">
                 <div class="card card-default">
@@ -24,31 +24,31 @@
                   </div>
                   <div class="card-body p-3">
                     <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_customergroup">
-                          Customer Group :
-                        </label>
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col-7">
+                            <label for="id_customergroup">
+                              Customer Group :
+                            </label>
+                            <select class="form-control" name="group_id" id="id_group_id">
+                              <option value=""></option>
+                              <?php foreach ($groups as $group) : ?>
+                              <option value="<?php echo $group['id'] ?>">
+                                <?php echo $group['name'] ?>
+                              </option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                          <div class="col-7 my-3">
+                            <label for="customerid_id">Customer : </label>
+                            <select class="form-control" name="customer_id" id="customerid_id" disabled>
+                            </select>
+                          </div>
+                        </div>
                       </div>
-
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="group_id" id="id_group_id">
-                          <option value=""></option>
-                          <?php foreach ($groups as $group) : ?>
-                          <option value="<?php echo $group['id'] ?>">
-                            <?php echo $group['name'] ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="customerid_id">Customer : </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="customer_id" id="customerid_id" disabled>
-                        </select>
+                      <div class="col-6">
+                        <label for="id_remarks">Remarks</label>
+                        <textarea name="remarks" class="form-control" id="id_remarks" cols="30" rows="3"></textarea>
                       </div>
                     </div>
 
@@ -129,12 +129,14 @@
                                   <input type="hidden" data-row="1" name="invoice_amount[]" id="id_invoice_amount1">
                                   <td id="id_invoiceamount1" class="max150">₹0.00</td>
                                   <td class="max150 py-1">
-                                    <input type="number" data-row="1" class="form-control tds_percent" name="tds_percent[]" min="0"
-                                      id="id_tds_percent1" value="0">
+                                    <input type="number" data-row="1" class="form-control tds_percent"
+                                      name="tds_percent[]" min="0" id="id_tds_percent1" value="0">
                                   </td>
-                                  <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1" value="0">
+                                  <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1"
+                                    value="0">
                                   <td id="id_tdsdeducted1" class="max150">₹0.00</td>
-                                  <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1" value="0.0">
+                                  <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1"
+                                    value="0.0">
                                   <td id="id_receivableamt1">₹0.00</td>
                                 </tr>
                               </tbody>
@@ -146,8 +148,8 @@
                                 <label for="id_allocated_amt1">Allocated Amount :</label>
                               </div>
                               <div class="col-3 form-group">
-                                <input type="number" data-row="1" class="form-control allocated_amt" min="1" name="allocated_amt[]"
-                                  id="id_allocated_amt1" value="0">
+                                <input type="number" data-row="1" class="form-control allocated_amt" min="1"
+                                  name="allocated_amt[]" id="id_allocated_amt1" value="0">
                               </div>
                               <div class="col-7">
                                 <div class="text-right pt-2">
