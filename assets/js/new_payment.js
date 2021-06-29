@@ -194,11 +194,16 @@ $(document).on("change", ".invoice_no", function () {
           $("#receivable_amt_div").show();
           $("#tablebody" + id).show();
           $("#tablefoot" + id).show();
+          if (data.payments.paid_amount){
+            paidamount(data.payments.paid_amount, id)
+          } else {
+            paidamount(0, id)
+          }
           basicvalue(data.sub_total, id);
           gstamount(parseFloat(data.igst) + parseFloat(data.sgst) + parseFloat(data.cgst), id);
           invoiceamount(data.invoice_total, id);
           receivableamt(data.invoice_total, id);
-          balanceamt(data.invoice_total, id);
+          // balanceamt(data.invoice_total, id);
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -224,7 +229,12 @@ function resetform() {
   $("#1").hide();
 }
 
-$(document).on("keyup", ".tds_percent", function () {
+$(document).on("change", ".tds_percent", function () {
+  if ($(this).val() == null || $(this).val() == ""){
+    $(this).val("0");
+  } else if ($(this).val() > 100) {
+    $(this).val("100");
+  }
   tds_percent_val = parseFloat($(this).val()) / 100;
   id = $(this).attr("data-row");
   base_val = parseFloat($("#id_basic_value" + id).val());
@@ -238,9 +248,9 @@ $(document).on("keyup", ".tds_percent", function () {
 
 $(document).on("keyup", ".allocated_amt", function () {
   id = $(this).attr("data-row");
-  rec_val = parseFloat($("#id_receivable_amt" + id).val());
+  ped_val = parseFloat($("#id_pendingamt" + id).data("amt"));
   altamt = parseFloat($("#id_allocated_amt" + id).val());
-  balanceamt(rec_val - altamt, id);
+  balanceamt(ped_val - altamt, id);
   reallocat();
 });
 
@@ -280,7 +290,7 @@ $(document).on("click", ".add_row", function () {
 });
 
 function addrow(val) {
-  $("#new").append('<div class="card" id="' + val + '"> <div class="card-header px-1"> <div class="row"> <div class="col-sm-12 col-lg-2 pt-1 text-center"> <label for="id_invoice_no"> Invoice Number : </label> </div> <div class="col-sm-12 col-lg-3 form-group mb-0"> <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no' + val + '" data-row="' + val + '"> <option value=""></option> </select> </div> <div class="col-sm-12 col-lg-7 text-right pt-1"><button type="button" class="btn btn-default mr-3 trash" data-row="' + val + '"><i class="fas fa-times" style="color: crimson;"></i></button> </div> </div> </div> <div class="card-body" id="tablebody' + val + '" style="display: none;"> <table class="table mb-0"> <thead> <th>Basic Value</th> <th>GST Amount</th> <th>Total Invoice Amount</th> <th>TDS %</th> <th>Less TDS</th> <th>Net Receivable Amount </th> </thead> <tbody> <tr> <input type="hidden" data-row="' + val + '" name="basic_value[]" id="id_basic_value' + val + '"> <td id="id_basicvalue' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="gst_amount[]" id="id_gst_amount' + val + '"> <td id="id_gstamount' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="invoice_amount[]" id="id_invoice_amount' + val + '"> <td id="id_invoiceamount' + val + '" class="max150">₹0.00</td> <td class="max150 py-1"> <input type="number" data-row="' + val + '" class="form-control tds_percent" max="100" name="tds_percent[]" value="0" min="0" id="id_tds_percent' + val + '"></td> <input type="hidden" data-row="' + val + '" name="tds_deducted[]" value="0" id="id_tds_deducted' + val + '"> <td id="id_tdsdeducted' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="receivable_amt[]" id="id_receivable_amt' + val + '" value="0.0"> <td id="id_receivableamt' + val + '">₹0.00</td> </tr> </tbody> </table> </div> <div class="card-footer" id="tablefoot' + val + '" style="display: none;"> <div class="row"> <div class="col-2 pt-2 text-center"> <b>Allocated Amount : </b> </div> <div class="col-3"> <input type="number" data-row="' + val + '" class="form-control allocated_amt" min="1" name="allocated_amt[]" id="id_allocated_amt' + val + '" value="0"> </div> <div class="col-7"> <div class="text-right pt-2"> <input type="hidden" data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> <b>Balance Amount : </b><span id="id_balanceamt' + val + '">₹0.00</span> </div> </div> </div> </div></div>');
+  $("#new").append('<div class="card" id="' + val + '"> <div class="card-header px-1"> <div class="row"> <div class="col-sm-12 col-lg-2 pt-1 text-center"> <label for="id_invoice_no"> Invoice Number : </label> </div> <div class="col-sm-12 col-lg-3 form-group mb-0"> <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no' + val + '" data-row="' + val + '"> <option value=""></option> </select> </div> <div class="col-sm-12 col-lg-7 text-right pt-1"><button type="button" class="btn btn-default mr-3 trash" data-row="' + val + '"><i class="fas fa-times" style="color: crimson;"></i></button> </div> </div> </div> <div class="card-body" id="tablebody' + val + '" style="display: none;"> <table class="table mb-0"> <thead> <th>Basic Value</th> <th>GST Amount</th> <th>Total Invoice Amount</th> <th>TDS %</th> <th>Less TDS</th> <th>Net Receivable Amount </th> </thead> <tbody> <tr> <input type="hidden" data-row="' + val + '" name="basic_value[]" id="id_basic_value' + val + '"> <td id="id_basicvalue' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="gst_amount[]" id="id_gst_amount' + val + '"> <td id="id_gstamount' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="invoice_amount[]" id="id_invoice_amount' + val + '"> <td id="id_invoiceamount' + val + '" class="max150">₹0.00</td> <td class="max150 py-1"> <input type="number" data-row="' + val + '" class="form-control tds_percent" max="100" name="tds_percent[]" value="0" min="0" id="id_tds_percent' + val + '"></td> <input type="hidden" data-row="' + val + '" name="tds_deducted[]" value="0" id="id_tds_deducted' + val + '"> <td id="id_tdsdeducted' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="receivable_amt[]" id="id_receivable_amt' + val + '" value="0.0"> <td id="id_receivableamt' + val + '">₹0.00</td> </tr> </tbody> </table> </div> <div class="card-footer" id="tablefoot' + val + '" style="display: none;"> <div class="row"> <div class="col-3"> <div class="row"> <div class="col-12"> <b>Paid Amount : </b> </div> <div class="col-12 align-middle"> <span data-amt="0" data-row="' + val + '" id="id_paidamt' + val + '">₹0.00</span> </div> </div> </div> <div class="col-3"> <div class="row"> <div class="col-12"> <b>Pending Amount : </b> </div> <div class="col-12 align-middle"> <span data-amt="0" data-row="' + val + '" id="id_pendingamt' + val + '">₹0.00</span> </div> </div> </div> <div class="col-3"> <div class="row"> <div class="col-12"> <b>Allocated Amount : </b> </div> <div class="col-12"> <input type="number" data-row="' + val + '" class="form-control allocated_amt" min="1" name="allocated_amt[]" id="id_allocated_amt' + val + '" value="0"> </div> </div> </div> <div class="col-3"> <div class="row"> <div class="col-12 text-right"> <b>Balance Amount : </b> </div> <div class="col-12 align-middle text-right"> <span id="id_balanceamt' + val + '">₹0.00</span> <input type="hidden" data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> </div> </div> </div> </div> </div> </div>');
   return true
 }
 
@@ -292,6 +302,8 @@ function balanceamt(newval = 0, id) {
 function receivableamt(newval = 0, id) {
   $("#id_receivable_amt" + id).val(parseFloat(newval));
   $("#id_receivableamt" + id).text(humanamount(newval));
+  paidamt = parseFloat($("#id_paidamt" + id).data("amt"));
+  pendingamount(parseFloat(newval) - paidamt, id);
 }
 
 function tbal(newval = 0) {
@@ -336,6 +348,17 @@ function receivedamt(newval = 0) {
   recamt = newval
   $("#id_received_amt").val(parseFloat(newval));
   reallocat();
+}
+
+function paidamount(newval = 0, id) {
+  $("#id_paidamt" + id).data("amt", parseFloat(newval));
+  $("#id_paidamt" + id).text(humanamount(newval));
+}
+
+function pendingamount(newval = 0, id) {
+  $("#id_pendingamt" + id).data("amt", parseFloat(newval));
+  $("#id_pendingamt" + id).text(humanamount(newval));
+  balanceamt(parseFloat(newval), id);
 }
 
 function allocatedamt(newval = 0, id) {
