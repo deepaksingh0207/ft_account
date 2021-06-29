@@ -136,18 +136,14 @@ $("#customerid_id").change(function () {
       encode: true,
     })
       .done(function (data) {
+        invoicelist = []
         $.each(data, function (index, value) {
           invoicelist.push(value.id);
         });
         $("#table_one").show();
-        $("#1").show();
         $("#allocated_amt_div1").show();
-        $.each(rowlist, function (index, val) {
-          $.each(invoicelist, function (index, value) {
-            $("#id_invoice_no" + val).append('<option value="' + value + '">' + value + '</option>');
-          });
-        });
-        $(".add_row").parent().show();
+        $(".addy").parent().show();
+        $(".add_row").click();
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
@@ -191,11 +187,17 @@ $(document).on("change", ".invoice_no", function () {
 });
 
 function resetform() {
-  $("#table_two").hide();
-  $("#receivable_amt_div").hide();
   $("#table_one").hide();
+  $(".addy").parent().hide();
   receivedamt();
   cheque();
+  $.each(rowlist, function (index, rowval) {
+    rowlist = jQuery.grep(rowlist, function (b) {
+      return b != rowval;
+    });
+    $("#"+rowval).remove();
+  });
+  $("#1").hide();
 }
 
 $(document).on("change", ".tds_percent", function () {
@@ -223,6 +225,9 @@ $(document).on("click", ".trash", function () {
   rowlist = jQuery.grep(rowlist, function (b) {
     return b != id;
   });
+  if (rowlist.length < 1) {
+    $(".add_row").click();
+  }
   console.log(rowlist);
 });
 
@@ -247,7 +252,7 @@ $(document).on("click", ".add_row", function () {
 });
 
 function addrow(val) {
-  $("#new").append('<div class="card" id="' + val + '"> <div class="card-header px-1"> <div class="row"> <div class="col-sm-12 col-lg-2 pt-1 text-center"> <label for="id_invoice_no"> Invoice Number : </label> </div> <div class="col-sm-12 col-lg-3 form-group mb-0"> <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no' + val + '" data-row="' + val + '"> <option value=""></option> </select> </div> <div class="col-sm-12 col-lg-7 text-right pt-1"><button type="button" class="btn btn-default mr-3 trash" data-row="' + val + '"><i class="fas fa-times" style="color: crimson;"></i></button> </div> </div> </div> <div class="card-body" id="table' + val + '" style="display: block;"> <table class="table mb-0"> <thead> <th>Basic Value</th> <th>GST Amount</th> <th>Total Invoice Amount</th> <th>TDS %</th> <th>Less TDS</th> <th>Net Receivable Amount </th> </thead> <tbody> <tr> <input type="hidden" data-row="' + val + '" name="basic_value[]" id="id_basic_value' + val + '"> <td id="id_basicvalue' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="gst_amount[]" id="id_gst_amount' + val + '"> <td id="id_gstamount' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="invoice_amount[]" id="id_invoice_amount' + val + '"> <td id="id_invoiceamount' + val + '" class="max150"></td> <td class="max150 py-1"> <input type="number" data-row="' + val + '" class="form-control tds_percent" name="tds_percent[]" min="0" id="id_tds_percent' + val + '"> </td> <input type="hidden" data-row="' + val + '" name="tds_deducted[]" id="id_tds_deducted' + val + '"> <td id="id_tdsdeducted' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="receivable_amt[]" id="id_receivable_amt' + val + '"> <td id="id_receivableamt' + val + '"></td> </tr> </tbody> </table> </div> <div class="card-footer" id="allocated_amt_div' + val + '" style="display: block;"> <div class="row"> <div class="col-2 pt-2 text-center"> <b>Allocated Amount : </b> </div> <div class="col-3"> <input type="number" data-row="' + val + '" class="form-control allocated_amt" required name="allocated_amt[]" id="id_allocated_amt' + val + '" value="0"> </div> <div class="col-7"> <div class="text-right pt-2"> <input type="hidden" data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> <b>Balance Amount : </b><span id="id_balanceamt' + val + '"></span> </div> </div> </div> </div></div>');
+  $("#new").append('<div class="card" id="' + val + '"> <div class="card-header px-1"> <div class="row"> <div class="col-sm-12 col-lg-2 pt-1 text-center"> <label for="id_invoice_no"> Invoice Number : </label> </div> <div class="col-sm-12 col-lg-3 form-group mb-0"> <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no' + val + '" data-row="' + val + '"> <option value=""></option> </select> </div> <div class="col-sm-12 col-lg-7 text-right pt-1"><button type="button" class="btn btn-default mr-3 trash" data-row="' + val + '"><i class="fas fa-times" style="color: crimson;"></i></button> </div> </div> </div> <div class="card-body" id="table' + val + '" style="display: block;"> <table class="table mb-0"> <thead> <th>Basic Value</th> <th>GST Amount</th> <th>Total Invoice Amount</th> <th>TDS %</th> <th>Less TDS</th> <th>Net Receivable Amount </th> </thead> <tbody> <tr> <input type="hidden" data-row="' + val + '" name="basic_value[]" id="id_basic_value' + val + '"> <td id="id_basicvalue' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="gst_amount[]" id="id_gst_amount' + val + '"> <td id="id_gstamount' + val + '" class="max150">₹0.00</td> <input type="hidden" data-row="' + val + '" name="invoice_amount[]" id="id_invoice_amount' + val + '"> <td id="id_invoiceamount' + val + '" class="max150">₹0.00</td> <td class="max150 py-1"> <input type="number" data-row="' + val + '" class="form-control tds_percent" name="tds_percent[]" min="0" id="id_tds_percent' + val + '"></td> <input type="hidden" data-row="' + val + '" name="tds_deducted[]" id="id_tds_deducted' + val + '"> <td id="id_tdsdeducted' + val + '" class="max150"></td> <input type="hidden" data-row="' + val + '" name="receivable_amt[]" id="id_receivable_amt' + val + '"> <td id="id_receivableamt' + val + '">₹0.00</td> </tr> </tbody> </table> </div> <div class="card-footer" id="allocated_amt_div' + val + '" style="display: block;"> <div class="row"> <div class="col-2 pt-2 text-center"> <b>Allocated Amount : </b> </div> <div class="col-3"> <input type="number" data-row="' + val + '" class="form-control allocated_amt" min="1" name="allocated_amt[]" id="id_allocated_amt' + val + '" value="0"> </div> <div class="col-7"> <div class="text-right pt-2"> <input type="hidden" data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> <b>Balance Amount : </b><span id="id_balanceamt' + val + '">₹0.00</span> </div> </div> </div> </div></div>');
   return true
 }
 
