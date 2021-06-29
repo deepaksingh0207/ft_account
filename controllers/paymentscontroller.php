@@ -11,7 +11,11 @@ class PaymentsController extends Controller
         
         try {
             
-            $payments = $this->_model->list();
+            //$payments = $this->_model->list();
+            
+            $customerPayTbl = new CustomerPaymentsModel();
+            $payments = $customerPayTbl->list();
+            
             $this->_view->set('payments', $payments);
             
             return $this->_view->output();
@@ -44,16 +48,46 @@ class PaymentsController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                echo '<pre>'; print_r($data); exit;
+                //echo '<pre>'; print_r($data); exit;
+                $customerPayments = array();
+                $payments = array();
                 
-                $paymentId = $this->_model->save($data);
-                if($paymentId) {
+                $customerPayments['group_id'] = $data['group_id'];
+                $customerPayments['customer_id'] = $data['customer_id'];
+                $customerPayments['payment_date'] = $data['payment_date'];
+                $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
+                $customerPayments['received_amt'] = $data['received_amt'];
+                
+                $customerPayTbl = new CustomerPaymentsModel();
+                $custPaymentId = $customerPayTbl->save($customerPayments);
+                
+                
+                if($custPaymentId) {
+                    if(isset($data['invoice_id'])) {
+                        foreach($data['invoice_id'] as $key => $item) {
+                            $row = array();
+                            $row['customer_payment_id'] = $custPaymentId;
+                            $row['invoice_id'] = $data['invoice_id'][$key];
+                            $row['basic_value'] = $data['basic_value'][$key];
+                            $row['gst_amount'] = $data['gst_amount'][$key];
+                            $row['invoice_amount'] = $data['invoice_amount'][$key];
+                            $row['tds_percent'] = $data['tds_percent'][$key];
+                            $row['tds_deducted'] = $data['tds_deducted'][$key];
+                            $row['receivable_amt'] = $data['receivable_amt'][$key];
+                            $row['allocated_amt'] = $data['allocated_amt'][$key];
+                            $row['balance_amt'] = $data['balance_amt'][$key];
+                            //$payments[] = $row;
+                            $this->_model->save($row);
+                        }
+                    }
+                    
+                    
                     $_SESSION['message'] = 'Payment added successfully';
                     header("location:". ROOT. "payments");
+                    
                 } else {
                     $_SESSION['error'] = 'Fail to add payment';
                 }
-
                 
             }
             

@@ -57,16 +57,9 @@
                         <thead class="text-center">
                           <tr>
                             <th></th>
-                            <th>Invoice No.</th>
-                            <th>Basic Value</th>
-                            <th>GST</th>
-                            <th>Invoice Amt</th>
-                            <th>TDS %</th>
-                            <th>Less TDS</th>
-                            <th>Net Receivable Amt</th>
+                            <th>Customer</th>
                             <th>Cheque/UTR</th>
                             <th>Received Amt</th>
-                            <th>Balance Amt</th>
                             <th>Payment Date</th>
                           </tr>
                         </thead>
@@ -74,18 +67,11 @@
                           <?php if(count($payments)) :
                         foreach($payments as $payment) :
                         ?>
-                          <tr data-href="payments/view/<?php echo $payment['invoice_id']?>">
+                          <tr data-href="payments/view/<?php echo $payment['id']?>">
                             <td></td>
-                            <td class="sublist"><?php echo $payment['invoice_id']?></td>
-                            <td class="sublist"><?php echo $payment['basic_value']?></td>
-                            <td class="sublist"><?php echo $payment['gst_amount']?></td>
-                            <td class="sublist"><?php echo $payment['invoice_amount']?></td>
-                            <td class="sublist"><?php echo $payment['tds_percent']?></td>
-                            <td class="sublist"><?php echo $payment['tds_deducted']?></td>
-                            <td class="sublist"><?php echo $payment['receivable_amt']?></td>
+                            <td class="sublist"><?php echo $payment['name']?></td>
                             <td class="sublist"><?php echo $payment['cheque_utr_no']?></td>
                             <td class="sublist"><?php echo $payment['received_amt']?></td>
-                            <td class="sublist"><?php echo $payment['balance_amt']?></td>
                             <td class="sublist"><?php echo date('d, M Y', strtotime($payment['payment_date']))?></td>
                           </tr>
                           
