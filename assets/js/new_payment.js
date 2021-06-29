@@ -5,6 +5,7 @@ var mm = String(today.getMonth() + 1).padStart(2, "0");
 var yyyy = today.getFullYear();
 var ptlist = [], invoicelist = []
 tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd) + 1);
+today = yyyy + "-" + mm + "-" + dd;
 var rowlist = [1], invoicelist = [], selectedinvoice = [];
 
 function humanamount(val) {
@@ -17,13 +18,22 @@ function humanamount(val) {
 
 function checker() {
   check = true
+  amount = 0
   $.each(rowlist, function (index, value) {
+    amount += parseFloat($("#id_allocated_amt" + value).val());
     if ($("#id_invoice_no" + value).val() == "" || $("#id_invoice_no" + value).val() == null) {
       $("#id_invoice_no" + value).addClass("is-invalid");
       check = false
     }
   });
-  if (check == true) {
+  
+  if (invoicelist.length == 0) {
+    alert("No Invoice found on this customer ID.");
+    check = false
+  } else if (amount != parseFloat($("#id_received_amt").val())) {
+    alert("Sum of Allocated Amount is not equal to Received Amount.");
+    check = false
+  } else if (check == true) {
     $("#responsemodal").click();
   }
 }
@@ -95,8 +105,8 @@ $(function () {
       $(element).removeClass("is-invalid");
     }
   });
-  $("#id_payment_date").val(tomorrow);
-  $("#id_payment_date").attr("min", tomorrow)
+  $("#id_payment_date").val("");
+  $("#id_payment_date").attr("max", today)
 });
 
 $(document).on("change", "#id_group_id", function () {
@@ -292,7 +302,7 @@ function tdsdeduction(newval = 0, id) {
   $("#id_tdsdeducted" + id).text(humanamount(newval));
 }
 
-function paymentdate(newval = tomorrow) {
+function paymentdate(newval = today) {
   $("#id_payment_date").val(parseFloat(newval));
   $("#id_paymentdate").text(humanamount(newval));
 }
