@@ -180,6 +180,9 @@ $(document).on("change", ".invoice_no", function () {
   invoiceamount(0, id);
   receivableamt(0, id);
   balanceamt(0, id);
+  tdspercent(0, id);
+  tdsdeduction(0, id);
+  $("#id_tds_percent" + id).removeAttr("disabled");
   if (invoice_id) {
     $.ajax({
       type: "POST",
