@@ -163,7 +163,7 @@
                       </div>
                       <div class="col-12" style="display: none;">
                         <button type="button" class="btn btn-default mr-2 addy add_row" data-row="1">
-                          <i class="fas fa-plus" style="color: #007bff;"></i>
+                          <i class="fas fa-plus" style="color: #007bff;"></i>&nbsp; Add New
                         </button>
                       </div>
 
