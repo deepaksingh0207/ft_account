@@ -478,7 +478,7 @@ class InvoicesController extends Controller
         $payments = $paymentTbl->getDetailsByInvoiceId($invoiceId);
         $paidAmount = 0;
         $payment = array();
-        if($payments) {
+        if(count($payments)) {
             foreach($payments as $row) {
                 $paidAmount += $row['allocated_amt'];
                 if(intval($row['tds_percent'])) {
