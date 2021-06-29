@@ -123,19 +123,19 @@
                               <tbody>
                                 <tr>
                                   <input type="hidden" data-row="1" name="basic_value[]" id="id_basic_value1">
-                                  <td id="id_basicvalue1" class="max150"></td>
+                                  <td id="id_basicvalue1" class="max150">₹0.00</td>
                                   <input type="hidden" data-row="1" name="gst_amount[]" id="id_gst_amount1">
-                                  <td id="id_gstamount1" class="max150"></td>
+                                  <td id="id_gstamount1" class="max150">₹0.00</td>
                                   <input type="hidden" data-row="1" name="invoice_amount[]" id="id_invoice_amount1">
-                                  <td id="id_invoiceamount1" class="max150"></td>
+                                  <td id="id_invoiceamount1" class="max150">₹0.00</td>
                                   <td class="max150 py-1">
                                     <input type="number" data-row="1" class="form-control tds_percent" name="tds_percent[]" min="0"
                                       id="id_tds_percent1">
                                   </td>
                                   <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1">
-                                  <td id="id_tdsdeducted1" class="max150"></td>
+                                  <td id="id_tdsdeducted1" class="max150">₹0.00</td>
                                   <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1">
-                                  <td id="id_receivableamt1"></td>
+                                  <td id="id_receivableamt1">₹0.00</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -146,20 +146,20 @@
                                 <label for="id_allocated_amt1">Allocated Amount :</label>
                               </div>
                               <div class="col-3 form-group">
-                                <input type="number" data-row="1" class="form-control allocated_amt" required name="allocated_amt[]"
+                                <input type="number" data-row="1" class="form-control allocated_amt" min="1" name="allocated_amt[]"
                                   id="id_allocated_amt1" value="0">
                               </div>
                               <div class="col-7">
                                 <div class="text-right pt-2">
                                   <input type="hidden" data-row="1" name="balance_amt[]" id="id_balance_amt1">
-                                  <b>Balance Amount : </b><span id="id_balanceamt1"></span>
+                                  <b>Balance Amount : </b><span id="id_balanceamt1">₹0.00</span>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-12 text-center" style="display: none;">
+                      <div class="col-12" style="display: none;">
                         <button type="button" class="btn btn-default mr-2 addy add_row" data-row="1">
                           <i class="fas fa-plus" style="color: #007bff;"></i>
                         </button>
