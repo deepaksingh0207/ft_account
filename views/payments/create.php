@@ -130,9 +130,9 @@
                                   <td id="id_invoiceamount1" class="max150">₹0.00</td>
                                   <td class="max150 py-1">
                                     <input type="number" data-row="1" class="form-control tds_percent" name="tds_percent[]" min="0"
-                                      id="id_tds_percent1">
+                                      id="id_tds_percent1" value="0">
                                   </td>
-                                  <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1">
+                                  <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1" value="0">
                                   <td id="id_tdsdeducted1" class="max150">₹0.00</td>
                                   <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1" value="0.0">
                                   <td id="id_receivableamt1">₹0.00</td>
