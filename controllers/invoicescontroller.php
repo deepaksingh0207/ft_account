@@ -476,7 +476,19 @@ class InvoicesController extends Controller
         
         $paymentTbl = new PaymentsModel();
         $payments = $paymentTbl->getDetailsByInvoiceId($invoiceId);
-        $invoice['payments'] = $payments;
+        $paidAmount = 0;
+        $payment = array();
+        foreach($payments as $payments) {
+            $paidAmount += $payments['allocated_amt'];
+            if(intval($payments['tds_percent'])) {
+                $payment = $payments;
+            }
+        }
+        $payment['paid_amount'] = $paidAmount;
+        $payment['balance_amt'] = $payment['receivable_amt'] - $paidAmount;
+        unset($payment['allocated_amt']);
+        
+        $invoice['payments'] = $payment;
         
         echo json_encode($invoice);
         

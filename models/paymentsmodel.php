@@ -21,7 +21,7 @@ class PaymentsModel extends Model {
     }
     
     public function getDetailsByInvoiceId($invoiceId) {
-        $sql = "select * from payments where invoice_id = ?";
+        $sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt from payments where invoice_id = ?";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
         
