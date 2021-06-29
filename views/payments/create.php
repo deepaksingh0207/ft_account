@@ -48,7 +48,7 @@
                       </div>
                       <div class="col-6">
                         <label for="id_remarks">Remarks</label>
-                        <textarea name="remarks" class="form-control" id="id_remarks" cols="30" rows="3"></textarea>
+                        <textarea name="remarks" class="form-control" id="id_remarks" cols="30" rows="4"></textarea>
                       </div>
                     </div>
 
@@ -72,7 +72,7 @@
                                   <input type="text" class="form-control www" name="cheque_utr_no" id="id_cheque">
                                 </td>
                                 <td class="form-group">
-                                  <input type="number" class="form-control www" name="received_amt" min="1"
+                                  <input type="number" class="form-control www rev" name="received_amt" min="1"
                                     id="id_received_amt">
                                 </td>
                               </tbody>
@@ -88,79 +88,7 @@
                         </div>
                       </div>
 
-                      <div class="col-12" id="new">
-                        <div class="card" id="1" style="display: none;">
-                          <div class="card-header px-1">
-                            <div class="row">
-                              <div class="col-sm-12 col-lg-2 pt-1 text-center">
-                                <label for="id_invoice_no">
-                                  Invoice Number :
-                                </label>
-                              </div>
-                              <div class="col-sm-12 col-lg-3 form-group mb-0">
-                                <select class="form-control invoice_no" name="invoice_id[]" id="id_invoice_no1"
-                                  data-row="1">
-                                  <option value=""></option>
-                                </select>
-                              </div>
-                              <div class="col-sm-12 col-lg-7 text-right pt-1">
-                                <button type="button" class="btn btn-default mr-3 trash" data-row="1">
-                                  <i class="fas fa-times" style="color: crimson;"></i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="card-body" id="table1">
-                            <table class="table mb-0">
-                              <thead>
-                                <th>Basic Value</th>
-                                <th>GST Amount</th>
-                                <th>Total Invoice Amount</th>
-                                <th>TDS %</th>
-                                <th>Less TDS</th>
-                                <th>Net Receivable Amount </th>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <input type="hidden" data-row="1" name="basic_value[]" id="id_basic_value1">
-                                  <td id="id_basicvalue1" class="max150">₹0.00</td>
-                                  <input type="hidden" data-row="1" name="gst_amount[]" id="id_gst_amount1">
-                                  <td id="id_gstamount1" class="max150">₹0.00</td>
-                                  <input type="hidden" data-row="1" name="invoice_amount[]" id="id_invoice_amount1">
-                                  <td id="id_invoiceamount1" class="max150">₹0.00</td>
-                                  <td class="max150 py-1">
-                                    <input type="number" data-row="1" class="form-control tds_percent"
-                                      name="tds_percent[]" min="0" id="id_tds_percent1" value="0">
-                                  </td>
-                                  <input type="hidden" data-row="1" name="tds_deducted[]" id="id_tds_deducted1"
-                                    value="0">
-                                  <td id="id_tdsdeducted1" class="max150">₹0.00</td>
-                                  <input type="hidden" data-row="1" name="receivable_amt[]" id="id_receivable_amt1"
-                                    value="0.0">
-                                  <td id="id_receivableamt1">₹0.00</td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <div class="card-footer" id="allocated_amt_div1">
-                            <div class="row">
-                              <div class="col-2 pt-2 text-center">
-                                <label for="id_allocated_amt1">Allocated Amount :</label>
-                              </div>
-                              <div class="col-3 form-group">
-                                <input type="number" data-row="1" class="form-control allocated_amt" min="1"
-                                  name="allocated_amt[]" id="id_allocated_amt1" value="0">
-                              </div>
-                              <div class="col-7">
-                                <div class="text-right pt-2">
-                                  <input type="hidden" data-row="1" name="balance_amt[]" id="id_balance_amt1">
-                                  <b>Balance Amount : </b><span id="id_balanceamt1">₹0.00</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <div class="col-12" id="new"></div>
                       <div class="col-12" style="display: none;">
                         <button type="button" class="btn btn-default mr-2 addy add_row" data-row="1">
                           <i class="fas fa-plus" style="color: #007bff;"></i>&nbsp; Add New
