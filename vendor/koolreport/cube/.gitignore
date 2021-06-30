@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Build and Release Folders
 vendor
 
@@ -9,3 +10,16 @@ vendor
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
+=======
+# Build and Release Folders
+vendor
+
+# Other files and folders
+
+# Executables
+*.exe
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+>>>>>>> Stashed changes
