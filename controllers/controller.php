@@ -23,6 +23,7 @@ class Controller {
             exit;
         }
         
+        
         if(!$this->_session->get('signed_in') && !in_array($action, array('login', 'forgot', 'reset'))) {
             header("location:" .ROOT. "users/login");
             exit;

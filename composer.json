@@ -1,6 +1,13 @@
 {
-    "require": {
-        "swiftmailer/swiftmailer": "^6.0",
-        "mpdf/mpdf": "^8.0"
-    }
+	"repositories":[
+        {"type":"composer","url":"https://repo.koolreport.com"}
+    ],
+    
+    "require" : {
+		"swiftmailer/swiftmailer" : "^6.0",
+		"mpdf/mpdf" : "^8.0",
+		"koolreport/pro":"*",
+        "koolreport/blade":"*",
+        "koolreport/export":"*"
+	}
 }

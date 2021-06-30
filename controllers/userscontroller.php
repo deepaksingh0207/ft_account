@@ -66,7 +66,7 @@ class UsersController extends Controller
                         setcookie('password', $_POST['password'], $hour);
                     }
                     
-                    header("location:". ROOT. "custom"); 
+                    header("location:". ROOT. "dashboard"); 
                     exit;
             } else {
                 $this->_view->set("err_msg", ' Incorrect login details');
