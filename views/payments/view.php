@@ -9,7 +9,7 @@
               <div class="card card-default">
                 <div class="card-header">
                   <h3 class="card-title" style="line-height: 2.2">
-                    View Payment Details
+                    Invoice Payments
                   </h3>
                   <div class="text-right">
                     <!-- <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">
@@ -21,24 +21,57 @@
                   </div>
                 </div>
                 <div class="card-body p-3">
-                  <div class="row mx-1">
+                  <div class="row mx-1 justify-content-center">
+                    <div class="col-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="text-bold my-1">
+                            Customer Group :
+                          </div>
+                          <div class="text-bold my-1">
+                            Customer :
+                          </div>
+                          <div class="text-bold my-1">
+                            Remarks :
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="text-bold my-1">
+                            Payment Date :
+                          </div>
+                          <div class="text-bold my-1">
+                            Cheque/UTR no. :
+                          </div>
+                          <div class="text-bold my-1">
+                            Received Amt :
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="col-12">
                       <div class="card">
-                        <div class="card-body table-responsive" id="table_one">
-                          <table class="table mb-0">
+                        <div class="card-body">
+                          <table class="table text-center">
                             <thead>
-                              <th>Invoice Number</th>
-                              <th>Basic Value</th>
-                              <th>GST Amount</th>
-                              <th>Total Invoice Amount</th>
-                              <th>TDS %</th>
-                              <th>Less TDS</th>
+                              <tr>
+                                <th>
+                                  Invoice Number
+                                </th>
+                                <th>
+                                  Invoice Amount
+                                </th>
+                                <th>
+                                  Allocated Amount
+                                </th>
+                              </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -46,39 +79,9 @@
                             </tbody>
                           </table>
                         </div>
-                        <div class="card-footer" id="receivable_amt_div">
-                          <div class="text-right">
-                            <b>Net Receivable Amount : </b>
-                            <span id="id_receivableamt">₹2,55,000.00</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card" id="table_two">
-                        <div class="card-body table-responsive">
-                          <table class="table mb-0">
-                            <thead>
-                              <th>Payment Date </th>
-                              <th>Cheque/UTR no.</th>
-                              <th>Received Amt</th>
-                              <th>Allocated Amt</th>
-                            </thead>
-                            <tbody>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="card-footer">
-                          <div class="text-right">
-                            <input type="hidden" class="form-control" name="balance_amt" id="id_balance_amt">
-                            <b>Balance Amount : </b>
-                            <span id="id_balanceamount"></span>
-                          </div>
-                        </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
                 <div class="card-footer text-right">

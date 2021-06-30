@@ -94,6 +94,14 @@
                       <?php echo $invoice['order_type'] ?>
                     </div>
                   </div>
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_pphone"> <b>Due Date :</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <?php echo $invoice['due_date'] ?>
+                    </div>
+                  </div>
 
                   <div class="row mx-1">
                     <div class="col-12">
@@ -114,33 +122,49 @@
                               </tr>
                             </thead>
                             <tbody id="invoicelist">
-                            <?php if(count($invoiceItems)) :
+                              <?php if(count($invoiceItems)) :
                             foreach ($invoiceItems as $invoiceItem) :
                             ?>
                               <tr>
                                 <td>
-                                <?php echo $invoiceItem['item']?>
+                                  <?php echo $invoiceItem['item']?>
                                 </td>
                                 <td>
-                                <?php echo $invoiceItem['description']?>
+                                  <?php echo $invoiceItem['description']?>
                                 </td>
                                 <td>
-                                <?php echo $invoiceItem['qty']?>
+                                  <?php echo $invoiceItem['qty']?>
                                 </td>
                                 <td>
-                                <?php echo $invoiceItem['uom_id']?>
+                                  <?php echo $invoiceItem['uom_id']?>
                                 </td>
                                 <td>
-                                <?php echo $invoiceItem['unit_price']?>
+                                  <?php echo $invoiceItem['unit_price']?>
                                 </td>
                                 <td>
-                                <?php echo $invoiceItem['total']?>
+                                  <?php echo $invoiceItem['total']?>
                                 </td>
                               </tr>
                               <?php endforeach; 
                               endif; ?>
                             </tbody>
                           </table>
+                        </div>
+                        <div class="card-footer">
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-3 text-center">
+                              <b>SGST : </b>25,000
+                            </div>
+                            <div class="col-sm-12 col-lg-3 text-center">
+                              <b>CGST : </b>25,000
+                            </div>
+                            <div class="col-sm-12 col-lg-3 text-center">
+                              <b>IGST : </b>25,000
+                            </div>
+                            <div class="col-sm-12 col-lg-3 text-center" style="color: mediumslateblue;">
+                              <b>TOTAL : </b>25,000
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -156,28 +180,42 @@
                           <table class="table">
                             <thead>
                               <tr>
-                              	<th class="min100">Payment Date</th>
+                                <th class="min100">Payment Date</th>
                                 <th class="min100">TDS %</th>
                                 <th class="min100">Less TDS</th>
                                 <th class="min100">Net Receivable Amt</th>
                                 <th class="min100">Cheque/UTR no.</th>
                                 <th class="min100">Allocated Amt</th>
                                 <th class="min100">Balance Amount</th>
-                                
+
                               </tr>
                             </thead>
                             <tbody id="invoicelist">
-                            <?php if(count($payments)) :
+                              <?php if(count($payments)) :
                             foreach ($payments as $payment) :
                             ?>
                               <tr>
-                              	<td><?php echo date('d, M Y', strtotime($payment['payment_date']))?></td>
-                                <td><?php echo $payment['tds_percent']?></td>
-                                <td><?php echo $payment['tds_deducted']?></td>
-                                <td><?php echo $payment['receivable_amt']?></td>
-                                <td><?php echo $payment['cheque_utr_no']?></td>
-                                <td><?php echo $payment['allocated_amt']?></td>
-                                <td><?php echo $payment['balance_amt']?></td>
+                                <td>
+                                  <?php echo date('d, M Y', strtotime($payment['payment_date']))?>
+                                </td>
+                                <td>
+                                  <?php echo $payment['tds_percent']?>
+                                </td>
+                                <td>
+                                  <?php echo $payment['tds_deducted']?>
+                                </td>
+                                <td>
+                                  <?php echo $payment['receivable_amt']?>
+                                </td>
+                                <td>
+                                  <?php echo $payment['cheque_utr_no']?>
+                                </td>
+                                <td>
+                                  <?php echo $payment['allocated_amt']?>
+                                </td>
+                                <td>
+                                  <?php echo $payment['balance_amt']?>
+                                </td>
                               </tr>
                               <?php endforeach; 
                               endif; ?>
