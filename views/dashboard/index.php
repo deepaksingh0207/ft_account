@@ -1,17 +1,21 @@
-<div class="wrapper">
-  <div class="main">
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
     <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
-
-    <main class="content">
-      <div class="container-fluid p-0 leavelow">
-        <div class="card m-2">
-          <div class="card-body mb-5 table-responsive">
-            <?php $report->render(); ?>
+    <div class="content-wrapper">
+      <section class="content">
+        <div class="container-fluid">
+          
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-default">
+                <div class="card-body">
+                  <?php $report->render(); ?>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </main>
 
-    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+        </div>
+      </section>
+    </div>
   </div>
-</div>
