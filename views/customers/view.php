@@ -135,7 +135,7 @@
                       <label for="id_manageremail"> <b>Manager's Email</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['manageremail'] ?> 
+                      <?php echo $customer['manageremail'] ?>
                     </div>
                   </div>
 
@@ -154,6 +154,101 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['remark'] ?>
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="card">
+                        <div class="card-header">
+                          <div class="card-title">
+                            Top 2 Order
+                          </div>
+                        </div>
+                        <div class="card-body py-0">
+                          <table class="table text-left">
+                            <thead>
+                              <tr>
+                                <td>Order ID</td>
+                                <td>Amount</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              
+                              <tr>
+                                <td>1</td>
+                                <td>25,000</td>
+                              </tr>
+                              <tr>
+                                <td>1</td>
+                                <td>25,000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="card">
+                        <div class="card-header">
+                          <div class="card-title">
+                            Top 2 Invoice
+                          </div>
+                        </div>
+                        <div class="card-body py-0">
+                          <table class="table text-left">
+                            <thead>
+                              <tr>
+                                <td>Invoice ID</td>
+                                <td>Amount</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              
+                              <tr>
+                                <td>1</td>
+                                <td>25,000</td>
+                              </tr>
+                              <tr>
+                                <td>1</td>
+                                <td>25,000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="card">
+                        <div class="card-header">
+                          <div class="card-title">
+                            Top 2 Amount
+                          </div>
+                        </div>
+                        <div class="card-body py-0">
+                          <table class="table text-left">
+                            <thead>
+                              <tr>
+                                <td>Amount ID</td>
+                                <td>Amount</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>1</td>
+                                <td>25,000</td>
+                              </tr>
+                              <tr>
+                                <td>1</td>
+                                <td>25,000</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+
                     </div>
                   </div>
 
