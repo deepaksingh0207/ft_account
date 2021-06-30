@@ -89,9 +89,7 @@ class PaymentsController extends Controller
                 } else {
                     $_SESSION['error'] = 'Fail to add payment';
                 }
-                
             }
-            
             return $this->_view->output();
             
         } catch (Exception $e) {
@@ -102,6 +100,13 @@ class PaymentsController extends Controller
     
     public function view($id) {
         try {
+            
+            $customerPayTbl = new CustomerPaymentsModel();
+            $customerPayment = $customerPayTbl->get($id);
+            $this->_view->set('customerPayment', $customerPayment);
+            
+            $invoicePayment = $this->_model->getDetailsByPaymentId($id);
+            $this->_view->set('invoicePayment', $invoicePayment);
             
             return $this->_view->output();
             

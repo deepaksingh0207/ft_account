@@ -23,6 +23,16 @@ class InvoiceItemsModel extends Model {
         return $user;
     }
     
+    public function getListByInvoiceId($invoiceId) {
+        $sql = "select * from invoice_items where invoice_id = ? limit 1";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($invoiceId));
+        if (empty($user)){
+            return false;
+        }
+        return $user;
+    }
+    
     
     public function update($id, $updateRecord) {
         

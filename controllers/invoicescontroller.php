@@ -119,6 +119,16 @@ class InvoicesController extends Controller
             $invoice = $this->_model->get($id);
             $this->_view->set('invoice', $invoice);
             
+            $invoiceItemTbl = new InvoiceItemsModel();
+            $invoiceItems = $invoiceItemTbl->getListByInvoiceId($id);
+            $this->_view->set('invoiceItems', $invoiceItems);
+            
+            $paymentTbl = new PaymentsModel();
+            $payments = $paymentTbl->getDetailsByInvoiceId($id);
+            
+            $this->_view->set('payments', $payments);
+            
+            
             $customerTbl = new CustomersModel();
             $customer = $customerTbl->get($invoice['customer_id']);
             $this->_view->set('customer', $customer);
@@ -478,6 +488,7 @@ class InvoicesController extends Controller
         $payments = $paymentTbl->getDetailsByInvoiceId($invoiceId);
         $paidAmount = 0;
         $payment = array();
+        
         if(count($payments)) {
             foreach($payments as $row) {
                 $paidAmount += $row['allocated_amt'];

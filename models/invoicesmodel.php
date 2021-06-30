@@ -13,7 +13,11 @@ class InvoicesModel extends Model {
     }
     
     public function get($id) {
-        $sql = "select * from invoices where id = ? limit 1";
+        $sql = "SELECT I.*, OT.title as order_type
+        FROM invoices I
+        join orders O on (I.order_id = O.id)
+        Join order_types OT ON (O.order_type = OT.id)
+        where I.id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         

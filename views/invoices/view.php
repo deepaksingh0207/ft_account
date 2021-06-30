@@ -91,7 +91,7 @@
                       <label for="id_pphone"> <b>Order Type :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $invoice['remarks'] ?>
+                      <?php echo $invoice['order_type'] ?>
                     </div>
                   </div>
 
@@ -114,20 +114,31 @@
                               </tr>
                             </thead>
                             <tbody id="invoicelist">
+                            <?php if(count($invoiceItems)) :
+                            foreach ($invoiceItems as $invoiceItem) :
+                            ?>
                               <tr>
                                 <td>
+                                <?php echo $invoiceItem['item']?>
                                 </td>
                                 <td>
+                                <?php echo $invoiceItem['description']?>
                                 </td>
                                 <td>
+                                <?php echo $invoiceItem['qty']?>
                                 </td>
                                 <td>
+                                <?php echo $invoiceItem['uom_id']?>
                                 </td>
                                 <td>
+                                <?php echo $invoiceItem['unit_price']?>
                                 </td>
                                 <td>
+                                <?php echo $invoiceItem['total']?>
                                 </td>
                               </tr>
+                              <?php endforeach; 
+                              endif; ?>
                             </tbody>
                           </table>
                         </div>
@@ -225,27 +236,31 @@
                           <table class="table">
                             <thead>
                               <tr>
+                              	<th class="min100">Payment Date</th>
                                 <th class="min100">TDS %</th>
                                 <th class="min100">Less TDS</th>
                                 <th class="min100">Net Receivable Amt</th>
-                                <th class="min100">Payment Date</th>
                                 <th class="min100">Cheque/UTR no.</th>
-                                <th class="min100">Received Amt</th>
                                 <th class="min100">Allocated Amt</th>
                                 <th class="min100">Balance Amount</th>
+                                
                               </tr>
                             </thead>
                             <tbody id="invoicelist">
+                            <?php if(count($payments)) :
+                            foreach ($payments as $payment) :
+                            ?>
                               <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                              	<td><?php echo date('d, M Y', strtotime($payment['payment_date']))?></td>
+                                <td><?php echo $payment['tds_percent']?></td>
+                                <td><?php echo $payment['tds_deducted']?></td>
+                                <td><?php echo $payment['receivable_amt']?></td>
+                                <td><?php echo $payment['cheque_utr_no']?></td>
+                                <td><?php echo $payment['allocated_amt']?></td>
+                                <td><?php echo $payment['balance_amt']?></td>
                               </tr>
+                              <?php endforeach; 
+                              endif; ?>
                             </tbody>
                           </table>
                         </div>

@@ -21,9 +21,22 @@ class PaymentsModel extends Model {
     }
     
     public function getDetailsByInvoiceId($invoiceId) {
-        $sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt from payments where invoice_id = ?";
+        //$sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt from payments where invoice_id = ?";
+        $sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt, CP.payment_date, CP.cheque_utr_no
+        from payments P
+        join customer_payments CP ON (CP.id = P.customer_payment_id)
+        where invoice_id = ?";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
+        
+        return $user;
+    }
+    
+    
+    public function getDetailsByPaymentId($paymentId) {
+        $sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt from payments where customer_payment_id = ?";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($paymentId));
         
         return $user;
     }
