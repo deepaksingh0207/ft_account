@@ -9,6 +9,34 @@ use \koolreport\amazing\GaugeCard;
 $countSummary= $this->dataStore('count_summary')->data();
 ?>
 
+<form method="post">
+<div class="form-group" >
+
+<div class="form-group">
+<b>Select Customer</b>
+<?php
+Select::create(array(
+    "multiple"=>false,
+    "name"=>"customer",
+    "dataSource"=>$this->src("ft_account")->query("
+                            select id, name
+                            from customers
+                        "),
+    "dataBind"=>array("text"=>"name","value"=>"id"),
+    "defaultOption"=>array("All"=>''),
+    "attributes"=>array(
+        "class"=>"form-control"
+    )
+));
+?>
+                </div>    
+                 
+                <div class="form-group">
+                    <button class="btn btn-primary">Submit</button>
+                </div>    
+            </div>
+        </div>
+</form>
 <div class="report-content" style="padding:15px">
    
     
