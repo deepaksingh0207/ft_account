@@ -1,6 +1,8 @@
 <?php
 
 use koolreport\KoolReport;
+use koolreport\processes\AggregatedColumn;
+use koolreport\processes\Group;
 
 class TopCustomerReport extends KoolReport
 {
@@ -50,25 +52,37 @@ class TopCustomerReport extends KoolReport
     function setup()
     {
         $query_params = array();
-        if(isset($this->params["months"]) && $this->params["months"] != "00")
-        {
-            $query_params[":months"] = $this->params["months"];
-        }
-        if(isset($this->params["years"]) && $this->params["years"]!=array())
-        {
-            $query_params[":years"] = $this->params["years"];
-        }
-        
         
         $this->src('ft_account')->query("select C.name, SUM(O.ordertotal) total
-from customers C 
-join orders O on O.customer_id = C.id 
-group by C.id
-order by total desc
-limit 5"
+            from customers C 
+            join orders O on O.customer_id = C.id 
+            group by C.id
+            order by total desc
+            limit 5"
             )->params($query_params)
             ->pipe($this->dataStore("customers"));
-               
+
+
+        $this->src('ft_account')->query("select date_format(order_date, '%M-%Y') date, SUM(ordertotal) total FROM orders GROUP BY date_format(order_date, '%M-%Y')")->params($query_params)
+        ->pipe(new AggregatedColumn(array(
+            "total_sale_amount"=>array("sum","total")
+        )))
+        ->pipe($this->dataStore("orders"));
+
+        $this->src('ft_account')->query("select date_format(invoice_date, '%M-%Y') date, SUM(invoice_total) total FROM invoices GROUP BY date_format(invoice_date, '%M-%Y')")->params($query_params)
+            ->pipe($this->dataStore("invoices"));
+        $this->src('ft_account')->query("select date_format(payment_date, '%M-%Y') date, SUM(received_amt) total FROM customer_payments GROUP BY date_format(payment_date, '%M-%Y')")->params($query_params)
+
+            ->pipe($this->dataStore("payments"));
+            
+
+            $this->src('ft_account')->query("select  sum(A.Qty) order_total, sum(B.Qty) invoice_total, Sum(C.Qty) payment_total FROM customers c 
+            LEFT JOIN (SELECT  customer_id, SUM(ordertotal) Qty FROM orders GROUP BY customer_id) as A ON (A.customer_id = c.id)
+            LEFT JOIN (SELECT  customer_id, SUM(invoice_total) Qty FROM invoices GROUP BY customer_id) as B ON B.customer_id = c.id
+            LEFT JOIN (SELECT  customer_id, SUM(received_amt) Qty FROM customer_payments GROUP BY customer_id) as C ON C.customer_id = c.id")->params($query_params)
+            ->pipe($this->dataStore("count_summary"));
+
+            
     }
     
     
