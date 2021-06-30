@@ -39,7 +39,7 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                    <label for="id_contactperson"> <b>Order Number:</b> </label>
+                      <label for="id_contactperson"> <b>Order Number:</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <a href="/ft_account/orders/view/<?php echo $invoice['order_id'] ?>">
@@ -153,18 +153,28 @@
                           </table>
                         </div>
                         <div class="card-footer">
-                          <div class="row">
+                          <div class="row justify-content-center">
+                            <?php if ($invoice['sgst'] != 0 ) : ?>
                             <div class="col-sm-12 col-lg-3 text-center">
-                              <b>SGST : </b>25,000
+                              <b>SGST : </b>
+                              <?php echo $invoice['sgst']?>
                             </div>
+                            <?php endif; ?>
+                            <?php if ($invoice['cgst'] != 0 ) : ?>
                             <div class="col-sm-12 col-lg-3 text-center">
-                              <b>CGST : </b>25,000
+                              <b>CGST : </b>
+                              <?php echo $invoice['cgst']?>
                             </div>
+                            <?php endif; ?>
+                            <?php if ($invoice['igst'] != 0 ) : ?>
                             <div class="col-sm-12 col-lg-3 text-center">
-                              <b>IGST : </b>25,000
+                              <b>IGST : </b>
+                              <?php echo $invoice['igst']?>
                             </div>
+                            <?php endif; ?>
                             <div class="col-sm-12 col-lg-3 text-center" style="color: mediumslateblue;">
-                              <b>TOTAL : </b>25,000
+                              <b>TOTAL : </b>
+                              <?php echo $invoice['invoice_total']?>
                             </div>
                           </div>
                         </div>

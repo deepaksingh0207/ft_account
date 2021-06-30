@@ -20,4 +20,7 @@ $(document).ready(function () {
   if (menu == 'payments'){
     $("#menu_payment").addClass("active"); 
   }
+  if (menu == 'dashboard'){
+    $("#menu_dashboard").addClass("active"); 
+  }
 });
