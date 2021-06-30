@@ -39,10 +39,12 @@
 
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> <b>Order Number:</b> </label>
+                    <label for="id_contactperson"> <b>Order Number:</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['po_no'] ?>
+                      <a href="/ft_account/orders/view/<?php echo $invoice['order_id'] ?>">
+                        <?php echo $invoice['po_no'] ?>
+                      </a>
                     </div>
                   </div>
                   <div class="row mx-1">

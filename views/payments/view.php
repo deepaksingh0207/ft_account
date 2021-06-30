@@ -72,7 +72,9 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td></td>
+                                <td>
+                                  <a href="/ft_account/orders/view/"></a>
+                                </td>
                                 <td></td>
                                 <td></td>
                               </tr>

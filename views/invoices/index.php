@@ -77,8 +77,8 @@
                             <td class="sublist">
                               <?php echo $invoice['id'] ?>
                             </td>
-                            <td class="sublist">
-                              <?php echo $invoice['po_no'] ?>
+                            <td>
+                              <a href="/ft_account/orders/view/<?php echo $invoice['order_id'] ?>"><?php echo $invoice['order_id'] ?></a>
                             </td>
                             <td class="sublist">
                               <?php echo $invoice['po_no'] ?>
