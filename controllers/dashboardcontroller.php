@@ -16,7 +16,6 @@ class DashboardController extends Controller
             $report = new TopCustomerReport();
             $report->run();
             $this->_view->set("report",$report);
-            //return $this->render();
             
             $this->_view->set('title', 'Dashboard');
             
