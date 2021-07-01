@@ -13,10 +13,13 @@ $(function () {
         duedate = $("#due" + value).text();
         diff = diffy(getMonth(duedate.split(" ")[2]) + "/" + duedate.split(" ")[1] + "/" + duedate.split(" ")[3])
         console.log(duedate);
+        $("#due" + value).empty();
         if (diff[2] == ''){
             $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '">' + diff[1] + '</span>');
+            $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
         } else {
             $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '"><i class="fas fa-caret-' + diff[2] + '"></i> ' + diff[1] + '</span>');
+            $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
         }
     });
     $('.odd').hover(function () {
