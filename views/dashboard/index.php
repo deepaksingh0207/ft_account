@@ -86,7 +86,7 @@
                             <td class="sublist align-middle text-center">
                               <?php echo $invoice['invoice_id'] ?>
                           </td>
-                          <td class="sublist align-middle text-center" id="due<?php echo $invoice['invoice_id'] ?>"><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
+                          <td class="sublist align-middle text-center"><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
                             <td class="sublist align-middle text-center">
                               <?php echo $invoice['invoice_amount'] ?>
                             </td>
@@ -96,7 +96,7 @@
                             <td class="sublist align-middle text-center">
                               <?php echo $invoice['balance_amount'] ?>
                             </td>
-                            <td class="sublist duedate align-middle text-center"><?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?></td>
+                            <td class="sublist align-middle text-center" id="due<?php echo $invoice['invoice_id'] ?>"><?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?></td>
                             <td id="age<?php echo $invoice['invoice_id'] ?>"></td>
                           </tr>
                           <?php endforeach; ?>
