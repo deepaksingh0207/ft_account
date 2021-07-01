@@ -6,18 +6,37 @@ class DashboardController extends Controller
     
     public function __construct($model, $action) {   
         parent::__construct($model, $action);
-        $this->_setModel("users");
+        $this->_setModel("invoices");
     }
 
     public function index() {
         
         try {
+            $invoices = $this->_model->getCustomerInvoiceList(); 
+
+            foreach($invoices as &$invoice) {
+                
+                if(strtotime($invoice['due_date']) < strtotime('today')) {
+                    $invoice['due_status'] = 'expired';
+                } else if(strtotime($invoice['due_date']) === strtotime('today')) {
+                    $invoice['due_status'] = 'expire today';
+                } else if(strtotime($invoice['due_date']) > strtotime('today') &&
+                strtotime($invoice['due_date']) < strtotime('+7 days')
+                ) {
+                    $invoice['due_status'] = 'expire soon';
+                } else {
+                    $invoice['due_status'] = 'valid';
+                }
+            }
+
+            //echo '<pre>'; print_r($invoices); exit;
+
+            //$report = new TopCustomerReport();
+            //$report->run();
+            //$this->_view->set("report",$report);
+
             
-            $report = new TopCustomerReport();
-            $report->run();
-            //echo '<pre>'; print_r($report); exit;
-            $this->_view->set("report",$report);
-            
+            $this->_view->set('invoices', $invoices);
             $this->_view->set('title', 'Dashboard');
             
             
