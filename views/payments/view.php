@@ -25,14 +25,31 @@
                     <div class="col-6">
                       <div class="card">
                         <div class="card-body">
-                          <div class="text-bold my-1">
-                            Customer Group : <?php echo $customerPayment['cust_group']?>
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                              <b>Customer Group : </b>
+                            </div>
+                            <div class="col-sm-12 col-lg-8">
+                              <?php echo $customerPayment['cust_group']?>
+                            </div>
                           </div>
-                          <div class="text-bold my-1">
-                            Customer : <?php echo $customerPayment['customer_name']?>
+
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                              <b>Customer : </b>
+                            </div>
+                            <div class="col-sm-12 col-lg-8">
+                              <?php echo $customerPayment['customer_name']?>
+                            </div>
                           </div>
-                          <div class="text-bold my-1">
-                            Remarks : <?php echo $customerPayment['remarks']?>
+
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                              <b>Remark</b>
+                            </div>
+                            <div class="col-sm-12 col-lg-8">
+                              <?php echo $customerPayment['remarks']?>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -41,18 +58,36 @@
                     <div class="col-6">
                       <div class="card">
                         <div class="card-body">
-                          <div class="text-bold my-1">
-                            Payment Date : <?php echo date('D, d M Y', strtotime($customerPayment['payment_date'])) ?>
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                              <b>Payment Date : </b>
+                            </div>
+                            <div class="col-sm-12 col-lg-8">
+                              <?php echo date('D, d M Y', strtotime($customerPayment['payment_date'])) ?>
+                            </div>
                           </div>
-                          <div class="text-bold my-1">
-                            Cheque/UTR no. : <?php echo $customerPayment['cheque_utr_no']?>
+
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                              <b>Cheque/UTR no. : </b>
+                            </div>
+                            <div class="col-sm-12 col-lg-8">
+                              <?php echo $customerPayment['cheque_utr_no']?>
+                            </div>
                           </div>
-                          <div class="text-bold my-1">
-                            Received Amt : <?php echo $customerPayment['received_amt']?>
+
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-4">
+                              <b>Received Amt : </b>
+                            </div>
+                            <div class="col-sm-12 col-lg-8">
+                              <?php echo $customerPayment['received_amt']?>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+
                     <div class="col-12">
                       <div class="card">
                         <div class="card-body">
@@ -68,22 +103,22 @@
                               </tr>
                             </thead>
                             <tbody>
-                            <?php if(count($invoicePayment)) : 
-                              foreach($invoicePayment as $payment) : ?>
+                              <?php if(count($invoicePayment)) : 
+                            foreach($invoicePayment as $payment) : ?>
                               <tr>
                                 <td>
-                                <a href="/ft_account/invoices/view/<?php echo $payment['invoice_id']?>">
-                                  <?php echo $payment['invoice_id']?>
-                                </a>
+                                  <a href="/ft_account/invoices/view/<?php echo $payment['invoice_id']?>">
+                                    <?php echo $payment['invoice_id']?>
+                                  </a>
                                 </td>
                                 <td>
-                                <?php echo $payment['allocated_amt']?>
+                                  <?php echo $payment['allocated_amt']?>
                                 </td>
                               </tr>
                               <?php 
-                                endforeach;
-                              endif;
-                              ?>
+                              endforeach;
+                            endif;
+                            ?>
                             </tbody>
                           </table>
                         </div>
