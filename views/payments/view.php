@@ -107,7 +107,7 @@
                             foreach($invoicePayment as $payment) : ?>
                               <tr>
                                 <td>
-                                  <a href="/ft_account/invoices/view/<?php echo $payment['invoice_id']?>">
+                                  <a href="<?php echo ROOT; ?>invoices/view/<?php echo $payment['invoice_id']?>">
                                     <?php echo $payment['invoice_id']?>
                                   </a>
                                 </td>

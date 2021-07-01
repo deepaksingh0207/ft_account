@@ -42,7 +42,7 @@
                       <label for="id_contactperson"> <b>Order Number:</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <a href="/ft_account/orders/view/<?php echo $invoice['order_id'] ?>">
+                      <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>">
                         <?php echo $invoice['po_no'] ?>
                       </a>
                     </div>
