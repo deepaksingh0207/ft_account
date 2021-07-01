@@ -4,10 +4,10 @@
     <div class="content-wrapper">
       <section class="content">
         <div class="container-fluid pb-5">
-          <div class="row my-3">
+          <div class="row mt-3">
             <div class="col-12">
-              <div class="card card-primary card-tabs">
-                <div class="card-body">
+              <div class="card">
+                <div class="card-header">
                   <div class="row">
                     <div class="col-sm-12 col-lg-2 form-group">
                       <label for="id_period"> Period : </label>
@@ -49,51 +49,51 @@
                         Update
                       </button>
                     </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
                     <div class="col-sm-12 col-lg-12">
-                      <table id="example1" class="table table-striped">
+                      <table id="example1" class="table table-bordered">
                         <thead>
                           <tr>
-                            <th></th>
-                            <th>Invoice No</th>
-                            <th>Invoice Date</th>
-                            <th>Group</th>
-                            <th>Customer</th>
-                            <th>Invoice Amount</th>
-                            <th>Recieved Amount</th>
-                            <th>Balance Amount</th>
-                            <th>Due Date</th>
-                            
+                            <th rowspan="2" class="align-middle text-center">Invoice No.</th>
+                            <th rowspan="2" class="align-middle text-center">Customer<br>(Group)</th>
+                            <th colspan="3" class="align-middle text-center">Amount</th>
+                            <th colspan="2" class="align-middle text-center">Date</th>
+                            <th rowspan="2" class="align-middle text-center">Ageing</th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle text-center">Invoice</th>
+                            <th class="align-middle text-center">Received</th>
+                            <th class="align-middle text-center">Balance</th>
+                            <th class="align-middle text-center">Invoice</th>
+                            <th class="align-middle text-center">Due</th>
                           </tr>
                         </thead>
                         <tbody>
                           <?php if (is_array($invoices) || is_object($invoices)) : ?>
                           <?php foreach ($invoices as $invoice) : ?>
                           <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['invoice_id'] ?>">
-                            <td></td>
-                            <td class="sublist">
-                              <?php echo $invoice['invoice_id'] ?>
+                            <td class="sublist align-middle text-center">
+                                <?php echo $invoice['invoice_id'] ?>
                             </td>
-                            <td>
-                              <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
+                            <td class="sublist align-middle text-center">
+                              <?php echo $invoice['customer_name'] ?><br>(
+                              <?php echo $invoice['customer_group'] ?>)
                             </td>
-                            <td>
-                              <?php echo $invoice['customer_group'] ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $invoice['customer_name'] ?>
-                            </td>
-                            <td class="sublist">
+                            <td class="sublist align-middle text-center">
                               <?php echo $invoice['invoice_amount'] ?>
                             </td>
-                            <td class="sublist">
+                            <td class="sublist align-middle text-center">
                               <?php echo $invoice['recieved_amount'] ?>
                             </td>
-                            <td class="sublist">
+                            <td class="sublist align-middle text-center">
                               <?php echo $invoice['balance_amount'] ?>
                             </td>
-                            <td class="sublist">
-                              <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
-                            </td>
+                            <td class="sublist align-middle text-center" id="due<?php echo $invoice['invoice_id'] ?>"><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
+                            <td class="sublist duedate align-middle text-center"><?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?></td>
+                            <td id="age<?php echo $invoice['invoice_id'] ?>"></td>
                           </tr>
                           <?php endforeach; ?>
                           <?php endif; ?>
@@ -106,35 +106,14 @@
             </div>
           </div>
         </div>
-
-        <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
-          data-target="#modal-default"></button>
-        <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form id="id_deleteform" method="post" class="text-center mb-0">
-                <div class="modal-header">
-                  <div class="modal-title">ORDER DELETE</div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>This action is irreversible please confirm this delete?</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm" id="modaldelete">
-                    Delete
-                  </button>
-                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <script>
+      var invoicelist = []
+      <?php if (is_array($invoices) || is_object($invoices)) : ?>
+      <?php foreach ($invoices as $invoice) : ?>
+      invoicelist.push(<?php echo $invoice['invoice_id'] ?>);
+      <?php endforeach; ?>
+      <?php endif; ?>
+    </script>

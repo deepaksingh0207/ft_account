@@ -8,13 +8,16 @@
   <script src="<?php echo ROOT; ?>assets/js/login.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'dashboard' && ($action == 'index')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/index_dashboard.js"></script>
+<?php endif; ?>
 
 <?php if ($controller == 'customers' && ($action == 'index')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/customerindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/index_customer.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'customers' && ($action == 'edit')) : ?>
@@ -45,7 +48,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/companyindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/index_company.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'company' && ($action == 'create')) : ?>
@@ -72,7 +75,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/orderindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/index_order.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
@@ -86,7 +89,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/invoiceindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/index_invoice.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'payments' && ($action == 'index')) : ?>
@@ -94,7 +97,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/paymentindex.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/index_payment.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'payments' && ($action == 'create')) : ?>
