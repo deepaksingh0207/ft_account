@@ -13,7 +13,10 @@ class CustomerPaymentsModel extends Model {
     }
     
     public function get($id) {
-        $sql = "select * from customer_payments where id = ? limit 1";
+        $sql = "select CG.name cust_group, C.name customer_name, P.* from customer_payments P 
+        join customers C on (C.id = P.customer_id)
+        join customer_groups CG on (CG.id = C.group_id)
+         where P.id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         

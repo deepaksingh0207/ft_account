@@ -106,6 +106,7 @@ class PaymentsController extends Controller
             $this->_view->set('customerPayment', $customerPayment);
             
             $invoicePayment = $this->_model->getDetailsByPaymentId($id);
+            //print_r($invoicePayment); exit;
             $this->_view->set('invoicePayment', $invoicePayment);
             
             return $this->_view->output();

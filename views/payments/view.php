@@ -26,13 +26,13 @@
                       <div class="card">
                         <div class="card-body">
                           <div class="text-bold my-1">
-                            Customer Group :
+                            Customer Group : <?php echo $customerPayment['cust_group']?>
                           </div>
                           <div class="text-bold my-1">
-                            Customer :
+                            Customer : <?php echo $customerPayment['customer_name']?>
                           </div>
                           <div class="text-bold my-1">
-                            Remarks :
+                            Remarks : <?php echo $customerPayment['remarks']?>
                           </div>
                         </div>
                       </div>
@@ -42,13 +42,13 @@
                       <div class="card">
                         <div class="card-body">
                           <div class="text-bold my-1">
-                            Payment Date :
+                            Payment Date : <?php echo date('D, d M Y', strtotime($customerPayment['payment_date'])) ?>
                           </div>
                           <div class="text-bold my-1">
-                            Cheque/UTR no. :
+                            Cheque/UTR no. : <?php echo $customerPayment['cheque_utr_no']?>
                           </div>
                           <div class="text-bold my-1">
-                            Received Amt :
+                            Received Amt : <?php echo $customerPayment['received_amt']?>
                           </div>
                         </div>
                       </div>
@@ -63,21 +63,27 @@
                                   Invoice Number
                                 </th>
                                 <th>
-                                  Invoice Amount
-                                </th>
-                                <th>
                                   Allocated Amount
                                 </th>
                               </tr>
                             </thead>
                             <tbody>
+                            <?php if(count($invoicePayment)) : 
+                              foreach($invoicePayment as $payment) : ?>
                               <tr>
                                 <td>
-                                  <a href="/ft_account/orders/view/"></a>
+                                <a href="/ft_account/invoices/view/<?php echo $payment['invoice_id']?>">
+                                  <?php echo $payment['invoice_id']?>
+                                </a>
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                <?php echo $payment['allocated_amt']?>
+                                </td>
                               </tr>
+                              <?php 
+                                endforeach;
+                              endif;
+                              ?>
                             </tbody>
                           </table>
                         </div>
