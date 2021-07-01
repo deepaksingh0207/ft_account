@@ -1,4 +1,4 @@
-<footer class="main-footer">
+<footer class="main-footer" style="z-index: 12;">
   <div class="float-left" id="resp_msg">
     <b style="color: darkgreen;"><span id="respsuccess"></span></b>
     <b style="color: crimson;"><span id="resperror"></span></b>

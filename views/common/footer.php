@@ -9,6 +9,10 @@
 <?php endif; ?>
 
 <?php if ($controller == 'dashboard' && ($action == 'index')) : ?>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/index_dashboard.js"></script>
 <?php endif; ?>
 
@@ -106,7 +110,9 @@
   <script src="<?php echo ROOT; ?>assets/js/new_payment.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller != 'dashboard' && ($action != 'index')) : ?>
 <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
+<?php endif; ?>
 <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/menu.js"></script>

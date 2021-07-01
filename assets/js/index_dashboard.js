@@ -1,4 +1,14 @@
 $(function () {
+    $("#example1")
+    .DataTable({
+      responsive: true,
+      lengthChange: false,
+      autoWidth: false,
+      paging: true,
+      ordering: false,
+      searching: false,
+    });
+    $(".odd").css("background-color","transparent");
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
         diff = diffy(getMonth(duedate.split(" ")[2]) + "/" + duedate.split(" ")[1] + "/" + duedate.split(" ")[3])
@@ -6,10 +16,25 @@ $(function () {
         if (diff[2] == ''){
             $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '">' + diff[1] + '</span>');
         } else {
-            $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '"><i class="fas fa-caret-' + diff[2] + '"></i>' + diff[1] + '</span>');
+            $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '"><i class="fas fa-caret-' + diff[2] + '"></i> ' + diff[1] + '</span>');
         }
     });
+    $('.odd').hover(function () {
+        $(this).css('background-color', 'lightblue');
+      }, function () {
+        $(this).css('background-color', 'transparent');
+      });
+      $('.even').hover(function () {
+        $(this).css('background-color', 'lightblue');
+      }, function () {
+        $(this).css('background-color', 'transparent');
+      });
 });
+
+$(".sublist").click(function () {
+    var parent_id = $(this).parent("tr").attr("data-href");
+    window.location = parent_id;
+  });
 
 function appendcode(val) {
     if (val < 0) {

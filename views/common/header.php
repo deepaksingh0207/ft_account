@@ -19,7 +19,12 @@
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/new_customer.css" />
   <?php endif; ?>
 
-
+  <?php if ($controller == 'dashboard' && ($action == 'index')) : ?>
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+  <?php endif; ?>
+  
   <?php if ($controller == 'customers' && ($action == 'index')) : ?>
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
