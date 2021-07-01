@@ -92,7 +92,7 @@
                               <?php echo $invoice['balance_amount'] ?>
                             </td>
                             <td class="sublist">
-                              <?php echo date('D, M Y', strtotime($invoice['due_date'])) ?>
+                              <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
                             </td>
                           </tr>
                           <?php endforeach; ?>
