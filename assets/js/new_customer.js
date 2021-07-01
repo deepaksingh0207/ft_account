@@ -1,4 +1,4 @@
-var baseUrl = window.location.origin + '/ft_account/';
+var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
 
 $(function () {
 	$('.select2').select2();

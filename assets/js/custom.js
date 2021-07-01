@@ -2,7 +2,7 @@ $(document).ready(function () {
   $('.odd').hover(function () {
     $(this).css('background-color', 'lightblue');
   }, function () {
-    $(this).css('background-color', '#dee2e6');
+    $(this).css('background-color', '#f2f2f2');
   });
   $('.even').hover(function () {
     $(this).css('background-color', 'lightblue');

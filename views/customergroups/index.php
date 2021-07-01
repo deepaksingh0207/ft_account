@@ -32,7 +32,7 @@
                   </form>
                   <div class="row">
                     <div class="col-12">
-                      <table id="example1" class="table">
+                      <table id="example1" class="table table-striped">
                         <thead>
                           <tr>
                             <th>ID</th>
