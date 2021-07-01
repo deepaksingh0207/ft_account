@@ -55,33 +55,38 @@
                   <div class="row">
                     <div class="col-sm-12 col-lg-12">
                       <table id="example1" class="table table-bordered">
+                        <!-- <table id="example1" class="table"> -->
                         <thead>
                           <tr>
-                            <th rowspan="2" class="align-middle text-center">Invoice No.</th>
-                            <th rowspan="2" class="align-middle text-center">Customer<br>(Group)</th>
-                            <th colspan="3" class="align-middle text-center">Amount</th>
-                            <th colspan="2" class="align-middle text-center">Date</th>
-                            <th rowspan="2" class="align-middle text-center">Ageing</th>
+                            <!-- <th rowspan="2" class="align-middle text-center">Group</th> -->
+                            <th rowspan="2" class="align-middle text-center">Customer</th>
+                            <th colspan="3" class="align-middle text-center">Invoice</th>
+                            <th rowspan="2" class="align-middle text-center">Received Amount</th>
+                            <th rowspan="2" class="align-middle text-center">Balance Amount</th>
+                            <th rowspan="2" class="align-middle text-center">Due Date</th>
+                            <th rowspan="2" rowspan="2" class="align-middle text-center">Ageing</th>
                           </tr>
                           <tr>
-                            <th class="align-middle text-center">Invoice</th>
-                            <th class="align-middle text-center">Received</th>
-                            <th class="align-middle text-center">Balance</th>
-                            <th class="align-middle text-center">Invoice</th>
-                            <th class="align-middle text-center">Due</th>
+                            <th rowspan="2" class="align-middle text-center">No.</th>
+                            <th class="align-middle text-center">Date</th>
+                            <th class="align-middle text-center">Amount</th>
+                            
                           </tr>
                         </thead>
                         <tbody>
                           <?php if (is_array($invoices) || is_object($invoices)) : ?>
                           <?php foreach ($invoices as $invoice) : ?>
                           <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['invoice_id'] ?>">
+                            <!-- <td class="sublist align-middle text-center">
+                            <?php echo $invoice['customer_group'] ?>
+                            </td> -->
                             <td class="sublist align-middle text-center">
-                                <?php echo $invoice['invoice_id'] ?>
+                              <?php echo $invoice['customer_name'] ?>
                             </td>
                             <td class="sublist align-middle text-center">
-                              <?php echo $invoice['customer_name'] ?><br>(
-                              <?php echo $invoice['customer_group'] ?>)
-                            </td>
+                              <?php echo $invoice['invoice_id'] ?>
+                          </td>
+                          <td class="sublist align-middle text-center" id="due<?php echo $invoice['invoice_id'] ?>"><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
                             <td class="sublist align-middle text-center">
                               <?php echo $invoice['invoice_amount'] ?>
                             </td>
@@ -91,7 +96,6 @@
                             <td class="sublist align-middle text-center">
                               <?php echo $invoice['balance_amount'] ?>
                             </td>
-                            <td class="sublist align-middle text-center" id="due<?php echo $invoice['invoice_id'] ?>"><?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?></td>
                             <td class="sublist duedate align-middle text-center"><?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?></td>
                             <td id="age<?php echo $invoice['invoice_id'] ?>"></td>
                           </tr>
