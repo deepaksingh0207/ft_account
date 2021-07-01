@@ -113,7 +113,7 @@ class InvoicesModel extends Model {
     }
     
     public function getCustomerInvoiceList() {
-        $sql = "select CG.name customer_group, C.name customer_name, I.id invoice_id, I.invoice_date, IFNULL(I.invoice_total, 0) invoice_amount, IFNULL(P.allocated_amt, 0) recieved_amount, IFNULL((I.invoice_total - P.allocated_amt), 0) balance_amount, I.due_date
+        $sql = "select CG.name customer_group, C.name customer_name, I.id invoice_id, I.invoice_date, IFNULL(I.invoice_total, 0) invoice_amount, IFNULL(P.allocated_amt, 0) recieved_amount, IFNULL((invoice_total - IFNULL(P.allocated_amt, 0)), 0) balance_amount, I.due_date
         from invoices I
         left join (select invoice_id, SUM(allocated_amt) allocated_amt from payments group by invoice_id) P on (P.invoice_id = I.id)
         join customers C ON (I.customer_id = C.id)
