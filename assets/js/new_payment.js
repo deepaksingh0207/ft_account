@@ -8,6 +8,7 @@ tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd) + 1);
 today = yyyy + "-" + mm + "-" + dd;
 var rowlist = [1], invoicelist = [], selectedinvoice = [];
 var recamt, allamt = 0;
+var turnzero = false;
 
 function humanamount(val) {
   var val = new Intl.NumberFormat('en-IN', {
@@ -24,6 +25,14 @@ function reallocat() {
   });
   tbal(recamt - allamt);
 }
+
+$(document).on("click", ".generate", function () {
+  if (turnzero == true) {
+    tdspercent(0, id);
+    tdsdeduction(0, id);
+  }
+  $("#id_go").click();
+});
 
 function checker() {
   check = true
@@ -183,6 +192,7 @@ $(document).on("change", ".invoice_no", function () {
   tdspercent(0, id);
   tdsdeduction(0, id);
   $("#id_tds_percent" + id).removeAttr("readonly");
+  turnzero = false
   if (invoice_id) {
     $.ajax({
       type: "POST",
@@ -205,8 +215,9 @@ $(document).on("change", ".invoice_no", function () {
             paidamount(data.payments.paid_amount, id)
             if (data.payments.tds_percent > 0.0) {
               $("#id_tds_percent" + id).attr("readonly", true);
-              tdspercent(0, id);
-              tdsdeduction(0, id);
+              turnzero = true
+              tdspercent(data.payments.tds_percent, id);
+              tdsdeduction(data.payments.tds_deducted, id);
               receivableamt(parseFloat(data.invoice_total) - parseFloat(data.payments.tds_deducted), id);
             }
           } else {
@@ -368,7 +379,7 @@ function pendingamount(newval = 0, id) {
   $("#id_pendingamt" + id).data("amt", parseFloat(newval));
   $("#id_pendingamt" + id).text(humanamount(newval));
   all_amt = parseFloat($("#id_allocated_amt" + id).val());
-  balanceamt(parseFloat(newval)-all_amt, id);
+  balanceamt(parseFloat(newval) - all_amt, id);
 }
 
 // function allocatedamt(newval = 0, id) {
