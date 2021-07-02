@@ -237,34 +237,22 @@
 
                         <div class="card-footer">
                           <div class="row">
+                            <div class="col-6">
+                            </div>
                             <div class="col-3">
                               <div class="row">
-                                <div class="col-12"> <b>Paid Amount : </b> </div>
-                                <div class="col-12 align-middle"> <span data-amt="0" data-row="' + val + '"
-                                    id="id_paidamt' + val + '">₹0.00</span> </div>
+                                <div class="col-12">
+                                  <b>Allocated Amount : </b>
+                                  ₹0.00
+                                </div>
                               </div>
                             </div>
                             <div class="col-3">
                               <div class="row">
-                                <div class="col-12"> <b>Pending Amount : </b> </div>
-                                <div class="col-12 align-middle"> <span data-amt="0" data-row="' + val + '"
-                                    id="id_pendingamt' + val + '">₹0.00</span> </div>
-                              </div>
-                            </div>
-                            <div class="col-3">
-                              <div class="row">
-                                <div class="col-12"> <b>Allocated Amount : </b> </div>
-                                <div class="col-12"> <input type="number" data-row="' + val + '"
-                                    class="form-control allocated_amt" min="1" name="allocated_amt[]"
-                                    id="id_allocated_amt' + val + '" value="0"> </div>
-                              </div>
-                            </div>
-                            <div class="col-3">
-                              <div class="row">
-                                <div class="col-12 text-right"> <b>Balance Amount : </b> </div>
-                                <div class="col-12 align-middle text-right"> <span
-                                    id="id_balanceamt' + val + '">₹0.00</span> <input type="hidden"
-                                    data-row="' + val + '" name="balance_amt[]" id="id_balance_amt' + val + '"> </div>
+                                <div class="col-12 text-right">
+                                  <b>Balance Amount : </b>
+                                  ₹0.00
+                                </div>
                               </div>
                             </div>
                           </div>
