@@ -182,7 +182,7 @@ $(document).on("change", ".invoice_no", function () {
   balanceamt(0, id);
   tdspercent(0, id);
   tdsdeduction(0, id);
-  $("#id_tds_percent" + id).removeAttr("disabled");
+  $("#id_tds_percent" + id).removeAttr("readonly");
   if (invoice_id) {
     $.ajax({
       type: "POST",
@@ -204,9 +204,9 @@ $(document).on("change", ".invoice_no", function () {
           if (data.payments.paid_amount) {
             paidamount(data.payments.paid_amount, id)
             if (data.payments.tds_percent > 0.0) {
-              $("#id_tds_percent" + id).attr("disabled", true);
-              tdspercent(data.payments.tds_percent, id);
-              tdsdeduction(data.payments.tds_deducted, id);
+              $("#id_tds_percent" + id).attr("readonly", true);
+              tdspercent(0, id);
+              tdsdeduction(0, id);
               receivableamt(parseFloat(data.invoice_total) - parseFloat(data.payments.tds_deducted), id);
             }
           } else {
