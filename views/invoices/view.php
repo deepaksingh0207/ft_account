@@ -25,7 +25,7 @@
                       <label for="id_customername"> <b>Invoice No :</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['id'] ?>
+                      <?php echo $invoice['invoice_no'] ?>
                     </div>
                   </div>
                   <div class="row mx-1">
