@@ -457,7 +457,7 @@ function fillinvoices(list) {
     balTotal = 0;
     $(".record").attr("disabled", true).hide();
   }
-  $("#pendingbalance").text(balTotal);
+  $("#pendingbalance").text(humanamount(balTotal));
   $("#invoice_list_layout").show();
 }
 

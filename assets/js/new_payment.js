@@ -43,10 +43,14 @@ function checker() {
     }
   });
   if (invoicelist.length == 0) {
-    alert("No Invoice found on this customer ID.");
+    $("#errormsg").empty();
+    $("#errormsg").text("No Invoice for this customer.");
+    $("#errormodal").click();
     check = false
   } else if (allamt != parseFloat($("#id_received_amt").val())) {
-    alert("Sum of Allocated Amount is not equal to Received Amount.");
+    $("#errormsg").empty();
+    $("#errormsg").text("Received Amount is not equal to sum of Allocated Amount.");
+    $("#errormodal").click();
     check = false
   } else if (check == true) {
     $("#responsemodal").click();

@@ -135,6 +135,29 @@
                   </div>
                 </div>
 
+                <button type="button" id="errormodal" data-toggle="modal" data-target="#iderrormodal"
+                  style="display: none"></button>
+
+                <div class="modal fade" id="iderrormodal">
+                  <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" id="errormsg">
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </form>
             </div>
           </div>
