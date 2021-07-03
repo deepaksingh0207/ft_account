@@ -282,7 +282,7 @@ class InvoicesController extends Controller
         require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
         $mpdf->WriteHTML($messageBody);
-        $mpdf->Output('pdf/invoice_'.$invoice['id'].'.pdf', 'F');
+        $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
         
         
         $this->sendMail($invoice, $customer);
