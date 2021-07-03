@@ -4,7 +4,7 @@ var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var tomorrow = yyyy + "-" + mm + "-" + (parseInt(dd)+1);
+var tomorrow = yyyy + "-" + mm + "-" + (dd + 1);
 var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid = 0, DEBUG = true, postdata;
 
 function debug(val) {
@@ -477,6 +477,7 @@ function fillpaymentterm(list) {
     });
     $("#id_paymenttermdiv").show();
   }
+  setpayduedate();
 }
 
 $("#id_orderid").change(function () {
@@ -593,6 +594,19 @@ $(document).on("click", ".record", function () {
 
 
 function settomorrow() {
-  $("#duedate_grp").append('<input type="date" required class="form-control" name="due_date" id="id_due_date">');
+  $("#payduedate_grp").empty();
+  $("#duedate_grp").append('<input type="date" class="form-control" name="due_date" id="id_due_date">');
   $('#id_due_date').attr("min", tomorrow);
 }
+
+function setpayduedate() {
+  $("#duedate_grp").empty();
+  $("#payduedate_grp").append('<input type="date" class="form-control" name="due_date" id="id_due_date">');
+  $('#id_due_date').attr("min", tomorrow);
+}
+
+$(document).on("change", "#id_due_date", function () {
+  if ($(this).valid()) {
+    $(this).removeClass('invalid').addClass('success');
+  }
+});

@@ -283,6 +283,17 @@
                           </table>
                           <hr class="mt-0">
                         </div>
+
+                        <div class="card-footer">
+                          <div class="row">
+                            <div class="col-sm-12 col-lg-1 pt-2">
+                              <label for="id_due_date">Due Date</label>
+                            </div>
+                            <div class="col-sm-12 col-lg-3 form-group" id="payduedate_grp">
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
