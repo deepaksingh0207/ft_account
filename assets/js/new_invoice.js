@@ -593,6 +593,6 @@ $(document).on("click", ".record", function () {
 
 
 function settomorrow() {
-  $("#duedate_grp").append('<input type="date" class="form-control" name="due_date" id="id_due_date">');
+  $("#duedate_grp").append('<input type="date" required class="form-control" name="due_date" id="id_due_date">');
   $('#id_due_date').attr("min", tomorrow);
 }
