@@ -1,10 +1,10 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
 var today = new Date();
-var dd = String(today.getDate()).padStart(2, "0");
+var dd = String(today.getDate() + 1).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var tomorrow = yyyy + "-" + mm + "-" + (dd + 1);
+var tomorrow = yyyy + "-" + mm + "-" + dd;
 var orderlist = customerlist = grouplist = [], groupid, customerid, orderid, gstdict, cgst = 0, sgst = 0, igst = 0, cgstval, sgstval, igstval, invoicetotal = 0, oldid = 0, DEBUG = true, postdata;
 
 function debug(val) {
