@@ -14,18 +14,20 @@ class DashboardController extends Controller
         try {
             $invoices = $this->_model->getCustomerInvoiceList(); 
 
-            foreach($invoices as &$invoice) {
-                
-                if(strtotime($invoice['due_date']) < strtotime('today')) {
-                    $invoice['due_status'] = 'expired';
-                } else if(strtotime($invoice['due_date']) === strtotime('today')) {
-                    $invoice['due_status'] = 'expire today';
-                } else if(strtotime($invoice['due_date']) > strtotime('today') &&
-                strtotime($invoice['due_date']) < strtotime('+7 days')
-                ) {
-                    $invoice['due_status'] = 'expire soon';
-                } else {
-                    $invoice['due_status'] = 'valid';
+            if($invoices) {
+                foreach($invoices as &$invoice) {
+                    
+                    if(strtotime($invoice['due_date']) < strtotime('today')) {
+                        $invoice['due_status'] = 'expired';
+                    } else if(strtotime($invoice['due_date']) === strtotime('today')) {
+                        $invoice['due_status'] = 'expire today';
+                    } else if(strtotime($invoice['due_date']) > strtotime('today') &&
+                    strtotime($invoice['due_date']) < strtotime('+7 days')
+                    ) {
+                        $invoice['due_status'] = 'expire soon';
+                    } else {
+                        $invoice['due_status'] = 'valid';
+                    }
                 }
             }
 

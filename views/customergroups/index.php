@@ -40,7 +40,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php if(count($customergroups)) : 
+                          <?php if($customergroups && count($customergroups)) : 
                         foreach ($customergroups as $groups) :
                         ?>
                           <tr class="groupy">

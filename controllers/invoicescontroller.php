@@ -527,7 +527,12 @@ class InvoicesController extends Controller
 
             if(!empty($lastInvoiceNo)) {
                 $inv = substr($lastInvoiceNo, -3);
+                $prevprx = substr($lastInvoiceNo, 0, 4);
+
                 $inv = ($inv + 1);
+                if($prevprx != $prefix) {
+                    $inv = '001';
+                }
                 $newInvoiceNo = $prefix.str_pad($inv, 3, 0, STR_PAD_LEFT);
             } else {
                 $newInvoiceNo = $prefix.'001';
