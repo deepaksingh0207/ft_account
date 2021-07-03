@@ -285,7 +285,7 @@ class InvoicesController extends Controller
         $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
         
         
-        $this->sendMail($invoice, $customer);
+        //$this->sendMail($invoice, $customer);
     }
     
     function sendMail($invoice, $customer) {
@@ -296,14 +296,14 @@ class InvoicesController extends Controller
         
         try {
             $mailer = $this->_utils->getMailer();
-            $message = (new Swift_Message("Invoice copy #$invoice[id] against PO $invoice[po_no]" ))
+            $message = (new Swift_Message("Invoice copy #$invoice[invoice_no] against PO $invoice[po_no]" ))
             ->setContentType("text/html")
             ->setFrom([HD_MAIL_ID => HD_NAME])
             ->setTo($sentMailTo)
             ->setBcc(FXD_EMAIL_IDS)
             ->setBody("Hi Sir/Mam, <br><br> PFA invoice <br><br><br><br> Regards,<br>Account")
             ->attach(
-                Swift_Attachment::fromPath('./pdf/invoice_'.$invoice['id'].'.pdf')->setContentType('application/pdf')
+                Swift_Attachment::fromPath('./pdf/invoice_'.$invoice['invoice_no'].'.pdf')->setContentType('application/pdf')
                 );
             
             // Send the message
@@ -312,7 +312,7 @@ class InvoicesController extends Controller
             echo $result;
         } catch (Exception $e) {
             
-            print_r($e);
+            print_r($e->getMessage());
             
         }
     }
@@ -525,7 +525,6 @@ class InvoicesController extends Controller
         if($lastRecord) {
             $lastInvoiceNo = $lastRecord['invoice_no'];
 
-            print_r($lastRecord);
             if(!empty($lastInvoiceNo)) {
                 $inv = substr($lastInvoiceNo, -3);
                 $inv = ($inv + 1);
