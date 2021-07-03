@@ -96,6 +96,7 @@
                       <?php echo $invoice['order_type'] ?>
                     </div>
                   </div>
+                  <?php if( $invoice['order_type'] != 'Project Sale' ): ?>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_pphone"> <b>Due Date :</b> </label>
@@ -104,6 +105,7 @@
                       <?php echo $invoice['due_date'] ?>
                     </div>
                   </div>
+                  <?php endif; ?>
 
                   <div class="row mx-1">
                     <div class="col-12">
@@ -149,6 +151,16 @@
                               </tr>
                               <?php endforeach; 
                               endif; ?>
+                              <?php if( $invoice['order_type'] == 'Project Sale' ): ?>
+                              <tr>
+                              <td><?php echo $invoice['id'] ?></td>
+                              <td><?php echo $invoice['payment_description'] ?></td>
+                              <td><?php echo $invoice['pay_percent'] ?></td>
+                              <td>Percentage (%)</td>
+                              <td><?php echo $invoice['order_total'] ?></td>
+                              <td><?php echo $invoice['sub_total'] ?></td>
+                              </tr>
+                              <?php endif; ?>
                             </tbody>
                           </table>
                         </div>
