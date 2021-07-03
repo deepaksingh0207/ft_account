@@ -210,7 +210,7 @@ class InvoicesController extends Controller
         
         
         $vars = array(
-            "{{INV_NO}}" => $invoiceId,
+            "{{INV_NO}}" => $invoice['invoice_no'],
             "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
             "{{COMPANY_BILLTO}}" => $company['address'],
             "{{COMP_TEL}}" => $company['contact'],
