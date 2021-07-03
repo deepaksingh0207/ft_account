@@ -129,5 +129,13 @@ class InvoicesModel extends Model {
     
         return $list;
     }
+
+    public function getLastRecord() {
+        $sql = "select id,invoice_no from invoices order by id desc limit 1";
+        $this->_setSql($sql);
+        $user = $this->getrow();
+        
+        return $user;
+    }
     
 }

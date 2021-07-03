@@ -10,7 +10,6 @@ class InvoicesController extends Controller
     public function index() {
         
         try {
-            
             $invoices = $this->_model->getList();
             
             $this->_view->set('invoices', $invoices);
@@ -68,6 +67,7 @@ class InvoicesController extends Controller
                 
                 $invoiceeData['remarks'] = $data['remarks'];
                 $invoiceeData['due_date'] = $data['due_date'];
+                $invoiceeData['invoice_no'] = $this->genInvoiceNo();
                 
                 
                 if(isset($data['item'])) {
@@ -333,6 +333,7 @@ class InvoicesController extends Controller
             $invoiceItems = array();
             
             
+            $invoice['invoice_no'] = $this->genInvoiceNo();
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];
@@ -400,7 +401,7 @@ class InvoicesController extends Controller
             
             
             $vars = array(
-                "{{INV_NO}}" => $invoiceId,
+                "{{INV_NO}}" => $invoice['invoice_no'],
                 "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
                 "{{COMPANY_BILLTO}}" => $company['address'],
                 "{{COMP_TEL}}" => $company['contact'],
@@ -515,5 +516,33 @@ class InvoicesController extends Controller
         echo json_encode($invoice);
         
     }
+
+    private function genInvoiceNo() {
+        $newInvoiceNo = '';
+        $prefix = date('Y');
+
+        $lastRecord = $this->_model->getLastRecord();
+        if($lastRecord) {
+            $lastInvoiceNo = $lastRecord['invoice_no'];
+
+            print_r($lastRecord);
+            if(!empty($lastInvoiceNo)) {
+                $inv = substr($lastInvoiceNo, -3);
+                $inv = ($inv + 1);
+                $newInvoiceNo = $prefix.str_pad($inv, 3, 0, STR_PAD_LEFT);
+            } else {
+                $newInvoiceNo = $prefix.'001';
+            }
+        
+        } else {
+            $newInvoiceNo = $prefix.'001';
+        }
+
+        return $newInvoiceNo;
+
+
+
+    }
+
     
 }

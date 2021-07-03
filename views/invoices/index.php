@@ -58,9 +58,8 @@
                           <tr>
                             <th></th>
                             <th>Date</th>
-                            <th>Invoice</th>
-                            <th>Order</th>
-                            <th>Customer's PO</th>
+                            <th>Invoice No</th>
+                            <th>Order/PO</th>
                             <th>Customer</th>
                             <th>Salesperson</th>
                             <th>Amount</th>
@@ -75,13 +74,10 @@
                               <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
                             </td>
                             <td class="sublist">
-                              <?php echo $invoice['id'] ?>
-                            </td>
-                            <td>
-                              <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>"><?php echo $invoice['order_id'] ?></a>
+                              <?php echo $invoice['invoice_no'] ?>
                             </td>
                             <td class="sublist">
-                              <?php echo $invoice['po_no'] ?>
+                            <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>"><?php echo $invoice['po_no'] ?></a>
                             </td>
                             <td class="sublist">
                               <?php echo $invoice['customer_name'] ?>

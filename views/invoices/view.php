@@ -124,7 +124,7 @@
                               </tr>
                             </thead>
                             <tbody id="invoicelist">
-                              <?php if(count($invoiceItems)) :
+                              <?php if($invoiceItems && count($invoiceItems)) :
                             foreach ($invoiceItems as $invoiceItem) :
                             ?>
                               <tr>
