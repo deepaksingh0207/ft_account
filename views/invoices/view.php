@@ -96,7 +96,6 @@
                       <?php echo $invoice['order_type'] ?>
                     </div>
                   </div>
-                  <?php if( $invoice['order_type'] != 'Project Sale' ): ?>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_pphone"> <b>Due Date :</b> </label>
@@ -105,7 +104,6 @@
                       <?php echo $invoice['due_date'] ?>
                     </div>
                   </div>
-                  <?php endif; ?>
 
                   <div class="row mx-1">
                     <div class="col-12">
