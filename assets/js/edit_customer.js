@@ -7,112 +7,112 @@ $(function () {
 	});
 	$("#id_quickForm").validate({
 		rules: {
-			group_id: {
-				required: true,
-			},
+			// group_id: {
+			// 	required: true,
+			// },
 			name: {
 				required: true,
 			},
-			contact_person: {
-				required: true,
-			},
-			address: {
-				required: true,
-			},
-			pincode: {
-				required: true,
-				minlength: 6,
-				maxlength: 6,
-			},
-			state: {
-				required: true,
-			},
-			pan: {
-				required: true,
-			},
-			gstin: {
-				required: true,
-			},
-			pphone: {
-				required: true,
-				minlength: 8,
-				maxlength: 10,
-			},
-			aphone: {
-				required: false,
-				minlength: 8,
-				maxlength: 10,
-			},
-			fax: {
-				required: false,
-				minlength: 9,
-				maxlength: 15,
-			},
-			email: {
-				required: true,
-			},
-			remark: {
-				required: true,
-			},
-			managername: {
-				required: true,
-			},
-			manageremail: {
-				required: true,
-			},
-			managerphone: {
-				required: true,
-			},
+			// contact_person: {
+			// 	required: true,
+			// },
+			// address: {
+			// 	required: true,
+			// },
+			// pincode: {
+			// 	required: true,
+			// 	minlength: 6,
+			// 	maxlength: 6,
+			// },
+			// state: {
+			// 	required: true,
+			// },
+			// pan: {
+			// 	required: true,
+			// },
+			// gstin: {
+			// 	required: true,
+			// },
+			// pphone: {
+			// 	required: true,
+			// 	minlength: 8,
+			// 	maxlength: 10,
+			// },
+			// aphone: {
+			// 	required: false,
+			// 	minlength: 8,
+			// 	maxlength: 10,
+			// },
+			// fax: {
+			// 	required: false,
+			// 	minlength: 9,
+			// 	maxlength: 15,
+			// },
+			// email: {
+			// 	required: true,
+			// },
+			// remark: {
+			// 	required: true,
+			// },
+			// managername: {
+			// 	required: true,
+			// },
+			// manageremail: {
+			// 	required: true,
+			// },
+			// managerphone: {
+			// 	required: true,
+			// },
 		},
 		messages: {
-			group_id: {
-				required: "Select a customer group.",
-			},
+			// group_id: {
+			// 	required: "Select a customer group.",
+			// },
 			name: {
 				required: "Please enter customer name.",
 			},
-			contact_person: {
-				required: "Please enter contact person.",
-			},
-			address: {
-				required: "Please enter address.",
-			},
-			pincode: {
-				required: "Please enter pincode.",
-			},
-			state: {
-				required: "Select a State.",
-			},
-			pan: {
-				required: "Invalid format.",
-			},
-			gstin: {
-				required: "Invalid format.",
-			},
-			pphone: {
-				required: "Please enter primary contact.",
-			},
-			aphone: {
-				required: "Please enter secondary contact",
-			},
-			fax: {
-				required: "Invalid format.",
-			},
-			email: {
-				required: "Please enter an email.",
-			},
-			remark: {
-				required: "Please enter additonal info.",
-			},
-			managername: {
-				required: "Please enter IT Manager name.",
-			},
-			manageremail: {
-				required: "Please enter IT Manager email.",
-			},
-			managerphone: {
-				required: "Please enter IT Manager contact.",
-			},
+			// contact_person: {
+			// 	required: "Please enter contact person.",
+			// },
+			// address: {
+			// 	required: "Please enter address.",
+			// },
+			// pincode: {
+			// 	required: "Please enter pincode.",
+			// },
+			// state: {
+			// 	required: "Select a State.",
+			// },
+			// pan: {
+			// 	required: "Invalid format.",
+			// },
+			// gstin: {
+			// 	required: "Invalid format.",
+			// },
+			// pphone: {
+			// 	required: "Please enter primary contact.",
+			// },
+			// aphone: {
+			// 	required: "Please enter secondary contact",
+			// },
+			// fax: {
+			// 	required: "Invalid format.",
+			// },
+			// email: {
+			// 	required: "Please enter an email.",
+			// },
+			// remark: {
+			// 	required: "Please enter additonal info.",
+			// },
+			// managername: {
+			// 	required: "Please enter IT Manager name.",
+			// },
+			// manageremail: {
+			// 	required: "Please enter IT Manager email.",
+			// },
+			// managerphone: {
+			// 	required: "Please enter IT Manager contact.",
+			// },
 		},
 		errorElement: "span",
 		errorPlacement: function (error, element) {
