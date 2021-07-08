@@ -7,9 +7,9 @@ $(function () {
 	});
 	$("#id_quickForm").validate({
 		rules: {
-			// group_id: {
-			// 	required: true,
-			// },
+			group_id: {
+				required: true,
+			},
 			name: {
 				required: true,
 			},
@@ -65,9 +65,9 @@ $(function () {
 			// },
 		},
 		messages: {
-			// group_id: {
-			// 	required: "Select a customer group.",
-			// },
+			group_id: {
+				required: "Select a customer group.",
+			},
 			name: {
 				required: "Please enter customer name.",
 			},

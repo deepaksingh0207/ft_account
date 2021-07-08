@@ -2,6 +2,8 @@ var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] 
 
 $(function () {
 	$('.select2').select2();
+	$('#state_id').val("1");
+	$('#select2-state_id-container').text("Andaman and Nicobar Islands");
 	$.validator.setDefaults({
 		submitHandler: function () {
 			$("#responsemodal").click();
@@ -9,9 +11,9 @@ $(function () {
 	});
 	$("#id_quickForm").validate({
 		rules: {
-			// group_id: {
-			// 	required: true,
-			// },
+			group_id: {
+				required: true,
+			},
 			name: {
 				required: true,
 			},
@@ -67,9 +69,9 @@ $(function () {
 			// },
 		},
 		messages: {
-			// group_id: {
-			// 	required: "Select a customer group.",
-			// },
+			group_id: {
+				required: "Select a customer group.",
+			},
 			name: {
 				required: "Please enter customer name.",
 			},
