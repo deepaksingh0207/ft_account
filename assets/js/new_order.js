@@ -47,7 +47,7 @@ function addrow(charlie) {
 
   $("#" + charlie).append('<td class="form-group"><select class="form-control uom" name="uom[]" id="id_uom' + charlie + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>');
 
-  $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" + charlie + "' /></td>");
+  $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' name='unit_price[]' min='1' id='id_unitprice" + charlie + "' /></td>");
 
   $("#" + charlie).append("<td class='form-group'>₹<input type='hidden' class='form-control ftsm rowtotal' value='' name='total[]' id='total" + charlie +
     "' ><span id='id_total" + charlie + "' >0.00</span></td>");
@@ -124,6 +124,10 @@ function checker() {
   if ($("#id_ordertype").val() == 2) {
     paytm = 0
     $.each(ptlist, function (index, value) {
+      if ($("#id_ptquantity" + value).val() < 1) {
+        check = false;
+        alert('Payment Percent cannot be less than 1.');
+      }
       if ($("#id_ptquantity" + value).val() != "") {
         paytm += parseFloat($("#id_ptquantity" + value).val())
       } else {
@@ -135,6 +139,10 @@ function checker() {
       check = false;
       alert('Sum of all Payment Percent exceeds 100%.');
     }
+    // if (paytm < 100) {
+    //   check = false;
+    //   alert('Sum of all Payment Percent cannot be less than 1.');
+    // }
   }
   if (check == true) {
     $("#responsemodal").click();
