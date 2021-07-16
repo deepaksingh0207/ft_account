@@ -75,7 +75,7 @@ function projecttablebody(charlie) {
 
   $("#pt" + charlie).append("<td class='form-group'><input type='text' class='form-control ftsm desp' name='paymentterm[]' id='id_paymentterm" + charlie + "' placeholder='Enter Description...' /></td>");
 
-  $("#pt" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm qty'  value='' name='ptqty[]' id='id_ptquantity" + charlie + "' max='100' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
+  $("#pt" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm qty'  value='' name='ptqty[]' id='id_ptquantity" + charlie + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
 
   $("#pt" + charlie).append('<td class="pt-3">Percentage (%)</td>');
 
@@ -121,20 +121,26 @@ function checker() {
       check = false;
     }
   });
+  checklessthanone = false;
+  checkmandatory = false;
   if ($("#id_ordertype").val() == 2) {
     paytm = 0
     $.each(ptlist, function (index, value) {
       if ($("#id_ptquantity" + value).val() < 1) {
-        check = false;
-        alert('Payment Percent cannot be less than 1.');
+        checklessthanone = true;
       }
       if ($("#id_ptquantity" + value).val() != "") {
         paytm += parseFloat($("#id_ptquantity" + value).val())
       } else {
-        check = false;
-        alert('All Payment Percent Mandatory.');
-      }
+        checkmandatory = true;
+      }      
     });
+    if (checklessthanone == true) {
+      alert('Payment Percent cannot be less than 1.');
+    }
+    if (checkmandatory == true) {
+      alert('All Payment Percent Mandatory.');
+    }
     if (paytm > 100) {
       check = false;
       alert('Sum of all Payment Percent exceeds 100%.');
@@ -327,14 +333,18 @@ $(document).on("change", ".qty", function () {
   qtycal(qtyid, id[0])
 });
 
-$(document).on("keyup", ".qty", function () {
-  var qtyid = $(this).attr("id");
-  id = qtyid.match(/\d+/);
-  qtycal(qtyid, id[0])
-});
+// $(document).on("keyup", ".qty", function () {
+//   var qtyid = $(this).attr("id");
+//   id = qtyid.match(/\d+/);
+//   qtycal(qtyid, id[0])
+// });
 
 function qtycal(qtyid, id) {
   if (qtyid == "id_ptquantity" + id) {
+    val = $("#id_ptquantity" + id).val();
+    if ((val % 5) > 0) {
+      $("#id_ptquantity" + id).val(parseInt(val) + (5 - (val % 5)));
+    }
     lastfill();
     ptcollector(id);
   } else {
@@ -351,8 +361,8 @@ function lastfill() {
     if ($("#id_ptquantity" + value).val() == "") {
       empty_ptlistids.push(value);
     } else {
-      if ((ptlist.length - 1) == index){
-        $("#id_ptquantity" + value).val(100-ptlist_total);
+      if ((ptlist.length - 1) == index) {
+        $("#id_ptquantity" + value).val(100 - ptlist_total);
       }
       ptlist_total += parseFloat($("#id_ptquantity" + value).val())
     }
