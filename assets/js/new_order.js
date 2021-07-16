@@ -1,7 +1,10 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
 var groupdetails = ""
 var code;
+var empty_ptlistids = []
 var deleteid;
+var var_ordertypeid;
+var lastfillcheck = false
 var sgst = 0;
 var cgst = 0;
 var igst = 0;
@@ -42,7 +45,7 @@ function addrow(charlie) {
 
   $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm qty' name='qty[]' id='id_quantity" + charlie + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
 
-  $("#" + charlie).append('<td class="form-group"><select class="form-control uom" name="uom[]" id="id_uom' + charlie +'"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>');
+  $("#" + charlie).append('<td class="form-group"><select class="form-control uom" name="uom[]" id="id_uom' + charlie + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>');
 
   $("#" + charlie).append("<td class='form-group'><input type='number' class='form-control ftsm unitprice' name='unit_price[]' id='id_unitprice" + charlie + "' /></td>");
 
@@ -61,7 +64,7 @@ function projectdiv() {
   $("#projecttableheader").append('<th class="minmax150">UOM</th>');
   $("#projecttableheader").append('<th class="min100">Unit Price</th>');
   $("#projecttableheader").append('<th class="min100">Total</th>');
-  $("#projecttableheader").append('<th class="min100">Delete</th>');
+  // $("#projecttableheader").append('<th class="min100">Delete</th>');
   $("#projectable").append('<tbody id="projecttablebody"></tbody>');
   $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2">    <button type="button" id="add_pt" class="btn btn-primary btn-sm">Add Payment Terms</button></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="ptsubtotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
 }
@@ -80,8 +83,9 @@ function projecttablebody(charlie) {
 
   $("#pt" + charlie).append("<td class='form-group'>₹<input type='hidden' class='form-control ftsm rowtotal' value='' name='pttotal[]' id='pttotal" + charlie +
     "' ><span id='id_pttotal" + charlie + "' >0.00</span></td>");
-  $("#pt" + charlie).append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
+  // $("#pt" + charlie).append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
   ptlist.push(charlie);
+  $("#id_ptunitprice" + charlie).val($("#id_unitprice1").val()).attr("readonly", true);
   console.log(ptlist);
 }
 
@@ -117,6 +121,21 @@ function checker() {
       check = false;
     }
   });
+  if ($("#id_ordertype").val() == 2) {
+    paytm = 0
+    $.each(ptlist, function (index, value) {
+      if ($("#id_ptquantity" + value).val() != "") {
+        paytm += parseFloat($("#id_ptquantity" + value).val())
+      } else {
+        check = false;
+        alert('All Payment Percent Mandatory.');
+      }
+    });
+    if (paytm > 100) {
+      check = false;
+      alert('Sum of all Payment Percent exceeds 100%.');
+    }
+  }
   if (check == true) {
     $("#responsemodal").click();
   }
@@ -203,9 +222,6 @@ $(function () {
       $(element).removeClass("is-invalid");
     }
   });
-
-  $("#add_item").click();
-
 });
 
 
@@ -282,6 +298,7 @@ $("#add_item").on("click", function () {
     a.push("" + lastid + "");
   }
   $("#id_tr").val(a);
+
 });
 
 // On hovering Address column
@@ -299,12 +316,58 @@ $(document).on("click", "#add_pt", function () {
 $(document).on("change", ".qty", function () {
   var qtyid = $(this).attr("id");
   id = qtyid.match(/\d+/);
-  if (qtyid == "id_ptquantity" + id[0]) {
-    ptcollector(id[0]);
-  } else {
-    rowcollector(id[0]);
-  }
+  qtycal(qtyid, id[0])
 });
+
+$(document).on("keyup", ".qty", function () {
+  var qtyid = $(this).attr("id");
+  id = qtyid.match(/\d+/);
+  qtycal(qtyid, id[0])
+});
+
+function qtycal(qtyid, id) {
+  if (qtyid == "id_ptquantity" + id) {
+    lastfill();
+    ptcollector(id);
+  } else {
+    if ($("#id_ordertype").val() != 2) {
+      rowcollector(id);
+    }
+  }
+}
+
+function lastfill() {
+  ptlist_total = 0
+  empty_ptlistids = []
+  $.each(ptlist, function (index, value) {
+    if ($("#id_ptquantity" + value).val() == "") {
+      empty_ptlistids.push(value);
+    } else {
+      if ((ptlist.length - 1) == index){
+        $("#id_ptquantity" + value).val(100-ptlist_total);
+      }
+      ptlist_total += parseFloat($("#id_ptquantity" + value).val())
+    }
+  });
+  if (lastfillcheck == false) {
+    if (empty_ptlistids.length == 1) {
+      balanc = 100 - ptlist_total
+      if (balanc < 0) {
+        balanc = ""
+      }
+      $("#id_ptquantity" + empty_ptlistids[0]).val(balanc);
+      ptcollector(empty_ptlistids[0]);
+      lastfillcheck = true
+      ptlist_total = 100
+    }
+  }
+  // if (ptlist_total > 100) {
+  //   id = ptlist[ptlist.length - 1]
+  //   extra = parseFloat($("#id_ptquantity" + ptlist.length).val()) - (ptlist_total - 100);
+  //   $("#id_ptquantity" + id).val(parseInt(extra));
+  //   ptcollector(id);
+  // }
+}
 
 // On Unit Price Change
 $(document).on("change", ".unitprice", function () {
@@ -316,6 +379,11 @@ $(document).on("change", ".unitprice", function () {
   } else {
     rowcollector(id[0]);
   }
+  unitprc = $(this).val();
+  $.each(ptlist, function (index, value) {
+    $("#id_ptunitprice" + value).val(unitprc);
+    ptcollector(value);
+  });
 });
 
 $(document).on("change", ".uom", function () {
@@ -329,8 +397,10 @@ $(document).on("change", "#id_ordertype", function () {
   } else {
     $(".field").show();
     $("#orderlist").empty();
-    $("#id_tr").val(0);
-    $( "#add_item").trigger( "click");
+    if (var_ordertypeid != $(this).val()) {
+      $("#id_tr").val("");
+    }
+    $("#add_item").trigger("click");
     if ($(this).val() == "2") {
       $("#add_item").hide();
       $("#order_item_header_qty").text("Payment Slab");
@@ -345,6 +415,12 @@ $(document).on("change", "#id_ordertype", function () {
   $('select.uom').each(function () {
     $(this).val("")
   });
+  if ($("#id_ordertype").val() == 2) {
+    $("#id_uom1").empty().append('<option value="3">Percentage (%)</option>').val("3");
+    // $("#id_uom1").attr("disabled", true);
+    // $("#id_uom1").val("3");
+  }
+  var_ordertypeid = $(this).val()
 });
 
 // Amount Representation
@@ -405,7 +481,7 @@ function highlight(id) {
     $("#ship_id").val(code);
     $("#ship_id").removeClass("is-invalid");
   }
-  
+
 }
 
 // Each Order Item calculator
@@ -416,10 +492,10 @@ function rowcollector(id) {
   rowuom = $("#id_uom" + id).val();
   subtotal = 0;
   if (rowqty[0] != "" && rowunitprice[0] != "") {
-
     subtotal = rowunitprice * rowqty;
-    if($("#id_ordertype").val() == 2 && rowuom == 3) {
-      subtotal = rowunitprice * (rowqty / 100);
+    if ($("#id_ordertype").val() == 2 && rowuom == 3) {
+      // subtotal = rowunitprice * (rowqty / 100);
+      subtotal = rowunitprice
     }
   }
   $("#total" + id).val(subtotal);
@@ -590,15 +666,16 @@ function addprojecttable() {
 
 
 $(document).on("input propertychange paste", '#id_quantity1', function () {
-  if($("#id_ordertype").val() == 2) {
+  if ($("#id_ordertype").val() == 2) {
     console.log("qty change ::" + $(this).val());
     $("#id_project").empty();
     projectdiv()
     $("#add_pt").hide();
     $("#id_projectsummary").empty();
-    for(i=0; i < $(this).val(); i++) {
-      projecttablebody((i+1))
+    ptlist = []
+    for (i = 0; i < $(this).val(); i++) {
+      projecttablebody((i + 1));
     }
   }
-}); 
+});
 
