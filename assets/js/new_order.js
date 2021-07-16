@@ -57,8 +57,8 @@ function projectdiv() {
   $("#projectable").append('<thead><tr id="projecttableheader"></tr></thead>');
   $("#projecttableheader").append('<th class="min100">Item</th>');
   $("#projecttableheader").append('<th class="min100">Payment Term</th>');
-  $("#projecttableheader").append('<th class="minmax150">Qty</th>');
-  $("#projecttableheader").append('<th class="minmax150">Unit of Measure</th>');
+  $("#projecttableheader").append('<th class="minmax150">Payment Percent</th>');
+  $("#projecttableheader").append('<th class="minmax150">UOM</th>');
   $("#projecttableheader").append('<th class="min100">Unit Price</th>');
   $("#projecttableheader").append('<th class="min100">Total</th>');
   $("#projecttableheader").append('<th class="min100">Delete</th>');
@@ -328,9 +328,16 @@ $(document).on("change", "#id_ordertype", function () {
     $(".field").hide();
   } else {
     $(".field").show();
+    $("#orderlist").empty();
+    $("#id_tr").val(0);
+    $( "#add_item").trigger( "click");
     if ($(this).val() == "2") {
+      $("#add_item").hide();
+      $("#order_item_header_qty").text("Payment Slab");
       addprojecttable();
     } else {
+      $("#add_item").show();
+      $("#order_item_header_qty").text("Qty.");
       $("#id_project").empty();
       $("#id_projectsummary").empty();
     }
@@ -412,7 +419,7 @@ function rowcollector(id) {
 
     subtotal = rowunitprice * rowqty;
     if($("#id_ordertype").val() == 2 && rowuom == 3) {
-    	subtotal = rowunitprice * (rowqty / 100);
+      subtotal = rowunitprice * (rowqty / 100);
     }
   }
   $("#total" + id).val(subtotal);
@@ -577,6 +584,21 @@ function getgst(customerid) {
 }
 
 function addprojecttable() {
-  projectdiv()
-  projecttablebody(1)
+  //projectdiv()
+  //projecttablebody(1)
 }
+
+
+$(document).on("input propertychange paste", '#id_quantity1', function () {
+  if($("#id_ordertype").val() == 2) {
+    console.log("qty change ::" + $(this).val());
+    $("#id_project").empty();
+    projectdiv()
+    $("#add_pt").hide();
+    $("#id_projectsummary").empty();
+    for(i=0; i < $(this).val(); i++) {
+      projecttablebody((i+1))
+    }
+  }
+}); 
+

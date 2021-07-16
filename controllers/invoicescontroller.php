@@ -470,13 +470,6 @@ class InvoicesController extends Controller
             
             $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
             
-            /*
-            require_once HOME . DS. 'vendor/autoload.php';
-            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
-            $mpdf->WriteHTML($messageBody);
-            $mpdf->Output('pdf/invoice_'.$invoice['id'].'.pdf', 'F');
-            */
-            
             echo $messageBody;
         }
         
