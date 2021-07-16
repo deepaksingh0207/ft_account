@@ -345,6 +345,9 @@ function qtycal(qtyid, id) {
     if ((val % 5) > 0) {
       $("#id_ptquantity" + id).val(parseInt(val) + (5 - (val % 5)));
     }
+    if (val > 100) {
+      $("#id_ptquantity" + id).val(100);
+    }
     lastfill();
     ptcollector(id);
   } else {
