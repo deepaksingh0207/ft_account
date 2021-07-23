@@ -50,14 +50,15 @@
                       </div>
 
                       <div class="col-sm-10 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
-                      </div>
-
-                      <div class="col-sm-2 col-lg-1 form-group">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
-                          id="billaddbtn">
-                          <i class="fas fa-search"></i>
-                        </button>
+                        <div class="input-group">
+                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="bill_to" id="bill_id" readonly />
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-default" data-toggle="modal"
+                              data-target="#addmodel" id="billaddbtn">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -66,15 +67,16 @@
                         <label for="ship_id">Ship To :</label>
                       </div>
 
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
-                      </div>
-
-                      <div class="col-sm-2 col-lg-1 form-group">
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
-                          id="shipaddbtn">
-                          <i class="fas fa-search"></i>
-                        </button>
+                      <div class="col-sm-10 col-lg-3 form-group">
+                        <div class="input-group">
+                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="ship_to" id="ship_id" readonly />
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
+                              id="shipaddbtn">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -154,7 +156,7 @@
                             <tr>
                               <th class="min100">Item</th>
                               <th class="min100">Description</th>
-                              <th class="minmax150">Qty</th>
+                              <th class="minmax150" id="order_item_header_qty">Qty</th>
                               <th class="minmax150">Unit of Measure</th>
                               <th class="min100">Unit Price</th>
                               <th class="min100">Total</th>

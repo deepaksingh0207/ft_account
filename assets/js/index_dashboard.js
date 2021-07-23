@@ -1,20 +1,20 @@
 $(function () {
     $("#example1")
-    .DataTable({
-      responsive: true,
-      lengthChange: false,
-      autoWidth: false,
-      paging: true,
-      ordering: false,
-      searching: false,
-    });
-    $(".odd").css("background-color","transparent");
+        .DataTable({
+            responsive: true,
+            lengthChange: false,
+            autoWidth: false,
+            paging: true,
+            ordering: false,
+            searching: false,
+        });
+    $(".odd").css("background-color", "transparent");
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
-        diff = diffy(getMonth(duedate.split(" ")[2]) + "/" + duedate.split(" ")[1] + "/" + duedate.split(" ")[3])
+        diff = appendcode(datediff(getMonth(duedate.split(" ")[2]) + "/" + duedate.split(" ")[1] + "/" + duedate.split(" ")[3]));
         console.log(duedate);
         $("#due" + value).empty();
-        if (diff[2] == ''){
+        if (diff[2] == '') {
             $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '">' + diff[1] + '</span>');
             $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
         } else {
@@ -24,35 +24,45 @@ $(function () {
     });
     $('.odd').hover(function () {
         $(this).css('background-color', 'lightblue');
-      }, function () {
+    }, function () {
         $(this).css('background-color', 'transparent');
-      });
-      $('.even').hover(function () {
+    });
+    $('.even').hover(function () {
         $(this).css('background-color', 'lightblue');
-      }, function () {
+    }, function () {
         $(this).css('background-color', 'transparent');
-      });
+    });
 });
 
 $(".sublist").click(function () {
     var parent_id = $(this).parent("tr").attr("data-href");
     window.location = parent_id;
-  });
+});
 
 function appendcode(val) {
-    if (val < 0) {
-        val *= -1
-        val = ['danger', val + ' Days ago', 'down']
-        return val
-    } else if (val > 0) {
-        if (val > 7) {
-            val = ['success', val + ' Days', 'up']
+    val = parseInt(val)
+    if (val > 24) {
+        if (val > 168) {
+            val = ['success', parseInt(val / 24) + ' Days', 'up']
             return val
         } else {
-            val = ['warning', val + ' Days', 'up']
+            val = ['warning', parseInt(val / 24) + ' Days', 'up']
             return val
         }
-    } else {
+    }
+    else if (val < -48) {
+        val = ['danger', parseInt((val * -1) / 24) + ' Days ago', 'down']
+        return val
+    }
+    else if (0 < val) {
+        val = ['warning', 'Tomorrow', 'down']
+        return val
+    }
+    else if (val < -24) {
+        val = ['danger', 'Yesterday', 'down']
+        return val
+    }
+    else {
         val = ['warning', 'Today', '']
         return val
     }
@@ -60,11 +70,7 @@ function appendcode(val) {
 
 function getMonth(mon) { return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1 }
 
-function diffy(secondDate) {
-    var today = new Date();
-    var endDay = new Date(secondDate);
-    var millisBetween = endDay.getTime() - today.getTime();
-    var days = millisBetween / (1000 * 3600 * 24);
-    console.log(days);
-    return appendcode(Math.round(days));
+function datediff(fromdate) {
+    // Return value in Hrs.
+    return (new Date(fromdate).getTime() - new Date().getTime()) / 3600000;
 }
