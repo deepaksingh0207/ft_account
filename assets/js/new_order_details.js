@@ -56,12 +56,16 @@ $(document).on("click", ".fill_customer_details", function () {
 
 function resetongroup() {
   customergroup_data = "";
-  $("#id_bill_to").val("");
-  $("#id_ship_id").val("");
+  resetonbillto()
   $("#id_customertext").text("");
-  $("#salesperson_id").val("");
   // $("#id_po_no").val("");
   // $("#comment_id").val("");
+}
+
+function resetonbillto(){
+  $("#salesperson_id").val("");
+  $("#id_bill_to").val("");
+  $("#id_ship_to").val("");
 }
 
 

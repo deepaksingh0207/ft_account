@@ -64,7 +64,7 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_ship_id">Ship To :</label>
+                        <label for="id_ship_to">Ship To :</label>
                       </div>
 
                       <div class="col-sm-10 col-lg-3 form-group">
@@ -215,7 +215,7 @@
                       </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mt-5">
                       <div class="col-12 table-responsive" id="id_project"></div>
                       <div class="col-12" id="id_projectsummary"></div>
                     </div>

@@ -58,6 +58,9 @@ $(".killrow").click(function () {
     orderid_list = jQuery.grep(orderid_list, function (b) {
       return b != deleteid;
     });
+    if (orderid_list.length < 1) {
+      $("#add_item").trigger("click");
+    }
     ttotal();
     $("#byemodal").click();
   }
@@ -267,6 +270,7 @@ function updatesgst(val) {
 
 // Customer Details Colletctor
 function getcustomerdetails(customerid) {
+  resetonbillto();
   if (customerid) {
     $.ajax({
       type: "POST",
@@ -276,17 +280,12 @@ function getcustomerdetails(customerid) {
       encode: true,
     })
       .done(function (data) {
-        $("#salesperson_id").val(data.contact_person);
-        $("#salesperson_id").removeClass("is-invalid");
+        $("#salesperson_id").val(data.contact_person).removeClass("is-invalid");
         getgst(customerid);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
       });
-  } else {
-    $("#salesperson_id").val("");
-    $("#id_bill_to").val("");
-    $("#id_ship_id").val("");
   }
 }
 
@@ -332,11 +331,11 @@ function addprojecttable() {
 
 $(document).on("input propertychange paste", '#id_quantity1', function () {
   if ($("#id_ordertype").val() == 2) {
-    $("#id_project").empty();
-    projectdiv()
-    $("#add_pt").hide();
-    $("#id_projectsummary").empty();
     ptlist = []
+    $("#id_project").empty();
+    $("#id_projectsummary").empty();
+    $("#add_pt").hide();
+    projectdiv()
     for (i = 0; i < $(this).val(); i++) {
       projecttablebody((i + 1));
     }
@@ -354,9 +353,9 @@ function addrow(id) {
     .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
     .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
-    .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
+    .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
       "' ><span id='id_total" + id + "' >₹0.00</span></td>")
-    .append("<td><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
+    .append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
   orderid_list.push(id);
 }
 
@@ -378,12 +377,11 @@ function projecttablebody(id) {
   $("#projecttablebody").append("<tr id='pt" + id + "'></tr>");
   $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control item' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='Enter item name' /></td>")
     .append("<td class='form-group'><input type='text' class='form-control desp' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='Enter Description...' /></td>")
-    .append("<td class='form-group'><input type='number' class='form-control qty'  value='' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
+    .append("<td class='form-group max150'><input type='number' class='form-control qty'  value='' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
     .append('<td class="pt-3">Percentage (%)</td>')
-    .append("<td class='form-group'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
+    .append("<td class='form-group max150'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
     .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='pttotal[]' data-id='" + id + "' data-val='0' id='pttotal" + id + "' ><span id='id_pttotal" + id + "' >₹0.00</span></td>");
   // .append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
   ptlist.push(id);
   $("#id_ptunitprice" + id).val($("#id_unitprice1").val()).attr("readonly", true);
 }
-
