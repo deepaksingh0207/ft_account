@@ -6,7 +6,6 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
-            <input type="hidden" id="id_tr" name="trid" value="" />
               <form method="post" id="quickForm" novalidate="novalidate">
                 <div class="card">
 
@@ -25,12 +24,12 @@
                   <div class="card-body">
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2">
+                      <div class="col-sm-4 col-lg-2">
                         <label for="id_customergroup">
                           Customer Group :
                         </label>
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
+                      <div class="col-sm-6 col-lg-3 form-group">
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
@@ -43,36 +42,19 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="bill_id">
+                      <div class="col-sm-6 col-lg-2">
+                        <label for="id_bill_to">
                           Bill To :
                         </label>
                       </div>
 
-                      <div class="col-sm-10 col-lg-3 form-group">
+                      <div class="col-sm-6 col-lg-3 form-group">
                         <div class="input-group">
-                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="bill_to" id="bill_id" readonly />
-                          <div class="input-group-append">
-                            <button type="button" class="btn btn-default" data-toggle="modal"
-                              data-target="#addmodel" id="billaddbtn">
-                              <i class="fas fa-search"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="ship_id">Ship To :</label>
-                      </div>
-
-                      <div class="col-sm-10 col-lg-3 form-group">
-                        <div class="input-group">
-                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="ship_to" id="ship_id" readonly />
+                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="bill_to"
+                            id="id_bill_to" readonly />
                           <div class="input-group-append">
                             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
-                              id="shipaddbtn">
+                              id="id_search_billto">
                               <i class="fas fa-search"></i>
                             </button>
                           </div>
@@ -82,14 +64,33 @@
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="bill_id">
+                        <label for="id_ship_id">Ship To :</label>
+                      </div>
+
+                      <div class="col-sm-10 col-lg-3 form-group">
+                        <div class="input-group">
+                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="ship_to"
+                            id="id_ship_to" readonly />
+                          <div class="input-group-append">
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
+                              id="id_search_shipto">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_customer_id">
                           Customer Name:
                         </label>
                       </div>
 
-                      <div class="col-sm-10 col-lg-3 form-group">
-                        <input type="hidden" class="form-control ftsm" name="customer_id" id="id_customer_id" />
-                        <input type="hidden" class="form-control ftsm" name="taxrate" id="id_taxrate" />
+                      <div class="col-sm-10 col-lg-3 form-group text-center">
+                        <input type="hidden" name="customer_id" id="id_customer_id" />
+                        <input type="hidden" name="taxrate" id="id_taxrate" />
                         <span id="id_customertext"></span>
                       </div>
                     </div>
@@ -149,73 +150,74 @@
                       </div>
                     </div>
 
-                    <div class="row field" style="display: none;">
+                    <div class="row order" style="display: none;">
                       <div class="col-12 table-responsive">
                         <table class="table text-center mb-0">
                           <thead>
                             <tr>
-                              <th class="min100">Item</th>
-                              <th class="min100">Description</th>
-                              <th class="minmax150" id="order_item_header_qty">Qty</th>
-                              <th class="minmax150">Unit of Measure</th>
-                              <th class="min100">Unit Price</th>
-                              <th class="min100">Total</th>
-                              <th class="min100">Delete</th>
+                              <th>Item</th>
+                              <th>Description</th>
+                              <th id="order_item_header_qty"></th>
+                              <th>Unit of Measure</th>
+                              <th>Unit Price</th>
+                              <th>Total</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tbody id="orderlist">
                           </tbody>
                         </table>
-                        <hr class="mt-0">
+                        <hr class="m-1">
                       </div>
-                      <div class="col-12">
+                      <div class="col-12 pr-5">
                         <div class="row">
-                          <div class="col-6 mb-2">
-                            <button type="button" id="add_item" class="btn btn-primary btn-sm">
-                              ADD ITEM
-                            </button>
+                          <div class="col-6">
+                            <div class="row">
+                              <div class="col-12">
+                                <small class="text-muted pl-3"><i>*Mandatory Fields</i></small>
+                              </div>
+                              <div class="col-12 mt-2 pl-4">
+                                <button type="button" id="add_item" class="btn btn-primary btn-sm order">
+                                  ADD ITEM
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                          <div class="col-6 mb-2">
+                          <div class="col-6 pr-3">
                             <div class="col-12 text-right">
                               <input type="hidden" name="ordersubtotal" id="id_ordersubtotal" value="0.0">
                               <b>Sub Total : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="subtotal">0.00</span>
+                              <span id="subtotal">₹0.00</span>
                             </div>
                             <div class="col-12 text-right" id="sgstdiv" style="display: none">
                               <input type="hidden" name="sgst" id="id_sgst" value="0.0" />
                               <b>SGST <span id="sgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="sgstvalue">0.00</span>
+                              <span id="sgstvalue">₹0.00</span>
                             </div>
                             <div class="col-12 text-right" id="cgstdiv" style="display: none">
                               <input type="hidden" name="cgst" id="id_cgst" value="0.0" />
                               <b>CGST <span id="cgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="cgstvalue">0.00</span>
+                              <span id="cgstvalue">₹0.00</span>
                             </div>
                             <div class="col-12 text-right" id="igstdiv" style="display: none">
                               <input type="hidden" name="igst" id="id_igst" value="0.0" />
                               <b>IGST <span id="igstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="igstvalue">0.00</span>
+                              <span id="igstvalue">₹0.00</span>
+                            </div>
+                            <div class="col-12 text-right">
+                              <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.0">
+                              <b>Total : &nbsp; &nbsp; &nbsp;</b>
+                              <span id="total">₹0.00</span>
                             </div>
                           </div>
                         </div>
-                        <hr>
-                      </div>
-                    </div>
 
-                    <div class="row field mb-5" style="display: none;">
-                      <div class="col-12 text-right">
-                        <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.0">
-                        <b>Total : &nbsp; &nbsp; &nbsp;</b>
-                        <span id="total">0.00</span>
                       </div>
                     </div>
 
                     <div class="row">
-                      <div class="col-12 table-responsive" id="id_project">
-                      </div>
-                      <div class="col-12" id="id_projectsummary">
-                        
-                      </div>
+                      <div class="col-12 table-responsive" id="id_project"></div>
+                      <div class="col-12" id="id_projectsummary"></div>
                     </div>
                   </div>
 
@@ -296,28 +298,17 @@
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="mylabel"></h5>
+                <h5 class="modal-title" id="modal_title"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <div id="addhead">
-                  <!-- <table class="table table-hover" style="border: 1px solid lightgrey;">
-                    <thead>
-                      <th></th>
-                      <th>Customer Code</th>
-                      <th>Customer Name</th>
-                      <th>Ship To Address</th>
-                    </thead>
-                    <tbody id="addbody">
-                    </tbody>
-                  </table> -->
-                </div>
+                <div id="addhead"></div>
               </div>
-              <div class="modal-footer justify-content-between">
+              <div class="modal-footer justify-content-between addmodelfooter">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary billtoclick" data-dismiss="modal">Select</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Select</button>
               </div>
             </div>
           </div>
