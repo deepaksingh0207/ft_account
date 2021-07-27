@@ -78,7 +78,6 @@
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_order.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_order_details.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_order_validation.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/new_order_paymentterm.js?<?php echo time(); ?>"></script>
