@@ -104,6 +104,7 @@ $(document).on("change", "#id_ordertype", function () {
   if ($(this).val()) {
     $(".order").show();
     if (old_orderid != $(this).val()) {
+      resetPaymentTermForm();
       $("#orderlist").empty();
       orderid_list = [];
       last_orderid = 0
@@ -210,7 +211,7 @@ function lastfill() {
   emptyPaymentTermIds = []
   $.each(ptlist, function (index, value) {
     if ($("#id_ptquantity" + value).val()) {
-      if ((ptlist.length - 1) == index) {
+      if ((ptlist.length - 1) == index && oneTimeLastFill == true) {
         // Always sets last payment slab to balance
         $("#id_ptquantity" + value).val(100 - paymentTermTotal);
       }

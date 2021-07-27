@@ -66,6 +66,10 @@ $(document).on("input propertychange paste", '#id_quantity1', function () {
   }
 });
 
+function resetPaymentTermForm(){
+  $("#id_project").empty();
+  $("#id_projectsummary").empty();
+}
 
 function projectdiv() {
   $("#id_project").append('<table class="table text-center mb-0" id="projectable"></table>');
