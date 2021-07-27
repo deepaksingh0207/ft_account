@@ -112,13 +112,10 @@ $(document).on("change", "#id_ordertype", function () {
       if ($(this).val() == "2") {
         $("#add_item").hide();
         $("#order_item_header_qty").text("Payment Slab");
-        $("#id_uom1").empty().append('<option value="3">Percentage (%)</option>').val("3");
+        $("#id_uom1").empty().append('<option value="3" selected>Percentage (%)</option>');
       } else {
         $("#order_item_header_qty").text("Qty.");
       }
-      $('select.uom').each(function () {
-        $(this).val("")
-      });
     }
   } else {
     $(".order").hide();

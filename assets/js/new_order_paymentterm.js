@@ -57,9 +57,9 @@ $(document).on("input propertychange paste", '#id_quantity1', function () {
   if ($("#id_ordertype").val() == 2) {
     ptlist = []
     $("#id_project").empty();
+    projectdiv()
     $("#id_projectsummary").empty();
     $("#add_pt").hide();
-    // projectdiv()
     for (i = 0; i < $(this).val(); i++) {
       projecttablebody((i + 1));
     }
