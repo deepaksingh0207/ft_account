@@ -72,7 +72,7 @@ function resetPaymentTermForm(){
 }
 
 function projectdiv() {
-  $("#id_project").append('<table class="table text-center mb-0" id="projectable"></table>');
+  $("#id_project").append('<table class="table text-center mt-5" id="projectable"></table>');
   $("#projectable").append('<thead><tr id="projecttableheader"></tr></thead>')
     .append('<tbody id="projecttablebody"></tbody>');
   $("#projecttableheader").append('<th class="min100">Item</th>')
@@ -87,8 +87,8 @@ function projectdiv() {
 
 function projecttablebody(id) {
   $("#projecttablebody").append("<tr id='pt" + id + "'></tr>");
-  $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control item' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='Enter item name' /></td>")
-    .append("<td class='form-group'><input type='text' class='form-control desp' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='Enter Description...' /></td>")
+  $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control item' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='*Enter Item' /></td>")
+    .append("<td class='form-group'><input type='text' class='form-control desp' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='*Enter Description' /></td>")
     .append("<td class='form-group max150'><input type='number' class='form-control qty'  value='' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
     .append('<td class="pt-3">Percentage (%)</td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")

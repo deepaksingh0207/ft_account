@@ -137,7 +137,7 @@ function checker() {
       }
     });
     if (checklessthanone == true) {
-      alert('Payment Percent cannot be less than 1.');
+      alert('Payment Percent cannot be less than 5.');
     }
     if (checkmandatory == true) {
       alert('All Payment Percent Mandatory.');
@@ -179,7 +179,7 @@ $(".alphaonly").on("keypress", function (event) {
 // Order Row creating function with row id as arguement
 function addrow(id) {
   $("#orderlist").append("<tr id='" + id + "'></tr>");
-  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Name' /></td>")
+  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
     .append("<td class='form-group'><input type='text' class='form-control min150 desp' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
     .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
     .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')

@@ -215,7 +215,7 @@
                       </div>
                     </div>
 
-                    <div class="row mt-5">
+                    <div class="row">
                       <div class="col-12 table-responsive" id="id_project"></div>
                       <div class="col-12" id="id_projectsummary"></div>
                     </div>
