@@ -245,7 +245,7 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Are you confirm to add new order.?</p>
+                        <p>Are you confirm to add this order?</p>
                       </div>
                       <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
