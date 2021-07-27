@@ -71,6 +71,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?php echo ROOT; ?>settings" class="nav-link" id="menu_settings">
+          <i class="fas fa-cog"></i>
+            <p>
+              Settings
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
             <i class="fas fa-power-off"></i>
             <p>

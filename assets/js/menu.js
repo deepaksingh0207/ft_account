@@ -23,4 +23,7 @@ $(document).ready(function () {
   if (menu == 'dashboard'){
     $("#menu_dashboard").addClass("active"); 
   }
+  if (menu == 'settings'){
+    $("#menu_settings").addClass("active"); 
+  }
 });
