@@ -154,7 +154,7 @@
                         <div class="row">
                           <div class="col-sm-12 col-lg-4">
                             <label for="id_ordertype">
-                              Attachments :
+                              Upload PO :
                             </label>
                           </div>
                           <div class="col-sm-12 col-lg-6">
@@ -314,17 +314,17 @@
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="modal_title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="id_address_close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
                 <div id="addhead"></div>
               </div>
-              <div class="modal-footer justify-content-between addmodelfooter">
+              <!-- <div class="modal-footer justify-content-between addmodelfooter">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Select</button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

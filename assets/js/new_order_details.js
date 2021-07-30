@@ -51,6 +51,7 @@ $(document).on("click", ".fill_customer_details", function () {
     $("#id_ship_to").val($(this).data('id')).removeClass("is-invalid");
     $("#id_ship_to-error").remove();
   }
+  // $("#id_address_close").trigger('click');
 });
 
 
@@ -74,7 +75,7 @@ function modelfill(checkboxclass, label) {
   $("#modal_title").text(label);
   $("#addhead").empty();
   $("#addbody").empty();
-  $(".addmodelfooter").hide();
+  // $(".addmodelfooter").hide();
   if (customergroup_data) {
     $("#addhead").append('<table class="table table-hover" style="border: 1px solid lightgrey;"><thead><th></th><th>Code</th><th>Name</th><th>Address</th></thead><tbody id="addbody"></tbody></table>');
     $.each(customergroup_data, function (index, row) {
@@ -85,7 +86,7 @@ function modelfill(checkboxclass, label) {
         .append("<td class='fill_customer_details' id='col_3_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' >" + row.name + "</td>")
         .append("<td class='fill_customer_details' id='col_4_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' style='width: 455px'>" + row.address + "</td>");
     });
-    $(".addmodelfooter").show();
+    // $(".addmodelfooter").show();
   }
   else {
     $("#addhead").append('No Records');
