@@ -110,6 +110,22 @@ class OrdersController extends Controller
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
                 
+                if(!empty($_FILES)){
+                    //Get the temp file path
+                    $tmpFilePath = $_FILES['upload_po']['tmp_name'];
+                    
+                    //Make sure we have a file path
+                    if ($tmpFilePath != ""){
+                        //Setup our new file path
+                        $newFilePath =  "./order_po/". $_FILES['upload_po']['name'];
+                        //Upload the file into the temp dir
+                        if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                            $orderData['po_file'] = $_FILES['upload_po']['name'];
+                            
+                        }
+                    }
+                }
+
                 
                 if($orderData['order_type'] == 2) {
                     foreach($data['ptitem'] as $key => $item) {

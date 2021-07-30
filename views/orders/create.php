@@ -6,7 +6,7 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
-              <form method="post" id="quickForm" novalidate="novalidate">
+              <form method="post" id="quickForm" novalidate="novalidate" enctype="multipart/form-data">
                 <div class="card">
 
                   <div class="card-header">
