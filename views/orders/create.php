@@ -157,8 +157,8 @@
                               Upload PO :
                             </label>
                           </div>
-                          <div class="col-sm-12 col-lg-6">
-                            <input type="file" name="upload_po" id="id_upload_po">
+                          <div class="col-sm-12 col-lg-6 form-group">
+                            <input type="file" name="upload_po" id="id_upload_po" required>
                           </div>
                         </div>
 
