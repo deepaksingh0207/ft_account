@@ -75,6 +75,10 @@ function resetonbillto(){
   $("#salesperson_id").val("");
 }
 
+function resetonordertype(){
+  ttotal();
+}
+
 
 // Address Model Creator Function
 function modelfill(checkboxclass, label) {
@@ -126,6 +130,7 @@ $(document).on("change", "#id_ordertype", function () {
       } else {
         $("#order_item_header_qty").text("Qty.");
       }
+      resetonordertype()
     }
   } else {
     $(".order").hide();
