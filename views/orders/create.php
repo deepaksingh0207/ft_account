@@ -22,131 +22,146 @@
                   </div>
 
                   <div class="card-body">
-
                     <div class="row">
-                      <div class="col-sm-4 col-lg-2">
-                        <label for="id_customergroup">
-                          Customer Group :
-                        </label>
-                      </div>
-                      <div class="col-sm-6 col-lg-3 form-group">
-                        <select class="form-control" name="group_id" id="id_group_id">
-                          <option value=""></option>
-                          <?php foreach ($groups as $group) : ?>
-                          <option value="<?php echo $group['id'] ?>">
-                            <?php echo $group['name'] ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div>
 
-                    <div class="row">
-                      <div class="col-sm-6 col-lg-2">
-                        <label for="id_bill_to">
-                          Bill To :
-                        </label>
-                      </div>
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col-sm-4 col-lg-4">
+                            <label for="id_customergroup">
+                              Customer Group :
+                            </label>
+                          </div>
+                          <div class="col-sm-6 col-lg-6 form-group">
+                            <select class="form-control" name="group_id" id="id_group_id">
+                              <option value=""></option>
+                              <?php foreach ($groups as $group) : ?>
+                              <option value="<?php echo $group['id'] ?>">
+                                <?php echo $group['name'] ?>
+                              </option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
 
-                      <div class="col-sm-6 col-lg-3 form-group">
-                        <div class="input-group">
-                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="bill_to"
-                            id="id_bill_to" readonly />
-                          <div class="input-group-append">
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
-                              id="id_search_billto">
-                              <i class="fas fa-search"></i>
-                            </button>
+                        <div class="row">
+                          <div class="col-sm-6 col-lg-4">
+                            <label for="id_bill_to">
+                              Bill To :
+                            </label>
+                          </div>
+                          <div class="col-sm-6 col-lg-6 form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control ftsm" placeholder="Search Address" name="bill_to"
+                                id="id_bill_to" readonly />
+                              <div class="input-group-append">
+                                <button type="button" class="btn btn-default" data-toggle="modal"
+                                  data-target="#addmodel" id="id_search_billto">
+                                  <i class="fas fa-search"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="id_ship_to">Ship To :</label>
+                          </div>
+                          <div class="col-sm-10 col-lg-6 form-group">
+                            <div class="input-group">
+                              <input type="text" class="form-control ftsm" placeholder="Search Address" name="ship_to"
+                                id="id_ship_to" readonly />
+                              <div class="input-group-append">
+                                <button type="button" class="btn btn-default" data-toggle="modal"
+                                  data-target="#addmodel" id="id_search_shipto">
+                                  <i class="fas fa-search"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="id_customer_id">
+                              Customer Name:
+                            </label>
+                          </div>
+                          <div class="col-sm-10 col-lg-6 form-group text-center">
+                            <input type="hidden" name="customer_id" id="id_customer_id" />
+                            <input type="hidden" name="taxrate" id="id_taxrate" />
+                            <span id="id_customertext"></span>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4 pt-1">
+                            <label for="date_id">Date :</label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group">
+                            <input type="date" class="form-control ftsm" name="order_date" id="date_id" value="" />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="customer_id">Customer PO No. :</label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group">
+                            <input type="text" class="form-control ftsm numberonly" name="po_no" id="id_po_no" />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="salesperson_id">Contact Person :</label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group">
+                            <input type="text" class="form-control ftsm alphaonly" name="sales_person"
+                              id="salesperson_id" />
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_ship_to">Ship To :</label>
-                      </div>
-
-                      <div class="col-sm-10 col-lg-3 form-group">
-                        <div class="input-group">
-                          <input type="text" class="form-control ftsm" placeholder="Search Address" name="ship_to"
-                            id="id_ship_to" readonly />
-                          <div class="input-group-append">
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addmodel"
-                              id="id_search_shipto">
-                              <i class="fas fa-search"></i>
-                            </button>
+                      <div class="col-6">
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="comment_id">Comments :</label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group">
+                            <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_customer_id">
-                          Customer Name:
-                        </label>
-                      </div>
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="id_ordertype">
+                              Order Type :
+                            </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group">
+                            <select class="form-control" name="ordertype" id="id_ordertype">
+                              <option value="">&nbsp;</option>
+                              <?php foreach ($ORDER_TYPE as $key => $val) : ?>
+                              <option value="<?php echo $key ?>">
+                                <?php echo $val ?>
+                              </option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
 
-                      <div class="col-sm-10 col-lg-3 form-group text-center">
-                        <input type="hidden" name="customer_id" id="id_customer_id" />
-                        <input type="hidden" name="taxrate" id="id_taxrate" />
-                        <span id="id_customertext"></span>
-                      </div>
-                    </div>
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="id_ordertype">
+                              Attachments :
+                            </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6">
+                            <input type="file" name="upload_po" id="id_upload_po">
+                          </div>
+                        </div>
 
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2 pt-1">
-                        <label for="date_id">Date :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="order_date" id="date_id" value="" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="customer_id">Customer PO No. :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm numberonly" name="po_no" id="id_po_no" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="salesperson_id">Contact Person :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm alphaonly" name="sales_person"
-                          id="salesperson_id" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="comment_id">Comments :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_ordertype">
-                          Order Type :
-                        </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="ordertype" id="id_ordertype">
-                          <option value="">&nbsp;</option>
-                          <?php foreach ($ORDER_TYPE as $key => $val) : ?>
-                          <option value="<?php echo $key ?>">
-                            <?php echo $val ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
                       </div>
                     </div>
 
