@@ -13,6 +13,10 @@ $("#id_group_id").change(function () {
     })
       .done(function (data) {
         resetongroup();
+        if (data.length == 1) {
+          fill_billto_details(0, data[0].id, data[0].name)
+          fill_shipto_details(0, data[0].id)
+        }
         customergroup_data = data
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -46,23 +50,32 @@ $("#id_search_shipto").on("click", function () {
 $(document).on("click", ".fill_customer_details", function () {
   highlightrow($(this).data('index'));
   if ($(this).data('modal') == "billto") {
-    billto_address = $(this).data('index')
-    $("#id_bill_to").val($(this).data('id')).removeClass("is-invalid");
-    $("#id_bill_to-error").remove();
-    $("#id_customer_id").val($(this).data('id'));
-    $("#id_customertext").text($(this).data('name'));
-    getcustomerdetails($(this).data('id'));
+    fill_billto_details($(this).data('index'), $(this).data('id'), $(this).data('name'))
   } else {
-    shipto_address = $(this).data('index')
-    $("#id_ship_to").val($(this).data('id')).removeClass("is-invalid");
-    $("#id_ship_to-error").remove();
+    fill_shipto_details($(this).data('index'), $(this).data('id'))
   }
   // $("#id_address_close").trigger('click');
 });
 
+function fill_billto_details(index, id, name) {
+  billto_address = index
+  $("#id_bill_to").val(id).removeClass("is-invalid");
+  $("#id_bill_to-error").remove();
+  $("#id_customer_id").val(id);
+  $("#id_customertext").text(name);
+  getcustomerdetails(id);
+}
+
+function fill_shipto_details(index, id) {
+  shipto_address = index
+  $("#id_ship_to").val(id).removeClass("is-invalid");
+  $("#id_ship_to-error").remove();
+}
 
 function resetongroup() {
   customergroup_data = "";
+  shipto_address = "";
+  billto_address = "";
   $("#id_bill_to").val("");
   $("#id_ship_to").val("");
   resetonbillto()
@@ -71,11 +84,11 @@ function resetongroup() {
   // $("#comment_id").val("");
 }
 
-function resetonbillto(){
+function resetonbillto() {
   $("#salesperson_id").val("");
 }
 
-function resetonordertype(){
+function resetonordertype() {
   ttotal();
 }
 
@@ -112,22 +125,59 @@ function highlightrow(id) {
   $("#row_" + id).css('background-color', 'powderblue');
 }
 
+// On Customer PO Change
+$("#id_po_no").change(function () {
+  mydata = {'customer_id': $("#id_customer_id").val(), 'po_no': $(this).val()}
+  if ($(this).val()) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "order/po_validty/" + customergroupid,
+      data: mydata,
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        if (data == false){
+          $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');
+        }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("Cannot validate PO No.");
+      });
+  }
+});
+
 // Order Type Change
 $(document).on("change", "#id_ordertype", function () {
   if ($(this).val()) {
     $(".order").show();
     if (old_orderid != $(this).val()) {
+      $(".hide").hide();
+      $("#id_amcfrom").empty();
+      $("#id_amctill").empty();
       resetPaymentTermForm();
       $("#orderlist").empty();
       orderid_list = [];
       last_orderid = 0
       old_orderid = $(this).val();
       $("#add_item").trigger("click");
-      if ($(this).val() == "2") {
+      if ($(this).val() == "1") {
+        $("#order_item_header_qty").text("Months");
+        $("#id_uom1").empty().append('<option value="2">AU</option>');
+      }
+      else if ($(this).val() == "2") {
         $("#add_item").hide();
         $("#order_item_header_qty").text("Payment Slab");
         $("#id_uom1").empty().append('<option value="3" selected>Percentage (%)</option>');
-      } else {
+      } else if ($(this).val() == "3") {
+        $(".hide").show();
+        $("#id_amcfrom").append('<input type="date" class="form-control" name="amc_from" id="id_amc_from">');
+        $("#id_amctill").append('<input type="date" class="form-control" name="amc_till" id="id_amc_till">');
+      } else if ($(this).val() == "4") {
+        $("#order_item_header_qty").text("Man days");
+        $("#id_uom1").empty().append('<option value="1">Day(s)</option>');
+      }
+      else {
         $("#order_item_header_qty").text("Qty.");
       }
       resetonordertype()
@@ -193,11 +243,7 @@ $(".killrow").click(function () {
 
 // Add new order button click
 $("#add_item").on("click", function () {
-  if (orderid_list.length < 1) {
-    last_orderid = 1
-  } else {
-    last_orderid += 1
-  }
+  last_orderid += 1
   addrow(last_orderid);
 });
 
@@ -392,10 +438,12 @@ function addrow(id) {
   $("#" + id).append("<td class='form-group'><input type='text' class='form-control item' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
     .append("<td class='form-group'><input type='text' class='form-control min150 desp' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
     .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
-    .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
+    .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
     .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
-      "' ><span id='id_total" + id + "' >₹0.00</span></td>")
-    .append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
+      "' ><span id='id_total" + id + "' >₹0.00</span></td>");
+  if (id != 1) {
+    $("#" + id).append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
+  }
   orderid_list.push(id);
 }

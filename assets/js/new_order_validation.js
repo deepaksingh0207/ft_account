@@ -6,6 +6,7 @@ var today = new Date();
 today = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
 
 $(function () {
+  $(".hide").hide();
   $("#date_id").val(today);
   $.validator.setDefaults({
     submitHandler: function () {
@@ -42,6 +43,10 @@ $(function () {
       ordertype: {
         required: true,
       },
+      upload_po: {
+        required: true,
+        accept: "application/pdf"
+      },
     },
     messages: {
       group_id: {
@@ -72,6 +77,9 @@ $(function () {
       },
       ordertype: {
         required: "Select a order type.",
+      },
+      upload_po: {
+        required: "Upload PO.",
       },
     },
     errorElement: "span",
