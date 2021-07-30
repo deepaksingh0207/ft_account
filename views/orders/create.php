@@ -154,11 +154,11 @@
                         <div class="row">
                           <div class="col-sm-12 col-lg-4">
                             <label for="id_ordertype">
-                              Upload PO :
+                              Upload PO <small>( .pdf )</small>
                             </label>
                           </div>
                           <div class="col-sm-12 col-lg-6 form-group">
-                            <input type="file" name="upload_po" id="id_upload_po" required>
+                            <input type="file" name="upload_po" id="id_upload_po" accept="application/pdf" placeholder="asdasdad" required>
                           </div>
                         </div>
 

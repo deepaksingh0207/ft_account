@@ -42,6 +42,10 @@ $(function () {
       ordertype: {
         required: true,
       },
+      upload_po: {
+        required: true,
+        accept: "application/pdf"
+      },
     },
     messages: {
       group_id: {
@@ -72,6 +76,9 @@ $(function () {
       },
       ordertype: {
         required: "Select a order type.",
+      },
+      upload_po: {
+        required: "Upload PO.",
       },
     },
     errorElement: "span",
