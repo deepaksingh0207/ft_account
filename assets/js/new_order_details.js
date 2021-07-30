@@ -1,4 +1,4 @@
-var customergroup_data, prehigh;
+var customergroup_data, prehigh, billto_address, shipto_address;
 
 // On Customer Group Change
 $("#id_group_id").change(function () {
@@ -27,14 +27,18 @@ $("#id_group_id").change(function () {
 // BillTo Button Click
 $("#id_search_billto").on("click", function () {
   //Generates customer data modal and activates class="fill_customer_details" on customer select
-  modelfill("billto", "Bill To Address")
+  modelfill("billto", "Bill To Address");
+  $("#checkbox" + billto_address).prop('checked', true);
+  $("#row_" + billto_address).css('background-color', 'powderblue');
 });
 
 
 // ShipTo Button Click
 $("#id_search_shipto").on("click", function () {
   //Generates customer data modal and activates class="fill_customer_details" on customer select
-  modelfill("shipto", "Ship To Address")
+  modelfill("shipto", "Ship To Address");
+  $("#checkbox" + shipto_address).prop('checked', true);
+  $("#row_" + shipto_address).css('background-color', 'powderblue');
 });
 
 
@@ -42,12 +46,14 @@ $("#id_search_shipto").on("click", function () {
 $(document).on("click", ".fill_customer_details", function () {
   highlightrow($(this).data('index'));
   if ($(this).data('modal') == "billto") {
+    billto_address = $(this).data('index')
     $("#id_bill_to").val($(this).data('id')).removeClass("is-invalid");
     $("#id_bill_to-error").remove();
     $("#id_customer_id").val($(this).data('id'));
     $("#id_customertext").text($(this).data('name'));
     getcustomerdetails($(this).data('id'));
   } else {
+    shipto_address = $(this).data('index')
     $("#id_ship_to").val($(this).data('id')).removeClass("is-invalid");
     $("#id_ship_to-error").remove();
   }
@@ -94,10 +100,12 @@ function modelfill(checkboxclass, label) {
 }
 
 function highlightrow(id) {
-  $("#row" + prehigh).css('background-color', 'inherit');
+  $("#row_" + prehigh).css('background-color', 'inherit');
+  $("#row_" + billto_address).css('background-color', 'inherit');
+  $("#row_" + shipto_address).css('background-color', 'inherit');
   prehigh = id
   $("#checkbox" + id).prop('checked', true);
-  $("#row" + id).css('background-color', 'powderblue');
+  $("#row_" + id).css('background-color', 'powderblue');
 }
 
 // Order Type Change
