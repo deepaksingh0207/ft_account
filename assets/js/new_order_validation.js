@@ -2,7 +2,6 @@ var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] 
 var emptyPaymentTermIds = [], deleteid, old_orderid, oneTimeLastFill = false;
 var sgst = 0, cgst = 0, igst = 0;
 var orderid_list = [], last_orderid = 0;
-var ptlist = [];
 var today = new Date();
 today = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
 
@@ -174,18 +173,3 @@ $(".alphaonly").on("keypress", function (event) {
     return false;
   }
 });
-
-
-// Order Row creating function with row id as arguement
-function addrow(id) {
-  $("#orderlist").append("<tr id='" + id + "'></tr>");
-  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
-    .append("<td class='form-group'><input type='text' class='form-control min150 desp' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
-    .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
-    .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
-    .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
-    .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
-      "' ><span id='id_total" + id + "' >₹0.00</span></td>")
-    .append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
-  orderid_list.push(id);
-}

@@ -87,7 +87,7 @@
                               Customer Name:
                             </label>
                           </div>
-                          <div class="col-sm-10 col-lg-6 form-group text-center">
+                          <div class="col-sm-10 col-lg-6 form-group">
                             <input type="hidden" name="customer_id" id="id_customer_id" />
                             <input type="hidden" name="taxrate" id="id_taxrate" />
                             <span id="id_customertext"></span>

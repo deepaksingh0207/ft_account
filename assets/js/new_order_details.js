@@ -80,7 +80,7 @@ function modelfill(checkboxclass, label) {
     $.each(customergroup_data, function (index, row) {
       $("#addbody").append("<tr id='row_" + index + "' ></tr>");
       $("#row_" + index)
-        .append("<td id='col_1_" + index + "'><div class='icheck-primary d-inline'><input type='radio' id='checkbox" + index + "' name='id_customer' class='fill_customer_details' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' ><label for='checkbox" + row.id + "'></label></div></td>")
+        .append("<td id='col_1_" + index + "'><div class='icheck-primary d-inline'><input type='radio' id='checkbox" + index + "' name='id_customer' class='fill_customer_details' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' ><label for='checkbox" + index + "'></label></div></td>")
         .append("<td class='fill_customer_details' id='col_2_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' >" + row.id + "</td>")
         .append("<td class='fill_customer_details' id='col_3_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' >" + row.name + "</td>")
         .append("<td class='fill_customer_details' id='col_4_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' style='width: 455px'>" + row.address + "</td>");
@@ -242,10 +242,6 @@ function lastfill() {
   // }
 }
 
-
-
-
-
 // Amount Representation
 function humanamount(val) {
   var val = new Intl.NumberFormat('en-IN', {
@@ -374,4 +370,18 @@ function updatecgst(val) {
 function updatesgst(val) {
   $("#id_sgst").val(sgstval);
   $("#sgstvalue").text(humanamount(parseFloat(sgstval).toFixed(2)));
+}
+
+// Order Row creating function with row id as arguement
+function addrow(id) {
+  $("#orderlist").append("<tr id='" + id + "'></tr>");
+  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
+    .append("<td class='form-group'><input type='text' class='form-control min150 desp' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
+    .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
+    .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">Nos</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
+    .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
+    .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
+      "' ><span id='id_total" + id + "' >₹0.00</span></td>")
+    .append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
+  orderid_list.push(id);
 }
