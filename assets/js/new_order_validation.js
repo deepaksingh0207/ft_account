@@ -131,7 +131,7 @@ function checker() {
   });
   checklessthanone = false;
   checkmandatory = false;
-  if ($("#id_ordertype").val() == 2) {
+  if (oti == 2) {
     paytm = 0
     $.each(ptlist, function (index, value) {
       if ($("#id_ptquantity" + value).val() < 1) {

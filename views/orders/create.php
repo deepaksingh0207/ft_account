@@ -219,7 +219,7 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-6 pr-3">
+                          <div class="col-6 px-0">
                             <div class="col-12 text-right">
                               <input type="hidden" name="ordersubtotal" id="id_ordersubtotal" value="0.0">
                               <b>Sub Total : &nbsp; &nbsp; &nbsp;</b>
