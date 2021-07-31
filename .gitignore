@@ -7,3 +7,4 @@ views/customers/create.php.old
 .DS_Store
 .DS_Store
 .DS_Store
+*.old
