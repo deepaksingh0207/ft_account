@@ -5,7 +5,7 @@
 <?php if ($controller == 'users') : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/login.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/login.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
@@ -29,7 +29,7 @@
 <?php if ($controller == 'customers' && ($action == 'edit')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/edit_customer.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/edit_customer.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
@@ -37,7 +37,7 @@
 <?php if ($controller == 'customers' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_customer.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_customer.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
@@ -48,7 +48,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_group.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_group.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
   <?php endif; ?>
 
@@ -64,23 +64,23 @@
 <?php if ($controller == 'company' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_company.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_company.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'company' && ($action == 'edit')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/edit_company.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/edit_company.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_order_details.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_order_validation.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_order_paymentterm.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_order_details.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_order_validation.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_order_paymentterm.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
@@ -97,7 +97,7 @@
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_invoice.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_invoice.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
@@ -122,7 +122,7 @@
 <?php if ($controller == 'payments' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_payment.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/new_payment.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>
 
