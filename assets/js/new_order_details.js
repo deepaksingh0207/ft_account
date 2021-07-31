@@ -1,4 +1,6 @@
 var customergroup_data, prehigh, billto_address, shipto_address;
+//OrderTypeID
+var oti;
 
 // On Customer Group Change
 $("#id_group_id").change(function () {
@@ -88,10 +90,6 @@ function resetonbillto() {
   $("#salesperson_id").val("");
 }
 
-function resetonordertype() {
-  ttotal();
-}
-
 
 // Address Model Creator Function
 function modelfill(checkboxclass, label) {
@@ -127,7 +125,7 @@ function highlightrow(id) {
 
 // On Customer PO Change
 $("#id_po_no").change(function () {
-  mydata = {'customer_id': $("#id_customer_id").val(), 'po_no': $(this).val()}
+  mydata = { 'customer_id': $("#id_customer_id").val(), 'po_no': $(this).val() }
   if ($(this).val()) {
     $.ajax({
       type: "POST",
@@ -137,7 +135,7 @@ $("#id_po_no").change(function () {
       encode: true,
     })
       .done(function (data) {
-        if (data == false){
+        if (data == false) {
           $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');
         }
       })
@@ -150,8 +148,9 @@ $("#id_po_no").change(function () {
 // Order Type Change
 $(document).on("change", "#id_ordertype", function () {
   if ($(this).val()) {
+    oti = $(this).val();
     $(".order").show();
-    if (old_orderid != $(this).val()) {
+    if (old_orderid != oti) {
       $(".hide").hide();
       $("#id_amcfrom").empty();
       $("#id_amctill").empty();
@@ -159,30 +158,32 @@ $(document).on("change", "#id_ordertype", function () {
       $("#orderlist").empty();
       orderid_list = [];
       last_orderid = 0
-      old_orderid = $(this).val();
+      old_orderid = oti;
       $("#add_item").trigger("click");
-      if ($(this).val() == "1") {
+      if (oti == "1") {
+        $("#add_item").hide();
         $("#order_item_header_qty").text("Months");
         $("#id_uom1").empty().append('<option value="2">AU</option>');
       }
-      else if ($(this).val() == "2") {
+      else if (oti == "2") {
         $("#add_item").hide();
         $("#order_item_header_qty").text("Payment Slab");
         $("#id_uom1").empty().append('<option value="3" selected>Percentage (%)</option>');
-      } else if ($(this).val() == "3") {
+      } else if (oti == "3") {
         $(".hide").show();
         $("#id_amcfrom").append('<input type="date" class="form-control" name="amc_from" id="id_amc_from">');
         $("#id_amctill").append('<input type="date" class="form-control" name="amc_till" id="id_amc_till">');
-      } else if ($(this).val() == "4") {
+      } else if (oti == "4") {
         $("#order_item_header_qty").text("Man days");
         $("#id_uom1").empty().append('<option value="1">Day(s)</option>');
       }
       else {
         $("#order_item_header_qty").text("Qty.");
       }
-      resetonordertype()
+      ttotal();
     }
   } else {
+    oti = 0
     $(".order").hide();
   }
 });
@@ -200,12 +201,21 @@ $(document).on("change", ".unitprice", function () {
   } else {
     $(this).val(parseFloat($(this).val()));
     ordercollector($(this).data("id"));
-    $.each(ptlist, function (index, value) {
-      $("#id_ptunitprice" + value).val(unitpriceval);
-      paymentTermcollector(value);
-    });
   }
 });
+
+function update_payterm_unit(val) {
+  if (oti == 1) {
+    val /= $("#id_quantity1").val();
+  }
+  if (oti == 2) {
+    val = $("#id_unitprice1").val()
+  }
+  $.each(ptlist, function (index, value) {
+    $("#id_ptunitprice" + value).val(val);
+    paymentTermcollector(value);
+  });
+}
 
 $(document).on("change", ".uom", function () {
   ordercollector($(this).data('id'));
@@ -260,9 +270,10 @@ function qtycal(qtyid, id) {
     lastfill();
     paymentTermcollector(id);
   } else {
-    if ($("#id_ordertype").val() != 2) {
-      ordercollector(id);
-    }
+    ordercollector(id);
+    // if (oti != 2) {
+    //   ordercollector(id);
+    // }
   }
 }
 
@@ -329,7 +340,7 @@ function ordercollector(id) {
   rowuom = $("#id_uom" + id).val();
   subtotal = 0;
   if (rowqty && rowunitprice) {
-    if ($("#id_ordertype").val() == 2) { subtotal = rowunitprice; }
+    if (oti == 2) { subtotal = rowunitprice; }
     else if (rowuom == 3) { subtotal = rowunitprice * (rowqty / 100); }
     else { subtotal = rowunitprice * rowqty; }
     $("#total" + id).val(subtotal);
@@ -357,6 +368,7 @@ function ttotal() {
     gst = igstval + cgstval + sgstval
     total = gst + subtotal
     $("#id_ordertotal").val(total);
+    update_payterm_unit(total)
     $("#total").text(humanamount(parseFloat(total).toFixed(2)));
   }
 }
@@ -435,8 +447,8 @@ function updatesgst(val) {
 // Order Row creating function with row id as arguement
 function addrow(id) {
   $("#orderlist").append("<tr id='" + id + "'></tr>");
-  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
-    .append("<td class='form-group'><input type='text' class='form-control min150 desp' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
+  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
+    .append("<td class='form-group'><input type='text' class='form-control min150 desp capitalize' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
     .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
     .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
