@@ -47,7 +47,7 @@
                         <label for="id_customername"> Customer Name </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm alphaonly" name="name" id="id_customername"
+                        <input type="text" class="form-control ftsm alphaonly capitalize" name="name" id="id_customername"
                           value="" />
                       </div>
                     </div>
@@ -57,7 +57,7 @@
                         <label for="id_contactperson"> Contact Person </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm alphaonly" name="contact_person"
+                        <input type="text" class="form-control ftsm alphaonly capitalize" name="contact_person"
                           id="id_contactperson" value="" />
                       </div>
                     </div>
@@ -162,7 +162,7 @@
                         <label for="id_managername"> IT Manager Name </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm alphaonly" name="managername" id="id_managername"
+                        <input type="text" class="form-control ftsm alphaonly capitalize" name="managername" id="id_managername"
                           value="" />
                       </div>
                     </div>
@@ -192,7 +192,7 @@
                         <label for="id_addinfo"> Additional Info </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="remark" id="id_addinfo" />
+                        <input type="text" class="form-control ftsm capitalize" name="remark" id="id_addinfo" />
                       </div>
                     </div>
 

@@ -280,7 +280,7 @@ function setuom(val) {
     return 'Day(s)';
   }
   if (val == 2) {
-    return 'Nos';
+    return 'AU';
   }
   if (val == 3) {
     return 'Percentage (%)';

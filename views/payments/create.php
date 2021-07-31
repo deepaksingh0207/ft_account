@@ -48,7 +48,7 @@
                       </div>
                       <div class="col-6">
                         <label for="id_remarks">Remarks</label>
-                        <textarea name="remarks" class="form-control" id="id_remarks" cols="30" rows="4"></textarea>
+                        <textarea name="remarks" class="form-control capitalize" id="id_remarks" cols="30" rows="4"></textarea>
                       </div>
                     </div>
 

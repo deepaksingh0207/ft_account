@@ -129,7 +129,8 @@
                             <label for="comment_id">Comments :</label>
                           </div>
                           <div class="col-sm-12 col-lg-6 form-group">
-                            <textarea class="form-control" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
+                            <textarea class="form-control capitalize" name="remarks" id="comment_id" cols="30"
+                              rows="2"></textarea>
                           </div>
                         </div>
 
@@ -151,14 +152,34 @@
                           </div>
                         </div>
 
+                        <div class="row hide" id="id_amcfrom_record">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="id_amc_from">
+                              AMC From :
+                            </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group" id="id_amcfrom">
+                          </div>
+                        </div>
+
+                        <div class="row hide" id="id_amctill_record">
+                          <div class="col-sm-12 col-lg-4">
+                            <label for="id_amc_till">
+                              AMC Till :
+                            </label>
+                          </div>
+                          <div class="col-sm-12 col-lg-6 form-group" id="id_amctill">
+                          </div>
+                        </div>
+
                         <div class="row">
                           <div class="col-sm-12 col-lg-4">
-                            <label for="id_ordertype">
+                            <label for="id_upload_po">
                               Upload PO <small>( .pdf )</small>
                             </label>
                           </div>
                           <div class="col-sm-12 col-lg-6 form-group">
-                            <input type="file" name="upload_po" id="id_upload_po" accept="application/pdf" placeholder="asdasdad" required>
+                            <input type="file" name="upload_po" id="id_upload_po" accept="application/pdf" required>
                           </div>
                         </div>
 
