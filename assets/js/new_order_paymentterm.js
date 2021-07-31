@@ -60,6 +60,7 @@ function pttotal() {
 $(document).on("input propertychange paste", '#id_quantity1', function () {
   if (oti < 3) {
     ptlist = []
+    $(".orderdtl").hide();
     $("#id_project").empty();
     projectdiv()
     $("#id_projectsummary").empty();
@@ -75,12 +76,14 @@ $(document).on("input propertychange paste", '#id_quantity1', function () {
 });
 
 function resetPaymentTermForm() {
+  $(".orderdtl").hide();
   $("#id_project").empty();
   $("#id_projectsummary").empty();
 }
 
 function projectdiv() {
-  $("#id_project").append('<table class="table text-center mt-5" id="projectable"></table>');
+  $(".orderdtl").show();
+  $("#id_project").append('<table class="table text-center" id="projectable"></table>');
   $("#projectable").append('<thead><tr id="projecttableheader"></tr></thead>')
     .append('<tbody id="projecttablebody"></tbody>');
   $("#projecttableheader").append('<th class="min100">Item</th>')

@@ -186,74 +186,85 @@
                       </div>
                     </div>
 
-                    <div class="row order" style="display: none;">
-                      <div class="col-12 table-responsive">
-                        <table class="table text-center mb-0">
-                          <thead>
-                            <tr>
-                              <th>Item</th>
-                              <th>Description</th>
-                              <th id="order_item_header_qty"></th>
-                              <th>Unit of Measure</th>
-                              <th>Unit Price</th>
-                              <th>Total</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody id="orderlist">
-                          </tbody>
-                        </table>
-                        <hr class="m-1">
-                      </div>
-                      <div class="col-12 pr-5">
-                        <div class="row">
-                          <div class="col-6">
-                            <div class="row">
-                              <div class="col-12">
-                                <small class="text-muted pl-3"><i>*Mandatory Fields</i></small>
-                              </div>
-                              <div class="col-12 mt-2 pl-4">
-                                <button type="button" id="add_item" class="btn btn-primary btn-sm order">
-                                  ADD ITEM
-                                </button>
-                              </div>
-                            </div>
+                    <div class="card order" style="display: none;">
+                      <div class="card-header">Order Summary</div>
+                      <div class="card-body">
+                        <div class="row order">
+                          <div class="col-12 table-responsive">
+                            <table class="table text-center mb-0">
+                              <thead>
+                                <tr>
+                                  <th>Item</th>
+                                  <th>Description</th>
+                                  <th id="order_item_header_qty"></th>
+                                  <th>Unit of Measure</th>
+                                  <th>Unit Price</th>
+                                  <th>Total</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody id="orderlist">
+                              </tbody>
+                            </table>
+                            <hr class="m-1">
                           </div>
-                          <div class="col-6 px-0">
-                            <div class="col-12 text-right">
-                              <input type="hidden" name="ordersubtotal" id="id_ordersubtotal" value="0.0">
-                              <b>Sub Total : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="subtotal">₹0.00</span>
+                          <div class="col-12 pr-5">
+                            <div class="row">
+                              <div class="col-6">
+                                <div class="row">
+                                  <div class="col-12">
+                                    <small class="text-muted pl-3"><i>*Mandatory Fields</i></small>
+                                  </div>
+                                  <div class="col-12 mt-2 pl-4">
+                                    <button type="button" id="add_item" class="btn btn-primary btn-sm order">
+                                      ADD ITEM
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-6 px-0">
+                                <div class="col-12 text-right">
+                                  <input type="hidden" name="ordersubtotal" id="id_ordersubtotal" value="0.0">
+                                  <b>Sub Total : &nbsp; &nbsp; &nbsp;</b>
+                                  <span id="subtotal">₹0.00</span>
+                                </div>
+                                <div class="col-12 text-right" id="sgstdiv" style="display: none">
+                                  <input type="hidden" name="sgst" id="id_sgst" value="0.0" />
+                                  <b>SGST <span id="sgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
+                                  <span id="sgstvalue">₹0.00</span>
+                                </div>
+                                <div class="col-12 text-right" id="cgstdiv" style="display: none">
+                                  <input type="hidden" name="cgst" id="id_cgst" value="0.0" />
+                                  <b>CGST <span id="cgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
+                                  <span id="cgstvalue">₹0.00</span>
+                                </div>
+                                <div class="col-12 text-right" id="igstdiv" style="display: none">
+                                  <input type="hidden" name="igst" id="id_igst" value="0.0" />
+                                  <b>IGST <span id="igstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
+                                  <span id="igstvalue">₹0.00</span>
+                                </div>
+                                <div class="col-12 text-right">
+                                  <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.0">
+                                  <b>Total : &nbsp; &nbsp; &nbsp;</b>
+                                  <span id="total">₹0.00</span>
+                                </div>
+                              </div>
                             </div>
-                            <div class="col-12 text-right" id="sgstdiv" style="display: none">
-                              <input type="hidden" name="sgst" id="id_sgst" value="0.0" />
-                              <b>SGST <span id="sgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="sgstvalue">₹0.00</span>
-                            </div>
-                            <div class="col-12 text-right" id="cgstdiv" style="display: none">
-                              <input type="hidden" name="cgst" id="id_cgst" value="0.0" />
-                              <b>CGST <span id="cgstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="cgstvalue">₹0.00</span>
-                            </div>
-                            <div class="col-12 text-right" id="igstdiv" style="display: none">
-                              <input type="hidden" name="igst" id="id_igst" value="0.0" />
-                              <b>IGST <span id="igstpercent"></span>% : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="igstvalue">₹0.00</span>
-                            </div>
-                            <div class="col-12 text-right">
-                              <input type="hidden" name="ordertotal" id="id_ordertotal" value="0.0">
-                              <b>Total : &nbsp; &nbsp; &nbsp;</b>
-                              <span id="total">₹0.00</span>
-                            </div>
+
                           </div>
                         </div>
-
                       </div>
                     </div>
 
-                    <div class="row">
-                      <div class="col-12 table-responsive" id="id_project"></div>
-                      <div class="col-12" id="id_projectsummary"></div>
+
+                    <div class="card orderdtl" style="display: none;">
+                      <div class="card-header">Order Items</div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-12 table-responsive" id="id_project"></div>
+                          <div class="col-12" id="id_projectsummary"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
