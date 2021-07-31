@@ -1,9 +1,6 @@
 new_config.php
-views/customers/create.php.old
 *.pdf
 *.sql
 *.xlsx
 .DS_Store
-.DS_Store
-.DS_Store
-.DS_Store
+*.old

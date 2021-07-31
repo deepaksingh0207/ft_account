@@ -97,6 +97,11 @@
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<<<<<<< Updated upstream
+=======
+  <script src="<?php echo ROOT; ?>assets/js/new_invoice_validation.js"></script>
+  <!-- <script src="<?php echo ROOT; ?>assets/js/new_invoice.js?<?php echo time(); ?>"></script> -->
+>>>>>>> Stashed changes
   <script src="<?php echo ROOT; ?>assets/js/new_invoice.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
 <?php endif; ?>

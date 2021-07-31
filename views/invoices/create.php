@@ -11,9 +11,9 @@
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
+                      <!-- <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
                         Record
-                      </button>
+                      </button> -->
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
@@ -23,15 +23,12 @@
                   <div class="card-body" id="order" style="display: block">
 
                     <div class="row">
-                      <div class="col-sm-12 col-lg-2">
+                      <div class="col-sm-12 col-lg-3 form-group">
                         <label for="id_customergroup">
                           Customer Group :
                         </label>
-                      </div>
-
-                      <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control" name="group_id" id="id_group_id">
-                          <option value=""></option>
+                          <option>Select Group</option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
                             <?php echo $group['name'] ?>
@@ -39,89 +36,45 @@
                           <?php endforeach; ?>
                         </select>
                       </div>
-                    </div>
 
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
+                      <div class="col-sm-12 col-lg-3 form-group">
                         <label for="customerid_id">Customer : </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control" name="customer_id" id="customerid_id" disabled>
+                        <select class="form-control" name="customer_id" id="customerid_id">
                         </select>
                       </div>
-                    </div>
 
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_orderid">Order Number:</label>
-                      </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select name="order_id" id="id_orderid" class="form-control" disabled>
-                          <option value="">&nbsp;</option>
+                        <label for="id_orderid">Customer PO No.:</label>
+                        <select name="order_id" id="id_orderid" class="form-control">
                         </select>
                       </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_invoicedate">Invoice Date :</label>
+                      <div class="col-sm-0 col-lg-0 form-group">
+                        <label for="id_invoicedate"></label>
+                        <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"
+                          style="display: none;" />
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate" />
+                      <div class="col-sm-0 col-lg-0 form-group">
+                        <label for="customer_id"></label>
+                        <input type="hidden" class="form-control ftsm" name="po_no" id="id_pono" />
                       </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="customer_id">Customer PO No. :</label>
+                      <div class="col-sm-0 col-lg-0 form-group">
+                        <label for="id_salesperson"></label>
+                        <input type="hidden" class="form-control ftsm" name="sales_person" id="id_salesperson" />
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="po_no" id="id_pono" />
+                      <div class="col-sm-0 col-lg-0 form-group">
+                        <label for="bill_id"></label>
+                        <input type="hidden" class="form-control ftsm" name="bill_to" id="bill_id" />
                       </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_salesperson">Salesperson:</label>
+                      <div class="col-sm-0 col-lg-0 form-group">
+                        <label for="ship_id"></label>
+                        <input type="hidden" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="sales_person" id="id_salesperson" />
+                      <div class="col-sm-12 col-lg-3 form-group" id="id_ordertype" style="display: none;">
                       </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="bill_id">Bill To :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="ship_id">Ship To :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="comment_id">Comments :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <textarea class="form-control capitalize" name="remarks" id="comment_id" cols="30" rows="2"></textarea>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_ordertype">Order Type :</label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group" id="id_ordertype">
-
+                      <div class="col-sm-12 col-lg-12 form-group">
+                        <label for="comment_id"></label>
+                        <textarea class="form-control capitalize" name="remarks" placeholder="Type your comments."
+                          id="comment_id" cols="30" rows="1"></textarea>
                       </div>
                     </div>
 
@@ -147,31 +100,33 @@
 
                         </div>
                         <div class="card-footer">
-                          <div class="text-right">
-                            <b>Sub Total : </b>
-                            <span id="ordertotal">0.00</span>
+                          <div class="row">
+                            <div class="col-3">
+                              <b>Sub Total : </b>
+                              <span id="ordertotal_txt">0.00</span>
+                            </div>
+                            <div class="col-3" id="sgst_details" style="display: none;">
+                              <b><span id="sgst_label"></span></b>
+                              <span id="sgst_val"></span>
+                            </div>
+                            <div class="col-3" id="cgst_details" style="display: none;">
+                              <b><span id="cgst_label"></span></b>
+                              <span id="cgst_val"></span>
+                            </div>
+                            <div class="col-3" id="igst_details" style="display: none;">
+                              <b><span id="igst_label"></span></b>
+                              <span id="igst_val"></span>
+                            </div>
+                            <div class="col-3" id="total_details" style="color: mediumslateblue;">
+                              <b>Total</b>
+                              <span id="total_val"></span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="ordersgstdiv" style="display: none;">
-                        <p class="mb-0" id="sgst"></p>
-                        <p id="sgstval"></p>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="ordercgstdiv" style="display: none;">
-                        <p class="mb-0" id="cgst"></p>
-                        <p id="cgstval"></p>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="orderigstdiv" style="display: none;">
-                        <p class="mb-0" id="igst"></p>
-                        <p id="igstval"></p>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="totaldiv" style="color: mediumslateblue;">
-                        <p class="mb-0"><b>Total</b></p>
-                        <p id="totalval"></p>
-                      </div>
                     </div>
 
-                    <div class="row" id="invoice_list_layout" style="display: none">
+                    <!-- <div class="row" id="invoice_list_layout" style="display: none">
                       <div class="col-12 card px-0">
                         <div class="card-header">
                           <b>Past Invoice Details</b>
@@ -194,7 +149,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="row" id="order_list_layout_edit" style="display: none; justify-content: flex-end;">
                       <div class="col-12 card px-0">
@@ -300,9 +255,9 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
+                      <!-- <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
                         Record
-                      </button>
+                      </button> -->
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
