@@ -450,7 +450,7 @@ function addrow(id) {
   $("#" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
     .append("<td class='form-group'><input type='text' class='form-control min150 desp capitalize' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
     .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
-    .append('<td class="form-group"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
+    .append('<td class="form-group min150"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
     .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
       "' ><span id='id_total" + id + "' >₹0.00</span></td>");
