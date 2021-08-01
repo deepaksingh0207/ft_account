@@ -152,6 +152,7 @@
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                       <div class="modal-header" id="preview_modal_header">
+                        Generate Invoice
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -176,22 +177,32 @@
                                 <label for="ship_id">Ship To : </label>
                                 <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                               </div>
-                              <div class="col-sm-12 col-lg-3">
-
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-
+                              <div class="col-sm-12 col-lg-12 mt-3">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th>Item</th>
+                                          <th>Description</th>
+                                          <th>Qty.</th>
+                                          <th>UOM</th>
+                                          <th>Unit Price</th>
+                                          <th>Total</th>
+                                          <th></th>
+                                        </tr>
+                                      </thead>
+                                    </table>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="modal-footer justify-content-between" id="preview_modal_footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">Generate</button>
                       </div>
                     </div>
                   </div>
