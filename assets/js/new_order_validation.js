@@ -10,7 +10,10 @@ $(function () {
   $("#date_id").val(today);
   $.validator.setDefaults({
     submitHandler: function () {
-      checker();
+      if (po_validity) {$("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');}
+      else {
+        checker();
+      }
     },
   });
   $("#quickForm").validate({
