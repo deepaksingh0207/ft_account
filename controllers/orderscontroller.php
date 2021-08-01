@@ -251,4 +251,16 @@ class OrdersController extends Controller
             
         }
     }
+
+    public function po_validty() {
+        if(!empty($_POST)) {
+             if($t = $this->_model->getRecordsByField('po_no', $_POST['po_no'])) {
+                 echo 0;
+             } else {
+                echo true;
+             }
+        } else {
+            echo false;
+        }
+    }
 }

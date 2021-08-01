@@ -98,6 +98,15 @@ class OrdersModel extends Model {
         return $user;
     }
     
-    
+    public function getRecordsByField($field, $val) {
+        $sql = "select * from orders where $field = ? ";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($val));
+
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
     
 }

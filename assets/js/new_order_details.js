@@ -129,7 +129,7 @@ $("#id_po_no").change(function () {
   if ($(this).val()) {
     $.ajax({
       type: "POST",
-      url: baseUrl + "order/po_validty/",
+      url: baseUrl + "orders/po_validty/",
       data: mydata,
       dataType: "json",
       encode: true,
