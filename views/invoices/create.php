@@ -161,22 +161,6 @@
                         <div class="row">
                           <div class="col-sm-12 col-lg-12">
                             <div class="row">
-                              <div class="col-sm-12 col-lg-3">
-                                <label for="id_invoicedate">Invoice Date</label>
-                                <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate">
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-                                <label for="customer_id">Salesperson : </label>
-                                <input type="text" class="form-control ftsm" name="sales_person" id="id_salesperson" />
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-                                <label for="bill_id">Bill To : </label>
-                                <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-                                <label for="ship_id">Ship To : </label>
-                                <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
-                              </div>
                               <div class="col-sm-12 col-lg-12 mt-3">
                                 <div class="card">
                                   <div class="card-body">
@@ -189,12 +173,29 @@
                                           <th>UOM</th>
                                           <th>Unit Price</th>
                                           <th>Total</th>
-                                          <th></th>
                                         </tr>
                                       </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td class="max100">
+                                            <input type="text" name="item" id="id_item" class="form-control">
+                                          </td>
+                                          <td class="max150">
+                                            <input type="text" name="description" id="id_description" class="form-control">
+                                          </td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                        </tr>
+                                      </tbody>
                                     </table>
                                   </div>
                                 </div>
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+                                <label for="id_invoicedate">Invoice Date</label>
+                                <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate">
                               </div>
                             </div>
                           </div>

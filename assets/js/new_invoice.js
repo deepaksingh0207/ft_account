@@ -187,6 +187,13 @@ function fillinvoices_body(val, listname) {
   $("#id_invoiceblock_footer").empty().hide();
 }
 
+function fillinvoices_footer(val, listname) {
+  $("#preview_modal_body").append('<div class="row"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12 mt-3"><div class="card"><div class="card-body"><table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div></div></div></div>');
+  $.each(val, function (index, value) {
+    $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control"></td><td></td><td></td><td></td><td></td></tr>');
+  });
+}
+
 function orderdetails() {
   $("#id_pono").val(orderdata_order.po_no);
   $("#id_salesperson").val(orderdata_order.sales_person);
@@ -200,7 +207,6 @@ function orderdetails() {
     fillinvoices_body(orderdata.items, 'item');
   } else {
     fillinvoices_body(orderdata.payment_term, 'payment_term');
-    fillinvoices_footer();
   }
 }
 
@@ -227,4 +233,10 @@ $("#id_orderid").change(function () {
 
 $(document).on("click", ".generate", function () {
   $("#preview_modal").trigger('click');
+  fieldlist = [1, 2]
+  if (fieldlist.includes(orderdata.order_type, 0)) {
+    fillinvoices_footer(orderdata.payment_term, 'payment_term');
+  } else {
+    fillinvoices_footer(orderdata.payment_term, 'payment_term');
+  }
 });
