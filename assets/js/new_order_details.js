@@ -1,4 +1,4 @@
-var customergroup_data, prehigh, billto_address, shipto_address;
+var customergroup_data, prehigh, billto_address, shipto_address, po_validity;
 //OrderTypeID
 var oti;
 
@@ -136,8 +136,9 @@ $("#id_po_no").change(function () {
     })
       .done(function (data) {
         if (data == false) {
+          po_validity = true
           $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');
-        }
+        } else {po_validity = false}
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.");
