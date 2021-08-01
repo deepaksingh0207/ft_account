@@ -205,14 +205,11 @@ $(document).on("change", ".unitprice", function () {
   }
 });
 
-function update_payterm_unit(val) {
-  // if (oti == 1) {
-  //   val /= $("#id_quantity1").val();
-  // }
-  // if (oti == 2) {
-  //   val = $("#id_unitprice1").val()
-  // }
-  val = $("#id_unitprice1").val()
+function update_payterm_unit() {
+  val = $("#id_unitprice1").val();
+  if (oti == 1) {
+    val /= $("#id_quantity1").val();
+  }
   $.each(ptlist, function (index, value) {
     $("#id_ptunitprice" + value).val(val);
     paymentTermcollector(value);
@@ -370,7 +367,7 @@ function ttotal() {
     gst = igstval + cgstval + sgstval
     total = gst + subtotal
     $("#id_ordertotal").val(total);
-    update_payterm_unit(total)
+    update_payterm_unit();
     $("#total").text(humanamount(parseFloat(total).toFixed(2)));
   }
 }

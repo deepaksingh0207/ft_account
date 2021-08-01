@@ -128,12 +128,13 @@ $pendingAmount = 0.00;
 										<div class="col-sm-12 col-md-12 col-lg-12">
 											<div class="card">
 												<div class="card-header">
-													<div class="row">
+													<div class="row ordertoggle pointer">
 														<div class="col-10">
 															<b>Order Items</b>
 														</div>
-														<div class="col-2 text-right" id="id_order">
-															<i class="fas fa-chevron-circle-right mt-1 orderexpand"></i>
+														<div class="col-2 text-right">
+															<i class="fas fa-chevron-right mt-1"
+																id="id_order"></i>
 														</div>
 													</div>
 												</div>
@@ -222,13 +223,12 @@ $pendingAmount = 0.00;
 										<div class="col-sm-12 col-md-12 col-lg-12">
 											<div class="card">
 												<div class="card-header">
-													<div class="row">
+													<div class="row paytermtoggle pointer">
 														<div class="col-10">
 															<b>Payment Terms</b>
 														</div>
-														<div class="col-2 text-right" id="id_payterm">
-															<i
-																class="fas fa-chevron-circle-right mt-1  paytermexpand"></i>
+														<div class="col-2 text-right">
+															<i  id="id_payterm" class="fas fa-chevron-right mt-1"></i>
 														</div>
 													</div>
 												</div>
@@ -283,13 +283,12 @@ $pendingAmount = 0.00;
 										<div class="col-sm-12 col-md-12 col-lg-12">
 											<div class="card">
 												<div class="card-header">
-													<div class="row">
+													<div class="row invdtlstoggle pointer">
 														<div class="col-10">
 															<b>Invoice Details</b>
 														</div>
-														<div class="col-2 text-right" id="id_invdtls">
-															<i
-																class="fas fa-chevron-circle-right mt-1 invdtlsexpand"></i>
+														<div class="col-2 text-right">
+															<i id="id_invdtls" class="fas fa-chevron-right mt-1"></i>
 														</div>
 													</div>
 												</div>
@@ -373,29 +372,29 @@ $pendingAmount = 0.00;
 			$(document).ready(function () {
 				$(".hide").hide();
 			});
-			$(document).on("click", ".orderexpand", function () {
-				$("#id_order").empty().append('<i class="fas fa-chevron-circle-down mt-1 ordercollapse"></i>');
-				$(".order").show();
+			$(document).on("click", ".ordertoggle", function () {
+				$(".order").toggle();
+				if ($("#id_order").attr('class') == "fas fa-chevron-down mt-1") {
+					$("#id_order").attr('class', 'fas fa-chevron-right mt-1');
+				} else {
+					$("#id_order").attr('class', 'fas fa-chevron-down mt-1');
+				}
 			});
-			$(document).on("click", ".ordercollapse", function () {
-				$("#id_order").empty().append('<i class="fas fa-chevron-circle-right mt-1 orderexpand"></i>');
-				$(".order").hide();
+			$(document).on("click", ".paytermtoggle", function () {
+				$(".payterm").toggle();
+				if ($("#id_payterm").attr('class') == "fas fa-chevron-down mt-1") {
+					$("#id_payterm").attr('class', 'fas fa-chevron-right mt-1');
+				} else {
+					$("#id_payterm").attr('class', 'fas fa-chevron-down mt-1');
+				}
 			});
-			$(document).on("click", ".paytermexpand", function () {
-				$("#id_payterm").empty().append('<i class="fas fa-chevron-circle-down mt-1 paytermcollapse"></i>');
-				$(".payterm").show();
-			});
-			$(document).on("click", ".paytermcollapse", function () {
-				$("#id_payterm").empty().append('<i class="fas fa-chevron-circle-right mt-1 paytermexpand"></i>');
-				$(".payterm").hide();
-			});
-			$(document).on("click", ".invdtlsexpand", function () {
-				$("#id_invdtls").empty().append('<i class="fas fa-chevron-circle-down mt-1 invdtlscollapse"></i>');
-				$(".invdetail").show();
-			});
-			$(document).on("click", ".invdtlscollapse", function () {
-				$("#id_invdtls").empty().append('<i class="fas fa-chevron-circle-right mt-1 invdtlsexpand"></i>');
-				$(".invdetail").hide();
+			$(document).on("click", ".invdtlstoggle", function () {
+				$(".order").toggle();
+				if ($("#id_invdtls").attr('class') == "fas fa-chevron-down mt-1") {
+					$("#id_invdtls").attr('class', 'fas fa-chevron-right mt-1');
+				} else {
+					$("#id_invdtls").attr('class', 'fas fa-chevron-down mt-1');
+				}
 			});
 		</script>
 		<?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

@@ -87,9 +87,13 @@ function projectdiv() {
   $("#projectable").append('<thead><tr id="projecttableheader"></tr></thead>')
     .append('<tbody id="projecttablebody"></tbody>');
   $("#projecttableheader").append('<th class="min100">Item</th>')
-    .append('<th class="min100">Payment Term</th>')
-    .append('<th class="minmax150">Payment Percent</th>')
-    .append('<th class="minmax150">UOM</th>')
+    .append('<th class="min100">Payment Term</th>');
+  if (oti == 1) {
+    $("#projecttableheader").append('<th class="minmax150">Months</th>');
+  } else {
+    $("#projecttableheader").append('<th class="minmax150">Payment Percent</th>');
+  }
+  $("#projecttableheader").append('<th class="minmax150">UOM</th>')
     .append('<th class="min100">Unit Price</th>')
     .append('<th class="min100">Total</th>');
   // $("#projecttableheader").append('<th class="min100">Delete</th>');
@@ -99,9 +103,13 @@ function projectdiv() {
 function projecttablebody(id, val = "", uom = "Percentage (%)", check = false) {
   $("#projecttablebody").append("<tr id='pt" + id + "'></tr>");
   $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='*Enter Item' /></td>")
-    .append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='*Enter Description' /></td>")
-    .append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
-    .append('<td class="pt-3">' + uom + '</td>')
+    .append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
+  if (oti == 1) {
+    $("#pt" + id).append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "'></td>");
+  } else {
+    $("#pt" + id).append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
+  }
+  $("#pt" + id).append('<td class="pt-3">' + uom + '</td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
     .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='pttotal[]' data-id='" + id + "' data-val='0' id='pttotal" + id + "' ><span id='id_pttotal" + id + "' >₹0.00</span></td>");
   // .append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
