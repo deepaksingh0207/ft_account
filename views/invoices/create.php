@@ -151,6 +151,19 @@
                       </div>
                     </div> -->
 
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-body">
+                            Invoice Details
+                          </div>
+                          <div class="card-footer">
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="row" id="order_list_layout_edit" style="display: none; justify-content: flex-end;">
                       <div class="col-12 card px-0">
                         <div class="card-header">

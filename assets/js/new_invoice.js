@@ -4,10 +4,10 @@ var groupdata, customerid, customerdata, orderdata, orderdata_order, gstlist;
 function resetongroup() { }
 
 function filldata(id, data, msg, field) {
-  $(id).append("<option>" + msg + "</option>");
+  $(id).empty().append("<option>" + msg + "</option>");
   $.each(data, function (index, value) {
     val = []
-    for (var key in value) { if (field.includes(key, 0)) val.push(value[key]); }
+    for (var key in value) { if (field.includes(key, 0)) { val.push(value[key]); } }
     $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>");
   });
 }
@@ -23,8 +23,12 @@ $(document).on("change", "#id_group_id", function () {
       encode: true,
     })
       .done(function (data) {
-        groupdata = data
+        groupdata = data;
         filldata("#customerid_id", groupdata, "Select Customer", ['id', 'name']);
+        if (groupdata.length == 1){
+          $("#customerid_id").val(groupdata[0].id);
+          $("#customerid_id").trigger('change');
+        }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
