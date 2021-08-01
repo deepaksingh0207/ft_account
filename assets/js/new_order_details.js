@@ -339,7 +339,7 @@ function ordercollector(id) {
   rowuom = $("#id_uom" + id).val();
   subtotal = 0;
   if (rowqty && rowunitprice) {
-    if (oti == 2) { subtotal = rowunitprice; }
+    if (oti < 3) { subtotal = rowunitprice; }
     else if (rowuom == 3) { subtotal = rowunitprice * (rowqty / 100); }
     else { subtotal = rowunitprice * rowqty; }
     $("#total" + id).val(subtotal);

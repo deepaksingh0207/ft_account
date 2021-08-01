@@ -126,7 +126,6 @@
                             Payment Terms
                           </div>
                           <div class="card-body" id="id_invoiceblock_body"></div>
-                          <div class="card-footer" id="id_invoiceblock_footer"></div>
                         </div>
                       </div>
                     </div>

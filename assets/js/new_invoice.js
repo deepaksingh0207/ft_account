@@ -1,5 +1,5 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
-var groupdata, customerid, customerdata, orderdata, orderdata_order, gstlist;
+var groupdata, customerid, customerdata, orderdata, orderdata_order, gstlist, previewlist = [];
 
 function resetongroup() { }
 
@@ -185,7 +185,6 @@ function fillinvoices_body(val, listname) {
     $.each(val, function (index, value) {
       $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + index + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
     });
-    $("#id_invoiceblock_footer").empty().hide();
     $("#id_invoiceblock").show();
   }
 }
@@ -199,9 +198,9 @@ function orderdetails() {
   fillorder(orderdata.items);
   fieldlist = ["1", "2"]
   if (fieldlist.includes(orderdata_order.order_type, 0)) {
-    fillinvoices_body(orderdata.payment_term, 'item');
+    fillinvoices_body(orderdata.payment_term, 'payment_term');
   } else {
-    fillinvoices_body(orderdata.items, 'payment_term');
+    fillinvoices_body(orderdata.items, 'items');
   }
 }
 
@@ -236,11 +235,15 @@ function getordertype() {
 }
 
 function preview_modal_body(val, listname) {
-  $("#preview_modal_body").append('<div class="row"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12 mt-3"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body"><table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div><div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label><input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div></div></div></div>');
+  $("#preview_modal_body").append('<div class="row"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body"><table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div><div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div><div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label><input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div></div></div></div>');
   if (listname == "item") {
+    $("#preview_tbody").empty();
+    previewlist = []
     $.each(val, function (index, value) {
-      $("#preview_tbody").empty().append('<tr><td class="max100"><input type="text" name="item[]" id="id_item' + index + '" class="form-control" value="' + value.item + '"></td><td class="max150"><input type="text" name="description[]" id="id_description' + index + '" class="form-control" value="' + value.description + '"></td><td><input type="text" name="qty" id="id_qty' + index + '" class="form-control qty" value="' + value.qty + '"></td><td><input type="hidden" name="uom_id" id="id_uom_id' + index + '" class="form-control" value="' + value.uom_id + '">' + setuom(value.uom_id) + '</td><td><input type="text" name="unit_price" id="id_unit_price' + index + '" class="form-control" value="' + value.unit_price + '"></td><td><input type="text" name="total" id="id_total' + index + '" class="form-control" value="' + value.total + '"></td></tr>');
+      $("#preview_tbody").append('<tr><input type="hidden" name="order_item_id[]" id="id_order_item_id' + index + '" value="' + value.id + '"><td><input type="text" name="item[]" id="id_item' + index + '" class="form-control" value="' + value.item + '"></td><td ><input type="text" class="form-control desp" name="description[]" id="id_descp' + index + '" value="' + value.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" name="qty[]" id="id_qty' + index + '" min="1" value="0" data-index="' + index + '" data-up="' + value.unit_price + '" max="' + value.qty + '"></td><td class="pt-3" >' + setuom(value.uom_id) + '<input type="hidden" name="uom[]" id="id_uom' + index + '" value="' + value.uom_id + '"></td><td class="pt-3">₹' + value.unit_price + '<input type="hidden" name="unit_price[]" id="id_unitprice' + index + '" value="' + value.unit_price + '"></td><td id="preview_row_total' + index + '" class="pt-3">₹0.00</td><input type="hidden" name="total[]" id="id_total' + index + '" value="0"></tr>');
+      previewlist.push(index);
     });
+    preview_footer();
   } else {
     $("#preview_tbody").empty().append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td>' + val.qty + '</td><td>' + setuom(val.uom_id) + '</td><td>' + val.unit_price + '</td><td>' + val.total + '</td></tr>');
     $("#preview_modal_body")
@@ -250,13 +253,62 @@ function preview_modal_body(val, listname) {
   $('#id_due_date').attr("min", tomorrow).val(tomorrow);
 }
 
+function previewttotal(){
+  subtotal = 0;
+  $.each(previewlist, function (index, value) {
+   subtotal += parseFloat($("#id_total" + value).val());
+  });
+  $("#preview_subtotal_txt").text(humanamount(subtotal));
+  if (parseInt(orderdata_order.tax_rate) == 9) {
+    gst = subtotal*($("#preview_sgst_val").data('gst')/100)
+    $("#preview_sgst_val").text(humanamount(gst));
+    $("#preview_cgst_val").text(humanamount(gst));
+    total = subtotal + gst + gst
+  }
+  else {
+    gst = subtotal*($("#preview_igst_val").data('gst')/100)
+    $("#preview_igst_val").text(humanamount(gst));
+    // $("#preview_subtotal_txt").val(humanamount(subtotal));
+    total = subtotal + gst
+  }
+  $("#preview_total_val").text(humanamount(total));
+}
+
+function previewtotal(index, value) {
+  $("#preview_row_total" + index).text(humanamount(value));
+  $("#id_total" + index).val(value);
+  previewttotal();
+}
+
+$(document).on("change", ".qty", function () {
+  previewtotal($(this).data('index'), $(this).val() * $(this).data('up'));
+});
+
+function preview_footer() {
+  if (parseInt(orderdata_order.tax_rate) == 9) {
+  $("#preview_footer").append('<div class="row text-center" id="preview_footer_row"><div class="col-3"><b>Sub Total : </b><span id="preview_subtotal_txt">₹0.00</span></div></div>');
+  
+    $("#preview_footer_row").append('<div class="col-3"><b>SGST ( <span>'+parseInt(orderdata_order.tax_rate)+' %</span> ) : </b><span id="preview_sgst_val" data-gst="'+parseInt(orderdata_order.tax_rate)+'">₹0.00</span></div><div class="col-3"> <b>CGST ( <span>'+parseInt(orderdata_order.tax_rate)+' %</span> ) : </b> <span id="preview_cgst_val">₹0.00</span> </div>');
+
+    $("#preview_footer_row").append('<div class="col-3" id="preview_total_details" style="color: mediumslateblue;"> <b>Total</b> <span id="preview_total_val">₹0.00</span> </div>');
+  }
+  if (parseInt(orderdata_order.tax_rate) == 18) {
+    $("#preview_footer").append('<div class="row text-center" id="preview_footer_row"><div class="col-4"><b>Sub Total : </b><span id="preview_subtotal_txt">₹0.00</span></div></div>');
+
+    $("#preview_footer_row").append('<div class="col-4"> <b>IGST ( <span>'+parseInt(orderdata_order.tax_rate)+' %</span> ) : </b><span id="preview_igst_val" data-gst="'+parseInt(orderdata_order.tax_rate)+'">₹0.00</span> </div>');
+
+    $("#preview_footer_row").append('<div class="col-4" id="preview_total_details" style="color: mediumslateblue;"> <b>Total</b> <span id="preview_total_val">₹0.00</span> </div>');
+  }
+  
+}
+
 $(document).on("click", ".generate", function () {
   $("#preview_modal").trigger('click');
   fieldlist = ["1", "2"]
   if (fieldlist.includes(orderdata_order.order_type, 0)) {
-    preview_modal_body(orderdata.payment_term[$(this).data('id')], 'item')
+    preview_modal_body(orderdata.payment_term[$(this).data('id')], 'payment_term')
   } else {
-    preview_modal_body(orderdata.items, 'payment_term');
+    preview_modal_body(orderdata.items, 'item');
   }
   // $("#preview_modal").trigger('click');
 });
