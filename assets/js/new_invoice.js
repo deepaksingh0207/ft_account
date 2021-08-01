@@ -180,11 +180,14 @@ function fillorder(val) {
 }
 
 function fillinvoices_body(val, listname) {
-  $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody id="id_invoicebody"></tbody></table>');
-  $.each(val, function (index, value) {
-    $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + index + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
-  });
-  $("#id_invoiceblock_footer").empty().hide();
+  if (val) {
+    $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody id="id_invoicebody"></tbody></table>');
+    $.each(val, function (index, value) {
+      $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + index + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+    });
+    $("#id_invoiceblock_footer").empty().hide();
+    $("#id_invoiceblock").show();
+  }
 }
 
 function orderdetails() {
@@ -194,12 +197,11 @@ function orderdetails() {
   $("#ship_id").val(orderdata_order.ship_to);
   setordertype(orderdata_order.order_type);
   fillorder(orderdata.items);
-  $("#id_invoiceblock").show();
-  fieldlist = [1, 2]
-  if (fieldlist.includes(orderdata.order_type, 0)) {
-    fillinvoices_body(orderdata.items, 'item');
+  fieldlist = ["1", "2"]
+  if (fieldlist.includes(orderdata_order.order_type, 0)) {
+    fillinvoices_body(orderdata.payment_term, 'item');
   } else {
-    fillinvoices_body(orderdata.payment_term, 'payment_term');
+    fillinvoices_body(orderdata.items, 'payment_term');
   }
 }
 
@@ -224,26 +226,35 @@ $("#id_orderid").change(function () {
   }
 });
 
-function fillinvoices_footer(val, listname) {
-  $("#preview_modal_body").append('<div class="row"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12 mt-3"><div class="card"><div class="card-body"><table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div></div></div></div>');
+function getordertype() {
+  if (orderdata_order.order_type == 1) { return 'On-Site Support Sale' }
+  else if (orderdata_order.order_type == 2) { return 'Project Sale' }
+  else if (orderdata_order.order_type == 3) { return 'AMC Support Sale' }
+  else if (orderdata_order.order_type == 4) { return 'Man-days-Support Sale' }
+  else if (orderdata_order.order_type == 5) { return 'SAP License Sale' }
+  else if (orderdata_order.order_type == 6) { return 'Hardware Sale' }
+}
+
+function preview_modal_body(val, listname) {
+  $("#preview_modal_body").append('<div class="row"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12 mt-3"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body"><table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div><div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label><input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div></div></div></div>');
   if (listname == "item") {
-    $.each(val, function (index, value) {
-      $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + value.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + value.description + '"></td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td></tr>');
-    });
+    $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td><input type="text" name="description" id="id_description" class="form-control qty" value="' + val.qty + '"></td><td><input type="hidden" name="description" id="id_description" class="form-control" value="' + val.uom_id + '">'+setuom(val.uom_id)+'</td><td><input type="text" name="description" id="id_description" class="form-control" value="' + val.unit_price + '"></td><td><input type="text" name="description" id="id_description" class="form-control" value="' + val.total + '"></td></tr>');
   } else {
-    $.each(val, function (index, value) {
-      $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + value.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + value.description + '"></td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td></tr>');
-    });
+    $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td>' + val.qty + '</td><td>' + setuom(val.uom_id) + '</td><td>' + val.unit_price + '</td><td>' + val.total + '</td></tr>');
+    $("#preview_modal_body")
   }
+
+  $("#id_invoicedate").val(today);
+  $('#id_due_date').attr("min", tomorrow).val(tomorrow);
 }
 
 $(document).on("click", ".generate", function () {
   $("#preview_modal").trigger('click');
-  fieldlist = [1, 2]
-  if (fieldlist.includes(orderdata.order_type, 0)) {
-    fillinvoices_footer(orderdata.payment_term[$(this).data('id')], 'item')
+  fieldlist = ["1", "2"]
+  if (fieldlist.includes(orderdata_order.order_type, 0)) {
+    preview_modal_body(orderdata.payment_term[$(this).data('id')], 'item')
   } else {
-    fillinvoices_footer(orderdata.items[$(this).data('id')], 'payment_term');
+    preview_modal_body(orderdata.items[$(this).data('id')], 'payment_term');
   }
   // $("#preview_modal").trigger('click');
 });

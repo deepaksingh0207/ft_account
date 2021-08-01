@@ -46,11 +46,6 @@
                         </select>
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
-                        <label for="id_invoicedate"></label>
-                        <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"
-                          style="display: none;" />
-                      </div>
-                      <div class="col-sm-0 col-lg-0 form-group">
                         <label for="customer_id"></label>
                         <input type="hidden" class="form-control ftsm" name="po_no" id="id_pono" />
                       </div>
@@ -158,7 +153,7 @@
                         </button>
                       </div>
                       <div class="modal-body" id="preview_modal_body">
-                        <div class="row">
+                        <!-- <div class="row">
                           <div class="col-sm-12 col-lg-12">
                             <div class="row">
                               <div class="col-sm-12 col-lg-12 mt-3">
@@ -181,7 +176,8 @@
                                             <input type="text" name="item" id="id_item" class="form-control">
                                           </td>
                                           <td class="max150">
-                                            <input type="text" name="description" id="id_description" class="form-control">
+                                            <input type="text" name="description" id="id_description"
+                                              class="form-control">
                                           </td>
                                           <td></td>
                                           <td></td>
@@ -197,9 +193,13 @@
                                 <label for="id_invoicedate">Invoice Date</label>
                                 <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate">
                               </div>
+                              <div class="col-sm-12 col-lg-3">
+                                <label for="id_due_date">Due Date</label>
+                                <input type="date" class="form-control ftsm" name="due_date" id="id_due_date">
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="modal-footer justify-content-between" id="preview_modal_footer">
                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
@@ -214,33 +214,6 @@
           </div>
         </div>
 
-        <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
-          data-target="#modal-default"></button>
-        <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form action="" method="post" class="text-center mb-0">
-                <div class="modal-header">
-                  <div class="modal-title">ORDER DELETE</div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>Please confirm deleting action of this order?</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm killrow">
-                    Delete
-                  </button>
-                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
 
       </section>
     </div>
