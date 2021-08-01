@@ -165,14 +165,16 @@
                                 <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate">
                               </div>
                               <div class="col-sm-12 col-lg-3">
-                                <label for="customer_id">Sales </label>
-                                <input type="hidden" class="form-control ftsm" name="po_no" id="id_pono" />
+                                <label for="customer_id">Salesperson : </label>
+                                <input type="text" class="form-control ftsm" name="sales_person" id="id_salesperson" />
                               </div>
                               <div class="col-sm-12 col-lg-3">
-
+                                <label for="bill_id">Bill To : </label>
+                                <input type="text" class="form-control ftsm" name="bill_to" id="bill_id" />
                               </div>
                               <div class="col-sm-12 col-lg-3">
-
+                                <label for="ship_id">Ship To : </label>
+                                <input type="text" class="form-control ftsm" name="ship_to" id="ship_id" />
                               </div>
                               <div class="col-sm-12 col-lg-3">
 
