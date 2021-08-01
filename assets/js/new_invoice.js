@@ -1,20 +1,6 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
 var groupdata, customerid, customerdata, orderdata, orderdata_order, gstlist, previewlist = [], oldgen = 0;
 
-function resetongroup() {
-  $("#customerid_id").empty().attr('disabled', true);
-  resetoncustomer();
-}
-
-function filldata(id, data, msg, field) {
-  $(id).empty().append("<option value=''>" + msg + "</option>");
-  $.each(data, function (index, value) {
-    val = []
-    for (var key in value) { if (field.includes(key, 0)) { val.push(value[key]); } }
-    $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>");
-  });
-}
-
 $(document).on("change", "#id_group_id", function () {
   resetongroup();
   if ($(this).val()) {
@@ -40,6 +26,62 @@ $(document).on("change", "#id_group_id", function () {
       });
   }
 });
+
+$("#customerid_id").change(function () {
+  resetoncustomer()
+  if ($(this).val()) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "orders/getOrderListByCustomer/" + $(this).val(),
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        $("#id_orderid").removeAttr('disabled');
+        customerdata = data
+        filldata("#id_orderid", customerdata, "Select Order", ['id', 'po_no']);
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("No details found against this customer.");
+      });
+    customerid = $(this).val();
+  }
+});
+
+$("#id_orderid").change(function () {
+  resetonorder();
+  if ($(this).val()) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "orders/getdetails/" + $(this).val(),
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        orderdata = data;
+        orderdata_order = orderdata.order;
+        gst_details(customerid);
+        orderdetails();
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("No Order Item details found against this order.");
+      });
+  }
+});
+
+function resetongroup() {
+  $("#customerid_id").empty().attr('disabled', true);
+  resetoncustomer();
+}
+
+function filldata(id, data, msg, field) {
+  $(id).empty().append("<option value=''>" + msg + "</option>");
+  $.each(data, function (index, value) {
+    val = []
+    for (var key in value) { if (field.includes(key, 0)) { val.push(value[key]); } }
+    $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>");
+  });
+}
 
 function resetoncustomer() {
   $("#id_orderid").empty().attr('disabled', true);
@@ -70,27 +112,6 @@ function gst_details(customerid) {
       alert("No tax details found.");
     });
 }
-
-$("#customerid_id").change(function () {
-  resetoncustomer()
-  if ($(this).val()) {
-    $.ajax({
-      type: "POST",
-      url: baseUrl + "orders/getOrderListByCustomer/" + $(this).val(),
-      dataType: "json",
-      encode: true,
-    })
-      .done(function (data) {
-        $("#id_orderid").removeAttr('disabled');
-        customerdata = data
-        filldata("#id_orderid", customerdata, "Select Order", ['id', 'po_no']);
-      })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("No details found against this customer.");
-      });
-    customerid = $(this).val();
-  }
-});
 
 function resetonorder() {
   $("#id_orderblock").hide();
@@ -230,26 +251,7 @@ function orderdetails() {
   }
 }
 
-$("#id_orderid").change(function () {
-  resetonorder();
-  if ($(this).val()) {
-    $.ajax({
-      type: "POST",
-      url: baseUrl + "orders/getdetails/" + $(this).val(),
-      dataType: "json",
-      encode: true,
-    })
-      .done(function (data) {
-        orderdata = data;
-        orderdata_order = orderdata.order;
-        gst_details(customerid);
-        orderdetails();
-      })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("No Order Item details found against this order.");
-      });
-  }
-});
+
 
 function getordertype() {
   if (orderdata_order.order_type == 1) { return 'On-Site Support Sale' }
