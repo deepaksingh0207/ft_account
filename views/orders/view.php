@@ -389,7 +389,7 @@ $pendingAmount = 0.00;
 				}
 			});
 			$(document).on("click", ".invdtlstoggle", function () {
-				$(".order").toggle();
+				$(".invdetail").toggle();
 				if ($("#id_invdtls").attr('class') == "fas fa-chevron-down mt-1") {
 					$("#id_invdtls").attr('class', 'fas fa-chevron-right mt-1');
 				} else {
