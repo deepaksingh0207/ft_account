@@ -40,9 +40,6 @@ $(function () {
       ship_to: {
         required: true,
       },
-      remarks: {
-        required: true,
-      },
       ordertype: {
         required: true,
       },
@@ -74,9 +71,6 @@ $(function () {
       },
       ship_to: {
         required: "Enter a ship address code.",
-      },
-      remarks: {
-        required: "Please state your comments.",
       },
       ordertype: {
         required: "Select a order type.",
