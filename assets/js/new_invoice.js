@@ -25,7 +25,7 @@ $(document).on("change", "#id_group_id", function () {
       .done(function (data) {
         groupdata = data;
         filldata("#customerid_id", groupdata, "Select Customer", ['id', 'name']);
-        if (groupdata.length == 1){
+        if (groupdata.length == 1) {
           $("#customerid_id").val(groupdata[0].id);
           $("#customerid_id").trigger('change');
         }
@@ -175,8 +175,16 @@ function fillorder(val) {
   if (val) {
     fillorderbody(val);
     fillorderfooter(orderdata_order.sub_total, orderdata_order.ordertotal);
-    $("#order_list_layout").show();
+    $("#id_orderblock").show();
   }
+}
+
+function fillinvoices(val, listname) {
+  $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody id="id_invoicebody"></tbody></table>');
+  $.each(val, function (index, value) {
+    $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light" data-id="' + value.id + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+  });
+  $("#id_invoiceblock_footer").empty().hide();
 }
 
 function orderdetails() {
@@ -186,7 +194,13 @@ function orderdetails() {
   $("#ship_id").val(orderdata_order.ship_to);
   setordertype(orderdata_order.order_type);
   fillorder(orderdata.items);
-  fillinvoices(orderdata.invoices);
+  $("#id_invoiceblock").show();
+  fieldlist = [1, 2]
+  if (fieldlist.includes(orderdata.order_type, 0)) {
+    fillinvoices(orderdata.payment_term, 'item');
+  } else {
+    fillinvoices(orderdata.items, 'payment_term');
+  }
 }
 
 $("#id_orderid").change(function () {

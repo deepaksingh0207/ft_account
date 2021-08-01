@@ -11,16 +11,13 @@
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                      <!-- <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
-                        Record
-                      </button> -->
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
                   </div>
 
-                  <div class="card-body" id="order" style="display: block">
+                  <div class="card-body" id="order">
 
                     <div class="row">
                       <div class="col-sm-12 col-lg-3 form-group">
@@ -78,199 +75,70 @@
                       </div>
                     </div>
 
-                    <div class="row" id="order_list_layout" style="display: none; justify-content: flex-end;">
-                      <div class="col-12 card px-0">
-                        <div class="card-header">
-                          <b>Order Details</b>
-                        </div>
-                        <div class="card-body table-responsive py-3">
-                          <table class="table text-center">
-                            <thead>
-                              <tr>
-                                <th class="min100">Item</th>
-                                <th class="min100">Description</th>
-                                <th class="minmax150">Qty</th>
-                                <th class="minmax150">Unit of Measure</th>
-                                <th class="min100">Unit Price</th>
-                                <th class="min100">Order Total</th>
-                              </tr>
-                            </thead>
-                            <tbody id="orderlist"></tbody>
-                          </table>
-
-                        </div>
-                        <div class="card-footer">
-                          <div class="row">
-                            <div class="col-3">
-                              <b>Sub Total : </b>
-                              <span id="ordertotal_txt">0.00</span>
-                            </div>
-                            <div class="col-3" id="sgst_details" style="display: none;">
-                              <b><span id="sgst_label"></span></b>
-                              <span id="sgst_val"></span>
-                            </div>
-                            <div class="col-3" id="cgst_details" style="display: none;">
-                              <b><span id="cgst_label"></span></b>
-                              <span id="cgst_val"></span>
-                            </div>
-                            <div class="col-3" id="igst_details" style="display: none;">
-                              <b><span id="igst_label"></span></b>
-                              <span id="igst_val"></span>
-                            </div>
-                            <div class="col-3" id="total_details" style="color: mediumslateblue;">
-                              <b>Total</b>
-                              <span id="total_val"></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- <div class="row" id="invoice_list_layout" style="display: none">
-                      <div class="col-12 card px-0">
-                        <div class="card-header">
-                          <b>Past Invoice Details</b>
-                        </div>
-                        <div class="card-body table-responsive">
-                          <table class="table text-center mb-0">
-                            <thead id="invoiceheader">
-                              <tr>
-                                <td colspan="9">No Past Invoice</td>
-                              </tr>
-                            </thead>
-                            <tbody id="invoicelist"></tbody>
-                          </table>
-
-                        </div>
-                        <div class="card-footer">
-                          <div class="text-right">
-                            <b>Balance Amount : </b>
-                            <span id="pendingbalance">0.00</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
-
-                    <div class="row">
+                    <div class="row" style="display: none;" id="id_orderblock">
                       <div class="col-12">
                         <div class="card">
-                          <div class="card-body">
-                            Invoice Details
+                          <div class="card-header">
+                            <b>Order Details</b>
+                          </div>
+                          <div class="card-body table-responsive py-3">
+                            <table class="table text-center">
+                              <thead>
+                                <tr>
+                                  <th class="min100">Item</th>
+                                  <th class="min100">Description</th>
+                                  <th class="minmax150">Qty</th>
+                                  <th class="minmax150">Unit of Measure</th>
+                                  <th class="min100">Unit Price</th>
+                                  <th class="min100">Order Total</th>
+                                </tr>
+                              </thead>
+                              <tbody id="orderlist"></tbody>
+                            </table>
                           </div>
                           <div class="card-footer">
-                            
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row" id="order_list_layout_edit" style="display: none; justify-content: flex-end;">
-                      <div class="col-12 card px-0">
-                        <div class="card-header">
-                          <b>Order Details</b>
-                        </div>
-                        <div class="card-body table-responsive py-3">
-                          <table class="table text-center">
-                            <thead>
-                              <tr>
-                                <th class="min100">Item</th>
-                                <th class="min100">Description</th>
-                                <th class="minmax150">Qty</th>
-                                <th class="minmax150">Unit of Measure</th>
-                                <th class="min100">Unit Price</th>
-                                <th class="min100">Order Total</th>
-                              </tr>
-                            </thead>
-                            <tbody id="orderlist_edit"></tbody>
-                          </table>
-
-                        </div>
-                        <div class="card-footer">
-                          <div class="row">
-                            <div class="col-sm-12 col-lg-6">
-                              <div class="row">
-                                <div class="col-sm-12 col-lg-2 pt-2">
-                                  <label for="id_due_date">Due Date</label>
-                                </div>
-                                <div class="col-sm-12 col-lg-6 form-group" id="duedate_grp">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-sm-12 col-lg-6">
-                              <div class="text-right">
+                            <div class="row">
+                              <div class="col-3">
                                 <b>Sub Total : </b>
-                                <span id="ordertotal_edit">0.00</span>
-                                <input type="hidden" name="order_total" id="id_order_total_edit" />
-                                <input type="hidden" name="sub_total" id="id_sub_total_edit" />
+                                <span id="ordertotal_txt">0.00</span>
+                              </div>
+                              <div class="col-3" id="sgst_details" style="display: none;">
+                                <b><span id="sgst_label"></span></b>
+                                <span id="sgst_val"></span>
+                              </div>
+                              <div class="col-3 text-center" id="cgst_details" style="display: none;">
+                                <b><span id="cgst_label"></span></b>
+                                <span id="cgst_val"></span>
+                              </div>
+                              <div class="col-3 text-center" id="igst_details" style="display: none;">
+                                <b><span id="igst_label"></span></b>
+                                <span id="igst_val"></span>
+                              </div>
+                              <div class="col-3 text-right" id="total_details" style="color: mediumslateblue;">
+                                <b>Total</b>
+                                <span id="total_val"></span>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="ordersgstdiv_edit" style="display: none;">
-                        <input type="hidden" name="sgst" id="id_sgst_edit" value="0">
-                        <p class="mb-0" id="sgst_edit"></p>
-                        <p id="sgstval_edit"></p>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="ordercgstdiv_edit" style="display: none;">
-                        <input type="hidden" name="cgst" id="id_cgst_edit" value="0">
-                        <p class="mb-0" id="cgst_edit"></p>
-                        <p id="cgstval_edit"></p>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="orderigstdiv_edit" style="display: none;">
-                        <input type="hidden" name="igst" id="id_igst_edit" value="0">
-                        <p class="mb-0" id="igst_edit"></p>
-                        <p id="igstval_edit"></p>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 text-right" id="totaldiv_edit" style="color: mediumslateblue;">
-                        <input type="hidden" name="invoice_total" id="id_ordertotal_edit" value="">
-                        <p class="mb-0"><b>Total</b></p>
-                        <p id="totalval_edit"></p>
-                      </div>
                     </div>
 
-                    <div class="row" id="id_paymenttermdiv" style="display: none">
-                      <div class="col-12 card px-0">
-                        <div class="card-header">
-                          <b>Payment Terms</b>
-                        </div>
-                        <div class="card-body table-responsive">
-                          <table class="table text-center mb-0">
-                            <thead>
-                              <tr>
-                                <th style="min-width: 40px;"></th>
-                                <th class="min100">Item</th>
-                                <th class="min100">Description</th>
-                                <th class="minmax150">Qty</th>
-                                <th class="minmax150">Unit of Measure</th>
-                                <th class="min100">Unit Price</th>
-                                <th class="min100">Total</th>
-                              </tr>
-                            </thead>
-                            <tbody id="id_paymentterm_list" class="text-left"></tbody>
-                          </table>
-                          <hr class="mt-0">
-                        </div>
-
-                        <div class="card-footer">
-                          <div class="row">
-                            <div class="col-sm-12 col-lg-1 pt-2">
-                              <label for="id_due_date">Due Date</label>
-                            </div>
-                            <div class="col-sm-12 col-lg-3 form-group" id="payduedate_grp">
-                            </div>
+                    <div class="row" style="display: block;" id="id_invoiceblock">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            Invoice Details
                           </div>
+                          <div class="card-body" id="id_invoiceblock_body"></div>
+                          <div class="card-footer" id="id_invoiceblock_footer"></div>
                         </div>
-
                       </div>
                     </div>
                   </div>
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <!-- <button type="submit" class="btn btn-sm btn-primary record" title="All fields are mandatory.">
-                        Record
-                      </button> -->
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
                         Back
                       </a>
