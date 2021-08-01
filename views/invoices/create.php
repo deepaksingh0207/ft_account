@@ -124,7 +124,7 @@
                       </div>
                     </div>
 
-                    <div class="row" style="display: block;" id="id_invoiceblock">
+                    <div class="row" style="display: none;" id="id_invoiceblock">
                       <div class="col-12">
                         <div class="card">
                           <div class="card-header">
@@ -146,28 +146,50 @@
                   </div>
                 </div>
 
-                <button type="button" id="responsemodal" class="btn btn-default" data-toggle="modal"
-                  data-target="#modal-sm" style="display: none"></button>
+                <button type="button" class="" id="preview_modal" data-toggle="modal" data-target="#modal-xl"></button>
 
-                <div class="modal fade" id="modal-sm">
+                <div class="modal fade" id="modal-xl">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Preview Invoice</h5>
+                      <div class="modal-header" id="preview_modal_header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body" id="preview_invoice">
+                      <div class="modal-body" id="preview_modal_body">
+                        <div class="row">
+                          <div class="col-sm-12 col-lg-12">
+                            <div class="row">
+                              <div class="col-sm-12 col-lg-3">
+                                <label for="id_invoicedate">Invoice Date</label>
+                                <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate">
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+                                <label for="customer_id">Sales </label>
+                                <input type="hidden" class="form-control ftsm" name="po_no" id="id_pono" />
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+
+                              </div>
+                              <div class="col-sm-12 col-lg-3">
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
-                          Close
-                        </button>
-                        <button type="button" class="btn btn-sm btn-primary generate">
-                          Generate Invoice
-                        </button>
-                        <button type="button" id="id_go" style="display:none;" onclick="form.submit()"></button>
+                      <div class="modal-footer justify-content-between" id="preview_modal_footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Save</button>
                       </div>
                     </div>
                   </div>

@@ -182,7 +182,7 @@ function fillorder(val) {
 function fillinvoices(val, listname) {
   $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody id="id_invoicebody"></tbody></table>');
   $.each(val, function (index, value) {
-    $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light" data-id="' + value.id + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+    $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + value.id + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
   });
   $("#id_invoiceblock_footer").empty().hide();
 }
@@ -222,4 +222,8 @@ $("#id_orderid").change(function () {
         alert("No Order Item details found against this order.");
       });
   }
+});
+
+$(document).on("click", ".generate", function () {
+$("#preview_modal").trigger('click');
 });
