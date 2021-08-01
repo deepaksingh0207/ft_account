@@ -59,3 +59,7 @@
 .hide {
   display: none;
 }
+
+.pointer {
+  cursor: pointer;
+}
