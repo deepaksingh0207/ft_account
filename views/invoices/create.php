@@ -140,7 +140,7 @@
                   </div>
                 </div>
 
-                <button type="button" class="" id="preview_modal" data-toggle="modal" data-target="#modal-xl"></button>
+                <button type="button" class="hide" id="preview_modal" data-toggle="modal" data-target="#modal-xl"></button>
 
                 <div class="modal fade" id="modal-xl">
                   <div class="modal-dialog modal-xl">

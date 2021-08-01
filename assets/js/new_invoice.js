@@ -1,5 +1,5 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
-var groupdata, customerid, customerdata, orderdata, orderdata_order, gstlist, previewlist = [];
+var groupdata, customerid, customerdata, orderdata, orderdata_order, gstlist, previewlist = [], oldgen = 0;
 
 function resetongroup() {
   $("#customerid_id").empty().attr('disabled', true);
@@ -195,11 +195,21 @@ function fillorder(val) {
   }
 }
 
+$(document).on("click", ".paytrm", function () {
+  $("#generate_" + oldgen).attr('disabled', true);
+  $("#generate_" + $(this).data('id')).removeAttr('disabled');
+  oldgen = $(this).data('id');
+});
+
 function fillinvoices_body(val, listname) {
   if (val) {
     $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody id="id_invoicebody"></tbody></table>');
     $.each(val, function (index, value) {
-      $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + setuom(value.uom_id) + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + index + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+      if (listname == 'items') {
+        $("#id_invoicebody").append('<tr><td><div class="icheck-primary d-inline"><input type="radio" id="id_paytrm' + index + '" name="payment_term" class="paytrm" data-id="' + index + '"><label for="id_paytrm' + index + '"></label></div></td><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + setuom(value.uom_id) + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" id="generate_' + index + '" data-id="' + index + '" data-id="' + listname + '" disabled>Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+      } else {
+        $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + setuom(value.uom_id) + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + index + '" data-id="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+      }
     });
     $("#id_invoiceblock").show();
   }
@@ -262,8 +272,8 @@ function preview_modal_body(val, listname) {
     preview_footer();
   } else {
     $("#preview_tbody").empty().append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td>' + val.qty + '</td><td>' + setuom(val.uom_id) + '</td><td>' + val.unit_price + '</td><td>' + val.total + '</td></tr>');
+    $("#preview_footer").hide();
   }
-
   $("#id_invoicedate").val(today);
   $('#id_due_date').attr("min", tomorrow).val(tomorrow);
 }
