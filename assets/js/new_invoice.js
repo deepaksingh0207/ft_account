@@ -238,9 +238,11 @@ function getordertype() {
 function preview_modal_body(val, listname) {
   $("#preview_modal_body").append('<div class="row"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12 mt-3"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body"><table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div><div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label><input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div></div></div></div>');
   if (listname == "item") {
-    $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td><input type="text" name="description" id="id_description" class="form-control qty" value="' + val.qty + '"></td><td><input type="hidden" name="description" id="id_description" class="form-control" value="' + val.uom_id + '">'+setuom(val.uom_id)+'</td><td><input type="text" name="description" id="id_description" class="form-control" value="' + val.unit_price + '"></td><td><input type="text" name="description" id="id_description" class="form-control" value="' + val.total + '"></td></tr>');
+    $.each(val, function (index, value) {
+      $("#preview_tbody").empty().append('<tr><td class="max100"><input type="text" name="item[]" id="id_item' + index + '" class="form-control" value="' + value.item + '"></td><td class="max150"><input type="text" name="description[]" id="id_description' + index + '" class="form-control" value="' + value.description + '"></td><td><input type="text" name="qty" id="id_qty' + index + '" class="form-control qty" value="' + value.qty + '"></td><td><input type="hidden" name="uom_id" id="id_uom_id' + index + '" class="form-control" value="' + value.uom_id + '">' + setuom(value.uom_id) + '</td><td><input type="text" name="unit_price" id="id_unit_price' + index + '" class="form-control" value="' + value.unit_price + '"></td><td><input type="text" name="total" id="id_total' + index + '" class="form-control" value="' + value.total + '"></td></tr>');
+    });
   } else {
-    $("#preview_tbody").append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td>' + val.qty + '</td><td>' + setuom(val.uom_id) + '</td><td>' + val.unit_price + '</td><td>' + val.total + '</td></tr>');
+    $("#preview_tbody").empty().append('<tr><td class="max100"><input type="text" name="item" id="id_item" class="form-control" value="' + val.item + '"></td><td class="max150"><input type="text" name="description" id="id_description" class="form-control" value="' + val.description + '"></td><td>' + val.qty + '</td><td>' + setuom(val.uom_id) + '</td><td>' + val.unit_price + '</td><td>' + val.total + '</td></tr>');
     $("#preview_modal_body")
   }
 
@@ -254,7 +256,7 @@ $(document).on("click", ".generate", function () {
   if (fieldlist.includes(orderdata_order.order_type, 0)) {
     preview_modal_body(orderdata.payment_term[$(this).data('id')], 'item')
   } else {
-    preview_modal_body(orderdata.items[$(this).data('id')], 'payment_term');
+    preview_modal_body(orderdata.items, 'payment_term');
   }
   // $("#preview_modal").trigger('click');
 });
