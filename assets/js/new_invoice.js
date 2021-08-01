@@ -179,7 +179,7 @@ function fillorder(val) {
   }
 }
 
-function fillinvoices(val, listname) {
+function fillinvoices_body(val, listname) {
   $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty.</th><th>UOM</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody id="id_invoicebody"></tbody></table>');
   $.each(val, function (index, value) {
     $("#id_invoicebody").append('<tr><td>' + value.item + '</td><td>' + value.description + '</td><td>' + value.qty + '</td><td>' + value.uom_id + '</td><td>' + value.unit_price + '</td><td>' + value.total + '</td><td><button type="button" class="btn btn-sm btn-light generate" data-id="' + value.id + '" data-id="' + listname + '">Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
@@ -197,9 +197,10 @@ function orderdetails() {
   $("#id_invoiceblock").show();
   fieldlist = [1, 2]
   if (fieldlist.includes(orderdata.order_type, 0)) {
-    fillinvoices(orderdata.payment_term, 'item');
+    fillinvoices_body(orderdata.items, 'item');
   } else {
-    fillinvoices(orderdata.items, 'payment_term');
+    fillinvoices_body(orderdata.payment_term, 'payment_term');
+    fillinvoices_footer();
   }
 }
 
@@ -225,5 +226,5 @@ $("#id_orderid").change(function () {
 });
 
 $(document).on("click", ".generate", function () {
-$("#preview_modal").trigger('click');
+  $("#preview_modal").trigger('click');
 });

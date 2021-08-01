@@ -128,7 +128,7 @@
                       <div class="col-12">
                         <div class="card">
                           <div class="card-header">
-                            Invoice Details
+                            Payment Terms
                           </div>
                           <div class="card-body" id="id_invoiceblock_body"></div>
                           <div class="card-footer" id="id_invoiceblock_footer"></div>
