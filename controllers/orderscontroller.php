@@ -127,7 +127,7 @@ class OrdersController extends Controller
                 }
 
                 
-                if($orderData['order_type'] == 2) {
+                if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
                     foreach($data['ptitem'] as $key => $item) {
                         $row = array();
                         $row['item'] = $data['ptitem'][$key];
@@ -165,7 +165,7 @@ class OrdersController extends Controller
                         $tblOrderItem->save($orderItem);
                     }
                     
-                    if($orderData['order_type'] == 2) {
+                    if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
                         $tblOrderItem = new OrderPaytermsModel();
                         foreach($orderPayTerms as $orderPayTerm) {
                             $orderPayTerm['order_id'] = $orderId;
