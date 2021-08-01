@@ -206,12 +206,13 @@ $(document).on("change", ".unitprice", function () {
 });
 
 function update_payterm_unit(val) {
-  if (oti == 1) {
-    val /= $("#id_quantity1").val();
-  }
-  if (oti == 2) {
-    val = $("#id_unitprice1").val()
-  }
+  // if (oti == 1) {
+  //   val /= $("#id_quantity1").val();
+  // }
+  // if (oti == 2) {
+  //   val = $("#id_unitprice1").val()
+  // }
+  val = $("#id_unitprice1").val()
   $.each(ptlist, function (index, value) {
     $("#id_ptunitprice" + value).val(val);
     paymentTermcollector(value);
