@@ -97,43 +97,47 @@ function fillinvoices_body(data, listname) {
   if (data) {
 
     $("#id_invoiceblock_body").empty().append('<table class="table">                                <thead><tr>                                     <th></th>                                           <th>Item</th>                                   <th>Description</th>                              <th>' + setheader(od_order.order_type) + '</th>                     <th>UOM</th>                                  <th>Unit Price</th>                             <th>Total</th>                                      <th class="min110"></th></tr>                   </thead><tbody id="id_invoicebody"></tbody></table>');
+    pt = [], iv = [];
+    $.each(paytermlist, function (i, val) {
+      paymentterm_invoiceno = val.split('_');
+      pt.push(paymentterm_invoiceno[0])
+      iv.push(paymentterm_invoiceno[1])
+    });
     $.each(data, function (index, value) {
-      $.each(paytermlist, function (i, val) {
-        paymentterm_invoiceno = val.split('_');
-        if (paymentterm_invoiceno[0] == value.id) {
-          $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                         <td>' + value.description + '</td>         <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>         <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                            <td class="py-0 align-center" style="vertical-align: middle;">                                 <a href="' + baseUrl + 'pdf/invoice_' + paymentterm_invoiceno[1] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a></td></tr>');
+        if (pt.includes(value.id)) {
+          $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                         <td>' + value.description + '</td>         <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>         <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                            <td class="py-0 align-center" style="vertical-align: middle;">                                 <a href="' + baseUrl + 'pdf/invoice_' + iv[pt.indexOf(value.id)] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a></td></tr>');
         } else {
           $("#id_invoicebody").append('<tr><td>         <div class="icheck-primary d-inline">           <input type="radio" id="id_paytrm' + index + '" name="id_paytrm" class="paytrm" data-id="' + index + '">     <label for="id_paytrm' + index + '"></label></div>     </td><td>' + value.item + '</td>           <td>' + value.description + '</td>           <td>' + value.qty + '</td>                       <td>' + setuom(value.uom_id) + '</td>        <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                                       <td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
         }
-      });
     });
     $("#id_invoiceblock").show();
   }
 }
 
 $(document).on("click", ".generate", function () {
-  if (payterm_ordertype.includes(od_order.order_type, 0)) {
-    preview_modal_body(od_payment_term[$(this).data('id')], 'payment_term')
-  } else {
-    preview_modal_body(od_items[$(this).data('id')], 'item');
-  }
+  preview_modal_body($(this).data('id'), $(this).data('list'));
+  // if (payterm_ordertype.includes(od_order.order_type, 0)) {
+  //   preview_modal_body($(this).data('id'), 'payment_term')
+  // } else {
+  //   preview_modal_body($(this).data('id'), 'item');
+  // }
 
   $("#preview_modal").trigger('click');
 });
 
-function preview_modal_body(data, listname) {
-  $("#preview_modal_body").empty().append('<div class="row" id="t1" data-state="show">                 <div class="col-sm-12 col-lg-12">                                                                   <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                    <div class="card-header">' + getordertype() + '</div>                                               <div class="card-body"> <table class="table">                                           <thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead>                                                                                       <tbody id="preview_tbody"></tbody></table></div>                                                    <div class="card-footer" id="preview_footer"></div></div></div>                                     <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div>         <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                         <input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div>                    </div></div></div><div class="row" id="t2" data-state="hide"></div>');
-  if (listname == "item") {
+function preview_modal_body(index, listname) {
+  $("#preview_modal_body").empty().append('<div class="row" id="t1" data-state="show">                                                       <div class="col-sm-12 col-lg-12">                                                                                                          <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                                                      <div class="card-header">' + getordertype() + '</div>                                                                                     <div class="card-body"> <table class="table">                                                                                     <thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead>                                                                                                                                   <tbody id="preview_tbody"></tbody></table></div>                                                                                          <div class="card-footer" id="preview_footer"></div></div></div>                                                                           <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                                                        <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div>                                               <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                                                               <input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div>                                                          </div></div></div><div class="row" id="t2" data-state="hide"></div>');
+  if (listname == "items") {
     $("#preview_tbody").empty();
     $("#preview_tbody")
-      .append('<tr><td>                                                                             <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + data.id + '">   <input type="text" name="item[]" id="id_item1" class="form-control" value="' + data.item + '">      </td><td >                                                                                    <input type="text" class="form-control desp" name="description[]" id="id_descp1" value="' + data.description + '">                                                                                  </td><td class="minmax150">                                                                   <input type="number" class="form-control qty" name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + data.unit_price + '" max="' + data.qty + '">                            </td><td class="pt-3" >' + setuom(data.uom_id) + '                                            <input type="hidden" name="uom[]" id="id_uom1" value="' + data.uom_id + '">                         </td><td class="pt-3">₹' + data.unit_price + '                                                <input type="hidden" name="unit_price[]" id="id_unitprice1" value="' + data.unit_price + '">        </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                      <input type="hidden" name="total[]" id="id_total1" value="0">                                       </tr>');
+      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >                   <input type="text" class="form-control desp" name="description[]" id="id_descp1" value="' + od_items[index].description + '">             </td><td class="minmax150"><input type="number" class="form-control qty" name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + od_items[index].unit_price + '" max="' + od_items[index].qty + '">                                                           </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                         <input type="hidden" name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                                    </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                                   </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" name="total[]" id="id_total1" value="0"></tr>');
     // previewlist.push(1);
-    preview_footer(data.id);
+    preview_footer(index, listname);
   } else {
     $("#preview_tbody")
       .empty()
-      .append('<tr><td class="max100">                                                              <input type="hidden" name="payment_term" value="' + data.id + '">                                  <input type="text" name="item" id="id_item" class="form-control" value="' + data.item + '">         </td><td class="max150">                                                                      <input type="text" name="description" id="id_description" class="form-control" value="' + data.description + '">                                                                                  </td><td>' + data.qty + '                                                                      <input type="hidden" name="pay_percent" value="' + data.qty + '">                                  </td><td>' + setuom(data.uom_id) + '                                                               <input type="hidden" name="order_total" value="' + data.unit_price + '">                           </td><td>' + data.unit_price + '</td><td>' + data.total + '                                        <input type="hidden" name="invoice_total" value="' + data.total + '">                            </td></tr>');
-    preview_footer(data.id);
+      .append('<tr><td class="max100"><input type="hidden" name="payment_term" value="' + od_payment_term[index].id + '">                      ' + od_payment_term[index].item + '</td><td class="max150">                                                                                                            <input type="text" name="description" id="id_description" class="form-control" value="' + od_payment_term[index].description + '">        </td><td>' + od_payment_term[index].qty + ' <input type="hidden" name="pay_percent" value="' + od_payment_term[index].qty + '">          </td><td>' + setuom(VTTCue.uom_id) + ' <input type="hidden" name="order_total" value="' + od_payment_term[index].unit_price + '">        </td><td>' + od_payment_term[index].unit_price + '</td><td>' + od_payment_term[index].total + '                                        <input type="hidden" name="invoice_total" value="' + od_payment_term[index].total + '"></td></tr>');
+    preview_footer(index, listname);
   }
   $("#id_invoicedate").val(today);
   $('#id_due_date').attr("min", tomorrow).val(tomorrow);
@@ -364,10 +368,26 @@ $(document).on("change", ".qty", function () {
   previewtotal($(this).data('index'), $(this).val() * $(this).data('up'));
 });
 
-function preview_footer(val) {
+function tax_system(tax, total, apitax = gstlist[1]) {
+  if (apitax == parseInt(tax)) {
+    return tax / 100 * total
+  } else { return 0 }
+}
+
+function listval(index, list, itemname) {
+  if (list == "items") {
+    return od_items[index]
+  } else {
+    return od_payment_term[index]
+  }
+}
+
+function preview_footer(val, listname) {
+  var total = 0
+  total = parseInt(listval(val, listname).total) + parseInt(tax_system(od_order.tax_rate, listval(val, listname).total, 9) * 2) + parseInt(tax_system(od_order.tax_rate, listval(val, listname).total, 18))
   $("#preview_footer")
-    .append('<div class="row text-center">                                                             <div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + od_invoices.sub_total + '</span></div>                                                                                   <input type="hidden" name="sub-total" id="previewsubtotal" value="' + od_invoices.sub_total + '">                                                                                                 <div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                                                                                    <span id="preview_sgst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹' + od_invoices.sgst + '</span>                                                                                           <input type="hidden" name="sgst" id="previewsgst" value="' + od_invoices.sgst + '"></div>                                                                                               <div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                                                                                      <span id="preview_cgst_val">₹' + od_invoices.cgst + '</span>                                      <input type="hidden" name="cgst" id="previewcgst" value="' + od_invoices.cgst + '"></div>                                                                                               <div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                                                                                       <span id="preview_igst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹' + od_invoices.igst + '</span>                                                                                           <input type="hidden" name="igst" id="previewigst" value="' + od_invoices.igst + '"></div>          <div id="totalclass" style="color: mediumslateblue;"><b>Total : </b>                               <span id="preview_total_val">₹' + od_invoices.invoice_total + '</span>                               <input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + od_invoices.invoice_total + '"></div>                         </div>');
-  if (val > 0) {
+    .append('<div class="row text-center"><div id="previewigst"><b>Sub Total : </b>                                                         <span id="preview_subtotal_txt">₹' + listval(val, listname).total + '</span></div>                                                     <input type="hidden" name="sub_total" id="previewsubtotal" value="' + listval(val, listname).total + '">                                  <div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                        <span id="preview_sgst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹ ' + tax_system(od_order.tax_rate, listval(val, listname).total) + '</span>                                                                                                                               <input type="hidden" name="sgst" id="previewsgst" value="' + tax_system(od_order.tax_rate, listval(val, listname).total) + '"></div>          <div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                        <span id="preview_cgst_val">₹' + tax_system(od_order.tax_rate, listval(val, listname).total) + '</span>                                  <input type="hidden" name="cgst" id="previewcgst" value="' + tax_system(od_order.tax_rate, listval(val, listname).total) + '"></div>         <div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                            <span id="preview_igst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹ ' + tax_system(od_order.tax_rate, listval(val, listname).total, 18) + '</span>                                                                                                                             <input type="hidden" name="igst" id="previewigst" value="' + tax_system(od_order.tax_rate, listval(val, listname).total, 18) + '"></div>         <div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total + '</span>                     <input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total + '"></div></div>');
+  if (listname == "items") {
     $("#preview_subtotal_txt").text(humanamount(0));
     $("#previewsubtotal").text(humanamount(0));
     $("#preview_sgst_val").text(humanamount(0));
