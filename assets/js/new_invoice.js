@@ -148,7 +148,8 @@ $(document).on("click", "#togglepdf", function () {
   if ($("#t1").data("state") == "show") {
     $("#t1").data("state", "hide").hide();
     $("#t2").data("state", "show").show();
-    $("#togglepdf").text('Back');
+    $("#togglepdf").text('Back To Editing');
+    $("#gene").show();
     var formdata = $("#quickForm").serialize();
     $.ajax({
       type: "POST",
@@ -160,7 +161,8 @@ $(document).on("click", "#togglepdf", function () {
       debug("FAILED");
     });
   } else {
-    $("#togglepdf").text('View PDF');
+    $("#togglepdf").text('Preview');
+    $("#gene").hide();
     $("#t2").data("state", "hide").hide();
     $("#t1").data("state", "show").show();
   }
