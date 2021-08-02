@@ -10,8 +10,7 @@ $(function () {
   $(".select2").select2();
   $.validator.setDefaults({
     submitHandler: function () {
-      $("#responsemodal").click(); //Activating Modal
-
+      form.submit();
     },
   });
   $("#quickForm").validate({

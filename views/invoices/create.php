@@ -6,25 +6,34 @@
         <div class="container-fluid pb-5">
           <div class="row my-3">
             <div class="col-12">
-              <form action="" method="post" id="quickForm" novalidate="novalidate">
+              <form
+                action=""
+                method="post"
+                id="quickForm"
+                novalidate="novalidate"
+              >
                 <div class="card">
                   <div class="card-header">
                     <div class="card-title">Add New Invoice</div>
                     <div class="text-right">
-                      <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                      <a
+                        href="<?php echo ROOT; ?>invoices"
+                        class="btn btn-default btn-sm"
+                      >
                         Back
                       </a>
                     </div>
                   </div>
 
                   <div class="card-body" id="order">
-
                     <div class="row">
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <label for="id_customergroup">
-                          Customer Group :
-                        </label>
-                        <select class="form-control" name="group_id" id="id_group_id">
+                        <label for="id_customergroup"> Customer Group : </label>
+                        <select
+                          class="form-control"
+                          name="group_id"
+                          id="id_group_id"
+                        >
                           <option>Select Group</option>
                           <?php foreach ($groups as $group) : ?>
                           <option value="<?php echo $group['id'] ?>">
@@ -36,41 +45,76 @@
 
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="customerid_id">Customer : </label>
-                        <select class="form-control" name="customer_id" id="customerid_id">
-                        </select>
+                        <select
+                          class="form-control"
+                          name="customer_id"
+                          id="customerid_id"
+                        ></select>
                       </div>
 
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="id_orderid">Customer PO No.:</label>
-                        <select name="order_id" id="id_orderid" class="form-control">
-                        </select>
+                        <select
+                          name="order_id"
+                          id="id_orderid"
+                          class="form-control"
+                        ></select>
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
                         <label for="customer_id"></label>
-                        <input type="hidden" class="form-control ftsm" name="po_no" id="id_pono" />
+                        <input
+                          type="hidden"
+                          class="form-control ftsm"
+                          name="po_no"
+                          id="id_pono"
+                        />
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
                         <label for="id_salesperson"></label>
-                        <input type="hidden" class="form-control ftsm" name="sales_person" id="id_salesperson" />
+                        <input
+                          type="hidden"
+                          class="form-control ftsm"
+                          name="sales_person"
+                          id="id_salesperson"
+                        />
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
                         <label for="bill_id"></label>
-                        <input type="hidden" class="form-control ftsm" name="bill_to" id="bill_id" />
+                        <input
+                          type="hidden"
+                          class="form-control ftsm"
+                          name="bill_to"
+                          id="bill_id"
+                        />
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
                         <label for="ship_id"></label>
-                        <input type="hidden" class="form-control ftsm" name="ship_to" id="ship_id" />
+                        <input
+                          type="hidden"
+                          class="form-control ftsm"
+                          name="ship_to"
+                          id="ship_id"
+                        />
                       </div>
-                      <div class="col-sm-12 col-lg-3 form-group" id="id_ordertype" style="display: none;">
-                      </div>
+                      <div
+                        class="col-sm-12 col-lg-3 form-group"
+                        id="id_ordertype"
+                        style="display: none"
+                      ></div>
                       <div class="col-sm-12 col-lg-12 form-group">
                         <label for="comment_id"></label>
-                        <textarea class="form-control capitalize" name="remarks" placeholder="Type your comments."
-                          id="comment_id" cols="30" rows="1"></textarea>
+                        <textarea
+                          class="form-control capitalize"
+                          name="remarks"
+                          placeholder="Type your comments."
+                          id="comment_id"
+                          cols="30"
+                          rows="1"
+                        ></textarea>
                       </div>
                     </div>
 
-                    <div class="row" style="display: none;" id="id_orderblock">
+                    <div class="row" style="display: none" id="id_orderblock">
                       <div class="col-12">
                         <div class="card">
                           <div class="card-header">
@@ -97,19 +141,35 @@
                                 <b>Sub Total : </b>
                                 <span id="ordertotal_txt">0.00</span>
                               </div>
-                              <div class="col-3" id="sgst_details" style="display: none;">
+                              <div
+                                class="col-3"
+                                id="sgst_details"
+                                style="display: none"
+                              >
                                 <b><span id="sgst_label"></span></b>
                                 <span id="sgst_val"></span>
                               </div>
-                              <div class="col-3 text-center" id="cgst_details" style="display: none;">
+                              <div
+                                class="col-3 text-center"
+                                id="cgst_details"
+                                style="display: none"
+                              >
                                 <b><span id="cgst_label"></span></b>
                                 <span id="cgst_val"></span>
                               </div>
-                              <div class="col-3 text-center" id="igst_details" style="display: none;">
+                              <div
+                                class="col-3 text-center"
+                                id="igst_details"
+                                style="display: none"
+                              >
                                 <b><span id="igst_label"></span></b>
                                 <span id="igst_val"></span>
                               </div>
-                              <div class="col-3 text-right" id="total_details" style="color: mediumslateblue;">
+                              <div
+                                class="col-3 text-right"
+                                id="total_details"
+                                style="color: mediumslateblue"
+                              >
                                 <b>Total</b>
                                 <span id="total_val"></span>
                               </div>
@@ -119,13 +179,14 @@
                       </div>
                     </div>
 
-                    <div class="row" style="display: none;" id="id_invoiceblock">
+                    <div class="row" style="display: none" id="id_invoiceblock">
                       <div class="col-12">
                         <div class="card">
-                          <div class="card-header">
-                            Payment Terms
-                          </div>
-                          <div class="card-body" id="id_invoiceblock_body"></div>
+                          <div class="card-header">Payment Terms</div>
+                          <div
+                            class="card-body"
+                            id="id_invoiceblock_body"
+                          ></div>
                         </div>
                       </div>
                     </div>
@@ -133,87 +194,69 @@
 
                   <div class="card-footer">
                     <div class="text-right">
-                      <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                      <a
+                        href="<?php echo ROOT; ?>invoices"
+                        class="btn btn-default btn-sm"
+                      >
                         Back
                       </a>
                     </div>
                   </div>
                 </div>
 
-                <button type="button" class="hide" id="preview_modal" data-toggle="modal" data-target="#modal-xl"></button>
+                <button
+                  type="button"
+                  class="hide"
+                  id="preview_modal"
+                  data-toggle="modal"
+                  data-target="#modal-xl"
+                ></button>
 
                 <div class="modal fade" id="modal-xl">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                       <div class="modal-header" id="preview_modal_header">
                         Generate Invoice
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body" id="preview_modal_body">
-                        <!-- <div class="row">
-                          <div class="col-sm-12 col-lg-12">
-                            <div class="row">
-                              <div class="col-sm-12 col-lg-12 mt-3">
-                                <div class="card">
-                                  <div class="card-body">
-                                    <table class="table">
-                                      <thead>
-                                        <tr>
-                                          <th>Item</th>
-                                          <th>Description</th>
-                                          <th>Qty.</th>
-                                          <th>UOM</th>
-                                          <th>Unit Price</th>
-                                          <th>Total</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <tr>
-                                          <td class="max100">
-                                            <input type="text" name="item" id="id_item" class="form-control">
-                                          </td>
-                                          <td class="max150">
-                                            <input type="text" name="description" id="id_description"
-                                              class="form-control">
-                                          </td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-                                <label for="id_invoicedate">Invoice Date</label>
-                                <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate">
-                              </div>
-                              <div class="col-sm-12 col-lg-3">
-                                <label for="id_due_date">Due Date</label>
-                                <input type="date" class="form-control ftsm" name="due_date" id="id_due_date">
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
-                      </div>
-                      <div class="modal-footer justify-content-between" id="preview_modal_footer">
-                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal">Generate</button>
+                      <div class="modal-body" id="preview_modal_body"></div>
+                      <div
+                        class="modal-footer justify-content-between"
+                        id="preview_modal_footer"
+                      >
+                        <button
+                          type="button"
+                          class="btn btn-default btn-sm"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                          Generate
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </form>
-              <input type="hidden" name="paytype_body" id="id_paytype_val" value="1,2,3,4,5" />
+              <input
+                type="hidden"
+                name="paytype_body"
+                id="id_paytype_val"
+                value="1,2,3,4,5"
+              />
             </div>
           </div>
         </div>
-
-
       </section>
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+  </div>
+</body>

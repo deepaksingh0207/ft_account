@@ -1,5 +1,5 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
-var groupdata, customerid, customerdata, orderdata, od_order, od_items, od_invoices, od_payment_term, gstlist, previewlist = [], oldgen = 0, payterm_ordertype = ["1", "2"];
+var groupdata, customerid, customerdata, orderdata, od_order, od_items, od_invoices, od_payment_term, gstlist, previewlist = [1], oldgen = 0, paytermlist = [], payterm_ordertype = ["1", "2"];
 
 $(document).on("change", "#id_group_id", function () {
   resetongroup();
@@ -63,6 +63,11 @@ $("#id_orderid").change(function () {
         od_items = orderdata.items;
         od_invoices = orderdata.invoices;
         od_payment_term = orderdata.payment_term;
+        if (od_invoices.length > 0) {
+          $.each(od_invoices, function (index, value) {
+            paytermlist.push(value.payment_term)
+          });
+        }
         gst_details(customerid);
         orderdetails();
       })
@@ -91,7 +96,11 @@ function fillinvoices_body(data, listname) {
   if (data) {
     $("#id_invoiceblock_body").empty().append('<table class="table">                                <thead><tr>                                     <th></th>                                           <th>Item</th>                                   <th>Description</th>                            <th>Qty.</th>                                   <th>UOM</th>                                  <th>Unit Price</th>                             <th>Total</th>                                      <th class="min110"></th></tr>                   </thead><tbody id="id_invoicebody"></tbody></table>');
     $.each(data, function (index, value) {
-      $("#id_invoicebody").append('<tr><td>         <div class="icheck-primary d-inline">           <input type="radio" id="id_paytrm' + index + '" name="payment_term" class="paytrm" data-id="' + index + '"> <label for="id_paytrm' + index + '"></label></div></td>                             <td>' + value.item + '</td>                         <td>' + value.description + '</td>              <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>          <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>      <td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+      if (paytermlist.includes(value.id)) {
+        $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                         <td>' + value.description + '</td>            <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>         <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>     <td class="py-0 align-center" style="vertical-align: middle;">                                                                 <a href="" class="btn btn-sm btn-light">PDF</a></td></tr>');
+      } else {
+        $("#id_invoicebody").append('<tr><td>         <div class="icheck-primary d-inline">           <input type="radio" id="id_paytrm' + index + '" class="paytrm" data-id="' + index + '"> <label for="id_paytrm' + index + '"></label></div></td>                             <td>' + value.item + '</td>                         <td>' + value.description + '</td>              <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>          <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>      <td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+      }
     });
     $("#id_invoiceblock").show();
   }
@@ -112,7 +121,7 @@ function preview_modal_body(data, listname) {
     $("#preview_tbody").empty();
     $("#preview_tbody")
       .append('<tr><td>                                                                             <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + data.id + '">   <input type="text" name="item[]" id="id_item1" class="form-control" value="' + data.item + '">      </td><td >                                                                                    <input type="text" class="form-control desp" name="description[]" id="id_descp1" value="' + data.description + '">                                                                                  </td><td class="minmax150">                                                                   <input type="number" class="form-control qty" name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + data.unit_price + '" max="' + data.qty + '">                            </td><td class="pt-3" >' + setuom(data.uom_id) + '                                            <input type="hidden" name="uom[]" id="id_uom1" value="' + data.uom_id + '">                         </td><td class="pt-3">₹' + data.unit_price + '                                                <input type="hidden" name="unit_price[]" id="id_unitprice1" value="' + data.unit_price + '">        </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                      <input type="hidden" name="total[]" id="id_total1" value="0">                                       </tr>');
-    // previewlist.push(index);
+    // previewlist.push(1);
     preview_footer();
   } else {
     $("#preview_tbody")
@@ -287,7 +296,7 @@ function getordertype() {
   else if (od_order.order_type == 6) { return 'Hardware Sale' }
 }
 
-function previewttotal() {
+function preview_total() {
   subtotal = 0;
   $.each(previewlist, function (index, value) {
     subtotal += parseFloat($("#id_total" + value).val());
@@ -314,7 +323,7 @@ function previewttotal() {
 function previewtotal(index, value) {
   $("#preview_row_total" + index).text(humanamount(value));
   $("#id_total" + index).val(value);
-  previewttotal();
+  preview_total();
 }
 
 $(document).on("change", ".qty", function () {
