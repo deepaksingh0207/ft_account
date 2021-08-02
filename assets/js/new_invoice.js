@@ -95,21 +95,22 @@ function orderdetails() {
 
 function fillinvoices_body(data, listname) {
   if (data) {
-
-    $("#id_invoiceblock_body").empty().append('<table class="table">                                <thead><tr>                                     <th></th>                                           <th>Item</th>                                   <th>Description</th>                              <th>' + setheader(od_order.order_type) + '</th>                     <th>UOM</th>                                  <th>Unit Price</th>                             <th>Total</th>                                      <th class="min110"></th></tr>                   </thead><tbody id="id_invoicebody"></tbody></table>');
-    pt = [], iv = [];
+    $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th></th>                                                <th>Item</th>                                                              <th>Description</th>                                           <th>' + setheader(od_order.order_type) + '</th>                            <th>UOM</th>                                               <th>Unit Price</th>                                                        <th>Total</th>                                                 <th class="min110"></th></tr>                                              </thead><tbody id="id_invoicebody"></tbody></table>');
+    pt = [], iv = [], total = 0;
     $.each(paytermlist, function (i, val) {
       paymentterm_invoiceno = val.split('_');
       pt.push(paymentterm_invoiceno[0])
       iv.push(paymentterm_invoiceno[1])
     });
     $.each(data, function (index, value) {
-        if (pt.includes(value.id)) {
-          $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                         <td>' + value.description + '</td>         <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>         <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                            <td class="py-0 align-center" style="vertical-align: middle;">                                 <a href="' + baseUrl + 'pdf/invoice_' + iv[pt.indexOf(value.id)] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a></td></tr>');
-        } else {
-          $("#id_invoicebody").append('<tr><td>         <div class="icheck-primary d-inline">           <input type="radio" id="id_paytrm' + index + '" name="id_paytrm" class="paytrm" data-id="' + index + '">     <label for="id_paytrm' + index + '"></label></div>     </td><td>' + value.item + '</td>           <td>' + value.description + '</td>           <td>' + value.qty + '</td>                       <td>' + setuom(value.uom_id) + '</td>        <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                                       <td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
-        }
+      if (pt.includes(value.id)) {
+        $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                         <td>' + value.description + '</td>         <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>         <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                            <td class="py-0 align-center" style="vertical-align: middle;">                                 <a href="' + baseUrl + 'pdf/invoice_' + iv[pt.indexOf(value.id)] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a></td></tr>');
+      } else {
+        $("#id_invoicebody").append('<tr><td>         <div class="icheck-primary d-inline">           <input type="radio" id="id_paytrm' + index + '" name="id_paytrm" class="paytrm" data-id="' + index + '">     <label for="id_paytrm' + index + '"></label></div>     </td><td>' + value.item + '</td>           <td>' + value.description + '</td>           <td>' + value.qty + '</td>                       <td>' + setuom(value.uom_id) + '</td>        <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                                       <td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+      }
+      total += parseFloat(value.total);
     });
+    $("#id_invoiceblock_body").append('<input type="hidden" name="order_total" value="' + total + '">');
     $("#id_invoiceblock").show();
   }
 }
@@ -344,17 +345,17 @@ function preview_total() {
     gst = subtotal * ($("#preview_sgst_val").data('gst') / 100)
     $("#preview_sgst_val").text(humanamount(gst));
     $("#preview_cgst_val").text(humanamount(gst));
-    $("#id_sgst_edit").val(gst);
-    $("#id_cgst_edit").val(gst);
+    $("#previewsgst").val(gst);
+    $("#previewcgst").val(gst);
     total = subtotal + gst + gst
   }
   else {
     gst = subtotal * ($("#preview_igst_val").data('gst') / 100)
     $("#preview_igst_val").text(humanamount(gst));
-    $("#id_igst_edit").val(gst);
+    $("#previewigst").val(gst);
     total = subtotal + gst
   }
-  $("#id_ordertotal_edit").val(total);
+  $("#previewinvoice_total").val(total);
   $("#preview_total_val").text(humanamount(total));
 }
 
