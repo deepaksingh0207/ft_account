@@ -341,6 +341,7 @@ function preview_total() {
     subtotal += parseFloat($("#id_total" + value).val());
   });
   $("#preview_subtotal_txt").text(humanamount(subtotal));
+  $("#previewsubtotal").val(subtotal);
   if (parseInt(od_order.tax_rate) == 9) {
     gst = subtotal * ($("#preview_sgst_val").data('gst') / 100)
     $("#preview_sgst_val").text(humanamount(gst));
@@ -390,7 +391,7 @@ function preview_footer(val, listname) {
     .append('<div class="row text-center"><div id="previewigst"><b>Sub Total : </b>                                                         <span id="preview_subtotal_txt">₹' + listval(val, listname).total + '</span></div>                                                     <input type="hidden" name="sub_total" id="previewsubtotal" value="' + listval(val, listname).total + '">                                  <div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                        <span id="preview_sgst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹ ' + tax_system(od_order.tax_rate, listval(val, listname).total) + '</span>                                                                                                                               <input type="hidden" name="sgst" id="previewsgst" value="' + tax_system(od_order.tax_rate, listval(val, listname).total) + '"></div>          <div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                        <span id="preview_cgst_val">₹' + tax_system(od_order.tax_rate, listval(val, listname).total) + '</span>                                  <input type="hidden" name="cgst" id="previewcgst" value="' + tax_system(od_order.tax_rate, listval(val, listname).total) + '"></div>         <div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                            <span id="preview_igst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹ ' + tax_system(od_order.tax_rate, listval(val, listname).total, 18) + '</span>                                                                                                                             <input type="hidden" name="igst" id="previewigst" value="' + tax_system(od_order.tax_rate, listval(val, listname).total, 18) + '"></div>         <div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total + '</span>                     <input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total + '"></div></div>');
   if (listname == "items") {
     $("#preview_subtotal_txt").text(humanamount(0));
-    $("#previewsubtotal").text(humanamount(0));
+    $("#previewsubtotal").val(0);
     $("#preview_sgst_val").text(humanamount(0));
     $("#preview_cgst_val").text(humanamount(0));
     $("#preview_igst_val").text(humanamount(0));
