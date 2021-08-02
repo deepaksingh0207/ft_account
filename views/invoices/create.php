@@ -126,7 +126,7 @@
                                 <tr>
                                   <th class="min100">Item</th>
                                   <th class="min100">Description</th>
-                                  <th class="minmax150">Qty</th>
+                                  <th class="minmax150" id="setheader"></th>
                                   <th class="minmax150">Unit of Measure</th>
                                   <th class="min100">Unit Price</th>
                                   <th class="min100">Order Total</th>
