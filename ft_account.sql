@@ -66,10 +66,10 @@ CREATE TABLE IF NOT EXISTS `customers` (
 
 TRUNCATE TABLE `customers`;
 INSERT INTO `customers` (`id`, `group_id`, `name`, `contact_person`, `gstin`, `pan`, `address`, `city`, `state`, `pincode`, `pphone`, `aphone`, `fax`, `email`, `remark`, `invoice_by`, `managername`, `manageremail`, `managerphone`, `status`, `added_date`, `updated_date`) VALUES
-(1, 3, 'Aarti Industries Pvt. Ltd.', 'Mangesh', '27AAAAA0000A1Z5', 'AABCA2787L', 'Udyog Kshetra, 2nd Floor,\r\nMulund Goregaon Link Road, Mulund (West), Mumbai - 400080, Maharashtra, India                   ', NULL, 22, '401107', '7498456880', '7498456880', '7498456880', 'deepaksingh0207@gmail.com', 'test', NULL, '', '0', '0', 1, '2021-04-20 13:44:24', '2021-06-09 15:11:31'),
-(2, 1, 'Jay Bharat Maruti Limited', 'Lalit', '24AAACJ2021K2Z0', 'VGUPF9456T', 'Survey No.62,Paiki 6&7,GIDC Ext Road-Vithlapur,Taluka Mandal,382130, Distt-Ahmedabad', NULL, 12, '382130', '7645342423', '7645342343', '7645342232', 'lalit@jbm.com', 'ccc', NULL, '', '0', '0', 1, '2021-05-29 12:05:41', '2021-06-09 15:06:17'),
-(3, 1, 'Neel Metal TVS', 'Suresh', '33AAACC1206D1ZN', 'DFRTS9878R', 'Hosur', NULL, 35, '534534', '2342342342', '2342342342', '1231243453', 'test@sdsd.com', 'test', NULL, '', '0', '0', 1, '2021-06-09 15:28:13', '2021-06-09 15:28:13'),
-(4, 1, 'JBM AS Sanand', 'Manish', '32AAICS2717D1ZR', 'DTUPD9856T', 'Sanand gujarat                        ', NULL, 12, '382110', '9876543211', '', '', 'manish@jbm.ss', 'wsd', NULL, 'Lalit', 'lalit@jbm.vv', '9876543212', 1, '2021-06-21 15:29:46', '2021-06-21 15:35:24');
+(1, 1, 'Aarti Industries Pvt. Ltd.', 'Mangesh', '27AAAAA0000A1Z5', 'AABCA2787L', 'Udyog Kshetra, 2nd Floor,\r\nMulund Goregaon Link Road, Mulund (West), Mumbai - 400080, Maharashtra, India                   ', NULL, 22, '401107', '7498456880', '7498456880', '7498456880', 'deepaksingh0207@gmail.com', 'test', NULL, '', '0', '0', 1, '2021-04-20 13:44:24', '2021-08-02 19:42:26'),
+(2, 2, 'Jay Bharat Maruti Limited', 'Lalit', '24AAACJ2021K2Z0', 'VGUPF9456T', 'Survey No.62,Paiki 6&7,GIDC Ext Road-Vithlapur,Taluka Mandal,382130, Distt-Ahmedabad', NULL, 12, '382130', '7645342423', '7645342343', '7645342232', 'lalit@jbm.com', 'ccc', NULL, '', '0', '0', 1, '2021-05-29 12:05:41', '2021-08-02 19:42:31'),
+(3, 2, 'Neel Metal TVS', 'Suresh', '33AAACC1206D1ZN', 'DFRTS9878R', 'Hosur', NULL, 35, '534534', '2342342342', '2342342342', '1231243453', 'test@sdsd.com', 'test', NULL, '', '0', '0', 1, '2021-06-09 15:28:13', '2021-08-02 19:42:36'),
+(4, 2, 'JBM AS Sanand', 'Manish', '32AAICS2717D1ZR', 'DTUPD9856T', 'Sanand gujarat                        ', NULL, 12, '382110', '9876543211', '', '', 'manish@jbm.ss', 'wsd', NULL, 'Lalit', 'lalit@jbm.vv', '9876543212', 1, '2021-06-21 15:29:46', '2021-08-02 19:43:09');
 
 DROP TABLE IF EXISTS `customer_groups`;
 CREATE TABLE IF NOT EXISTS `customer_groups` (
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `customer_groups` (
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `customer_groups`;
 INSERT INTO `customer_groups` (`id`, `code`, `name`, `status`, `created_date`, `updated_date`) VALUES
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `customer_payments` (
   `remarks` varchar(300) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customer_id` (`customer_id`,`cheque_utr_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `customer_payments`;
 DROP TABLE IF EXISTS `invoices`;
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   `payment_description` varchar(200) DEFAULT NULL,
   `uom_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `invoices`;
 DROP TABLE IF EXISTS `invoice_items`;
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `invoice_items` (
   `order_item_id` int(11) DEFAULT NULL,
   `uom_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `invoice_items`;
 DROP TABLE IF EXISTS `it_master`;
@@ -196,6 +196,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `orders`;
+INSERT INTO `orders` (`id`, `group_id`, `customer_id`, `order_date`, `pay_days`, `po_no`, `sales_person`, `bill_to`, `ship_to`, `order_type`, `sub_total`, `igst`, `cgst`, `sgst`, `tax_rate`, `ordertotal`, `remarks`, `status`, `added_date`, `updated_date`, `po_file`) VALUES
+(1, 1, 1, '2021-08-03 00:00:00', 0, '10001', 'Mangesh', '1', '1', 1, '500000', '0.00', '45000.00', '45000.00', '9.00', '590000.00', '', 1, '2021-08-03 01:20:28', '2021-08-03 01:20:28', 'Test.pdf'),
+(2, 1, 1, '2021-08-03 00:00:00', 0, '10002', 'Mangesh', '1', '1', 2, '1000000', '0.00', '90000.00', '90000.00', '9.00', '1180000.00', '', 1, '2021-08-03 01:21:38', '2021-08-03 01:21:38', 'Test.pdf'),
+(3, 2, 2, '2021-08-03 00:00:00', 0, '10003', 'Lalit', '2', '4', 3, '160000', '28800.00', '0.00', '0.00', '18.00', '188800.00', '', 1, '2021-08-03 01:23:55', '2021-08-03 01:23:55', 'Test.pdf'),
+(4, 2, 3, '2021-08-03 00:00:00', 0, '10004', 'Suresh', '3', '3', 4, '80000', '14400.00', '0.00', '0.00', '18.00', '94400.00', '', 1, '2021-08-03 01:24:51', '2021-08-03 01:24:51', 'Test.pdf'),
+(5, 2, 4, '2021-08-03 00:00:00', 0, '10005', 'Manish', '4', '2', 5, '3800000', '684000.00', '0.00', '0.00', '18.00', '4484000.00', '', 1, '2021-08-03 01:25:43', '2021-08-03 01:25:43', 'Test.pdf'),
+(6, 1, 1, '2021-08-03 00:00:00', 0, '10006', 'Mangesh', '1', '1', 6, '38400', '0.00', '3456.00', '3456.00', '9.00', '45312.00', '', 1, '2021-08-03 01:26:58', '2021-08-03 01:26:58', 'Test.pdf');
+
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE IF NOT EXISTS `order_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -210,9 +218,20 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `order_items`;
+INSERT INTO `order_items` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `tax`, `total`, `added_date`, `updated_date`) VALUES
+(1, 1, '1. On-Site Support Sale', 'SAP ABAP Onsite Support of Mr. Umesh Chaudhari For the month of April 2021', '5', 2, '500000.00', NULL, '500000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
+(2, 2, '2. Project Sale', 'SAP Implementation Project  ', '4', 3, '1000000.00', NULL, '1000000.00', '2021-08-03 01:21:38', '2021-08-03 01:21:38'),
+(3, 3, '3. AMC Support Sale', 'AMC Support for the period  ( April 2021 )', '1', 2, '10000.00', NULL, '10000.00', '2021-08-03 01:23:55', '2021-08-03 01:23:55'),
+(4, 3, '3. AMC Support Sale', 'AMC Support for the period  ( April 2021 to June 2021 )', '1', 2, '30000.00', NULL, '30000.00', '2021-08-03 01:23:55', '2021-08-03 01:23:55'),
+(5, 3, '3. AMC Support Sale', 'AMC Support for the period  ( April 2021 to March 2022 )', '1', 2, '120000.00', NULL, '120000.00', '2021-08-03 01:23:55', '2021-08-03 01:23:55'),
+(6, 4, '4. Man-days-Support Sale', 'SAP Support ', '16', 1, '5000.00', NULL, '80000.00', '2021-08-03 01:24:51', '2021-08-03 01:24:51'),
+(7, 5, '5. SAP License  Sale ', 'SAP  functional user', '20', 2, '95000.00', NULL, '1900000.00', '2021-08-03 01:25:43', '2021-08-03 01:25:43'),
+(8, 5, '5. SAP License  Sale ', 'SAP Technical user', '20', 2, '95000.00', NULL, '1900000.00', '2021-08-03 01:25:43', '2021-08-03 01:25:43'),
+(9, 6, '6. Hardwar  Sale ', 'TRANSPARENT BARCODE LABEL (50.8X203.2MM)', '20000', 4, '1.92', NULL, '38400.00', '2021-08-03 01:26:58', '2021-08-03 01:26:58');
+
 DROP TABLE IF EXISTS `order_payterms`;
 CREATE TABLE IF NOT EXISTS `order_payterms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -226,9 +245,20 @@ CREATE TABLE IF NOT EXISTS `order_payterms` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `order_payterms`;
+INSERT INTO `order_payterms` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `total`, `added_date`, `updated_date`) VALUES
+(1, 1, 'JAN', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
+(2, 1, 'FEB', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
+(3, 1, 'MAR', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
+(4, 1, 'APR', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
+(5, 1, 'MAY', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:29', '2021-08-03 01:20:29'),
+(6, 2, '2. Project Sale', 'Advance ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:38', '2021-08-03 01:21:38'),
+(7, 2, '2. Project Sale', 'Successfully Completion of UAT ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
+(8, 2, '2. Project Sale', 'Successfully Completion of Go-Live ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
+(9, 2, '2. Project Sale', 'Support', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39');
+
 DROP TABLE IF EXISTS `order_types`;
 CREATE TABLE IF NOT EXISTS `order_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -264,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `invoice_id` (`invoice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `payments`;
 DROP TABLE IF EXISTS `states`;
