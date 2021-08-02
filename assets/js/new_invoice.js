@@ -96,7 +96,7 @@ function orderdetails() {
 function fillinvoices_body(data, listname) {
   if (data) {
 
-    $("#id_invoiceblock_body").empty().append('<table class="table">                                <thead><tr>                                     <th></th>                                           <th>Item</th>                                   <th>Description</th>                              <th>'+setheader(od_order.order_type)+'</th>                     <th>UOM</th>                                  <th>Unit Price</th>                             <th>Total</th>                                      <th class="min110"></th></tr>                   </thead><tbody id="id_invoicebody"></tbody></table>');
+    $("#id_invoiceblock_body").empty().append('<table class="table">                                <thead><tr>                                     <th></th>                                           <th>Item</th>                                   <th>Description</th>                              <th>' + setheader(od_order.order_type) + '</th>                     <th>UOM</th>                                  <th>Unit Price</th>                             <th>Total</th>                                      <th class="min110"></th></tr>                   </thead><tbody id="id_invoicebody"></tbody></table>');
     $.each(data, function (index, value) {
       $.each(paytermlist, function (i, val) {
         paymentterm_invoiceno = val.split('_');
@@ -117,11 +117,12 @@ $(document).on("click", ".generate", function () {
   } else {
     preview_modal_body(od_items[$(this).data('id')], 'item');
   }
+
   $("#preview_modal").trigger('click');
 });
 
 function preview_modal_body(data, listname) {
-  $("#preview_modal_body").empty().append('<div class="row">                                              <div class="col-sm-12 col-lg-12">                                                                   <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                    <div class="card-header">' + getordertype() + '</div>                                               <div class="card-body"> <table class="table">                                           <thead><tr><th>Item</th><th>Description</th><th>'+setheader(od_order.order_type)+'</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead>                                                                                       <tbody id="preview_tbody"></tbody></table></div>                                                    <div class="card-footer" id="preview_footer"></div></div></div>                                     <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div>         <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                         <input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div>                    </div></div></div>');
+  $("#preview_modal_body").empty().append('<div class="row" id="t1" data-state="show">                 <div class="col-sm-12 col-lg-12">                                                                   <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                    <div class="card-header">' + getordertype() + '</div>                                               <div class="card-body"> <table class="table">                                           <thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead>                                                                                       <tbody id="preview_tbody"></tbody></table></div>                                                    <div class="card-footer" id="preview_footer"></div></div></div>                                     <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div>         <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                         <input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div>                    </div></div></div><div class="row" id="t2" data-state="hide"></div>');
   if (listname == "item") {
     $("#preview_tbody").empty();
     $("#preview_tbody")
@@ -133,11 +134,32 @@ function preview_modal_body(data, listname) {
       .empty()
       .append('<tr><td class="max100">                                                              <input type="hidden" name="payment_term" value="' + data.id + '">                                  <input type="text" name="item" id="id_item" class="form-control" value="' + data.item + '">         </td><td class="max150">                                                                      <input type="text" name="description" id="id_description" class="form-control" value="' + data.description + '">                                                                                  </td><td>' + data.qty + '                                                                      <input type="hidden" name="pay_percent" value="' + data.qty + '">                                  </td><td>' + setuom(data.uom_id) + '                                                               <input type="hidden" name="order_total" value="' + data.unit_price + '">                           </td><td>' + data.unit_price + '</td><td>' + data.total + '                                        <input type="hidden" name="invoice_total" value="' + data.total + '">                            </td></tr>');
     preview_footer(data.id);
-    $("#preview_footer").hide();
   }
   $("#id_invoicedate").val(today);
   $('#id_due_date').attr("min", tomorrow).val(tomorrow);
 }
+
+$(document).on("click", "#togglepdf", function () {
+  if ($("#t1").data("state") == "show") {
+    $("#t1").data("state", "hide").hide();
+    $("#t2").data("state", "show").show();
+    $("#togglepdf").text('Back');
+    var formdata = $("#quickForm").serialize();
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "invoices/preview",
+      data: formdata,
+    }).done(function (data) {
+      $("#t2").empty().append(data).find('style').remove().children("div.container").children("img").css("max-width", "925px");
+    }).fail(function (data) {
+      debug("FAILED");
+    });
+  } else {
+    $("#togglepdf").text('View PDF');
+    $("#t2").data("state", "hide").hide();
+    $("#t1").data("state", "show").show();
+  }
+});
 
 function resetongroup() {
   $("#customerid_id").empty().attr('disabled', true);
@@ -344,7 +366,7 @@ $(document).on("change", ".qty", function () {
 
 function preview_footer(val) {
   $("#preview_footer")
-    .append('<div class="row text-center">                                                                                                  <div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + od_invoices.sub_total + '</span></div>                        <input type="hidden" name="sub-total" id="previewsubtotal" value="' + od_invoices.sub_total + '">                                       <div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                         <span id="preview_sgst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹' + od_invoices.sgst + '</span>                              <input type="hidden" name="sgst" id="previewsgst" value="' + od_invoices.sgst + '"></div>                                                <div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                          <span id="preview_cgst_val">₹' + od_invoices.cgst + '</span>                                                                             <input type="hidden" name="cgst" id="previewcgst" value="' + od_invoices.cgst + '"></div>                                                <div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                         <span id="preview_igst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹' + od_invoices.igst + '</span>                              <input type="hidden" name="igst" id="previewigst" value="' + od_invoices.igst + '"></div>                                        <div id="totalclass" style="color: mediumslateblue;"><b>Total : </b>                                                                       <span id="preview_total_val">₹' + od_invoices.invoice_total + '</span>                                                                 <input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + od_invoices.invoice_total + '"></div>                         </div>');
+    .append('<div class="row text-center">                                                             <div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + od_invoices.sub_total + '</span></div>                                                                                   <input type="hidden" name="sub-total" id="previewsubtotal" value="' + od_invoices.sub_total + '">                                                                                                 <div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                                                                                    <span id="preview_sgst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹' + od_invoices.sgst + '</span>                                                                                           <input type="hidden" name="sgst" id="previewsgst" value="' + od_invoices.sgst + '"></div>                                                                                               <div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                                                                                      <span id="preview_cgst_val">₹' + od_invoices.cgst + '</span>                                      <input type="hidden" name="cgst" id="previewcgst" value="' + od_invoices.cgst + '"></div>                                                                                               <div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(od_order.tax_rate) + ' %</span> ) : </b>                                                                                       <span id="preview_igst_val" data-gst="' + parseInt(od_order.tax_rate) + '">₹' + od_invoices.igst + '</span>                                                                                           <input type="hidden" name="igst" id="previewigst" value="' + od_invoices.igst + '"></div>          <div id="totalclass" style="color: mediumslateblue;"><b>Total : </b>                               <span id="preview_total_val">₹' + od_invoices.invoice_total + '</span>                               <input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + od_invoices.invoice_total + '"></div>                         </div>');
   if (val > 0) {
     $("#preview_subtotal_txt").text(humanamount(0));
     $("#previewsubtotal").text(humanamount(0));
