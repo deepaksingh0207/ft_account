@@ -96,5 +96,16 @@ class InvoiceItemsModel extends Model {
         }
         return $user['item_qty'];
     }
+
+    public function getListByOrderId($orderId) {
+        $sql = "select * from invoice_items 
+        join invoices I on (I.id = invoice_items.invoice_id) where I.order_id = ? ";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($orderId));
+        if (empty($user)){
+            return false;
+        }
+        return $user;
+    }
     
 }

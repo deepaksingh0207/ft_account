@@ -234,11 +234,13 @@ class OrdersController extends Controller
                 $invoice['pay_percent'] = $invoice['pay_percent'] ? $invoice['pay_percent'] : '-';
             }
             
+           
             
             $result = array();
             $result['order'] = $order;
             $result['items'] = $oderItems;
             $result['invoices'] = $invoices;
+            $result['invoice_items'] = $invoiceItemModel->getListByOrderId($id);
             $result['payment_term'] = $paymentTerms;
             echo json_encode($result);
         } else {
