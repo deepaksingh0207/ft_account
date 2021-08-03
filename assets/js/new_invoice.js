@@ -93,7 +93,7 @@ function fillinvoices_body(data, listname) {
   if (data) {
     pt = [], it = [], iv = [];
     if (listname == 'payment_term') {
-      $.each(od_invoices, function (i, val) {
+      $.each(od_invoices, function (i, value) {
         pt.push(value.payment_term)
         iv.push(value.invoice_no)
       });

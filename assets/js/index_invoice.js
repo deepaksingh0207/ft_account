@@ -1,3 +1,5 @@
+var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+
 $(function () {
   $(".select2").select2();
   $("#example1").DataTable({
@@ -10,11 +12,11 @@ $(function () {
   });
 });
 
-// var baseUrl = 'http://google.co.in'
 
 $(".sublist").click(function () {
-  var parent_id = $(this).parent("tr").attr("data-href");
-  window.location = parent_id;
+  url = baseUrl+'pdf/invoice_'+$(this).parent("tr").data("href")+'.pdf'
+  $("#modal_body").empty().append('<embed src="'+url+'" type="application/pdf" style="width: 100%; height: 513px;">');
+  $("#modelpdf").click();
 });
 
 var period1, start1, end1, customer1;
@@ -111,7 +113,7 @@ $("#modaldelete").on("click", function () {
     });
 });
 
-$(".sublist").click(function () {
-  var parent_id = $(this).parent("tr").attr("data-href");
-  window.location = parent_id;
-});
+// $(".sublist").click(function () {
+//   var parent_id = $(this).parent("tr").attr("data-href");
+//   window.location = parent_id;
+// });

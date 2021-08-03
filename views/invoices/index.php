@@ -68,16 +68,19 @@
                         <tbody>
                           <?php if (is_array($invoices) || is_object($invoices)) : ?>
                           <?php foreach ($invoices as $invoice) : ?>
-                          <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['id'] ?>">
+                          <!-- <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['id'] ?>"> -->
+                          <tr data-href="<?php echo $invoice['invoice_no'] ?>">
                             <td></td>
-                            <td>
+                            <td class="sublist">
                               <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
                             </td>
                             <td class="sublist">
                               <?php echo $invoice['invoice_no'] ?>
                             </td>
                             <td class="sublist">
-                            <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>"><?php echo $invoice['po_no'] ?></a>
+                              <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>">
+                                <?php echo $invoice['po_no'] ?>
+                              </a>
                             </td>
                             <td class="sublist">
                               <?php echo $invoice['customer_name'] ?>
@@ -103,6 +106,7 @@
 
         <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
           data-target="#modal-default"></button>
+        <button type="button" id="modelpdf" style="display: block" data-toggle="modal" data-target="#modal-xl"></button>
         <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -125,6 +129,23 @@
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="modal-xl">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header" id="modal_header">
+                Invoice
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body p-0" id="modal_body">
+                <embed src="http://localhost/ft_account/pdf/invoice_2021006.pdf" type="application/pdf"
+                  style="width: 100%; height: 513px;">
+              </div>
             </div>
           </div>
         </div>

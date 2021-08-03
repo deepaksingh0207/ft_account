@@ -152,7 +152,7 @@
                           </button>
                         </div>
                         <div>
-                          <button type="submit" class="btn btn-light btn-sm" id="togglepdf">
+                          <button type="submit" class="btn btn-default btn-sm" id="togglepdf">
                             Preview
                           </button>
                           <button type="submit" class="btn btn-primary btn-sm" id="gene" onclick="form.submit()" style="display: none;">
