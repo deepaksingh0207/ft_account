@@ -65,16 +65,6 @@ $("#id_orderid").change(function () {
         od_invoiceitems = orderdata.invoice_items;
         od_payment_term = orderdata.payment_term;
         $("#setheader").text(setheader(od_order.order_type));
-        if (od_invoices.length > 0) {
-          $.each(od_invoices, function (index, value) {
-            paytermlist.push(value.payment_term + '_' + value.invoice_no)
-          });
-        }
-        if (od_invoiceitems.length > 0) {
-          $.each(od_invoiceitems, function (index, value) {
-            paytermlist.push(value.payment_term + '_' + value.invoice_no)
-          });
-        }
         gst_details(customerid);
         orderdetails();
       })
@@ -101,17 +91,35 @@ function orderdetails() {
 
 function fillinvoices_body(data, listname) {
   if (data) {
+    pt = [], it = [], iv = [];
+    if (listname == 'payment_term') {
+      $.each(od_invoices, function (i, val) {
+        pt.push(value.payment_term)
+        iv.push(value.invoice_no)
+      });
+    } else if (listname == 'items') {
+      $.each(od_invoiceitems, function (index, value) {
+        it.push(value.order_item_id)
+        iv.push(value.id)
+      });
+    }
     $("#id_invoiceblock_body").empty().append('<table class="table"><thead><tr><th></th>                                                <th>Item</th>                                                              <th>Description</th>                                           <th>' + setheader(od_order.order_type) + '</th>                            <th>UOM</th>                                               <th>Unit Price</th>                                                        <th>Total</th>                                                 <th class="min110"></th></tr>                                              </thead><tbody id="id_invoicebody"></tbody></table>');
-    pt = [], iv = [], total = 0;
-    $.each(paytermlist, function (i, val) {
-      paymentterm_invoiceno = val.split('_');
-      pt.push(paymentterm_invoiceno[0])
-      iv.push(paymentterm_invoiceno[1])
-    });
+    var total = 0;
     $.each(data, function (index, value) {
       if (pt.includes(value.id)) {
         $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                                                               <td>' + value.description + '</td>                                                                                                  <td>' + value.qty + '</td>                                                                                                          <td>' + setuom(value.uom_id) + '</td>                                                                                                   <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(value.total) + '</td>                                                                                               <td class="py-0 align-center" style="vertical-align: middle;">                                                                        <a href="' + baseUrl + 'pdf/invoice_' + iv[pt.indexOf(value.id)] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a>         </td></tr>');
-      } else {
+      } else if (it.includes(value.id)) {
+        subtotal = parseFloat(value.total)
+        $.each(od_invoiceitems, function (i, val) {
+          if (val.order_item_id == parseInt(value.id)) {
+            $("#id_invoicebody").append('<tr><td></td><td>' + val.item + '</td>                                                             <td>' + val.description + '</td>                                                                                               <td>' + val.qty + '</td>                                                                                                        <td>' + setuom(value.uom_id) + '</td>                                                                                            <td>' + humanamount(val.unit_price) + '</td>                                                                                    <td>' + humanamount(val.total) + '</td>                                                                                           <td class="py-0 align-center" style="vertical-align: middle;">                                                                     <a href="' + baseUrl + 'pdf/invoice_' + val.invoice_no + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a>   </td></tr>');
+            subtotal -= parseFloat(val.sub_total)
+          }
+        });
+        if (subtotal > 0.0){
+        $("#id_invoicebody").append('<tr><td>                                                                                               <div class="icheck-primary d-inline">                                                                                               <input type="radio" id="id_paytrm' + index + '" required name="id_paytrm" class="paytrm" data-id="' + index + '">                 <label for="id_paytrm' + index + '"></label></div></td>                                                                                <td>' + value.item + '</td>                                                                                                        <td>' + value.description + '</td>                                                                                                  <td>' + value.qty + '</td>                                                                                                          <td>' + setuom(value.uom_id) + '</td>                                                                                               <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(subtotal) + '</td>                                                                                             <td class="py-0 align-center" style="vertical-align: middle;">                                                                    <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp;                                                                                       <i class="fas fa-chevron-right"></i></button></td></tr>');}
+      }
+      else {
         $("#id_invoicebody").append('<tr><td>                                                                                               <div class="icheck-primary d-inline">                                                                                               <input type="radio" id="id_paytrm' + index + '" required name="id_paytrm" class="paytrm" data-id="' + index + '">                 <label for="id_paytrm' + index + '"></label></div></td>                                                                                <td>' + value.item + '</td>                                                                                                        <td>' + value.description + '</td>                                                                                                  <td>' + value.qty + '</td>                                                                                                          <td>' + setuom(value.uom_id) + '</td>                                                                                               <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(value.total) + '</td>                                                                                             <td class="py-0 align-center" style="vertical-align: middle;">                                                                    <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp;                                                                                       <i class="fas fa-chevron-right"></i></button></td></tr>');
       }
       total += parseFloat(value.total);
@@ -136,8 +144,14 @@ function preview_modal_body(index, listname) {
   $("#preview_modal_body").empty().append('<div class="row" id="t1" data-state="show">                                                       <div class="col-sm-12 col-lg-12">                                                                                                          <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                                                      <div class="card-header">' + getordertype() + '</div>                                                                                     <div class="card-body"> <table class="table">                                                                                     <thead><tr>                                                                                                                           <th>Item</th>                                                                                                                   <th>Description</th>                                                                                                                        <th>' + setheader(od_order.order_type) + '</th>                                                                                         <th>UOM</th>                                                                                                                            <th>Unit Price</th>                                                                                                                     <th>Total</th>                                                                                                                                </tr></thead>                                                                                                                                <tbody id="preview_tbody"></tbody></table></div>                                                                                          <div class="card-footer" id="preview_footer"></div></div></div>                                                                           <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                                                        <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>                                         <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                                                               <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div>                                                </div></div></div><div class="row" id="t2" data-state="hide"></div>');
   if (listname == "items") {
     $("#preview_tbody").empty();
+    remaining_qty = parseInt(od_items[index].qty)
+    $.each(od_invoiceitems, function (i, value) {
+      if (od_items[index].id == value.order_item_id) {
+        remaining_qty -= value.qty
+      }
+    });
     $("#preview_tbody")
-      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" required name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >              <input type="text" class="form-control desp" required name="description[]" id="id_descp1" value="' + od_items[index].description + '"></td>                                                                                                                                       <td class="minmax150"><input type="number" class="form-control qty" required name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + od_items[index].unit_price + '" max="' + od_items[index].qty + '">                                                           </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                         <input type="hidden" required name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                           </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" required name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                          </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" required name="total[]" id="id_total1" value="0"></tr>');
+      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" required name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >              <input type="text" class="form-control desp" required name="description[]" id="id_descp1" value="' + od_items[index].description + '"></td>                                                                                                                                       <td class="minmax150"><input type="number" class="form-control qty" required name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + od_items[index].unit_price + '" max="' + remaining_qty + '">                                                           </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                         <input type="hidden" required name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                           </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" required name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                          </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" required name="total[]" id="id_total1" value="0"></tr>');
     // previewlist.push(1);
     preview_footer(index, listname);
   } else {
