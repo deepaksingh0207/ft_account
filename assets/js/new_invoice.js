@@ -119,7 +119,7 @@ function fillinvoices_body(data, listname) {
           }
         });
         if (subtotal > 0.0) {
-          $("#id_invoicebody").append('<tr><td>                                                                                               <div class="icheck-primary d-inline">                                                                                               <input type="radio" id="id_paytrm' + index + '" required name="id_paytrm" class="paytrm" data-id="' + index + '">                 <label for="id_paytrm' + index + '"></label></div></td>                                                                               <td>' + value.item + '</td>                                                                                                        <td>' + value.description + '</td>                                                                                                  <td>' + qty + '</td>                                                                                                          <td>' + setuom(value.uom_id) + '</td>                                                                                               <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(subtotal) + '</td>                                                                                             <td class="py-0 align-center" style="vertical-align: middle;">                                                                    <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp;                                                                                       <i class="fas fa-chevron-right"></i></button></td></tr>');
+          $("#id_invoicebody").append('<tr><td>                                                                                               <div class="icheck-primary d-inline">                                                                                               <input type="radio" id="id_paytrm' + index + '" required name="id_paytrm" class="paytrm" data-id="' + index + '">                 <label for="id_paytrm' + index + '"></label></div></td>                                                                               <td>' + value.item + '</td>                                                                                                        <td>' + value.description + '</td>                                                                                                  <td>' + qty + '</td>                                                                                                             <td>' + setuom(value.uom_id) + '</td>                                                                                               <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(subtotal) + '</td>                                                                                             <td class="py-0 align-center" style="vertical-align: middle;">                                                                    <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp;                                                                                       <i class="fas fa-chevron-right"></i></button></td></tr>');
         }
       }
       else {
@@ -134,12 +134,6 @@ function fillinvoices_body(data, listname) {
 
 $(document).on("click", ".generate", function () {
   preview_modal_body($(this).data('id'), $(this).data('list'));
-  // if (payterm_ordertype.includes(od_order.order_type, 0)) {
-  //   preview_modal_body($(this).data('id'), 'payment_term')
-  // } else {
-  //   preview_modal_body($(this).data('id'), 'item');
-  // }
-
   $("#preview_modal").trigger('click');
 });
 
@@ -154,7 +148,7 @@ function preview_modal_body(index, listname) {
       }
     });
     $("#preview_tbody")
-      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" required name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >              <input type="text" class="form-control desp" required name="description[]" id="id_descp1" value="' + od_items[index].description + '"></td>                                                                                                                                       <td class="minmax150"><input type="number" class="form-control qty" required name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + od_items[index].unit_price + '" data-uom="' + od_items[index].uom_id + '" max="' + remaining_qty + '">                       </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                         <input type="hidden" required name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                           </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" required name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                          </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" required name="total[]" id="id_total1" value="0"></tr>');
+      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" required name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >              <input type="text" class="form-control desp" required name="description[]" id="id_descp1" value="' + od_items[index].description + '"></td>                                                                                                                                       <td class="minmax150"><input type="number" class="form-control qty" required name="qty[]" id="id_qty1" min="1" value="' + remaining_qty + '" data-index="1" data-up="' + od_items[index].unit_price + '" data-uom="' + od_items[index].uom_id + '" max="' + remaining_qty + '">    </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                        <input type="hidden" required name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                           </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" required name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                          </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" required name="total[]" id="id_total1" value="0"></tr>');
     // previewlist.push(1);
     preview_footer(index, listname);
   } else {
@@ -163,8 +157,10 @@ function preview_modal_body(index, listname) {
       .append('<tr><td class="max100"><input type="hidden" name="payment_term" value="' + od_payment_term[index].id + '">                      ' + od_payment_term[index].item + '</td><td class="max150">                                                                           <input type="text" required name="payment_description" id="id_description" class="form-control" value="' + od_payment_term[index].description + '">                                                                                                                                       </td><td>' + od_payment_term[index].qty + ' <input type="hidden" name="pay_percent" value="' + od_payment_term[index].qty + '">          </td><td>' + setuom(od_payment_term[index].uom_id) + '                                                                               <input type="hidden" name="order_total" value="' + od_payment_term[index].unit_price + '">                                                </td><td>' + od_payment_term[index].unit_price + '</td><td>' + od_payment_term[index].total + '                                        <input type="hidden" name="invoice_total" value="' + od_payment_term[index].total + '"></td></tr>');
     preview_footer(index, listname);
   }
-  $("#id_invoicedate").val(today);
-  $('#id_due_date').attr("min", tomorrow).val(tomorrow);
+  // $("#id_invoicedate").val(today);
+  $('#id_due_date').attr("min", tomorrow)//.val(tomorrow);
+  $(".qty").trigger( "change" );
+    preview_total();
 }
 
 function resetongroup() {
@@ -446,6 +442,6 @@ function checker() {
 }
 
 $(document).on("click", ".pdf", function () {
-  $("#modal_body").empty().append('<embed src="'+$(this).data('href')+'" type="application/pdf" style="width: 100%; height: 513px;">');
+  $("#modal_body").empty().append('<embed src="' + $(this).data('href') + '" type="application/pdf" style="width: 100%; height: 513px;">');
   $("#modelpdf").click();
 });
