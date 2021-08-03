@@ -97,11 +97,11 @@ $pendingAmount = 0.00;
 											</div>
 											<div class="row">
 												<div class="col-6">
-													<label for="id_po_upload">
-														<b>Uploaded PO :</b>
+													<!<label for="id_po_upload">
+														<b>&nbsp;</b>
 													</label>
-												</div>
-												<div class="col-6 form-group">sdsfd</div>
+												</div> 
+												<div class="col-6 form-group"><a href="<?php echo ROOT.'order_po/'.$order['po_file']?>" target="_blank">Order PO</a></div>
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12 col-lg-12 pl-4">
@@ -110,7 +110,7 @@ $pendingAmount = 0.00;
 													<label for="id_address"> <b>Bill To :</b> </label>
 												</div>
 												<div class="col-6 form-group">
-													<?php echo $order['bill_to'] ?>
+												<?php echo $customer['address'] ?>
 												</div>
 											</div>
 											<div class="row">
@@ -120,7 +120,7 @@ $pendingAmount = 0.00;
 													</label>
 												</div>
 												<div class="col-6 form-group">
-													<?php echo $order['ship_to'] ?>
+												<?php echo $shipToAddress ?>
 												</div>
 											</div>
 										</div>

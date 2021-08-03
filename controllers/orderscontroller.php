@@ -51,6 +51,13 @@ class OrdersController extends Controller
             $invoiceModel = new InvoicesModel();
             $invoices = $invoiceModel->getInvoicesOfOrder($id);
             
+            $customerTbl = new CustomersModel();
+            $customer = $customerTbl->get($order['customer_id']);
+            $this->_view->set('customer', $customer);
+            
+            $customerShipTo = $customerTbl->get($order['ship_to']);
+            $this->_view->set('shipToAddress', $customerShipTo['address']);
+            
             if($invoices) {
                 foreach($invoices as &$invoice) {
                     $invoice['invoice_date'] = date('d M Y', strtotime($invoice['invoice_date']));
