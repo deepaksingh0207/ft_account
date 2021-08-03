@@ -152,10 +152,10 @@
                           </button>
                         </div>
                         <div>
-                          <button type="button" class="btn btn-light btn-sm" id="togglepdf">
+                          <button type="submit" class="btn btn-light btn-sm" id="togglepdf">
                             Preview
                           </button>
-                          <button type="submit" class="btn btn-primary btn-sm" id="gene" style="display: none;">
+                          <button type="submit" class="btn btn-primary btn-sm" id="gene" onclick="form.submit()" style="display: none;">
                             Generate
                           </button>
                         </div>

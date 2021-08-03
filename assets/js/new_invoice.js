@@ -104,9 +104,9 @@ function fillinvoices_body(data, listname) {
     });
     $.each(data, function (index, value) {
       if (pt.includes(value.id)) {
-        $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                         <td>' + value.description + '</td>         <td>' + value.qty + '</td>                          <td>' + setuom(value.uom_id) + '</td>         <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                            <td class="py-0 align-center" style="vertical-align: middle;">                                 <a href="' + baseUrl + 'pdf/invoice_' + iv[pt.indexOf(value.id)] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a></td></tr>');
+        $("#id_invoicebody").append('<tr><td></td><td>' + value.item + '</td>                                                               <td>' + value.description + '</td>                                                                                                  <td>' + value.qty + '</td>                                                                                                          <td>' + setuom(value.uom_id) + '</td>                                                                                                   <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(value.total) + '</td>                                                                                               <td class="py-0 align-center" style="vertical-align: middle;">                                                                        <a href="' + baseUrl + 'pdf/invoice_' + iv[pt.indexOf(value.id)] + '.pdf"  target="_blank" class="btn btn-sm btn-light">PDF</a>         </td></tr>');
       } else {
-        $("#id_invoicebody").append('<tr><td>         <div class="icheck-primary d-inline">           <input type="radio" id="id_paytrm' + index + '" name="id_paytrm" class="paytrm" data-id="' + index + '">     <label for="id_paytrm' + index + '"></label></div>     </td><td>' + value.item + '</td>           <td>' + value.description + '</td>           <td>' + value.qty + '</td>                       <td>' + setuom(value.uom_id) + '</td>        <td>' + humanamount(value.unit_price) + '</td>      <td>' + humanamount(value.total) + '</td>                                                       <td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp; <i class="fas fa-chevron-right"></i></button></td></tr>');
+        $("#id_invoicebody").append('<tr><td>                                                                                               <div class="icheck-primary d-inline">                                                                                               <input type="radio" id="id_paytrm' + index + '" required name="id_paytrm" class="paytrm" data-id="' + index + '">                 <label for="id_paytrm' + index + '"></label></div></td>                                                                                <td>' + value.item + '</td>                                                                                                        <td>' + value.description + '</td>                                                                                                  <td>' + value.qty + '</td>                                                                                                          <td>' + setuom(value.uom_id) + '</td>                                                                                               <td>' + humanamount(value.unit_price) + '</td>                                                                                      <td>' + humanamount(value.total) + '</td>                                                                                             <td class="py-0 align-center" style="vertical-align: middle;">                                                                    <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' + index + '" data-id="' + index + '" data-list="' + listname + '" >Generate&nbsp;                                                                                       <i class="fas fa-chevron-right"></i></button></td></tr>');
       }
       total += parseFloat(value.total);
     });
@@ -127,46 +127,22 @@ $(document).on("click", ".generate", function () {
 });
 
 function preview_modal_body(index, listname) {
-  $("#preview_modal_body").empty().append('<div class="row" id="t1" data-state="show">                                                       <div class="col-sm-12 col-lg-12">                                                                                                          <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                                                      <div class="card-header">' + getordertype() + '</div>                                                                                     <div class="card-body"> <table class="table">                                                                                     <thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead>                                                                                                                                   <tbody id="preview_tbody"></tbody></table></div>                                                                                          <div class="card-footer" id="preview_footer"></div></div></div>                                                                           <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                                                        <input type="date" class="form-control ftsm" name="invoice_date" id="id_invoicedate"></div>                                               <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                                                               <input type="date" class="form-control ftsm" name="due_date" id="id_due_date"></div>                                                          </div></div></div><div class="row" id="t2" data-state="hide"></div>');
+  $("#preview_modal_body").empty().append('<div class="row" id="t1" data-state="show">                                                       <div class="col-sm-12 col-lg-12">                                                                                                          <div class="row"><div class="col-sm-12 col-lg-12"><div class="card">                                                                      <div class="card-header">' + getordertype() + '</div>                                                                                     <div class="card-body"> <table class="table">                                                                                     <thead><tr>                                                                                                                           <th>Item</th>                                                                                                                   <th>Description</th>                                                                                                                        <th>' + setheader(od_order.order_type) + '</th>                                                                                         <th>UOM</th>                                                                                                                            <th>Unit Price</th>                                                                                                                     <th>Total</th>                                                                                                                                </tr></thead>                                                                                                                                <tbody id="preview_tbody"></tbody></table></div>                                                                                          <div class="card-footer" id="preview_footer"></div></div></div>                                                                           <div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                                                        <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>                                         <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>                                                               <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div>                                                </div></div></div><div class="row" id="t2" data-state="hide"></div>');
   if (listname == "items") {
     $("#preview_tbody").empty();
     $("#preview_tbody")
-      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >                   <input type="text" class="form-control desp" name="description[]" id="id_descp1" value="' + od_items[index].description + '">             </td><td class="minmax150"><input type="number" class="form-control qty" name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + od_items[index].unit_price + '" max="' + od_items[index].qty + '">                                                           </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                         <input type="hidden" name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                                    </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                                   </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" name="total[]" id="id_total1" value="0"></tr>');
+      .append('<tr><td>                                                                                                                   <input type="hidden" name="order_item_id[]" id="id_order_item_id1" value="' + od_items[index].id + '">                              <input type="text" required name="item[]" id="id_item1" class="form-control" value="' + od_items[index].item + '"></td><td >              <input type="text" class="form-control desp" required name="description[]" id="id_descp1" value="' + od_items[index].description + '"></td>                                                                                                                                       <td class="minmax150"><input type="number" class="form-control qty" required name="qty[]" id="id_qty1" min="1" value="0" data-index="1" data-up="' + od_items[index].unit_price + '" max="' + od_items[index].qty + '">                                                           </td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '                                                                         <input type="hidden" required name="uom[]" id="id_uom1" value="' + od_items[index].uom_id + '">                                           </td><td class="pt-3">₹' + od_items[index].unit_price + '                                                                           <input type="hidden" required name="unit_price[]" id="id_unitprice1" value="' + od_items[index].unit_price + '">                          </td><td id="preview_row_total1" class="pt-3">₹0.00</td>                                                                              <input type="hidden" required name="total[]" id="id_total1" value="0"></tr>');
     // previewlist.push(1);
     preview_footer(index, listname);
   } else {
     $("#preview_tbody")
       .empty()
-      .append('<tr><td class="max100"><input type="hidden" name="payment_term" value="' + od_payment_term[index].id + '">                      ' + od_payment_term[index].item + '</td><td class="max150">                                                                                                            <input type="text" name="payment_description" id="id_description" class="form-control" value="' + od_payment_term[index].description + '">        </td><td>' + od_payment_term[index].qty + ' <input type="hidden" name="pay_percent" value="' + od_payment_term[index].qty + '">          </td><td>' + setuom(od_payment_term[index].uom_id) + ' <input type="hidden" name="order_total" value="' + od_payment_term[index].unit_price + '">        </td><td>' + od_payment_term[index].unit_price + '</td><td>' + od_payment_term[index].total + '                                        <input type="hidden" name="invoice_total" value="' + od_payment_term[index].total + '"></td></tr>');
+      .append('<tr><td class="max100"><input type="hidden" name="payment_term" value="' + od_payment_term[index].id + '">                      ' + od_payment_term[index].item + '</td><td class="max150">                                                                           <input type="text" required name="payment_description" id="id_description" class="form-control" value="' + od_payment_term[index].description + '">                                                                                                                                       </td><td>' + od_payment_term[index].qty + ' <input type="hidden" name="pay_percent" value="' + od_payment_term[index].qty + '">          </td><td>' + setuom(od_payment_term[index].uom_id) + '                                                                               <input type="hidden" name="order_total" value="' + od_payment_term[index].unit_price + '">                                                </td><td>' + od_payment_term[index].unit_price + '</td><td>' + od_payment_term[index].total + '                                        <input type="hidden" name="invoice_total" value="' + od_payment_term[index].total + '"></td></tr>');
     preview_footer(index, listname);
   }
   $("#id_invoicedate").val(today);
   $('#id_due_date').attr("min", tomorrow).val(tomorrow);
 }
-
-$(document).on("click", "#togglepdf", function () {
-  if ($("#t1").data("state") == "show") {
-    $("#t1").data("state", "hide").hide();
-    $("#t2").data("state", "show").show();
-    $("#togglepdf").text('Back To Editing');
-    $("#gene").show();
-    var formdata = $("#quickForm").serialize();
-    $.ajax({
-      type: "POST",
-      url: baseUrl + "invoices/preview",
-      data: formdata,
-    }).done(function (data) {
-      $("#t2").empty().append(data).find('style').remove().children("div.container").children("img").css("max-width", "925px");
-    }).fail(function (data) {
-      debug("FAILED");
-    });
-  } else {
-    $("#togglepdf").text('Preview');
-    $("#gene").hide();
-    $("#t2").data("state", "hide").hide();
-    $("#t1").data("state", "show").show();
-  }
-});
 
 function resetongroup() {
   $("#customerid_id").empty().attr('disabled', true);
@@ -328,6 +304,10 @@ $(document).on("click", ".paytrm", function () {
   oldgen = $(this).data('id');
 });
 
+$(document).on("click", "#gene", function () {
+  $(this).attr('disabled', true)
+});
+
 function getordertype() {
   if (od_order.order_type == 1) { return 'On-Site Support Sale' }
   else if (od_order.order_type == 2) { return 'Project Sale' }
@@ -415,5 +395,29 @@ function preview_footer(val, listname) {
     $("#cgstclass").hide().addClass('col-0');
     $("#igstclass").show().addClass('col-4');
     $("#preview_total_val").addClass('col-4');
+  }
+}
+
+function checker() {
+  if ($("#t1").data("state") == "show") {
+    $("#t1").data("state", "hide").hide();
+    $("#t2").data("state", "show").show();
+    $("#togglepdf").text('Back To Editing');
+    $("#gene").show();
+    var formdata = $("#quickForm").serialize();
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "invoices/preview",
+      data: formdata,
+    }).done(function (data) {
+      $("#t2").empty().append(data).find('style').remove().children("div.container").children("img").css("max-width", "925px");
+    }).fail(function (data) {
+      debug("FAILED");
+    });
+  } else {
+    $("#togglepdf").text('Preview');
+    $("#gene").hide();
+    $("#t2").data("state", "hide").hide();
+    $("#t1").data("state", "show").show();
   }
 }

@@ -10,7 +10,8 @@ $(function () {
   $(".select2").select2();
   $.validator.setDefaults({
     submitHandler: function () {
-      form.submit();
+      // form.submit();
+      checker();
     },
   });
   $("#quickForm").validate({
@@ -32,18 +33,24 @@ $(function () {
         required: true,
         date: true,
       },
-      po_no: {
+      description: {
         required: true,
       },
-      sales_person: {
+      qty: {
         required: true,
       },
-      bill_to: {
-        required: true,
-      },
-      ship_to: {
-        required: true,
-      },
+      // po_no: {
+      //   required: true,
+      // },
+      // sales_person: {
+      //   required: true,
+      // },
+      // bill_to: {
+      //   required: true,
+      // },
+      // ship_to: {
+      //   required: true,
+      // },
     },
     messages: {
       group_id: {
@@ -63,24 +70,24 @@ $(function () {
         required: "Please select a date.",
         date: "Value must be a date.",
       },
-      pay_days: {
-        required: "Please enter days count.",
-      },
-      po_no: {
-        required: "Please enter Customer PO.",
-      },
-      sales_person: {
-        required: "Please provide a salesperson.",
-        tel: "Invalid Detail.",
-      },
-      bill_to: {
-        required: "Please provide a bill to address.",
-        tel: "Invalid Detail.",
-      },
-      ship_to: {
-        required: "Please provide ship to address.",
-        tel: "Invalid Detail.",
-      },
+      // pay_days: {
+      //   required: "Please enter days count.",
+      // },
+      // po_no: {
+      //   required: "Please enter Customer PO.",
+      // },
+      // sales_person: {
+      //   required: "Please provide a salesperson.",
+      //   tel: "Invalid Detail.",
+      // },
+      // bill_to: {
+      //   required: "Please provide a bill to address.",
+      //   tel: "Invalid Detail.",
+      // },
+      // ship_to: {
+      //   required: "Please provide ship to address.",
+      //   tel: "Invalid Detail.",
+      // },
     },
     errorElement: "span",
     errorPlacement: function (error, element) {
