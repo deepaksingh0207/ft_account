@@ -106,7 +106,7 @@
 
         <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
           data-target="#modal-default"></button>
-        <button type="button" id="modelpdf" style="display: block" data-toggle="modal" data-target="#modal-xl"></button>
+        <button type="button" id="modelpdf" style="display: none" data-toggle="modal" data-target="#modal-xl"></button>
         <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -143,8 +143,6 @@
                 </button>
               </div>
               <div class="modal-body p-0" id="modal_body">
-                <embed src="http://localhost/ft_account/pdf/invoice_2021006.pdf" type="application/pdf"
-                  style="width: 100%; height: 513px;">
               </div>
             </div>
           </div>

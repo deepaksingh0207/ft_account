@@ -135,6 +135,9 @@
                 <button type="button" class="hide" id="preview_modal" data-toggle="modal"
                   data-target="#modal-xl"></button>
 
+                <button type="button" id="modelpdf" style="display: none" data-toggle="modal"
+                  data-target="#pdfmodal"></button>
+
                 <div class="modal fade" id="modal-xl">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -155,7 +158,8 @@
                           <button type="submit" class="btn btn-default btn-sm" id="togglepdf">
                             Preview
                           </button>
-                          <button type="submit" class="btn btn-primary btn-sm" id="gene" onclick="form.submit()" style="display: none;">
+                          <button type="submit" class="btn btn-primary btn-sm" id="gene" onclick="form.submit()"
+                            style="display: none;">
                             Generate
                           </button>
                         </div>
@@ -163,6 +167,21 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="modal fade" id="pdfmodal">
+                  <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                      <div class="modal-header" id="modal_header">
+                        Invoice
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body p-0" id="modal_body"></div>
+                    </div>
+                  </div>
+                </div>
+
               </form>
               <input type="hidden" name="paytype_body" id="id_paytype_val" value="1,2,3,4,5" />
             </div>
