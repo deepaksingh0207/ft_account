@@ -58,10 +58,9 @@ $pendingAmount = 0.00;
 										<div class="col-6">
 											<label for="id_address"> <b>Order PO Attachment :</b> </label>
 										</div>
-										<div class="col-6 form-group" style="text-align: justify;">
-											<a href="<?php echo ROOT.'order_po/'.$order['po_file']?>" target="_blank" id="attach">
-												<i class="fas fa-paperclip"></i>
-											</a>
+										<div class="col-6 form-group pointer" id="attach" style="text-align: justify;"
+											data-href="<?php echo ROOT.'order_po/'.$order['po_file']?>">
+											<i class="fas fa-paperclip"></i>
 										</div>
 									</div>
 								</div>
@@ -372,12 +371,45 @@ $pendingAmount = 0.00;
 
 					</div>
 				</div>
+				<button type="button" id="modelpdf" style="display: none" data-toggle="modal"
+					data-target="#modal-xl"></button>
+				<div class="modal fade" id="modal-xl">
+					<div class="modal-dialog modal-xl">
+						<div class="modal-content">
+							<div class="modal-header" id="modal_header">
+								Invoice
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body p-0" id="modal_body">
+							</div>
+						</div>
+					</div>
+				</div>
 			</section>
 		</div>
 		<script>
 			$(document).ready(function () {
 				$(".hide").hide();
-				$("#attach").prepend($("#attach").attr("href").split("/")[1]);
+				$("#attach").prepend($("#attach").data("href").split("/")[1]);
+			});
+			$(document).on("click", "#attach", function () {
+				url = window.location.origin + $("#attach").data("href")
+				error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
+				$.get(url)
+					.done(function (responseText) {
+						a = responseText
+						if (a.search("Customer List") < 0) {
+							$("#modal_body").empty().append('<embed src="' + url + '" type="application/pdf" style="width: 100%; height: 513px;">');
+						} else {
+							$("#modal_body").empty().append(error);
+						}
+					}).fail(function () {
+						$("#modal_body").empty().append(error);
+					});
+				// $("#modal_body").empty().append('<iframe src="'+url+'" width="100%" height="513px">');
+				$("#modelpdf").click();
 			});
 			$(document).on("click", ".ordertoggle", function () {
 				$(".order").toggle();
