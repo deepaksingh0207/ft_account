@@ -76,3 +76,7 @@
   background-color: lightblue;
   cursor: pointer;
 }
+
+.fr {
+  float: right;
+}

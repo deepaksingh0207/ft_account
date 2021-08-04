@@ -117,6 +117,11 @@ class OrdersController extends Controller
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
                 
+                if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
+                    $orderData['po_from_date'] = $data['po_from_date'];
+                    $orderData['po_to_date'] = $data['po_to_date'];
+                }
+
                 if(!empty($_FILES)){
                     //Get the temp file path
                     $tmpFilePath = $_FILES['upload_po']['tmp_name'];
@@ -140,7 +145,7 @@ class OrdersController extends Controller
                         $row['item'] = $data['ptitem'][$key];
                         $row['description'] = $data['paymentterm'][$key];
                         $row['qty'] = $data['ptqty'][$key];
-                        $row['uom_id'] = 3;
+                        $row['uom_id'] = $data['ptuom'][$key];
                         $row['unit_price'] = $data['ptunit_price'][$key];
                         $row['total'] = $data['pttotal'][$key];
                         $orderPayTerms[] = $row;

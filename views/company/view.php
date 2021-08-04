@@ -22,123 +22,145 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_companyname"> <b>Company Name</b> </label>
+                  <div class="row">
+                    <div class="col-sm-12 col-lg-2 align-center">
+                      <h5>INFO</h5>
                     </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['name'] ?>
-                    </div>
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> <b>Bank Name</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['bank_name'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> <b>Contact Person</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['contact_person'] ?>
-                    </div>
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> <b>Account No.</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['account_no'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_contact"> <b>Contact</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $customer['contact'] ?>
-                    </div>
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> <b>IFSC</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['ifsc_code'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_mobile"> <b>Mobile</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $customer['mobile'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_fax"> <b>Fax</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $customer['fax'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_email"> <b>Email</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['email'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>PAN No.</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['pan'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>SAC</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['sac'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>GSTIN</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['gstin'] ?>
-                    </div>
-                  </div>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="row justify-content-between">
+                        <div class="col-5 my-2">
+                          <b>Company Name:</b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['name'] ?>
+                        </div>
+                        <div class="col-5 my-2"">
+                          <b>Contact Person : </b>
+                        </div>
+                        <div class=" col-7 my-2">
+                          <?php echo $customer['contact_person'] ?>
+                        </div>
+                        <div class="col-5 my-2">
+                          <b>Contact : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['contact'] ?>
+                        </div>
+                        <div class="col-5 my-2">
+                          <b>Mobile : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['mobile'] ?>
+                        </div>
 
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_pincode"> <b>Pincode</b> </label>
+                      </div>
+                      <hr>
                     </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['pincode'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> <b>Address</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group" style="text-align: justify">
-                      <?php echo $customer['address'] ?>
-                    </div>
-                  </div>
 
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_state"> <b>State</b> </label>
+                    <div class="col-sm-12 col-lg-2 align-center">
+                      <h5>BANK</h5>
                     </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $state['name'] ?>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="row justify-content-between">
+                        <div class="col-5 my-2">
+                          <b>Bank Name : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['bank_name'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>Account No. : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['account_no'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>IFSC : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['ifsc_code'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>GSTIN : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['gstin'] ?>
+                        </div>
+
+                      </div>
+                      <hr>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-2 align-center">
+                      <h5>OTHER</h5>
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="row justify-content-between pb-4">
+                        <div class="col-5 my-2">
+                          <b>PAN No. </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['pan'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>SAC : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['sac'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>Fax : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['fax'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>Email : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['email'] ?>
+                        </div>
+
+                      </div>
+                      <hr>
+                    </div>
+
+                    <div class="col-sm-12 col-lg-2 align-center">
+                      <h5>CONTACT</h5>
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                      <div class="row justify-content-between">
+
+                        <div class="col-5 my-2">
+                          <b>Address : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['address'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>Pincode : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $customer['pincode'] ?>
+                        </div>
+
+                        <div class="col-5 my-2">
+                          <b>State : </b>
+                        </div>
+                        <div class="col-7 my-2">
+                          <?php echo $state['name'] ?>
+                        </div>
+                      </div>
+                      <hr>
                     </div>
                   </div>
-
                 </div>
                 <div class="card-footer text-right">
                   <a href="<?php echo ROOT; ?>company/edit/<?php echo $customer['id'] ?>"
@@ -155,4 +177,4 @@
         </div>
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

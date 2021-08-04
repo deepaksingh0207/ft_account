@@ -1,5 +1,19 @@
 var ptlist = [];
 
+function setuom(val) {
+  if (val == 1) {
+    return 'Day(s)';
+  }
+  if (val == 2) {
+    return 'AU';
+  }
+  if (val == 3) {
+    return 'Percentage (%)';
+  }
+  if (val == 4) {
+    return 'PC';
+  }
+}
 
 // On hovering Address column
 $(document).on("click", "#add_pt", function () {
@@ -67,7 +81,7 @@ $(document).on("input propertychange paste", '#id_quantity1', function () {
     $("#add_pt").hide();
     for (i = 0; i < $(this).val(); i++) {
       if (oti == 1) {
-        projecttablebody((i + 1), 1, uom = 'AU', true);
+        projecttablebody((i + 1), 1, uom = 2, true);
       } else {
         projecttablebody(i + 1);
       }
@@ -100,7 +114,7 @@ function projectdiv() {
   $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2">    <button type="button" id="add_pt" class="btn btn-primary btn-sm">Add Payment Terms</button></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="ptsubtotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
 }
 
-function projecttablebody(id, val = "", uom = "Percentage (%)", check = false) {
+function projecttablebody(id, val = "", uom = 3, check = false) {
   $("#projecttablebody").append("<tr id='pt" + id + "'></tr>");
   $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='*Enter Item' /></td>")
     .append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
@@ -109,7 +123,7 @@ function projecttablebody(id, val = "", uom = "Percentage (%)", check = false) {
   } else {
     $("#pt" + id).append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
   }
-  $("#pt" + id).append('<td class="pt-3">' + uom + '</td>')
+  $("#pt" + id).append('<td class="pt-3"> <input type="hidden" name="ptuom" id"id_ptuom" value="' + uom + '">' + setuom(uom) + '</td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
     .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='pttotal[]' data-id='" + id + "' data-val='0' id='pttotal" + id + "' ><span id='id_pttotal" + id + "' >₹0.00</span></td>");
   // .append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
