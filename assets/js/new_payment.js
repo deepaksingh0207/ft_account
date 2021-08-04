@@ -146,11 +146,14 @@ $(document).on("change", "#id_group_id", function () {
       encode: true,
     })
       .done(function (data) {
-        $("#customerid_id").append("<option></option>");
         $.each(data, function (index, value) {
-          $("#customerid_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+          $("#customerid_id").append("<option value='" + value.id + "'>" + value.name + "</option>").removeAttr('disabled');
         });
-        $("#customerid_id").removeAttr('disabled');
+        if (data.length > 1) {
+          $("#customerid_id").prepend("<option></option>").trigger('change');
+        } else {
+          $("#customerid_id").val(data[0].id).trigger('change');
+        }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
