@@ -44,11 +44,11 @@
                           <?php if($customergroups && count($customergroups)) : 
                         foreach ($customergroups as $groups) :
                         ?>
-                          <tr class="customer" data-id="<?php echo $groups['id']?>">
-                            <td class="id">
+                          <tr>
+                            <td class="id customer" data-id="<?php echo $groups['id']?>">
                               <?php echo $groups['id']?>
                             </td>
-                            <td class="name">
+                            <td class="name customer" data-id="<?php echo $groups['id']?>">
                               <?php echo $groups['name']?>
                             </td>
                             <td>
