@@ -71,3 +71,8 @@
 .middle {
   vertical-align: middle;
 }
+
+.link:hover {
+  background-color: lightblue;
+  cursor: pointer;
+}

@@ -54,19 +54,23 @@ $(".customer").on("click", function () {
 		})
 			.done(function (data) {
 				$("#customerbody").empty();
-				if (data != false){
+				if (data != false) {
 					$.each(data, function (i, value) {
-						$("#customerbody").append('<tr><td><a href="' + baseUrl + 'customers/view/' + value.id + '">' + value.name + '</a></td></tr>');
+						$("#customerbody").append('<tr><td class="link" data-href="' + baseUrl + 'customers/view/' + value.id + '">' + value.name + '</td></tr>');
 					});
 				} else {
 					$("#customerbody").append('<tr><td>No Customer.</td></tr>');
-				}				
+				}
 			})
 			.fail(function (jqXHR, textStatus, errorThrown) {
 				alert("No details found against this customer.");
 			});
 	}
 	$("#modelactivate").trigger("click");
+});
+
+$(document).on("click", ".link", function () {
+	window.location.href = $(this).data('href');
 });
 
 $("#cancel").on("click", function () {
