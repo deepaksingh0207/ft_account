@@ -85,7 +85,7 @@ $pendingAmount = 0.00;
 														<b>AMC From :</b>
 													</label>
 												</div>
-												<div class="col-6 form-group">asdasd</div>
+												<div class="col-6 form-group"><?php echo date('d, M Y', strtotime($order['po_from_date'])) ?></div>
 											</div>
 											<div class="row">
 												<div class="col-6">
@@ -93,7 +93,7 @@ $pendingAmount = 0.00;
 														<b>AMC Till :</b>
 													</label>
 												</div>
-												<div class="col-6 form-group">sdfsdfsd</div>
+												<div class="col-6 form-group"><?php echo date('d, M Y', strtotime($order['po_to_date'])) ?></div>
 											</div>
 											<div class="row">
 												<div class="col-6">
