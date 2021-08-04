@@ -138,7 +138,7 @@ $("#id_po_no").change(function () {
         if (data == false) {
           po_validity = true
           $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');
-        } else {po_validity = false}
+        } else { po_validity = false }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.");
@@ -190,6 +190,10 @@ $(document).on("change", "#id_ordertype", function () {
     oti = 0
     $(".order").hide();
   }
+});
+
+$(document).on("change", "#id_po_from_date", function () {
+  $("#id_po_to_date").attr("min", $(this).val());
 });
 
 // On quantity Change
