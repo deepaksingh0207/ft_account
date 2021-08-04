@@ -152,23 +152,23 @@
                           </div>
                         </div>
 
-                        <div class="row hide" id="id_amcfrom_record">
+                        <div class="row hide" id="id_po_from_date_row">
                           <div class="col-sm-12 col-lg-4">
-                            <label for="id_amc_from">
-                              AMC From :
+                            <label for="id_po_from_date">
+                              From Date :
                             </label>
                           </div>
-                          <div class="col-sm-12 col-lg-6 form-group" id="id_amcfrom">
+                          <div class="col-sm-12 col-lg-6 form-group" id="id_po_from_date_col">
                           </div>
                         </div>
 
-                        <div class="row hide" id="id_amctill_record">
+                        <div class="row hide" id="id_po_to_date_row">
                           <div class="col-sm-12 col-lg-4">
-                            <label for="id_amc_till">
-                              AMC Till :
+                            <label for="id_po_to_date">
+                              Till Date :
                             </label>
                           </div>
-                          <div class="col-sm-12 col-lg-6 form-group" id="id_amctill">
+                          <div class="col-sm-12 col-lg-6 form-group" id="id_po_to_date_col">
                           </div>
                         </div>
 

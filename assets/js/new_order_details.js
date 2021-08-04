@@ -153,8 +153,8 @@ $(document).on("change", "#id_ordertype", function () {
     $(".order").show();
     if (old_orderid != oti) {
       $(".hide").hide();
-      $("#id_amcfrom").empty();
-      $("#id_amctill").empty();
+      $("#id_po_from_date_col").empty();
+      $("#id_po_to_date_col").empty();
       resetPaymentTermForm();
       $("#orderlist").empty();
       orderid_list = [];
@@ -165,6 +165,9 @@ $(document).on("change", "#id_ordertype", function () {
         $("#add_item").hide();
         $("#order_item_header_qty").text("Months");
         $("#id_uom1").empty().append('<option value="2">AU</option>');
+        $(".hide").show();
+        $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
+        $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
       }
       else if (oti == "2") {
         $("#add_item").hide();
@@ -172,8 +175,8 @@ $(document).on("change", "#id_ordertype", function () {
         $("#id_uom1").empty().append('<option value="3" selected>Percentage (%)</option>');
       } else if (oti == "3") {
         $(".hide").show();
-        $("#id_amcfrom").append('<input type="date" class="form-control" name="amc_from" id="id_amc_from">');
-        $("#id_amctill").append('<input type="date" class="form-control" name="amc_till" id="id_amc_till">');
+        $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
+        $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
       } else if (oti == "4") {
         $("#order_item_header_qty").text("Man days");
         $("#id_uom1").empty().append('<option value="1">Day(s)</option>');
