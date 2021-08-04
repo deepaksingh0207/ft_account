@@ -33,12 +33,12 @@
 
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="customerid_id">Customer : </label>
-                        <select class="form-control" name="customer_id" id="customerid_id"></select>
+                        <select class="form-control" name="customer_id" id="customerid_id" disabled></select>
                       </div>
 
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="id_orderid">Customer PO No.:</label>
-                        <select name="order_id" id="id_orderid" class="form-control"></select>
+                        <select name="order_id" id="id_orderid" class="form-control" disabled></select>
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
                         <label for="customer_id"></label>

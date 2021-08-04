@@ -12,13 +12,15 @@ $(document).on("change", "#id_group_id", function () {
       encode: true,
     })
       .done(function (data) {
-        groupdata = data;
-        $("#customerid_id").removeAttr('disabled');
-        filldata("#customerid_id", groupdata, "Select Customer", ['id', 'name']);
-        if (groupdata.length == 1) {
-          $("#customerid_id").val(groupdata[0].id);
-          $("#customerid_id").trigger('change');
-          $("#id_orderid").removeAttr('disabled');
+        if (data != false) {
+          groupdata = data;
+          $("#customerid_id").removeAttr('disabled');
+          filldata("#customerid_id", groupdata, "Select Customer", ['id', 'name']);
+          if (groupdata.length == 1) {
+            $("#customerid_id").val(groupdata[0].id);
+            $("#customerid_id").trigger('change');
+            $("#id_orderid").removeAttr('disabled');
+          }
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -159,8 +161,8 @@ function preview_modal_body(index, listname) {
   }
   // $("#id_invoicedate").val(today);
   $('#id_due_date').attr("min", tomorrow)//.val(tomorrow);
-  $(".qty").trigger( "change" );
-    preview_total();
+  $(".qty").trigger("change");
+  preview_total();
 }
 
 function resetongroup() {
