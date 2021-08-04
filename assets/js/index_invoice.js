@@ -14,8 +14,20 @@ $(function () {
 
 
 $(".sublist").click(function () {
-  url = baseUrl+'pdf/invoice_'+$(this).parent("tr").data("href")+'.pdf'
-  $("#modal_body").empty().append('<embed src="'+url+'" type="application/pdf" style="width: 100%; height: 513px;">');
+  url = baseUrl + 'pdf/invoice_' + $(this).parent("tr").data("href") + '.pdf'
+  error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
+  $.get(url)
+    .done(function (responseText) {
+      a = responseText
+      if (a.search("Customer List") < 0) {
+        $("#modal_body").empty().append('<embed src="' + url + '" type="application/pdf" style="width: 100%; height: 513px;">');
+      } else {
+        $("#modal_body").empty().append(error);
+      }
+    }).fail(function () {
+      $("#modal_body").empty().append(error);
+    });
+  // $("#modal_body").empty().append('<iframe src="'+url+'" width="100%" height="513px">');
   $("#modelpdf").click();
 });
 
@@ -57,7 +69,7 @@ $(".update").on("click", function (det) {
 
 // https://www.youtube.com/watch?v=M0cEiFAzwf0
 
-function fill_datatable(period="", start="", end="", customer="") {
+function fill_datatable(period = "", start = "", end = "", customer = "") {
   var dtable = $("#example1").DataTable({
     "processing": true,
     "serverSide": true,
@@ -67,7 +79,7 @@ function fill_datatable(period="", start="", end="", customer="") {
       url: "",
       type: "",
       data: {
-        period: period, start:start, end:end, customer:customer
+        period: period, start: start, end: end, customer: customer
       }
     }
   });
