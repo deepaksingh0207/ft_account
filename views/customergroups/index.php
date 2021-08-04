@@ -37,17 +37,26 @@
                           <tr>
                             <th>ID</th>
                             <th>Customer Group</th>
+                            <th style="width: 100px;"></th>
                           </tr>
                         </thead>
                         <tbody>
                           <?php if($customergroups && count($customergroups)) : 
                         foreach ($customergroups as $groups) :
                         ?>
-                          <tr class="groupy">
+                          <tr class="customer" data-id="<?php echo $groups['id']?>">
                             <td class="id">
                               <?php echo $groups['id']?>
                             </td>
-                            <td class="name"><?php echo $groups['name']?></td>
+                            <td class="name">
+                              <?php echo $groups['name']?>
+                            </td>
+                            <td>
+                              <button type="button" data-id="<?php echo $groups['id']?>"
+                                data-name="<?php echo $groups['name']?>" class="btn btn-primary btn-sm groupy">
+                                Edit
+                              </button>
+                            </td>
                           </tr>
                           <?php 
                           endforeach;
@@ -67,27 +76,20 @@
         <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
-              <form id="id_deleteform" method="post" class="text-center mb-0">
-                <div class="modal-header">
-                  <div class="modal-title">ORDER DELETE</div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>
-                    This action is irreversible please confirm this delete?
-                  </p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm" id="modaldelete">
-                    Delete
-                  </button>
-                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                </div>
-              </form>
+              <div class="modal-header">
+                <div class="modal-title">Customers</div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body p-0">
+                <table class="table mb-0" id="customerbody"></table>
+                <!-- <ul>
+                  <li>
+                    <a href="http://localhost/ft_account/customers/view/1">Aarti Industries Pvt. Ltd</a>
+                  </li> -->
+                </ul>
+              </div>
             </div>
           </div>
         </div>
