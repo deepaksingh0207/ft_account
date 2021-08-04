@@ -7,7 +7,7 @@ today = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0"
 
 $(function () {
   $(".hide").hide();
-  $("#date_id").val(today);
+  // $("#date_id").val(today);
   $.validator.setDefaults({
     submitHandler: function () {
       if (po_validity) {$("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');}
