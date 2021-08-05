@@ -58,8 +58,8 @@ $pendingAmount = 0.00;
 										<div class="col-6">
 											<label for="id_address"> <b>Order PO Attachment :</b> </label>
 										</div>
-										<div class="col-6 form-group pointer" id="attach" style="text-align: justify;"
-											data-href="<?php echo ROOT.'order_po/'.$order['po_file']?>">
+										<div class="col-6 form-group pointer attach" id="attach" style="text-align: justify;"
+											data-href="<?php echo 'order_po/'.$order['po_file']?>">
 											<i class="fas fa-paperclip"></i>
 										</div>
 									</div>
@@ -249,6 +249,7 @@ $pendingAmount = 0.00;
 														<th class="min150">Unit of Measure</th>
 														<th class="min100">Unit Price</th>
 														<th class="min150">Total</th>
+														<th></th>
 													</tr>
 												</thead>
 												<tbody>
@@ -274,6 +275,7 @@ $pendingAmount = 0.00;
 														<td>₹
 															<?php echo $payterm['total'] ?>
 														</td>
+														<td id="pdf<?php echo $payterm['id'] ?>"></td>
 													</tr>
 													<?php
 															
@@ -287,7 +289,7 @@ $pendingAmount = 0.00;
 								<?php endif; ?>
 
 								<?php if (isset($invoices)) : ?>
-								<div class="col-sm-12 col-md-12 col-lg-12">
+								<!-- <div class="col-sm-12 col-md-12 col-lg-12">
 									<div class="card">
 										<div class="card-header">
 											<div class="row invdtlstoggle pointer">
@@ -357,7 +359,7 @@ $pendingAmount = 0.00;
 											</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<?php endif;?>
 							</div>
 						</div>
@@ -390,12 +392,33 @@ $pendingAmount = 0.00;
 			</section>
 		</div>
 		<script>
+			var oti = <?php echo $order['order_type'] ?> ;
+			var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+			var id = <?php echo $order['id'] ?> ;
 			$(document).ready(function () {
 				$(".hide").hide();
 				$("#attach").prepend($("#attach").data("href").split("/")[1]);
+				if (oti < 3) {
+					$.ajax({
+						type: "POST",
+						url: baseUrl + "orders/getdetails/" + id,
+						dataType: "json",
+						encode: true,
+					})
+						.done(function (data) {
+							if (data != false) {
+								$.each(data.invoices, function (i, value) {
+									$("#pdf" + value.payment_term).append('<button type="button" class="btn btn-default attach" data-href="pdf/invoice_' + value.invoice_no + '.pdf">View Invoice</button>');
+								});
+							}
+						})
+						.fail(function (jqXHR, textStatus, errorThrown) {
+							alert('out');
+						});
+				}
 			});
-			$(document).on("click", "#attach", function () {
-				url = window.location.origin + $("#attach").data("href")
+			$(document).on("click", ".attach", function () {
+				url = baseUrl + $(this).data("href")
 				error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
 				$.get(url)
 					.done(function (responseText) {
