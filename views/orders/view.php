@@ -226,7 +226,7 @@ $pendingAmount = 0.00;
 									</div>
 								</div>
 
-								<?php if ($order['order_type'] == 2) : // project sale ?>
+								<?php if ($order['order_type'] == 1 || $order['order_type'] == 2) : // project sale ?>
 								<div class="col-sm-12 col-md-12 col-lg-12">
 									<div class="card">
 										<div class="card-header">
