@@ -187,7 +187,7 @@
                     </div>
 
                     <div class="card order" style="display: none;">
-                      <div class="card-header">Order Summary</div>
+                      <div class="card-header">Order Item</div>
                       <div class="card-body">
                         <div class="row order">
                           <div class="col-12 table-responsive">
@@ -198,7 +198,7 @@
                                   <th>Description</th>
                                   <th id="order_item_header_qty"></th>
                                   <th>Unit of Measure</th>
-                                  <th>Unit Price</th>
+                                  <th id="order_item_header_up">Unit Price</th>
                                   <th>Total</th>
                                   <th></th>
                                 </tr>
@@ -258,7 +258,7 @@
 
 
                     <div class="card orderdtl" style="display: none;">
-                      <div class="card-header">Order Items</div>
+                      <div class="card-header">Payment Term</div>
                       <div class="card-body">
                         <div class="row">
                           <div class="col-12 table-responsive" id="id_project"></div>
