@@ -35,7 +35,12 @@ class OrdersModel extends Model {
     }
 
     public function getOrderListByCustomer($id) {
-        $sql = "select id,po_no from orders where customer_id = ? ";
+        //$sql = "select id,po_no from orders where customer_id = ? ";
+        $sql = "select o.id, o.po_no, it.item
+from orders o
+join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
+where customer_id = ? ";
+
         $this->_setSql($sql);
         $user = $this->getAll(array($id));
         if (empty($user)){

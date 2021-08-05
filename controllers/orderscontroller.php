@@ -201,12 +201,12 @@ class OrdersController extends Controller
 
     public function getOrderListByCustomer($id) {
         if($id) {
-            $tblOrderItem = new OrderItemsModel();
+            //$tblOrderItem = new OrderItemsModel();
             $oders = $this->_model->getOrderListByCustomer($id);
-            foreach($oders as &$order) {
+            /*foreach($oders as &$order) {
                 $items = $tblOrderItem->getItemByOrderId($order['id']);
                 $order['item'] = $items['0']['item'];
-            }
+            }*/
             echo json_encode($oders);
         } else {
             echo false;
