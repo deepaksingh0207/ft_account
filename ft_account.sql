@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS `company` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `company`;
 INSERT INTO `company` (`id`, `name`, `contact_person`, `contact`, `mobile`, `fax`, `email`, `gstin`, `pan`, `sac`, `pincode`, `address`, `state`, `bank_name`, `account_no`, `ifsc_code`, `created_date`, `updated_date`) VALUES
 (1, 'F.T. Solutions Pvt. Ltd.', 'Deepak Singh', '9920687382', '9920687382', '9920687382', 'deepaksingh@fts-pl.com', '27AACCF6520B1Z4', 'AACCF6520B', '998313', '400604', '401, Meet Galaxy, Trimurti Lane Behind Tip Top Plaza, Teen Hath Naka, Thane 400604 Maharashtra                    ', 22, 'HDFC Bank', '50200029843099', 'HDFC0000543', '2021-05-17 18:40:43', '2021-05-29 17:23:05');
 
@@ -64,7 +63,6 @@ CREATE TABLE IF NOT EXISTS `customers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `customers`;
 INSERT INTO `customers` (`id`, `group_id`, `name`, `contact_person`, `gstin`, `pan`, `address`, `city`, `state`, `pincode`, `pphone`, `aphone`, `fax`, `email`, `remark`, `invoice_by`, `managername`, `manageremail`, `managerphone`, `status`, `added_date`, `updated_date`) VALUES
 (1, 1, 'Aarti Industries Pvt. Ltd.', 'Mangesh', '27AAAAA0000A1Z5', 'AABCA2787L', 'Udyog Kshetra, 2nd Floor,\r\nMulund Goregaon Link Road, Mulund (West), Mumbai - 400080, Maharashtra, India                   ', NULL, 22, '401107', '7498456880', '7498456880', '7498456880', 'deepaksingh0207@gmail.com', 'test', NULL, '', '0', '0', 1, '2021-04-20 13:44:24', '2021-08-02 19:42:26'),
 (2, 2, 'Jay Bharat Maruti Limited', 'Lalit', '24AAACJ2021K2Z0', 'VGUPF9456T', 'Survey No.62,Paiki 6&7,GIDC Ext Road-Vithlapur,Taluka Mandal,382130, Distt-Ahmedabad', NULL, 12, '382130', '7645342423', '7645342343', '7645342232', 'lalit@jbm.com', 'ccc', NULL, '', '0', '0', 1, '2021-05-29 12:05:41', '2021-08-02 19:42:31'),
@@ -82,11 +80,10 @@ CREATE TABLE IF NOT EXISTS `customer_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `customer_groups`;
 INSERT INTO `customer_groups` (`id`, `code`, `name`, `status`, `created_date`, `updated_date`) VALUES
 (1, 'FT0003', 'Aarti', 1, '2021-06-09 20:28:01', '2021-06-21 21:39:02'),
 (2, 'FT0001', 'JBM', 1, '2021-06-09 20:27:44', '2021-06-21 21:38:44'),
-(3, 'FT0002', 'Plasser', 1, '2021-06-09 20:27:44', '2021-06-21 21:38:51');
+(3, 'FT0002', 'Plasser', 1, '2021-06-09 20:27:44', '2021-08-04 12:08:07');
 
 DROP TABLE IF EXISTS `customer_payments`;
 CREATE TABLE IF NOT EXISTS `customer_payments` (
@@ -104,7 +101,6 @@ CREATE TABLE IF NOT EXISTS `customer_payments` (
   UNIQUE KEY `customer_id` (`customer_id`,`cheque_utr_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `customer_payments`;
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE IF NOT EXISTS `invoices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -136,7 +132,6 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `invoices`;
 DROP TABLE IF EXISTS `invoice_items`;
 CREATE TABLE IF NOT EXISTS `invoice_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -154,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `invoice_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `invoice_items`;
 DROP TABLE IF EXISTS `it_master`;
 CREATE TABLE IF NOT EXISTS `it_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -164,7 +158,6 @@ CREATE TABLE IF NOT EXISTS `it_master` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `it_master`;
 INSERT INTO `it_master` (`id`, `igst`, `cgst`, `sgst`) VALUES
 (1, 18, 9, 9);
 
@@ -186,6 +179,8 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `sgst` decimal(10,2) NOT NULL,
   `tax_rate` decimal(10,2) NOT NULL,
   `ordertotal` decimal(10,2) NOT NULL,
+  `po_from_date` datetime DEFAULT NULL,
+  `po_to_date` datetime DEFAULT NULL,
   `remarks` varchar(255) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -193,16 +188,15 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `po_file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customer_id` (`customer_id`,`po_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `orders`;
-INSERT INTO `orders` (`id`, `group_id`, `customer_id`, `order_date`, `pay_days`, `po_no`, `sales_person`, `bill_to`, `ship_to`, `order_type`, `sub_total`, `igst`, `cgst`, `sgst`, `tax_rate`, `ordertotal`, `remarks`, `status`, `added_date`, `updated_date`, `po_file`) VALUES
-(1, 1, 1, '2021-08-03 00:00:00', 0, '10001', 'Mangesh', '1', '1', 1, '500000', '0.00', '45000.00', '45000.00', '9.00', '590000.00', '', 1, '2021-08-03 01:20:28', '2021-08-03 01:20:28', 'Test.pdf'),
-(2, 1, 1, '2021-08-03 00:00:00', 0, '10002', 'Mangesh', '1', '1', 2, '1000000', '0.00', '90000.00', '90000.00', '9.00', '1180000.00', '', 1, '2021-08-03 01:21:38', '2021-08-03 01:21:38', 'Test.pdf'),
-(3, 2, 2, '2021-08-03 00:00:00', 0, '10003', 'Lalit', '2', '4', 3, '160000', '28800.00', '0.00', '0.00', '18.00', '188800.00', '', 1, '2021-08-03 01:23:55', '2021-08-03 01:23:55', 'Test.pdf'),
-(4, 2, 3, '2021-08-03 00:00:00', 0, '10004', 'Suresh', '3', '3', 4, '80000', '14400.00', '0.00', '0.00', '18.00', '94400.00', '', 1, '2021-08-03 01:24:51', '2021-08-03 01:24:51', 'Test.pdf'),
-(5, 2, 4, '2021-08-03 00:00:00', 0, '10005', 'Manish', '4', '2', 5, '3800000', '684000.00', '0.00', '0.00', '18.00', '4484000.00', '', 1, '2021-08-03 01:25:43', '2021-08-03 01:25:43', 'Test.pdf'),
-(6, 1, 1, '2021-08-03 00:00:00', 0, '10006', 'Mangesh', '1', '1', 6, '38400', '0.00', '3456.00', '3456.00', '9.00', '45312.00', '', 1, '2021-08-03 01:26:58', '2021-08-03 01:26:58', 'Test.pdf');
+INSERT INTO `orders` (`id`, `group_id`, `customer_id`, `order_date`, `pay_days`, `po_no`, `sales_person`, `bill_to`, `ship_to`, `order_type`, `sub_total`, `igst`, `cgst`, `sgst`, `tax_rate`, `ordertotal`, `po_from_date`, `po_to_date`, `remarks`, `status`, `added_date`, `updated_date`, `po_file`) VALUES
+(1, 1, 1, '2021-08-03 00:00:00', 0, '10001', 'Mangesh', '1', '1', 1, '500000', '0.00', '45000.00', '45000.00', '9.00', '590000.00', NULL, NULL, 'sdfsdfsdf', 1, '2021-08-03 01:20:28', '2021-08-04 22:08:16', 'Test.pdf'),
+(2, 1, 1, '2021-08-03 00:00:00', 0, '10002', 'Mangesh', '1', '1', 2, '1000000', '0.00', '90000.00', '90000.00', '9.00', '1180000.00', NULL, NULL, '', 1, '2021-08-03 01:21:38', '2021-08-03 01:21:38', 'Test.pdf'),
+(3, 2, 2, '2021-08-03 00:00:00', 0, '10003', 'Lalit', '2', '4', 3, '160000', '28800.00', '0.00', '0.00', '18.00', '188800.00', NULL, NULL, '', 1, '2021-08-03 01:23:55', '2021-08-03 01:23:55', 'Test.pdf'),
+(4, 2, 3, '2021-08-03 00:00:00', 0, '10004', 'Suresh', '3', '3', 4, '80000', '14400.00', '0.00', '0.00', '18.00', '94400.00', NULL, NULL, '', 1, '2021-08-03 01:24:51', '2021-08-03 01:24:51', 'Test.pdf'),
+(5, 2, 4, '2021-08-03 00:00:00', 0, '10005', 'Manish', '4', '2', 5, '3800000', '684000.00', '0.00', '0.00', '18.00', '4484000.00', NULL, NULL, '', 1, '2021-08-03 01:25:43', '2021-08-03 01:25:43', 'Test.pdf'),
+(6, 1, 1, '2021-08-03 00:00:00', 0, '10006', 'Mangesh', '1', '1', 6, '38400', '0.00', '3456.00', '3456.00', '9.00', '45312.00', NULL, NULL, '', 1, '2021-08-03 01:26:58', '2021-08-03 01:26:58', 'Test.pdf');
 
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE IF NOT EXISTS `order_items` (
@@ -218,9 +212,8 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `order_items`;
 INSERT INTO `order_items` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `tax`, `total`, `added_date`, `updated_date`) VALUES
 (1, 1, '1. On-Site Support Sale', 'SAP ABAP Onsite Support of Mr. Umesh Chaudhari For the month of April 2021', '5', 2, '500000.00', NULL, '500000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
 (2, 2, '2. Project Sale', 'SAP Implementation Project  ', '4', 3, '1000000.00', NULL, '1000000.00', '2021-08-03 01:21:38', '2021-08-03 01:21:38'),
@@ -245,9 +238,8 @@ CREATE TABLE IF NOT EXISTS `order_payterms` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `order_payterms`;
 INSERT INTO `order_payterms` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `total`, `added_date`, `updated_date`) VALUES
 (1, 1, 'JAN', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
 (2, 1, 'FEB', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
@@ -257,7 +249,13 @@ INSERT INTO `order_payterms` (`id`, `order_id`, `item`, `description`, `qty`, `u
 (6, 2, '2. Project Sale', 'Advance ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:38', '2021-08-03 01:21:38'),
 (7, 2, '2. Project Sale', 'Successfully Completion of UAT ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
 (8, 2, '2. Project Sale', 'Successfully Completion of Go-Live ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
-(9, 2, '2. Project Sale', 'Support', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39');
+(9, 2, '2. Project Sale', 'Support', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
+(10, 7, 'sd', 'sd', '1', 3, '5000.00', '5000.00', '2021-08-04 18:53:28', '2021-08-04 18:53:28'),
+(11, 8, 'sd', 'sd', '1', 2, '5000.00', '5000.00', '2021-08-04 19:12:48', '2021-08-04 19:12:48'),
+(12, 9, 'q', 'q', '1', 2, '1000.00', '1000.00', '2021-08-04 19:40:40', '2021-08-04 19:40:40'),
+(13, 10, 'q', 'q', '1', 2, '1000.00', '1000.00', '2021-08-04 19:42:16', '2021-08-04 19:42:16'),
+(14, 11, 'a', 'a', '1', 2, '2500.00', '2500.00', '2021-08-05 11:44:17', '2021-08-05 11:44:17'),
+(15, 11, 'a', 'a', '1', 2, '2500.00', '2500.00', '2021-08-05 11:44:17', '2021-08-05 11:44:17');
 
 DROP TABLE IF EXISTS `order_types`;
 CREATE TABLE IF NOT EXISTS `order_types` (
@@ -267,7 +265,6 @@ CREATE TABLE IF NOT EXISTS `order_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `order_types`;
 INSERT INTO `order_types` (`id`, `title`, `status`) VALUES
 (1, 'On-Site Support Sale', 1),
 (2, 'Project Sale', 1),
@@ -296,7 +293,6 @@ CREATE TABLE IF NOT EXISTS `payments` (
   UNIQUE KEY `invoice_id` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `payments`;
 DROP TABLE IF EXISTS `states`;
 CREATE TABLE IF NOT EXISTS `states` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -305,7 +301,6 @@ CREATE TABLE IF NOT EXISTS `states` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
-TRUNCATE TABLE `states`;
 INSERT INTO `states` (`id`, `name`, `country_id`) VALUES
 (1, 'Andaman and Nicobar Islands', 101),
 (2, 'Andhra Pradesh', 101),
@@ -357,10 +352,9 @@ CREATE TABLE IF NOT EXISTS `uom` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `uom`;
 INSERT INTO `uom` (`id`, `title`, `status`) VALUES
 (1, 'Day(s)', 1),
-(2, 'Nos', 1),
+(2, 'AU', 1),
 (3, 'Percentage', 1),
 (4, 'PC', 1);
 
@@ -377,7 +371,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-TRUNCATE TABLE `users`;
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `admin`, `status`, `added_date`, `updated_date`) VALUES
 (1, 'Deepak Singh', 'deepaksingh@fts-pl.com', '1', 0, 1, '2021-04-17 14:14:22', '2021-07-13 04:17:17'),
 (2, 'JThayil', 'jones.thayil@gmail.com', '1', 0, 1, '2021-04-17 14:14:22', '2021-07-13 04:17:17');
