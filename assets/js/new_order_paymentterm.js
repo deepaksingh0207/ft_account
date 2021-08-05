@@ -123,7 +123,7 @@ function projecttablebody(id, val = "", uom = 3, check = false) {
   } else {
     $("#pt" + id).append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
   }
-  $("#pt" + id).append('<td class="pt-3"> <input type="hidden" name="ptuom" id"id_ptuom" value="' + uom + '">' + setuom(uom) + '</td>')
+  $("#pt" + id).append('<td class="pt-3"> <input type="hidden" name="ptuom[]" id"id_ptuom" value="' + uom + '">' + setuom(uom) + '</td>')
     .append("<td class='form-group max150'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
     .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='pttotal[]' data-id='" + id + "' data-val='0' id='pttotal" + id + "' ><span id='id_pttotal" + id + "' >₹0.00</span></td>");
   // .append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');

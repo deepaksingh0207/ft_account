@@ -163,7 +163,7 @@ $(document).on("change", "#id_ordertype", function () {
       $("#add_item").trigger("click");
       if (oti == "1") {
         $("#add_item").hide();
-        $("#order_item_header_qty").text("Months");
+        $("#order_item_header_qty").text("Total Months");
         $("#id_uom1").empty().append('<option value="2">AU</option>');
         $(".hide").show();
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
@@ -464,4 +464,16 @@ function addrow(id) {
     $("#" + id).append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
   }
   orderid_list.push(id);
+}
+
+function ordinal(val){
+  if (val == 1) {
+    return val + 'st'
+  } else if (val == 2) {
+    return val + 'nd'
+  } else if (val == 3) {
+    return val + 'rd'
+  } else {
+    return val + 'th'
+  }
 }
