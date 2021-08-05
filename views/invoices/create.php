@@ -116,7 +116,7 @@
                     <div class="row" style="display: none" id="id_invoiceblock">
                       <div class="col-12">
                         <div class="card">
-                          <div class="card-header">Payment Terms</div>
+                          <div class="card-header"><b>Invoice Details</b></div>
                           <div class="card-body" id="id_invoiceblock_body"></div>
                         </div>
                       </div>
