@@ -175,7 +175,13 @@ function filldata(id, data, msg, field) {
   $.each(data, function (index, value) {
     val = []
     for (var key in value) { if (field.includes(key, 0)) { val.push(value[key]); } }
-    $(id).append("<option value='" + val[0] + "'>" + val[1] + ' - ' + val[2] + "</option>");
+    if(val[2] != null)  {
+      $(id).append("<option value='" + val[0] + "'>" + val[1] + ' - ' + val[2] + "</option>");
+    } else {
+      $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>");
+    }
+    
+    
   });
 }
 
