@@ -32,3 +32,7 @@ function respmsg(body = "", status = true, show = true) {
     $("#resperror").append(body);
   }
 }
+
+$(document).on("keyup", ".capitalize", function () {
+  $(this).val($(this).val().replace(/\S*/g, function (word) {return word.charAt(0) + word.slice(1).toLowerCase();}))
+});
