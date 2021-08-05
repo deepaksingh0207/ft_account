@@ -41,7 +41,7 @@ $("#customerid_id").change(function () {
       .done(function (data) {
         $("#id_orderid").removeAttr('disabled');
         customerdata = data
-        filldata("#id_orderid", customerdata, "Select Order", ['id', 'po_no']);
+        filldata("#id_orderid", customerdata, "Select Order", ['id', 'po_no', 'item']);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
@@ -175,7 +175,7 @@ function filldata(id, data, msg, field) {
   $.each(data, function (index, value) {
     val = []
     for (var key in value) { if (field.includes(key, 0)) { val.push(value[key]); } }
-    $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>");
+    $(id).append("<option value='" + val[0] + "'>" + val[1] + ' - ' + val[2] + "</option>");
   });
 }
 
