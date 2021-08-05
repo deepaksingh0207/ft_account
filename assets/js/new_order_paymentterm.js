@@ -86,6 +86,7 @@ $(document).on("input propertychange paste", '#id_quantity1', function () {
         projecttablebody(i + 1);
       }
     }
+    $(".item").val($("#id_item1").val());
   }
 });
 
@@ -100,34 +101,40 @@ function projectdiv() {
   $("#id_project").append('<table class="table text-center" id="projectable"></table>');
   $("#projectable").append('<thead><tr id="projecttableheader"></tr></thead>')
     .append('<tbody id="projecttablebody"></tbody>');
-  $("#projecttableheader").append('<th class="min100">Item</th>')
-    .append('<th class="min100">Payment Term</th>');
-  if (oti == 1) {
-    $("#projecttableheader").append('<th class="minmax150">Months</th>');
-  } else {
-    $("#projecttableheader").append('<th class="minmax150">Payment Percent</th>');
-  }
-  $("#projecttableheader").append('<th class="minmax150">UOM</th>')
+  $("#projecttableheader")
+    .append('<th class="max100">Sr. No.</th>')
+    .append('<th class="min100">Item Description</th>')
+    .append('<th class="minmax150">Qty./Unit</th>')
     .append('<th class="min100">Unit Price</th>')
-    .append('<th class="min100">Total</th>');
-  // $("#projecttableheader").append('<th class="min100">Delete</th>');
+    .append('<th class="min100">Total Value</th>');
+  // .append('<th class="min100">Delete</th>');
   $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2">    <button type="button" id="add_pt" class="btn btn-primary btn-sm">Add Payment Terms</button></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="ptsubtotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
 }
 
 function projecttablebody(id, val = "", uom = 3, check = false) {
   $("#projecttablebody").append("<tr id='pt" + id + "'></tr>");
-  $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='*Enter Item' /></td>")
-    .append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
+  // ITEM Field
+  $("#pt" + id).append("<td class='form-group'><input type='hidden' class='form-control item capitalize' name='ptitem[]' data-id='" + id + "' id='id_ptitem" + id + "' placeholder='*Enter Item' />" + id + "</td>");
+  // Description Field
+  $("#pt" + id).append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='paymentterm[]' id='id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
+  // QTY Field
   if (oti == 1) {
-    $("#pt" + id).append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "'></td>");
+    $("#pt" + id).append("<td class='form-group max150'>                                            <input type='hidden' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "'>                                                                  <input type='hidden' name='ptuom[]' id'id_ptuom' value='" + uom + "'>1 / AU </td>");
   } else {
-    $("#pt" + id).append("<td class='form-group max150'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>");
+    $("#pt" + id).append("<div class='input-group mt-2 pt-1'><input type='number' class='form-control qty'  value='" + val + "' data-id='" + id + "' name='ptqty[]' id='id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><input type='hidden' name='ptuom[]' id'id_ptuom' value='" + uom + "'><div class='input-group-append'><span class='input-group-text'> % </span></div></div>");
   }
-  $("#pt" + id).append('<td class="pt-3"> <input type="hidden" name="ptuom[]" id"id_ptuom" value="' + uom + '">' + setuom(uom) + '</td>')
-    .append("<td class='form-group max150'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
+  // UOM, Unit Price & Total Field
+  $("#pt" + id)
+    .append("<td class='form-group max100'><input type='number' class='form-control unitprice' name='ptunit_price[]' value='' data-id='" + id + "' id='id_ptunitprice" + id + "' /></td>")
     .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='pttotal[]' data-id='" + id + "' data-val='0' id='pttotal" + id + "' ><span id='id_pttotal" + id + "' >₹0.00</span></td>");
   // .append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
   ptlist.push(id);
   if (check) { $("#id_ptquantity" + id).attr("readonly", true); }
   $("#id_ptunitprice" + id).val($("#id_unitprice1").val()).attr("readonly", true);
 }
+
+$(document).on("change", ".item", function () {
+  if ($(this).attr('id') == "id_item1" && oti < 3) {
+    $(".item").val($(this).val());
+  }
+});

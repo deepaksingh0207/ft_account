@@ -218,6 +218,7 @@ function update_payterm_unit() {
   val = $("#id_unitprice1").val();
   if (oti == 1) {
     val /= $("#id_quantity1").val();
+    val = val.toFixed(2);
   }
   $.each(ptlist, function (index, value) {
     $("#id_ptunitprice" + value).val(val);
