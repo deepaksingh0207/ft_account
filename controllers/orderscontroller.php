@@ -129,10 +129,11 @@ class OrdersController extends Controller
                     //Make sure we have a file path
                     if ($tmpFilePath != ""){
                         //Setup our new file path
-                        $newFilePath =  "./order_po/".time().'_'. $_FILES['upload_po']['name'];
+                        $newFileName = time().'_'. $_FILES['upload_po']['name'];
+                        $newFilePath =  "./order_po/".$newFileName;
                         //Upload the file into the temp dir
                         if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                            $orderData['po_file'] = $_FILES['upload_po']['name'];
+                            $orderData['po_file'] = $newFileName;
                             
                         }
                     }
