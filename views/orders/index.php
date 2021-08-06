@@ -67,63 +67,12 @@
                             <th>Amount</th>
                           </tr>
                         </thead>
-                        <tbody class="text-center">
-                          <?php if (is_array($orders) || is_object($orders)) : ?>
-                          <?php foreach ($orders as $order) : ?>
-                          <tr data-href="<?php echo ROOT; ?>orders/view/<?php echo $order['id'] ?>">
-                            <td class="sublist">
-                              <?php echo date('d, M Y', strtotime($order['order_date'])) ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $order['po_no'] ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $order['customer_name'] ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $order['sales_person'] ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $order['ordertotal'] ?>
-                            </td>
-                          </tr>
-                          <?php endforeach; ?>
-                          <?php endif; ?>
-                        </tbody>
+                        <tbody class="text-center"></tbody>
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <button type="button" id="modelactivate" style="display: none" data-toggle="modal" data-target="#modal-default">
-        </button>
-        <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form id="id_deleteform" method="post" class="text-center mb-0">
-                <div class="modal-header">
-                  <div class="modal-title">ORDER DELETE</div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>
-                    This action is irreversible please confirm this delete?
-                  </p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm" id="modaldelete">
-                    Delete
-                  </button>
-                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                </div>
-              </form>
             </div>
           </div>
         </div>
