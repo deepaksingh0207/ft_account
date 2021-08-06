@@ -40,7 +40,11 @@
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
                         <option>&nbsp;</option>
-                        <option value="">Customer A</option>
+                        <?php foreach ($customers as $customer) : ?>
+                        <option value="<?php echo $customer['id'] ?>">
+                          <?php echo $customer['name'] ?>
+                        </option>
+                        <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3">
@@ -55,7 +59,6 @@
                       <table id="example1" class="table table-striped">
                         <thead>
                           <tr>
-                            <th></th>
                             <th>Date</th>
                             <th>Invoice No</th>
                             <th>Order/PO</th>
@@ -74,36 +77,7 @@
             </div>
           </div>
         </div>
-
-        <button type="button" id="modelactivate" style="display: none" data-toggle="modal"
-          data-target="#modal-default"></button>
         <button type="button" id="modelpdf" style="display: none" data-toggle="modal" data-target="#modal-xl"></button>
-        <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <form id="id_deleteform" method="post" class="text-center mb-0">
-                <div class="modal-header">
-                  <div class="modal-title">ORDER DELETE</div>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>This action is irreversible please confirm this delete?</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-danger btn-sm" id="modaldelete">
-                    Delete
-                  </button>
-                  <button type="button" id="byemodal" class="btn btn-light btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
         <div class="modal fade" id="modal-xl">
           <div class="modal-dialog modal-xl">
             <div class="modal-content">

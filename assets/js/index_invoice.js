@@ -18,9 +18,6 @@ function fill_datatable(appliedfilter = { period: "1" }) {
     createdRow: function (row, data, dataIndex) {
       $(row).attr('data-href', data[2]).children('td').addClass('sublist');
     },
-    // "columnDefs": [
-    //   { className: 'sublist', targets: "_all" }
-    // ],
     "ajax": {
       url: baseUrl + "invoices/search/",
       type: "POST",
@@ -29,7 +26,7 @@ function fill_datatable(appliedfilter = { period: "1" }) {
   });
 }
 
-$(".sublist").click(function () {
+$(document).on("click", ".sublist", function () {
   url = baseUrl + 'pdf/invoice_' + $(this).parent("tr").data("href") + '.pdf'
   error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
   $.get(url)

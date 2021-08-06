@@ -137,5 +137,17 @@ class InvoicesModel extends Model {
         
         return $user;
     }
+
+    public function getRecordsByField($field, $val) {
+        //$sql = "select * from invoices where 1=1 order by updated_date desc";
+        $sql = "select invoices.*, customers.name customer_name from invoices join customers on (invoices.customer_id = customers.id) where 1=1 and $field = ? order by updated_date desc";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($val));
+
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
     
 }
