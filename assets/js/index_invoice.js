@@ -1,17 +1,33 @@
+var dtable
 
-
-$(function () {
-  $(".select2").select2();
-  $("#example1").DataTable({
-    responsive: true,
-    lengthChange: false,
-    autoWidth: false,
-    paging: true,
-    ordering: false,
-    searching: false,
+function fill_datatable(appliedfilter = { period: "1" }) {
+  dtable = $("#example1").DataTable({
+    "processing": true,
+    "ordering": false,
+    "pageLength": 10,
+    "order": [],
+    "searching": false,
+    "columns": [
+      { data: 1 },
+      { data: 2 },
+      { data: 3 },
+      { data: 4 },
+      { data: 5 },
+      { data: 6 },
+    ],
+    createdRow: function (row, data, dataIndex) {
+      $(row).attr('data-href', data[2]).children('td').addClass('sublist');
+    },
+    // "columnDefs": [
+    //   { className: 'sublist', targets: "_all" }
+    // ],
+    "ajax": {
+      url: baseUrl + "invoices/search/",
+      type: "POST",
+      data: appliedfilter
+    }
   });
-});
-
+}
 
 $(".sublist").click(function () {
   url = baseUrl + 'pdf/invoice_' + $(this).parent("tr").data("href") + '.pdf'
@@ -31,8 +47,6 @@ $(".sublist").click(function () {
   $("#modelpdf").click();
 });
 
-var period1, start1, end1, customer1;
-
 $("#id_period").on("change", function () {
   if ($(this).val() == "2") {
     $("#id_startdate").removeAttr("disabled");
@@ -43,89 +57,31 @@ $("#id_period").on("change", function () {
   }
   $("#id_startdate").val("");
   $("#id_enddate").val("");
-  // start1 = "";
-  // end1 = "";
 });
 
-// $("#id_startdate1").on("change", function () {
-//   start1 = $("#id_startdate1").val();
-// });
-
-// $("#id_enddate1").on("change", function () {
-//   end1 = $("#id_enddate1").val();
-// });
-
-// $("#id_customer1").on("change", function () {
-//   customer1 = $("#id_customer1").val();
-// });
-
 $(".update").on("click", function () {
-  period = $("#id_period").val()
-  start = $("#id_startdate").val()
-  end = $("#id_enddate").val()
-  customer = $("#id_customer").val()
-  fill_datatable(period, start, end, customer);
+  var f = {};
+  if ($("#id_period").val()) {
+    f.period = $("#id_period").val()
+    if (f.period == 2) {
+      if ($("#id_startdate").val()) {
+        f.startdate = $("#id_startdate").val()
+      }
+      if ($("#id_enddate").val()) {
+        f.enddate = $("#id_enddate").val()
+      }
+    }
+  }
+  if ($("#id_customer").val()) {
+    f.customer = $("#id_customer").val()
+  }
+  dtable.destroy();
+  fill_datatable(f);
+});
+
+$(function () {
+  $(".select2").select2();
+  fill_datatable();
 });
 
 // https://www.youtube.com/watch?v=M0cEiFAzwf0
-
-function fill_datatable(period = "", start = "", end = "", customer = "") {
-  var dtable = $("#example1").DataTable({
-    "processing": true,
-    "serverSide": true,
-    "order": [],
-    "searching": false,
-    "ajax": {
-      url: baseUrl + "invoices/search/",
-      type: "POST",
-      data: {
-        period: period, start: start, end: end, customer: customer
-      }
-    }
-  });
-}
-
-$(".edit").on("click", function () {
-  var editlink = "/order/" + $(this).parent().parent("tr").attr("id");
-  window.location = editlink;
-});
-
-$(".pdf").on("click", function () {
-  var pdflink = "/order/pdf/" + $(this).parent().parent("tr").attr("id");
-  window.location = pdflink;
-});
-
-$(".print").on("click", function () {
-  var printlink = "/order/print/" + $(this).parent().parent("tr").attr("id");
-  window.location = printlink;
-});
-
-var deletemodel;
-$(".delete").on("click", function () {
-  deletemodel = $(this).parent().parent("tr").attr("id");
-  $("#modelactivate").click();
-});
-
-$("#modaldelete").on("click", function () {
-  $.ajax({
-    type: "POST",
-    url: baseUrl + "incidents/app/",
-    data: deletemodel,
-    dataType: "json",
-    encode: true,
-  })
-    .done(function (data) {
-      $("#" + deletemodel).remove();
-      $("#byemodal").click();
-      toastr.success(data.message);
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      toastr.warning("Delete Action Failed. Please try again.");
-      $("#byemodal").click();
-    });
-});
-
-// $(".sublist").click(function () {
-//   var parent_id = $(this).parent("tr").attr("data-href");
-//   window.location = parent_id;
-// });

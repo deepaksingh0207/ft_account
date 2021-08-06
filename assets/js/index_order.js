@@ -1,4 +1,3 @@
-
 var dtable
 
 function fill_datatable(appliedfilter = { period: "1" }) {
@@ -67,6 +66,7 @@ $(".update").on("click", function () {
 });
 
 $(function () {
+  $(".select2").select2();
   fill_datatable();
 });
 

@@ -9,7 +9,7 @@
               <div class="card card-primary card-tabs">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-sm-12 col-lg-2 form-group">
+                    <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_period"> Period : </label>
                       <select class="form-control fc ftsm mt-0" name="period" id="id_period">
                         <option value="1">All</option>
@@ -23,7 +23,7 @@
                         <option value="9">Last Month</option>
                       </select>
                     </div>
-                    <div class="col-sm-12 col-lg-5">
+                    <div class="col-sm-12 col-lg-6">
                       <div class="row">
                         <div class="col-sm-12 col-lg-6">
                           <label for="id_startdate"> Start Date :</label>
@@ -36,15 +36,14 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-12 col-lg-2 form-group">
+                    <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
-                        <option value=""></option>
+                        <option>&nbsp;</option>
                         <option value="">Customer A</option>
                       </select>
                     </div>
-                    <div class="col-sm-12 col-lg-3 pt-2">
-                      <br />
+                    <div class="col-sm-12 col-lg-3">
                       <button class="btn btn-sm btn-primary update" type="button">
                         Update
                       </button>
@@ -66,34 +65,6 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php if (is_array($invoices) || is_object($invoices)) : ?>
-                          <?php foreach ($invoices as $invoice) : ?>
-                          <!-- <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['id'] ?>"> -->
-                          <tr data-href="<?php echo $invoice['invoice_no'] ?>">
-                            <td></td>
-                            <td class="sublist">
-                              <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $invoice['invoice_no'] ?>
-                            </td>
-                            <td class="sublist">
-                              <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>">
-                                <?php echo $invoice['po_no'] ?>
-                              </a>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $invoice['customer_name'] ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $invoice['sales_person'] ?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $invoice['invoice_total'] ?>
-                            </td>
-                          </tr>
-                          <?php endforeach; ?>
-                          <?php endif; ?>
                         </tbody>
                       </table>
                     </div>
