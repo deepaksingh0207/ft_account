@@ -31,3 +31,29 @@ $("#id_period").on("change", function () {
   start1 = "";
   end1 = "";
 });
+
+$(".update").on("click", function () {
+  period = $("#id_period").val()
+  start = $("#id_startdate").val()
+  end = $("#id_enddate").val()
+  customer = $("#id_customer").val()
+  fill_datatable(period, start, end, customer);
+});
+
+// https://www.youtube.com/watch?v=M0cEiFAzwf0
+
+function fill_datatable(period="", start="", end="", customer="") {
+  var dtable = $("#example1").DataTable({
+    "processing": true,
+    "serverSide": true,
+    "order": [],
+    "searching": false,
+    "ajax": {
+      url: "",
+      type: "",
+      data: {
+        period: period, start:start, end:end, customer:customer
+      }
+    }
+  });
+}

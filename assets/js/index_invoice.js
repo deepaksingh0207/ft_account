@@ -43,23 +43,23 @@ $("#id_period").on("change", function () {
   }
   $("#id_startdate").val("");
   $("#id_enddate").val("");
-  start1 = "";
-  end1 = "";
+  // start1 = "";
+  // end1 = "";
 });
 
-$("#id_startdate1").on("change", function () {
-  start1 = $("#id_startdate1").val();
-});
+// $("#id_startdate1").on("change", function () {
+//   start1 = $("#id_startdate1").val();
+// });
 
-$("#id_enddate1").on("change", function () {
-  end1 = $("#id_enddate1").val();
-});
+// $("#id_enddate1").on("change", function () {
+//   end1 = $("#id_enddate1").val();
+// });
 
-$("#id_customer1").on("change", function () {
-  customer1 = $("#id_customer1").val();
-});
+// $("#id_customer1").on("change", function () {
+//   customer1 = $("#id_customer1").val();
+// });
 
-$(".update").on("click", function (det) {
+$(".update").on("click", function () {
   period = $("#id_period").val()
   start = $("#id_startdate").val()
   end = $("#id_enddate").val()
