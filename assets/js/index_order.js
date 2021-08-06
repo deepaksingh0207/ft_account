@@ -1,23 +1,29 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
 var dtable
 
-function fill_datatable(appliedfilter = {period: "1"}) {
+function fill_datatable(appliedfilter = { period: "1" }) {
   dtable = $("#example1").DataTable({
     "processing": true,
     "serverSide": true,
+    "ordering": false,
     "order": [],
     "searching": false,
+    "columnDefs": [
+      { className: 'sublist', targets: "_all" }
+    ],
     "ajax": {
       url: baseUrl + "arrays.json",
       type: "POST",
       data: appliedfilter
-    }
+    }    
   });
+  // alert('test');
+  // $("td").delay(3000).addClass('sublist');
 }
 
 $(document).on("click", ".sublist", function () {
-  var parent_id = $(this).parent("tr").attr("data-href");
-  window.location = parent_id;
+  var parent_id = $(this).parent("tr").children().first().text();
+  window.location = baseUrl + 'orders/view/' + parent_id;
 });
 
 $("#id_period").on("change", function () {
@@ -53,7 +59,7 @@ $(".update").on("click", function () {
 });
 
 $(function () {
-  fill_datatable()
+  fill_datatable();
 });
 
 // https://www.youtube.com/watch?v=M0cEiFAzwf0
