@@ -16,19 +16,17 @@ function fill_datatable(appliedfilter = { period: "1" }) {
       { data: 5 }
     ],
     createdRow: function (row, data, dataIndex) {
-      $(row).attr('data-href', data[0]);
+      $(row).attr('data-href', data[0]).children('td').addClass('sublist');
     },
-    "columnDefs": [
-      { className: 'sublist', targets: "_all" }
-    ],
+    // "columnDefs": [
+    //   { className: 'sublist', targets: "_all" }
+    // ],
     "ajax": {
       url: baseUrl + "orders/search/",
       type: "POST",
       data: appliedfilter
     }
   });
-  // alert('test');
-  // $("td").delay(3000).addClass('sublist');
 }
 
 $(document).on("click", ".sublist", function () {

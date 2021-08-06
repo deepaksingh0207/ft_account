@@ -9,7 +9,7 @@
               <div class="card card-primary card-tabs">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-sm-12 col-lg-2 form-group">
+                    <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_period"> Period : </label>
                       <select class="form-control fc ftsm mt-0" name="period" id="id_period">
                         <option value="1">All</option>
@@ -23,7 +23,7 @@
                         <option value="9">Last Month</option>
                       </select>
                     </div>
-                    <div class="col-sm-12 col-lg-5">
+                    <div class="col-sm-12 col-lg-6">
                       <div class="row">
                         <div class="col-sm-12 col-lg-6">
                           <label for="id_startdate"> Start Date :</label>
@@ -37,7 +37,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-12 col-lg-2 form-group">
+                    <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
                         <option value=""></option>
@@ -48,11 +48,11 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-sm-12 col-lg-3 pt-2">
-                      <button class="btn btn btn-primary update mt-4" type="button">
+                    <div class="col-sm-12 col-lg-3 mb-3">
+                      <button class="btn btn btn-primary update" type="button">
                         Update
                       </button>
-                      <a href="<?php echo ROOT; ?>orders/create" class="btn btn btn-primary mt-4">
+                      <a href="<?php echo ROOT; ?>orders/create" class="btn btn btn-primary">
                         Add New Order
                       </a>
                     </div>
