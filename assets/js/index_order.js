@@ -4,25 +4,35 @@ var dtable
 function fill_datatable(appliedfilter = { period: "1" }) {
   dtable = $("#example1").DataTable({
     "processing": true,
-    "serverSide": true,
     "ordering": false,
+    "pageLength": 10,
     "order": [],
     "searching": false,
+    "columns": [
+      { data: 1 },
+      { data: 2 },
+      { data: 3 },
+      { data: 4 },
+      { data: 5 }
+    ],
+    createdRow: function (row, data, dataIndex) {
+      $(row).attr('data-href', data[0]);
+    },
     "columnDefs": [
       { className: 'sublist', targets: "_all" }
     ],
     "ajax": {
-      url: baseUrl + "arrays.json",
+      url: baseUrl + "orders/search/",
       type: "POST",
       data: appliedfilter
-    }    
+    }
   });
   // alert('test');
   // $("td").delay(3000).addClass('sublist');
 }
 
 $(document).on("click", ".sublist", function () {
-  var parent_id = $(this).parent("tr").children().first().text();
+  var parent_id = $(this).parent("tr").data('href');
   window.location = baseUrl + 'orders/view/' + parent_id;
 });
 

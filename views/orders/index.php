@@ -60,7 +60,6 @@
                       <table id="example1" class="table table-striped">
                         <thead class="text-center">
                           <tr>
-                            <th>ID</th>
                             <th>Date</th>
                             <th>Order</th>
                             <th>Customer</th>
