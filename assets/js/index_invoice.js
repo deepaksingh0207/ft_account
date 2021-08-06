@@ -76,8 +76,8 @@ function fill_datatable(period = "", start = "", end = "", customer = "") {
     "order": [],
     "searching": false,
     "ajax": {
-      url: "",
-      type: "",
+      url: baseUrl + "invoices/search/",
+      type: "POST",
       data: {
         period: period, start: start, end: end, customer: customer
       }

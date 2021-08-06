@@ -1,3 +1,5 @@
+var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+
 $(function () {
   $(".select2").select2();
   $("#example1").DataTable({
@@ -60,8 +62,8 @@ function fill_datatable(period="", start="", end="", customer="") {
     "order": [],
     "searching": false,
     "ajax": {
-      url: "",
-      type: "",
+      url: baseUrl + "orders/search/",
+      type: "POST",
       data: {
         period: period, start:start, end:end, customer:customer
       }
@@ -70,17 +72,17 @@ function fill_datatable(period="", start="", end="", customer="") {
 }
 
 $(".edit").on("click", function () {
-  var editlink = "/order/" + $(this).parent().parent("tr").attr("id");
+  var editlink = "/orders/" + $(this).parent().parent("tr").attr("id");
   window.location = editlink;
 });
 
 $(".pdf").on("click", function () {
-  var pdflink = "/order/pdf/" + $(this).parent().parent("tr").attr("id");
+  var pdflink = "/orders/pdf/" + $(this).parent().parent("tr").attr("id");
   window.location = pdflink;
 });
 
 $(".print").on("click", function () {
-  var printlink = "/order/print/" + $(this).parent().parent("tr").attr("id");
+  var printlink = "/orders/print/" + $(this).parent().parent("tr").attr("id");
   window.location = printlink;
 });
 

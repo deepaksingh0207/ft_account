@@ -543,5 +543,9 @@ class InvoicesController extends Controller
 
     }
 
+    public function search() {
+        print_r($_POST); exit;
+    }
+
     
 }

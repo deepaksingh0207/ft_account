@@ -278,4 +278,8 @@ class OrdersController extends Controller
             echo false;
         }
     }
+
+    public function search() {
+        print_r($_POST); exit;
+    }
 }
