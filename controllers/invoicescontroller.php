@@ -194,7 +194,8 @@ class InvoicesController extends Controller
             $dataItem = $invoiceItem;
         } else if($order['order_type']  == 2 || $order['order_type']  == 1) {
             $row = array();
-            $row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
+            //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
+            $row['description'] = $invoice['payment_description'];
             $row['qty'] = $invoice['pay_percent'];
             $row['unit_price'] = $invoice['order_total'];
             $row['total'] = $invoice['sub_total'];
@@ -385,7 +386,8 @@ class InvoicesController extends Controller
                 $dataItem = $invoiceItems;
             } else if($order['order_type']  == 2 || $order['order_type']  == 1) {
                 $row = array();
-                $row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
+                //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
+                $row['description'] = $invoice['payment_description'];
                 $row['qty'] = $invoice['pay_percent'];
                 $row['unit_price'] = $invoice['order_total'];
                 $row['total'] = $invoice['sub_total'];
