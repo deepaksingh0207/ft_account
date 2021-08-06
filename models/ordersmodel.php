@@ -104,7 +104,7 @@ where customer_id = ? ";
     }
     
     public function getRecordsByField($field, $val) {
-        $sql = "select * from orders where $field = ? ";
+        $sql = "select orders.*, customers.name customer_name from orders join customers on (orders.customer_id = customers.id) where 1=1 and $field = ? order by updated_date desc ";
         $this->_setSql($sql);
         $data = $this->getAll(array($val));
 
