@@ -47,7 +47,7 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-sm-12 col-lg-3">
+                    <div class="col-sm-12 col-lg-3 mb-3">
                       <button class="btn btn-sm btn-primary update" type="button">
                         Update
                       </button>
@@ -56,7 +56,7 @@
                       </a>
                     </div>
                     <div class="col-sm-12 col-lg-12">
-                      <table id="example1" class="table table-striped">
+                      <table id="example1" class="table table-striped table-hover">
                         <thead>
                           <tr>
                             <th>Date</th>

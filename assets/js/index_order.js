@@ -15,7 +15,7 @@ function fill_datatable(appliedfilter = { period: "1" }) {
       { data: 5 }
     ],
     createdRow: function (row, data, dataIndex) {
-      $(row).attr('data-href', data[0]).children('td').addClass('sublist');
+      $(row).addClass('pointer').attr('data-href', data[0]).children('td').addClass('sublist');
     },
     // "columnDefs": [
     //   { className: 'sublist', targets: "_all" }

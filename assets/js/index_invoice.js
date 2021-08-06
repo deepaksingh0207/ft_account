@@ -16,7 +16,7 @@ function fill_datatable(appliedfilter = { period: "1" }) {
       { data: 6 },
     ],
     createdRow: function (row, data, dataIndex) {
-      $(row).attr('data-href', data[2]).children('td').addClass('sublist');
+      $(row).addClass('pointer').attr('data-href', data[2]).children('td').addClass('sublist');
     },
     "ajax": {
       url: baseUrl + "invoices/search/",

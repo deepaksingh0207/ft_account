@@ -45,14 +45,14 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">
                       <br />
-                      <button class="btn btn-sm btn-primary update" type="button">
+                      <button class="btn btn-primary update" type="button">
                         Update
                       </button>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-sm-12 col-lg-12">
-                      <table id="example1" class="table table-striped  table-bordered">
+                      <table id="example1" class="table table-striped table-hover table-bordered">
                           <thead>
                             <tr>
                               <th rowspan="2">Customer</th>

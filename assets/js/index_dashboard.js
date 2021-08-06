@@ -8,7 +8,7 @@ $(function () {
             ordering: false,
             searching: false,
         });
-    $(".odd").css("background-color", "transparent");
+    // $(".odd").css("background-color", "transparent");
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
         diff = appendcode(datediff(getMonth(duedate.split(" ")[2]) + "/" + duedate.split(" ")[1] + "/" + duedate.split(" ")[3]));
@@ -22,16 +22,16 @@ $(function () {
             $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
         }
     });
-    $('.odd').hover(function () {
-        $(this).css('background-color', 'lightblue');
-    }, function () {
-        $(this).css('background-color', 'transparent');
-    });
-    $('.even').hover(function () {
-        $(this).css('background-color', 'lightblue');
-    }, function () {
-        $(this).css('background-color', 'transparent');
-    });
+    // $('.odd').hover(function () {
+    //     $(this).css('background-color', 'lightblue');
+    // }, function () {
+    //     $(this).css('background-color', 'transparent');
+    // });
+    // $('.even').hover(function () {
+    //     $(this).css('background-color', 'lightblue');
+    // }, function () {
+    //     $(this).css('background-color', 'transparent');
+    // });
 });
 
 $(".sublist").click(function () {
