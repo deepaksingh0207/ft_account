@@ -1,4 +1,4 @@
-var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+
 var dtable
 
 function fill_datatable(appliedfilter = { period: "1" }) {

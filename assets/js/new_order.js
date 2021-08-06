@@ -1,4 +1,4 @@
-var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+
 var emptyPaymentTermIds = [], deleteid, old_orderid, oneTimeLastFill = false;
 var sgst = 0, cgst = 0, igst = 0;
 var orderid_list = [], last_orderid = 0;

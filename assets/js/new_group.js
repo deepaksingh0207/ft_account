@@ -1,4 +1,4 @@
-var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+
 
 $(function () {
 	$("#example1").DataTable({

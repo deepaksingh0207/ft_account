@@ -1,4 +1,4 @@
-var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+
 var groupdata, customerid, customerdata, orderdata, od_order, od_items, od_invoices, od_invoiceitems, od_payment_term, gstlist, previewlist = [1], oldgen = 0, paytermlist = [], payterm_ordertype = ["1", "2"];
 
 $(document).on("change", "#id_group_id", function () {

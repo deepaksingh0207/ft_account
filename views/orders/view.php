@@ -390,7 +390,7 @@ $pendingAmount = 0.00;
 		</div>
 		<script>
 			var oti = <?php echo $order['order_type'] ?> ;
-			var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+			
 			var id = <?php echo $order['id'] ?> ;
 			$(document).ready(function () {
 				$(".hide").hide();

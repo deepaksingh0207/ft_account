@@ -1,4 +1,7 @@
 </div>
+<script>
+  var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+</script>
 <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js"></script>
 
