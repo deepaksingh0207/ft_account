@@ -10,8 +10,12 @@ class InvoicesController extends Controller
     public function index() {
         
         try {
+
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
+
             $invoices = $this->_model->getList();
-            
             $this->_view->set('invoices', $invoices);
             $this->_view->set('title', 'Invoice List');
             
@@ -544,7 +548,35 @@ class InvoicesController extends Controller
     }
 
     public function search() {
-        print_r($_POST); exit;
+        
+        if(isset($_POST['customer']) && !empty($_POST['customer'])) {
+            $invoices = $this->_model->getRecordsByField('customer_id', $_POST['customer']);
+        } else {
+            $invoices = $this->_model->getList();
+        }
+        
+        $result = array(); 
+        $result['draw'] = 1;
+        $result['data'] = array();
+        $result['recordsTotal'] = count($invoices);
+        $result['recordsFiltered'] = count($invoices);
+
+        foreach($invoices as $invoice) {
+            $tmp = array();
+            $tmp[] = $invoice['id'];
+            $tmp[] = $invoice['invoice_date'];
+            $tmp[] = $invoice['invoice_no'];
+            $tmp[] = $invoice['po_no'];
+            $tmp[] = $invoice['customer_name'];
+            $tmp[] = $invoice['sales_person'];
+            $tmp[] = $invoice['invoice_total'];
+            $result['data'][] = $tmp;
+        }
+
+        
+
+        echo json_encode($result);
+        exit;
     }
 
     

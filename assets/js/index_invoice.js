@@ -1,8 +1,8 @@
 var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
-
+var dtable;
 $(function () {
   $(".select2").select2();
-  $("#example1").DataTable({
+  dtable = $("#example1").DataTable({
     responsive: true,
     lengthChange: false,
     autoWidth: false,
@@ -70,7 +70,8 @@ $(".update").on("click", function () {
 // https://www.youtube.com/watch?v=M0cEiFAzwf0
 
 function fill_datatable(period = "", start = "", end = "", customer = "") {
-  var dtable = $("#example1").DataTable({
+  dtable.destroy();
+  dtable = $("#example1").DataTable({
     "processing": true,
     "serverSide": true,
     "order": [],

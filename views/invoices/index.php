@@ -40,7 +40,11 @@
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
                         <option value=""></option>
-                        <option value="">Customer A</option>
+                        <?php foreach ($customers as $customer) : ?>
+                        <option value="<?php echo $customer['id'] ?>">
+                          <?php echo $customer['name'] ?>
+                        </option>
+                        <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3 pt-2">
