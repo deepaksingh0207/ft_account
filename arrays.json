@@ -1,0 +1,49 @@
+{
+   "draw": 1,
+   "recordsTotal": 6,
+   "recordsFiltered": 6,
+   "data": [
+      [
+         "06, Aug 2021",
+         "10005",
+         "Aarti Industries Pvt. Ltd.",
+         "Mangesh",
+         "45312.00"
+      ],
+      [
+         "05, Aug 2021",
+         "10006",
+         "Aarti Industries Pvt. Ltd.",
+         "Mangesh",
+         "4484000.00"
+      ],
+      [
+         "05, Aug 2021",
+         "10004",
+         "Aarti Industries Pvt. Ltd.",
+         "Mangesh",
+         "94400.00"
+      ],
+      [
+         "05, Aug 2021",
+         "10003",
+         "Aarti Industries Pvt. Ltd.",
+         "Mangesh",
+         "188800.00"
+      ],
+      [
+         "05, Aug 2021",
+         "10002",
+         "Aarti Industries Pvt. Ltd.",
+         "Mangesh",
+         "1180000.00"
+      ],
+      [
+         "05, Aug 2021",
+         "10001",
+         "Aarti Industries Pvt. Ltd.",
+         "Mangesh",
+         "7080"
+      ]
+   ]
+}
