@@ -156,7 +156,15 @@ function fillinvoices_body(data, listname) {
   }
 }
 
+function refreshpreview() {
+  $("#togglepdf").text('Preview');
+  $("#gene").hide();
+  $("#t2").data("state", "hide").hide();
+  $("#t1").data("state", "show").show();
+}
+
 $(document).on("click", ".generate", function () {
+  refreshpreview()
   preview_modal_body($(this).data('id'), $(this).data('list'));
   $("#preview_modal").trigger('click');
 });
@@ -465,10 +473,7 @@ function checker() {
       debug("FAILED");
     });
   } else {
-    $("#togglepdf").text('Preview');
-    $("#gene").hide();
-    $("#t2").data("state", "hide").hide();
-    $("#t1").data("state", "show").show();
+    refreshpreview();
   }
 }
 
