@@ -27,56 +27,23 @@ $("#id_period").on("change", function () {
   }
   $("#id_startdate").val("");
   $("#id_enddate").val("");
-  start1 = "";
-  end1 = "";
+  // start1 = "";
+  // end1 = "";
 });
 
-$("#id_startdate").on("change", function () {
-  start1 = $("#id_startdate").val();
-});
+// $("#id_startdate").on("change", function () {
+//   start1 = $("#id_startdate").val();
+// });
 
-$("#id_enddate").on("change", function () {
-  end1 = $("#id_enddate").val();
-});
+// $("#id_enddate").on("change", function () {
+//   end1 = $("#id_enddate").val();
+// });
 
-$("#id_customer").on("change", function () {
-  customer1 = $("#id_customer").val();
-});
+// $("#id_customer").on("change", function () {
+//   customer1 = $("#id_customer").val();
+// });
 
-var dat = {
-  1: {
-    date: "sublist",
-    order: "dump",
-    customer: "sublist",
-    sales: "dump",
-    amount: "dump",
-  },
-  2: {
-    date: "sublist",
-    order: "dump",
-    customer: "sublist",
-    sales: "dump",
-    amount: "dump",
-  },
-};
-
-var det = [{
-    date: "sublist",
-    order: "dump",
-    customer: "sublist",
-    sales: "dump",
-    amount: "dump",
-  },{
-    date: "sublist",
-    order: "dump",
-    customer: "sublist",
-    sales: "dump",
-    amount: "dump",
-  }]
-
-  columns = ['date','order','customer','sales','amount']
-
-$(".update").on("click", function (det) {
+$(".update").on("click", function () {
   period = $("#id_period").val()
   start = $("#id_startdate").val()
   end = $("#id_enddate").val()
