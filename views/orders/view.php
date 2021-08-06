@@ -244,11 +244,10 @@ $pendingAmount = 0.00;
 												<thead>
 													<tr>
 														<th class="min150">Item</th>
-														<th class="min150">Payment Term</th>
-														<th class="minmax100">Qty</th>
-														<th class="min150">Unit of Measure</th>
+														<th class="min150">Item Description</th>
+														<th class="minmax100">Qty./Unit</th>
 														<th class="min100">Unit Price</th>
-														<th class="min150">Total</th>
+														<th class="min150">Total Value</th>
 														<th></th>
 													</tr>
 												</thead>
@@ -264,9 +263,7 @@ $pendingAmount = 0.00;
 															<?php echo $payterm['description']?>
 														</td>
 														<td>
-															<?php echo $payterm['qty']?>
-														</td>
-														<td>
+															<?php echo $payterm['qty']?> / 
 															<?php echo $UOM[$payterm['uom_id']] ?>
 														</td>
 														<td>
