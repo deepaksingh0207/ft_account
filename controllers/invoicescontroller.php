@@ -15,8 +15,8 @@ class InvoicesController extends Controller
             $customers = $customerList->getNameList();
             $this->_view->set('customers', $customers);
 
-            $invoices = $this->_model->getList();
-            $this->_view->set('invoices', $invoices);
+            //$invoices = $this->_model->getList();
+            //$this->_view->set('invoices', $invoices);
             $this->_view->set('title', 'Invoice List');
             
             
@@ -564,7 +564,7 @@ class InvoicesController extends Controller
         foreach($invoices as $invoice) {
             $tmp = array();
             $tmp[] = $invoice['id'];
-            $tmp[] = $invoice['invoice_date'];
+            $tmp[] = date('d, M Y',strtotime($invoice['invoice_date']));
             $tmp[] = $invoice['invoice_no'];
             $tmp[] = $invoice['po_no'];
             $tmp[] = $invoice['customer_name'];

@@ -15,9 +15,9 @@ class OrdersController extends Controller
             $customers = $customerList->getNameList();
             $this->_view->set('customers', $customers);
             
-            $orders = $this->_model->getList();
-            
-            $this->_view->set('orders', $orders);
+            //$orders = $this->_model->getList();
+            //$this->_view->set('orders', $orders);
+
             $this->_view->set('title', 'Order List');
             
             
@@ -296,7 +296,7 @@ class OrdersController extends Controller
         foreach($orders as $order) {
             $tmp = array();
             $tmp[] = $order['id'];
-            $tmp[] = $order['order_date'];
+            $tmp[] = date('d, M Y',strtotime($order['order_date']));
             $tmp[] = $order['po_no'];
             $tmp[] = $order['customer_name'];
             $tmp[] = $order['sales_person'];
