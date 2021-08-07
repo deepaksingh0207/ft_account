@@ -1,6 +1,6 @@
 var dtable
 
-function fill_datatable(appliedfilter = { period: "1" }) {
+function fill_datatable(appliedfilter = { period: "0" }) {
   dtable = $("#example1").DataTable({
     "processing": true,
     "ordering": false,
