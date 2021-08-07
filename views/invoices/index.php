@@ -12,15 +12,13 @@
                     <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_period"> Period : </label>
                       <select class="form-control fc ftsm mt-0" name="period" id="id_period">
-                        <option value="1">All</option>
+                        <option value="0">All</option>
                         <option value="2">Custom Period</option>
-                        <option value="3">Today</option>
-                        <option value="4">Yesterday</option>
-                        <option value="5">Today</option>
-                        <option value="6">This Week</option>
-                        <option value="7">Last Week</option>
-                        <option value="8">This Month</option>
-                        <option value="9">Last Month</option>
+                        <option value="1">Today</option>
+                        <option value="2">Yesterday</option>
+                        <option value="7">This Week</option>
+                        <option value="30">This Month</option>
+                        <option value="99">Older Than Month</option>
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-6">
@@ -38,8 +36,8 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_customer"> Customer : </label>
-                      <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
-                        <option>&nbsp;</option>
+                      <select class="form-control fc ftsm select2 mt-0" name="customer_id" id="id_customer">
+                      <option value=""> </option>
                         <?php foreach ($customers as $customer) : ?>
                         <option value="<?php echo $customer['id'] ?>">
                           <?php echo $customer['name'] ?>

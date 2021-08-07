@@ -548,12 +548,8 @@ class InvoicesController extends Controller
     }
 
     public function search() {
-        
-        if(isset($_POST['customer']) && !empty($_POST['customer'])) {
-            $invoices = $this->_model->getRecordsByField('customer_id', $_POST['customer']);
-        } else {
-            $invoices = $this->_model->getList();
-        }
+
+        $invoices = $this->_model->getList($_POST);
         
         $result = array(); 
         $result['draw'] = 1;

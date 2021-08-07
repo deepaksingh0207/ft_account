@@ -3,9 +3,42 @@
 class InvoicesModel extends Model {
     
     
-    public function getList() {
+    public function getList($filter = array()) {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "select invoices.*, customers.name customer_name from invoices join customers on (invoices.customer_id = customers.id) where 1=1 order by updated_date desc";
+        $where = ' WHERE 1=1 ';
+        
+        if(!empty($filter)) {
+            foreach($filter as $key => $val) {
+                if(!empty(trim($val)))  {
+                    if($key == 'status') {
+                        $key = "invoices.$key";
+                    }
+                    
+                    if($key == 'period') {
+                        if($val !=0) {
+                            if($val == 99) {
+                                $where .= " and invoices.invoice_date < SUBDATE(now(), INTERVAL 30 DAY)";
+                            } else {
+                                $where .= " and invoices.invoice_date > SUBDATE(now(), INTERVAL $val DAY) ";
+                            }
+                            
+                        }
+                    } else if($key == 'customer_id') { 
+                        if(!empty($val)) {
+                            $where .= " and invoices.customer_id=$val ";
+                        }
+                    }else {
+                        $where .= " and $key in (".implode(',', array_filter($val)).") ";
+                    }
+                }
+            }
+        }
+
+        $sql = "select invoices.*, customers.name customer_name from invoices 
+        join customers on (invoices.customer_id = customers.id) $where order by updated_date desc";
+
+        //echo $sql;
+
         $this->_setSql($sql);
         $user = $this->getAll();
         

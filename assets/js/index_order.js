@@ -59,7 +59,7 @@ $(".update").on("click", function () {
     }
   }
   if ($("#id_customer").val()) {
-    f.customer = $("#id_customer").val()
+    f.customer_id = $("#id_customer").val()
   }
   dtable.destroy();
   fill_datatable(f);

@@ -281,11 +281,7 @@ class OrdersController extends Controller
 
     public function search() {
         
-        if(isset($_POST['customer']) && !empty($_POST['customer'])) {
-            $orders = $this->_model->getRecordsByField('customer_id', $_POST['customer']);
-        } else {
-            $orders = $this->_model->getList();
-        }
+        $orders = $this->_model->getList($_POST);
         
         $result = array(); 
         $result['draw'] = 1;
