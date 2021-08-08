@@ -4,6 +4,7 @@ function fill_datatable(appliedfilter = {}) {
   dtable = $("#example1").DataTable({
     "processing": true,
     "ordering": false,
+    "bLengthChange": false,
     "pageLength": 10,
     "order": [],
     "searching": false,

@@ -5,6 +5,7 @@ function fill_datatable(appliedfilter = {}) {
     "processing": true,
     "ordering": false,
     "pageLength": 10,
+    "bLengthChange": false,
     "order": [],
     "searching": false,
     "columns": [
