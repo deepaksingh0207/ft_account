@@ -103,11 +103,9 @@ $(function () {
   });
 });
 
-$(".numberonly").on("keypress", function (event) {
-  var regex = new RegExp("^[0-9]$");
-  var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-  if (!regex.test(key)) {
+$(document).on("keyup", "#id_invoice_no", function (event) {
+  if ($(this).val() > 9999999) {
     event.preventDefault();
-    return false;
+    return $(this).val($(this).val().substring(0, 7));
   }
 });
