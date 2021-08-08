@@ -9,7 +9,7 @@
               <div class="card">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-sm-12 col-lg-2 form-group">
+                    <!-- <div class="col-sm-12 col-lg-2 form-group">
                       <label for="id_period"> Period : </label>
                       <select class="form-control fc ftsm mt-0" name="period" id="id_period">
                         <option value="1">All</option>
@@ -22,7 +22,7 @@
                         <option value="8">This Month</option>
                         <option value="9">Last Month</option>
                       </select>
-                    </div>
+                    </div> -->
                     <div class="col-sm-12 col-lg-5">
                       <div class="row">
                         <div class="col-sm-12 col-lg-6">

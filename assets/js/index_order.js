@@ -33,17 +33,17 @@ $(document).on("click", ".sublist", function () {
   window.location = baseUrl + 'orders/view/' + parent_id;
 });
 
-$("#id_period").on("change", function () {
-  if ($(this).val() == "2") {
-    $("#id_startdate").removeAttr("disabled");
-    $("#id_enddate").removeAttr("disabled");
-  } else {
-    $("#id_startdate").attr("disabled", "true");
-    $("#id_enddate").attr("disabled", "true");
-  }
-  $("#id_startdate").val("");
-  $("#id_enddate").val("");
-});
+// $("#id_period").on("change", function () {
+//   if ($(this).val() == "2") {
+//     $("#id_startdate").removeAttr("disabled");
+//     $("#id_enddate").removeAttr("disabled");
+//   } else {
+//     $("#id_startdate").attr("disabled", "true");
+//     $("#id_enddate").attr("disabled", "true");
+//   }
+//   $("#id_startdate").val("");
+//   $("#id_enddate").val("");
+// });
 
 $(".update").on("click", function () {
   var f = {};
