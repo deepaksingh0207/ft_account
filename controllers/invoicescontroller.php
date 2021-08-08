@@ -71,7 +71,8 @@ class InvoicesController extends Controller
                 
                 $invoiceeData['remarks'] = $data['remarks'];
                 $invoiceeData['due_date'] = $data['due_date'];
-                $invoiceeData['invoice_no'] = $this->genInvoiceNo();
+                //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
+                $invoiceeData['invoice_no'] = $data['invoice_no'];
                 
                 
                 if(isset($data['item'])) {
@@ -290,7 +291,9 @@ class InvoicesController extends Controller
         $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
         
         
-        //$this->sendMail($invoice, $customer);
+        if(SEND_MAIL) {
+            $this->sendMail($invoice, $customer);
+        }
     }
     
     function sendMail($invoice, $customer) {
@@ -338,7 +341,8 @@ class InvoicesController extends Controller
             $invoiceItems = array();
             
             
-            $invoice['invoice_no'] = $this->genInvoiceNo();
+            //$invoice['invoice_no'] = $this->genInvoiceNo();
+            $invoice['invoice_no'] = $data['invoice_no'];
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];

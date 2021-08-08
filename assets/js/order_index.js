@@ -1,9 +1,10 @@
 var dtable
 
-function fill_datatable(appliedfilter = { period: "0" }) {
+function fill_datatable(appliedfilter = {}) {
   dtable = $("#example1").DataTable({
     "processing": true,
     "ordering": false,
+    "bLengthChange": false,
     "pageLength": 10,
     "order": [],
     "searching": false,
@@ -28,6 +29,10 @@ function fill_datatable(appliedfilter = { period: "0" }) {
   });
 }
 
+$("#id_startdate").on("change", function () {
+  $("#id_enddate").attr('min', $(this).val());
+});
+
 $(document).on("click", ".sublist", function () {
   var parent_id = $(this).parent("tr").data('href');
   window.location = baseUrl + 'orders/view/' + parent_id;
@@ -47,16 +52,11 @@ $(document).on("click", ".sublist", function () {
 
 $(".update").on("click", function () {
   var f = {};
-  if ($("#id_period").val()) {
-    f.period = $("#id_period").val()
-    if (f.period == 2) {
-      if ($("#id_startdate").val()) {
-        f.startdate = $("#id_startdate").val()
-      }
-      if ($("#id_enddate").val()) {
-        f.enddate = $("#id_enddate").val()
-      }
-    }
+  if ($("#id_startdate").val()) {
+    f.startdate = $("#id_startdate").val()
+  }
+  if ($("#id_enddate").val()) {
+    f.enddate = $("#id_enddate").val()
   }
   if ($("#id_customer").val()) {
     f.customer_id = $("#id_customer").val()
