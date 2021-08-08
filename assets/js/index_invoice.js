@@ -57,7 +57,7 @@ $("#id_period").on("change", function () {
 });
 
 $("#id_startdate").on("change", function () {
-  $("#id_enddate").attr('max', $(this).val());
+  $("#id_enddate").attr('min', $(this).val());
 });
 
 $(".update").on("click", function () {
