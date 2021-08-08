@@ -28,6 +28,10 @@ function fill_datatable(appliedfilter = {}) {
   });
 }
 
+$("#id_startdate").on("change", function () {
+  $("#id_enddate").attr('max', $(this).val());
+});
+
 $(document).on("click", ".sublist", function () {
   var parent_id = $(this).parent("tr").data('href');
   window.location = baseUrl + 'orders/view/' + parent_id;
