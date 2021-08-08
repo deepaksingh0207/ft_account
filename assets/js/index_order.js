@@ -1,6 +1,6 @@
 var dtable
 
-function fill_datatable(appliedfilter = { period: "0" }) {
+function fill_datatable(appliedfilter = {}) {
   dtable = $("#example1").DataTable({
     "processing": true,
     "ordering": false,
@@ -47,16 +47,11 @@ $("#id_period").on("change", function () {
 
 $(".update").on("click", function () {
   var f = {};
-  if ($("#id_period").val()) {
-    f.period = $("#id_period").val()
-    if (f.period == 2) {
-      if ($("#id_startdate").val()) {
-        f.startdate = $("#id_startdate").val()
-      }
-      if ($("#id_enddate").val()) {
-        f.enddate = $("#id_enddate").val()
-      }
-    }
+  if ($("#id_startdate").val()) {
+    f.startdate = $("#id_startdate").val()
+  }
+  if ($("#id_enddate").val()) {
+    f.enddate = $("#id_enddate").val()
   }
   if ($("#id_customer").val()) {
     f.customer_id = $("#id_customer").val()
