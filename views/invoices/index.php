@@ -3,7 +3,7 @@
     <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
     <div class="content-wrapper">
       <section class="content">
-        <div class="container-fluid mt-2">
+        <div class="container-fluid mt-2 pb-5">
           <div class="card">
             <div class="card-body">
               <div class="row">
