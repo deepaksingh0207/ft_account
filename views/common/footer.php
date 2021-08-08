@@ -104,8 +104,8 @@
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_invoice_validation.js?<?php echo time(); ?>"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_invoice.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/invoice_create_validation.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/invoice_create.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
@@ -114,7 +114,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/index_invoice.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/invoice_index.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
