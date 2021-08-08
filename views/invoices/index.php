@@ -9,7 +9,7 @@
               <div class="card card-primary card-tabs">
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-sm-12 col-lg-3 form-group">
+                    <!-- <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_period"> Period : </label>
                       <select class="form-control fc ftsm mt-0" name="period" id="id_period">
                         <option value="0">All</option>
@@ -20,24 +20,24 @@
                         <option value="30">This Month</option>
                         <option value="99">Older Than Month</option>
                       </select>
-                    </div>
+                    </div> -->
                     <div class="col-sm-12 col-lg-6">
                       <div class="row">
                         <div class="col-sm-12 col-lg-6">
                           <label for="id_startdate"> Start Date :</label>
                           <input type="date" class="form-control ftsm" name="startdate" id="id_startdate"
-                            disabled="True" />
+                            >
                         </div>
                         <div class="col-sm-12 col-lg-6">
                           <label for="id_enddate"> End Date :</label>
-                          <input type="date" class="form-control ftsm" name="enddate" id="id_enddate" disabled="True" />
+                          <input type="date" class="form-control ftsm" name="enddate" id="id_enddate" >
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer_id" id="id_customer">
-                      <option value=""> </option>
+                      <option>Select Customer</option>
                         <?php foreach ($customers as $customer) : ?>
                         <option value="<?php echo $customer['id'] ?>">
                           <?php echo $customer['name'] ?>
@@ -45,11 +45,11 @@
                         <?php endforeach; ?>
                       </select>
                     </div>
-                    <div class="col-sm-12 col-lg-3 mb-3">
-                      <button class="btn btn-sm btn-primary update" type="button">
+                    <div class="col-sm-12 col-lg-3 mt-4">
+                      <button class="btn btn-primary update mt-2" type="button">
                         Update
                       </button>
-                      <a href="<?php echo ROOT; ?>invoices/create" class="btn btn-sm btn-primary">
+                      <a href="<?php echo ROOT; ?>invoices/create" class="btn btn-primary mt-2">
                         Add New Invoice
                       </a>
                     </div>
