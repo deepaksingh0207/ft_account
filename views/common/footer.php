@@ -51,7 +51,7 @@
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/new_group.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/group_create.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
   <?php endif; ?>
 
