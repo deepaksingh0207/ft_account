@@ -7,6 +7,7 @@ class InvoicesModel extends Model {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
         $where = ' WHERE 1=1 ';
         
+        $fieldVal = array();
         if(!empty($filter)) {
             foreach($filter as $key => $val) {
                 if(!empty(trim($val)))  {
@@ -14,20 +15,21 @@ class InvoicesModel extends Model {
                         $key = "invoices.$key";
                     }
                     
-                    if($key == 'period') {
-                        if($val !=0) {
-                            if($val == 99) {
-                                $where .= " and invoices.invoice_date < SUBDATE(now(), INTERVAL 30 DAY)";
-                            } else {
-                                $where .= " and invoices.invoice_date > SUBDATE(now(), INTERVAL $val DAY) ";
-                            }
-                            
-                        }
-                    } else if($key == 'customer_id') { 
-                        if(!empty($val)) {
-                            $where .= " and invoices.customer_id=$val ";
-                        }
-                    }else {
+                    if($key == 'startdate') {
+                        $where .= " and invoices.invoice_date >= ? ";
+                        $fieldVal[] = $val;
+                    } 
+                    if($key == 'enddate') {
+                        $where .= " and invoices.invoice_date <= ? ";
+                        $fieldVal[] = $val;
+                    }
+
+                    if($key == 'customer_id') { 
+                        $where .= " and invoices.customer_id= ? ";
+                        $fieldVal[] = $val;
+                    }
+                    
+                    if(is_array($val)){
                         $where .= " and $key in (".implode(',', array_filter($val)).") ";
                     }
                 }
@@ -40,7 +42,7 @@ class InvoicesModel extends Model {
         //echo $sql;
 
         $this->_setSql($sql);
-        $user = $this->getAll();
+        $user = $this->getAll($fieldVal);
         
         return $user;
     }
