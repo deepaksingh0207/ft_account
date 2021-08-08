@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 mt-4">
                       <button class="btn btn-primary update mt-2" type="button">
-                        Update
+                        Search
                       </button>
                       <a href="<?php echo ROOT; ?>invoices/create" class="btn btn-primary mt-2">
                         Add New Invoice

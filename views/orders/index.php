@@ -37,7 +37,7 @@
                     <div class="col-sm-12 col-lg-3 form-group">
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer_id" id="id_customer">
-                        <option>Select Customer</option>
+                        <option value="">Select Customer</option>
                         <?php foreach ($customers as $customer) : ?>
                         <option value="<?php echo $customer['id'] ?>">
                           <?php echo $customer['name'] ?>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 mt-4">
                       <button class="btn btn btn-primary update mt-2" type="button">
-                        Update
+                        Search
                       </button>
                       <a href="<?php echo ROOT; ?>orders/create" class="btn btn btn-primary mt-2">
                         Add New Order
