@@ -282,14 +282,6 @@ function setordertype(val) {
   }
 }
 
-function humanamount(val) {
-  var val = new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR'
-  }).format(val);
-  return val
-}
-
 function setuom(val) {
   if (val == 1) {
     return 'Day(s)';

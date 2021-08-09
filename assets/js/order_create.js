@@ -324,15 +324,6 @@ function lastfill() {
   // }
 }
 
-// Amount Representation
-function humanamount(val) {
-  var val = new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR'
-  }).format(val);
-  return val
-}
-
 
 // Each Order Item calculator
 function ordercollector(id) {
