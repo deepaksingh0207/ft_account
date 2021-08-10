@@ -4,7 +4,7 @@
         <div class="content-wrapper">
             <section class="content">
                 <div class="container-fluid pb-5">
-                    <form action="" method="POST" id="quickForm" novalidate="novalidate">
+                    <form action="" method="POST" id="quickForm" novalidate="novalidate"  enctype="multipart/form-data">
                         <div class="card my-3">
                             <div class="card-header">
                                 <h3 class="card-title" style="line-height: 2.2">
