@@ -60,7 +60,7 @@
                                                             <th></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="id_pending">
                                                         <tr>
                                                             <td></td>
                                                             <td></td>
@@ -95,7 +95,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        <tr id="id_cleared">
                                                             <td></td>
                                                             <td></td>
                                                             <td></td>
