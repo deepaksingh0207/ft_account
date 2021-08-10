@@ -67,9 +67,8 @@ $("#id_orderid").change(function () {
     resetonorder();
     if ($(this).val()) {
         $.ajax({
-            type: "POST",
-            url: baseUrl + "" + $(this).val(),
-            data: $(this).val(),
+            type: "GET",
+            url: baseUrl + "orders/getinvoicesforpayments/" + $(this).val(),
             dataType: "json",
             encode: true,
         })

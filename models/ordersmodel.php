@@ -148,5 +148,31 @@ where customer_id = ? ";
         }
         return $data;
     }
+
+    public function getPaymentDoneInvoices($orderId) {
+        $sql = "select * from customer_payments where order_id=?";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($orderId));
+
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
+
+    public function getPendingInvoices($orderId) {
+        $sql = "select invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total from 
+        invoices 
+        left join invoice_items on (invoice_items.invoice_id = invoices.id)
+        where order_id=? and invoices.id NOT IN ( select invoice_id from customer_payments where order_id=? )";
+
+        $this->_setSql($sql);
+        $data = $this->getAll(array($orderId, $orderId));
+
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
     
 }

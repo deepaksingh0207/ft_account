@@ -305,4 +305,15 @@ class OrdersController extends Controller
         echo json_encode($result);
         exit;
     }
+
+    function getInvoicesForPayments($id) {
+        if($id) {
+            $paymentDone = $this->_model->getPaymentDoneInvoices($id);
+            $paymentPending = $this->_model->getPendingInvoices($id);
+
+            echo json_encode(array('payment_completed' => $paymentDone, 'payment_pending' => $paymentPending));
+        }  else {
+            echo false;
+        }
+    }
 }
