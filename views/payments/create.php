@@ -135,4 +135,18 @@
                 </div>
             </section>
         </div>
+        <button type="button" id="modelutr" style="display: none;" data-toggle="modal" data-target="#utrmodal"></button>
+        <div class="modal fade" id="utrmodal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header" id="utr_header">
+                        Confirm Payment
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="utr_body"></div>
+                </div>
+            </div>
+        </div>
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

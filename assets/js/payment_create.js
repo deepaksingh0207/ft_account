@@ -101,7 +101,7 @@ $(document).on("change", "#id_orderid", function () {
                             .append('<td id="pdg_attach' + index + '"></td>')
                             .append('<td id="pdg_save' + index + '" style="width: 81px;"></td>');
                         $("#pdg_date" + index).append('<input type="date" class="form-control max250 mb-1 ptdate" data-id="' + index + '" id="id_payment_date' + index + '" max="' + today + '"><input placeholder="UTR Number" data-id="' + index + '" type="text" class="form-control max250 utr" id="id_utr' + index + '">');
-                        $("#pdg_attach" + index).append('<input type="file" id="id_attach' + index + '" class="wrp max150" disabled>');
+                        $("#pdg_attach" + index).append('<input type="file" id="id_attach' + index + '" class="wrp max150 attach" disabled>');
                     });
                 }
                 if (data.payment_completed) {
@@ -115,7 +115,7 @@ $(document).on("change", "#id_orderid", function () {
                             .append('<td id="clr_descp' + index + '">' + value.description + '</td>')
                             .append('<td id="clr_date' + index + '">' + value.payment_date + '</td>')
                             .append('<td id="clr_utr' + index + '">' + value.cheque_utr_no + '</td>')
-                            .append('<td id="clr_attach' + index + '">' + value.utr_file + '</td>')
+                            .append('<td id="clr_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>')
                             .append('<td id="clr_total' + index + '">' + value.invoice_total + '</td>');
                     });
                 }
@@ -152,13 +152,28 @@ $(document).on("click", ".pdgselect", function () {
     $("#id_attach" + $(this).data('id')).attr('name', 'utr_file').removeAttr("disabled");
     if ($(this).data('id') != lastSelectedId) {
         $("#pdg_save" + lastSelectedId).empty();
-        $("#id_invoice_id" + lastSelectedId).attr('name', 'invoice_id');
-        $("#id_payment_date" + lastSelectedId).removeAttr('name', 'payment_date').removeAttr('required', true);
-        $("#id_utr" + lastSelectedId).removeAttr('name', 'cheque_utr_no').removeAttr('required', true);
-        $("#id_attach" + lastSelectedId).removeAttr('name', 'utr_file').attr("disabled", true);
+        $("#id_invoice_id" + lastSelectedId).val('').attr('name', 'invoice_id');
+        $("#id_payment_date" + lastSelectedId).val('').removeAttr('name', 'payment_date').removeAttr('required', true);
+        $("#id_utr" + lastSelectedId).val('').removeAttr('name', 'cheque_utr_no').removeAttr('required', true);
+        $("#id_attach" + lastSelectedId).val('').removeAttr('name', 'utr_file').attr("disabled", true);
         lastSelectedId = $(this).data('id');
     }
+});
 
+var match = ['application/pdf'];
+$(document).on("change", ".attach", function () {
+    var id = $(this).attr('id')
+    var file = this.files;
+    var fileType = file[0].type;
+    $.each(match, function (index, value) {
+        if (fileType != value) {
+            $("#"+id).addClass('is-invalid').val('').parent().children('span').remove();
+            $("#"+id).parent().append('<span id="' + id + '-error" class="error invalid-feedback">Upload only PDF.</span>')
+            return false;
+        } else {
+            $("#"+id).parent().children('span').remove();
+        }
+    });
 });
 
 $(document).on("click", ".save", function () {
@@ -181,34 +196,7 @@ $(document).on("click", ".save", function () {
     }
 });
 
-// $(document).on("click", "#modalsubmit", function () {
-//     $(this).attr("disabled", true);
-//     // var files = $('#id_utr'+lastSelectedId).files[0];
-//     var formdata = $("#quickForm").serialize();
-//     $.ajax({
-//         type: "POST",
-//         url: baseUrl + "payments/create",
-//         data: formdata,
-//         dataType: 'json',
-//     }).done(function (data) {
-//         console.log(data);
-//         console.log(data.status);
-//         if (data.status == 1) {
-//             $("#modal_body").empty().append(data.message);
-//             $("#modalclose").trigger('click');
-//             $("#id_orderid").trigger('change');
-//             $("#modalsubmit").removeAttr("disabled");
-//         } else {
-//             $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
-//             $("#modalsubmit").removeAttr("disabled");
-//         }
-//     }).fail(function (data) {
-//         $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
-//         $("#modalsubmit").removeAttr("disabled");
-//     });
-// });
-
-$("#quickForm").on('submit', function(e){
+$("#quickForm").on('submit', function (e) {
     e.preventDefault();
     $.ajax({
         type: 'POST',
@@ -217,11 +205,11 @@ $("#quickForm").on('submit', function(e){
         dataType: 'json',
         contentType: false,
         cache: false,
-        processData:false,
-        beforeSend: function(){
-            $('#modalsubmit').attr("disabled","disabled");
+        processData: false,
+        beforeSend: function () {
+            $('#modalsubmit').attr("disabled", "disabled");
         },
-        success: function(response){
+        success: function (response) {
             if (response.status == 1) {
                 $("#modal_body").empty().append(response.message);
                 $("#modalclose").trigger('click');
@@ -233,4 +221,22 @@ $("#quickForm").on('submit', function(e){
             }
         }
     });
+});
+
+$(document).on("click", ".sublist", function () {
+    url = baseUrl + 'utr_file/' + $(this).data("href")
+    error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
+    $.get(url)
+        .done(function (responseText) {
+            a = responseText
+            if (a.search("Customer List") < 0) {
+                $("#utr_body").empty().append('<embed src="' + url + '" type="application/pdf" style="width: 100%; height: 513px;">');
+            } else {
+                $("#utr_body").empty().append(error);
+            }
+        }).fail(function () {
+            $("#utr_body").empty().append(error);
+        });
+    // $("#modal_body").empty().append('<iframe src="'+url+'" width="100%" height="513px">');
+    $("#modelutr").click();
 });
