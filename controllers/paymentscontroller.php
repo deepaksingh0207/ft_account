@@ -26,8 +26,77 @@ class PaymentsController extends Controller
         
     }
     
-    
     public function create() {
+        try {
+
+            $this->_view->set('title', 'Add Payment');
+            
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
+            
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            
+            $invoiceTbl = new InvoicesModel();
+            $invoices = $invoiceTbl->getInvoiceIds();
+            $this->_view->set('invoices', $invoices);
+
+            if(!empty($_POST)) {
+                $data = $_POST;
+                
+                //echo '<pre>'; print_r($data); exit;
+                $customerPayments = array();
+                $customerPayments['group_id'] = $data['group_id'];
+                $customerPayments['customer_id'] = $data['customer_id'];
+                $customerPayments['order_id'] = $data['order_id'];
+                $customerPayments['invoice_id'] = $data['invoice_id'];
+                $customerPayments['payment_date'] = $data['payment_date'];
+                $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
+                $customerPayments['received_amt'] = $data['received_amt'];
+                $customerPayments['remarks'] = $data['remarks'];
+                
+                if(!empty($_FILES)){
+                    //Get the temp file path
+                    $tmpFilePath = $_FILES['utr_file']['tmp_name'];
+                    
+                    //Make sure we have a file path
+                    if ($tmpFilePath != ""){
+                        //Setup our new file path
+                        $newFileName = time().'_'. $_FILES['utr_file']['name'];
+                        $newFilePath =  "./utr_file/".$newFileName;
+                        //Upload the file into the temp dir
+                        if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                            $customerPayments['utr_file'] = $newFileName;
+                            
+                        }
+                    }
+                }
+
+                $customerPayTbl = new CustomerPaymentsModel();
+                $custPaymentId = $customerPayTbl->save($customerPayments);
+                
+                
+                if($custPaymentId) {
+                    echo json_encode(array("status"=>1, "message"=>"Payment added successfully"));
+                    exit;
+                    //$_SESSION['message'] = 'Payment added successfully';
+                    //header("location:". ROOT. "payments");
+                } else {
+                    //$_SESSION['error'] = 'Fail to add payment';
+                    echo json_encode(array("status"=>0, "message"=>"Fail to add payment"));
+                    exit;
+                }
+            }
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+
+    /*public function create() {
         try {
             $this->_view->set('title', 'Add Payment');
             
@@ -95,7 +164,7 @@ class PaymentsController extends Controller
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();
         }
-    }
+    } */
     
     
     public function view($id) {

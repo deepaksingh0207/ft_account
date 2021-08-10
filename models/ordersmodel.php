@@ -150,7 +150,12 @@ where customer_id = ? ";
     }
 
     public function getPaymentDoneInvoices($orderId) {
-        $sql = "select * from customer_payments where order_id=?";
+        $sql = "select  customer_payments.id, invoice_no, CONCAT_WS('', payment_description, invoice_items.description) description, invoice_total,payment_date,cheque_utr_no, utr_file
+        from 
+       customer_payments
+       join invoices  on (invoices.id = customer_payments.invoice_id) 
+       left join invoice_items on (invoice_items.invoice_id = invoices.id)
+       where customer_payments.order_id=?";
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId));
 
