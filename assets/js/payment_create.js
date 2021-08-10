@@ -101,7 +101,7 @@ $(document).on("change", "#id_orderid", function () {
                             .append('<td id="pdg_attach' + index + '"></td>')
                             .append('<td id="pdg_save' + index + '" style="width: 81px;"></td>');
                         $("#pdg_date" + index).append('<input type="date" class="form-control max250 mb-1 ptdate" data-id="' + index + '" id="id_payment_date' + index + '" max="' + today + '"><input placeholder="UTR Number" data-id="' + index + '" type="text" class="form-control max250 utr" id="id_utr' + index + '">');
-                        $("#pdg_attach" + index).append('<input type="file" id="id_attach' + index + '" class="wrp max150 attach" disabled>');
+                        $("#pdg_attach" + index).append('<input type="file" accept="application/pdf" id="id_attach' + index + '" class="wrp max150 attach" disabled>');
                     });
                 }
                 if (data.payment_completed) {
@@ -113,10 +113,10 @@ $(document).on("change", "#id_orderid", function () {
                         $("#clr_row" + index)
                             .append('<td id="clr_invoice' + index + '">' + value.invoice_no + '</td>')
                             .append('<td id="clr_descp' + index + '">' + value.description + '</td>')
+                            .append('<td id="clr_total' + index + '">' + value.invoice_total + '</td>')
                             .append('<td id="clr_date' + index + '">' + value.payment_date + '</td>')
                             .append('<td id="clr_utr' + index + '">' + value.cheque_utr_no + '</td>')
-                            .append('<td id="clr_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>')
-                            .append('<td id="clr_total' + index + '">' + value.invoice_total + '</td>');
+                            .append('<td id="clr_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>');
                     });
                 }
             })

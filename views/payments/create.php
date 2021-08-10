@@ -86,10 +86,10 @@
                                                                 Invoice No
                                                             </th>
                                                             <th>Description</th>
+                                                            <th>Total</th>
                                                             <th>Payment Date</th>
                                                             <th>UTR No</th>
                                                             <th>Attachment</th>
-                                                            <th>Total</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="bodyid_cleared">
