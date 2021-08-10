@@ -52,6 +52,18 @@
   max-width: 150px;
 }
 
+.max200 {
+  max-width: 200px;
+}
+
+.max238 {
+  max-width: 238px;
+}
+
+.max250 {
+  max-width: 250px;
+}
+
 .www {
   min-width: 220px;
 }
@@ -79,4 +91,8 @@
 
 .fr {
   float: right;
+}
+
+.wrp {
+  white-space: pre-wrap;
 }

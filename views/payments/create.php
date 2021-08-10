@@ -4,12 +4,17 @@
         <div class="content-wrapper">
             <section class="content">
                 <div class="container-fluid pb-5">
-                    <form action="" method="POST" id="id_quickForm" novalidate="novalidate">
+                    <form action="" method="POST" id="quickForm" novalidate="novalidate">
                         <div class="card my-3">
                             <div class="card-header">
                                 <h3 class="card-title" style="line-height: 2.2">
                                     Add New Payments
                                 </h3>
+                                <div class="text-right">
+                                    <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
+                                        Back
+                                    </a>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -40,40 +45,41 @@
                                         <textarea name="remarks" class="form-control" id="id_remarks" cols="30" rows="1"
                                             placeholder="Type Your Remarks."></textarea>
                                     </div>
-                                    <div class="col-sm-12 col-lg-12">
+                                    <div class="col-sm-12 col-lg-12" id="colid_pending" style="display: none;">
                                         <div class="card mt-3">
                                             <div class="card-header">
                                                 Pending Payments
                                             </div>
                                             <div class="card-body">
                                                 <table class="table">
-                                                    <thead>
+                                                    <thead id="headid_pending">
                                                         <tr>
+                                                            <th></th>
                                                             <th>
                                                                 Invoice No
                                                             </th>
                                                             <th>Description</th>
-                                                            <th>Payment Date</th>
-                                                            <th>UTR No</th>
+                                                            <th>Payment Date & UTR No</th>
+                                                            <th>Amount</th>
                                                             <th>Attachment</th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="id_pending">
-                                                       
+                                                    <tbody id="bodyid_pending">
+
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-lg-12">
+                                    <div class="col-sm-12 col-lg-12" id="colid_cleared" style="display: none;">
                                         <div class="card mt-3">
                                             <div class="card-header">
                                                 Cleared Payments
                                             </div>
                                             <div class="card-body">
                                                 <table class="table">
-                                                    <thead>
+                                                    <thead id="headid_cleared">
                                                         <tr>
                                                             <th>
                                                                 Invoice No
@@ -85,8 +91,8 @@
                                                             <th>Total</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="id_cleared">
-                                                      
+                                                    <tbody id="bodyid_cleared">
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -95,7 +101,35 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-
+                                <div class="text-right">
+                                    <a href="<?php echo ROOT; ?>payments" class="btn btn-default btn-sm">
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="modelpdf" style="display: none;" data-toggle="modal" data-target="#pdfmodal"></button>
+                        <div class="modal fade" id="pdfmodal">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header" id="modal_header">
+                                        Confirm Payment
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="modal_body">
+                                        Are you sure to save this payment details.
+                                    </div>
+                                    <div class="modal-footer" id="modal_footer">
+                                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="modalclose">
+                                            Close
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm" id="modalsubmit">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
