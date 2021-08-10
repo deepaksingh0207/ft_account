@@ -87,11 +87,11 @@ $(document).on("change", "#id_orderid", function () {
                     $.each(data.payment_pending, function (index, value) {
                         $("#bodyid_pending").append('<tr id="pdg_row' + index + '"></tr>');
                         $("#pdg_row" + index)
-                            .append('<td id="pdg_select' + index + '" style="width: 53px;"><div class="icheck-primary d-inline">                                 <input type="radio" id="select' + index + '" data-id="' + index + '" name="received_amt" class="pdgselect" value="' + value.invoice_total + '">                                                                                         <label for="select' + index + '"></label></div></td>')
+                            .append('<td id="pdg_select' + index + '" style="width: 53px;"><div class="icheck-primary d-inline">            <input type="radio" id="select' + index + '" data-id="' + index + '" name="received_amt" class="pdgselect" value="' + value.invoice_total + '">                                                                                         <input type="hidden" id="id_invoice_id' + index + '" value="' + value.id + '">                                <label for="select' + index + '"></label></div></td>')
                             .append('<td id="pdg_invoice' + index + '" style="width: 98px;">' + value.invoice_no + '</td>')
                             .append('<td id="pdg_descp' + index + '" class="max238">' + value.description + '</td>')
-                            .append('<td id="pdg_date' + index + '"></td>')
                             .append('<td id="pdg_amt' + index + '">' + value.invoice_total + '</td>')
+                            .append('<td id="pdg_date' + index + '"></td>')
                             .append('<td id="pdg_attach' + index + '"></td>')
                             .append('<td id="pdg_save' + index + '" style="width: 81px;"></td>');
                         $("#pdg_date" + index).append('<input type="date" class="form-control max250 mb-1" id="id_payment_date' + index + '"><input placeholder="UTR Number" type="text" class="form-control max250" id="id_utr' + index + '">');
@@ -123,11 +123,13 @@ $(document).on("change", "#id_orderid", function () {
 
 $(document).on("click", ".pdgselect", function () {
     $("#pdg_save" + $(this).data('id')).empty().append('<button type="button" class="btn btn-primary save" data-id="' + $(this).data('id') + '" id="pdgsave' + $(this).data('id') + '">Save</button>');
+    $("#id_invoice_id" + $(this).data('id')).attr('name', 'invoice_id');
     $("#id_payment_date" + $(this).data('id')).attr('name', 'payment_date').attr('required', true);
     $("#id_utr" + $(this).data('id')).attr('name', 'cheque_utr_no').attr('required', true);
     $("#id_attach" + $(this).data('id')).attr('name', 'utr_file');
     if ($(this).data('id') != lastSelectedId) {
         $("#pdg_save" + lastSelectedId).empty();
+        $("#id_invoice_id" + lastSelectedId).attr('name', 'invoice_id');
         $("#id_payment_date" + lastSelectedId).removeAttr('name', 'payment_date').removeAttr('required', true);
         $("#id_utr" + lastSelectedId).removeAttr('name', 'cheque_utr_no').removeAttr('required', true);
         $("#id_attach" + lastSelectedId).removeAttr('name', 'utr_file');
@@ -143,21 +145,27 @@ $(document).on("click", ".save", function () {
         alert('UTR field cannot be empty');
     } else {
         $("#modelpdf").trigger('click');
+        
     }
 });
 
 $(document).on("click", "#modalsubmit", function () {
     $(this).attr("disabled", true);
-    var files = $('#file')[0].files[0];
+    // var files = $('#id_utr'+lastSelectedId).files[0];
     var formdata = $("#quickForm").serialize();
     $.ajax({
         type: "POST",
         url: baseUrl + "payments/create",
         data: formdata,
     }).done(function (data) {
-        $("#modalclose").trigger('click');
-        $("#id_orderid").trigger('change');
-        $("#modalsubmit").removeAttr("disabled");
+        if (data.statu == 1) {
+            $("#modalclose").trigger('click');
+            $("#id_orderid").trigger('change');
+            $("#modalsubmit").removeAttr("disabled");
+        } else {
+            $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
+            $("#modalsubmit").removeAttr("disabled");
+        }
     }).fail(function (data) {
         $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
         $("#modalsubmit").removeAttr("disabled");

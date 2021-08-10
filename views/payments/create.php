@@ -59,11 +59,12 @@
                                                                 Invoice No
                                                             </th>
                                                             <th>Description</th>
-                                                            <th>Payment Date & UTR No</th>
                                                             <th>Amount</th>
+                                                            <th>Payment Date & UTR No</th>
                                                             <th>Attachment</th>
                                                             <th></th>
                                                         </tr>
+                                                        
                                                     </thead>
                                                     <tbody id="bodyid_pending">
 
