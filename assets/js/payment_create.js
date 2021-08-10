@@ -181,29 +181,56 @@ $(document).on("click", ".save", function () {
     }
 });
 
-$(document).on("click", "#modalsubmit", function () {
-    $(this).attr("disabled", true);
-    // var files = $('#id_utr'+lastSelectedId).files[0];
-    var formdata = $("#quickForm").serialize();
+// $(document).on("click", "#modalsubmit", function () {
+//     $(this).attr("disabled", true);
+//     // var files = $('#id_utr'+lastSelectedId).files[0];
+//     var formdata = $("#quickForm").serialize();
+//     $.ajax({
+//         type: "POST",
+//         url: baseUrl + "payments/create",
+//         data: formdata,
+//         dataType: 'json',
+//     }).done(function (data) {
+//         console.log(data);
+//         console.log(data.status);
+//         if (data.status == 1) {
+//             $("#modal_body").empty().append(data.message);
+//             $("#modalclose").trigger('click');
+//             $("#id_orderid").trigger('change');
+//             $("#modalsubmit").removeAttr("disabled");
+//         } else {
+//             $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
+//             $("#modalsubmit").removeAttr("disabled");
+//         }
+//     }).fail(function (data) {
+//         $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
+//         $("#modalsubmit").removeAttr("disabled");
+//     });
+// });
+
+$("#quickForm").on('submit', function(e){
+    e.preventDefault();
     $.ajax({
-        type: "POST",
+        type: 'POST',
         url: baseUrl + "payments/create",
-        data: formdata,
+        data: new FormData(this),
         dataType: 'json',
-    }).done(function (data) {
-        console.log(data);
-        console.log(data.status);
-        if (data.status == 1) {
-            $("#modal_body").empty().append(data.message);
-            $("#modalclose").trigger('click');
-            $("#id_orderid").trigger('change');
-            $("#modalsubmit").removeAttr("disabled");
-        } else {
-            $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
-            $("#modalsubmit").removeAttr("disabled");
+        contentType: false,
+        cache: false,
+        processData:false,
+        beforeSend: function(){
+            $('#modalsubmit').attr("disabled","disabled");
+        },
+        success: function(response){
+            if (response.status == 1) {
+                $("#modal_body").empty().append(response.message);
+                $("#modalclose").trigger('click');
+                $("#modalsubmit").removeAttr("disabled");
+                $("#id_orderid").trigger('change');
+            } else {
+                $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
+                $("#modalsubmit").removeAttr("disabled");
+            }
         }
-    }).fail(function (data) {
-        $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
-        $("#modalsubmit").removeAttr("disabled");
     });
 });

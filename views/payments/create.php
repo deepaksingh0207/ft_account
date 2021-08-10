@@ -124,7 +124,7 @@
                                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="modalclose">
                                             Close
                                         </button>
-                                        <button type="button" class="btn btn-success btn-sm" id="modalsubmit">
+                                        <button type="submit" class="btn btn-success btn-sm" id="modalsubmit">
                                             Submit
                                         </button>
                                     </div>

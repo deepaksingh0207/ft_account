@@ -4,3 +4,4 @@ new_config.php
 *.xlsx
 .DS_Store
 *.old
+utr_file/
