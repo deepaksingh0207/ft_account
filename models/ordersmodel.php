@@ -70,11 +70,16 @@ class OrdersModel extends Model {
     }
 
     public function getOrderListByCustomer($id) {
-        //$sql = "select id,po_no from orders where customer_id = ? ";
-        $sql = "select o.id, o.po_no, it.item
+        /*$sql = "select o.id, o.po_no, it.item from orders o
+            join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
+            where customer_id = ? "; */
+
+            $sql = "select o.id, o.po_no, it.item, COALESCE(payments,0) payments, ordertotal
 from orders o
+left join (select SUM(COALESCE(received_amt, 0)) payments, order_id FROM `customer_payments` group by order_id) as s on (s.order_id = o.id)
 join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
-where customer_id = ? ";
+where customer_id = ? 
+having ordertotal > payments";
 
         $this->_setSql($sql);
         $user = $this->getAll(array($id));
