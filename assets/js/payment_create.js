@@ -74,16 +74,33 @@ $("#id_orderid").change(function () {
             encode: true,
         })
             .done(function (data) {
-                if (data != ""){
+                if (data.payment_pending) {
+                    // Fill pending table
+                    $.each(payment_pending, function (index, value) {
+                        $("#id_pending").append('<tr id="pdg_row' + index + '"></tr>');
+                        $("#pendingrow" + index)
+                            .append('<td id="pdg_invoice' + index + '">' + value + '</td>')
+                            .append('<td id="pdg_descp' + index + '">' + value + '</td>')
+                            .append('<td id="pdg_date' + index + '"></td>')
+                            .append('<td id="pdg_utr' + index + '"></td>')
+                            .append('<td id="pdg_attach' + index + '"></td>')
+                            .append('<td id="pdg_select' + index + '"></td>');
+                        $("#pdg_date" + index).append('<input type="text" class="form-control" name="payment_date[]" id="id_payment_date' + index + '">');
+                        $("#pdg_utr" + index).append('<input type="text" class="form-control" name="utr[]" id="id_utr' + index + '">');
+                        $("#pdg_attach" + index).append('<input type="file" name="attach[]" id="id_attach' + index + '">');
+                    });
+                }
+                if (data.payment_completed) {
+                    // Fill cleared table
                     $.each(data, function (index, value) {
-                        $("#id_pending").append('<tr id="pendingrow'+index+'"></tr>');
-                        $("#pendingrow"+index)
-                        .append('<td>'+value+'</td>')
-                        .append('<td>'+value+'</td>')
-                        .append('<td>'+value+'</td>')
-                        .append('<td>'+value+'</td>')
-                        .append('<td>'+value+'</td>')
-                        .append('<td>'+value+'</td>');
+                        $("#id_pending").append('<tr id="clr_row' + index + '"></tr>');
+                        $("#pendingrow" + index)
+                            .append('<td id="clr_invoice' + index + '">' + value + '</td>')
+                            .append('<td id="clr_descp' + index + '">' + value + '</td>')
+                            .append('<td id="clr_date' + index + '">' + value + '</td>')
+                            .append('<td id="clr_utr' + index + '">' + value + '</td>')
+                            .append('<td id="clr_attach' + index + '">' + value + '</td>')
+                            .append('<td id="clr_total' + index + '">' + value + '</td>');
                     });
                 }
             })
