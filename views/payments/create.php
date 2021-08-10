@@ -49,7 +49,6 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th></th>
                                                             <th>
                                                                 Invoice No
                                                             </th>
@@ -61,14 +60,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="id_pending">
-                                                        <tr>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
+                                                       
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -83,7 +75,6 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th></th>
                                                             <th>
                                                                 Invoice No
                                                             </th>
@@ -91,18 +82,11 @@
                                                             <th>Payment Date</th>
                                                             <th>UTR No</th>
                                                             <th>Attachment</th>
-                                                            <th></th>
+                                                            <th>Total</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <tr id="id_cleared">
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
-                                                        </tr>
+                                                    <tbody id="id_cleared">
+                                                      
                                                     </tbody>
                                                 </table>
                                             </div>
