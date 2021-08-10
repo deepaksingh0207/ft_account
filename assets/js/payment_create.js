@@ -74,8 +74,9 @@ $(document).on("change", "#id_orderid", function () {
     resetonorder();
     if ($(this).val()) {
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: baseUrl + "orders/getinvoicesforpayments/" + $(this).val(),
+            data: $(this).val(),
             dataType: "json",
             encode: true,
         })
