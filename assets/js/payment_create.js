@@ -105,12 +105,12 @@ $(document).on("change", "#id_orderid", function () {
                     $.each(data.payment_completed, function (index, value) {
                         $("#bodyid_cleared").append('<tr id="clr_row' + index + '"></tr>');
                         $("#clr_row" + index)
-                            .append('<td id="clr_invoice' + index + '">' + value + '</td>')
-                            .append('<td id="clr_descp' + index + '">' + value + '</td>')
-                            .append('<td id="clr_date' + index + '">' + value + '</td>')
-                            .append('<td id="clr_utr' + index + '">' + value + '</td>')
-                            .append('<td id="clr_attach' + index + '">' + value + '</td>')
-                            .append('<td id="clr_total' + index + '">' + value + '</td>');
+                            .append('<td id="clr_invoice' + index + '">' + value.invoice_no + '</td>')
+                            .append('<td id="clr_descp' + index + '">' + value.description + '</td>')
+                            .append('<td id="clr_date' + index + '">' + value.payment_date + '</td>')
+                            .append('<td id="clr_utr' + index + '">' + value.cheque_utr_no + '</td>')
+                            .append('<td id="clr_attach' + index + '">' + value.utr_file + '</td>')
+                            .append('<td id="clr_total' + index + '">' + value.invoice_total + '</td>');
                     });
                 }
             })
