@@ -157,8 +157,12 @@ $(document).on("click", "#modalsubmit", function () {
         type: "POST",
         url: baseUrl + "payments/create",
         data: formdata,
+        dataType: 'json',
     }).done(function (data) {
+        console.log(data);
+        console.log(data.status);
         if (data.status == 1) {
+            $("#modal_body").empty().append(data.message);
             $("#modalclose").trigger('click');
             $("#id_orderid").trigger('change');
             $("#modalsubmit").removeAttr("disabled");
