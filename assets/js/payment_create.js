@@ -148,6 +148,7 @@ $(document).on("click", ".save", function () {
 
 $(document).on("click", "#modalsubmit", function () {
     $(this).attr("disabled", true);
+    var files = $('#file')[0].files[0];
     var formdata = $("#quickForm").serialize();
     $.ajax({
         type: "POST",
