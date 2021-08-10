@@ -27,9 +27,14 @@
                   </select>
                 </div>
                 <div class="col-sm-12 col-lg-3 mt-4">
-                  <button class="btn btn-primary update mt-2" type="button">
-                    Search
-                  </button>
+                <div class="btn-group mt-2">
+                    <button type="button" class="btn btn-default update">
+                      <i class="fas fa-search my-1"></i>
+                    </button>
+                    <a href="<?php echo ROOT; ?>dashboard" type="button" class="btn btn-default">
+                      Clear
+                    </a>
+                  </div>
                 </div>
                 <div class="col-sm-12 col-lg-12 mt-3">
                   <table id="example1" class="table table-striped table-hover table-bordered">

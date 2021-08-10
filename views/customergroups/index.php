@@ -19,14 +19,18 @@
                           value="" />
                       </div>
                       <div class="col-sm-12 col-lg-3 pt-2">
-                        <button class="btn btn btn-primary" type="submit" id="update" style="display: none;"
-                          formaction="">
-                          Update
-                        </button>
-                        <button class="btn btn btn-primary" type="submit" id="add">
-                          Add
-                        </button>
-                        <button type="reset" class="btn btn btn-primary" id="cancel">Cancel</button>
+                        <div class="btn-group">
+                          <button type="submit" id="add" class="btn btn-default" formaction="">
+                            Add
+                          </button>
+                          <button type="submit" id="update" style="display: none;" class="btn btn-default"
+                            formaction="">
+                            Update
+                          </button>
+                          <button type="reset" id="cancel" class="btn btn-default" formaction="">
+                            Cancel
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </form>

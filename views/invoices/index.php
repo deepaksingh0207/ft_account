@@ -27,18 +27,20 @@
                   </select>
                 </div>
                 <div class="col-sm-12 col-lg-3 mt-4">
-                  <button class="btn btn-primary update mt-2" type="button">
-                    <i class="fas fa-search my-1"></i>
-                  </button>
-                  <a href="<?php echo ROOT; ?>invoices/create" class="btn btn-primary mt-2">
-                    New Invoice
-                  </a>
-                  <a href="<?php echo ROOT; ?>invoices" class="btn btn-primary mt-2">
-                    Cancel
-                  </a>
+                  <div class="btn-group mt-2">
+                    <button type="button" class="btn btn-default update">
+                      <i class="fas fa-search my-1"></i>
+                    </button>
+                    <a href="<?php echo ROOT; ?>invoices" type="button" class="btn btn-default">
+                      Clear
+                    </a>
+                    <a href="<?php echo ROOT; ?>invoices/create" type="button" class="btn btn-default">
+                      New Invoice
+                    </a>
+                  </div>
                 </div>
                 <div class="col-sm-12 col-lg-12 text-right">
-                  
+
                 </div>
                 <div class="col-12 mt-3">
                   <table id="example1" class="table table-striped table-hover">

@@ -39,12 +39,17 @@
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3 mt-4">
-                      <button class="btn btn-primary update mt-2" type="button">
-                        Update
-                      </button>
-                      <a href="<?php echo ROOT; ?>payments/create" class="btn btn-primary mt-2">
-                        Add New Payment
-                      </a>
+                      <div class="btn-group mt-2">
+                        <button type="button" class="btn btn-default update">
+                          <i class="fas fa-search my-1"></i>
+                        </button>
+                        <a href="<?php echo ROOT; ?>payments" type="button" class="btn btn-default">
+                          Clear
+                        </a>
+                        <a href="<?php echo ROOT; ?>payments/create" type="button" class="btn btn-default">
+                          New Payment
+                        </a>
+                      </div>
                     </div>
                     <div class="col-12">
                       <table id="example1" class="table table-striped table-hover">
