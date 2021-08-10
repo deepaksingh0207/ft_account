@@ -119,9 +119,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body" id="modal_body">
-                                        Are you sure to save this payment details.
-                                    </div>
+                                    <div class="modal-body" id="modal_body"></div>
                                     <div class="modal-footer" id="modal_footer">
                                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="modalclose">
                                             Close

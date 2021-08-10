@@ -1,4 +1,9 @@
 var lastSelectedId;
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, "0");
+var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+var yyyy = today.getFullYear();
+var today = yyyy + "-" + mm + "-" + dd;
 function resetongroup() {
     $("#customerid_id").val("").empty().attr("disabled", true);
     resetoncustomer();
@@ -95,8 +100,8 @@ $(document).on("change", "#id_orderid", function () {
                             .append('<td id="pdg_date' + index + '"></td>')
                             .append('<td id="pdg_attach' + index + '"></td>')
                             .append('<td id="pdg_save' + index + '" style="width: 81px;"></td>');
-                        $("#pdg_date" + index).append('<input type="date" class="form-control max250 mb-1" id="id_payment_date' + index + '"><input placeholder="UTR Number" type="text" class="form-control max250" id="id_utr' + index + '">');
-                        $("#pdg_attach" + index).append('<input type="file" id="id_attach' + index + '" class="wrp max150">');
+                        $("#pdg_date" + index).append('<input type="date" class="form-control max250 mb-1 ptdate" data-id="' + index + '" id="id_payment_date' + index + '" max="' + today + '"><input placeholder="UTR Number" data-id="' + index + '" type="text" class="form-control max250 utr" id="id_utr' + index + '">');
+                        $("#pdg_attach" + index).append('<input type="file" id="id_attach' + index + '" class="wrp max150" disabled>');
                     });
                 }
                 if (data.payment_completed) {
@@ -121,32 +126,58 @@ $(document).on("change", "#id_orderid", function () {
     }
 });
 
+$(document).on("change", ".ptdate", function () {
+    if ($(this).val()) {
+        $(this).removeClass("is-invalid");
+    }
+    if ($("#id_utr" + $(this).data('id')).val()) {
+        $("#id_utr" + $(this).data('id') + "-error").remove();
+    }
+});
+$(document).on("change", ".utr", function () {
+    if ($(this).val()) {
+        $(this).removeClass("is-invalid");
+    }
+    if ($("#id_payment_date" + $(this).data('id')).val()) {
+        $("#id_utr" + $(this).data('id') + "-error").remove();
+    }
+});
+
 
 $(document).on("click", ".pdgselect", function () {
     $("#pdg_save" + $(this).data('id')).empty().append('<button type="button" class="btn btn-primary save" data-id="' + $(this).data('id') + '" id="pdgsave' + $(this).data('id') + '">Save</button>');
     $("#id_invoice_id" + $(this).data('id')).attr('name', 'invoice_id');
     $("#id_payment_date" + $(this).data('id')).attr('name', 'payment_date').attr('required', true);
     $("#id_utr" + $(this).data('id')).attr('name', 'cheque_utr_no').attr('required', true);
-    $("#id_attach" + $(this).data('id')).attr('name', 'utr_file');
+    $("#id_attach" + $(this).data('id')).attr('name', 'utr_file').removeAttr("disabled");
     if ($(this).data('id') != lastSelectedId) {
         $("#pdg_save" + lastSelectedId).empty();
         $("#id_invoice_id" + lastSelectedId).attr('name', 'invoice_id');
         $("#id_payment_date" + lastSelectedId).removeAttr('name', 'payment_date').removeAttr('required', true);
         $("#id_utr" + lastSelectedId).removeAttr('name', 'cheque_utr_no').removeAttr('required', true);
-        $("#id_attach" + lastSelectedId).removeAttr('name', 'utr_file');
+        $("#id_attach" + lastSelectedId).removeAttr('name', 'utr_file').attr("disabled", true);
         lastSelectedId = $(this).data('id');
     }
 
 });
 
 $(document).on("click", ".save", function () {
+    $("#id_utr" + $(this).data('id') + "-error").remove();
     if ($("#id_payment_date" + $(this).data('id')).val() == "") {
-        alert('Payment Date cannot be empty');
+        $("#id_payment_date" + $(this).data('id')).addClass('is-invalid');
+        $("#pdg_date" + $(this).data('id')).append('<span id="' + $("#id_utr" + $(this).data('id')).attr('id') + '-error" class="error invalid-feedback">Please fill the details.</span>');
+        if ($("#id_utr" + $(this).data('id')).val() == "") {
+            $("#id_utr" + $(this).data('id')).addClass('is-invalid');
+        }
     } else if ($("#id_utr" + $(this).data('id')).val() == "") {
-        alert('UTR field cannot be empty');
+        $("#id_utr" + $(this).data('id')).addClass('is-invalid');
+        $("#pdg_date" + $(this).data('id')).append('<span id="' + $("#id_utr" + $(this).data('id')).attr('id') + '-error" class="error invalid-feedback">Please enter the UTR No.</span>');
+        if ($("#id_payment_date" + $(this).data('id')).val() == "") {
+            $("#id_payment_date" + $(this).data('id')).addClass('is-invalid');
+        }
     } else {
+        $("#modal_body").empty().append('Are you sure to save this payment details.');
         $("#modelpdf").trigger('click');
-        
     }
 });
 
