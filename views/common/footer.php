@@ -134,6 +134,11 @@
   <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'payments' && ($action == 'view')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/payment_view.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
 <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/menu.js"></script>

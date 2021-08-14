@@ -1,14 +1,31 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Aug 14, 2021 at 05:30 AM
+-- Server version: 5.7.31
+-- PHP Version: 7.3.21
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `ft_account` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `ft_account`;
+--
+-- Database: `ft_account`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company`
+--
 
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE IF NOT EXISTS `company` (
@@ -33,8 +50,18 @@ CREATE TABLE IF NOT EXISTS `company` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `company`
+--
+
 INSERT INTO `company` (`id`, `name`, `contact_person`, `contact`, `mobile`, `fax`, `email`, `gstin`, `pan`, `sac`, `pincode`, `address`, `state`, `bank_name`, `account_no`, `ifsc_code`, `created_date`, `updated_date`) VALUES
 (1, 'F.T. Solutions Pvt. Ltd.', 'Deepak Singh', '9920687382', '9920687382', '9920687382', 'deepaksingh@fts-pl.com', '27AACCF6520B1Z4', 'AACCF6520B', '998313', '400604', '401, Meet Galaxy, Trimurti Lane Behind Tip Top Plaza, Teen Hath Naka, Thane 400604 Maharashtra                    ', 22, 'HDFC Bank', '50200029843099', 'HDFC0000543', '2021-05-17 18:40:43', '2021-05-29 17:23:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
 
 DROP TABLE IF EXISTS `customers`;
 CREATE TABLE IF NOT EXISTS `customers` (
@@ -63,11 +90,21 @@ CREATE TABLE IF NOT EXISTS `customers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `customers`
+--
+
 INSERT INTO `customers` (`id`, `group_id`, `name`, `contact_person`, `gstin`, `pan`, `address`, `city`, `state`, `pincode`, `pphone`, `aphone`, `fax`, `email`, `remark`, `invoice_by`, `managername`, `manageremail`, `managerphone`, `status`, `added_date`, `updated_date`) VALUES
 (1, 1, 'Aarti Industries Pvt. Ltd.', 'Mangesh', '27AAAAA0000A1Z5', 'AABCA2787L', 'Udyog Kshetra, 2nd Floor,\r\nMulund Goregaon Link Road, Mulund (West), Mumbai - 400080, Maharashtra, India                   ', NULL, 22, '401107', '7498456880', '7498456880', '7498456880', 'deepaksingh0207@gmail.com', 'test', NULL, '', '0', '0', 1, '2021-04-20 13:44:24', '2021-08-02 19:42:26'),
 (2, 2, 'Jay Bharat Maruti Limited', 'Lalit', '24AAACJ2021K2Z0', 'VGUPF9456T', 'Survey No.62,Paiki 6&7,GIDC Ext Road-Vithlapur,Taluka Mandal,382130, Distt-Ahmedabad', NULL, 12, '382130', '7645342423', '7645342343', '7645342232', 'lalit@jbm.com', 'ccc', NULL, '', '0', '0', 1, '2021-05-29 12:05:41', '2021-08-02 19:42:31'),
 (3, 2, 'Neel Metal TVS', 'Suresh', '33AAACC1206D1ZN', 'DFRTS9878R', 'Hosur', NULL, 35, '534534', '2342342342', '2342342342', '1231243453', 'test@sdsd.com', 'test', NULL, '', '0', '0', 1, '2021-06-09 15:28:13', '2021-08-02 19:42:36'),
 (4, 2, 'JBM AS Sanand', 'Manish', '32AAICS2717D1ZR', 'DTUPD9856T', 'Sanand gujarat                        ', NULL, 12, '382110', '9876543211', '', '', 'manish@jbm.ss', 'wsd', NULL, 'Lalit', 'lalit@jbm.vv', '9876543212', 1, '2021-06-21 15:29:46', '2021-08-02 19:43:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_groups`
+--
 
 DROP TABLE IF EXISTS `customer_groups`;
 CREATE TABLE IF NOT EXISTS `customer_groups` (
@@ -80,26 +117,53 @@ CREATE TABLE IF NOT EXISTS `customer_groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `customer_groups`
+--
+
 INSERT INTO `customer_groups` (`id`, `code`, `name`, `status`, `created_date`, `updated_date`) VALUES
 (1, 'FT0003', 'Aarti', 1, '2021-06-09 20:28:01', '2021-06-21 21:39:02'),
 (2, 'FT0001', 'JBM', 1, '2021-06-09 20:27:44', '2021-06-21 21:38:44'),
-(3, 'FT0002', 'Plasser', 1, '2021-06-09 20:27:44', '2021-08-04 12:08:07');
+(3, 'FT0002', 'Plasser', 1, '2021-06-09 20:27:44', '2021-08-09 01:57:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_payments`
+--
 
 DROP TABLE IF EXISTS `customer_payments`;
 CREATE TABLE IF NOT EXISTS `customer_payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
   `payment_date` datetime NOT NULL,
   `cheque_utr_no` varchar(50) NOT NULL,
   `received_amt` decimal(10,2) NOT NULL,
+  `utr_file` varchar(255) DEFAULT NULL,
+  `remarks` varchar(300) DEFAULT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `remarks` varchar(300) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customer_id` (`customer_id`,`cheque_utr_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `customer_payments`
+--
+
+INSERT INTO `customer_payments` (`id`, `group_id`, `customer_id`, `order_id`, `invoice_id`, `payment_date`, `cheque_utr_no`, `received_amt`, `utr_file`, `remarks`, `status`, `created_date`, `updated_date`) VALUES
+(29, 1, 1, 1, 1, '2021-08-10 00:00:00', '456789', '2360.00', '1628599823_WhatsApp Image 2021-08-10 at 1.43.36 PM.jpeg', '', 1, '2021-08-10 18:20:23', '2021-08-10 18:20:23'),
+(30, 1, 1, 1, 4, '2021-08-05 00:00:00', '23456789', '2360.00', '1628602628_Sem III Hall Ticket.pdf', '', 1, '2021-08-10 19:07:08', '2021-08-10 19:07:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoices`
+--
 
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE IF NOT EXISTS `invoices` (
@@ -130,7 +194,23 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   `payment_description` varchar(200) DEFAULT NULL,
   `uom_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `invoices`
+--
+
+INSERT INTO `invoices` (`id`, `customer_id`, `order_id`, `invoice_date`, `pay_days`, `po_no`, `sales_person`, `bill_to`, `ship_to`, `order_total`, `payment_term`, `pay_percent`, `sub_total`, `igst`, `cgst`, `sgst`, `invoice_total`, `remarks`, `status`, `added_date`, `updated_date`, `invoice_no`, `due_date`, `group_id`, `payment_description`, `uom_id`) VALUES
+(1, 1, 1, '2021-08-05 00:00:00', NULL, '10001', 'Mangesh', '1', '1', '2000', '2', '1', '2000', '0', '180', '180', '2360.00', '', 1, '2021-08-05 17:11:19', '2021-08-05 17:11:19', '2021001', '2021-08-07 00:00:00', 1, 'Sap Abap Onsite Support Of Mr. Sagar For The Month Of April 2021', NULL),
+(2, 1, 1, '2021-08-06 00:00:00', NULL, '10001', 'Mangesh', '1', '1', '2000', '3', '1', '2000', '0', '180', '180', '2360.00', '', 1, '2021-08-05 18:01:13', '2021-08-05 18:01:13', '2021002', '2021-08-07 00:00:00', 1, 'sap Abap Onsite Support of Mr. Sagar For the month of April 2021', NULL),
+(3, 1, 2, '2021-08-07 00:00:00', NULL, '10002', 'Mangesh', '1', '1', '1000000', '4', '25', '250000', '0', '22500', '22500', '295000.00', '', 1, '2021-08-06 13:15:06', '2021-08-06 13:15:06', '2021003', '2021-08-08 00:00:00', 1, 'Ad', NULL),
+(4, 1, 1, '2021-08-09 00:00:00', NULL, '10001', 'Mangesh', '1', '1', '2000', '1', '1', '2000', '0', '180', '180', '2360.00', '', 1, '2021-08-10 17:30:56', '2021-08-10 17:30:56', '1002658', '2021-08-13 00:00:00', 1, 'Sap Abap Onsite Support Of Mr. Sagar For The Month Of April 2021', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `invoice_items`
+--
 
 DROP TABLE IF EXISTS `invoice_items`;
 CREATE TABLE IF NOT EXISTS `invoice_items` (
@@ -149,6 +229,12 @@ CREATE TABLE IF NOT EXISTS `invoice_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `it_master`
+--
+
 DROP TABLE IF EXISTS `it_master`;
 CREATE TABLE IF NOT EXISTS `it_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -158,8 +244,18 @@ CREATE TABLE IF NOT EXISTS `it_master` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `it_master`
+--
+
 INSERT INTO `it_master` (`id`, `igst`, `cgst`, `sgst`) VALUES
 (1, 18, 9, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
@@ -188,15 +284,32 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `po_file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customer_id` (`customer_id`,`po_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `orders`
+--
 
 INSERT INTO `orders` (`id`, `group_id`, `customer_id`, `order_date`, `pay_days`, `po_no`, `sales_person`, `bill_to`, `ship_to`, `order_type`, `sub_total`, `igst`, `cgst`, `sgst`, `tax_rate`, `ordertotal`, `po_from_date`, `po_to_date`, `remarks`, `status`, `added_date`, `updated_date`, `po_file`) VALUES
-(1, 1, 1, '2021-08-03 00:00:00', 0, '10001', 'Mangesh', '1', '1', 1, '500000', '0.00', '45000.00', '45000.00', '9.00', '590000.00', NULL, NULL, 'sdfsdfsdf', 1, '2021-08-03 01:20:28', '2021-08-04 22:08:16', 'Test.pdf'),
-(2, 1, 1, '2021-08-03 00:00:00', 0, '10002', 'Mangesh', '1', '1', 2, '1000000', '0.00', '90000.00', '90000.00', '9.00', '1180000.00', NULL, NULL, '', 1, '2021-08-03 01:21:38', '2021-08-03 01:21:38', 'Test.pdf'),
-(3, 2, 2, '2021-08-03 00:00:00', 0, '10003', 'Lalit', '2', '4', 3, '160000', '28800.00', '0.00', '0.00', '18.00', '188800.00', NULL, NULL, '', 1, '2021-08-03 01:23:55', '2021-08-03 01:23:55', 'Test.pdf'),
-(4, 2, 3, '2021-08-03 00:00:00', 0, '10004', 'Suresh', '3', '3', 4, '80000', '14400.00', '0.00', '0.00', '18.00', '94400.00', NULL, NULL, '', 1, '2021-08-03 01:24:51', '2021-08-03 01:24:51', 'Test.pdf'),
-(5, 2, 4, '2021-08-03 00:00:00', 0, '10005', 'Manish', '4', '2', 5, '3800000', '684000.00', '0.00', '0.00', '18.00', '4484000.00', NULL, NULL, '', 1, '2021-08-03 01:25:43', '2021-08-03 01:25:43', 'Test.pdf'),
-(6, 1, 1, '2021-08-03 00:00:00', 0, '10006', 'Mangesh', '1', '1', 6, '38400', '0.00', '3456.00', '3456.00', '9.00', '45312.00', NULL, NULL, '', 1, '2021-08-03 01:26:58', '2021-08-03 01:26:58', 'Test.pdf');
+(1, 1, 1, '2021-08-05 00:00:00', 0, '10001', 'Mangesh', '1', '1', 1, '6000', '0.00', '540.00', '540.00', '9.00', '7080.00', '2021-08-05 00:00:00', '2021-09-04 00:00:00', '', 1, '2021-08-05 15:31:37', '2021-08-05 15:31:37', 'Tests.pdf'),
+(2, 1, 1, '2021-08-05 00:00:00', 0, '10002', 'Mangesh', '1', '1', 2, '1000000', '0.00', '90000.00', '90000.00', '9.00', '1180000.00', NULL, NULL, '', 1, '2021-08-05 15:32:53', '2021-08-05 15:32:53', 'Tests.pdf'),
+(3, 1, 1, '2021-08-05 00:00:00', 0, '10003', 'Mangesh', '1', '1', 3, '160000', '0.00', '14400.00', '14400.00', '9.00', '188800.00', '2021-08-05 00:00:00', '2021-09-04 00:00:00', '', 1, '2021-08-05 15:34:20', '2021-08-05 15:34:20', 'Tests.pdf'),
+(4, 1, 1, '2021-08-05 00:00:00', 0, '10004', 'Mangesh', '1', '1', 4, '80000', '0.00', '7200.00', '7200.00', '9.00', '94400.00', NULL, NULL, '', 1, '2021-08-05 15:35:09', '2021-08-05 15:35:09', 'Tests.pdf'),
+(5, 1, 1, '2021-08-05 00:00:00', 0, '10006', 'Mangesh', '1', '1', 5, '3800000', '0.00', '342000.00', '342000.00', '9.00', '4484000.00', NULL, NULL, '', 1, '2021-08-05 15:35:58', '2021-08-05 15:35:58', 'Tests.pdf'),
+(6, 1, 1, '2021-08-06 00:00:00', 0, '10005', 'Mangesh', '1', '1', 6, '38400', '0.00', '3456.00', '3456.00', '9.00', '45312.00', NULL, NULL, '', 1, '2021-08-05 15:37:31', '2021-08-05 15:37:31', 'Tests.pdf'),
+(13, 1, 1, '2021-08-05 00:00:00', 0, '10007', 'Mangesh', '1', '1', 1, '6000', '0.00', '540.00', '540.00', '9.00', '7080.00', '2021-08-05 00:00:00', '2021-09-04 00:00:00', '', 1, '2021-08-05 15:31:37', '2021-08-05 15:31:37', 'Tests.pdf'),
+(14, 1, 1, '2021-08-05 00:00:00', 0, '10008', 'Mangesh', '1', '1', 2, '1000000', '0.00', '90000.00', '90000.00', '9.00', '1180000.00', NULL, NULL, '', 1, '2021-08-05 15:32:53', '2021-08-05 15:32:53', 'Tests.pdf'),
+(15, 1, 1, '2021-08-05 00:00:00', 0, '10009', 'Mangesh', '1', '1', 3, '160000', '0.00', '14400.00', '14400.00', '9.00', '188800.00', '2021-08-05 00:00:00', '2021-09-04 00:00:00', '', 1, '2021-08-05 15:34:20', '2021-08-05 15:34:20', 'Tests.pdf'),
+(16, 1, 1, '2021-08-05 00:00:00', 0, '10010', 'Mangesh', '1', '1', 4, '80000', '0.00', '7200.00', '7200.00', '9.00', '94400.00', NULL, NULL, '', 1, '2021-08-05 15:35:09', '2021-08-05 15:35:09', 'Tests.pdf'),
+(17, 1, 1, '2021-08-05 00:00:00', 0, '10011', 'Mangesh', '1', '1', 5, '3800000', '0.00', '342000.00', '342000.00', '9.00', '4484000.00', NULL, NULL, '', 1, '2021-08-05 15:35:58', '2021-08-05 15:35:58', 'Tests.pdf'),
+(18, 1, 1, '2021-08-06 00:00:00', 0, '10012', 'Mangesh', '1', '1', 6, '38400', '0.00', '3456.00', '3456.00', '9.00', '45312.00', NULL, NULL, '', 1, '2021-08-05 15:37:31', '2021-08-05 15:37:31', 'Tests.pdf'),
+(19, 2, 2, '2021-08-07 00:00:00', 0, '10014', 'Lalit', '2', '3', 6, '25000', '4500.00', '0.00', '0.00', '18.00', '29500.00', NULL, NULL, '', 1, '2021-08-06 23:46:01', '2021-08-06 23:46:01', '1628273761_Tests.pdf');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
 
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE IF NOT EXISTS `order_items` (
@@ -212,18 +325,29 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `order_items`
+--
 
 INSERT INTO `order_items` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `tax`, `total`, `added_date`, `updated_date`) VALUES
-(1, 1, '1. On-Site Support Sale', 'SAP ABAP Onsite Support of Mr. Umesh Chaudhari For the month of April 2021', '5', 2, '500000.00', NULL, '500000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
-(2, 2, '2. Project Sale', 'SAP Implementation Project  ', '4', 3, '1000000.00', NULL, '1000000.00', '2021-08-03 01:21:38', '2021-08-03 01:21:38'),
-(3, 3, '3. AMC Support Sale', 'AMC Support for the period  ( April 2021 )', '1', 2, '10000.00', NULL, '10000.00', '2021-08-03 01:23:55', '2021-08-03 01:23:55'),
-(4, 3, '3. AMC Support Sale', 'AMC Support for the period  ( April 2021 to June 2021 )', '1', 2, '30000.00', NULL, '30000.00', '2021-08-03 01:23:55', '2021-08-03 01:23:55'),
-(5, 3, '3. AMC Support Sale', 'AMC Support for the period  ( April 2021 to March 2022 )', '1', 2, '120000.00', NULL, '120000.00', '2021-08-03 01:23:55', '2021-08-03 01:23:55'),
-(6, 4, '4. Man-days-Support Sale', 'SAP Support ', '16', 1, '5000.00', NULL, '80000.00', '2021-08-03 01:24:51', '2021-08-03 01:24:51'),
-(7, 5, '5. SAP License  Sale ', 'SAP  functional user', '20', 2, '95000.00', NULL, '1900000.00', '2021-08-03 01:25:43', '2021-08-03 01:25:43'),
-(8, 5, '5. SAP License  Sale ', 'SAP Technical user', '20', 2, '95000.00', NULL, '1900000.00', '2021-08-03 01:25:43', '2021-08-03 01:25:43'),
-(9, 6, '6. Hardwar  Sale ', 'TRANSPARENT BARCODE LABEL (50.8X203.2MM)', '20000', 4, '1.92', NULL, '38400.00', '2021-08-03 01:26:58', '2021-08-03 01:26:58');
+(1, 1, '1. On-site Support Sale', 'sap Abap Onsite Support of Mr. Umesh Chaudhari For the month of April 2021', '3', 2, '6000.00', NULL, '6000.00', '2021-08-05 15:31:37', '2021-08-05 15:31:37'),
+(2, 2, '2. Project Sale', 'Sap Implementation Project', '4', 3, '1000000.00', NULL, '1000000.00', '2021-08-05 15:32:53', '2021-08-05 15:32:53'),
+(3, 3, '3. Amc Support Sale', 'amc Support for the period  ( April 2021 )', '1', 2, '10000.00', NULL, '10000.00', '2021-08-05 15:34:20', '2021-08-05 15:34:20'),
+(4, 3, '3. Amc Support Sale', '\"amc Support for the period  ( April 2021 to June 2021 )\"', '1', 2, '30000.00', NULL, '30000.00', '2021-08-05 15:34:20', '2021-08-05 15:34:20'),
+(5, 3, '3. Amc Support Sale', '\"amc Support for the period  ( April 2021 to March 2022 )\"', '1', 2, '120000.00', NULL, '120000.00', '2021-08-05 15:34:20', '2021-08-05 15:34:20'),
+(6, 4, '4. Man-days-support Sale', 'Sap Support ', '16', 1, '5000.00', NULL, '80000.00', '2021-08-05 15:35:09', '2021-08-05 15:35:09'),
+(7, 5, '5. Sap License  Sale ', 'Sap  functional user', '20', 2, '95000.00', NULL, '1900000.00', '2021-08-05 15:35:58', '2021-08-05 15:35:58'),
+(8, 5, '5. Sap License  Sale ', 'Sap Technical user', '20', 2, '95000.00', NULL, '1900000.00', '2021-08-05 15:35:58', '2021-08-05 15:35:58'),
+(9, 6, '6. Hardwar  Sale ', '\"transparent Barcode Label (50.8x203.2mm)\"', '20000', 4, '1.92', NULL, '38400.00', '2021-08-05 15:37:31', '2021-08-05 15:37:31'),
+(10, 19, 'asd', 'asd', '25', 4, '1000.00', NULL, '25000.00', '2021-08-06 23:46:01', '2021-08-06 23:46:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_payterms`
+--
 
 DROP TABLE IF EXISTS `order_payterms`;
 CREATE TABLE IF NOT EXISTS `order_payterms` (
@@ -238,24 +362,26 @@ CREATE TABLE IF NOT EXISTS `order_payterms` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `order_payterms`
+--
 
 INSERT INTO `order_payterms` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `total`, `added_date`, `updated_date`) VALUES
-(1, 1, 'JAN', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
-(2, 1, 'FEB', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
-(3, 1, 'MAR', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
-(4, 1, 'APR', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:28', '2021-08-03 01:20:28'),
-(5, 1, 'MAY', 'SAP ABAP Onsite Support Of Mr. Umesh Chaudhari For The Month Of April 2021', '1', 3, '100000.00', '100000.00', '2021-08-03 01:20:29', '2021-08-03 01:20:29'),
-(6, 2, '2. Project Sale', 'Advance ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:38', '2021-08-03 01:21:38'),
-(7, 2, '2. Project Sale', 'Successfully Completion of UAT ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
-(8, 2, '2. Project Sale', 'Successfully Completion of Go-Live ', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
-(9, 2, '2. Project Sale', 'Support', '25', 3, '1000000.00', '250000.00', '2021-08-03 01:21:39', '2021-08-03 01:21:39'),
-(10, 7, 'sd', 'sd', '1', 3, '5000.00', '5000.00', '2021-08-04 18:53:28', '2021-08-04 18:53:28'),
-(11, 8, 'sd', 'sd', '1', 2, '5000.00', '5000.00', '2021-08-04 19:12:48', '2021-08-04 19:12:48'),
-(12, 9, 'q', 'q', '1', 2, '1000.00', '1000.00', '2021-08-04 19:40:40', '2021-08-04 19:40:40'),
-(13, 10, 'q', 'q', '1', 2, '1000.00', '1000.00', '2021-08-04 19:42:16', '2021-08-04 19:42:16'),
-(14, 11, 'a', 'a', '1', 2, '2500.00', '2500.00', '2021-08-05 11:44:17', '2021-08-05 11:44:17'),
-(15, 11, 'a', 'a', '1', 2, '2500.00', '2500.00', '2021-08-05 11:44:17', '2021-08-05 11:44:17');
+(1, 1, '1. On-site Support Sale', 'Sap Abap Onsite Support Of Mr. Sagar For The Month Of April 2021', '1', 2, '2000.00', '2000.00', '2021-08-05 15:31:38', '2021-08-05 15:31:38'),
+(2, 1, '1. On-site Support Sale', 'Sap Abap Onsite Support Of Mr. Sagar For The Month Of April 2021', '1', 2, '2000.00', '2000.00', '2021-08-05 15:31:38', '2021-08-05 15:31:38'),
+(3, 1, '1. On-site Support Sale', 'sap Abap Onsite Support of Mr. Sagar For the month of April 2021', '1', 2, '2000.00', '2000.00', '2021-08-05 15:31:38', '2021-08-05 15:31:38'),
+(4, 2, '2. Project Sale', 'Advance ', '25', 3, '1000000.00', '250000.00', '2021-08-05 15:32:53', '2021-08-05 15:32:53'),
+(5, 2, '2. Project Sale', 'Successfully Completion of Uat ', '25', 3, '1000000.00', '250000.00', '2021-08-05 15:32:53', '2021-08-05 15:32:53'),
+(6, 2, '2. Project Sale', 'Successfully Completion of Go-live ', '25', 3, '1000000.00', '250000.00', '2021-08-05 15:32:53', '2021-08-05 15:32:53'),
+(7, 2, '2. Project Sale', 'Support', '25', 3, '1000000.00', '250000.00', '2021-08-05 15:32:53', '2021-08-05 15:32:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_types`
+--
 
 DROP TABLE IF EXISTS `order_types`;
 CREATE TABLE IF NOT EXISTS `order_types` (
@@ -265,6 +391,10 @@ CREATE TABLE IF NOT EXISTS `order_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `order_types`
+--
+
 INSERT INTO `order_types` (`id`, `title`, `status`) VALUES
 (1, 'On-Site Support Sale', 1),
 (2, 'Project Sale', 1),
@@ -272,6 +402,12 @@ INSERT INTO `order_types` (`id`, `title`, `status`) VALUES
 (4, 'Man-days-Support Sale', 1),
 (5, 'SAP License Sale', 1),
 (6, 'Hardware Sale', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
 
 DROP TABLE IF EXISTS `payments`;
 CREATE TABLE IF NOT EXISTS `payments` (
@@ -293,6 +429,12 @@ CREATE TABLE IF NOT EXISTS `payments` (
   UNIQUE KEY `invoice_id` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
 DROP TABLE IF EXISTS `states`;
 CREATE TABLE IF NOT EXISTS `states` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -300,6 +442,10 @@ CREATE TABLE IF NOT EXISTS `states` (
   `country_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `states`
+--
 
 INSERT INTO `states` (`id`, `name`, `country_id`) VALUES
 (1, 'Andaman and Nicobar Islands', 101),
@@ -344,6 +490,12 @@ INSERT INTO `states` (`id`, `name`, `country_id`) VALUES
 (40, 'Vaishali', 101),
 (41, 'West Bengal', 101);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uom`
+--
+
 DROP TABLE IF EXISTS `uom`;
 CREATE TABLE IF NOT EXISTS `uom` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -352,11 +504,21 @@ CREATE TABLE IF NOT EXISTS `uom` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `uom`
+--
+
 INSERT INTO `uom` (`id`, `title`, `status`) VALUES
 (1, 'Day(s)', 1),
 (2, 'AU', 1),
 (3, 'Percentage', 1),
 (4, 'PC', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
@@ -370,6 +532,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `updated_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `admin`, `status`, `added_date`, `updated_date`) VALUES
 (1, 'Deepak Singh', 'deepaksingh@fts-pl.com', '1', 0, 1, '2021-04-17 14:14:22', '2021-07-13 04:17:17'),

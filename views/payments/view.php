@@ -26,6 +26,7 @@
                   <b>Customer : </b>
                   <?php echo $customerPayment['customer_name']?>
                 </div>
+
                 <?php if( $customerPayment['remarks'] ): ?>
                 <div class="col-sm-12 col-lg-3">
                   <b>Remark</b>
@@ -33,41 +34,43 @@
                 </div>
                 <?php endif; ?>
 
-                <div class="col-12 mt-3">
-                  <div class="card">
-                    <div class="card-body">
-                      <table class="table text-center">
-                        <thead>
-                          <tr>
-                            <th>
-                              Invoice Number
-                            </th>
-                            <th>
-                              Allocated Amount
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php if(count($invoicePayment)) : 
-                            foreach($invoicePayment as $payment) : ?>
-                          <tr>
-                            <td>
-                              <a href="<?php echo ROOT; ?>invoices/view/<?php echo $payment['invoice_id']?>">
-                                <?php echo $payment['invoice_id']?>
-                              </a>
-                            </td>
-                            <td>
-                              <?php echo $payment['allocated_amt']?>
-                            </td>
-                          </tr>
-                          <?php 
-                              endforeach;
-                            endif;
-                            ?>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                <div class="col-12 mt-3" id="colid_pending">
+                  <table class="table">
+                    <thead id="headid_pending">
+                      <tr>
+                        <th>
+                          Invoice No
+                        </th>
+                        <th>Description</th>
+                        <th>Total</th>
+                        <th>Payment Date</th>
+                        <th>UTR No</th>
+                        <th>Attachment</th>
+                      </tr>
+                    <tbody id="bodyid_pending">
+                    </tbody>
+                    </thead>
+                  </table>
+                </div>
+                <div class="col-12 mt-3" id="colid_cleared">
+                  <table class="table">
+                    <thead id="headid_cleared">
+                      <tr>
+                        <th>
+                          Invoice No
+                        </th>
+                        <th>Description</th>
+                        <th>Total</th>
+                        <th>Payment Date</th>
+                        <th>UTR No</th>
+                        <th>Attachment</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bodyid_cleared">
+                      <tr>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -83,5 +86,5 @@
         </div>
       </section>
     </div>
-    <script>id =<? php echo $customerPayment['invoice_id'] ?></script>
+    <script>var id=<?php echo $customerPayment['invoice_id'] ?>;</script>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
