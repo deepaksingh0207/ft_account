@@ -189,7 +189,7 @@
                     <div class="card order" style="display: none;">
                       <div class="card-header">Order Item</div>
                       <div class="card-body">
-                        <div class="row order">
+                        <div class="row">
                           <div class="col-12 table-responsive">
                             <table class="table text-center mb-0">
                               <thead>

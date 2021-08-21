@@ -31,6 +31,9 @@ $("#id_group_id").change(function () {
 
 
 // BillTo Button Click
+$("#id_bill_to").on("click", function () {
+  $("#id_search_billto").trigger('click');
+});
 $("#id_search_billto").on("click", function () {
   //Generates customer data modal and activates class="fill_customer_details" on customer select
   modelfill("billto", "Bill To Address");
@@ -40,6 +43,9 @@ $("#id_search_billto").on("click", function () {
 
 
 // ShipTo Button Click
+$("#id_ship_to").on("click", function () {
+  $("#id_search_shipto").trigger('click');
+});
 $("#id_search_shipto").on("click", function () {
   //Generates customer data modal and activates class="fill_customer_details" on customer select
   modelfill("shipto", "Ship To Address");
@@ -146,23 +152,29 @@ $("#id_po_no").change(function () {
   }
 });
 
+// Reset on Order Type
+function resetonorder() {
+  resetPaymentTermForm();
+  $(".hide").hide();
+  $("#id_po_from_date_col").empty();
+  $("#id_po_to_date_col").empty();
+  $("#orderlist").empty();
+  orderid_list = [];
+  last_orderid = 0
+  $("#add_item").trigger("click");
+}
+
 // Order Type Change
 $(document).on("change", "#id_ordertype", function () {
   if ($(this).val()) {
     oti = $(this).val();
+    // Show/Hide Order Item Card
     $(".order").show();
     if (old_orderid != oti) {
-      $(".hide").hide();
-      $("#id_po_from_date_col").empty();
-      $("#id_po_to_date_col").empty();
-      resetPaymentTermForm();
-      $("#orderlist").empty();
-      orderid_list = [];
-      last_orderid = 0
+      resetonorder()
       old_orderid = oti;
-      $("#add_item").trigger("click");
+      // On-Site Support Sale
       if (oti == "1") {
-        $("#add_item").hide();
         $("#order_item_header_qty").text("Total Months");
         $("#order_item_header_up").text("Total Price");
         $("#id_uom1").empty().append('<option value="2">AU</option>').hide();
@@ -170,18 +182,19 @@ $(document).on("change", "#id_ordertype", function () {
         $(".hide").show();
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
         $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
-      }
+      } //Project Sale
       else if (oti == "2") {
-        $("#add_item").hide();
         $("#order_item_header_qty").text("Payment Slab");
         $("#id_uom1").empty().append('<option value="3" selected>Percentage (%)</option>').hide();
         $("#td_uom1").prepend("<div class='pt-1'>Percentage (%)<div>");
-      } else if (oti == "3") {
+      } // AMC Support Sale
+      else if (oti == "3") {
         $(".hide").show();
         $("#order_item_header_qty").text("Qty.");
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
         $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
-      } else if (oti == "4") {
+      } // Man-days-Support Sale
+      else if (oti == "4") {
         $("#order_item_header_qty").text("Man days");
         $("#id_uom1").empty().append('<option value="1">Day(s)</option>');
       }
@@ -462,7 +475,7 @@ function addrow(id) {
   orderid_list.push(id);
 }
 
-function ordinal(val){
+function ordinal(val) {
   if (val == 1) {
     return val + 'st'
   } else if (val == 2) {
