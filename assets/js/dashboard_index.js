@@ -3,7 +3,7 @@ var dtable;
 $(function () {
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
-        diff = appendcode(datediff(getMonth(duedate.split(" ")[2]) + "/" + duedate.split(" ")[1] + "/" + duedate.split(" ")[3]));
+        diff = appendcode(datediff(tabledates[index]));
         console.log(duedate);
         $("#due" + value).empty();
         if (diff[2] == '') {
@@ -97,9 +97,7 @@ function appendcode(val) {
     }
 }
 
-function getMonth(mon) { return new Date(Date.parse(mon + " 1, 2012")).getMonth() + 1 }
-
 function datediff(fromdate) {
     // Return value in Hrs.
-    return (new Date(fromdate).getTime() - new Date().getTime()) / 3600000;
+    return (new Date(fromdate).getTime() / 3600000) - (new Date().getTime() / 3600000);
 }

@@ -94,10 +94,11 @@
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
     <script>
-      var invoicelist = []
+      var invoicelist = [], tabledates = []
       <?php if (is_array($invoices) || is_object($invoices)) : ?>
       <?php foreach($invoices as $invoice) : ?>
       invoicelist.push(<?php echo $invoice['invoice_id'] ?>);
+      tabledates.push('<?php echo date('m/d/Y', strtotime($invoice['due_date'])) ?>');
       <?php endforeach; ?>
       <?php endif; ?>
     </script>
