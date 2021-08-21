@@ -15,7 +15,7 @@ $(document).on("change", "#id_group_id", function () {
     if ($(this).val()) {
         $.ajax({
             type: "POST",
-            url: baseUrl + "customers/groupcustomers/" + id,
+            url: baseUrl + "customers/groupcustomers/" + $(this).val(),
             data: $(this).val(),
             dataType: "json",
             encode: true,
