@@ -175,6 +175,7 @@ $(document).on("change", "#id_ordertype", function () {
       old_orderid = oti;
       // On-Site Support Sale
       if (oti == "1") {
+        $("#add_item").hide();
         $("#order_item_header_qty").text("Total Months");
         $("#order_item_header_up").text("Total Price");
         $("#id_uom1").empty().append('<option value="2">AU</option>').hide();
@@ -185,8 +186,6 @@ $(document).on("change", "#id_ordertype", function () {
       } //Project Sale
       else if (oti == "2") {
         $("#order_item_header_qty").text("Payment Slab");
-        $("#id_uom1").empty().append('<option value="3" selected>Percentage (%)</option>').hide();
-        $("#td_uom1").prepend("<div class='pt-1'>Percentage (%)<div>");
       } // AMC Support Sale
       else if (oti == "3") {
         $(".hide").show();
@@ -216,6 +215,9 @@ $(document).on("change", "#id_po_from_date", function () {
 // On quantity Change
 $(document).on("change", ".qty", function () {
   qtycal($(this).attr("id"), $(this).data("id"))
+  if (oti == 2) {
+    
+  }
 });
 
 // On Unit Price Change
@@ -472,17 +474,14 @@ function addrow(id) {
   if (id != 1) {
     $("#" + id).append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
   }
-  orderid_list.push(id);
-}
-
-function ordinal(val) {
-  if (val == 1) {
-    return val + 'st'
-  } else if (val == 2) {
-    return val + 'nd'
-  } else if (val == 3) {
-    return val + 'rd'
-  } else {
-    return val + 'th'
+  if (oti == 2) {
+    $("#td_uom" + id)
+      .empty()
+      .append("<div class='pt-1'>Percentage (%)</div>")
+      .append('<select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '" style="display: none;"></select>');
+    $("#id_uom" + id)
+      .append('<option value="3" selected="">Percentage (%)</option>')
+      .hide();
   }
+  orderid_list.push(id);
 }

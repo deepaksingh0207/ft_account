@@ -15,16 +15,6 @@ function setuom(val) {
   }
 }
 
-// On hovering Address column
-$(document).on("click", "#add_pt", function () {
-  if (ptlist.length == 0) {
-    projecttablebody(lastid);
-  } else {
-    var lastid = ptlist[ptlist.length - 1];
-    lastid++;
-    projecttablebody(lastid);
-  }
-});
 
 // Each Payment Term calculator
 function paymentTermcollector(id) {
@@ -72,18 +62,14 @@ function pttotal() {
 
 
 $(document).on("input propertychange paste", '#id_quantity1', function () {
-  if (oti < 3) {
+  if (oti == 1) {
     ptlist = []
-    $(".orderdtl").hide();
     $("#id_project").empty();
-    projectdiv()
     $("#id_projectsummary").empty();
-    $("#add_pt").hide();
+    projectdiv()
     for (i = 0; i < $(this).val(); i++) {
       if (oti == 1) {
         projecttablebody((i + 1), 1, uom = 2, true);
-      } else {
-        projecttablebody(i + 1);
       }
     }
     $(".item").val($("#id_item1").val());
@@ -108,7 +94,7 @@ function projectdiv() {
     .append('<th class="min100">Unit Price</th>')
     .append('<th class="min100">Total Value</th>');
   // .append('<th class="min100">Delete</th>');
-  $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2">    <button type="button" id="add_pt" class="btn btn-primary btn-sm">Add Payment Terms</button></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="ptsubtotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
+  $("#id_projectsummary").append('<hr class="mt-0"> <div class="row" id="ptsummary"> <div class="col-10 mb-2"></div> <div class="col-2 mb-2">      <div class="row"> <div class="col-12 text-left"> <input type="hidden" name="pttotaldays" id="id_pttotaldays"  value="0"><b>Qty. : &nbsp; &nbsp; &nbsp; &nbsp;</b><span id="totalday">0</span></div> <div class="col-12 text-left" id="pttotaldiv"> <input type="hidden" name="ptsubtotal" id="id_pttotal" value="0.0" /><b>Total : &nbsp; &nbsp; &nbsp;</b><span id="pttotalvalue">0.00</span></div> </div> </div> </div>');
 }
 
 function projecttablebody(id, val = "", uom = 3, check = false) {
