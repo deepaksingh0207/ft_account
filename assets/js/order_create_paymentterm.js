@@ -17,7 +17,7 @@ function setuom(val) {
 
 function paymentgenerator() {
   $.each(orderid_list, function (index, id) {
-    for (i = 1; i <= $("#id_quantity" + id).val(); i++) {
+    for (i = 0; i < $("#id_quantity" + id).val(); i++) {
       paymentTermcollector(id, i)
     }
   });
@@ -62,7 +62,7 @@ function resetPaymentTermForm() {
 function projecttablebody(body, id, val = "", uom = 3) {
   $("#" + body).append("<tr id='" + body + "pt" + id + "'></tr>");
   // Sr No
-  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptitem]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + id + "</td>");
+  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptitem]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + (id+1) + "</td>");
   // ITEM Field
   if (oti == 2) {
     $("#" + body + "pt" + id).append("<td class='form-group " + body + "_item' >" + $("#id_item" + body.match(/(\d+)/)).val() + "</td>");
