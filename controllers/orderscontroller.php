@@ -42,6 +42,8 @@ class OrdersController extends Controller
             
             $tblOrderItem = new OrderItemsModel();
             $items = $tblOrderItem->getItemByOrderId($id);
+
+            // echo '<pre>'; print_r($items); exit;
             $this->_view->set('items', $items);
             
             $tblOrderPayterm = new OrderPaytermsModel();
@@ -166,8 +168,10 @@ class OrdersController extends Controller
                     $orderItems[] = $row;
                 }
 
-                
-                //print_r($orderItems);
+                // echo '<pre>';
+                // print_r($orderItems);
+                // print_r($orderPayTerms);
+                // exit;
                 //print_r($data); exit;
                 $orderId = $this->_model->save($orderData);
                 if($orderId) {
