@@ -62,7 +62,6 @@ $(document).on("click", ".fill_customer_details", function () {
   } else {
     fill_shipto_details($(this).data('index'), $(this).data('id'))
   }
-  // $("#id_address_close").trigger('click');
 });
 
 function fill_billto_details(index, id, name) {
@@ -88,8 +87,6 @@ function resetongroup() {
   $("#id_ship_to").val("");
   resetonbillto()
   $("#id_customertext").text("");
-  // $("#id_po_no").val("");
-  // $("#comment_id").val("");
 }
 
 function resetonbillto() {
@@ -102,7 +99,6 @@ function modelfill(checkboxclass, label) {
   $("#modal_title").text(label);
   $("#addhead").empty();
   $("#addbody").empty();
-  // $(".addmodelfooter").hide();
   if (customergroup_data) {
     $("#addhead").append('<table class="table table-hover" style="border: 1px solid lightgrey;"><thead><th></th><th>Code</th><th>Name</th><th>Address</th></thead><tbody id="addbody"></tbody></table>');
     $.each(customergroup_data, function (index, row) {
@@ -113,7 +109,6 @@ function modelfill(checkboxclass, label) {
         .append("<td class='fill_customer_details' id='col_3_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' >" + row.name + "</td>")
         .append("<td class='fill_customer_details' id='col_4_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' style='width: 455px'>" + row.address + "</td>");
     });
-    // $(".addmodelfooter").show();
   }
   else {
     $("#addhead").append('No Records');
@@ -224,6 +219,7 @@ $(document).on("change", ".qty", function () {
     }
     $("#col_" + $(this).data('id')).show();
     $(".orderdtl").show();
+    paymentgenerator();
   }
 });
 
@@ -232,28 +228,12 @@ $(document).on("change", ".unitprice", function () {
   unitpriceval = $(this).val();
   if (oti < 3) {
     $(".colt" + $(this).data('id') + "_unitprice").text($(this).val())
-    $(".colt"+$(this).data('id')+"_unitprice").val($(this).val())
+    $(".colt" + $(this).data('id') + "_unitprice").val($(this).val())
   }
   paymentgenerator()
-  // if ($(this).attr("id") == "id_ptunitprice" + $(this).data("id")) {
-  //   paymentTermcollector($(this).data("id"));
-  // } else {
-  //   $(this).val(parseFloat($(this).val()));
-  //   ordercollector($(this).data("id"));
-  // }
+  ordercollector($(this).data("id"));
 });
 
-function update_payterm_unit() {
-  val = $("#id_unitprice1").val();
-  if (oti == 1) {
-    val /= $("#id_quantity1").val();
-    val = val.toFixed(2);
-  }
-  $.each(ptlist, function (index, value) {
-    $("#id_ptunitprice" + value).val(val);
-    paymentTermcollector(value);
-  });
-}
 
 $(document).on("change", ".uom", function () {
   ordercollector($(this).data('id'));
@@ -343,13 +323,6 @@ function lastfill() {
       paymentTermTotal = 100
     }
   }
-
-  // if (paymentTermTotal > 100) {
-  //   id = ptlist[ptlist.length - 1]
-  //   extra = parseFloat($("#id_ptquantity" + ptlist.length).val()) - (paymentTermTotal - 100);
-  //   $("#id_ptquantity" + id).val(parseInt(extra));
-  //   paymentTermcollector(id);
-  // }
 }
 
 
@@ -398,7 +371,6 @@ function ttotal() {
     gst = igstval + cgstval + sgstval
     total = gst + subtotal
     $("#id_ordertotal").val(total);
-    update_payterm_unit();
     $("#total").text(humanamount(parseFloat(total).toFixed(2)));
   }
 }
