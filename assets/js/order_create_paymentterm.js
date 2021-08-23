@@ -26,25 +26,27 @@ function paymentgenerator() {
 
 // Each Payment Term calculator
 function paymentTermcollector(xid, yid) {
-  if (oti == 2) {
-    if ($("#colt" + xid + "id_ptquantity" + yid).val()) {
-      $("#colt" + xid + "id_ptquantity" + yid).data('val', $("#colt" + xid + "id_ptquantity" + yid).val());
+  if ($("#colt" + xid + "id_ptquantity" + yid).val()) {
+    $("#colt" + xid + "id_ptquantity" + yid).data('val', $("#colt" + xid + "id_ptquantity" + yid).val());
+  } else {
+    $("#colt" + xid + "id_ptquantity" + yid).data('val', 0);
+  }
+  if ($("#colt" + xid + "id_ptunitprice" + yid).val()) {
+    $("#colt" + xid + "id_ptunitprice" + yid).data('val', $("#colt" + xid + "id_ptunitprice" + yid).val());
+  } else {
+    $("#colt" + xid + "id_ptunitprice" + yid).data('val', 0);
+  }
+  rowqty = $("#colt" + xid + "id_ptquantity" + yid).data('val');
+  rowunitprice = $("#colt" + xid + "id_ptunitprice" + yid).data('val');
+  subtotal = 0;
+  if (rowqty && rowunitprice) {
+    if (oti == 1) {
+      subtotal = rowunitprice;
     } else {
-      $("#colt" + xid + "id_ptquantity" + yid).data('val', 0);
-    }
-    if ($("#colt" + xid + "id_ptunitprice" + yid).val()) {
-      $("#colt" + xid + "id_ptunitprice" + yid).data('val', $("#colt" + xid + "id_ptunitprice" + yid).val());
-    } else {
-      $("#colt" + xid + "id_ptunitprice" + yid).data('val', 0);
-    }
-    rowqty = $("#colt" + xid + "id_ptquantity" + yid).data('val');
-    rowunitprice = $("#colt" + xid + "id_ptunitprice" + yid).data('val');
-    subtotal = 0;
-    if (rowqty && rowunitprice) {
       subtotal = rowunitprice * (rowqty / 100);
-      $("#colt" + xid + "pttotal" + yid).val(subtotal);
-      $("#colt" + xid + "id_pttotal" + yid).text(parseFloat(subtotal).toFixed(2));
     }
+    $("#colt" + xid + "pttotal" + yid).val(subtotal);
+    $("#colt" + xid + "id_pttotal" + yid).text(parseFloat(subtotal).toFixed(2));
   }
 }
 
