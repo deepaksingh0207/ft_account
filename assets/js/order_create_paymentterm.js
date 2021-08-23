@@ -37,15 +37,17 @@ function paymentTermcollector(xid, yid) {
     $("#colt" + xid + "id_ptunitprice" + yid).data('val', 0);
   }
   rowqty = $("#id_quantity" + xid).data('val');
+  rowptqty = $("#colt" + xid + "id_ptquantity" + yid).data('val');
   rowunitprice = $("#colt" + xid + "id_ptunitprice" + yid).data('val');
   subtotal = 0;
   if (rowqty && rowunitprice) {
     if (oti == 1) {
       subtotal = rowunitprice / rowqty;
+      $("#colt" + xid + "id_ptunitprice" + yid).val(subtotal);
     } else {
-      subtotal = rowunitprice;
+      subtotal = rowunitprice * (rowptqty / 100);
+      $("#colt" + xid + "id_ptunitprice" + yid).val(rowunitprice);
     }
-    $("#colt" + xid + "id_ptunitprice" + yid).val(subtotal);
     $("#colt" + xid + "pttotal" + yid).val(subtotal);
     $("#colt" + xid + "id_pttotal" + yid).text(parseFloat(subtotal).toFixed(2));
   }
@@ -60,10 +62,10 @@ function resetPaymentTermForm() {
 function projecttablebody(body, id, val = "", uom = 3) {
   $("#" + body).append("<tr id='" + body + "pt" + id + "'></tr>");
   // Sr No
-  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='ptitem[]' data-id='" + id + "' id='" + body + "id_ptitem" + id + "' />" + id + "</td>");
+  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='ptitem[]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + id + "</td>");
   // ITEM Field
   if (oti == 2) {
-    $("#" + body + "pt" + id).append("<td class='form-group " + body + "_item' ></td>");
+    $("#" + body + "pt" + id).append("<td class='form-group " + body + "_item' >" + $("#id_item" + body.match(/(\d+)/)).val() + "</td>");
   }
   // Description Field
   $("#" + body + "pt" + id).append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='paymentterm[]' id='" + body + "id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
