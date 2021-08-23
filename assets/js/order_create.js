@@ -155,7 +155,7 @@ function resetonorder() {
   $("#id_po_to_date_col").empty();
   $("#orderlist").empty();
   orderid_list = [];
-  last_orderid = 0
+  last_orderid = -1
   $("#add_item").trigger("click");
 }
 
@@ -210,7 +210,7 @@ $(document).on("change", ".qty", function () {
   qtycal($(this).attr("id"), $(this).data("id"))
   if (oti < 3) {
     $("#colt" + $(this).data('id')).empty();
-    for (i = 1; i <= $(this).val(); i++) {
+    for (i = 0; i < $(this).val(); i++) {
       if (oti == 1) {
         projecttablebody("colt" + $(this).data('id'), i, 1, uom = 2, true);
       } else {
@@ -449,21 +449,21 @@ function updatesgst(val) {
 // Order Row creating function with row id as arguement
 function addrow(id) {
   $("#orderlist").append("<tr id='" + id + "'></tr>");
-  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='item[]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
-    .append("<td class='form-group'><input type='text' class='form-control min150 desp capitalize' name='description[]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
-    .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='qty[]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
-    .append('<td class="form-group min150" id="td_uom' + id + '"><select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
-    .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='unit_price[]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
-    .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='total[]' data-val='0' data-id='" + id + "' id='total" + id +
+  $("#" + id).append("<td class='form-group'><input type='text' class='form-control item capitalize' name='order_details[" + id + "][item]' data-id='" + id + "' id='id_item" + id + "' placeholder='*Enter Item' /></td>")
+    .append("<td class='form-group'><input type='text' class='form-control min150 desp capitalize' name='order_details[" + id + "][description]' data-id='" + id + "' id='id_description" + id + "' placeholder='*Enter Description' /></td>")
+    .append("<td class='form-group max150'><input type='number' class='form-control qty' data-qty='0' name='order_details[" + id + "][qty]' data-val='0' data-id='" + id + "' id='id_quantity" + id + "' min='1' step='1' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></td>")
+    .append('<td class="form-group min150" id="td_uom' + id + '"><select class="form-control uom" name="order_details[" + id + "][uom]" data-id="' + id + '" id="id_uom' + id + '"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td>')
+    .append("<td class='form-group max150'><input type='number' class='form-control unitprice' data-up='0' name='order_details[" + id + "][unit_price]' data-val='0' data-id='" + id + "' min='1' id='id_unitprice" + id + "' /></td>")
+    .append("<td class='form-group pt-4'><input type='hidden' class='form-control rowtotal' data-total='0' value='' name='order_details[" + id + "][total]' data-val='0' data-id='" + id + "' id='total" + id +
       "' ><span id='id_total" + id + "' >₹0.00</span></td>");
-  if (id != 1) {
+  if (id != 0) {
     $("#" + id).append("<td class='pt-4'><i class='fas fa-minus-circle trash' data-id='" + id + "' style='color: red' ></i></td>");
   }
   if (oti == 2) {
     $("#td_uom" + id)
       .empty()
       .append("<div class='pt-1'>Percentage (%)</div>")
-      .append('<select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '" style="display: none;"></select>');
+      .append('<select class="form-control uom" name="order_details[' + id + '][uom]" data-id="' + id + '" id="id_uom' + id + '" style="display: none;"></select>');
     $("#id_uom" + id)
       .append('<option value="3" selected="">Percentage (%)</option>')
       .hide();
@@ -473,7 +473,7 @@ function addrow(id) {
     $("#td_uom" + id)
       .empty()
       .append("<div class='pt-1'>AU<div>")
-      .append('<select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '" style="display: none;"></select>');
+      .append('<select class="form-control uom" name="order_details[' + id + '][uom]" data-id="' + id + '" id="id_uom' + id + '" style="display: none;"></select>');
     $("#id_uom" + id)
       .append('<option value="2">AU</option>')
       .hide();
