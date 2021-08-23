@@ -62,23 +62,23 @@ function resetPaymentTermForm() {
 function projecttablebody(body, id, val = "", uom = 3) {
   $("#" + body).append("<tr id='" + body + "pt" + id + "'></tr>");
   // Sr No
-  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptitem]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + (id+1) + "</td>");
+  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][item]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + (id+1) + "</td>");
   // ITEM Field
   if (oti == 2) {
     $("#" + body + "pt" + id).append("<td class='form-group " + body + "_item' >" + $("#id_item" + body.match(/(\d+)/)).val() + "</td>");
   }
   // Description Field
-  $("#" + body + "pt" + id).append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][paymentterm]' id='" + body + "id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
+  $("#" + body + "pt" + id).append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][description]' id='" + body + "id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
   // QTY Field
   if (oti == 1) {
-    $("#" + body + "pt" + id).append("<td class='form-group max150'><input type='hidden' class='form-control'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptqty]' id='" + body + "id_ptquantity" + id + "'><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptuom]' id'id_ptuom' value='" + uom + "'>1 / AU </td>");
+    $("#" + body + "pt" + id).append("<td class='form-group max150'><input type='hidden' class='form-control'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "'><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'>1 / AU </td>");
   } else {
-    $("#" + body + "pt" + id).append("<div class='input-group mt-2 pt-1'><input type='number' class='form-control ptqty'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptqty]' id='" + body + "id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptuom]' id'id_ptuom' value='" + uom + "'><div class='input-group-append'><span class='input-group-text'> % </span></div></div>");
+    $("#" + body + "pt" + id).append("<div class='input-group mt-2 pt-1'><input type='number' class='form-control ptqty'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'><div class='input-group-append'><span class='input-group-text'> % </span></div></div>");
   }
   // UOM, Unit Price & Total Field
   $("#" + body + "pt" + id)
-    .append("<td class='form-group max100'><input type='number' class='form-control " + body + "_unitprice' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][ptunit_price]' value='' data-id='" + id + "' id='" + body + "id_ptunitprice" + id + "' /></td>")
-    .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][pttotal]' data-id='" + id + "' data-val='0' id='" + body + "pttotal" + id + "' ><span id='" + body + "id_pttotal" + id + "' >₹0.00</span></td>");
+    .append("<td class='form-group max100'><input type='number' class='form-control " + body + "_unitprice' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][unit_price]' value='' data-id='" + id + "' id='" + body + "id_ptunitprice" + id + "' /></td>")
+    .append("<td class='form-group'><input type='hidden' class='form-control rowtotal' value='' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][total]' data-id='" + id + "' data-val='0' id='" + body + "pttotal" + id + "' ><span id='" + body + "id_pttotal" + id + "' >₹0.00</span></td>");
   // .append('<td><i class="fas fa-minus-circle trash" style="color: red" ></i></td>');
   ptlist.push(id);
   $("#" + body + "id_ptunitprice" + id).val($("#id_unitprice" + body.match(/(\d+)/)).val()).attr("readonly", true);
