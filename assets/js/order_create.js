@@ -178,8 +178,6 @@ $(document).on("change", "#id_ordertype", function () {
         $("#add_item").hide();
         $("#order_item_header_qty").text("Total Months");
         $("#order_item_header_up").text("Total Price");
-        $("#id_uom1").empty().append('<option value="2">AU</option>').hide();
-        $("#td_uom1").prepend("<div class='pt-1'>AU<div>");
         $(".hide").show();
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
         $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
@@ -215,20 +213,34 @@ $(document).on("change", "#id_po_from_date", function () {
 // On quantity Change
 $(document).on("change", ".qty", function () {
   qtycal($(this).attr("id"), $(this).data("id"))
-  if (oti == 2) {
-    
+  if (oti < 3) {
+    $("#colt" + $(this).data('id')).empty();
+    for (i = 1; i <= $(this).val(); i++) {
+      if (oti == 1) {
+        projecttablebody("colt" + $(this).data('id'), i, 1, uom = 2, true);
+      } else {
+        projecttablebody("colt" + $(this).data('id'), i);
+      }
+    }
+    $("#col_" + $(this).data('id')).show();
+    $(".orderdtl").show();
   }
 });
 
 // On Unit Price Change
 $(document).on("change", ".unitprice", function () {
   unitpriceval = $(this).val();
-  if ($(this).attr("id") == "id_ptunitprice" + $(this).data("id")) {
-    paymentTermcollector($(this).data("id"));
-  } else {
-    $(this).val(parseFloat($(this).val()));
-    ordercollector($(this).data("id"));
+  if (oti < 3) {
+    $(".colt" + $(this).data('id') + "_unitprice").text($(this).val())
+    $(".colt"+$(this).data('id')+"_unitprice").val($(this).val())
   }
+  paymentgenerator()
+  // if ($(this).attr("id") == "id_ptunitprice" + $(this).data("id")) {
+  //   paymentTermcollector($(this).data("id"));
+  // } else {
+  //   $(this).val(parseFloat($(this).val()));
+  //   ordercollector($(this).data("id"));
+  // }
 });
 
 function update_payterm_unit() {
@@ -258,6 +270,7 @@ $(document).on("click", "i.trash", function () {
 // Delete order item on item modal submit
 $(".killrow").click(function () {
   $("#" + deleteid).remove();
+  $("#col_" + deleteid).remove();
   if (deleteid == "pt" + deleteid) {
     ptlist = jQuery.grep(ptlist, function (b) {
       return b != id;
@@ -482,6 +495,26 @@ function addrow(id) {
     $("#id_uom" + id)
       .append('<option value="3" selected="">Percentage (%)</option>')
       .hide();
+    $("#row_paytm").append('<div class="col-sm-12 col-lg-12" id="col_' + id + '" style="display: none;"></div>')
+    colt_maker('col_' + id)
+  } else if (oti == 1) {
+    $("#td_uom" + id)
+      .empty()
+      .append("<div class='pt-1'>AU<div>")
+      .append('<select class="form-control uom" name="uom[]" data-id="' + id + '" id="id_uom' + id + '" style="display: none;"></select>');
+    $("#id_uom" + id)
+      .append('<option value="2">AU</option>')
+      .hide();
+    $("#row_paytm").append('<div class="col-sm-12 col-lg-12" id="col_' + id + '" style="display: none;"></div>')
+    colt_maker('col_' + id)
   }
   orderid_list.push(id);
+}
+
+function colt_maker(id) {
+  if (oti == 2) {
+    $("#" + id).append('<table class="table"><thead><tr><th class="max100">Sr. No.</th><th class="max100">Item</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="colt' + id.match(/(\d+)/)[0] + '"></tbody></table>')
+  } else {
+    $("#" + id).append('<table class="table"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="colt' + id.match(/(\d+)/)[0] + '"></tbody></table>')
+  }
 }

@@ -260,9 +260,7 @@
                     <div class="card orderdtl" style="display: none;">
                       <div class="card-header">Payment Term</div>
                       <div class="card-body">
-                        <div class="row">
-                          <div class="col-12 table-responsive" id="id_project"></div>
-                          <div class="col-12" id="id_projectsummary"></div>
+                        <div class="row" id="row_paytm">
                         </div>
                       </div>
                     </div>
