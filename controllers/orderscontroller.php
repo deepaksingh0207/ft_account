@@ -99,10 +99,7 @@ class OrdersController extends Controller
                 //echo '<pre>';print_r($data); exit;
 
                 $orderData = array();
-                $orderItems = array();
-                $orderPayTerms = array();
-
-                $orderData = array();
+                
                 $orderData['group_id'] = $data['group_id'];
                 $orderData['customer_id'] = $data['customer_id'];
                 $orderData['order_date'] = $data['order_date'];
@@ -142,6 +139,7 @@ class OrdersController extends Controller
                 }
 
                 
+                /*
                 if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
                     foreach($data['ptitem'] as $key => $item) {
                         $row = array();
@@ -168,6 +166,9 @@ class OrdersController extends Controller
                     $orderItems[] = $row;
                 }
 
+                */
+
+
                 // echo '<pre>';
                 // print_r($orderItems);
                 // print_r($orderPayTerms);
@@ -177,19 +178,29 @@ class OrdersController extends Controller
                 if($orderId) {
 
                     $tblOrderItem = new OrderItemsModel();
-                    foreach($orderItems as $orderItem) {
+                    $tblOrderPaymentTerm = new OrderPaytermsModel();
+
+                    foreach($data['order_details'] as $item) {
+                        $orderItem = array();
+                        $orderItem['item'] = $item['item'];
+                        $orderItem['description'] = $item['description'];
+                        $orderItem['qty'] = $item['qty'];
+                        $orderItem['uom_id'] = $item['uom_id'];
+                        $orderItem['unit_price'] = $item['unit_price'];
+                        $orderItem['total'] = $item['total'];
                         $orderItem['order_id'] = $orderId;
-                        $tblOrderItem->save($orderItem);
-                    }
-                    
-                    if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
-                        $tblOrderItem = new OrderPaytermsModel();
-                        foreach($orderPayTerms as $orderPayTerm) {
-                            $orderPayTerm['order_id'] = $orderId;
-                            $tblOrderItem->save($orderPayTerm);
+
+                        $orderItemId = $tblOrderItem->save($orderItem);
+
+                        if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
+                            foreach($item['payment_term'] as $orderPayTerm) {
+                                $orderPayTerm['order_id'] = $orderId;
+                                $orderPayTerm['order_item_id'] = $orderItemId;
+                                $tblOrderPaymentTerm->save($orderPayTerm);
+                            }
                         }
                     }
-
+                    
                     $_SESSION['message'] = 'Order added successfully';
                     header("location:". ROOT. "orders"); 
                 } else {
