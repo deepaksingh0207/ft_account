@@ -441,7 +441,7 @@ function preview_modal_body(index, listname) {
       }
     });
     $("#preview_tbody").append(
-      '<tr><td>                 <input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' +
+      '<tr><td><input type="hidden" name="order_details[' + index + '][order_payterm_id]" value=""><input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' +
       od_items[index].id +
       '">           <input type="hidden" name="order_details[0][item]" id="id_item1" value="' +
       od_items[index].item +
