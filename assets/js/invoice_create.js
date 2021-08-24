@@ -230,12 +230,12 @@ function fillinvoices_body(data, listname) {
                 listname +
                 '" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
               );
-            $.each(od_items, function (index, val) {
-              if (val.item == value.item) {
-                $("#invoicept" + value.order_item_id).append('<input type="hidden" name="order_details[' + i + '][item]" id="item" value="' + val.item + '"><input type="hidden" name="order_details[' + i + '][description]" id="description" value="' + val.description + '"><input type="hidden" name="order_details[' + i + '][qty]" id="qty" value="' + val.qty + '"><input type="hidden" name="order_details[' + i + '][uom_id]" id="uom_id" value="' + val.uom_id + '"><input type="hidden" name="order_details[' + i + '][unit_price]" id="unit_price" value="' + val.unit_price + '">')
-                i += 1
-              }
-            });
+            // $.each(od_items, function (index, val) {
+            //   if (val.item == value.item) {
+            //     $("#invoicept" + value.order_item_id).append('<input type="hidden" name="order_details[' + i + '][item]" id="item" value="' + val.item + '"><input type="hidden" name="order_details[' + i + '][description]" id="description" value="' + val.description + '"><input type="hidden" name="order_details[' + i + '][qty]" id="qty" value="' + val.qty + '"><input type="hidden" name="order_details[' + i + '][uom_id]" id="uom_id" value="' + val.uom_id + '"><input type="hidden" name="order_details[' + i + '][unit_price]" id="unit_price" value="' + val.unit_price + '">')
+            //     i += 1
+            //   }
+            // });
             lock = true;
           } else {
             $("#invoicept" + value.order_item_id).append(
@@ -483,25 +483,27 @@ function preview_modal_body(index, listname) {
 
     $.each(firstselector, function (index, value) {
       $("#preview_tbody").append(
-        '<tr><td class="max100"><input type="hidden" name="order_details[' + i + '][payment_term][' + index + '][order_payterms_id]" value="' +
+        '<tr><td class="max100"><input type="hidden" name="order_details[' + index + '][order_payterms_id]" value="' +
         od_payment_term[value].id +
         '">   ' +
         od_payment_term[value].item +
-        '</td><td class="max150"><input type="text" required name="order_details[' + i + '][payment_term][' + index + '][payment_description]" id="id_description" class="form-control" value="' +
+        '</td><td class="max150"><input type="text" required name="order_details[' + index + '][description]" id="id_description" class="form-control" value="' +
         od_payment_term[value].description +
         '">   </td><td>' +
         od_payment_term[value].qty +
-        ' <input type="hidden" name="order_details[' + i + '][payment_term][' + index + '][pay_percent]" value="' +
+        ' <input type="hidden" name="order_details[' + index + '][qty]" value="' +
         od_payment_term[value].qty +
         '"> / ' +
         setuom(od_payment_term[value].uom_id) +
-        '                <input type="hidden" name="order_details[' + i + '][payment_term][' + index + '][order_total]" value="' +
+        '                <input type="hidden" name="order_details[' + index + '][unit_price]" value="' +
         od_payment_term[value].unit_price +
         '">          </td><td>' +
         od_payment_term[value].unit_price +
-        "</td><td>" +
+        '"<input type="hidden" name="order_details[' + index + '][uom_id]" value="' +
+        od_payment_term[value].uom_id +
+        '"></td><td>"' +
         od_payment_term[value].total +
-        '  <input type="hidden" name="order_details[' + i + '][payment_term][' + index + '][invoice_total]" value="' +
+        '  <input type="hidden" name="order_details[' + index + '][total]" value="' +
         od_payment_term[value].total +
         '"></td></tr>'
       );
