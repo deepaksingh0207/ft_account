@@ -487,7 +487,9 @@ function preview_modal_body(index, listname) {
         od_payment_term[value].order_item_id +
         '">   ' +
         od_payment_term[value].item +
-        '</td><td class="max150"><input type="text" required name="order_details[' + index + '][description]" id="id_description" class="form-control" value="' +
+        '<input type="hidden" name="order_details[' + index + '][item]" value="' +
+        od_payment_term[value].item +
+        '"></td><td class="max150"><input type="text" required name="order_details[' + index + '][description]" id="id_description" class="form-control" value="' +
         od_payment_term[value].description +
         '">   </td><td>' +
         od_payment_term[value].qty +
@@ -499,9 +501,9 @@ function preview_modal_body(index, listname) {
         od_payment_term[value].unit_price +
         '">          </td><td>' +
         od_payment_term[value].unit_price +
-        '"<input type="hidden" name="order_details[' + index + '][uom_id]" value="' +
+        '<input type="hidden" name="order_details[' + index + '][uom_id]" value="' +
         od_payment_term[value].uom_id +
-        '"></td><td>"' +
+        '"></td><td>' +
         od_payment_term[value].total +
         '  <input type="hidden" name="order_details[' + index + '][total]" value="' +
         od_payment_term[value].total +
