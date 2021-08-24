@@ -175,12 +175,12 @@ function fillinvoices_body(data, listname) {
       $.each(data, function (index, value) {
         if (value.item != olditem) {
           $("#id_invoiceblock_body")
-            .append('<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + value.item + '"></tbody></table></div>');
+            .append('<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + value.order_item_id + '"></tbody></table></div>');
           olditem = value.item
           lock = false
         }
         if (pt.includes(value.id)) {
-          $("#invoicept" + value.item).append(
+          $("#invoicept" + value.order_item_id).append(
             "<tr><td></td><td>" +
             value.item +
             "</td><td>" +
@@ -202,7 +202,7 @@ function fillinvoices_body(data, listname) {
         } else {
           if (lock == false) {
             firstselector.push(index)
-            $("#invoicept" + value.item)
+            $("#invoicept" + value.order_item_id)
               .append(
                 '<tr><td><div class="icheck-primary d-inline"><input type="radio" id="id_paytrm' + value.item +
                 index +
@@ -232,13 +232,13 @@ function fillinvoices_body(data, listname) {
               );
             $.each(od_items, function (index, val) {
               if (val.item == value.item) {
-                $("#invoicept" + value.item).append('<input type="hidden" name="order_details[' + i + '][item]" id="item" value="' + val.item + '"><input type="hidden" name="order_details[' + i + '][description]" id="description" value="' + val.description + '"><input type="hidden" name="order_details[' + i + '][qty]" id="qty" value="' + val.qty + '"><input type="hidden" name="order_details[' + i + '][uom_id]" id="uom_id" value="' + val.uom_id + '"><input type="hidden" name="order_details[' + i + '][unit_price]" id="unit_price" value="' + val.unit_price + '">')
+                $("#invoicept" + value.order_item_id).append('<input type="hidden" name="order_details[' + i + '][item]" id="item" value="' + val.item + '"><input type="hidden" name="order_details[' + i + '][description]" id="description" value="' + val.description + '"><input type="hidden" name="order_details[' + i + '][qty]" id="qty" value="' + val.qty + '"><input type="hidden" name="order_details[' + i + '][uom_id]" id="uom_id" value="' + val.uom_id + '"><input type="hidden" name="order_details[' + i + '][unit_price]" id="unit_price" value="' + val.unit_price + '">')
                 i += 1
               }
             });
             lock = true;
           } else {
-            $("#invoicept" + value.item).append(
+            $("#invoicept" + value.order_item_id).append(
               '<tr><td><div class="icheck-primary d-inline"><input type="radio" id="id_paytrm' + value.item +
               index +
               '" required class="paytrm" data-id="' +
