@@ -36,16 +36,15 @@ function paymentTermcollector(xid, yid) {
   } else {
     $("#colt" + xid + "id_ptunitprice" + yid).data('val', 0);
   }
-  rowqty = $("#id_quantity" + xid).data('val');
-  rowptqty = $("#colt" + xid + "id_ptquantity" + yid).data('val');
+  rowqty = $("#colt" + xid + "id_ptquantity" + yid).data('val');
   rowunitprice = $("#colt" + xid + "id_ptunitprice" + yid).data('val');
   subtotal = 0;
   if (rowqty && rowunitprice) {
     if (oti == 1) {
-      subtotal = rowunitprice / rowqty;
+      subtotal = rowunitprice * rowqty;
       $("#colt" + xid + "id_ptunitprice" + yid).val(subtotal);
     } else {
-      subtotal = rowunitprice * (rowptqty / 100);
+      subtotal = rowunitprice * (rowqty / 100);
       $("#colt" + xid + "id_ptunitprice" + yid).val(rowunitprice);
     }
     $("#colt" + xid + "pttotal" + yid).val(subtotal);
