@@ -170,7 +170,7 @@ $(document).on("change", "#id_ordertype", function () {
       old_orderid = oti;
       // On-Site Support Sale
       if (oti == "1") {
-        $("#add_item").hide();
+        // $("#add_item").hide();
         $("#order_item_header_qty").text("Total Months");
         $("#order_item_header_up").text("Total Price");
         $(".hide").show();
