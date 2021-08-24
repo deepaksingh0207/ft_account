@@ -91,6 +91,7 @@ class InvoicesController extends Controller
                 foreach($data['order_details'] as $item) {
                     $orderItem = array();
                     $orderItem['order_item_id'] = $item['order_item_id'];
+                    $orderItem['order_payterm_id'] = $item['order_payterm_id'];
                     $orderItem['item'] = $item['item'];
                     $orderItem['description'] = $item['description'];
                     $orderItem['qty'] = $item['qty'];
@@ -378,6 +379,7 @@ class InvoicesController extends Controller
             foreach($data['order_details'] as $item) {
                 $orderItem = array();
                 $orderItem['order_item_id'] = $item['order_item_id'];
+                $orderItem['order_payterm_id'] = $item['order_payterm_id'];
                 $orderItem['item'] = $item['item'];
                 $orderItem['description'] = $item['description'];
                 $orderItem['qty'] = $item['qty'];
