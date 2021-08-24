@@ -25,7 +25,6 @@ class InvoicesController extends Controller
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();
         }
-        
     }
     
     
@@ -48,7 +47,6 @@ class InvoicesController extends Controller
 
                 $invoiceeData = array();
                 $invoiceItems = array();
-                
                 
                 $invoiceeData['group_id'] = $data['group_id'];
                 $invoiceeData['customer_id'] = $data['customer_id'];
@@ -74,7 +72,7 @@ class InvoicesController extends Controller
                 //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
                 $invoiceeData['invoice_no'] = $data['invoice_no'];
                 
-                
+                /*
                 if(isset($data['item'])) {
                     foreach($data['item'] as $key => $item) {
                         $row = array();
@@ -88,10 +86,23 @@ class InvoicesController extends Controller
     
                         $invoiceItems[] = $row;
                     }
-                }
-                
-                
+                } */
 
+                foreach($data['order_details'] as $item) {
+                    $orderItem = array();
+                    $orderItem['order_item_id'] = $item['order_item_id'];
+                    $orderItem['item'] = $item['item'];
+                    $orderItem['description'] = $item['description'];
+                    $orderItem['qty'] = $item['qty'];
+                    $orderItem['uom_id'] = $item['uom_id'];
+                    $orderItem['unit_price'] = $item['unit_price'];
+                    $orderItem['total'] = $item['total'];
+
+                    $invoiceItems[] = $orderItem;
+                    
+                }
+
+                
                 $invoiceId = $this->_model->save($invoiceeData);
                 if($invoiceId) {
                     $tblInvoiceItem = new InvoiceItemsModel();
@@ -195,9 +206,9 @@ class InvoicesController extends Controller
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
-        if(in_array($order['order_type'], array(3, 4, 6))) {
+        if(in_array($order['order_type'], array(1,2, 3, 4, 6))) {
             $dataItem = $invoiceItem;
-        } else if($order['order_type']  == 2 || $order['order_type']  == 1) {
+        } /*else if($order['order_type']  == 2 || $order['order_type']  == 1) {
             $row = array();
             //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
             $row['description'] = $invoice['payment_description'];
@@ -207,7 +218,7 @@ class InvoicesController extends Controller
             
             $dataItem[] = $row;
             
-        } else {
+        } */else {
             $dataItem =  $oderItems;
         }
         
