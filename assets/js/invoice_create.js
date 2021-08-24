@@ -484,7 +484,7 @@ function preview_modal_body(index, listname) {
     $.each(firstselector, function (index, value) {
       $("#preview_tbody").append(
         '<tr><td class="max100"><input type="hidden" name="order_details[' + index + '][order_item_id]" value="' +
-        od_payment_term[value].id +
+        od_payment_term[value].order_item_id +
         '">   ' +
         od_payment_term[value].item +
         '</td><td class="max150"><input type="text" required name="order_details[' + index + '][description]" id="id_description" class="form-control" value="' +
