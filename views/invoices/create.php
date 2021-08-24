@@ -119,7 +119,13 @@
                           <div class="card-header"><b>Invoice Details</b></div>
                           <div class="card-body">
                             <div class="row" id="id_invoiceblock_body">
-                              <div class="col-sm-12 col-lg-12"></div>
+                              <div class="col-sm-12 col-lg-12">
+                                <input type="text" name="item" id="item" value="">
+                                <input type="text" name="description" id="description" value="">
+                                <input type="text" name="qty" id="qty" value="">
+                                <input type="text" name="uom_id" id="uom_id" value="">
+                                <input type="text" name="unit_price" id="unit_price" value="">
+                              </div>
                             </div>
                           </div>
                         </div>
