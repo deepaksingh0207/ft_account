@@ -117,7 +117,11 @@
                       <div class="col-12">
                         <div class="card">
                           <div class="card-header"><b>Invoice Details</b></div>
-                          <div class="card-body" id="id_invoiceblock_body"></div>
+                          <div class="card-body">
+                            <div class="row" id="id_invoiceblock_body">
+                              <div class="col-sm-12 col-lg-12"></div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
