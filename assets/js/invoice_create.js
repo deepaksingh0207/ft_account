@@ -162,8 +162,8 @@ function fillinvoices_body(data, listname) {
   if (data) {
     (pt = []), (it = []), (iv = []);
     if (listname == "payment_term") {
-      $.each(od_invoices, function (i, value) {
-        pt.push(value.payment_term);
+      $.each(od_invoiceitems, function (i, value) {
+        pt.push(value.order_payterm_id);
         iv.push(value.invoice_no);
       });
       var total = 0,
@@ -483,7 +483,9 @@ function preview_modal_body(index, listname) {
 
     $.each(firstselector, function (index, value) {
       $("#preview_tbody").append(
-        '<tr><td class="max100"><input type="hidden" name="order_details[' + index + '][order_item_id]" value="' +
+        '<tr><td class="max100"><input type="hidden" name="order_details[' + index + '][order_payterm_id]" value="' +
+        od_payment_term[value].id +
+        '"><input type="hidden" name="order_details[' + index + '][order_item_id]" value="' +
         od_payment_term[value].order_item_id +
         '">   ' +
         od_payment_term[value].item +
