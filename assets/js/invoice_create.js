@@ -476,7 +476,7 @@ function preview_modal_body(index, listname) {
       .empty()
       .append(
         '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card">             <div class="card-header">' +
-        getordertype() + '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th>   <th>Qty./Unit</th>    <th>Unit Price</th><th>	Total Value</th> </tr></thead>          <tbody id="preview_tbody"></tbody></table></div>               <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>      <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div>         <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label>    <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
+        getordertype() + '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th>   <th>Qty./Unit</th>    <th>Unit Price</th><th>	Total Value</th> </tr></thead>          <tbody id="preview_tbody"></tbody></table></div>               <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>      <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div>         <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label>    <input type="number" class="form-control numberonly" pattern="[0-9]{7}" minlength="7"  maxlength="7" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
       );
     $("#preview_tbody")
       .empty();
@@ -853,31 +853,46 @@ function preview_footer(val, listname) {
 }
 
 function checker() {
-  if ($("#t1").data("state") == "show") {
-    $("#t1").data("state", "hide").hide();
-    $("#t2").data("state", "show").show();
-    $("#togglepdf").text("Back To Editing");
-    $("#gene").show();
-    var formdata = $("#quickForm").serialize();
-    $.ajax({
-      type: "POST",
-      url: baseUrl + "invoices/preview",
-      data: formdata,
-    })
-      .done(function (data) {
-        $("#t2")
-          .empty()
-          .append(data)
-          .find("style")
-          .remove()
-          .children("div.container")
-          .children("img")
-          .css("max-width", "925px");
+  var check = true
+  if ($("#id_invoicedate").val() == "") {
+    $("#id_invoicedate").addClass('is-invalid');
+    check = false
+  }
+  if ($("#id_due_date").val() == "") {
+    $("#id_due_date").addClass('is-invalid');
+    check = false
+  }
+  if (($("#id_invoice_no").val()).length != 7 ) {
+    $("#id_invoice_no").addClass('is-invalid');
+    check = false
+  }
+  if (check) {
+    if ($("#t1").data("state") == "show") {
+      $("#t1").data("state", "hide").hide();
+      $("#t2").data("state", "show").show();
+      $("#togglepdf").text("Back To Editing");
+      $("#gene").show();
+      var formdata = $("#quickForm").serialize();
+      $.ajax({
+        type: "POST",
+        url: baseUrl + "invoices/preview",
+        data: formdata,
       })
-      .fail(function (data) {
-        debug("FAILED");
-      });
-  } else {
-    refreshpreview();
+        .done(function (data) {
+          $("#t2")
+            .empty()
+            .append(data)
+            .find("style")
+            .remove()
+            .children("div.container")
+            .children("img")
+            .css("max-width", "925px");
+        })
+        .fail(function (data) {
+          debug("FAILED");
+        });
+    } else {
+      refreshpreview();
+    }
   }
 }
