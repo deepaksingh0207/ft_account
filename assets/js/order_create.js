@@ -179,19 +179,22 @@ $(document).on("change", "#id_ordertype", function () {
       } //Project Sale
       else if (oti == "2") {
         $("#order_item_header_qty").text("Payment Slab");
+        $("#order_item_header_up").text("Total Price");
       } // AMC Support Sale
       else if (oti == "3") {
         $(".hide").show();
         $("#order_item_header_qty").text("Qty.");
+        $("#order_item_header_up").text("Total Price");
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
         $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
       } // Man-days-Support Sale
       else if (oti == "4") {
         $("#order_item_header_qty").text("Man days");
-        $("#id_uom1").empty().append('<option value="1">Day(s)</option>');
+        $("#order_item_header_up").text("Unit Price");
       }
       else {
         $("#order_item_header_qty").text("Qty.");
+        $("#order_item_header_up").text("Total Price");
       }
       ttotal();
     }
@@ -226,8 +229,13 @@ $(document).on("change", ".qty", function () {
 // On Unit Price Change
 $(document).on("change", ".unitprice", function () {
   unitpriceval = $(this).val();
-  if (oti < 3) {
-    $(".colt" + $(this).data('id') + "_unitprice").text($(this).val())
+  $(this).data('val', $(this).val())
+  if (oti == 1) {
+    subtotal = ($(this).val() / $("#id_quantity" + $(this).data('id')).val()).toFixed(2);
+    // $(".colt" + $(this).data('id') + "_unitprice").data('val', subtotal)
+    $(".colt" + $(this).data('id') + "_unitprice").val(subtotal)
+  } else if (oti == 2) {
+    // $(".colt" + $(this).data('id') + "_unitprice").text($(this).val())
     $(".colt" + $(this).data('id') + "_unitprice").val($(this).val())
   }
   paymentgenerator()
@@ -479,6 +487,11 @@ function addrow(id) {
       .hide();
     $("#row_paytm").append('<div class="col-sm-12 col-lg-12" id="col_' + id + '" style="display: none;"></div>')
     colt_maker('col_' + id)
+  } else if (oti == 4) {
+    $("#td_uom" + id)
+      .empty()
+      .append('<select class="form-control uom" name="order_details[' + id + '][uom_id]" data-id="' + id + '" id="id_uom' + id + '"></select>');
+    $("#id_uom" + id).append('<option value="1">Day(s)</option>');
   }
   orderid_list.push(id);
 }

@@ -36,16 +36,18 @@ function paymentTermcollector(xid, yid) {
   } else {
     $("#colt" + xid + "id_ptunitprice" + yid).data('val', 0);
   }
-  rowqty = $("#colt" + xid + "id_ptquantity" + yid).data('val');
-  rowunitprice = $("#colt" + xid + "id_ptunitprice" + yid).data('val');
+  rowqty = $("#id_quantity" + xid).val();
+  rowptqty = $("#colt" + xid + "id_ptquantity" + yid).val();
+  rowunitprice = $("#id_unitprice" + xid).val();
+  rowptunitprice = $("#colt" + xid + "id_ptunitprice" + yid).val();
   subtotal = 0;
-  if (rowqty && rowunitprice) {
+  if (rowptqty && rowptunitprice) {
     if (oti == 1) {
-      subtotal = rowunitprice * rowqty;
-      $("#colt" + xid + "id_ptunitprice" + yid).val(subtotal);
+      subtotal = (rowunitprice / rowqty).toFixed(2);
+      $("#colt" + xid + "id_ptunitprice" + yid).val(subtotal)
     } else {
-      subtotal = rowunitprice * (rowqty / 100);
-      $("#colt" + xid + "id_ptunitprice" + yid).val(rowunitprice);
+      subtotal = rowptunitprice * (rowptqty / 100);
+      $("#colt" + xid + "id_ptunitprice" + yid).val(rowptunitprice);
     }
     $("#colt" + xid + "pttotal" + yid).val(subtotal);
     $("#colt" + xid + "id_pttotal" + yid).text(parseFloat(subtotal).toFixed(2));
