@@ -50,7 +50,7 @@ function paymentTermcollector(xid, yid) {
       $("#colt" + xid + "id_ptunitprice" + yid).val(rowptunitprice);
     }
     $("#colt" + xid + "pttotal" + yid).val(subtotal);
-    $("#colt" + xid + "id_pttotal" + yid).text(parseFloat(subtotal).toFixed(2));
+    $("#colt" + xid + "id_pttotal" + yid).text(humanamount(parseFloat(subtotal).toFixed(2)));
   }
 }
 
@@ -74,7 +74,7 @@ function projecttablebody(body, id, val = "", uom = 3) {
   if (oti == 1) {
     $("#" + body + "pt" + id).append("<td class='form-group max150'><input type='hidden' class='form-control'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "'><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'>1 / AU </td>");
   } else {
-    $("#" + body + "pt" + id).append("<div class='input-group mt-2 pt-1'><input type='number' class='form-control ptqty'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'><div class='input-group-append'><span class='input-group-text'> % </span></div></div>");
+    $("#" + body + "pt" + id).append("<td class='input-group'><input type='number' class='form-control ptqty'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'><div class='input-group-append'><span class='input-group-text'> % </span></div></td>");
   }
   // UOM, Unit Price & Total Field
   $("#" + body + "pt" + id)
