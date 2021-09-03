@@ -15,10 +15,32 @@ function setuom(val) {
   }
 }
 
+function nz(val) {
+  // NaN to Zero
+  if (val == "") {
+    return 0
+  } else {
+    return parseInt(val)
+  }
+}
+
+
 function paymentgenerator() {
   $.each(orderid_list, function (index, id) {
-    for (i = 0; i < $("#id_quantity" + id).val(); i++) {
+    qty_control = 0
+    check = true
+    j = nz($("#id_quantity" + id).val()) - 1
+    for (i = 0; i <= j; i++) {
       paymentTermcollector(id, i)
+      if (i == j && oti == 2 && check == true) {
+        $("#colt" + id + "id_ptquantity" + i).val(100 - qty_control)
+      } else {
+        qty_control += nz($("#colt" + id + "id_ptquantity" + i).val())
+        // If not last row grab qty val
+        if( nz($("#colt" + id + "id_ptquantity" + i).val()) == 0 ){
+          check = False
+        }
+      }
     }
   });
 }
@@ -63,7 +85,7 @@ function resetPaymentTermForm() {
 function projecttablebody(body, id, val = "", uom = 3) {
   $("#" + body).append("<tr id='" + body + "pt" + id + "'></tr>");
   // Sr No
-  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][item]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + (id+1) + "</td>");
+  $("#" + body + "pt" + id).append("<td class='form-group'><input type='hidden' class='" + body + "_item' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][item]' data-id='" + id + "' value='" + $("#id_item" + body.match(/(\d+)/)).val() + "' id='" + body + "id_ptitem" + id + "' />" + (id + 1) + "</td>");
   // ITEM Field
   if (oti == 2) {
     $("#" + body + "pt" + id).append("<td class='form-group " + body + "_item' >" + $("#id_item" + body.match(/(\d+)/)).val() + "</td>");

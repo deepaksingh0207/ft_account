@@ -162,14 +162,14 @@ function resetonorder() {
 // Order Type Change
 $(document).on("change", "#id_ordertype", function () {
   if ($(this).val()) {
-    oti = $(this).val();
+    oti = nz($(this).val());
     // Show/Hide Order Item Card
     $(".order").show();
     if (old_orderid != oti) {
       resetonorder()
       old_orderid = oti;
       // On-Site Support Sale
-      if (oti == "1") {
+      if (oti == 1) {
         // $("#add_item").hide();
         $("#order_item_header_qty").text("Total Months");
         $("#order_item_header_up").text("Total Price");
@@ -177,18 +177,18 @@ $(document).on("change", "#id_ordertype", function () {
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
         $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
       } //Project Sale
-      else if (oti == "2") {
+      else if (oti == 2) {
         $("#order_item_header_qty").text("Payment Slab");
         $("#order_item_header_up").text("Total Price");
       } // AMC Support Sale
-      else if (oti == "3") {
+      else if (oti == 3) {
         $(".hide").show();
         $("#order_item_header_qty").text("Qty.");
         $("#order_item_header_up").text("Total Price");
         $("#id_po_from_date_col").append('<input type="date" required class="form-control" name="po_from_date" id="id_po_from_date">');
         $("#id_po_to_date_col").append('<input type="date" required class="form-control" name="po_to_date" id="id_po_to_date">');
       } // Man-days-Support Sale
-      else if (oti == "4") {
+      else if (oti == 4) {
         $("#order_item_header_qty").text("Man days");
         $("#order_item_header_up").text("Unit Price");
       }
