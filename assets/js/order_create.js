@@ -138,7 +138,8 @@ $("#id_po_no").change(function () {
       .done(function (data) {
         if (data == false) {
           po_validity = true
-          $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');
+          $(".say").remove();
+          $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="say error invalid-feedback">Order has been raised for this Customer PO.</span>');
         } else { po_validity = false }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
