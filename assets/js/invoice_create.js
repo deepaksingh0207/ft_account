@@ -12,7 +12,7 @@ var groupdata,
   previewlist = [1],
   oldgen = 0,
   paytermlist = [],
-  payterm_ordertype = ["1", "2"];
+  payterm_ordertype = ["1", "2", "3"];
 
 $(document).on("change", "#id_group_id", function () {
   resetongroup();

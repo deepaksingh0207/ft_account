@@ -192,7 +192,7 @@ class OrdersController extends Controller
 
                         $orderItemId = $tblOrderItem->save($orderItem);
 
-                        if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
+                        if($orderData['order_type'] == 2 || $orderData['order_type'] == 1 || $orderData['order_type'] == 3) {
                             foreach($item['payment_term'] as $orderPayTerm) {
                                 $orderPayTerm['order_id'] = $orderId;
                                 $orderPayTerm['order_item_id'] = $orderItemId;
