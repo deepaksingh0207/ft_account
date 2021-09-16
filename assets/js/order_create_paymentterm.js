@@ -37,7 +37,7 @@ function paymentgenerator() {
       } else {
         qty_control += nz($("#colt" + id + "id_ptquantity" + i).val())
         // If not last row grab qty val
-        if( nz($("#colt" + id + "id_ptquantity" + i).val()) == 0 ){
+        if (nz($("#colt" + id + "id_ptquantity" + i).val()) == 0) {
           check = False
         }
       }
@@ -64,7 +64,7 @@ function paymentTermcollector(xid, yid) {
   rowptunitprice = $("#colt" + xid + "id_ptunitprice" + yid).val();
   subtotal = 0;
   if (rowptqty && rowptunitprice) {
-    if (oti == 1) {
+    if (oti == 1 || oti == 3) {
       subtotal = (rowunitprice / rowqty).toFixed(2);
       $("#colt" + xid + "id_ptunitprice" + yid).val(subtotal)
     } else {
@@ -93,10 +93,10 @@ function projecttablebody(body, id, val = "", uom = 3) {
   // Description Field
   $("#" + body + "pt" + id).append("<td class='form-group'><input type='text' class='form-control desp capitalize' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][description]' id='" + body + "id_paymentterm" + id + "' placeholder='*Enter Description' /></td>");
   // QTY Field
-  if (oti == 1) {
-    $("#" + body + "pt" + id).append("<td class='form-group max150'><input type='hidden' class='form-control'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "'><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'>1 / AU </td>");
-  } else {
+  if (oti == 2) {
     $("#" + body + "pt" + id).append("<td class='input-group'><input type='number' class='form-control ptqty'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "' max='100' min='5' step='5' onkeypress='return event.charCode >= 48 && event.charCode <= 57' /><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'><div class='input-group-append'><span class='input-group-text'> % </span></div></td>");
+  } else {
+    $("#" + body + "pt" + id).append("<td class='form-group max150'><input type='hidden' class='form-control'  value='" + val + "' data-id='" + id + "' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][qty]' id='" + body + "id_ptquantity" + id + "'><input type='hidden' name='order_details[" + body.match(/(\d+)/)[0] + "][payment_term]" + "[" + id + "][uom_id]' id'id_ptuom' value='" + uom + "'>1 / AU </td>");
   }
   // UOM, Unit Price & Total Field
   $("#" + body + "pt" + id)
