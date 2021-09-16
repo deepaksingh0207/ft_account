@@ -138,7 +138,8 @@ $("#id_po_no").change(function () {
       .done(function (data) {
         if (data == false) {
           po_validity = true
-          $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');
+          $(".say").remove();
+          $("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="say error invalid-feedback">Order has been raised for this Customer PO.</span>');
         } else { po_validity = false }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -211,13 +212,13 @@ $(document).on("change", "#id_po_from_date", function () {
 // On quantity Change
 $(document).on("change", ".qty", function () {
   qtycal($(this).attr("id"), $(this).data("id"))
-  if (oti < 3) {
+  if (oti < 4) {
     $("#colt" + $(this).data('id')).empty();
     for (i = 0; i < $(this).val(); i++) {
-      if (oti == 1) {
-        projecttablebody("colt" + $(this).data('id'), i, 1, uom = 2, true);
-      } else {
+      if (oti == 2) {
         projecttablebody("colt" + $(this).data('id'), i);
+      } else {
+        projecttablebody("colt" + $(this).data('id'), i, 1, uom = 2, true);
       }
     }
     $("#col_" + $(this).data('id')).show();
@@ -230,13 +231,13 @@ $(document).on("change", ".qty", function () {
 $(document).on("change", ".unitprice", function () {
   unitpriceval = $(this).val();
   $(this).data('val', $(this).val())
-  if (oti == 1) {
-    subtotal = ($(this).val() / $("#id_quantity" + $(this).data('id')).val()).toFixed(2);
-    // $(".colt" + $(this).data('id') + "_unitprice").data('val', subtotal)
-    $(".colt" + $(this).data('id') + "_unitprice").val(subtotal)
-  } else if (oti == 2) {
-    // $(".colt" + $(this).data('id') + "_unitprice").text($(this).val())
-    $(".colt" + $(this).data('id') + "_unitprice").val($(this).val())
+  if (oti < 4) {
+    if (oti == 2) {
+      $(".colt" + $(this).data('id') + "_unitprice").val($(this).val());
+    } else {
+      subtotal = ($(this).val() / $("#id_quantity" + $(this).data('id')).val()).toFixed(2);
+      $(".colt" + $(this).data('id') + "_unitprice").val(subtotal)
+    }
   }
   paymentgenerator()
   ordercollector($(this).data("id"));
@@ -351,7 +352,7 @@ function ordercollector(id) {
   rowuom = $("#id_uom" + id).val();
   subtotal = 0;
   if (rowqty && rowunitprice) {
-    if (oti < 3) { subtotal = rowunitprice; }
+    if (oti < 4) { subtotal = rowunitprice; }
     else if (rowuom == 3) { subtotal = rowunitprice * (rowqty / 100); }
     else { subtotal = rowunitprice * rowqty; }
     $("#total" + id).val(subtotal);
@@ -477,7 +478,7 @@ function addrow(id) {
       .hide();
     $("#row_paytm").append('<div class="col-sm-12 col-lg-12" id="col_' + id + '" style="display: none;"></div>')
     colt_maker('col_' + id)
-  } else if (oti == 1) {
+  } else if (oti == 1 || oti == 3) {
     $("#td_uom" + id)
       .empty()
       .append("<div class='pt-1'>AU<div>")
