@@ -166,10 +166,8 @@ function fillinvoices_body(data, listname) {
         pt.push(value.order_payterm_id);
         iv.push(value.invoice_no);
       });
-      var total = 0,
-        lock = false;
-      $("#id_invoiceblock_body")
-        .empty();
+      var total = 0, lock = false;
+      $("#id_invoiceblock_body").empty();
       olditem = ""
       i = 0
       $.each(data, function (index, value) {
