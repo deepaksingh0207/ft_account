@@ -38,7 +38,7 @@ function paymentgenerator() {
         qty_control += nz($("#colt" + id + "id_ptquantity" + i).val())
         // If not last row grab qty val
         if (nz($("#colt" + id + "id_ptquantity" + i).val()) == 0) {
-          check = False
+          check = false
         }
       }
     }
