@@ -537,18 +537,27 @@ function paymentgenerator() {
   $.each(orderid_list, function (index, id) {
     qty_control = 0
     check = true
+    empty_payment_term_list = []
     j = nz($("#id_quantity" + id).val()) - 1
     for (i = 0; i <= j; i++) {
-      if (i == j && oti == 2 && check == true) {
+      if (i == j && oti == 2 && check == true && qty_control != 0) {
         $("#colt" + id + "id_ptquantity" + i).val(100 - qty_control)
-      } else {
+      }
+      else if (nz($("#colt" + id + "id_ptquantity" + i).val()) == 0) {
+        check = false
+        empty_payment_term_list.push("colt" + id + "id_ptquantity" + i)
+      }
+      else {
         qty_control += nz($("#colt" + id + "id_ptquantity" + i).val())
         // If not last row grab qty val
-        if (nz($("#colt" + id + "id_ptquantity" + i).val()) == 0) {
-          check = false
-        }
+        // if (nz($("#colt" + id + "id_ptquantity" + i).val()) == 0) {
+        //   check = false
+        // }
       }
       paymentTermcollector(id, i)
+    }
+    if (empty_payment_term_list.length == 1) {
+      $("#" + empty_payment_term_list[0]).val(100 - qty_control)
     }
   });
 }
