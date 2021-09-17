@@ -28,10 +28,7 @@ $(document).on("change", "#id_group_id", function () {
         if (data != false) {
           groupdata = data;
           $("#customerid_id").removeAttr("disabled");
-          filldata("#customerid_id", groupdata, "Select Customer", [
-            "id",
-            "name",
-          ]);
+          filldata("#customerid_id", groupdata, "Select Customer", ["id", "name"]);
           if (groupdata.length == 1) {
             $("#customerid_id").val(groupdata[0].id);
             $("#customerid_id").trigger("change");
@@ -39,9 +36,7 @@ $(document).on("change", "#id_group_id", function () {
           }
         }
       })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("No details found against this customer.");
-      });
+      .fail(function (jqXHR, textStatus, errorThrown) { alert("No details found against this customer."); });
   }
 });
 
@@ -57,15 +52,9 @@ $("#customerid_id").change(function () {
       .done(function (data) {
         $("#id_orderid").removeAttr("disabled");
         customerdata = data;
-        filldata("#id_orderid", customerdata, "Select Order", [
-          "id",
-          "po_no",
-          "item",
-        ]);
+        filldata("#id_orderid", customerdata, "Select Order", ["id", "po_no", "item"]);
       })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("No details found against this customer.");
-      });
+      .fail(function (jqXHR, textStatus, errorThrown) { alert("No details found against this customer."); });
     customerid = $(this).val();
   }
 });
@@ -90,9 +79,7 @@ $("#id_orderid").change(function () {
         gst_details(customerid);
         orderdetails();
       })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("No Order Item details found against this order.");
-      });
+      .fail(function (jqXHR, textStatus, errorThrown) { alert("No Order Item details found against this order."); });
   }
 });
 
@@ -108,13 +95,9 @@ $(document).on("click", ".paytrm", function () {
   oldgen = $(this).data("id");
 });
 
-$(document).on("click", "#gene", function () {
-  $(this).attr("disabled", true);
-});
+$(document).on("click", "#gene", function () { $(this).attr("disabled", true); });
 
-$(document).on("change", ".qty", function () {
-  previewtotal($(this).data("index"), $(this).val() * $(this).data("up"));
-});
+$(document).on("change", ".qty", function () { previewtotal($(this).data("index"), $(this).val() * $(this).data("up")); });
 
 $(document).on("click", ".pdf", function () {
   url = $(this).data("href");
@@ -124,12 +107,7 @@ $(document).on("click", ".pdf", function () {
       a = responseText;
       if (a.search("Customer List") < 0) {
         $("#modal_body")
-          .empty()
-          .append(
-            '<embed src="' +
-            url +
-            '" type="application/pdf" style="width: 100%; height: 513px;">'
-          );
+          .empty().append('<embed src="' + url + '" type="application/pdf" style="width: 100%; height: 513px;">');
       } else {
         $("#modal_body").empty().append(error);
       }
@@ -860,7 +838,7 @@ function checker() {
     $("#id_due_date").addClass('is-invalid');
     check = false
   }
-  if (($("#id_invoice_no").val()).length != 7 ) {
+  if (($("#id_invoice_no").val()).length != 7) {
     $("#id_invoice_no").addClass('is-invalid');
     check = false
   }
