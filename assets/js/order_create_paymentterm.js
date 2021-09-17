@@ -31,7 +31,6 @@ function paymentgenerator() {
     check = true
     j = nz($("#id_quantity" + id).val()) - 1
     for (i = 0; i <= j; i++) {
-      paymentTermcollector(id, i)
       if (i == j && oti == 2 && check == true) {
         $("#colt" + id + "id_ptquantity" + i).val(100 - qty_control)
       } else {
@@ -41,6 +40,7 @@ function paymentgenerator() {
           check = false
         }
       }
+      paymentTermcollector(id, i)
     }
   });
 }
