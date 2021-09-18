@@ -740,7 +740,7 @@ function previewtotal(index, value) {
 
 function tax_system(tax, total, apitax = gstlist[1]) {
   if (apitax == parseInt(tax)) {
-    return (tax / 100) * total;
+    return parseFloat(((tax / 100) * total).toFixed(2));
   } else {
     return 0;
   }
@@ -767,7 +767,7 @@ function preview_footer(val, listname) {
       )
       + parseFloat(tax_system(od_order.tax_rate, listval(value, listname).total, 18));
   });
-
+  subtotal = parseFloat(subtotal.toFixed(2))
   $("#preview_footer").append(
     '<div class="row text-center"><div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' +
     subtotal +
