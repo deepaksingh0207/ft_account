@@ -138,7 +138,7 @@ function orderdetails() {
 
 function fillinvoices_body(data, listname) {
   if (data) {
-    (pt = []), (it = []), (iv = []);
+    var pt = [], it = [], iv = [];
     if (listname == "payment_term") {
       $.each(od_invoiceitems, function (i, value) {
         pt.push(value.order_payterm_id);
@@ -146,13 +146,13 @@ function fillinvoices_body(data, listname) {
       });
       var total = 0, lock = false;
       $("#id_invoiceblock_body").empty();
-      olditem = ""
-      i = 0
+      var olditem = ""
+      var i = 0
       $.each(data, function (index, value) {
-        if (value.item != olditem) {
+        if (value.order_item_id != olditem) {
           $("#id_invoiceblock_body")
             .append('<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + value.order_item_id + '"></tbody></table></div>');
-          olditem = value.item
+          olditem = value.order_item_id
           lock = false
         }
         if (pt.includes(value.id)) {
