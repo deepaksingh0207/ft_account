@@ -525,7 +525,7 @@ function setuom(val) {
 
 function nz(val) {
   // NaN to Zero
-  if (val == "") {
+  if (val == "" || val == NaN) {
     return 0
   } else {
     return parseInt(val)
