@@ -87,7 +87,6 @@
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/js/order_create.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/order_create_validation.js?<?php echo time(); ?>"></script>
-  <script src="<?php echo ROOT; ?>assets/js/order_create_paymentterm.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 

@@ -1,19 +1,26 @@
-
-var emptyPaymentTermIds = [], deleteid, old_orderid, oneTimeLastFill = false;
-var sgst = 0, cgst = 0, igst = 0;
-var orderid_list = [], last_orderid = 0;
 var today = new Date();
-today = today.getFullYear() + "-" + String(today.getMonth() + 1).padStart(2, "0") + "-" + String(today.getDate()).padStart(2, "0");
+today =
+  today.getFullYear() +
+  "-" +
+  String(today.getMonth() + 1).padStart(2, "0") +
+  "-" +
+  String(today.getDate()).padStart(2, "0");
 
 $(function () {
   $(".hide").hide();
   // $("#date_id").val(today);
   $.validator.setDefaults({
     submitHandler: function () {
-      if (po_validity) {$("#id_po_no").addClass('is-invalid').parent().append('<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>');}
-      else {
-        checker();
+      if (po_validity) {
+        $("#id_po_no")
+          .addClass("is-invalid")
+          .parent()
+          .append(
+            '<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>'
+          );
       }
+      $('#responsemodal').trigger('click');
+      form_maker();
     },
   });
   $("#quickForm").validate({
@@ -45,7 +52,7 @@ $(function () {
       },
       upload_po: {
         required: true,
-        accept: "application/pdf"
+        accept: "application/pdf",
       },
     },
     messages: {
@@ -89,77 +96,88 @@ $(function () {
     },
     unhighlight: function (element, errorClass, validClass) {
       $(element).removeClass("is-invalid");
-    }
+    },
   });
 });
 
-
 function checker() {
   var check = true;
-  $('input.qty').each(function () {
+  $("input.paymentterm_description").each(function () {
     if ($(this).val().length < 1) {
-      $(this).addClass('is-invalid');
+      $(this).addClass("is-invalid");
       check = false;
     }
   });
-  $('input.unitprice').each(function () {
+  $("input.item").each(function () {
     if ($(this).val().length < 1) {
-      $(this).addClass('is-invalid');
+      $(this).addClass("is-invalid");
       check = false;
     }
   });
-  $('select.uom').each(function () {
+  $("input.desp").each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass("is-invalid");
+      check = false;
+    }
+  });
+  $("input.order_item_quantity").each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass("is-invalid");
+      check = false;
+    }
+  });
+  $("input.order_item_unitprice").each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass("is-invalid");
+      check = false;
+    }
+  });
+  $("select.order_item_uom").each(function () {
     if ($(this).val() == "") {
-      $(this).addClass('is-invalid');
+      $(this).addClass("is-invalid");
       check = false;
     }
   });
-  $('input.item').each(function () {
-    if ($(this).val().length < 1) {
-      $(this).addClass('is-invalid');
-      check = false;
-    }
-  });
-  $('input.desp').each(function () {
-    if ($(this).val().length < 1) {
-      $(this).addClass('is-invalid');
+  $("select#order_type").each(function () {
+    if ($(this).val() == "") {
+      $(this).addClass("is-invalid");
       check = false;
     }
   });
   checklessthanone = false;
   checkmandatory = false;
-  if (oti == 2) {
-    paytm = 0
-    $.each(ptlist, function (index, value) {
-      if ($("#id_ptquantity" + value).val() < 1) {
-        checklessthanone = true;
-      }
-      if ($("#id_ptquantity" + value).val() != "") {
-        paytm += parseFloat($("#id_ptquantity" + value).val())
-      } else {
-        checkmandatory = true;
-      }
-    });
-    if (checklessthanone == true) {
-      alert('Payment Percent cannot be less than 5.');
-    }
-    if (checkmandatory == true) {
-      alert('All Payment Percent Mandatory.');
-    }
-    if (paytm > 100) {
-      check = false;
-      alert('Sum of all Payment Percent exceeds 100%.');
-    }
-    // if (paytm < 100) {
-    //   check = false;
-    //   alert('Sum of all Payment Percent cannot be less than 1.');
-    // }
-  }
+  //   if (oti == 2) {
+  //     paytm = 0
+  //     $.each(ptlist, function (index, value) {
+  //       if ($("#id_ptquantity" + value).val() < 1) {
+  //         checklessthanone = true;
+  //       }
+  //       if ($("#id_ptquantity" + value).val() != "") {
+  //         paytm += parseFloat($("#id_ptquantity" + value).val())
+  //       } else {
+  //         checkmandatory = true;
+  //       }
+  //     });
+  //     if (checklessthanone == true) {
+  //       alert('Payment Percent cannot be less than 5.');
+  //     }
+  //     if (checkmandatory == true) {
+  //       alert('All Payment Percent Mandatory.');
+  //     }
+  //     if (paytm > 100) {
+  //       check = false;
+  //       alert('Sum of all Payment Percent exceeds 100%.');
+  //     }
+  //     // if (paytm < 100) {
+  //     //   check = false;
+  //     //   alert('Sum of all Payment Percent cannot be less than 1.');
+  //     // }
+  //   }
   if (check == true) {
-    $("#responsemodal").click();
+    treeleaves();
+    showmain();
   }
 }
-
 
 $(".numberonly").on("keypress", function (event) {
   var regex = new RegExp("^[0-9]$");
@@ -178,3 +196,5 @@ $(".alphaonly").on("keypress", function (event) {
     return false;
   }
 });
+
+
