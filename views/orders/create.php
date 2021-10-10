@@ -207,12 +207,15 @@
                           <div class="card-header" id="order_items_cardheader">
                             Orders
                             <div class="card-tools">
-                              <button
+                              <!-- <button
                                 type="button"
                                 class="btn btn-tool pt-3"
                                 id="add_order_button"
                               >
                                 <i class="fas fa-plus"></i>
+                              </button> -->
+                              <button type="button" class="btn btn-primary btn-sm" id="add_order_button">
+                                Add Orders
                               </button>
                             </div>
                           </div>
@@ -223,7 +226,6 @@
                                   <tr>
                                     <th>Item</th>
                                     <th>Description</th>
-                                    <th>Unit Of Measure</th>
                                     <th>Order Type</th>
                                     <th>Total</th>
                                     <th></th>
@@ -241,7 +243,7 @@
                       </div>
                     </div>
                   </div>
-
+                  <div id="hiddendata" style="display: none;"></div>
                   <div class="card-footer">
                     <div class="text-right" id="main_cardfooter">
                       <button type="submit" class="btn btn-sm btn-primary">

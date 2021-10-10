@@ -11,16 +11,20 @@ $(function () {
   // $("#date_id").val(today);
   $.validator.setDefaults({
     submitHandler: function () {
-      if (po_validity) {
-        $("#id_po_no")
-          .addClass("is-invalid")
-          .parent()
-          .append(
-            '<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>'
-          );
+      if (tree["otl"].length == 0) {
+        alert("Please add orders");
+      } else {
+        if (po_validity) {
+          $("#id_po_no")
+            .addClass("is-invalid")
+            .parent()
+            .append(
+              '<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>'
+            );
+        }
+        $("#responsemodal").trigger("click");
+        form_maker();
       }
-      $('#responsemodal').trigger('click');
-      form_maker();
     },
   });
   $("#quickForm").validate({
@@ -173,10 +177,6 @@ function checker() {
   //     //   alert('Sum of all Payment Percent cannot be less than 1.');
   //     // }
   //   }
-  if (check == true) {
-    treeleaves();
-    showmain();
-  }
 }
 
 $(".numberonly").on("keypress", function (event) {
@@ -196,5 +196,3 @@ $(".alphaonly").on("keypress", function (event) {
     return false;
   }
 });
-
-
