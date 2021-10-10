@@ -107,7 +107,7 @@ class OrdersController extends Controller
                 $orderData['sales_person'] = $data['sales_person'];
                 $orderData['bill_to'] = $data['bill_to'];
                 $orderData['ship_to'] = $data['ship_to'];
-                $orderData['order_type'] = $data['ordertype'];
+                // $orderData['order_type'] = $data['ordertype'];
                 $orderData['sub_total'] = $data['ordersubtotal'];
                 $orderData['sgst'] = $data['sgst'];
                 $orderData['cgst'] = $data['cgst'];
@@ -116,11 +116,11 @@ class OrdersController extends Controller
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
                 
-                if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
-                    $orderData['po_from_date'] = $data['po_from_date'];
-                    $orderData['po_to_date'] = $data['po_to_date'];
-                }
-
+                // if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
+                //     $orderData['po_from_date'] = $data['po_from_date'];
+                //     $orderData['po_to_date'] = $data['po_to_date'];
+                // }
+                
                 if(!empty($_FILES)){
                     //Get the temp file path
                     $tmpFilePath = $_FILES['upload_po']['tmp_name'];
@@ -189,10 +189,11 @@ class OrdersController extends Controller
                         $orderItem['unit_price'] = $item['unit_price'];
                         $orderItem['total'] = $item['total'];
                         $orderItem['order_id'] = $orderId;
+                        $orderItem['order_type'] = $item['ordertype'];
 
                         $orderItemId = $tblOrderItem->save($orderItem);
 
-                        if($orderData['order_type'] == 2 || $orderData['order_type'] == 1 || $orderData['order_type'] == 3) {
+                        if($orderItem['order_type'] == 2 || $orderItem['order_type'] == 1 || $orderItem['order_type'] == 3) {
                             foreach($item['payment_term'] as $orderPayTerm) {
                                 $orderPayTerm['order_id'] = $orderId;
                                 $orderPayTerm['order_item_id'] = $orderItemId;
