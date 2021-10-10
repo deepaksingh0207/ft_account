@@ -22,8 +22,8 @@ $(function () {
               '<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>'
             );
         }
-        $("#responsemodal").trigger("click");
         form_maker();
+        $("#responsemodal").trigger("click");
       }
     },
   });
