@@ -999,33 +999,35 @@ $(document).on("click", ".myorder", function () {
 
 function form_maker() {
   var subtotal = 0
+  var fakeoi = 0
   $.each(tree["otl"], function (index, ot) {
     $.each(tree[ot]["oil"], function (index, oi) {
       subtotal += parseFloat(tree[ot][oi]["stl"])
       $("#hiddendata")
-        .append('<input type="hidden" name="order_details[' + oi + '][ordertype]" value="' + ot + '">')
-        .append('<input type="hidden" name="order_details[' + oi + '][item]" value="' + tree[ot][oi]["itm"] + '">')
-        .append('<input type="hidden" name="order_details[' + oi + '][description]" value="' + tree[ot][oi]["dsp"] + '">')
-        .append('<input type="hidden" name="order_details[' + oi + '][qty]" value="' + tree[ot][oi]["qty"] + '">')
-        .append('<input type="hidden" name="order_details[' + oi + '][uom_id]" value="' + tree[ot][oi]["uom"] + '">')
-        .append('<input type="hidden" name="order_details[' + oi + '][unit_price]" value="' + tree[ot][oi]["utp"] + '">')
-        .append('<input type="hidden" name="order_details[' + oi + '][total]" value="' + tree[ot][oi]["stl"] + '">');
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][ordertype]" value="' + ot + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][item]" value="' + tree[ot][oi]["itm"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][description]" value="' + tree[ot][oi]["dsp"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][qty]" value="' + tree[ot][oi]["qty"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][uom_id]" value="' + tree[ot][oi]["uom"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][unit_price]" value="' + tree[ot][oi]["utp"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][total]" value="' + tree[ot][oi]["stl"] + '">');
       if (ot == 1 || ot == 3) {
-        $("#order_items")
+        $("#hiddendata")
           .append('<input type="hidden" name="po_from_date" value="' + tree[ot][oi]["from"] + '">')
           .append('<input type="hidden" name="po_to_date" value="' + tree[ot][oi]["till"] + '">');
       }
       if (tree[ot][oi].hasOwnProperty("ptl")) {
         $.each(tree[ot][oi]["ptl"], function (index, pt) {
-          $("#order_items")
-            .append('<input type="hidden" name="order_details[' + oi + "][payment_term][" + pt + '][item]" value="' + tree[ot][oi][pt]["itm"] + '">')
-            .append('<input type="hidden" name="order_details[' + oi + "][payment_term][" + pt + '][description]" value="' + tree[ot][oi][pt]["dsp"] + '">')
-            .append('<input type="hidden" name="order_details[' + oi + "][payment_term][" + pt + '][qty]" value="' + tree[ot][oi][pt]["qty"] + '">')
-            .append('<input type="hidden" name="order_details[' + oi + "][payment_term][" + pt + '][uom_id]" value="' + tree[ot][oi][pt]["uom"] + '">')
-            .append('<input type="hidden" name="order_details[' + oi + "][payment_term][" + pt + '][unit_price]" value="' + tree[ot][oi][pt]["utp"] + '">')
-            .append('<input type="hidden" name="order_details[' + oi + "][payment_term][" + pt + '][total]" value="' + tree[ot][oi][pt]["stl"] + '">');
+          $("#hiddendata")
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][item]" value="' + tree[ot][oi][pt]["itm"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][description]" value="' + tree[ot][oi][pt]["dsp"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][qty]" value="' + tree[ot][oi][pt]["qty"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][uom_id]" value="' + tree[ot][oi][pt]["uom"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][unit_price]" value="' + tree[ot][oi][pt]["utp"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][total]" value="' + tree[ot][oi][pt]["stl"] + '">');
         });
       }
+      ++fakeoi
     });
   });
   a = (sgst / 100) * subtotal;
