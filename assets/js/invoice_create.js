@@ -484,10 +484,10 @@ function preview_builder() {
   if (items_for_invoicing.length > 0) {
     $.each(items_for_invoicing, function (i, t) {
       $("#preview_tbody").append(
-        '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id1" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item1" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp1" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty1" min="1" value="' + t.qty + '" data-index="1" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom1" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice1" value="' + t.unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹'+t.total+'</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total1" value="0"></tr>');
-        c++;
+        '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id1" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item1" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp1" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty1" min="1" value="' + t.qty + '" data-index="1" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom1" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice1" value="' + t.unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total1" value="0"></tr>');
+      c++;
     });
-    
+
   }
   if (payment_for_invoicing.length > 0) {
     $.each(payment_for_invoicing, function (j, p) {
@@ -891,49 +891,49 @@ function preview_footer(val, listname) {
   total = sgst_total + cgst_total + igst_total + subtotal;
   $("#preview_footer").append(
     '<div class="row text-center"><div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' +
-    subtotal +
+    (subtotal).toFixed(2) +
     '</span></div><input type="hidden" name="sub_total" id="previewsubtotal" value="' +
-    subtotal +
+    (subtotal).toFixed(2) +
     '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' +
     parseInt(gstlist[1]) +
     ' %</span> ) : </b>     <span id="preview_sgst_val" data-gst="' +
     parseInt(gstlist[1]) +
     '">₹ ' +
-    sgst_total +
+    (sgst_total).toFixed(2) +
     '</span><input type="hidden" name="sgst" id="previewsgst" value="' +
-    sgst_total +
+    (sgst_total).toFixed(2) +
     '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' +
     parseInt(gstlist[2]) +
     ' %</span> ) : </b>     <span id="preview_cgst_val">₹' +
-    cgst_total +
+    (cgst_total).toFixed(2) +
     '</span><input type="hidden" name="cgst" id="previewcgst" value="' +
-    cgst_total +
+    (cgst_total).toFixed(2) +
     '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' +
     parseInt(gstlist[1]) +
     ' %</span> ) : </b>         <span id="preview_igst_val" data-gst="' +
     parseInt(gstlist[1]) +
     '">₹ ' +
-    igst_total +
+    (igst_total).toFixed(2) +
     '</span><input type="hidden" name="igst" id="previewigst" value="' +
-    igst_total +
+    (igst_total).toFixed(2) +
     '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' +
-    total +
+    (total).toFixed(2) +
     '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' +
     (total).toFixed(2) +
     '"></div></div>'
   );
-  if (listname == "items") {
-    $("#preview_subtotal_txt").text(humanamount(0));
-    $("#previewsubtotal").val(0);
-    $("#preview_sgst_val").text(humanamount(0));
-    $("#preview_cgst_val").text(humanamount(0));
-    $("#preview_igst_val").text(humanamount(0));
-    $("#previewsgst").val(0);
-    $("#previewcgst").val(0);
-    $("#previewigst").val(0);
-    $("#preview_total_val").text(humanamount(0));
-    $("#previewinvoice_total").val(0);
-  }
+  // if (listname == "items") {
+  //   $("#preview_subtotal_txt").text(humanamount(0));
+  //   $("#previewsubtotal").val(0);
+  //   $("#preview_sgst_val").text(humanamount(0));
+  //   $("#preview_cgst_val").text(humanamount(0));
+  //   $("#preview_igst_val").text(humanamount(0));
+  //   $("#previewsgst").val(0);
+  //   $("#previewcgst").val(0);
+  //   $("#previewigst").val(0);
+  //   $("#preview_total_val").text(humanamount(0));
+  //   $("#previewinvoice_total").val(0);
+  // }
   if (parseInt(gstlist[1]) == 9) {
     $("#previewigst").addClass("col-3");
     $("#sgstclass").show().addClass("col-3");
@@ -1006,22 +1006,29 @@ function fillinvoice_body() {
   });
 
   $.each(bookeeper["items"], function (i, per_item) {
-    first_checked_ordertype = [];
-    // table header
-    $("#id_invoiceblock_body").append(
-      '<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' +
-      per_item.id +
-      '"></tbody></table></div>'
-    );
+    if (per_item.order_type < 4) {
+      // table header
+      $("#id_invoiceblock_body").append(
+        '<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' +
+        per_item.id +
+        '"></tbody></table></div>'
+      );
+    } else if (i == 0) {
+      $("#id_invoiceblock_body").append(
+        '<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept"></tbody></table></div>'
+      );
+    }
 
     // Check if item has payment
     if (
       per_item.hasOwnProperty("payments") &&
       per_item["payments"].length > 0
     ) {
+      first_checked_ordertype = [];
+
       // For each payment
       $.each(per_item["payments"], function (j, per_payment) {
-        
+
         // Check if Payment invoice generated
         if (
           invoice_Ids_list.hasOwnProperty(parseInt(per_item.id)) &&
@@ -1114,7 +1121,7 @@ function fillinvoice_body() {
         invoice_Ids_list.hasOwnProperty(parseInt(per_item.id)) &&
         invoice_Ids_list[per_item.id] == 0
       ) {
-        $("#invoicept" + per_item.id).append(
+        $("#invoicept").append(
           '<tr><td style="width: 80px;"></td><td>' +
           per_item.item +
           "</td><td>" +
@@ -1134,7 +1141,7 @@ function fillinvoice_body() {
       } else {
         // Skipping for invoicing
         if (first_checked_ordertype.includes(per_item.order_type)) {
-          $("#invoicept" + per_item.id).append(
+          $("#invoicept").append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="radio" id="id_paytrm' +
             i +
             '" required class="paytrm" data-id="' +
@@ -1159,7 +1166,7 @@ function fillinvoice_body() {
           );
         } else {
           // Invoicing item
-          $("#invoicept" + per_item.id).append(
+          $("#invoicept").append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="radio" id="id_paytrm' +
             i +
             '" required class="paytrm" data-id="' +
