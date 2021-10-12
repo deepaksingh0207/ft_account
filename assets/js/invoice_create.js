@@ -1188,8 +1188,7 @@ function fillinvoice_body() {
       }
     }
   });
-  var total = 0;
   $("#id_invoiceblock_body").append(
-    '<input type="hidden" name="order_total" value="' + total + '">'
+    '<input type="hidden" name="order_total" value="' + od_order.sub_total + '">'
   );
 }
