@@ -225,7 +225,8 @@ class InvoicesController extends Controller
         
         $company = new CompanyModel();
         $company = $company->get(1);
-        
+        // echo print_r($invoiceItem);
+        // echo '<pre>';print_r($invoice); exit;
         
         $vars = array(
             "{{INV_NO}}" => $invoice['invoice_no'],

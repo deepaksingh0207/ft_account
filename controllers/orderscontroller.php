@@ -107,7 +107,7 @@ class OrdersController extends Controller
                 $orderData['sales_person'] = $data['sales_person'];
                 $orderData['bill_to'] = $data['bill_to'];
                 $orderData['ship_to'] = $data['ship_to'];
-                // $orderData['order_type'] = $data['ordertype'];
+                $orderData['order_type'] = $data['ordertype'];
                 $orderData['sub_total'] = $data['ordersubtotal'];
                 $orderData['sgst'] = $data['sgst'];
                 $orderData['cgst'] = $data['cgst'];
@@ -115,6 +115,8 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
+                $orderData['po_from_date'] = $data['po_from_date'];
+                $orderData['po_to_date'] = $data['po_to_date'];
                 
                 // if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
                 //     $orderData['po_from_date'] = $data['po_from_date'];

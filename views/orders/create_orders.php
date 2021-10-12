@@ -1,6 +1,7 @@
 <div class="card hide" id="add_order_card">
   <div class="card-header" id="add_order_cardheader">
     <div class="row">
+      
       <div class="col-sm-12 col-lg-4 form-group">
         <label for="order_type">Select Order</label>
         <select class="form-control" id="order_type" required>
@@ -14,27 +15,8 @@
         </select>
       </div>
 
-      <div class="col-sm-12 col-lg-4 form-group">
-        <label for="from_date">From Date :</label>
-        <input
-          type="date"
-          required
-          class="form-control"
-          id="from_date"
-          readonly
-        />
-      </div>
-
-      <div class="col-sm-12 col-lg-4 form-group">
-        <label for="to_date">Till Date :</label>
-        <input
-          type="date"
-          required
-          class="form-control"
-          id="to_date"
-          readonly
-        />
-      </div>
+      <div class="col-sm-12 col-lg-4 form-group" id="col_from_date"></div>
+      <div class="col-sm-12 col-lg-4 form-group" id="col_to_date"></div>
     </div>
   </div>
 
