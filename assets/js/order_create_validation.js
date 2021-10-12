@@ -22,8 +22,8 @@ $(function () {
               '<span id="id_po_no-error" class="error invalid-feedback">Order has been raised for this Customer PO.</span>'
             );
         }
-        $("#responsemodal").trigger("click");
         form_maker();
+        $("#responsemodal").trigger("click");
       }
     },
   });
@@ -136,6 +136,24 @@ function checker() {
       check = false;
     }
   });
+  $("input#from_date").each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass("is-invalid");
+      check = false;
+    }
+  });
+  $("input.paymentterm_quantity").each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass("is-invalid");
+      check = false;
+    }
+  });
+  $("input#to_date").each(function () {
+    if ($(this).val().length < 1) {
+      $(this).addClass("is-invalid");
+      check = false;
+    }
+  });
   $("select.order_item_uom").each(function () {
     if ($(this).val() == "") {
       $(this).addClass("is-invalid");
@@ -148,35 +166,7 @@ function checker() {
       check = false;
     }
   });
-  checklessthanone = false;
-  checkmandatory = false;
-  //   if (oti == 2) {
-  //     paytm = 0
-  //     $.each(ptlist, function (index, value) {
-  //       if ($("#id_ptquantity" + value).val() < 1) {
-  //         checklessthanone = true;
-  //       }
-  //       if ($("#id_ptquantity" + value).val() != "") {
-  //         paytm += parseFloat($("#id_ptquantity" + value).val())
-  //       } else {
-  //         checkmandatory = true;
-  //       }
-  //     });
-  //     if (checklessthanone == true) {
-  //       alert('Payment Percent cannot be less than 5.');
-  //     }
-  //     if (checkmandatory == true) {
-  //       alert('All Payment Percent Mandatory.');
-  //     }
-  //     if (paytm > 100) {
-  //       check = false;
-  //       alert('Sum of all Payment Percent exceeds 100%.');
-  //     }
-  //     // if (paytm < 100) {
-  //     //   check = false;
-  //     //   alert('Sum of all Payment Percent cannot be less than 1.');
-  //     // }
-  //   }
+  return check
 }
 
 $(".numberonly").on("keypress", function (event) {
