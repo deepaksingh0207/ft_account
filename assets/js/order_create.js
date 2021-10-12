@@ -748,6 +748,8 @@ $(document).on("change", ".order_item_quantity", function () {
     gen_paymentterm($(this).data("id"), $(this).val());
     order_item_calculator($(this).data("id"));
     $(".item").trigger("change");
+  } else {
+    order_item_calculator($(this).data("id"));
   }
 });
 

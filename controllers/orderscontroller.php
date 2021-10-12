@@ -115,6 +115,8 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
+                $orderData['po_from_date'] = $data['po_from_date'];
+                $orderData['po_to_date'] = $data['po_to_date'];
                 
                 // if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
                 //     $orderData['po_from_date'] = $data['po_from_date'];
