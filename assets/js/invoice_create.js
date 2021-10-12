@@ -147,8 +147,8 @@ $("#id_orderid").change(function () {
 });
 
 $(document).on("click", ".generate", function () {
-  refreshpreview();
   preview_builder();
+  refreshpreview();
   // preview_modal_body($(this).data("id"), $(this).data("list"));
   preview_footer($(this).data("id"), $(this).data("list"));
   $("#preview_modal").trigger("click");
@@ -475,17 +475,13 @@ function refreshpreview() {
 }
 
 function preview_builder() {
-  $("#preview_modal_body").empty();
-  $("#preview_tbody").empty();
+  var c = 0
+  $("#preview_modal_body").empty().append(
+    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
+    setheader(od_order.order_type) +
+    '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
+  );
   if (items_for_invoicing.length > 0) {
-    $("#preview_modal_body").append(
-      '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' +
-      getordertype() +
-      '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
-      setheader(od_order.order_type) +
-      '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
-    );
-    var c = 0
     $.each(items_for_invoicing, function (i, t) {
       $("#preview_tbody").append(
         '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id1" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item1" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp1" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty1" min="1" value="' + t.qty + '" data-index="1" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom1" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice1" value="' + t.unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹'+t.total+'</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total1" value="0"></tr>');
@@ -494,14 +490,9 @@ function preview_builder() {
     
   }
   if (payment_for_invoicing.length > 0) {
-    // $("#preview_modal_body").append(
-    //   '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card">             <div class="card-header">' +
-    //     getordertype() +
-    //     '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th>   <th>Qty./Unit</th>    <th>Unit Price</th><th>	Total Value</th> </tr></thead>          <tbody id="preview_tbody"></tbody></table></div>               <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>      <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div>         <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label>    <input type="number" class="form-control numberonly" pattern="[0-9]{7}" minlength="7"  maxlength="7" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
-    // );
     $.each(payment_for_invoicing, function (j, p) {
       $("#preview_tbody").append(
-        '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td colspan="2">' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" value="' + p.total + '"></td></tr>');
+        '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" value="' + p.total + '"></td></tr>');
       c++;
     });
   }
@@ -853,7 +844,7 @@ function preview_total() {
     $("#previewigst").val(gst);
     total = subtotal + gst;
   }
-  $("#previewinvoice_total").val(total);
+  $("#previewinvoice_total").val((total).toFixed(2));
   $("#preview_total_val").text(humanamount(total));
 }
 
@@ -928,7 +919,7 @@ function preview_footer(val, listname) {
     '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' +
     total +
     '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' +
-    total +
+    (total).toFixed(2) +
     '"></div></div>'
   );
   if (listname == "items") {
@@ -1030,6 +1021,7 @@ function fillinvoice_body() {
     ) {
       // For each payment
       $.each(per_item["payments"], function (j, per_payment) {
+        
         // Check if Payment invoice generated
         if (
           invoice_Ids_list.hasOwnProperty(parseInt(per_item.id)) &&
@@ -1111,7 +1103,7 @@ function fillinvoice_body() {
               i +
               '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
             );
-            payment_for_invoicing.push(per_item);
+            payment_for_invoicing.push(per_payment);
             first_checked_ordertype.push(per_item.order_type);
           }
         }
