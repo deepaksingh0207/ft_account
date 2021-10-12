@@ -1013,9 +1013,11 @@ function fillinvoice_body() {
         per_item.id +
         '"></tbody></table></div>'
       );
-    } else if (i == 0) {
+    } else if (first_checked_ordertype.includes(per_item.order_type) == false) {
       $("#id_invoiceblock_body").append(
-        '<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept"></tbody></table></div>'
+        '<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' +
+        per_item.id +
+        '"></tbody></table></div>'
       );
     }
 
@@ -1141,7 +1143,7 @@ function fillinvoice_body() {
       } else {
         // Skipping for invoicing
         if (first_checked_ordertype.includes(per_item.order_type)) {
-          $("#invoicept").append(
+          $("#invoicept"+ per_item.id).append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="radio" id="id_paytrm' +
             i +
             '" required class="paytrm" data-id="' +
@@ -1166,7 +1168,7 @@ function fillinvoice_body() {
           );
         } else {
           // Invoicing item
-          $("#invoicept").append(
+          $("#invoicept"+ per_item.id).append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="radio" id="id_paytrm' +
             i +
             '" required class="paytrm" data-id="' +

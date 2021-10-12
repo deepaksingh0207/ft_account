@@ -1081,7 +1081,7 @@ function lastfill(oid) {
         // Always sets last payment slab to balance
         $("#orderitem_" + oid + "_paymentterm_" + pid + "_val_4").val(
           100 - pt_total_qty
-        );
+        ).trigger("change");
       }
       pt_total_qty += parseInt(
         $("#orderitem_" + oid + "_paymentterm_" + pid + "_val_4").val()
@@ -1090,19 +1090,16 @@ function lastfill(oid) {
       empty_qty_ids.push(pid);
     }
   });
-  if (fill_last_one == false) {
-    if (empty_qty_ids.length == 1) {
-      balanc = 100 - pt_total_qty;
-      if (balanc < 0) {
-        balanc = "";
-      }
-      $(
-        "#orderitem_" + oid + "_paymentterm_" + empty_qty_ids[0] + "_val_4"
-      ).val(balanc);
-      // paymentTermcollector(empty_qty_ids[0]);
-      fill_last_one = true;
-      pt_total_qty = 100;
+  if (empty_qty_ids.length == 1) {
+    balanc = 100 - pt_total_qty;
+    if (balanc < 0) {
+      balanc = "";
     }
+    $(
+      "#orderitem_" + oid + "_paymentterm_" + empty_qty_ids[0] + "_val_4"
+    ).val(balanc).trigger("change");
+    fill_last_one = true;
+    pt_total_qty = 100;
   }
 }
 
