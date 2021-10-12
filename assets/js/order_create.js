@@ -295,8 +295,8 @@ function paymentterm_reset() {
 function ordertype_reset() {
   paymentterm_reset();
   instance_list = [];
-  $("#from_date").attr("readonly", "");
-  $("#to_date").attr("readonly", "");
+  create_from_date(false);
+  create_to_date(false);
   $("#order_item_list").empty();
   $("#add_order_cardbody").hide();
   $("#from_date").val("");
@@ -339,40 +339,59 @@ $(document).on("change", "#order_type", function () {
       $("#payment_term_card").show();
       $("#quantity_header").text("Total Months");
       $("#unitprice_header").text("Total Price");
-      $("#from_date").removeAttr("readonly");
-      $("#to_date").removeAttr("readonly");
+      create_from_date();
+      create_to_date();
     } //Project Sale
     else if (oti == 2) {
       $("#payment_term_card").show();
       $("#quantity_header").text("Payment Slab");
       $("#price_header").text("Total Price");
-      $("#from_date").attr("readonly", "");
-      $("#to_date").attr("readonly", "");
+      create_from_date(false);
+      create_to_date(false);
     } // AMC Support Sale
     else if (oti == 3) {
       $("#payment_term_card").show();
       $("#quantity_header").text("Qty.");
       $("#price_header").text("Total Price");
-      $("#from_date").removeAttr("readonly");
-      $("#to_date").removeAttr("readonly");
+      create_from_date();
+      create_to_date();
     } // Man-days-Support Sale
     else if (oti == 4) {
       $("#payment_term_card").hide();
       $("#quantity_header").text("Man days");
       $("#price_header").text("Unit Price");
-      $("#from_date").attr("readonly", "");
-      $("#to_date").attr("readonly", "");
+      create_from_date(false);
+      create_to_date(false);
     } else {
       $("#payment_term_card").hide();
       $("#quantity_header").text("Qty.");
       $("#price_header").text("Total Price");
-      $("#from_date").attr("readonly", "");
-      $("#to_date").attr("readonly", "");
+      create_from_date(false);
+      create_to_date(false);
     }
     $("#add_order_cardbody").show();
   }
-
 });
+
+function create_from_date(create = true) {
+  if (create) {
+    $("#col_from_date")
+      .append('<label for="from_date">From Date :</label>')
+      .append('<input type="date" class="form-control" id="from_date" required />');
+  } else {
+    $("#col_from_date").empty();
+  }
+}
+
+function create_to_date(create = true) {
+  if (create) {
+    $("#col_to_date")
+      .append('<label for="to_date">Till Date :</label>')
+      .append('<input type="date" required class="form-control" id="to_date" />');
+  } else {
+    $("#col_to_date").empty();
+  }
+}
 
 $(document).on("click", "#add_order_item_button", function () {
   if (editmode) {
@@ -812,9 +831,10 @@ $(document).on("click", "#add_order_button", function () {
 
 $(document).on("click", ".showmain_card", function () {
   if ($(this).val() == 1) {
-    checker();
-    treeleaves();
-    showmain();
+    if (checker()) {
+      treeleaves();
+      showmain();
+    }
   } else {
     showmain();
     ordertype_reset();
