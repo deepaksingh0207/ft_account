@@ -882,7 +882,7 @@ function preview_footer(val, listname) {
   $.each(payment_for_invoicing, function (i, item) {
     subtotal += parseFloat(item.total);
   });
-  if (gstlist.length > 1) {
+  if (gstlist.length > 2) {
     sgst_total = (gstlist[1] / 100) * subtotal;
     cgst_total = (gstlist[2] / 100) * subtotal;
   } else {
