@@ -3,7 +3,8 @@ var group_id,
   checked_billto,
   checked_shipto,
   old_row,
-  oti, gst,
+  oti,
+  gst,
   new_oii,
   sgst,
   cgst,
@@ -97,7 +98,7 @@ function getgst(id) {
     dataType: "json",
     encode: true,
   }).done(function (data) {
-    gst = data
+    gst = data;
     if (data.state == "same") {
       sgst = data.sgst;
       cgst = data.cgst;
@@ -141,7 +142,6 @@ $("#shipto_search_button").on("click", function () {
   modelfill("shipto", "Ship To Address");
   $("#checkbox" + checked_shipto).prop("checked", true);
   $("#row_" + checked_shipto).css("background-color", "powderblue");
-
 });
 
 function modelfill(checkboxclass, label) {
@@ -377,7 +377,9 @@ function create_from_date(create = true) {
   if (create) {
     $("#col_from_date")
       .append('<label for="from_date">From Date :</label>')
-      .append('<input type="date" class="form-control" id="from_date" required />');
+      .append(
+        '<input type="date" class="form-control" id="from_date" required />'
+      );
   } else {
     $("#col_from_date").empty();
   }
@@ -387,7 +389,9 @@ function create_to_date(create = true) {
   if (create) {
     $("#col_to_date")
       .append('<label for="to_date">Till Date :</label>')
-      .append('<input type="date" required class="form-control" id="to_date" />');
+      .append(
+        '<input type="date" required class="form-control" id="to_date" />'
+      );
   } else {
     $("#col_to_date").empty();
   }
@@ -865,6 +869,9 @@ function treeleaves() {
       if (oti == 1 || oti == 3) {
         tree[oti][oid]["from"] = $("#from_date").val();
         tree[oti][oid]["till"] = $("#to_date").val();
+      } else {
+        tree[oti][oid]["from"] = "";
+        tree[oti][oid]["till"] = "";
       }
       $.each(tree[oti][oid]["ptl"], function (index, pid) {
         tree[oti][oid][pid]["itm"] = $("#orderitem_" + oid + "_val_1").val();
@@ -1020,36 +1027,145 @@ $(document).on("click", ".myorder", function () {
 });
 
 function form_maker() {
-  var subtotal = 0
-  var fakeoi = 0
+  var subtotal = 0;
+  var fakeoi = 0;
+  var order_change_flag = 0, firstcheck = 0;
   $.each(tree["otl"], function (index, ot) {
+    if (ot != order_change_flag && firstcheck == 1) {
+      $("#id_order_type").val("99");
+      firstcheck = 2;
+    }
+    if (ot != order_change_flag && firstcheck == 0) {
+      $("#hiddendata").append(
+        '<input type="hidden" name="ordertype" id="id_order_type" value="' + ot + '" />'
+      );
+      firstcheck = 1;
+    }
     $.each(tree[ot]["oil"], function (index, oi) {
-      subtotal += parseFloat(tree[ot][oi]["stl"])
+      subtotal += parseFloat(tree[ot][oi]["stl"]);
       $("#hiddendata")
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][ordertype]" value="' + ot + '">')
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][item]" value="' + tree[ot][oi]["itm"] + '">')
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][description]" value="' + tree[ot][oi]["dsp"] + '">')
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][qty]" value="' + tree[ot][oi]["qty"] + '">')
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][uom_id]" value="' + tree[ot][oi]["uom"] + '">')
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][unit_price]" value="' + tree[ot][oi]["utp"] + '">')
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][total]" value="' + tree[ot][oi]["stl"] + '">');
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][ordertype]" value="' +
+          ot +
+          '">'
+        )
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][item]" value="' +
+          tree[ot][oi]["itm"] +
+          '">'
+        )
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][description]" value="' +
+          tree[ot][oi]["dsp"] +
+          '">'
+        )
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][qty]" value="' +
+          tree[ot][oi]["qty"] +
+          '">'
+        )
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][uom_id]" value="' +
+          tree[ot][oi]["uom"] +
+          '">'
+        )
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][unit_price]" value="' +
+          tree[ot][oi]["utp"] +
+          '">'
+        )
+        .append(
+          '<input type="hidden" name="order_details[' +
+          fakeoi +
+          '][total]" value="' +
+          tree[ot][oi]["stl"] +
+          '">'
+        );
       if (ot == 1 || ot == 3) {
         $("#hiddendata")
-          .append('<input type="hidden" name="po_from_date" value="' + tree[ot][oi]["from"] + '">')
-          .append('<input type="hidden" name="po_to_date" value="' + tree[ot][oi]["till"] + '">');
+          .append(
+            '<input type="hidden" name="po_from_date" value="' +
+            tree[ot][oi]["from"] +
+            '">'
+          )
+          .append(
+            '<input type="hidden" name="po_to_date" value="' +
+            tree[ot][oi]["till"] +
+            '">'
+          );
       }
       if (tree[ot][oi].hasOwnProperty("ptl")) {
         $.each(tree[ot][oi]["ptl"], function (index, pt) {
           $("#hiddendata")
-            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][item]" value="' + tree[ot][oi][pt]["itm"] + '">')
-            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][description]" value="' + tree[ot][oi][pt]["dsp"] + '">')
-            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][qty]" value="' + tree[ot][oi][pt]["qty"] + '">')
-            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][uom_id]" value="' + tree[ot][oi][pt]["uom"] + '">')
-            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][unit_price]" value="' + tree[ot][oi][pt]["utp"] + '">')
-            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][total]" value="' + tree[ot][oi][pt]["stl"] + '">');
+            .append(
+              '<input type="hidden" name="order_details[' +
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][item]" value="' +
+              tree[ot][oi][pt]["itm"] +
+              '">'
+            )
+            .append(
+              '<input type="hidden" name="order_details[' +
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][description]" value="' +
+              tree[ot][oi][pt]["dsp"] +
+              '">'
+            )
+            .append(
+              '<input type="hidden" name="order_details[' +
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][qty]" value="' +
+              tree[ot][oi][pt]["qty"] +
+              '">'
+            )
+            .append(
+              '<input type="hidden" name="order_details[' +
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][uom_id]" value="' +
+              tree[ot][oi][pt]["uom"] +
+              '">'
+            )
+            .append(
+              '<input type="hidden" name="order_details[' +
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][unit_price]" value="' +
+              tree[ot][oi][pt]["utp"] +
+              '">'
+            )
+            .append(
+              '<input type="hidden" name="order_details[' +
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][total]" value="' +
+              tree[ot][oi][pt]["stl"] +
+              '">'
+            );
         });
       }
-      ++fakeoi
+      ++fakeoi;
     });
   });
   a = (sgst / 100) * subtotal;
@@ -1057,14 +1173,18 @@ function form_maker() {
   c = (igst / 100) * subtotal;
   var total = subtotal + a + b + c;
   if (gst.state == "same") {
-    $("#hiddendata")
-      .append('<input type="hidden" name="taxrate" value="' + gst.sgst + '">')
+    $("#hiddendata").append(
+      '<input type="hidden" name="taxrate" value="' + gst.sgst + '">'
+    );
   } else {
-    $("#hiddendata")
-      .append('<input type="hidden" name="taxrate" value="' + gst.igst + '">')
+    $("#hiddendata").append(
+      '<input type="hidden" name="taxrate" value="' + gst.igst + '">'
+    );
   }
   $("#hiddendata")
-    .append('<input type="hidden" name="ordersubtotal" value="' + subtotal + '">')
+    .append(
+      '<input type="hidden" name="ordersubtotal" value="' + subtotal + '">'
+    )
     .append('<input type="hidden" name="sgst" value="' + a + '">')
     .append('<input type="hidden" name="cgst" value="' + b + '">')
     .append('<input type="hidden" name="igst" value="' + c + '">')
@@ -1079,9 +1199,9 @@ function lastfill(oid) {
     if ($("#orderitem_" + oid + "_paymentterm_" + pid + "_val_4").val()) {
       if (pt_list.length - 1 == index && fill_last_one == true) {
         // Always sets last payment slab to balance
-        $("#orderitem_" + oid + "_paymentterm_" + pid + "_val_4").val(
-          100 - pt_total_qty
-        ).trigger("change");
+        $("#orderitem_" + oid + "_paymentterm_" + pid + "_val_4")
+          .val(100 - pt_total_qty)
+          .trigger("change");
       }
       pt_total_qty += parseInt(
         $("#orderitem_" + oid + "_paymentterm_" + pid + "_val_4").val()
@@ -1095,9 +1215,9 @@ function lastfill(oid) {
     if (balanc < 0) {
       balanc = "";
     }
-    $(
-      "#orderitem_" + oid + "_paymentterm_" + empty_qty_ids[0] + "_val_4"
-    ).val(balanc).trigger("change");
+    $("#orderitem_" + oid + "_paymentterm_" + empty_qty_ids[0] + "_val_4")
+      .val(balanc)
+      .trigger("change");
     fill_last_one = true;
     pt_total_qty = 100;
   }

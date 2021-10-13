@@ -7,8 +7,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `ft_account` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `ft_account`;
 
 DROP TABLE IF EXISTS `company`;
 CREATE TABLE IF NOT EXISTS `company` (
@@ -356,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `order_types` (
   `title` varchar(50) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `order_types`;
 INSERT INTO `order_types` (`id`, `title`, `status`) VALUES
@@ -365,7 +363,8 @@ INSERT INTO `order_types` (`id`, `title`, `status`) VALUES
 (3, 'AMC Support Sale', 1),
 (4, 'Man-days-Support Sale', 1),
 (5, 'SAP License Sale', 1),
-(6, 'Hardware Sale', 1);
+(6, 'Hardware Sale', 1),
+(99, 'Multi Order', 1);
 
 DROP TABLE IF EXISTS `payments`;
 CREATE TABLE IF NOT EXISTS `payments` (

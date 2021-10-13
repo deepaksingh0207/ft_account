@@ -107,7 +107,7 @@ class OrdersController extends Controller
                 $orderData['sales_person'] = $data['sales_person'];
                 $orderData['bill_to'] = $data['bill_to'];
                 $orderData['ship_to'] = $data['ship_to'];
-                // $orderData['order_type'] = $data['ordertype'];
+                $orderData['order_type'] = $data['ordertype'];
                 $orderData['sub_total'] = $data['ordersubtotal'];
                 $orderData['sgst'] = $data['sgst'];
                 $orderData['cgst'] = $data['cgst'];
