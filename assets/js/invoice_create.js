@@ -484,7 +484,7 @@ function preview_builder() {
   if (items_for_invoicing.length > 0) {
     $.each(items_for_invoicing, function (i, t) {
       $("#preview_tbody").append(
-        '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id1" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item1" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp1" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty1" min="1" value="' + t.qty + '" data-index="1" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom1" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice1" value="' + t.unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total1" value="0"></tr>');
+        '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="0"></tr>');
       c++;
     });
 
@@ -851,7 +851,7 @@ function preview_total() {
 function previewtotal(index, value) {
   $("#preview_row_total" + index).text(humanamount(value));
   $("#id_total" + index).val(value);
-  preview_total();
+  // preview_total();
 }
 
 function tax_system(tax, total, apitax = gstlist[1]) {

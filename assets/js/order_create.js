@@ -911,7 +911,7 @@ function treehouse() {
           tree[ot][oi]["utp"] +
           "</td><td>" +
           tree[ot][oi]["stl"] +
-          '</td><td style="max-width: 6vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
+          '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
           ot +
           '" data-oii="' +
           oi +
@@ -1028,6 +1028,12 @@ $(document).on("click", ".myorder", function () {
       if (ot == 2) {
         $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
           tree[ot][oi][pt]["qty"]
+        );
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_txt_6").text(
+          tree[ot][oi][pt]["stl"]
+        );
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_6").val(
+          tree[ot][oi][pt]["stl"]
         );
       }
     });
@@ -1250,7 +1256,9 @@ function update_pt_total(o, p) {
   var b = $("#orderitem_" + o + "_paymentterm_" + p + "_val_5").val();
   var res = nz((b * a) / 100);
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
-  $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(humanamount(res.toFixed(2)));
+  $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
+    humanamount(res.toFixed(2))
+  );
 }
 
 $(document).on("change", ".paymentterm_quantity", function () {
@@ -1260,13 +1268,17 @@ $(document).on("change", ".paymentterm_quantity", function () {
   var empty_qty_ids = [];
   $.each(paymentterm_list, function (index, pt) {
     if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
-      if (paymentterm_list[paymentterm_list.length - 1] == pt && empty_qty_ids.length < 1) {
+      if (
+        paymentterm_list[paymentterm_list.length - 1] == pt &&
+        empty_qty_ids.length < 1
+      ) {
         $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
           100 - qtyttl
         );
         update_pt_total(oi, pt);
       }
-      qtyttl += parseInt($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
+      qtyttl += parseInt(
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
       );
     } else {
       empty_qty_ids.push(pt);
@@ -1286,4 +1298,12 @@ $(document).on("change", ".paymentterm_quantity", function () {
 
 $(document).on("change", ".order_item_uom", function () {
   order_item_calculator($(this).data("id"));
+});
+
+$(document).on("change", "#from_date", function () {
+  $("#to_date").attr("min", $("#from_date").val());
+});
+
+$(document).on("change", "#to_date", function () {
+  $("#from_date").attr("max", $("#to_date").val());
 });
