@@ -703,10 +703,10 @@ function order_item_calculator(id) {
         } else if (oti == 2) {
           res = nz(b).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
-          $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-            humanamount(res)
-          );
-          $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
+          // $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
+          //   humanamount(res)
+          // );
+          // $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
         }
       });
     }
@@ -1026,8 +1026,9 @@ $(document).on("click", ".myorder", function () {
         tree[ot][oi][pt]["utp"]
       );
       if (ot == 2) {
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4")
-          .val(tree[ot][oi][pt]["qty"]);
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
+          tree[ot][oi][pt]["qty"]
+        );
       }
     });
   }
@@ -1244,19 +1245,28 @@ $(document).on("change", ".item", function () {
   }
 });
 
+function update_pt_total(o, p) {
+  var a = $("#orderitem_" + o + "_paymentterm_" + p + "_val_4").val();
+  var b = $("#orderitem_" + o + "_paymentterm_" + p + "_val_5").val();
+  var res = nz((b * a) / 100);
+  $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
+  $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(humanamount(res.toFixed(2)));
+}
+
 $(document).on("change", ".paymentterm_quantity", function () {
   var oi = $(this).data("oid");
+  update_pt_total(oi, $(this).data("pid"));
   var qtyttl = 0;
   var empty_qty_ids = [];
   $.each(paymentterm_list, function (index, pt) {
     if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
-      if (paymentterm_list.length - 1 == pt) {
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4")
-          .val(100 - qtyttl)
-          .trigger("change");
+      if (paymentterm_list[paymentterm_list.length - 1] == pt && empty_qty_ids.length < 1) {
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
+          100 - qtyttl
+        );
+        update_pt_total(oi, pt);
       }
-      qtyttl += parseInt(
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
+      qtyttl += parseInt($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
       );
     } else {
       empty_qty_ids.push(pt);
@@ -1270,6 +1280,7 @@ $(document).on("change", ".paymentterm_quantity", function () {
     $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(
       balanc
     );
+    update_pt_total(oi, empty_qty_ids[0]);
   }
 });
 
