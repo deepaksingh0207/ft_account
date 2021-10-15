@@ -55,7 +55,7 @@
           </div>
           <div class="col-3 hide" id="col_sgst">
             <b>SGST <span id="add_order_sgst"></span>% : </b>₹ 
-            <span id="add_order_sgst_val">₹ 0.00</span>
+            <span id="add_order_sgst_val">0.00</span>
           </div>
           <div class="col-3 hide" id="col_cgst">
             <b>CGST <span id="add_order_cgst"></span>% : </b>₹ 
