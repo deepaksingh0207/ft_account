@@ -703,10 +703,10 @@ function order_item_calculator(id) {
         } else if (oti == 2) {
           res = nz(b).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
-          $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-            humanamount(res)
-          );
-          $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
+          // $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
+          //   humanamount(res)
+          // );
+          // $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
         }
       });
     }
@@ -731,7 +731,7 @@ function order_item_calculator(id) {
 
 function order_calculator(id) {
   var sub_total = 0;
-  sub_total += parseFloat($("#orderitem_" + id + "_val_5").val());
+  sub_total += parseFloat($("#orderitem_" + id + "_val_6").val());
   $("#add_order_subtotal_val").text(nz(sub_total.toFixed(2)));
   a = parseFloat((sgst / 100) * sub_total);
   b = parseFloat((cgst / 100) * sub_total);
@@ -1000,6 +1000,7 @@ $(document).on("click", ".myorder", function () {
   create();
   var ot = $(this).data("oti");
   var oi = $(this).data("oii");
+  item_id = oi;
   oti = $(this).data("oti");
   writemode = false;
   $("#order_type").val($(this).data("oti")).trigger("change");
@@ -1025,9 +1026,9 @@ $(document).on("click", ".myorder", function () {
         tree[ot][oi][pt]["utp"]
       );
       if (ot == 2) {
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4")
-          .val(tree[ot][oi][pt]["qty"])
-          .trigger("change");
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
+          tree[ot][oi][pt]["qty"]
+        );
       }
     });
   }
@@ -1237,3 +1238,52 @@ function form_maker() {
       '<input type="hidden" name="ordertotal" value="' + total.toFixed(2) + '">'
     );
 }
+
+$(document).on("change", ".item", function () {
+  if (oti == 2) {
+    $(".paymentterm_item").text($(this).val());
+  }
+});
+
+function update_pt_total(o, p) {
+  var a = $("#orderitem_" + o + "_paymentterm_" + p + "_val_4").val();
+  var b = $("#orderitem_" + o + "_paymentterm_" + p + "_val_5").val();
+  var res = nz((b * a) / 100);
+  $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
+  $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(humanamount(res.toFixed(2)));
+}
+
+$(document).on("change", ".paymentterm_quantity", function () {
+  var oi = $(this).data("oid");
+  update_pt_total(oi, $(this).data("pid"));
+  var qtyttl = 0;
+  var empty_qty_ids = [];
+  $.each(paymentterm_list, function (index, pt) {
+    if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
+      if (paymentterm_list[paymentterm_list.length - 1] == pt && empty_qty_ids.length < 1) {
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
+          100 - qtyttl
+        );
+        update_pt_total(oi, pt);
+      }
+      qtyttl += parseInt($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
+      );
+    } else {
+      empty_qty_ids.push(pt);
+    }
+  });
+  if (empty_qty_ids.length == 1) {
+    balanc = 100 - qtyttl;
+    if (balanc < 0) {
+      balanc = "";
+    }
+    $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(
+      balanc
+    );
+    update_pt_total(oi, empty_qty_ids[0]);
+  }
+});
+
+$(document).on("change", ".order_item_uom", function () {
+  order_item_calculator($(this).data("id"));
+});
