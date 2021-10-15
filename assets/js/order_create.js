@@ -1029,6 +1029,12 @@ $(document).on("click", ".myorder", function () {
         $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
           tree[ot][oi][pt]["qty"]
         );
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_txt_6").text(
+          tree[ot][oi][pt]["stl"]
+        );
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_6").val(
+          tree[ot][oi][pt]["stl"]
+        );
       }
     });
   }
@@ -1250,7 +1256,9 @@ function update_pt_total(o, p) {
   var b = $("#orderitem_" + o + "_paymentterm_" + p + "_val_5").val();
   var res = nz((b * a) / 100);
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
-  $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(humanamount(res.toFixed(2)));
+  $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
+    humanamount(res.toFixed(2))
+  );
 }
 
 $(document).on("change", ".paymentterm_quantity", function () {
@@ -1260,7 +1268,10 @@ $(document).on("change", ".paymentterm_quantity", function () {
   var empty_qty_ids = [];
   $.each(paymentterm_list, function (index, pt) {
     if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
-      if (paymentterm_list[paymentterm_list.length - 1] == pt && empty_qty_ids.length < 1) {
+      if (
+        paymentterm_list[paymentterm_list.length - 1] == pt &&
+        empty_qty_ids.length < 1
+      ) {
         $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
           100 - qtyttl
         );

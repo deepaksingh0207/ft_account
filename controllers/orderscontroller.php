@@ -115,8 +115,6 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
-                $orderData['po_from_date'] = $data['po_from_date'];
-                $orderData['po_to_date'] = $data['po_to_date'];
                 
                 // if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
                 //     $orderData['po_from_date'] = $data['po_from_date'];
@@ -192,6 +190,11 @@ class OrdersController extends Controller
                         $orderItem['total'] = $item['total'];
                         $orderItem['order_id'] = $orderId;
                         $orderItem['order_type'] = $item['ordertype'];
+
+                        if($item['ordertype'] == 1 || $item['ordertype'] == 3) {
+                            $orderItem['po_from_date'] = $item['po_from_date'];
+                            $orderItem['po_to_date'] = $item['po_to_date'];
+                        }
 
                         $orderItemId = $tblOrderItem->save($orderItem);
 
