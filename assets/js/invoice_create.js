@@ -1143,7 +1143,7 @@ function fillinvoice_body() {
       } else {
         // Skipping for invoicing
         if (first_checked_ordertype.includes(per_item.order_type)) {
-          $("#invoicept"+ per_item.id).append(
+          $("#invoicept" + per_item.id).append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="radio" id="id_paytrm' +
             i +
             '" required class="paytrm" data-id="' +
@@ -1168,7 +1168,7 @@ function fillinvoice_body() {
           );
         } else {
           // Invoicing item
-          $("#invoicept"+ per_item.id).append(
+          $("#invoicept" + per_item.id).append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="radio" id="id_paytrm' +
             i +
             '" required class="paytrm" data-id="' +
