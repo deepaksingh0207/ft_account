@@ -911,7 +911,7 @@ function treehouse() {
           tree[ot][oi]["utp"] +
           "</td><td>" +
           tree[ot][oi]["stl"] +
-          '</td><td style="max-width: 6vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
+          '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
           ot +
           '" data-oii="' +
           oi +
@@ -1277,7 +1277,8 @@ $(document).on("change", ".paymentterm_quantity", function () {
         );
         update_pt_total(oi, pt);
       }
-      qtyttl += parseInt($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
+      qtyttl += parseInt(
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
       );
     } else {
       empty_qty_ids.push(pt);
@@ -1297,4 +1298,12 @@ $(document).on("change", ".paymentterm_quantity", function () {
 
 $(document).on("change", ".order_item_uom", function () {
   order_item_calculator($(this).data("id"));
+});
+
+$(document).on("change", "#from_date", function () {
+  $("#to_date").attr("min", $("#from_date").val());
+});
+
+$(document).on("change", "#to_date", function () {
+  $("#from_date").attr("max", $("#to_date").val());
 });
