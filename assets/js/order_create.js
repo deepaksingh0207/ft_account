@@ -775,6 +775,8 @@ function treeleaves() {
   tree[oti][item_id]["qty"] = $("#orderitem_" + item_id + "_val_3").val();
   tree[oti][item_id]["utp"] = $("#orderitem_" + item_id + "_val_5").val();
   tree[oti][item_id]["stl"] = $("#orderitem_" + item_id + "_val_6").val();
+  tree[oti][item_id]["utp"] = (tree[oti][item_id]["utp"]).toFixed(2);
+  tree[oti][item_id]["stl"] = (tree[oti][item_id]["stl"]).toFixed(2);
   if (oti < 4) {
     tree[oti][item_id]["uom"] = uom("x");
     if (oti == 1 || oti == 3) {
