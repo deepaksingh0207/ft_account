@@ -122,16 +122,21 @@ function update_tax(s = sgst, c = cgst, i = igst) {
   $("#add_order_item_sgstcut_txt").text(s);
   $("#add_order_item_cgstcut_txt").text(s);
   $("#add_order_item_igstcut_txt").text(i);
-  $("#sgstdiv").hide();
-  $("#cgstdiv").hide();
-  $("#igstdiv").hide();
   if (l_gst.state == "same") {
-    $("#sgstdiv").show();
-    $("#cgstdiv").show();
+    $("#col_sub_total").removeClass("col-4");
+    $("#col_total").removeClass("col-4");
+    $("#col_sub_total").addClass("col-3");
+    $("#col_total").addClass("col-3");
     $("#col_sgst").show();
     $("#col_cgst").show();
+    $("#col_igst").hide();
   } else {
-    $("#igstdiv").show();
+    $("#col_sub_total").removeClass("col-3");
+    $("#col_total").removeClass("col-3");
+    $("#col_sub_total").addClass("col-4");
+    $("#col_total").addClass("col-4");
+    $("#col_sgst").hide();
+    $("#col_cgst").hide();
     $("#col_igst").show();
   }
 }
@@ -169,73 +174,73 @@ function modelfill(checkboxclass, label) {
       $("#row_" + index)
         .append(
           "<td id='col_1_" +
-            index +
-            "'><div class='icheck-primary d-inline'><input type='radio' id='checkbox" +
-            index +
-            "' name='id_customer' class='fill_customer_details' data-index='" +
-            index +
-            "' data-id='" +
-            row.id +
-            "' data-name='" +
-            row.name +
-            "' data-address='" +
-            row.address +
-            "' data-modal='" +
-            checkboxclass +
-            "' ><label for='checkbox" +
-            index +
-            "'></label></div></td>"
+          index +
+          "'><div class='icheck-primary d-inline'><input type='radio' id='checkbox" +
+          index +
+          "' name='id_customer' class='fill_customer_details' data-index='" +
+          index +
+          "' data-id='" +
+          row.id +
+          "' data-name='" +
+          row.name +
+          "' data-address='" +
+          row.address +
+          "' data-modal='" +
+          checkboxclass +
+          "' ><label for='checkbox" +
+          index +
+          "'></label></div></td>"
         )
         .append(
           "<td class='fill_customer_details' id='col_2_" +
-            index +
-            "' data-index='" +
-            index +
-            "' data-id='" +
-            row.id +
-            "' data-name='" +
-            row.name +
-            "' data-address='" +
-            row.address +
-            "' data-modal='" +
-            checkboxclass +
-            "' >" +
-            row.id +
-            "</td>"
+          index +
+          "' data-index='" +
+          index +
+          "' data-id='" +
+          row.id +
+          "' data-name='" +
+          row.name +
+          "' data-address='" +
+          row.address +
+          "' data-modal='" +
+          checkboxclass +
+          "' >" +
+          row.id +
+          "</td>"
         )
         .append(
           "<td class='fill_customer_details' id='col_3_" +
-            index +
-            "' data-index='" +
-            index +
-            "' data-id='" +
-            row.id +
-            "' data-name='" +
-            row.name +
-            "' data-address='" +
-            row.address +
-            "' data-modal='" +
-            checkboxclass +
-            "' >" +
-            row.name +
-            "</td>"
+          index +
+          "' data-index='" +
+          index +
+          "' data-id='" +
+          row.id +
+          "' data-name='" +
+          row.name +
+          "' data-address='" +
+          row.address +
+          "' data-modal='" +
+          checkboxclass +
+          "' >" +
+          row.name +
+          "</td>"
         )
         .append(
           "<td class='fill_customer_details' id='col_4_" +
-            index +
-            "' data-index='" +
-            index +
-            "' data-id='" +
-            row.id +
-            "' data-name='" +
-            row.name +
-            "' data-address='" +
-            row.address +
-            "' data-modal='" +
-            checkboxclass +
-            "' style='width: 455px'>" +
-            row.address +
-            "</td>"
+          index +
+          "' data-index='" +
+          index +
+          "' data-id='" +
+          row.id +
+          "' data-name='" +
+          row.name +
+          "' data-address='" +
+          row.address +
+          "' data-modal='" +
+          checkboxclass +
+          "' style='width: 455px'>" +
+          row.address +
+          "</td>"
         );
     });
   } else {
@@ -304,10 +309,7 @@ function paymentterm_reset() {
 function create_from_date(create = true) {
   if (create) {
     $("#col_from_date")
-      .append('<label for="from_date">From Date :</label>')
-      .append(
-        '<input type="date" class="form-control" id="from_date" required />'
-      );
+      .append('<div class="col-4 mt-3 text-right"><label for="from_date">From Date :</label></div><div class="col-8 mt-2"><input type="date" class="form-control" id="from_date" required="" aria-invalid="false"></div>');
   } else {
     $("#col_from_date").empty();
   }
@@ -316,10 +318,7 @@ function create_from_date(create = true) {
 function create_to_date(create = true) {
   if (create) {
     $("#col_to_date")
-      .append('<label for="to_date">Till Date :</label>')
-      .append(
-        '<input type="date" required class="form-control" id="to_date" />'
-      );
+      .append('<div class="col-4 mt-3 text-right"><label for="to_date">Till Date :</label></div><div class="col-8 mt-2"><input type="date" class="form-control" id="to_date" required=""></div>');
   } else {
     $("#col_to_date").empty();
   }
@@ -327,7 +326,8 @@ function create_to_date(create = true) {
 
 function ordertype_reset() {
   paymentterm_reset();
-  $("#add_order_item_card").hide();
+  $("#add_order_item_cardbody").hide();
+  $("#add_order_item_cardfooter").hide();
   $("#order_item_list").empty();
   create_from_date(false);
   create_to_date(false);
@@ -338,6 +338,8 @@ function create() {
   $("#order_type").val("");
   ordertype_reset();
   $("#add_order_card").show();
+  // $("#add_order_cardbody").show();
+  // $("#add_order_item_card").show();
 }
 
 function uom(tag = true, i = oti) {
@@ -413,8 +415,8 @@ $(document).on("change", "#order_type", function () {
       create_from_date(false);
       create_to_date(false);
     }
-    $("#add_order_item_card").show();
-    $("#add_order_cardbody").show();
+    $("#add_order_item_cardbody").show();
+    $("#add_order_item_cardfooter").show();
   }
 });
 
@@ -422,98 +424,92 @@ function add_order(id) {
   if (oti < 5) {
     $("#order_item_list").append(
       '<tr id="order_item_' +
-        id +
-        '"> <td class="form-group" id="orderitem_' +
-        id +
-        '_col_1"> <input type="text" data-id="' +
-        id +
-        '" class="form-control item capitalize" id="orderitem_' +
-        id +
-        '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' +
-        id +
-        '_col_2"> <input type="text" data-id="' +
-        id +
-        '" class="form-control min150 desp capitalize" id="orderitem_' +
-        id +
-        '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' +
-        id +
-        '_col_3"> <input type="number" data-id="' +
-        id +
-        '" class="form-control order_item_quantity numberonly" id="orderitem_' +
-        id +
-        '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' +
-        id +
-        '_col_4"> <span id="orderitem_' +
-        id +
-        '_txt_4">' +
-        uom() +
-        '</span> </td> <td class="form-group max150" id="orderitem_' +
-        id +
-        '_col_35"> <input type="number" data-id="' +
-        id +
-        '" class="form-control order_item_unitprice" id="orderitem_' +
-        id +
-        '_val_5" /> </td> <td class="form-group pt-4" id="orderitem_' +
-        id +
-        '_col_6"> <input type="hidden" data-id="' +
-        id +
-        '" class="form-control rowtotal" id="orderitem_' +
-        id +
-        '_val_6" /> <span id="orderitem_' +
-        id +
-        '_txt_6">₹0.00</span> </td><td id="orderitem_' +
-        id +
-        '_col_7" class="pt-4"></td> </tr>'
+      id +
+      '"> <td class="form-group" id="orderitem_' +
+      id +
+      '_col_1"> <input type="text" data-id="' +
+      id +
+      '" class="form-control item capitalize" id="orderitem_' +
+      id +
+      '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' +
+      id +
+      '_col_2"> <input type="text" data-id="' +
+      id +
+      '" class="form-control min150 desp capitalize" id="orderitem_' +
+      id +
+      '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' +
+      id +
+      '_col_3"> <input type="number" data-id="' +
+      id +
+      '" class="form-control order_item_quantity numberonly" id="orderitem_' +
+      id +
+      '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' +
+      id +
+      '_col_4"> <span id="orderitem_' +
+      id +
+      '_txt_4">' +
+      uom() +
+      '</span> </td> <td class="form-group max150" id="orderitem_' +
+      id +
+      '_col_35"> <input type="number" data-id="' +
+      id +
+      '" class="form-control order_item_unitprice" id="orderitem_' +
+      id +
+      '_val_5" /> <input type="hidden" data-id="' +
+      id +
+      '" class="form-control rowtotal" id="orderitem_' +
+      id +
+      '_val_6" /> </td> </tr>'
     );
   } else {
     $("#order_item_list").append(
       '<tr id="order_item_' +
-        id +
-        '"> <td class="form-group" id="orderitem_' +
-        id +
-        '_col_1"> <input type="text" data-id="' +
-        id +
-        '" class="form-control item capitalize" id="orderitem_' +
-        id +
-        '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' +
-        id +
-        '_col_2"> <input type="text" data-id="' +
-        id +
-        '" class="form-control min150 desp capitalize" id="orderitem_' +
-        id +
-        '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' +
-        id +
-        '_col_3"> <input type="number" data-id="' +
-        id +
-        '" class="form-control order_item_quantity numberonly" id="orderitem_' +
-        id +
-        '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' +
-        id +
-        '_col_4"> <span id="orderitem_' +
-        id +
-        '_txt_4">' +
-        uom() +
-        '</span><select data-id="' +
-        id +
-        '" class="form-control order_item_uom" id="orderitem_' +
-        id +
-        '_val_4"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td> <td class="form-group max150" id="orderitem_' +
-        id +
-        '_col_5"> <input type="number" data-id="' +
-        id +
-        '" class="form-control order_item_unitprice" id="orderitem_' +
-        id +
-        '_val_5" /> </td> <td class="form-group pt-4" id="orderitem_' +
-        id +
-        '_col_6"> <input type="hidden" data-id="' +
-        id +
-        '" class="form-control rowtotal" id="orderitem_' +
-        id +
-        '_val_6" /> <span id="orderitem_' +
-        id +
-        '_txt_6">₹0.00</span> </td> <td id="orderitem_' +
-        id +
-        '_col_7" class="pt-4"></td></tr>'
+      id +
+      '"> <td class="form-group" id="orderitem_' +
+      id +
+      '_col_1"> <input type="text" data-id="' +
+      id +
+      '" class="form-control item capitalize" id="orderitem_' +
+      id +
+      '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' +
+      id +
+      '_col_2"> <input type="text" data-id="' +
+      id +
+      '" class="form-control min150 desp capitalize" id="orderitem_' +
+      id +
+      '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' +
+      id +
+      '_col_3"> <input type="number" data-id="' +
+      id +
+      '" class="form-control order_item_quantity numberonly" id="orderitem_' +
+      id +
+      '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' +
+      id +
+      '_col_4"> <span id="orderitem_' +
+      id +
+      '_txt_4">' +
+      uom() +
+      '</span><select data-id="' +
+      id +
+      '" class="form-control order_item_uom" id="orderitem_' +
+      id +
+      '_val_4"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td> <td class="form-group max150" id="orderitem_' +
+      id +
+      '_col_5"> <input type="number" data-id="' +
+      id +
+      '" class="form-control order_item_unitprice" id="orderitem_' +
+      id +
+      '_val_5" /> </td> <td class="form-group pt-4" id="orderitem_' +
+      id +
+      '_col_6"> <input type="hidden" data-id="' +
+      id +
+      '" class="form-control rowtotal" id="orderitem_' +
+      id +
+      '_val_6" /> <span id="orderitem_' +
+      id +
+      '_txt_6">₹0.00</span> </td> <td id="orderitem_' +
+      id +
+      '_col_7" class="pt-4"></td></tr>'
     );
   }
   if (oti < 4) {
@@ -525,19 +521,19 @@ function payment_term_cardbody(id) {
   if (oti == 1 || oti == 3) {
     $("#payment_term_cardbody").append(
       '<table class="table" id="table_' +
-        id +
-        '"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
-        id +
-        '"></tbody></table>'
+      id +
+      '"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
+      id +
+      '"></tbody></table>'
     );
   }
   if (oti == 2) {
     $("#payment_term_cardbody").append(
       '<table class="table" id="table_' +
-        id +
-        '"><thead><tr><th class="max100">Sr. No.</th><th class="max100">Item</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
-        id +
-        '"></tbody></table>'
+      id +
+      '"><thead><tr><th class="max100">Sr. No.</th><th class="max100">Item</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
+      id +
+      '"></tbody></table>'
     );
   }
   add_paymentterm(id, 1);
@@ -548,106 +544,106 @@ function add_paymentterm(oid, pid) {
   if (oti == 2) {
     $("#paymentterm_list_" + oid).append(
       '<tr id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '"><td class="form-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_1">1</td><td class="form-group paymentterm_item" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_2"></td><td class="form-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_4" max="100" min="5" step="5" data-oid="' +
-        oid +
-        '" data-pid="' +
-        pid +
-        '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_6" /><span id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_txt_6">₹0.00</span></td></tr>;'
+      oid +
+      "_paymentterm_" +
+      pid +
+      '"><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_1">1</td><td class="form-group paymentterm_item" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_2"></td><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_4" max="100" min="5" step="5" data-oid="' +
+      oid +
+      '" data-pid="' +
+      pid +
+      '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_6" /><span id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_txt_6">₹0.00</span></td></tr>;'
     );
   } else if (oti == 1 || oti == 3) {
     $("#paymentterm_list_" + oid).append(
       '<tr id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '"><td class="form-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_1">1</td><td class="form-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_4"><input type="hidden" value="1" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_val_6" /><span id="orderitem_' +
-        oid +
-        "_paymentterm_" +
-        pid +
-        '_txt_6">₹0.00</span></td></tr>;'
+      oid +
+      "_paymentterm_" +
+      pid +
+      '"><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_1">1</td><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_4"><input type="hidden" value="1" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_6" /><span id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_txt_6">₹0.00</span></td></tr>;'
     );
   }
 }
@@ -775,8 +771,8 @@ function treeleaves() {
   tree[oti][item_id]["qty"] = $("#orderitem_" + item_id + "_val_3").val();
   tree[oti][item_id]["utp"] = $("#orderitem_" + item_id + "_val_5").val();
   tree[oti][item_id]["stl"] = $("#orderitem_" + item_id + "_val_6").val();
-  tree[oti][item_id]["utp"] = (tree[oti][item_id]["utp"]).toFixed(2);
-  tree[oti][item_id]["stl"] = (tree[oti][item_id]["stl"]).toFixed(2);
+  tree[oti][item_id]["utp"] = parseFloat(tree[oti][item_id]["utp"]).toFixed(2);
+  tree[oti][item_id]["stl"] = parseFloat(tree[oti][item_id]["stl"]).toFixed(2);
   if (oti < 4) {
     tree[oti][item_id]["uom"] = uom("x");
     if (oti == 1 || oti == 3) {
@@ -894,8 +890,9 @@ function treehouse() {
   $.each(tree["otl"], function (i, ot) {
     $.each(tree[ot]["oil"], function (j, oi) {
       subttl += parseFloat(tree[ot][oi]["stl"]);
-      $("#order_items").append(
-        '<tr data-widget="expandable-table" aria-expanded="false" id="parent_' +
+      if (ot < 4) {
+        $("#order_items").append(
+          '<tr data-widget="expandable-table" aria-expanded="false" id="parent_' +
           ot +
           "_" +
           oi +
@@ -926,36 +923,71 @@ function treehouse() {
           '" data-oii="' +
           oi +
           '"></i></button></div></td></tr>'
-      );
+        );
+      } else { 
+        $("#order_items").append(
+          '<tr id="parent_' +
+          ot +
+          "_" +
+          oi +
+          '"><td>' +
+          tree[ot][oi]["itm"] +
+          "</td><td>" +
+          tree[ot][oi]["dsp"] +
+          "</td><td>" +
+          getot(ot) +
+          "</td><td>" +
+          tree[ot][oi]["qty"] +
+          "</td><td>" +
+          tree[ot][oi]["uom"] +
+          "</td><td>" +
+          tree[ot][oi]["utp"] +
+          "</td><td>" +
+          tree[ot][oi]["stl"] +
+          '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
+          ot +
+          '" data-oii="' +
+          oi +
+          '"><i class="fas fa-pen text-primary"></i></button><button type="button" class="btn btn-sm btn-default remove_saved_item" data-oti="' +
+          ot +
+          '" data-oii="' +
+          oi +
+          '"><i class="fas fa-times text-danger" data-oti="' +
+          ot +
+          '" data-oii="' +
+          oi +
+          '"></i></button></div></td></tr>'
+        );
+      }
       if (ot < 4) {
         $.each(tree[ot][oi]["ptl"], function (k, pt) {
           if (k == 0) {
             $("#order_items").append(
               '<tr class="expandable-body d-none text-center" id="child_' +
-                ot +
-                "_" +
-                oi +
-                '"><td colspan="8"><div class="p-0"><table class="table table-hover"><tbody id="' +
-                ot +
-                "_" +
-                oi +
-                '"><tr><td style="width: 8rem;">Sr No.</td><td style="width: 22rem;">Description</td><td style="width: 11rem;"> Qty./Unit </td><td>Unit Price</td><td style="width: 14rem;">Total</td></tr>'
+              ot +
+              "_" +
+              oi +
+              '"><td colspan="8"><div class="p-0"><table class="table table-hover"><tbody id="' +
+              ot +
+              "_" +
+              oi +
+              '"><tr><td style="width: 8rem;">Sr No.</td><td style="width: 22rem;">Description</td><td style="width: 11rem;"> Qty./Unit </td><td>Unit Price</td><td style="width: 14rem;">Total</td></tr>'
             );
           }
           $("#" + ot + "_" + oi).append(
             "<tr><td>" +
-              j +
-              "." +
-              k +
-              "</td><td>" +
-              tree[ot][oi][pt]["dsp"] +
-              "</td><td>" +
-              tree[ot][oi][pt]["qty"] +
-              "</td><td>" +
-              tree[ot][oi][pt]["utp"] +
-              "</td><td>" +
-              tree[ot][oi][pt]["stl"] +
-              "</td></tr></tbody></table></div></td></tr>"
+            j +
+            "." +
+            k +
+            "</td><td>" +
+            tree[ot][oi][pt]["dsp"] +
+            "</td><td>" +
+            tree[ot][oi][pt]["qty"] +
+            "</td><td>" +
+            tree[ot][oi][pt]["utp"] +
+            "</td><td>" +
+            tree[ot][oi][pt]["stl"] +
+            "</td></tr></tbody></table></div></td></tr>"
           );
         });
       }
@@ -967,32 +999,32 @@ function treehouse() {
     ttl = subttl + sgstttl + cgstttl;
     $("#order_items_cardfooter").append(
       '<div class="row"><div class="col-3"><b>Sub Total : </b>₹ ' +
-        subttl.toFixed(2) +
-        '</div><div class="col-3"><b>SGST ' +
-        sgst +
-        "% : </b>" +
-        sgstttl.toFixed(2) +
-        '<br /></div><div class="col-3"><b>CGST ' +
-        cgst +
-        "% : </b>₹ " +
-        cgstttl.toFixed(2) +
-        '<br /></div><div class="col-3"><b>Total : </b>₹ ' +
-        ttl.toFixed(2) +
-        "</div></div>"
+      subttl.toFixed(2) +
+      '</div><div class="col-3"><b>SGST ' +
+      sgst +
+      "% : </b>" +
+      sgstttl.toFixed(2) +
+      '<br /></div><div class="col-3"><b>CGST ' +
+      cgst +
+      "% : </b>₹ " +
+      cgstttl.toFixed(2) +
+      '<br /></div><div class="col-3"><b>Total : </b>₹ ' +
+      ttl.toFixed(2) +
+      "</div></div>"
     );
   } else {
     igstttl = (subttl * igst) / 100;
     ttl = subttl + igstttl;
     $("#order_items_cardfooter").append(
       '<div class="row"><div class="col-4"><b>Sub Total : </b>₹ ' +
-        subttl +
-        ' </div><div class="col-4"><b>IGST ' +
-        igst +
-        "% : </b>₹ " +
-        igstttl +
-        '<br /></div><div class="col-4"><b>Total : </b>₹ ' +
-        ttl +
-        "</div></div>"
+      subttl +
+      ' </div><div class="col-4"><b>IGST ' +
+      igst +
+      "% : </b>₹ " +
+      igstttl +
+      '<br /></div><div class="col-4"><b>Total : </b>₹ ' +
+      ttl +
+      "</div></div>"
     );
   }
   $("#order_items_cardfooter").show();
@@ -1082,8 +1114,8 @@ function form_maker() {
     if (ot != order_change_flag && index == 0) {
       $("#hiddendata").append(
         '<input type="hidden" name="ordertype" id="id_order_type" value="' +
-          ot +
-          '" />'
+        ot +
+        '" />'
       );
     } else if (ot != order_change_flag && index != 0) {
       $("#id_order_type").val("99");
@@ -1094,68 +1126,68 @@ function form_maker() {
       $("#hiddendata")
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][ordertype]" value="' +
-            ot +
-            '">'
+          fakeoi +
+          '][ordertype]" value="' +
+          ot +
+          '">'
         )
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][item]" value="' +
-            tree[ot][oi]["itm"] +
-            '">'
+          fakeoi +
+          '][item]" value="' +
+          tree[ot][oi]["itm"] +
+          '">'
         )
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][description]" value="' +
-            tree[ot][oi]["dsp"] +
-            '">'
+          fakeoi +
+          '][description]" value="' +
+          tree[ot][oi]["dsp"] +
+          '">'
         )
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][qty]" value="' +
-            tree[ot][oi]["qty"] +
-            '">'
+          fakeoi +
+          '][qty]" value="' +
+          tree[ot][oi]["qty"] +
+          '">'
         )
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][uom_id]" value="' +
-            tree[ot][oi]["uom"] +
-            '">'
+          fakeoi +
+          '][uom_id]" value="' +
+          tree[ot][oi]["uom"] +
+          '">'
         )
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][unit_price]" value="' +
-            tree[ot][oi]["utp"] +
-            '">'
+          fakeoi +
+          '][unit_price]" value="' +
+          tree[ot][oi]["utp"] +
+          '">'
         )
         .append(
           '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][total]" value="' +
-            tree[ot][oi]["stl"] +
-            '">'
+          fakeoi +
+          '][total]" value="' +
+          tree[ot][oi]["stl"] +
+          '">'
         );
       if (ot == 1 || ot == 3) {
         $("#hiddendata")
           .append(
             '<input type="hidden" name="order_details[' +
-              fakeoi +
-              '][po_from_date]" value="' +
-              tree[ot][oi]["from"] +
-              '">'
+            fakeoi +
+            '][po_from_date]" value="' +
+            tree[ot][oi]["from"] +
+            '">'
           )
           .append(
             '<input type="hidden" name="order_details[' +
-              fakeoi +
-              '][po_to_date]" value="' +
-              tree[ot][oi]["till"] +
-              '">'
+            fakeoi +
+            '][po_to_date]" value="' +
+            tree[ot][oi]["till"] +
+            '">'
           );
       }
       if (tree[ot][oi].hasOwnProperty("ptl")) {
@@ -1163,57 +1195,57 @@ function form_maker() {
           $("#hiddendata")
             .append(
               '<input type="hidden" name="order_details[' +
-                fakeoi +
-                "][payment_term][" +
-                pt +
-                '][item]" value="' +
-                tree[ot][oi][pt]["itm"] +
-                '">'
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][item]" value="' +
+              tree[ot][oi][pt]["itm"] +
+              '">'
             )
             .append(
               '<input type="hidden" name="order_details[' +
-                fakeoi +
-                "][payment_term][" +
-                pt +
-                '][description]" value="' +
-                tree[ot][oi][pt]["dsp"] +
-                '">'
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][description]" value="' +
+              tree[ot][oi][pt]["dsp"] +
+              '">'
             )
             .append(
               '<input type="hidden" name="order_details[' +
-                fakeoi +
-                "][payment_term][" +
-                pt +
-                '][qty]" value="' +
-                tree[ot][oi][pt]["qty"] +
-                '">'
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][qty]" value="' +
+              tree[ot][oi][pt]["qty"] +
+              '">'
             )
             .append(
               '<input type="hidden" name="order_details[' +
-                fakeoi +
-                "][payment_term][" +
-                pt +
-                '][uom_id]" value="' +
-                tree[ot][oi][pt]["uom"] +
-                '">'
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][uom_id]" value="' +
+              tree[ot][oi][pt]["uom"] +
+              '">'
             )
             .append(
               '<input type="hidden" name="order_details[' +
-                fakeoi +
-                "][payment_term][" +
-                pt +
-                '][unit_price]" value="' +
-                tree[ot][oi][pt]["utp"] +
-                '">'
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][unit_price]" value="' +
+              tree[ot][oi][pt]["utp"] +
+              '">'
             )
             .append(
               '<input type="hidden" name="order_details[' +
-                fakeoi +
-                "][payment_term][" +
-                pt +
-                '][total]" value="' +
-                tree[ot][oi][pt]["stl"] +
-                '">'
+              fakeoi +
+              "][payment_term][" +
+              pt +
+              '][total]" value="' +
+              tree[ot][oi][pt]["stl"] +
+              '">'
             );
         });
       }
@@ -1236,8 +1268,8 @@ function form_maker() {
   $("#hiddendata")
     .append(
       '<input type="hidden" name="ordersubtotal" value="' +
-        subtotal.toFixed(2) +
-        '">'
+      subtotal.toFixed(2) +
+      '">'
     )
     .append('<input type="hidden" name="sgst" value="' + a.toFixed(2) + '">')
     .append('<input type="hidden" name="cgst" value="' + b.toFixed(2) + '">')
