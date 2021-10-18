@@ -451,7 +451,7 @@ function add_order(id) {
         id +
         '_col_35"> <input type="number" data-id="' +
         id +
-        '" class="form-control order_item_unitprice" min="1" id="orderitem_' +
+        '" class="form-control order_item_unitprice" id="orderitem_' +
         id +
         '_val_5" /> </td> <td class="form-group pt-4" id="orderitem_' +
         id +
@@ -501,7 +501,7 @@ function add_order(id) {
         id +
         '_col_5"> <input type="number" data-id="' +
         id +
-        '" class="form-control order_item_unitprice" min="1" id="orderitem_' +
+        '" class="form-control order_item_unitprice" id="orderitem_' +
         id +
         '_val_5" /> </td> <td class="form-group pt-4" id="orderitem_' +
         id +
