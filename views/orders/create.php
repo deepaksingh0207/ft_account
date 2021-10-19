@@ -181,18 +181,22 @@
                               </tr>
                             </thead>
                             <tbody id="order_items">
+                              <tr>
+                                <td colspan="8" class="text-center">
+                                  No Order Item
+                                </td>
+                              </tr>
                             </tbody>
                           </table>
-                          <hr class="m-0">
-                          <div class="text-center m-2">
-                            <button type="button" class="btn btn-primary" onclick="create()">
-                              Add New Item
-                            </button>
-                          </div>
                         </div>
                         <div class="card-footer hide" id="order_items_cardfooter">
                         </div>
                       </div>
+                      <div class="text-left m-2">
+                            <button type="button" class="btn btn-primary" onclick="create()">
+                              Add Order Item
+                            </button>
+                          </div>
                     </div>
                     <div class="row">
                       <div class="col-12">
