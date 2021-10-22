@@ -136,19 +136,28 @@ function checker() {
       check = false;
     }
   });
+  if (oti != 7){
   $("input#from_date").each(function () {
     if ($(this).val().length < 1) {
       $(this).addClass("is-invalid");
       check = false;
     }
   });
-  $("input.paymentterm_quantity").each(function () {
+  $("input#to_date").each(function () {
     if ($(this).val().length < 1) {
       $(this).addClass("is-invalid");
       check = false;
     }
   });
-  $("input#to_date").each(function () {
+  } else {
+    $("select.paymentterm_uom").each(function () {
+      if ($(this).val().length < 1) {
+        $(this).addClass("is-invalid");
+        check = false;
+      }
+    });
+  }
+  $("input.paymentterm_quantity").each(function () {
     if ($(this).val().length < 1) {
       $(this).addClass("is-invalid");
       check = false;
