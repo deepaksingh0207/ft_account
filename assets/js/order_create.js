@@ -331,6 +331,11 @@ function ordertype_reset() {
   $("#order_item_list").empty();
   create_from_date(false);
   create_to_date(false);
+  $("#add_order_subtotal_val").text(0.00);
+  $("#add_order_sgst_val").text(0.00);
+  $("#add_order_cgst_val").text(0.00);
+  $("#add_order_igst_val").text(0.00);
+  $("#add_order_total_val").text(0.00);
 }
 
 function create() {
@@ -499,17 +504,11 @@ function add_order(id) {
       id +
       '" class="form-control order_item_unitprice" id="orderitem_' +
       id +
-      '_val_5" /> </td> <td class="form-group pt-4" id="orderitem_' +
-      id +
-      '_col_6"> <input type="hidden" data-id="' +
+      '_val_5" /> <input type="hidden" data-id="' +
       id +
       '" class="form-control rowtotal" id="orderitem_' +
       id +
-      '_val_6" /> <span id="orderitem_' +
-      id +
-      '_txt_6">₹0.00</span> </td> <td id="orderitem_' +
-      id +
-      '_col_7" class="pt-4"></td></tr>'
+      '_val_6" /> </td></tr>'
     );
   }
   if (oti < 4) {
@@ -551,7 +550,7 @@ function add_paymentterm(oid, pid) {
       oid +
       "_paymentterm_" +
       pid +
-      '_col_1">1</td><td class="form-group paymentterm_item" id="orderitem_' +
+      '_col_1">'+pid+'</td><td class="form-group paymentterm_item" id="orderitem_' +
       oid +
       "_paymentterm_" +
       pid +
@@ -607,7 +606,7 @@ function add_paymentterm(oid, pid) {
       oid +
       "_paymentterm_" +
       pid +
-      '_col_1">1</td><td class="form-group" id="orderitem_' +
+      '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' +
       oid +
       "_paymentterm_" +
       pid +
@@ -721,7 +720,7 @@ function order_item_calculator(id) {
     }
   }
   $("#orderitem_" + id + "_val_6").val(c);
-  $("#orderitem_" + id + "_txt_6").text(humanamount(c));
+  // $("#orderitem_" + id + "_txt_6").text(humanamount(c));
   order_calculator(id);
 }
 
@@ -924,7 +923,7 @@ function treehouse() {
           oi +
           '"></i></button></div></td></tr>'
         );
-      } else { 
+      } else {
         $("#order_items").append(
           '<tr id="parent_' +
           ot +
