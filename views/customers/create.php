@@ -196,6 +196,15 @@
                       </div>
                     </div>
 
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_declaration"> Declaration </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-6 form-group">
+                        <textarea name="declaration" id="id_declaration" class="form-control" rows="4"></textarea>
+                      </div>
+                    </div>
+
                   </div>
                   <div class="card-footer text-right">
                     <button type="submit" class="btn btn-primary btn-sm vip" title="All fields are mandatory.">

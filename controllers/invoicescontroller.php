@@ -222,7 +222,7 @@ class InvoicesController extends Controller
         } */else {
             $dataItem =  $oderItems;
         }
-        
+
         $company = new CompanyModel();
         $company = $company->get(1);
         // echo print_r($invoiceItem);
@@ -243,6 +243,7 @@ class InvoicesController extends Controller
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
             "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $customer['address'],
             "{{CUST_TEL}}" => $customer['pphone'],
+            "{{DECLARATION}}" => getdeclaration($customer['declaration']),
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
             "{{CUST_GST}}" => $customer['gstin'],
@@ -440,6 +441,7 @@ class InvoicesController extends Controller
                 "{{CUST_FAX}}" => $customer['fax'],
                 "{{CUST_PAN}}" => $customer['pan'],
                 "{{CUST_GST}}" => $customer['gstin'],
+                "{{DECLARATION}}" => getdeclaration($customer['declaration']),
                 "{{CUST_SHIPTO}}" => $customerShipTo['address'],
                 "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
                 "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
@@ -592,4 +594,12 @@ class InvoicesController extends Controller
     }
 
     
+}
+
+function getdeclaration($val) {
+    if ($val != ""){
+        return "<b>Declaration</b><br>" . $val;
+    }else{
+        return $val;
+    }
 }

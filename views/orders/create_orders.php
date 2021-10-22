@@ -19,15 +19,16 @@
             <label for="order_type"></label>
             <select class="form-control" id="order_type" required>
               <option value="">Select Order Type</option>
-              <?php foreach ($ORDER_TYPE as $key =>
-          $val) : ?>
-              <option value="<?php echo $key ?>">
-                <?php echo $val ?>
+              <?php foreach ($ORDER_TYPE as $key => $val) : ?>
+              <?php if($key != "99"):?>
+              <option value="<?php echo $key; ?>">
+                <?php echo $val; ?>
               </option>
+              <?php endif;?>
               <?php endforeach; ?>
             </select>
           </div>
-        <div class="col-sm-12 col-md-4 col-lg-4 row" id="col_from_date"></div>
+          <div class="col-sm-12 col-md-4 col-lg-4 row" id="col_from_date"></div>
           <div class="col-sm-12 col-md-4 col-lg-4 row" id="col_to_date"></div>
         </div>
       </div>

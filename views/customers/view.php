@@ -135,7 +135,7 @@
                       <label for="id_manageremail"> <b>Manager's Email</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['manageremail'] ?> 
+                      <?php echo $customer['manageremail'] ?>
                     </div>
                   </div>
 
@@ -154,6 +154,15 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['remark'] ?>
+                    </div>
+                  </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_declaration"> <b>Declaration</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-10 form-group" style="text-align: justify;">
+                      <?php echo $customer['declaration'] ?>
                     </div>
                   </div>
 
