@@ -349,7 +349,7 @@ function create() {
 
 function uom(tag = true, i = oti) {
   if (tag == true) {
-    return ["", "AU", "Percentage (%)", "AU", "Day(s)", "", ""][i];
+    return ["", "AU", "Percentage (%)", "AU", "Day(s)", "", "", ""][i];
   } else if (tag == false) {
     return ["", "Day(s)", "AU", "Percentage (%)", "PC"][i];
   } else {
@@ -413,6 +413,13 @@ $(document).on("change", "#order_type", function () {
       $("#price_header").text("Unit Price");
       create_from_date(false);
       create_to_date(false);
+    } // Custom Order
+    else if (oti == 7) {
+      $("#payment_term_card").show();
+      $("#quantity_header").text("Qty.");
+      $("#price_header").text("Unit Price");
+      create_from_date();
+      create_to_date();
     } else {
       $("#payment_term_card").hide();
       $("#quantity_header").text("Qty.");
@@ -511,7 +518,7 @@ function add_order(id) {
       '_val_6" /> </td></tr>'
     );
   }
-  if (oti < 4) {
+  if (oti < 4 || oti == 7) {
     payment_term_cardbody(id);
   }
 }
@@ -526,11 +533,20 @@ function payment_term_cardbody(id) {
       '"></tbody></table>'
     );
   }
-  if (oti == 2) {
+  else if (oti == 2) {
     $("#payment_term_cardbody").append(
       '<table class="table" id="table_' +
       id +
       '"><thead><tr><th class="max100">Sr. No.</th><th class="max100">Item</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
+      id +
+      '"></tbody></table>'
+    );
+  }
+  else if (oti == 7) {
+    $("#payment_term_cardbody").append(
+      '<table class="table" id="table_' +
+      id +
+      '"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="min100">Qty.</th><th class="min150">UOM</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
       id +
       '"></tbody></table>'
     );
@@ -550,7 +566,7 @@ function add_paymentterm(oid, pid) {
       oid +
       "_paymentterm_" +
       pid +
-      '_col_1">'+pid+'</td><td class="form-group paymentterm_item" id="orderitem_' +
+      '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' +
       oid +
       "_paymentterm_" +
       pid +
@@ -644,11 +660,79 @@ function add_paymentterm(oid, pid) {
       pid +
       '_txt_6">₹0.00</span></td></tr>;'
     );
+  } else if (oti == 7) {
+    $("#paymentterm_list_" + oid).append(
+      '<tr id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '"><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_1">1</td><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_4"><input type="number" data-oid="' +
+      oid +
+      '" data-pid="' +
+      pid +
+      '" class="form-control paymentterm_unitprice" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_4"></td><td class="form-group max100" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_7"><select class="form-control paymentterm_uom" data-oid="' +
+      oid +
+      '" data-pid="' +
+      pid +
+      '" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_7"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td><td class="form-group max100" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_5"><input type="number" data-oid="' +
+      oid +
+      '" data-pid="' +
+      pid +
+      '" class="form-control paymentterm_unitprice" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_val_6" /><span id="orderitem_' +
+      oid +
+      "_paymentterm_" +
+      pid +
+      '_txt_6">₹0.00</span></td></tr>;'
+    );
   }
 }
 
 $(document).on("change", ".order_item_quantity", function () {
-  if (oti < 4) {
+  if (oti < 4 || oti == 7) {
     gen_paymentterm($(this).data("id"), $(this).val());
     order_item_calculator($(this).data("id"));
     $(".item").trigger("change");
