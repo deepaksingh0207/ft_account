@@ -1235,6 +1235,7 @@ function form_maker() {
   var fakeoi = 0;
   var order_change_flag = 0,
     firstcheck = 0;
+  $("#hiddendata").empty();
   $.each(tree["otl"], function (index, ot) {
     if (ot != order_change_flag && index == 0) {
       $("#hiddendata").append(
