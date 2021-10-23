@@ -353,7 +353,7 @@ function uom(tag = true, i = oti) {
   } else if (tag == false) {
     return ["", "Day(s)", "AU", "Percentage (%)", "PC"][i];
   } else {
-    return ["", "2", "3", "2", "1", "", ""][i];
+    return ["", "2", "3", "2", "1", "", "", ""][i];
   }
 }
 
@@ -546,13 +546,38 @@ function payment_term_cardbody(id) {
     $("#payment_term_cardbody").append(
       '<table class="table" id="table_' +
       id +
-      '"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="min100">Qty.</th><th class="min150">UOM</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
+      '"><thead><tr><th class="max150">Sr. No.</th><th class="max150">Item Description</th><th class="max100">Qty.</th><th class="min150">UOM</th><th class="min150">Unit Price</th><th class="min150">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
       id +
       '"></tbody></table>'
     );
+    $("#payment_term_cardbody").append('<div class="text-left"><button type="button" class="btn btn-primary btn-sm mr-2" id="add_new_paymentterm" onclick="add_pt()" >Add</button><button type="button" class="btn btn-danger btn-sm" id="del_paymentterm" onclick="del_pt()">Delete Last Term</button></div>');
   }
   add_paymentterm(id, 1);
   paymentterm_list = [1];
+}
+
+function del_pt() {
+  if (paymentterm_list.length > 0) {
+    var last_pti = paymentterm_list[paymentterm_list.length - 1];
+    $("#orderitem_" + item_id + "_paymentterm_" + last_pti).remove();
+    paymentterm_list = jQuery.grep(paymentterm_list, function (b) {
+      return b != last_pti;
+    });
+    if (paymentterm_list.length == 0) {
+      $("#paymentterm_list_" + item_id).append('<tr><td colspan="6" class="text-center">No Payment Terms</td></tr>');
+    }
+  }
+}
+
+function add_pt() {
+  if (paymentterm_list.length > 0) {
+    var new_pti = paymentterm_list[paymentterm_list.length - 1] + 1;
+  } else {
+    var new_pti = 1
+    $("#paymentterm_list_" + item_id).empty();
+  }
+  add_paymentterm(item_id, new_pti);
+  paymentterm_list.push(new_pti);
 }
 
 function add_paymentterm(oid, pid) {
@@ -670,7 +695,7 @@ function add_paymentterm(oid, pid) {
       oid +
       "_paymentterm_" +
       pid +
-      '_col_1">1</td><td class="form-group" id="orderitem_' +
+      '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' +
       oid +
       "_paymentterm_" +
       pid +
@@ -686,7 +711,7 @@ function add_paymentterm(oid, pid) {
       oid +
       '" data-pid="' +
       pid +
-      '" class="form-control paymentterm_unitprice" id="orderitem_' +
+      '" class="form-control paymentterm_quantity" id="orderitem_' +
       oid +
       "_paymentterm_" +
       pid +
@@ -710,7 +735,7 @@ function add_paymentterm(oid, pid) {
       oid +
       '" data-pid="' +
       pid +
-      '" class="form-control paymentterm_unitprice" id="orderitem_' +
+      '" class="form-control paymentterm_unitprice" value="' + $("#orderitem_" + oid + "_val_5").val() + '" id="orderitem_' +
       oid +
       "_paymentterm_" +
       pid +
@@ -732,7 +757,7 @@ function add_paymentterm(oid, pid) {
 }
 
 $(document).on("change", ".order_item_quantity", function () {
-  if (oti < 4 || oti == 7) {
+  if (oti < 4) {
     gen_paymentterm($(this).data("id"), $(this).val());
     order_item_calculator($(this).data("id"));
     $(".item").trigger("change");
@@ -769,7 +794,7 @@ function order_item_calculator(id) {
   var b = $("#orderitem_" + id + "_val_5").val();
   var c = 0;
   if (a && b) {
-    if (oti < 4) {
+    if (oti < 4 || oti == 7) {
       // Fill payterm unitprice
       $.each(paymentterm_list, function (index, pid) {
         if ([1, 3].includes(oti)) {
@@ -779,7 +804,7 @@ function order_item_calculator(id) {
             humanamount(res)
           );
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
-        } else if (oti == 2) {
+        } else if (oti == 2 || oti == 7) {
           res = nz(b).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
           // $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
@@ -842,7 +867,7 @@ function treeleaves() {
   if (tree[oti]["oil"].includes(item_id) == false) {
     tree[oti]["oil"].push(item_id);
     if (tree[oti].hasOwnProperty(item_id) == false) {
-      if (oti < 4) {
+      if (oti < 4 || oti == 7) {
         tree[oti][item_id] = { ptl: [] };
       } else {
         tree[oti][item_id] = {};
@@ -856,9 +881,13 @@ function treeleaves() {
   tree[oti][item_id]["stl"] = $("#orderitem_" + item_id + "_val_6").val();
   tree[oti][item_id]["utp"] = parseFloat(tree[oti][item_id]["utp"]).toFixed(2);
   tree[oti][item_id]["stl"] = parseFloat(tree[oti][item_id]["stl"]).toFixed(2);
-  if (oti < 4) {
-    tree[oti][item_id]["uom"] = uom("x");
-    if (oti == 1 || oti == 3) {
+  if (oti < 4 || oti == 7) {
+    if (oti == 7) {
+      tree[oti][item_id]["uom"] = $("#orderitem_" + item_id + "_val_4").val();
+    } else {
+      tree[oti][item_id]["uom"] = uom("x");
+    }
+    if (oti == 1 || oti == 3 || oti == 7) {
       tree[oti][item_id]["from"] = $("#from_date").val();
       tree[oti][item_id]["till"] = $("#to_date").val();
     } else {
@@ -881,7 +910,13 @@ function treeleaves() {
       tree[oti][item_id][pid]["qty"] = $(
         "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_4"
       ).val();
-      tree[oti][item_id][pid]["uom"] = uom("x");
+      if (oti == 7) {
+        tree[oti][item_id][pid]["uom"] = $(
+          "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_7"
+        ).val();
+      } else {
+        tree[oti][item_id][pid]["uom"] = uom("x");
+      }
       tree[oti][item_id][pid]["utp"] = $(
         "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_5"
       ).val();
@@ -960,6 +995,8 @@ function getot(val) {
     "Man-days-Support Sale",
     "SAP License Sale",
     "Hardware Sale",
+    "Custom Order",
+    "",
   ][val];
 }
 
@@ -1121,7 +1158,7 @@ $(document).on("click", ".myorder", function () {
   oti = $(this).data("oti");
   writemode = false;
   $("#order_type").val($(this).data("oti")).trigger("change");
-  if (oti == 1 || oti == 3) {
+  if (oti == 1 || oti == 3 || oti == 7) {
     $("#from_date").val(tree[ot][oi]["from"]);
     $("#to_date").val(tree[ot][oi]["till"]);
   }
@@ -1142,7 +1179,7 @@ $(document).on("click", ".myorder", function () {
       $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_5").val(
         tree[ot][oi][pt]["utp"]
       );
-      if (ot == 2) {
+      if (ot == 2 || ot == 7) {
         $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
           tree[ot][oi][pt]["qty"]
         );
@@ -1152,6 +1189,11 @@ $(document).on("click", ".myorder", function () {
         $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_6").val(
           tree[ot][oi][pt]["stl"]
         );
+        if (ot == 7) {
+          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_7").val(
+            tree[ot][oi][pt]["uom"]
+          );
+        }
       }
     });
   }
@@ -1371,45 +1413,56 @@ $(document).on("change", ".item", function () {
 function update_pt_total(o, p) {
   var a = $("#orderitem_" + o + "_paymentterm_" + p + "_val_4").val();
   var b = $("#orderitem_" + o + "_paymentterm_" + p + "_val_5").val();
-  var res = nz((b * a) / 100);
+  var c = $("#orderitem_" + o + "_paymentterm_" + p + "_val_7").val();
+  if (oti == 7 && c != 3) {
+    var res = nz(b * a);
+  } else if (oti == 2 || (oti == 7 && c == 3)) {
+    var res = nz((b * a) / 100);
+  }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
     humanamount(res.toFixed(2))
   );
 }
 
+$(document).on("change", ".paymentterm_uom", function () {
+  update_pt_total($(this).data("oid"), $(this).data("pid"));
+});
+
 $(document).on("change", ".paymentterm_quantity", function () {
   var oi = $(this).data("oid");
   update_pt_total(oi, $(this).data("pid"));
   var qtyttl = 0;
   var empty_qty_ids = [];
-  $.each(paymentterm_list, function (index, pt) {
-    if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
-      if (
-        paymentterm_list[paymentterm_list.length - 1] == pt &&
-        empty_qty_ids.length < 1
-      ) {
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
-          100 - qtyttl
+  if (oti == 2) {
+    $.each(paymentterm_list, function (index, pt) {
+      if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
+        if (
+          paymentterm_list[paymentterm_list.length - 1] == pt &&
+          empty_qty_ids.length < 1
+        ) {
+          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
+            100 - qtyttl
+          );
+          update_pt_total(oi, pt);
+        }
+        qtyttl += parseInt(
+          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
         );
-        update_pt_total(oi, pt);
+      } else {
+        empty_qty_ids.push(pt);
       }
-      qtyttl += parseInt(
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
+    });
+    if (empty_qty_ids.length == 1) {
+      balanc = 100 - qtyttl;
+      if (balanc < 0) {
+        balanc = "";
+      }
+      $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(
+        balanc
       );
-    } else {
-      empty_qty_ids.push(pt);
+      update_pt_total(oi, empty_qty_ids[0]);
     }
-  });
-  if (empty_qty_ids.length == 1) {
-    balanc = 100 - qtyttl;
-    if (balanc < 0) {
-      balanc = "";
-    }
-    $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(
-      balanc
-    );
-    update_pt_total(oi, empty_qty_ids[0]);
   }
 });
 
