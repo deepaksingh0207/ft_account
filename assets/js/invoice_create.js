@@ -28,7 +28,7 @@ function createbookeeper() {
   $.each(od_items, function (i, item) {
     tree["items"]["ids"].push(item.id);
     tree["items"][item.id] = item
-    if (item.order_type < 4) {
+    if (item.order_type < 4 || item.order_type == 7) {
       tree["items"][item.id]["payment"] = { ids: [] }
       $.each(od_payment_term, function (j, payment) {
         if (payment.order_item_id == item.id) {
@@ -1002,74 +1002,119 @@ function fillinvoice_body() {
   payment_for_invoicing = [];
   items_for_invoicing = [];
   var old_ot = 0
-  var old_id = 0
-  var lock = false
-  $.each(tree["items"]["ids"], function (b, ti_id) {
-    // table header
-    $("#id_invoiceblock_body").append(
-      '<div class="col-sm-12 col-lg-12" id="col_' + ti_id + '"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + ti_id + '"></tbody></table></div>'
-    );
+  var table_id = 0
+  $.each(tree["items"]["ids"], function (b, item_Id) {
     var pt_list = []
-    if ((tree["items"][ti_id]["invoiced"]["ids"]).length > 0) {
-      $.each(tree["items"][ti_id]["invoiced"]["ids"], function (c, tii_id) {
-        $("#invoicept" + ti_id).append(
+    if (
+      // New Order Type or
+      (old_ot != tree["items"][item_Id].order_type) ||
+      ( // Already Invoiced orders or 
+        old_ot == tree["items"][item_Id].order_type &&
+        (tree["items"][item_Id]["invoiced"]["ids"]).length > 0
+      ) || ( // Payment term order type gets header
+        tree["items"][item_Id].order_type < 4 &&
+        (tree["items"][item_Id]["payment"]["ids"]).length > 0
+      )) {
+      table_id++
+      // table header
+      $("#id_invoiceblock_body").append(
+        '<div class="col-sm-12 col-lg-12" id="col_' + table_id + '"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + table_id + '"></tbody></table></div>'
+      );
+    }
+    // List invoiced items and payment terms
+    if ((tree["items"][item_Id]["invoiced"]["ids"]).length > 0) {
+      $.each(tree["items"][item_Id]["invoiced"]["ids"], function (c, invoiced_Id) {
+        // Invoiced
+        $("#invoicept" + table_id).append(
           '<tr><td style="width: 80px;"></td><td>' +
-          tree["items"][ti_id]["invoiced"][tii_id].item +
+          tree["items"][item_Id]["invoiced"][invoiced_Id].item +
           "</td><td>" +
-          tree["items"][ti_id]["invoiced"][tii_id].description +
+          tree["items"][item_Id]["invoiced"][invoiced_Id].description +
           "</td><td>" +
-          tree["items"][ti_id]["invoiced"][tii_id].qty +
+          tree["items"][item_Id]["invoiced"][invoiced_Id].qty +
           " / " +
-          setuom(tree["items"][ti_id]["invoiced"][tii_id].uom_id) +
+          setuom(tree["items"][item_Id]["invoiced"][invoiced_Id].uom_id) +
           "</td><td>" +
-          humanamount(tree["items"][ti_id]["invoiced"][tii_id].unit_price) +
+          humanamount(tree["items"][item_Id]["invoiced"][invoiced_Id].unit_price) +
           "</td><td>" +
-          humanamount(tree["items"][ti_id]["invoiced"][tii_id].total) +
+          humanamount(tree["items"][item_Id]["invoiced"][invoiced_Id].total) +
           '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href=" ' +
           baseUrl +
           "pdf/invoice_" +
-          ti_id +
+          item_Id +
           '.pdf" type="button">View Invoice</button></td></tr>'
         );
-        lock = true
-        old_id = ti_id
-        pt_list.push(tree["items"][ti_id]["invoiced"][tii_id].order_payterm_id);
+        if (tree["items"][item_Id]["invoiced"][invoiced_Id].order_payterm_id != 0) {
+          // Capturing invoiced Payment term Ids
+          pt_list.push(tree["items"][item_Id]["invoiced"][invoiced_Id].order_payterm_id);
+        }
       });
+    };
+    // List non-invoiced order items
+    if (3 < tree["items"][item_Id].order_type && tree["items"][item_Id].order_type < 7 ||
+      (tree["items"][item_Id].hasOwnProperty('payment') == true &&
+        tree["items"][item_Id]["payment"]["ids"]).length == 0) {
+      if (old_ot == tree["items"][item_Id].order_type) {
+        // List disabled order items
+        $("#invoicept" + table_id).append(
+          '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+          b +
+          '" required class="paytrm" data-id="' +
+          b +
+          '" disabled><label for="id_paytrm' +
+          b +
+          '"></label></div></td>  <td>' +
+          tree["items"][item_Id].item +
+          "</td>     <td>" +
+          tree["items"][item_Id].description +
+          "</td><td>" +
+          tree["items"][item_Id].qty +
+          "</td><td>" +
+          humanamount(tree["items"][item_Id].unit_price) +
+          "</td>           <td>" +
+          humanamount(tree["items"][item_Id].total) +
+          '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
+          b +
+          '" data-id="' +
+          b +
+          '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+        );
+      } else {
+        // List enabled order items
+        $("#invoicept" + table_id).append(
+          '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+          b +
+          '" required class="paytrm" data-id="' +
+          b +
+          '" checked>     <label for="id_paytrm' +
+          b +
+          '"></label></div></td> <td>' +
+          tree["items"][item_Id].item +
+          "</td>      <td>" +
+          tree["items"][item_Id].description +
+          "</td><td>" +
+          tree["items"][item_Id].bal_qty +
+          "</td><td>" +
+          humanamount(tree["items"][item_Id].unit_price) +
+          "</td><td>" +
+          humanamount(tree["items"][item_Id].total) +
+          '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
+          b +
+          '" data-id="' +
+          b +
+          '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+        );
+        items_for_invoicing.push(tree["items"][item_Id]);
+      }
     }
-    if (tree["items"][ti_id].order_type < 4 && (tree["items"][ti_id]["payment"]["ids"]).length > 0) {
-      var second = 0
-      $.each(tree["items"][ti_id]["payment"]["ids"], function (d, tip_id) {
-        if (pt_list.includes(tip_id) == false) {
-          if (second < 1) {
-            second++
-            $("#invoicept" + ti_id).append(
-              '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
-              b +
-              '" required class="paytrm" data-id="' +
-              b +
-              '" checked><label for="id_paytrm' +
-              b +
-              '"></label></div></td><td>' +
-              tree["items"][ti_id]["payment"][tip_id].item +
-              "</td>      <td>" +
-              tree["items"][ti_id]["payment"][tip_id].description +
-              "</td><td>" +
-              tree["items"][ti_id]["payment"][tip_id].qty +
-              " / " +
-              setuom(tree["items"][ti_id]["payment"][tip_id].uom_id) +
-              "</td><td>" +
-              humanamount(tree["items"][ti_id]["payment"][tip_id].unit_price) +
-              "</td><td>" +
-              humanamount(tree["items"][ti_id]["payment"][tip_id].total) +
-              '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-              b +
-              '" data-id="' +
-              b +
-              '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-            );
-            payment_for_invoicing.push(tree["items"][ti_id]["payment"][tip_id]);
-          } else {
-            $("#invoicept" + ti_id).append(
+    // List non-invoiced payment terms & cleared
+    var unchecked_paymentterm = false
+    if (tree["items"][item_Id].order_type < 4 && (tree["items"][item_Id]["payment"]["ids"]).length > 0) {
+      $.each(tree["items"][item_Id]["payment"]["ids"], function (d, paymentterm_Id) {
+        if (pt_list.includes(paymentterm_Id) == false) {
+          if (unchecked_paymentterm) {
+            // List disabled payment terms
+            $("#invoicept" + table_id).append(
               '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
               b +
               '" required class="paytrm" data-id="' +
@@ -1077,115 +1122,148 @@ function fillinvoice_body() {
               '" disabled><label for="id_paytrm' +
               b +
               '"></label></div></td><td>' +
-              tree["items"][ti_id]["payment"][tip_id].item +
+              tree["items"][item_Id]["payment"][paymentterm_Id].item +
               "</td>      <td>" +
-              tree["items"][ti_id]["payment"][tip_id].description +
+              tree["items"][item_Id]["payment"][paymentterm_Id].description +
               "</td><td>" +
-              tree["items"][ti_id]["payment"][tip_id].qty +
+              tree["items"][item_Id]["payment"][paymentterm_Id].qty +
               " / " +
-              setuom(tree["items"][ti_id]["payment"][tip_id].uom_id) +
+              setuom(tree["items"][item_Id]["payment"][paymentterm_Id].uom_id) +
               "</td><td>" +
-              humanamount(tree["items"][ti_id]["payment"][tip_id].unit_price) +
+              humanamount(tree["items"][item_Id]["payment"][paymentterm_Id].unit_price) +
               "</td><td>" +
-              humanamount(tree["items"][ti_id]["payment"][tip_id].total) +
+              humanamount(tree["items"][item_Id]["payment"][paymentterm_Id].total) +
               '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
               b +
               '" data-id="' +
               b +
               '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
             );
+          } else {
+            unchecked_paymentterm = true
+            // List enabled payment terms
+            $("#invoicept" + table_id).append(
+              '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
+              b +
+              '" required class="paytrm" data-id="' +
+              b +
+              '" checked><label for="id_paytrm' +
+              b +
+              '"></label></div></td><td>' +
+              tree["items"][item_Id]["payment"][paymentterm_Id].item +
+              "</td>      <td>" +
+              tree["items"][item_Id]["payment"][paymentterm_Id].description +
+              "</td><td>" +
+              tree["items"][item_Id]["payment"][paymentterm_Id].qty +
+              " / " +
+              setuom(tree["items"][item_Id]["payment"][paymentterm_Id].uom_id) +
+              "</td><td>" +
+              humanamount(tree["items"][item_Id]["payment"][paymentterm_Id].unit_price) +
+              "</td><td>" +
+              humanamount(tree["items"][item_Id]["payment"][paymentterm_Id].total) +
+              '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
+              b +
+              '" data-id="' +
+              b +
+              '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+            );
+            payment_for_invoicing.push(tree["items"][item_Id]["payment"][paymentterm_Id]);
           }
         }
       });
-    } else {
-      if (tree["items"][ti_id].bal_qty > 0) {
-        if (lock == true) {
-          if (old_ot == tree["items"][ti_id].order_type && lock == true) {
-            $("#col_" + ti_id).remove();
-          }
-          lock = false
-          old_ot = tree["items"][ti_id].order_type
-          items_for_invoicing.push(tree["items"][ti_id]);
-          $("#invoicept" + old_id).append(
-            '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-            b +
-            '" required class="paytrm" data-id="' +
-            b +
-            '" checked>     <label for="id_paytrm' +
-            b +
-            '"></label></div></td> <td>' +
-            tree["items"][ti_id].item +
-            "</td>      <td>" +
-            tree["items"][ti_id].description +
-            "</td><td>" +
-            tree["items"][ti_id].bal_qty +
-            "</td><td>" +
-            humanamount(tree["items"][ti_id].unit_price) +
-            "</td><td>" +
-            humanamount(tree["items"][ti_id].total) +
-            '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-            b +
-            '" data-id="' +
-            b +
-            '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-          );
-        } else if (old_ot != tree["items"][ti_id].order_type) {
-          old_id = ti_id
-          old_ot = tree["items"][ti_id].order_type
-          items_for_invoicing.push(tree["items"][ti_id]);
-          $("#invoicept" + old_id).append(
-            '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-            b +
-            '" required class="paytrm" data-id="' +
-            b +
-            '" checked>     <label for="id_paytrm' +
-            b +
-            '"></label></div></td> <td>' +
-            tree["items"][ti_id].item +
-            "</td>      <td>" +
-            tree["items"][ti_id].description +
-            "</td><td>" +
-            tree["items"][ti_id].bal_qty +
-            "</td><td>" +
-            humanamount(tree["items"][ti_id].unit_price) +
-            "</td><td>" +
-            humanamount(tree["items"][ti_id].total) +
-            '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-            b +
-            '" data-id="' +
-            b +
-            '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-          );
-        } else {
-          $("#col_" + ti_id).remove();
-          $("#invoicept" + old_id).append(
-            '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+    }
+    // List non-invoiced Custom order items
+    if (tree["items"][item_Id].order_type == 7) {
+      // List enabled order items
+      $("#invoicept" + table_id).append(
+        '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+        b +
+        '" required class="paytrm" data-id="' +
+        b +
+        '" checked>     <label for="id_paytrm' +
+        b +
+        '"></label></div></td> <td>' +
+        tree["items"][item_Id].item +
+        "</td>      <td>" +
+        tree["items"][item_Id].description +
+        "</td><td>" +
+        tree["items"][item_Id].bal_qty +
+        "</td><td>" +
+        humanamount(tree["items"][item_Id].unit_price) +
+        "</td><td>" +
+        humanamount(tree["items"][item_Id].total) +
+        '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
+        b +
+        '" data-id="' +
+        b +
+        '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+      );
+      items_for_invoicing.push(tree["items"][item_Id]);
+      var unchecked_custom = false
+      $.each(tree["items"][item_Id]["payment"]["ids"], function (d, paymentterm_ID) {
+        if (unchecked_custom) {
+          // List disabled payment terms
+          $("#invoicept" + table_id).append(
+            '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
             b +
             '" required class="paytrm" data-id="' +
             b +
             '" disabled><label for="id_paytrm' +
             b +
-            '"></label></div></td>  <td>' +
-            tree["items"][ti_id].item +
-            "</td>     <td>" +
-            tree["items"][ti_id].description +
+            '"></label></div></td><td>' +
+            tree["items"][item_Id]["payment"][paymentterm_ID].item +
+            "</td>      <td>" +
+            tree["items"][item_Id]["payment"][paymentterm_ID].description +
             "</td><td>" +
-            tree["items"][ti_id].qty +
+            tree["items"][item_Id]["payment"][paymentterm_ID].qty +
+            " / " +
+            setuom(tree["items"][item_Id]["payment"][paymentterm_ID].uom_id) +
             "</td><td>" +
-            humanamount(tree["items"][ti_id].unit_price) +
-            "</td>           <td>" +
-            humanamount(tree["items"][ti_id].total) +
-            '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
+            humanamount(tree["items"][item_Id]["payment"][paymentterm_ID].unit_price) +
+            "</td><td>" +
+            humanamount(tree["items"][item_Id]["payment"][paymentterm_ID].total) +
+            '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
             b +
             '" data-id="' +
             b +
-            '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+            '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
           );
+
+        } else {
+          unchecked_custom = true
+          // List enabled payment terms
+          $("#invoicept" + table_id).append(
+            '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
+            b +
+            '" required class="paytrm" data-id="' +
+            b +
+            '" checked><label for="id_paytrm' +
+            b +
+            '"></label></div></td><td>' +
+            tree["items"][item_Id]["payment"][paymentterm_ID].item +
+            "</td>      <td>" +
+            tree["items"][item_Id]["payment"][paymentterm_ID].description +
+            "</td><td>" +
+            tree["items"][item_Id]["payment"][paymentterm_ID].qty +
+            " / " +
+            setuom(tree["items"][item_Id]["payment"][paymentterm_ID].uom_id) +
+            "</td><td>" +
+            humanamount(tree["items"][item_Id]["payment"][paymentterm_ID].unit_price) +
+            "</td><td>" +
+            humanamount(tree["items"][item_Id]["payment"][paymentterm_ID].total) +
+            '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
+            b +
+            '" data-id="' +
+            b +
+            '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+          );
+          payment_for_invoicing.push(tree["items"][item_Id]["payment"][paymentterm_ID]);
         }
-      }
+      });
+    }
+    // Update change in order type
+    if (old_ot != tree["items"][item_Id].order_type) {
+      old_ot = tree["items"][item_Id].order_type
     }
   });
-  $("#id_invoiceblock_body").append(
-    '<input type="hidden" name="order_total" value="' + od_order.sub_total + '">'
-  );
 }
