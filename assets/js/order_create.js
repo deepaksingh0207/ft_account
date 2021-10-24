@@ -804,9 +804,11 @@ function order_item_calculator(id) {
             humanamount(res)
           );
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
+          update_pt_total(id, pid);
         } else if (oti == 2 || oti == 7) {
           res = nz(b).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
+          update_pt_total(id, pid);
           // $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
           //   humanamount(res)
           // );
