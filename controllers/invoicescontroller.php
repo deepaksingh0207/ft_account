@@ -207,7 +207,7 @@ class InvoicesController extends Controller
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
-        if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 99))) {
+        if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
             $dataItem = $invoiceItem;
         } /*else if($order['order_type']  == 2 || $order['order_type']  == 1) {
             $row = array();
@@ -403,7 +403,7 @@ class InvoicesController extends Controller
             $order = $orderTable->get($invoice['order_id']);
             $oderItems = $orderTable->getOrderItem($invoice['order_id']);
             
-            if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 99))) {
+            if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
                 $dataItem = $invoiceItems;
             }/* else if($order['order_type']  == 2 || $order['order_type']  == 1) {
                 $row = array();
