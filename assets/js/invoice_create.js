@@ -500,8 +500,8 @@ function preview_builder() {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
         $("#preview_tbody").append(
           '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
-      }
       c++;
+      }
     });
   }
 }
