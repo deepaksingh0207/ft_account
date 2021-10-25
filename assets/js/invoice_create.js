@@ -489,7 +489,7 @@ function preview_builder() {
     $.each(items_for_invoicing, function (i, t) {
       if ($("#id_paytrm" + t.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="0"></tr>');
+          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
       }
       c++;
     });
@@ -1007,6 +1007,7 @@ function fillinvoice_body() {
   items_for_invoicing = [];
   var old_ot = 0
   var table_id = 0
+  var total = 0
   $.each(tree["items"]["ids"], function (b, item_Id) {
     var pt_list = []
     if (
@@ -1108,6 +1109,7 @@ function fillinvoice_body() {
           b +
           '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
         );
+        total += parseFloat(tree["items"][item_Id].total)
         items_for_invoicing.push(tree["items"][item_Id]);
       }
     }
@@ -1183,6 +1185,7 @@ function fillinvoice_body() {
               b +
               '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
             );
+            total += parseFloat(tree["items"][item_Id]["payment"][paymentterm_Id].total)
             payment_for_invoicing.push(tree["items"][item_Id]["payment"][paymentterm_Id]);
           }
         }
@@ -1214,6 +1217,7 @@ function fillinvoice_body() {
         b +
         '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
       );
+      total += parseFloat(tree["items"][item_Id].total)
       items_for_invoicing.push(tree["items"][item_Id]);
       var unchecked_custom = false
       $.each(tree["items"][item_Id]["payment"]["ids"], function (d, paymentterm_ID) {
@@ -1287,6 +1291,7 @@ function fillinvoice_body() {
             b +
             '" data-list="payments" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
           );
+          total += parseFloat(tree["items"][item_Id]["payment"][paymentterm_ID].total)
           payment_for_invoicing.push(tree["items"][item_Id]["payment"][paymentterm_ID]);
         }
       });
@@ -1296,4 +1301,7 @@ function fillinvoice_body() {
       old_ot = tree["items"][item_Id].order_type
     }
   });
+  $("#id_invoiceblock_body").append(
+    '<input type="hidden" name="order_total" value="' + total + '">'
+  );
 }
