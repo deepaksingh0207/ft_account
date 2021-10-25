@@ -166,7 +166,12 @@ $(document).on("click", "#gene", function () {
 });
 
 $(document).on("change", ".qty", function () {
-  previewtotal($(this).data("index"), $(this).val() * $(this).data("up"));
+  if ($("#id_uom" + $(this).data("index")).val() != 3) {
+    val = $(this).val() * $(this).data("up")
+  } else {
+    val = parseInt($(this).val()) / 100 * parseFloat($(this).data("up"))
+  }
+  previewtotal($(this).data("index"), val);
 });
 
 $(document).on("click", ".pdf", function () {
