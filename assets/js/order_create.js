@@ -1420,6 +1420,8 @@ function update_pt_total(o, p) {
     var res = nz(b * a);
   } else if (oti == 2 || (oti == 7 && c == 3)) {
     var res = nz((b * a) / 100);
+  } else {
+    var res = nz(b * a);
   }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
