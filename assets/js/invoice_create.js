@@ -172,6 +172,7 @@ $(document).on("change", ".qty", function () {
     val = parseInt($(this).val()) / 100 * parseFloat($(this).data("up"))
   }
   previewtotal($(this).data("index"), val);
+  preview_total();
 });
 
 $(document).on("click", ".pdf", function () {
@@ -490,15 +491,15 @@ function preview_builder() {
       if ($("#id_paytrm" + t.id).is(':checked')) {
         $("#preview_tbody").append(
           '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
+        c++;
       }
-      c++;
     });
   }
   if (payment_for_invoicing.length > 0) {
     $.each(payment_for_invoicing, function (j, p) {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" value="' + p.total + '"></td></tr>');
+          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
       }
       c++;
     });
@@ -832,9 +833,19 @@ function getordertype() {
 }
 
 function preview_total() {
-  subtotal = 0;
-  $.each(previewlist, function (index, value) {
-    subtotal += parseFloat($("#id_total" + value).val());
+  var c = 0
+  var subtotal = 0;
+  $.each(items_for_invoicing, function (index, value) {
+    if ($("#id_paytrm" + value.id).is(':checked')) {
+      subtotal += parseFloat($("#id_total" + c).val());
+      c++;
+    }
+  });
+  $.each(payment_for_invoicing, function (index, value) {
+    if ($("#id_paytrm" + value.order_item_id + "_" + value.id).is(':checked')) {
+      subtotal += parseFloat($("#id_total" + c).val());
+      c++;
+    }
   });
   $("#preview_subtotal_txt").text(humanamount(subtotal));
   $("#previewsubtotal").val(subtotal);
@@ -882,12 +893,18 @@ function preview_footer(val, listname) {
     subtotal = 0,
     cgst_total = 0,
     sgst_total = 0,
-    igst_total = 0;
-  $.each(items_for_invoicing, function (i, item) {
-    subtotal += parseFloat(item.total);
+    igst_total = 0, c=0;
+  $.each(items_for_invoicing, function (index, value) {
+    if ($("#id_paytrm" + value.id).is(':checked')) {
+      subtotal += parseFloat($("#id_total" + c).val());
+      c++;
+    }
   });
-  $.each(payment_for_invoicing, function (i, item) {
-    subtotal += parseFloat(item.total);
+  $.each(payment_for_invoicing, function (index, value) {
+    if ($("#id_paytrm" + value.order_item_id + "_" + value.id).is(':checked')) {
+      subtotal += parseFloat($("#id_total" + c).val());
+      c++;
+    }
   });
   if (gstlist.length > 2) {
     sgst_total = (gstlist[1] / 100) * subtotal;
