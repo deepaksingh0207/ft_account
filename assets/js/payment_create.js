@@ -204,6 +204,7 @@ $(document).on("click", ".save", function () {
         $("#modal_body").empty().append('Are you sure to save this payment details.');
         $("#modelpdf").trigger('click');
     }
+    $('#modalsubmit').removeAttr('disabled');
 });
 
 $("#quickForm").on('submit', function (e) {
