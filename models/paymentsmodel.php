@@ -100,7 +100,6 @@ class PaymentsModel extends Model {
         
         return $user['id'];
     }    
-    
     public function getRecordsByField($field, $val) {
         $sql = "select * from customer_payments  where 1=1 and $field = ? ";
         $this->_setSql($sql);

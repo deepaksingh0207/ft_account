@@ -145,8 +145,33 @@ $(document).on("change", ".ptdate", function () {
     }
 });
 $(document).on("change", ".utr", function () {
+    mydata = { cheque_utr_no: $(this).val() };
     if ($(this).val()) {
-        $(this).removeClass("is-invalid");
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "payments/utr_validty/",
+            data: mydata,
+            dataType: "json",
+            encode: true,
+        })
+            .done(function (data) {
+                console.log(baseUrl + "payments/utr_validty/");
+                console.log(data);
+                if (data == true) {
+                    $(this)
+                        .addClass("is-invalid")
+                        .parent()
+                        .append(
+                            '<span id="id_po_no-error" class="say error invalid-feedback">UTR already exist.</span>'
+                        );
+                } else {
+                    $(this).removeClass("is-invalid");
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
+                alert(jqXHR, textStatus, errorThrown);
+            });
     }
     if ($("#id_payment_date" + $(this).data('id')).val()) {
         $("#id_utr" + $(this).data('id') + "-error").remove();
