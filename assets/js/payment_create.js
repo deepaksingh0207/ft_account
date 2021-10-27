@@ -93,7 +93,7 @@ $(document).on("change", "#id_orderid", function () {
                     $.each(data.payment_pending, function (index, value) {
                         $("#bodyid_pending").append('<tr id="pdg_row' + index + '"></tr>');
                         $("#pdg_row" + index)
-                            .append('<td id="pdg_select' + index + '" style="width: 53px;"><div class="icheck-primary d-inline">            <input type="radio" id="select' + index + '" data-id="' + index + '" name="received_amt" class="pdgselect selectrecord" value="">                                                                                         <input type="hidden" id="id_invoice_id' + index + '" value="' + value.id + '">                                <label for="select' + index + '"></label></div></td>')
+                            .append('<td id="pdg_select' + index + '" style="width: 53px;"><div class="icheck-primary d-inline">            <input type="radio" id="select' + index + '" data-id="' + index + '" class="pdgselect selectrecord">                                                                                         <input type="hidden" id="id_invoice_id' + index + '" value="' + value.id + '">                                <label for="select' + index + '"></label></div></td>')
                             .append('<td id="pdg_invoice' + index + '" style="width: 98px;">' + value.invoice_no + '</td>')
                             .append('<td id="pdg_descp' + index + '" class="max238">' + value.description + '</td>')
                             // .append('<td id="pdg_amt' + index + '">' + value.invoice_total + '</td>')
@@ -132,7 +132,8 @@ $(document).on("change", ".customamount", function () {
 });
 
 $(document).on("change", ".selectrecord", function () {
-    $("#select" + $(this).data("index")).val($(this).val());
+    $(".customamount").removeAttr('name');
+    $("#customamount" + $(this).data("id")).attr('name', 'received_amt');
 });
 
 $(document).on("change", ".ptdate", function () {
