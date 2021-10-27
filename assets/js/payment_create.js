@@ -93,10 +93,11 @@ $(document).on("change", "#id_orderid", function () {
                     $.each(data.payment_pending, function (index, value) {
                         $("#bodyid_pending").append('<tr id="pdg_row' + index + '"></tr>');
                         $("#pdg_row" + index)
-                            .append('<td id="pdg_select' + index + '" style="width: 53px;"><div class="icheck-primary d-inline">            <input type="radio" id="select' + index + '" data-id="' + index + '" name="received_amt" class="pdgselect" value="' + value.invoice_total + '">                                                                                         <input type="hidden" id="id_invoice_id' + index + '" value="' + value.id + '">                                <label for="select' + index + '"></label></div></td>')
+                            .append('<td id="pdg_select' + index + '" style="width: 53px;"><div class="icheck-primary d-inline">            <input type="radio" id="select' + index + '" data-id="' + index + '" name="received_amt" class="pdgselect selectrecord" value="">                                                                                         <input type="hidden" id="id_invoice_id' + index + '" value="' + value.id + '">                                <label for="select' + index + '"></label></div></td>')
                             .append('<td id="pdg_invoice' + index + '" style="width: 98px;">' + value.invoice_no + '</td>')
                             .append('<td id="pdg_descp' + index + '" class="max238">' + value.description + '</td>')
-                            .append('<td id="pdg_amt' + index + '">' + value.invoice_total + '</td>')
+                            // .append('<td id="pdg_amt' + index + '">' + value.invoice_total + '</td>')
+                            .append('<td id="pdg_amt' + index + '"><input type="number" id="customamount' + index + '" class="form-control customamount" data-index="' + index + '" value="' + value.invoice_total + '"></td>')
                             .append('<td id="pdg_date' + index + '"></td>')
                             .append('<td id="pdg_attach' + index + '"></td>')
                             .append('<td id="pdg_save' + index + '" style="width: 81px;"></td>');
@@ -126,6 +127,14 @@ $(document).on("change", "#id_orderid", function () {
     }
 });
 
+$(document).on("change", ".customamount", function () {
+    $("#select" + $(this).data("index")).val($(this).val());
+});
+
+$(document).on("change", ".selectrecord", function () {
+    $("#select" + $(this).data("index")).val($(this).val());
+});
+
 $(document).on("change", ".ptdate", function () {
     if ($(this).val()) {
         $(this).removeClass("is-invalid");
@@ -145,6 +154,7 @@ $(document).on("change", ".utr", function () {
 
 
 $(document).on("click", ".pdgselect", function () {
+    $(this).val($("#customamount" + $(this).data('index')).val());
     $("#pdg_save" + $(this).data('id')).empty().append('<button type="button" class="btn btn-primary save" data-id="' + $(this).data('id') + '" id="pdgsave' + $(this).data('id') + '">Save</button>');
     $("#id_invoice_id" + $(this).data('id')).attr('name', 'invoice_id');
     $("#id_payment_date" + $(this).data('id')).attr('name', 'payment_date').attr('required', true);
@@ -167,11 +177,11 @@ $(document).on("change", ".attach", function () {
     var fileType = file[0].type;
     $.each(match, function (index, value) {
         if (fileType != value) {
-            $("#"+id).addClass('is-invalid').val('').parent().children('span').remove();
-            $("#"+id).parent().append('<span id="' + id + '-error" class="error invalid-feedback">Upload only PDF.</span>')
+            $("#" + id).addClass('is-invalid').val('').parent().children('span').remove();
+            $("#" + id).parent().append('<span id="' + id + '-error" class="error invalid-feedback">Upload only PDF.</span>')
             return false;
         } else {
-            $("#"+id).parent().children('span').remove();
+            $("#" + id).parent().children('span').remove();
         }
     });
 });
