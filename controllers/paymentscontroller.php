@@ -184,5 +184,17 @@ class PaymentsController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+
+    public function utr_validty() {
+        if(!empty($_POST)) {
+             if($t = $this->_model->getRecordsByField('cheque_utr_no', $_POST['cheque_utr_no'])) {
+                 echo 0;
+             } else {
+                echo true;
+             }
+        } else {
+            echo false;
+        }
+    }
     
 }
