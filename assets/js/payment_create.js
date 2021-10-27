@@ -145,6 +145,7 @@ $(document).on("change", ".ptdate", function () {
     }
 });
 $(document).on("change", ".utr", function () {
+    var id = $(this).data('id');
     mydata = { cheque_utr_no: $(this).val() };
     if ($(this).val()) {
         $.ajax({
@@ -155,17 +156,16 @@ $(document).on("change", ".utr", function () {
             encode: true,
         })
             .done(function (data) {
-                console.log(baseUrl + "payments/utr_validty/");
-                console.log(data);
-                if (data == true) {
-                    $(this)
+                if (data == false || data == 0) {
+                    $("#id_utr" + id)
                         .addClass("is-invalid")
-                        .parent()
+                        .parent('#pdg_date' + id)
                         .append(
-                            '<span id="id_po_no-error" class="say error invalid-feedback">UTR already exist.</span>'
+                            '<span id="' + $("#id_utr" + id).attr('id') +'-error" class="say error invalid-feedback">UTR already exist.</span>'
                         );
                 } else {
-                    $(this).removeClass("is-invalid");
+                    $("#id_utr" + id).removeClass("is-invalid");
+                    $(".say").remove();
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
