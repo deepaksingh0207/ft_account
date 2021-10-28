@@ -166,7 +166,12 @@ having ordertotal > payments";
       payment_date,cheque_utr_no, utr_file
       from customer_payments
       join invoices  on (invoices.id = customer_payments.invoice_id) 
-      left join invoice_items on (invoice_items.invoice_id = invoices.id)
+      LEFT JOIN (
+  SELECT
+    * 
+  FROM invoice_items 
+  LIMIT 1
+) invoice_items ON invoice_items.invoice_id = invoices.id
       where customer_payments.order_id=?";
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId));
@@ -184,10 +189,15 @@ having ordertotal > payments";
         where order_id=? and invoices.id NOT IN ( select invoice_id from customer_payments where order_id=? )";
         */
 
-        $sql = "select DISTINCT invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , (invoice_total - (select IF(sum(received_amt) IS NULL,0, sum(received_amt))  from customer_payments where order_id=?)) as invoice_total
+        $sql = "select DISTINCT invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , (invoice_total - (select IF(sum(received_amt) IS NULL,0, sum(received_amt))  from customer_payments where order_id=? and invoice_id = invoices.id)) as invoice_total
         from invoices 
-        left join invoice_items on (invoice_items.invoice_id = invoices.id)
-        where order_id=? and invoice_total != ( select IF(sum(received_amt) IS NULL,0, sum(received_amt)) from customer_payments where order_id=?)";
+        LEFT JOIN (
+  SELECT
+    * 
+  FROM invoice_items 
+  LIMIT 1
+) invoice_items ON invoice_items.invoice_id = invoices.id
+        where order_id=? and invoices.invoice_total != (select IF(sum(received_amt) IS NULL,0, sum(received_amt)) from customer_payments where order_id=? and invoice_id = invoice_items.invoice_id )";
 
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId, $orderId, $orderId));
