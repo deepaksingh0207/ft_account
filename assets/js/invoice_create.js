@@ -500,7 +500,7 @@ function preview_builder() {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
         $("#preview_tbody").append(
           '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
-      c++;
+        c++;
       }
     });
   }
@@ -702,43 +702,49 @@ function setheader(val) {
 }
 
 function setordertype(val) {
-  if (val == 2 || val == 5) {
-    if (val == 2) {
-      $("#id_ordertype")
-        .show()
-        .empty()
-        .append("<label>Order Type :</label><br>Project Sale");
-    } else {
-      $("#id_ordertype")
-        .show()
-        .empty()
-        .append("<label>Order Type :</label><br>SAP License Sale");
-    }
+  if (val == 2) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>Project Sale");
+  } else if (val == 5) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>SAP License Sale");
+  } else if (val == 1) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>On-Site Support Sale");
+  } else if (val == 3) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>AMC Support Sale");
+  } else if (val == 4) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>Man-days-Support Sale");
+  } else if (val == 6) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>Hardware Sale");
+  } else if (val == 7) {
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>Open Order");
   } else {
-    if (val == 1) {
-      $("#id_ordertype")
-        .show()
-        .empty()
-        .append("<label>Order Type :</label><br>On-Site Support Sale");
-    } else if (val == 3) {
-      $("#id_ordertype")
-        .show()
-        .empty()
-        .append("<label>Order Type :</label><br>AMC Support Sale");
-    } else if (val == 4) {
-      $("#id_ordertype")
-        .show()
-        .empty()
-        .append("<label>Order Type :</label><br>Man-days-Support Sale");
-    } else if (val == 6) {
-      $("#id_ordertype")
-        .show()
-        .empty()
-        .append("<label>Order Type :</label><br>Hardware Sale");
-    }
-    // filledititems(orderlist.items);
+    $("#id_ordertype")
+      .show()
+      .empty()
+      .append("<label>Order Type :</label><br>Custom Order");
   }
 }
+
 
 function setuom(val) {
   if (val == 1) {
@@ -893,7 +899,7 @@ function preview_footer(val, listname) {
     subtotal = 0,
     cgst_total = 0,
     sgst_total = 0,
-    igst_total = 0, c=0;
+    igst_total = 0, c = 0;
   $.each(items_for_invoicing, function (index, value) {
     if ($("#id_paytrm" + value.id).is(':checked')) {
       subtotal += parseFloat($("#id_total" + c).val());
