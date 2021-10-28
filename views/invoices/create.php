@@ -57,16 +57,10 @@
                         <input type="hidden" class="form-control ftsm" name="ship_to" id="ship_id" />
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group" id="id_ordertype" style="display: none"></div>
-                      <div class="col-sm-12 col-lg-10 form-group">
+                      <div class="col-sm-12 col-lg-12 form-group">
                         <label for="comment_id"></label>
                         <textarea class="form-control capitalize" name="remarks" placeholder="Type your comments."
                           id="comment_id" cols="30" rows="1"></textarea>
-                      </div>
-                      <div class="col-sm-12 col-lg-2 form-group pt-3">
-                        <div class="icheck-primary d-inline">
-                          <input type="checkbox" id="id_performa" name="performa" class="paytrm">
-                          <label for="id_performa">Performa Invoice</label>
-                        </div>
                       </div>
                     </div>
 

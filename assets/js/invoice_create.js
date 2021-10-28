@@ -1046,7 +1046,7 @@ function fillinvoice_body() {
       table_id++
       // table header
       $("#id_invoiceblock_body").append(
-        '<div class="col-sm-12 col-lg-12" id="col_' + table_id + '"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + table_id + '"></tbody></table></div>'
+        '<div class="col-sm-12 col-lg-12" id="col_' + table_id + '"><table class="table"><thead><tr><th></th><th>Performa</th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + table_id + '"></tbody></table></div>'
       );
     }
     // List invoiced items and payment terms
@@ -1054,7 +1054,13 @@ function fillinvoice_body() {
       $.each(tree["items"][item_Id]["invoiced"]["ids"], function (c, invoiced_Id) {
         // Invoiced
         $("#invoicept" + table_id).append(
-          '<tr><td style="width: 80px;"></td><td>' +
+          '<tr><td style="width: 80px;"></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="invoice_id_performa' +
+          item_Id +
+          '" required class="" data-id="' +
+          item_Id +
+          '" ' + check_performa(tree["items"][item_Id]["invoiced"][invoiced_Id].item) + ' disabled>     <label for="invoice_id_performa' +
+          item_Id +
+          '"></label></div></td><td>' +
           tree["items"][item_Id]["invoiced"][invoiced_Id].item +
           "</td><td>" +
           tree["items"][item_Id]["invoiced"][invoiced_Id].description +
@@ -1091,9 +1097,9 @@ function fillinvoice_body() {
           item_Id +
           '" disabled><label for="id_paytrm' +
           item_Id +
-          '"></label></div></td>  <td>' +
+          '"></label></div></td><td></td><td>' +
           tree["items"][item_Id].item +
-          "</td>     <td>" +
+          "</td><td>" +
           tree["items"][item_Id].description +
           "</td><td>" +
           tree["items"][item_Id].qty +
@@ -1116,7 +1122,13 @@ function fillinvoice_body() {
           item_Id +
           '" checked>     <label for="id_paytrm' +
           item_Id +
-          '"></label></div></td> <td>' +
+          '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' +
+          item_Id +
+          '" class="" data-id="' +
+          item_Id +
+          '"> <label for="id_performa' +
+          item_Id +
+          '"></label></div></td><td>' +
           tree["items"][item_Id].item +
           "</td>      <td>" +
           tree["items"][item_Id].description +
@@ -1149,12 +1161,14 @@ function fillinvoice_body() {
               '_' +
               paymentterm_Id +
               '" required class="paytrm" data-id="' +
+              item_Id +
+              '_' +
               paymentterm_Id +
               '" disabled><label for="id_paytrm' +
               item_Id +
               '_' +
               paymentterm_Id +
-              '"></label></div></td><td>' +
+              '"></label></div></td><td></td><td>' +
               tree["items"][item_Id]["payment"][paymentterm_Id].item +
               "</td>      <td>" +
               tree["items"][item_Id]["payment"][paymentterm_Id].description +
@@ -1185,6 +1199,18 @@ function fillinvoice_body() {
               '_' +
               paymentterm_Id +
               '" checked><label for="id_paytrm' +
+              item_Id +
+              '_' +
+              paymentterm_Id +
+              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' +
+              item_Id +
+              '_' +
+              paymentterm_Id +
+              '" class="" data-id="' +
+              item_Id +
+              '_' +
+              paymentterm_Id +
+              '"> <label for="id_performa' +
               item_Id +
               '_' +
               paymentterm_Id +
@@ -1224,7 +1250,13 @@ function fillinvoice_body() {
         item_Id +
         '" checked>     <label for="id_paytrm' +
         item_Id +
-        '"></label></div></td> <td>' +
+        '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' +
+        item_Id +
+        '" class="" data-id="' +
+        item_Id +
+        '"> <label for="id_performa' +
+        item_Id +
+        '"></label></div></td><td>' +
         tree["items"][item_Id].item +
         "</td>      <td>" +
         tree["items"][item_Id].description +
@@ -1252,8 +1284,22 @@ function fillinvoice_body() {
             '_' +
             paymentterm_ID +
             '" required class="paytrm" data-id="' +
+            item_Id +
+            '_' +
             paymentterm_ID +
             '" disabled><label for="id_paytrm' +
+            item_Id +
+            '_' +
+            paymentterm_ID +
+            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' +
+            item_Id +
+            '_' +
+            paymentterm_ID +
+            '" class="" data-id="' +
+            item_Id +
+            '_' +
+            paymentterm_ID +
+            '"> <label for="id_performa' +
             item_Id +
             '_' +
             paymentterm_ID +
@@ -1294,6 +1340,18 @@ function fillinvoice_body() {
             item_Id +
             '_' +
             paymentterm_ID +
+            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' +
+            item_Id +
+            '_' +
+            paymentterm_ID +
+            '" class="" data-id="' +
+            item_Id +
+            '_' +
+            paymentterm_ID +
+            '"> <label for="id_performa' +
+            item_Id +
+            '_' +
+            paymentterm_ID +
             '"></label></div></td><td>' +
             tree["items"][item_Id]["payment"][paymentterm_ID].item +
             "</td>      <td>" +
@@ -1327,4 +1385,12 @@ function fillinvoice_body() {
   $("#id_invoiceblock_body").append(
     '<input type="hidden" name="order_total" value="' + total + '">'
   );
+}
+
+function check_performa(val) {
+  if (val == 1 && val == true) {
+    return 'checked'
+  } else {
+    return ''
+  }
 }
