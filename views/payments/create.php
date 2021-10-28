@@ -55,13 +55,13 @@
                                                     <thead id="headid_pending">
                                                         <tr>
                                                             <th></th>
-                                                            <th>
-                                                                Invoice No
+                                                            <th style="min-width:200px">
+                                                                Invoice Items
                                                             </th>
-                                                            <th>Description</th>
-                                                            <th>Amount</th>
-                                                            <th>Payment Date & UTR No</th>
-                                                            <th>Attachment</th>
+                                                            <th style="min-width:150px">TDS</th>
+                                                            <th style="min-width:150px">Amount</th>
+                                                            <th style="min-width:100px">Payment Date & UTR No</th>
+                                                            <th style="min-width:100px">Attachment</th>
                                                             <th></th>
                                                         </tr>
                                                         
@@ -92,9 +92,7 @@
                                                             <th>Attachment</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="bodyid_cleared">
-
-                                                    </tbody>
+                                                    <tbody id="bodyid_cleared"></tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -114,7 +112,7 @@
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header" id="modal_header">
-                                        Confirm Payment
+                                        Confirm Payments
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -140,7 +138,7 @@
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header" id="utr_header">
-                        Confirm Payment
+                        Payment Attchment
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
