@@ -86,6 +86,7 @@ $(document).on("change", "#id_orderid", function () {
             encode: true,
         })
             .done(function (data) {
+                console.log(data)
                 if (data.payment_pending) {
                     $("#colid_pending").show();
                     $("#headid_pending").show();
