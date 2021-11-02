@@ -105,11 +105,7 @@ $(document).on("change", "#id_orderid", function () {
                                 invoice_details[data.id] = data;
                                 $("#bodyid_pending").append('<tr id="pdg_row' + index + '"></tr>');
                                 $("#pdg_row" + index)
-<<<<<<< HEAD
-                                    .append('<td id="pdg_select' + index + '" style="width: 53px;" class="pt-5"><div class="icheck-primary d-inline"><input type="radio" id="select' + index + '" data-invoice="' + value.id + '" data-id="' + index + '" class="pdgselect"><label for="select' + index + '"></label></div></td>')
-=======
                                     .append('<td id="pdg_select' + index + '" style="width: 53px;" class="pt-5"><div class="icheck-primary d-inline"><input type="radio" id="select' + index + '" name="invoice_id" data-invoice="' + value.id + '" data-id="' + index + '" class="pdgselect" value="' + value.id + '"><label for="select' + index + '"></label></div></td>')
->>>>>>> 8f3c74ef9619171a23b421cdd6635666254dac69
                                     .append('<td id="pdg_invoice' + index + '"><b>Invoice No. : </b>' + value.invoice_no + '<br><b>Description : </b>' + value.description + '<br><b>Base Value : </b>' + invoice_details[parseInt(value.id)]["sub_total"] + '<br><b>GST : </b>' + (parseFloat(invoice_details[value.id]["cgst"]) + parseFloat(invoice_details[value.id]["sgst"]) + parseFloat(invoice_details[value.id]["igst"])) + '<br><b>Total : </b>' + invoice_details[value.id]["invoice_total"] + '</td>')
                                     .append('<td id="pdg_tds' + index + '"><div  class="input-group"><input type="number" class="form-control customtds" id="customtds' + index + '" max="100" min="0" data-index="' + index + '"><div class="input-group-append"><span class="input-group-text">%</span></div></div><div  class="input-group mt-3"><input type="number" class="form-control" id="pdg_tdsamt' + index + '" readonly data-index="' + index + '"><div class="input-group-append"><span class="input-group-text">&nbsp;₹&nbsp;</span></div></div></td>')
                                     .append('<td id="pdg_amt' + index + '"><input type="number" id="customamount' + index + '" class="form-control customamount" data-index="' + index + '" data-total="' + value.invoice_total + '" value="' + value.invoice_total + '"></td>')
