@@ -105,7 +105,7 @@ $(document).on("change", "#id_orderid", function () {
                                 invoice_details[data.id] = data;
                                 $("#bodyid_pending").append('<tr id="pdg_row' + index + '"></tr>');
                                 $("#pdg_row" + index)
-                                    .append('<td id="pdg_select' + index + '" style="width: 53px;" class="pt-5"><div class="icheck-primary d-inline"><input type="radio" id="select' + index + '" data-invoice="' + value.id + '" data-id="' + index + '" class="pdgselect"></div></td>')
+                                    .append('<td id="pdg_select' + index + '" style="width: 53px;" class="pt-5"><div class="icheck-primary d-inline"><input type="radio" id="select' + index + '" name="invoice_id" data-invoice="' + value.id + '" data-id="' + index + '" class="pdgselect" value="' + value.id + '"><label for="select' + index + '"></label></div></td>')
                                     .append('<td id="pdg_invoice' + index + '"><b>Invoice No. : </b>' + value.invoice_no + '<br><b>Description : </b>' + value.description + '<br><b>Base Value : </b>' + invoice_details[parseInt(value.id)]["sub_total"] + '<br><b>GST : </b>' + (parseFloat(invoice_details[value.id]["cgst"]) + parseFloat(invoice_details[value.id]["sgst"]) + parseFloat(invoice_details[value.id]["igst"])) + '<br><b>Total : </b>' + invoice_details[value.id]["invoice_total"] + '</td>')
                                     .append('<td id="pdg_tds' + index + '"><div  class="input-group"><input type="number" class="form-control customtds" id="customtds' + index + '" max="100" min="0" data-index="' + index + '"><div class="input-group-append"><span class="input-group-text">%</span></div></div><div  class="input-group mt-3"><input type="number" class="form-control" id="pdg_tdsamt' + index + '" readonly data-index="' + index + '"><div class="input-group-append"><span class="input-group-text">&nbsp;₹&nbsp;</span></div></div></td>')
                                     .append('<td id="pdg_amt' + index + '"><input type="number" id="customamount' + index + '" class="form-control customamount" data-index="' + index + '" data-total="' + value.invoice_total + '" value="' + value.invoice_total + '"></td>')
@@ -237,10 +237,26 @@ $(document).on("click", ".save", function () {
             $("#id_payment_date" + $(this).data('id')).addClass('is-invalid');
         }
     } else {
+        var i_d = $(this).data('id');
+        var invoice_id = $(".pdgselect").data("invoice");
         $("#modal_body")
             .empty()
             .append('Are you sure to save this payment details.')
-            .append('Are you sure to save this payment details.');
+            .append('<input type="hidden" name="payment_date" value="' + $("#id_payment_date" + i_d).val() + '">')
+            .append('<input type="hidden" name="cheque_utr_no" value="' + $("#id_utr" + i_d).val() + '">')
+            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">')
+            .append('<input type="hidden" name="utr_file" value="' + $("#id_attach" + i_d).val() + '">');
+        if ($("#customtds" + i_d).val()) {
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_id]" value="' + invoice_id + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][basic_value]" value="' + invoice_details[invoice_id]["sub_total"] + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][gst_amount]" value="' + (parseFloat(invoice_details[invoice_id]["cgst"]) + parseFloat(invoice_details[invoice_id]["sgst"]) + parseFloat(invoice_details[invoice_id]["igst"])) + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_amount]" value="' + invoice_details[invoice_id]["invoice_total"] + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_percent]" value="' + $("#customtds" + i_d).val() + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_deducted]" value="' + $("#pdg_tdsamt" + i_d).val() + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + $("#customamount" + i_d).val() + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="0">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + $("#customamount" + i_d).val() + '">');
+        }
         $("#modelpdf").trigger('click');
     }
     $('#modalsubmit').removeAttr('disabled');
@@ -267,24 +283,6 @@ $("#quickForm").on('submit', function (e) {
                 $("#id_orderid").trigger('change');
             } else {
                 $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
-                var i_d = $(".pdgselect").data("id");
-                var invoice_id = $(".pdgselect").data("invoice");
-                $("#modal_body").append('<input type="hidden" name="invoice_id" value="' + invoice_id + '">');
-                $("#modal_body").append('<input type="hidden" name="payment_date" value="' + $("#id_payment_date" + i_d).val() + '">');
-                $("#modal_body").append('<input type="hidden" name="cheque_utr_no" value="' + $("#id_utr" + i_d).val() + '">');
-                $("#modal_body").append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">');
-                $("#modal_body").append('<input type="hidden" name="utr_file" value="' + $("#id_attach" + i_d).val() + '">');
-                if ($("#customtds" + i_d).val()) {
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_id]" value="' + invoice_id + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][basic_value]" value="' + invoice_details[invoice_id]["sub_total"] + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][gst_amount]" value="' + (parseFloat(invoice_details[invoice_id]["cgst"]) + parseFloat(invoice_details[invoice_id]["sgst"]) + parseFloat(invoice_details[invoice_id]["igst"])) + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_amount]" value="' + invoice_details[parseInt(value.id)]["invoice_total"] + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_percent]" value="' + $("#customtds" + i_d).val() + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_deducted]" value="' + $("#pdg_tdsamt" + i_d).val() + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + $("#customamount" + i_d).val() + '">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="0">');
-                    $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + $("#customamount" + i_d).val() + '">');
-                }
                 $("#modalsubmit").removeAttr("disabled");
             }
         }
