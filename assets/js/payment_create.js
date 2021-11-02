@@ -253,9 +253,9 @@ $(document).on("click", ".save", function () {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_amount]" value="' + invoice_details[invoice_id]["invoice_total"] + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_percent]" value="' + $("#customtds" + i_d).val() + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_deducted]" value="' + $("#pdg_tdsamt" + i_d).val() + '">');
-            $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + $("#customamount" + i_d).val() + '">');
-            $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="0">');
-            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + $("#customamount" + i_d).val() + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="' + $("#customamount" + i_d).val() + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2)) + '">');
         }
         $("#modelpdf").trigger('click');
     }
