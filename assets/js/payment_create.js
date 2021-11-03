@@ -244,7 +244,7 @@ $(document).on("click", ".save", function () {
             .append('Are you sure to save this payment details.')
             .append('<input type="hidden" name="payment_date" value="' + $("#id_payment_date" + i_d).val() + '">')
             .append('<input type="hidden" name="cheque_utr_no" value="' + $("#id_utr" + i_d).val() + '">')
-            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">');
+            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">')
             .append('<input type="hidden" name="utr_file" value="' + $("#id_attach" + i_d).val() + '">');
         if ($("#customtds" + i_d).val()) {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_id]" value="' + invoice_id + '">');
