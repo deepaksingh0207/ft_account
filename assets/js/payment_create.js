@@ -143,7 +143,7 @@ $(document).on("change", ".customtds", function () {
     var total = parseFloat($("#customamount" + $(this).data("index")).data('total'));
     var tdsamt = total * $(this).val() / 100;
     $("#pdg_tdsamt" + $(this).data("index")).val(tdsamt.toFixed(2))
-    $("#customamount" + $(this).data("index")).val(total - tdsamt);
+    $("#customamount" + $(this).data("index")).val((total - tdsamt).toFixed(2));
 });
 
 $(document).on("change", ".ptdate", function () {
@@ -238,7 +238,7 @@ $(document).on("click", ".save", function () {
         }
     } else {
         var i_d = $(this).data('id');
-        var invoice_id = $(".pdgselect").data("invoice");
+        var invoice_id = $("#select" + i_d).data("invoice");
         $("#modal_body")
             .empty()
             .append('Are you sure to save this payment details.')
@@ -255,7 +255,7 @@ $(document).on("click", ".save", function () {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_deducted]" value="' + $("#pdg_tdsamt" + i_d).val() + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="' + $("#customamount" + i_d).val() + '">');
-            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2)) + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
         }
         $("#modelpdf").trigger('click');
     }
