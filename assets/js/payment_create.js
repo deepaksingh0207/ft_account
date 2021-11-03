@@ -113,7 +113,7 @@ $(document).on("change", "#id_orderid", function () {
                                     .append('<td id="pdg_attach' + index + '"></td>')
                                     .append('<td id="pdg_save' + index + '" style="width: 81px;"></td>');
                                 $("#pdg_date" + index).append('<input type="date" class="form-control max250 mb-3 ptdate" data-id="' + index + '" id="id_payment_date' + index + '" max="' + today + '"><input placeholder="UTR Number" data-id="' + index + '" type="text" class="form-control max250 utr" id="id_utr' + index + '">');
-                                $("#pdg_attach" + index).append('<input type="file" accept="application/pdf" id="id_attach' + index + '" class="wrp max150 attach" disabled>');
+                                $("#pdg_attach" + index).append('<input type="file" accept="application/pdf" id="id_attach' + index + '" class="wrp max150 attach" name="utr_file" disabled>');
                             });
                     });
                 }
@@ -195,13 +195,13 @@ $(document).on("click", ".pdgselect", function () {
     $("#id_invoice_id" + $(this).data('id')).attr('name', 'invoice_id');
     $("#id_payment_date" + $(this).data('id')).attr('name', 'payment_date').attr('required', true);
     $("#id_utr" + $(this).data('id')).attr('name', 'cheque_utr_no').attr('required', true);
-    $("#id_attach" + $(this).data('id')).attr('name', 'utr_file').removeAttr("disabled");
+    $("#id_attach" + $(this).data('id')).removeAttr("disabled");
     if ($(this).data('id') != lastSelectedId) {
         $("#pdg_save" + lastSelectedId).empty();
         $("#id_invoice_id" + lastSelectedId).val('').attr('name', 'invoice_id');
         $("#id_payment_date" + lastSelectedId).val('').removeAttr('name', 'payment_date').removeAttr('required', true);
         $("#id_utr" + lastSelectedId).val('').removeAttr('name', 'cheque_utr_no').removeAttr('required', true);
-        $("#id_attach" + lastSelectedId).val('').removeAttr('name', 'utr_file').attr("disabled", true);
+        $("#id_attach" + lastSelectedId).val('').attr("disabled", true);
         lastSelectedId = $(this).data('id');
     }
 });
@@ -244,8 +244,8 @@ $(document).on("click", ".save", function () {
             .append('Are you sure to save this payment details.')
             .append('<input type="hidden" name="payment_date" value="' + $("#id_payment_date" + i_d).val() + '">')
             .append('<input type="hidden" name="cheque_utr_no" value="' + $("#id_utr" + i_d).val() + '">')
-            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">')
-            .append('<input type="hidden" name="utr_file" value="' + $("#id_attach" + i_d).val() + '">');
+            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">');
+        // .append('<input type="hidden" name="utr_file" value="' + $("#id_attach" + i_d).val() + '">');
         if ($("#customtds" + i_d).val()) {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_id]" value="' + invoice_id + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][basic_value]" value="' + invoice_details[invoice_id]["sub_total"] + '">');
@@ -255,7 +255,7 @@ $(document).on("click", ".save", function () {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_deducted]" value="' + $("#pdg_tdsamt" + i_d).val() + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="' + $("#customamount" + i_d).val() + '">');
-            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2) - parseFloat($("#pdg_tdsamt" + i_d).val()).toFixed(2)) + '">');
         }
         $("#modelpdf").trigger('click');
     }
@@ -285,9 +285,13 @@ $("#quickForm").on('submit', function (e) {
                 $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
                 $("#modalsubmit").removeAttr("disabled");
             }
-        }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
     });
 });
+
 
 $(document).on("click", ".sublist", function () {
     url = baseUrl + 'utr_file/' + $(this).data("href")
