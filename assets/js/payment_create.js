@@ -238,13 +238,13 @@ $(document).on("click", ".save", function () {
         }
     } else {
         var i_d = $(this).data('id');
-        var invoice_id = $(".pdgselect").data("invoice");
+        var invoice_id = $("#select" + i_d).data("invoice");
         $("#modal_body")
             .empty()
             .append('Are you sure to save this payment details.')
             .append('<input type="hidden" name="payment_date" value="' + $("#id_payment_date" + i_d).val() + '">')
             .append('<input type="hidden" name="cheque_utr_no" value="' + $("#id_utr" + i_d).val() + '">')
-            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">')
+            .append('<input type="hidden" name="received_amt" value="' + $("#customamount" + i_d).val() + '">');
             .append('<input type="hidden" name="utr_file" value="' + $("#id_attach" + i_d).val() + '">');
         if ($("#customtds" + i_d).val()) {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][invoice_id]" value="' + invoice_id + '">');
@@ -255,7 +255,7 @@ $(document).on("click", ".save", function () {
             $("#modal_body").append('<input type="hidden" name="tds_data[0][tds_deducted]" value="' + $("#pdg_tdsamt" + i_d).val() + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][receivable_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
             $("#modal_body").append('<input type="hidden" name="tds_data[0][allocated_amt]" value="' + $("#customamount" + i_d).val() + '">');
-            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2)) + '">');
+            $("#modal_body").append('<input type="hidden" name="tds_data[0][balance_amt]" value="' + (parseFloat(invoice_details[invoice_id]["invoice_total"]).toFixed(2) - parseFloat($("#customamount" + i_d).val()).toFixed(2) - parseFloat($("#pdg_tdsamt" + i_d).val())) + '">');
         }
         $("#modelpdf").trigger('click');
     }
