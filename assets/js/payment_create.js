@@ -143,7 +143,7 @@ $(document).on("change", ".customtds", function () {
     var total = parseFloat($("#customamount" + $(this).data("index")).data('total'));
     var tdsamt = total * $(this).val() / 100;
     $("#pdg_tdsamt" + $(this).data("index")).val(tdsamt.toFixed(2))
-    $("#customamount" + $(this).data("index")).val(total - tdsamt);
+    $("#customamount" + $(this).data("index")).val((total - tdsamt).toFixed(2));
 });
 
 $(document).on("change", ".ptdate", function () {
