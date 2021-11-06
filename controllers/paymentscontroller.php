@@ -79,6 +79,25 @@ class PaymentsController extends Controller
                 
                 
                 if($custPaymentId) {
+
+                    if(isset($data['tds_data'])) {
+                        foreach($data['tds_data'] as $key => $item) {
+                            $row = array();
+                            $row['customer_payment_id'] = $custPaymentId;
+                            $row['invoice_id'] = $item['invoice_id'];
+                            $row['basic_value'] = $item['basic_value'];
+                            $row['gst_amount'] = $item['gst_amount'];
+                            $row['invoice_amount'] = $item['invoice_amount'];
+                            $row['tds_percent'] = $item['tds_percent'];
+                            $row['tds_deducted'] = $item['tds_deducted'];
+                            $row['receivable_amt'] = $item['receivable_amt'];
+                            $row['allocated_amt'] = $item['allocated_amt'];
+                            $row['balance_amt'] = $item['balance_amt'];
+                            //$payments[] = $row;
+                            $this->_model->save($row);
+                        }
+                    }
+
                     echo json_encode(array("status"=>1, "message"=>"Payment added successfully"));
                     exit;
                     //$_SESSION['message'] = 'Payment added successfully';
