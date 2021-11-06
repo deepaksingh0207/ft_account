@@ -45,13 +45,13 @@
                                         <textarea name="remarks" class="form-control" id="id_remarks" cols="30" rows="1"
                                             placeholder="Type Your Remarks."></textarea>
                                     </div>
-                                    <div class="col-sm-12 col-lg-12" id="colid_pending" style="display: none;">
+                                    <div class="col-sm-12 col-lg-12" id="id_pending_payments" style="display: none;">
                                         <div class="card mt-3">
                                             <div class="card-header">
                                                 Pending Payments
                                             </div>
-                                            <div class="card-body">
-                                                <table class="table">
+                                            <div class="card-body" id="invoice_list_body">
+                                                <!-- <table class="table">
                                                     <thead id="headid_pending">
                                                         <tr>
                                                             <th></th>
@@ -69,11 +69,11 @@
                                                     <tbody id="bodyid_pending">
 
                                                     </tbody>
-                                                </table>
+                                                </table> -->
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-lg-12" id="colid_cleared" style="display: none;">
+                                    <div class="col-sm-12 col-lg-12" id="id_cleared_payments" style="display: none;">
                                         <div class="card mt-3">
                                             <div class="card-header">
                                                 Cleared Payments
