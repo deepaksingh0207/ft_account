@@ -189,21 +189,13 @@ $(document).on("change", ".utr", function () {
     }
 });
 
-
-$(document).on("click", ".pdgselect", function () {
-    $("#pdg_save" + $(this).data('id')).empty().append('<button type="button" class="btn btn-primary save" data-id="' + $(this).data('id') + '" id="pdgsave' + $(this).data('id') + '">Save</button>');
-    $("#id_invoice_id" + $(this).data('id')).attr('name', 'invoice_id');
-    $("#id_payment_date" + $(this).data('id')).attr('name', 'payment_date').attr('required', true);
-    $("#id_utr" + $(this).data('id')).attr('name', 'cheque_utr_no').attr('required', true);
-    $("#id_attach" + $(this).data('id')).removeAttr("disabled");
-    if ($(this).data('id') != lastSelectedId) {
-        $("#pdg_save" + lastSelectedId).empty();
-        $("#id_invoice_id" + lastSelectedId).val('').attr('name', 'invoice_id');
-        $("#id_payment_date" + lastSelectedId).val('').removeAttr('name', 'payment_date').removeAttr('required', true);
-        $("#id_utr" + lastSelectedId).val('').removeAttr('name', 'cheque_utr_no').removeAttr('required', true);
-        $("#id_attach" + lastSelectedId).val('').attr("disabled", true);
-        lastSelectedId = $(this).data('id');
-    }
+$(document).on("change", ".monitortds", function () {
+    var tds_percent = $(this).val();
+    var invoice_amt = $("#id_tdsdata_invoice_amount_" + $(this).data('index')).val();
+    $("#pdg_tdsamt" + $(this).data('index')).text(humanamount((invoice_amt * tds_percent / 100).toFixed(2)));
+    $("#id_tdsdata_tds_deducted_" + $(this).data('index')).val((invoice_amt * tds_percent / 100).toFixed(2));
+    $("#id_tdsdata_allocated_amt_" + $(this).data('index')).val(($("#id_tdsdata_allocated_amt_" + $(this).data('index')).data('total') - (invoice_amt * tds_percent / 100)).toFixed(2));
+    $("#id_tdsdata_receivable_amt_" + $(this).data('index')).val($("#id_tdsdata_allocated_amt_" + $(this).data('index')).data('total') - (invoice_amt * tds_percent / 100).toFixed(2));
 });
 
 var match = ['application/pdf'];
