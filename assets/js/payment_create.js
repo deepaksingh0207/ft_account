@@ -281,5 +281,7 @@ $(document).on("click", ".save", function () {
 function check_proforma(val){
     if(val == 1){
         return "Performa "
+    } else {
+        return ""
     }
 }
