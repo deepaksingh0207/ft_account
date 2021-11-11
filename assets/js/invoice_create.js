@@ -485,7 +485,7 @@ function refreshpreview() {
 function preview_builder() {
   var c = 0
   $("#preview_modal_body").empty().append(
-    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Performa</th><th>Item</th><th>Description</th><th>' +
+    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
     setheader(od_order.order_type) +
     '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
   );
@@ -493,7 +493,7 @@ function preview_builder() {
     $.each(items_for_invoicing, function (i, t) {
       if ($("#id_paytrm" + t.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
+          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="order_details[' + c + '][proforma]" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
         c++;
       }
     });
@@ -503,10 +503,10 @@ function preview_builder() {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
         if (p.ot == 1) {
           $("#preview_tbody").append(
-            '<tr><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' + c + '" name="order_details[' + c + '][performa]"><label for="id_performa' + c + '"></label></div></td><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '</td><td class="text-center">-</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-id="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
+            '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="order_details[' + c + '][proforma]" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '</td><td class="text-center">-</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-id="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
         } else {
           $("#preview_tbody").append(
-            '<tr><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_performa' + c + '" name="order_details[' + c + '][performa]"><label for="id_performa' + c + '"></label></div></td><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
+            '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="order_details[' + c + '][proforma]" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
         }
         c++;
       }
@@ -1060,7 +1060,7 @@ function fillinvoice_body() {
       table_id++
       // table header
       $("#id_invoiceblock_body").append(
-        '<div class="col-sm-12 col-lg-12" id="col_' + table_id + '"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + table_id + '"></tbody></table></div>'
+        '<div class="col-sm-12 col-lg-12" id="col_' + table_id + '"><table class="table"><thead><tr><th></th><th>Proforma</th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' + table_id + '"></tbody></table></div>'
       );
     }
     // List invoiced items and payment terms
@@ -1068,7 +1068,7 @@ function fillinvoice_body() {
       $.each(tree["items"][item_Id]["invoiced"]["ids"], function (c, invoiced_Id) {
         // Invoiced
         $("#invoicept" + table_id).append(
-          '<tr><td style="width: 80px;"></td><td>' +
+          '<tr><td></td><td> <div class="icheck-primary d-inline"><input type="checkbox" disabled id="id_proforma' + item_Id + '" ' + check_proforma(tree["items"][item_Id]["invoiced"][invoiced_Id].proforma) + '><label for="id_proforma' + item_Id + '"></label></div> </td><td>' +
           tree["items"][item_Id]["invoiced"][invoiced_Id].item +
           "</td><td>" +
           tree["items"][item_Id]["invoiced"][invoiced_Id].description +
@@ -1105,7 +1105,7 @@ function fillinvoice_body() {
           item_Id +
           '" disabled><label for="id_paytrm' +
           item_Id +
-          '"></label></div></td><td>' +
+          '"></label></div></td><td></td><td>' +
           tree["items"][item_Id].item +
           "</td><td>" +
           tree["items"][item_Id].description +
@@ -1129,6 +1129,12 @@ function fillinvoice_body() {
           '" required class="paytrm" data-id="' +
           item_Id +
           '" checked><label for="id_paytrm' +
+          item_Id +
+          '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+          item_Id +
+          '" required class="" data-id="' +
+          item_Id +
+          '" checked><label for="id_proforma_' +
           item_Id +
           '"></label></div></td><td>' +
           tree["items"][item_Id].item +
@@ -1170,7 +1176,7 @@ function fillinvoice_body() {
               item_Id +
               '_' +
               paymentterm_Id +
-              '"></label></div></td><td>' +
+              '"></label></div></td><td></td><td>' +
               tree["items"][item_Id]["payment"][paymentterm_Id].item +
               "</td>      <td>" +
               tree["items"][item_Id]["payment"][paymentterm_Id].description +
@@ -1204,7 +1210,13 @@ function fillinvoice_body() {
               item_Id +
               '_' +
               paymentterm_Id +
-              '"></label></div></td><td>' +
+              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+              item_Id +
+              '" required class="" data-id="' +
+              item_Id +
+              '" checked><label for="id_proforma_' +
+              item_Id +
+          '"></label></div></td><td>' +
               tree["items"][item_Id]["payment"][paymentterm_Id].item +
               "</td>      <td>" +
               tree["items"][item_Id]["payment"][paymentterm_Id].description +
@@ -1240,7 +1252,13 @@ function fillinvoice_body() {
         item_Id +
         '" checked>     <label for="id_paytrm' +
         item_Id +
-        '"></label></div></td><td>' +
+        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+        item_Id +
+        '" required class="" data-id="' +
+        item_Id +
+        '" checked><label for="id_proforma_' +
+        item_Id +
+          '"></label></div><td>' +
         tree["items"][item_Id].item +
         "</td>      <td>" +
         tree["items"][item_Id].description +
@@ -1275,7 +1293,7 @@ function fillinvoice_body() {
             item_Id +
             '_' +
             paymentterm_ID +
-            '"></label></div></td><td>' +
+            '"></label></div></td><td></td><td>' +
             tree["items"][item_Id]["payment"][paymentterm_ID].item +
             "</td>      <td>" +
             tree["items"][item_Id]["payment"][paymentterm_ID].description +
@@ -1312,7 +1330,13 @@ function fillinvoice_body() {
             item_Id +
             '_' +
             paymentterm_ID +
-            '"></label></div></td><td>' +
+            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+            item_Id +
+            '" required class="" data-id="' +
+            item_Id +
+            '" checked><label for="id_proforma_' +
+            item_Id +
+          '"></label></div></td><td>' +
             tree["items"][item_Id]["payment"][paymentterm_ID].item +
             "</td>      <td>" +
             tree["items"][item_Id]["payment"][paymentterm_ID].description +
@@ -1345,4 +1369,19 @@ function fillinvoice_body() {
   $("#id_invoiceblock_body").append(
     '<input type="hidden" name="order_total" value="' + total + '">'
   );
+}
+
+function check_proforma(val){
+  if (val == "1" || val == 1){
+    return "checked"
+  }
+}
+
+function get_proforma(value){
+  if ($("#id_proforma_" + value).is(':checked')){
+    return 1
+  }
+  else{
+    return 0
+  }
 }
