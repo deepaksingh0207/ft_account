@@ -157,7 +157,7 @@ $(document).on("change", "#id_orderid", function () {
 
                                 $("#invoice_list_" + index).append('<div class="card-header" id="card_header_' + index + '"></div>');
 
-                                $("#card_header_" + index).append('<div class="icheck-primary d-inline mt-3">                                                   <input type="radio" id="id_invoice_id_' + index + '" data-invoice="' + value.id + '" data-id="' + index + '" name="invoice_id" class="radio" value="' + value.id + '"><label for="id_invoice_id_' + index + '">Invoice No. : ' + value.invoice_no + '</label><input type="hidden" id="id_tdsdata_invoice_id_' + index + '" class="payment" value="' + value.id + '"></div>');
+                                $("#card_header_" + index).append('<div class="icheck-primary d-inline mt-3">                                                   <input type="radio" id="id_invoice_id_' + index + '" data-invoice="' + value.id + '" data-id="' + index + '" name="invoice_id" class="radio" value="' + value.id + '"><label for="id_invoice_id_' + index + '">' + check_proforma(value.proforma) +'Invoice No. : ' + value.invoice_no + '</label><input type="hidden" id="id_tdsdata_invoice_id_' + index + '" class="payment" value="' + value.id + '"></div>');
 
                                 $("#card_header_" + index).append('<div class="card-tools"><button type="button" data-id="' + index + '" class="btn btn-primary save">Save</button ></div >');
 
@@ -276,3 +276,10 @@ $(document).on("click", ".save", function () {
     }
 
 });
+
+
+function check_proforma(val){
+    if(val == 1){
+        return "Performa "
+    }
+}
