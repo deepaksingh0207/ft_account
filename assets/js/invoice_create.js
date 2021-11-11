@@ -13,7 +13,9 @@ var groupdata,
   oldgen = 0,
   first_checked_ordertype = [],
   paytermlist = [],
-  payterm_ordertype = ["1", "2", "3"];
+  payterm_ordertype = ["1", "2", "3"],
+  proformaguard=true;
+
 var tree = {},
   items_for_invoicing = [],
   payment_for_invoicing = [];
@@ -153,7 +155,12 @@ $(document).on("click", ".generate", function () {
   $("#preview_modal").trigger("click");
 });
 
+$(document).on("click", ".proforma", function () {
+  // proforma_guard()
+});
+
 $(document).on("click", ".paytrm", function () {
+  // proforma_guard()
   if ($(this).is(':checked')) {
     $("#generate_" + $(this).data("id")).show();
   } else {
@@ -1130,7 +1137,7 @@ function fillinvoice_body() {
           item_Id +
           '" checked><label for="id_paytrm' +
           item_Id +
-          '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+          '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
           item_Id +
           '" required class="" data-id="' +
           item_Id +
@@ -1210,7 +1217,7 @@ function fillinvoice_body() {
               item_Id +
               '_' +
               paymentterm_Id +
-              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
               item_Id +
               '" required class="" data-id="' +
               item_Id +
@@ -1252,7 +1259,7 @@ function fillinvoice_body() {
         item_Id +
         '" checked>     <label for="id_paytrm' +
         item_Id +
-        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
         item_Id +
         '" required class="" data-id="' +
         item_Id +
@@ -1330,7 +1337,7 @@ function fillinvoice_body() {
             item_Id +
             '_' +
             paymentterm_ID +
-            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" id="id_proforma_' +
+            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
             item_Id +
             '" required class="" data-id="' +
             item_Id +
@@ -1384,4 +1391,43 @@ function get_proforma(value){
   else{
     return 0
   }
+}
+
+function proforma_guard() {
+  // Reseting performa to grab change
+  proformaguard = false
+  // Looping over invoicing items for performa tick
+  $.each(items_for_invoicing, function (i, x) {
+    if ($("#id_paytrm" + x.id).is(':checked')) {
+      if ($("#id_proforma_" + x.id).is(':checked')) {
+        proformaguard = true
+      }
+    }
+  });
+  $.each(payment_for_invoicing, function (j, y) {
+    if ($("#id_paytrm" + y.order_item_id + "_" + y.id).is(':checked')) {
+      if ($("#id_proforma_" + y.order_item_id).is(':checked')) {
+        proformaguard = true
+      }
+    }
+  });
+  // Looping over invoicing items to apply tick
+  $.each(items_for_invoicing, function (i, x) {
+    if ($("#id_paytrm" + x.id).is(':checked')) {
+      if (proformaguard){
+        $("#id_proforma_" + x.id).prop("checked", true);
+      } else {
+        $("#id_proforma_" + x.id).prop("checked", false);
+      }
+    }
+  });
+  $.each(payment_for_invoicing, function (j, y) {
+    if ($("#id_paytrm" + y.order_item_id + "_" + y.id).is(':checked')) {
+      if (proformaguard) {
+        $("#id_proforma_" + y.order_item_id).prop("checked", true);
+      } else {
+        $("#id_proforma_" + y.order_item_id).prop("checked", false);
+      }
+    }
+  });
 }
