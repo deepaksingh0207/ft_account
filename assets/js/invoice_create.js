@@ -14,7 +14,7 @@ var groupdata,
   first_checked_ordertype = [],
   paytermlist = [],
   payterm_ordertype = ["1", "2", "3"],
-  proformaguard=true;
+  proformaguard = true;
 
 var tree = {},
   items_for_invoicing = [],
@@ -156,11 +156,41 @@ $(document).on("click", ".generate", function () {
 });
 
 $(document).on("click", ".proforma", function () {
-  // proforma_guard()
+  proforma_guard()
+    if (proformaguard) {
+    $.each(items_for_invoicing, function (i, x) {
+      if ($("#id_proforma_" + x.id).is(':checked') == false) {
+        if ($("#id_paytrm" + x.id).is(':checked')){
+          $("#id_paytrm" + x.id).trigger("click");
+        }
+      };
+    });
+    $.each(payment_for_invoicing, function (j, y) {
+      if ($("#id_proforma_" + y.order_item_id).is(':checked') == false) {
+        if ($("#id_paytrm" + y.order_item_id + "_" + y.id).is(':checked')) {
+          $("#id_paytrm" + y.order_item_id + "_" + y.id).trigger("click");
+        }
+      };
+    });
+  }
 });
 
 $(document).on("click", ".paytrm", function () {
-  // proforma_guard()
+  proforma_guard()
+
+  if (proformaguard) {
+    $.each(items_for_invoicing, function (i, x) {
+      if ($("#id_proforma_" + x.id).is(':checked') == false) {
+        $("#id_proforma_" + x.id).trigger("click");
+      };
+    });
+    $.each(payment_for_invoicing, function (j, y) {
+      if ($("#id_proforma_" + y.order_item_id).is(':checked') == false) {
+        $("#id_proforma_" + y.order_item_id).trigger("click");
+      };
+    });
+  }
+
   if ($(this).is(':checked')) {
     $("#generate_" + $(this).data("id")).show();
   } else {
@@ -1223,7 +1253,7 @@ function fillinvoice_body() {
               item_Id +
               '" checked><label for="id_proforma_' +
               item_Id +
-          '"></label></div></td><td>' +
+              '"></label></div></td><td>' +
               tree["items"][item_Id]["payment"][paymentterm_Id].item +
               "</td>      <td>" +
               tree["items"][item_Id]["payment"][paymentterm_Id].description +
@@ -1265,7 +1295,7 @@ function fillinvoice_body() {
         item_Id +
         '" checked><label for="id_proforma_' +
         item_Id +
-          '"></label></div><td>' +
+        '"></label></div><td>' +
         tree["items"][item_Id].item +
         "</td>      <td>" +
         tree["items"][item_Id].description +
@@ -1343,7 +1373,7 @@ function fillinvoice_body() {
             item_Id +
             '" checked><label for="id_proforma_' +
             item_Id +
-          '"></label></div></td><td>' +
+            '"></label></div></td><td>' +
             tree["items"][item_Id]["payment"][paymentterm_ID].item +
             "</td>      <td>" +
             tree["items"][item_Id]["payment"][paymentterm_ID].description +
@@ -1378,17 +1408,17 @@ function fillinvoice_body() {
   );
 }
 
-function check_proforma(val){
-  if (val == "1" || val == 1){
+function check_proforma(val) {
+  if (val == "1" || val == 1) {
     return "checked"
   }
 }
 
-function get_proforma(value){
-  if ($("#id_proforma_" + value).is(':checked')){
+function get_proforma(value) {
+  if ($("#id_proforma_" + value).is(':checked')) {
     return 1
   }
-  else{
+  else {
     return 0
   }
 }
@@ -1411,23 +1441,19 @@ function proforma_guard() {
       }
     }
   });
-  // Looping over invoicing items to apply tick
-  $.each(items_for_invoicing, function (i, x) {
-    if ($("#id_paytrm" + x.id).is(':checked')) {
-      if (proformaguard){
-        $("#id_proforma_" + x.id).prop("checked", true);
-      } else {
-        $("#id_proforma_" + x.id).prop("checked", false);
-      }
-    }
-  });
-  $.each(payment_for_invoicing, function (j, y) {
-    if ($("#id_paytrm" + y.order_item_id + "_" + y.id).is(':checked')) {
-      if (proformaguard) {
-        $("#id_proforma_" + y.order_item_id).prop("checked", true);
-      } else {
-        $("#id_proforma_" + y.order_item_id).prop("checked", false);
-      }
-    }
-  });
+
+  // if (proformaguard) {
+  //   $.each(items_for_invoicing, function (i, x) {
+  //     if ($("#id_proforma_" + x.id).is(':checked') == false) {
+  //       $("#id_paytrm" + x.id).prop("checked", false);
+  //       $("#id_paytrm" + x.id).trigger("click");
+  //     };
+  //   });
+  //   $.each(payment_for_invoicing, function (j, y) {
+  //     if ($("#id_proforma_" + y.order_item_id).is(':checked') == false) {
+  //       $("#id_paytrm" + y.order_item_id + "_" + y.id).prop("checked", false);
+  //       $("#id_paytrm" + y.order_item_id + "_" + y.id).trigger("click");
+  //     };
+  //   });
+  // }
 }
