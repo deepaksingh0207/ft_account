@@ -45,6 +45,8 @@ class InvoicesController extends Controller
                 
                 //echo '<pre>'; print_r($data); exit;
 
+                $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
+
                 $invoiceeData = array();
                 $invoiceItems = array();
                 
@@ -104,21 +106,42 @@ class InvoicesController extends Controller
                 }
 
                 
-                $invoiceId = $this->_model->save($invoiceeData);
-                if($invoiceId) {
-                    $tblInvoiceItem = new InvoiceItemsModel();
-                    foreach($invoiceItems as $invoiceItem) {
-                        $invoiceItem['invoice_id'] = $invoiceId;
-                        $tblInvoiceItem->save($invoiceItem);
-                    }
-                    
-                    $this->generateInvoice($invoiceId); 
+                
+                if($isProformaInvoice) {
+                    $tblProformaInvoice = new ProformaInvoicesModel();
+                    $invoiceId = $tblProformaInvoice->save($invoiceeData);
+                    if($invoiceId) {
+                        $tblInvoiceItem = new ProformaInvoiceItemsModel();
+                        foreach($invoiceItems as $invoiceItem) {
+                            $invoiceItem['proforma_invoice_id'] = $invoiceId;
+                            $tblInvoiceItem->save($invoiceItem);
+                        }
+                        
+                        $this->generateInvoice($invoiceId); 
 
-                    $_SESSION['message'] = 'Invoice added successfully';
-                    header("location:". ROOT. "invoices"); 
+                        $_SESSION['message'] = 'Invoice added successfully';
+                        header("location:". ROOT. "invoices"); 
+                    } else {
+                        $_SESSION['error'] = 'Fail to add invoice';
+                    }
                 } else {
-                    $_SESSION['error'] = 'Fail to add invoice';
+                    $invoiceId = $this->_model->save($invoiceeData);
+                    if($invoiceId) {
+                        $tblInvoiceItem = new InvoiceItemsModel();
+                        foreach($invoiceItems as $invoiceItem) {
+                            $invoiceItem['invoice_id'] = $invoiceId;
+                            $tblInvoiceItem->save($invoiceItem);
+                        }
+                        
+                        $this->generateInvoice($invoiceId); 
+
+                        $_SESSION['message'] = 'Invoice added successfully';
+                        header("location:". ROOT. "invoices"); 
+                    } else {
+                        $_SESSION['error'] = 'Fail to add invoice';
+                    }
                 }
+                
             }
             
             return $this->_view->output();
@@ -349,11 +372,12 @@ class InvoicesController extends Controller
         if(!empty($_POST)) {
             $data = $_POST;
             
-            // echo '<pre>'; print_r($data); exit;
+            //echo '<pre>'; print_r($data); exit;
             
             $invoice = array();
             $invoiceItems = array();
             
+            $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
             
             //$invoice['invoice_no'] = $this->genInvoiceNo();
             $invoice['invoice_no'] = $data['invoice_no'];
@@ -492,7 +516,12 @@ class InvoicesController extends Controller
             $vars["{{ITEM_LIST}}"] = $itemList;
             $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
             
-            $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+            if($isProformaInvoice) {
+                $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
+            } else {
+                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+            }
+            
             
             echo $messageBody;
         }
