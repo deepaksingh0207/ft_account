@@ -138,7 +138,7 @@ class ProformaInvoicesModel extends Model {
     
     
     public function getInvoiceItem($id) {
-        $sql = "select * from proforma_invoice_items where invoice_id = ? ";
+        $sql = "select * from proforma_invoice_items where proforma_invoice_id = ? ";
         $this->_setSql($sql);
         $items = $this->getAll(array($id));
         if (empty($items)){

@@ -260,14 +260,40 @@ class OrdersController extends Controller
                 $invoice['payment_term'] = $invoice['payment_term'] ? $invoice['payment_term'] : '-';
                 $invoice['pay_percent'] = $invoice['pay_percent'] ? $invoice['pay_percent'] : '-';
             }
+
+            // JThayil 16.Nov Start
+            $proformaModel = new ProformaInvoicesModel();
+            $proformas = $proformaModel->getInvoicesOfOrder($id);
             
-           
+            if($proformas) {
+                foreach($proformas as &$proforma) {
+                    $proforma['invoice_date'] = date('d M Y', strtotime($proforma['invoice_date']));
+                }
+            }
+
+            $proformaInvoiceItemModel = new ProformaInvoiceItemsModel();
+            foreach($oderItems as &$oderItem) {
+                $result = $proformaInvoiceItemModel->getInvoiceQtyOfItem($oderItem['id']);
+                $oderItem['bal_qty'] = ($oderItem['qty'] - $result);
+                $oderItem['bal_total'] = ($oderItem['bal_qty'] * $oderItem['unit_price']);
+                
+            }
+
+            foreach($proformas as &$proforma) {
+                $proforma['payment_term'] = $proforma['payment_term'] ? $proforma['payment_term'] : '-';
+                $proforma['pay_percent'] = $proforma['pay_percent'] ? $proforma['pay_percent'] : '-';
+            }
+            // End
             
             $result = array();
             $result['order'] = $order;
             $result['items'] = $oderItems;
             $result['invoices'] = $invoices;
             $result['invoice_items'] = $invoiceItemModel->getListByOrderId($id);
+            // JThayil 16.Nov Start
+            $result['proforma'] = $proformas;
+            $result['proforma_items'] = $proformaInvoiceItemModel->getListByOrderId($id);
+            // End
             $result['payment_term'] = $paymentTerms;
             echo json_encode($result);
         } else {
