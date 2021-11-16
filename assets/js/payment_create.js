@@ -225,7 +225,7 @@ $(document).on("change", ".monitorallocated_amt", function () {
 
 $(document).on("change", ".monitortds", function () {
     var tds_percent = $(this).val();
-    var invoice_amt = $("#id_tdsdata_invoice_amount_" + $(this).data('index')).val();
+    var invoice_amt = $("#id_tdsdata_basic_value_" + $(this).data('index')).val();
     $("#pdg_tdsamt" + $(this).data('index')).text(humanamount((invoice_amt * tds_percent / 100).toFixed(2)));
     $("#id_tdsdata_tds_deducted_" + $(this).data('index')).val((invoice_amt * tds_percent / 100).toFixed(2));
     $("#id_tdsdata_allocated_amt_" + $(this).data('index')).val($("#id_tdsdata_allocated_amt_" + $(this).data('index')).data('total') - (invoice_amt * tds_percent / 100).toFixed(2));
