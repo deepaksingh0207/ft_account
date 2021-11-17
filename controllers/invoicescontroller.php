@@ -117,7 +117,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->generateInvoice($invoiceId); 
+                        $this->generateInvoice($invoiceId, true); 
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -214,13 +214,23 @@ class InvoicesController extends Controller
         }
     }
     
-    public function generateInvoice($invoiceId) {
+    // Jthayil Start 17, Nov
+    public function generateInvoice($invoiceId, $proformaSwitch = false) {
         
         $dataItem = array();
         
-        $invoice = $this->_model->get($invoiceId);
-        $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
-        
+        if ($proformaSwitch){
+            $tblProformaInvoice = new ProformaInvoicesModel();
+            $invoice = $tblProformaInvoice->get($invoiceId);
+            $invoiceItem = $tblProformaInvoice->getInvoiceItem($invoiceId);
+            // $invoice = $this->_model->get($invoiceId);
+            // $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
+        }
+        else{
+            $invoice = $this->_model->get($invoiceId);
+            $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
+        }    
+    // End
         $customerTbl = new CustomersModel();
         $customer = $customerTbl->get($invoice['customer_id']);
         
@@ -624,7 +634,7 @@ class InvoicesController extends Controller
 
     
 }
-
+// Jthayil Start
 function getdeclaration($val) {
     if ($val != ""){
         return "<b>Declaration</b><br>" . $val;
@@ -632,3 +642,4 @@ function getdeclaration($val) {
         return $val;
     }
 }
+// End

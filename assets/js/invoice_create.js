@@ -136,6 +136,8 @@ $("#id_orderid").change(function () {
         od_invoices = orderdata.invoices;
         od_invoiceitems = orderdata.invoice_items;
         od_payment_term = orderdata.payment_term;
+        od_proforma = orderdata.proforma;
+        od_proforma_items = orderdata.proforma_items;
         createbookeeper();
         $("#setheader").text(setheader(od_order.order_type));
         gst_details(customerid);
@@ -522,7 +524,7 @@ function refreshpreview() {
 function preview_builder() {
   var c = 0
   $("#preview_modal_body").empty().append(
-    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
+    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">'+ preview_label() +'Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
     setheader(od_order.order_type) +
     '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
   );
@@ -530,7 +532,7 @@ function preview_builder() {
     $.each(items_for_invoicing, function (i, t) {
       if ($("#id_paytrm" + t.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
+          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.bal_qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
         c++;
       }
     });
@@ -611,7 +613,7 @@ function preview_modal_body(index, listname) {
     $("#preview_modal_body")
       .empty()
       .append(
-        '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card">             <div class="card-header">' +
+        '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' +
         getordertype() +
         '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th>   <th>Qty./Unit</th>    <th>Unit Price</th><th>	Total Value</th> </tr></thead>          <tbody id="preview_tbody"></tbody></table></div>               <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label>                  <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label>      <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div>         <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label>    <input type="number" class="form-control numberonly" pattern="[0-9]{7}" minlength="7"  maxlength="7" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
       );
@@ -1105,7 +1107,7 @@ function fillinvoice_body() {
       $.each(tree["items"][item_Id]["invoiced"]["ids"], function (c, invoiced_Id) {
         // Invoiced
         $("#invoicept" + table_id).append(
-          '<tr><td></td><td> <div class="icheck-primary d-inline"><input type="checkbox" disabled id="id_proforma' + item_Id + '" ' + check_proforma(tree["items"][item_Id]["invoiced"][invoiced_Id].proforma) + '><label for="id_proforma' + item_Id + '"></label></div> </td><td>' +
+          '<tr><td></td><td> <div class="icheck-primary d-inline"><input type="checkbox" disabled id="id_proforma' + item_Id + '" ' + check_proforma(tree["items"][item_Id]["invoiced"][invoiced_Id]["order_item_id"], tree["items"][item_Id]["invoiced"][invoiced_Id]["order_payterm_id"]) + '><label for="id_proforma' + item_Id + '"></label></div> </td><td>' +
           tree["items"][item_Id]["invoiced"][invoiced_Id].item +
           "</td><td>" +
           tree["items"][item_Id]["invoiced"][invoiced_Id].description +
@@ -1408,9 +1410,17 @@ function fillinvoice_body() {
   );
 }
 
-function check_proforma(val) {
-  if (val == "1" || val == 1) {
-    return "checked"
+function check_proforma(item_id, paymentterm_id) {
+  var check = true;
+  $.each(od_proforma_items, function (i, item) {
+    if (item.order_item_id == item_id && item.order_payterm_id == paymentterm_id) {
+      check = false
+    }
+  });
+  if (check){
+    return ""
+  } else {
+    return 'checked';
   }
 }
 
@@ -1441,4 +1451,10 @@ function proforma_guard() {
       }
     }
   });
+}
+
+function preview_label(){
+  if (proformaguard) { return "Proforma "; } else {
+    return "";
+  }
 }
