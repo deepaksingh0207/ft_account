@@ -1169,11 +1169,11 @@ function fillinvoice_body() {
           item_Id +
           '" checked><label for="id_paytrm' +
           item_Id +
-          '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
+          '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
           item_Id +
           '" required class="" data-id="' +
           item_Id +
-          '" checked><label for="id_proforma_' +
+          '" ><label for="id_proforma_' +
           item_Id +
           '"></label></div></td><td>' +
           tree["items"][item_Id].item +
@@ -1249,11 +1249,11 @@ function fillinvoice_body() {
               item_Id +
               '_' +
               paymentterm_Id +
-              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
+              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
               item_Id +
               '" required class="" data-id="' +
               item_Id +
-              '" checked><label for="id_proforma_' +
+              '" ><label for="id_proforma_' +
               item_Id +
               '"></label></div></td><td>' +
               tree["items"][item_Id]["payment"][paymentterm_Id].item +
@@ -1291,11 +1291,11 @@ function fillinvoice_body() {
         item_Id +
         '" checked>     <label for="id_paytrm' +
         item_Id +
-        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
+        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
         item_Id +
         '" required class="" data-id="' +
         item_Id +
-        '" checked><label for="id_proforma_' +
+        '"><label for="id_proforma_' +
         item_Id +
         '"></label></div><td>' +
         tree["items"][item_Id].item +
@@ -1369,11 +1369,11 @@ function fillinvoice_body() {
             item_Id +
             '_' +
             paymentterm_ID +
-            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" class="proforma" id="id_proforma_' +
+            '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
             item_Id +
             '" required class="" data-id="' +
             item_Id +
-            '" checked><label for="id_proforma_' +
+            '" ><label for="id_proforma_' +
             item_Id +
             '"></label></div></td><td>' +
             tree["items"][item_Id]["payment"][paymentterm_ID].item +

@@ -272,12 +272,7 @@ class OrdersController extends Controller
             }
 
             $proformaInvoiceItemModel = new ProformaInvoiceItemsModel();
-            foreach($oderItems as &$oderItem) {
-                $result = $proformaInvoiceItemModel->getInvoiceQtyOfItem($oderItem['id']);
-                $oderItem['bal_qty'] = ($oderItem['qty'] - $result);
-                $oderItem['bal_total'] = ($oderItem['bal_qty'] * $oderItem['unit_price']);
-                
-            }
+           
 
             foreach($proformas as &$proforma) {
                 $proforma['payment_term'] = $proforma['payment_term'] ? $proforma['payment_term'] : '-';
