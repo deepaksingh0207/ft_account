@@ -159,10 +159,10 @@ $(document).on("click", ".generate", function () {
 
 $(document).on("click", ".proforma", function () {
   proforma_guard()
-    if (proformaguard) {
+  if (proformaguard) {
     $.each(items_for_invoicing, function (i, x) {
       if ($("#id_proforma_" + x.id).is(':checked') == false) {
-        if ($("#id_paytrm" + x.id).is(':checked')){
+        if ($("#id_paytrm" + x.id).is(':checked')) {
           $("#id_paytrm" + x.id).trigger("click");
         }
       };
@@ -524,7 +524,7 @@ function refreshpreview() {
 function preview_builder() {
   var c = 0
   $("#preview_modal_body").empty().append(
-    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">'+ preview_label() +'Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
+    '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + preview_label() + 'Invoice</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' +
     setheader(od_order.order_type) +
     '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
   );
@@ -1162,37 +1162,39 @@ function fillinvoice_body() {
         );
       } else {
         // List enabled order items
-        $("#invoicept" + table_id).append(
-          '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-          item_Id +
-          '" required class="paytrm" data-id="' +
-          item_Id +
-          '" checked><label for="id_paytrm' +
-          item_Id +
-          '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
-          item_Id +
-          '" required class="" data-id="' +
-          item_Id +
-          '" ><label for="id_proforma_' +
-          item_Id +
-          '"></label></div></td><td>' +
-          tree["items"][item_Id].item +
-          "</td><td>" +
-          tree["items"][item_Id].description +
-          "</td><td>" +
-          tree["items"][item_Id].bal_qty +
-          "</td><td>" +
-          humanamount(tree["items"][item_Id].unit_price) +
-          "</td><td>" +
-          humanamount(tree["items"][item_Id].total) +
-          '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-          item_Id +
-          '" data-id="' +
-          b +
-          '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-        );
-        total += parseFloat(tree["items"][item_Id].total)
-        items_for_invoicing.push(tree["items"][item_Id]);
+        if (tree["items"][item_Id].bal_qty > 0) {
+          $("#invoicept" + table_id).append(
+            '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+            item_Id +
+            '" required class="paytrm" data-id="' +
+            item_Id +
+            '" checked><label for="id_paytrm' +
+            item_Id +
+            '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
+            item_Id +
+            '" required class="" data-id="' +
+            item_Id +
+            '" ><label for="id_proforma_' +
+            item_Id +
+            '"></label></div></td><td>' +
+            tree["items"][item_Id].item +
+            "</td><td>" +
+            tree["items"][item_Id].description +
+            "</td><td>" +
+            tree["items"][item_Id].bal_qty +
+            "</td><td>" +
+            humanamount(tree["items"][item_Id].unit_price) +
+            "</td><td>" +
+            humanamount(tree["items"][item_Id].total) +
+            '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
+            item_Id +
+            '" data-id="' +
+            b +
+            '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+          );
+          total += parseFloat(tree["items"][item_Id].total)
+          items_for_invoicing.push(tree["items"][item_Id]);
+        }
       }
     }
     // List non-invoiced payment terms & cleared
@@ -1417,7 +1419,7 @@ function check_proforma(item_id, paymentterm_id) {
       check = false
     }
   });
-  if (check){
+  if (check) {
     return ""
   } else {
     return 'checked';
@@ -1453,7 +1455,7 @@ function proforma_guard() {
   });
 }
 
-function preview_label(){
+function preview_label() {
   if (proformaguard) { return "Proforma "; } else {
     return "";
   }
