@@ -290,11 +290,11 @@ class InvoicesController extends Controller
         $itemList = '';
         foreach($dataItem as $key => $item) {
             $itemList .= '<tr>
-            <td>'.($key+1).'</td>
-            <td>'.$item['description'].'</td>
-            <td>'.$item['qty'].'</td>
-            <td>'.number_format($item['unit_price'], 2).'</td>
-            <td>'.number_format($item['total'], 2).'</td>
+            <td style="font-size: xx-small;">'.($key+1).'</td>
+            <td style="font-size: xx-small;">'.$item['description'].'</td>
+            <td style="font-size: xx-small;">'.$item['qty'].'</td>
+            <td style="font-size: xx-small;">'.number_format($item['unit_price'], 2).'</td>
+            <td style="font-size: xx-small;">'.number_format($item['total'], 2).'</td>
             </tr>';
             
             $orderBaseTotal += $item['total'];
@@ -303,7 +303,7 @@ class InvoicesController extends Controller
         $taxesLayout = '';
         if((int)$invoice['igst']) {
             $taxesLayout = '<tr class="text-right bb">
-            <td style="text-align: right; width: 94%">
+            <td style="text-align: right; width: 100%;font-size: xx-small;">
               IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
             </td>
           </tr><tr>
@@ -313,15 +313,15 @@ class InvoicesController extends Controller
         </tr>';
         } else {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 94%">
+            <td style="text-align: right; width: 100%;font-size: xx-small;">
               CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
               <br />
               SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
           <tr>
-            <td colspan="5" style="padding: 0px">
-              <hr style="padding: 0px; margin: 0px" />
+            <td style="padding: 0px">
+              <hr style="padding: 0px; margin: 0px;" />
             </td>
           </tr>';
         }
@@ -486,11 +486,11 @@ class InvoicesController extends Controller
             $itemList = '';
             foreach($dataItem as $key => $item) {
                 $itemList .= '<tr>
-                <td>'.($key+1).'</td>
-                <td>'.$item['description'].'</td>
-                <td>'.$item['qty'].'</td>
-                <td>'.number_format($item['unit_price'], 2).'</td>
-                <td>'.number_format($item['total'], 2).'</td>
+            <td style="font-size: xx-small;">'.($key+1).'</td>
+            <td style="font-size: xx-small;">'.$item['description'].'</td>
+            <td style="font-size: xx-small;">'.$item['qty'].'</td>
+            <td style="font-size: xx-small;">'.number_format($item['unit_price'], 2).'</td>
+            <td style="font-size: xx-small;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 
                 $orderBaseTotal += $item['total'];
@@ -499,7 +499,7 @@ class InvoicesController extends Controller
             $taxesLayout = '';
             if((int)$invoice['igst']) {
                 $taxesLayout = '<tr class="text-right bb">
-                <td style="text-align: right; width: 94%">
+                <td style="text-align: right; width: 100%; font-size: xx-small;">
                   IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
                 </td>
               </tr><tr>
@@ -509,7 +509,7 @@ class InvoicesController extends Controller
             </tr>';
             } else {
                 $taxesLayout = '<tr>
-                <td style="text-align: right; width: 94%">
+                <td style="text-align: right; width: 100%;font-size: xx-small;">
                   CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
                   <br />
                   SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
