@@ -43,7 +43,7 @@ class InvoicesController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                //echo '<pre>'; print_r($data); exit;
+                // echo '<pre>'; print_r($data); exit;
 
                 $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
 
@@ -411,7 +411,7 @@ class InvoicesController extends Controller
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
             
             $invoice['remarks'] = $data['remarks'];
-           
+
             foreach($data['order_details'] as $item) {
                 $orderItem = array();
                 $orderItem['order_item_id'] = $item['order_item_id'];
@@ -438,7 +438,19 @@ class InvoicesController extends Controller
             $oderItems = $orderTable->getOrderItem($invoice['order_id']);
             
             if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
-                $dataItem = $invoiceItems;
+                // Jthayil 24 Nov Start
+                $tempInvoiceItem = [];
+                foreach($invoiceItems as $tempItem)
+                {
+                    if($order['order_type'] == 2)
+                    {
+                        $tempItem['qty'] = 1;
+                    }
+                    array_push($tempInvoiceItem,$tempItem);
+                }
+                // End
+                $dataItem = $tempInvoiceItem;
+
             }/* else if($order['order_type']  == 2 || $order['order_type']  == 1) {
                 $row = array();
                 //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
