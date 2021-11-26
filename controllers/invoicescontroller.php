@@ -645,6 +645,18 @@ class InvoicesController extends Controller
     }
 
     
+    public function invoice_validty() {
+        if(!empty($_POST)) {
+             if($t = $this->_model->getRecordsByField('invoice_no', $_POST['invoice_no'])) {
+                 echo 0;
+             } else {
+                echo true;
+             }
+        } else {
+            echo false;
+        }
+    }
+
 }
 // Jthayil Start
 function getdeclaration($val) {
