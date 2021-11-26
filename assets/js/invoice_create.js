@@ -558,6 +558,34 @@ $(document).on("change", ".pup", function () {
   $("#id_total" + $(this).data('id')).val($(this).val());
 });
 
+$(document).on("change", "#id_invoice_no", function () {
+  mydata = { invoice_no: $(this).val() };
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "invoices/invoice_validty/",
+    data: mydata,
+    dataType: "json",
+    encode: true,
+  })
+    .done(function (data) {
+      if (data == false) {
+        $(".say").remove();
+        $("#id_invoice_no")
+          .addClass("is-invalid")
+          .parent()
+          .append(
+            '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
+          );
+      } else {
+
+      }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("Cannot validate PO No.");
+    });
+});
+
+
 
 function preview_modal_body(index, listname) {
   i = 0;
