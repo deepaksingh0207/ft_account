@@ -532,7 +532,7 @@ function preview_builder() {
     $.each(items_for_invoicing, function (i, t) {
       if ($("#id_paytrm" + t.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.bal_qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3">₹' + t.unit_price + '<input type="hidden" required name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
+          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.bal_qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3"><input type="number" class="form-control" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
         c++;
       }
     });
@@ -540,13 +540,8 @@ function preview_builder() {
   if (payment_for_invoicing.length > 0) {
     $.each(payment_for_invoicing, function (j, p) {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
-        if (p.ot == 1) {
-          $("#preview_tbody").append(
-            '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '</td><td class="text-center">-</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-id="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
-        } else {
-          $("#preview_tbody").append(
-            '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '<input type="hidden" name="order_details[' + c + '][unit_price]" value="' + p.unit_price + '"></td><td class="text-center">-</td><td>' + p.unit_price + '<input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td>' + p.total + '<input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
-        }
+        $("#preview_tbody").append(
+          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '</td><td class="text-center">-</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-id="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
         c++;
       }
     });
@@ -607,31 +602,7 @@ function preview_modal_body(index, listname) {
       }
     });
     $("#preview_tbody").append(
-      '<tr><td><input type="hidden" name="order_details[0][order_payterm_id]" value="0"><input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' +
-      od_items[index].id +
-      '">           <input type="hidden" name="order_details[0][item]" id="id_item1" value="' +
-      od_items[index].item +
-      '">' +
-      od_items[index].item +
-      '</td><td >              <input type="text" class="form-control desp" required name="order_details[0][description]" id="id_descp1" value="' +
-      od_items[index].description +
-      '"></td>                  <td class="minmax150"><input type="number" class="form-control qty" required name="order_details[0][qty]" id="id_qty1" min="1" value="' +
-      remaining_qty +
-      '" data-index="1" data-up="' +
-      od_items[index].unit_price +
-      '" data-uom="' +
-      od_items[index].uom_id +
-      '" max="' +
-      remaining_qty +
-      '">    </td><td class="pt-3" >' +
-      setuom(od_items[index].uom_id) +
-      '               <input type="hidden" required name="order_details[0][uom_id]" id="id_uom1" value="' +
-      od_items[index].uom_id +
-      '">     </td><td class="pt-3">₹' +
-      od_items[index].unit_price +
-      '<input type="hidden" required name="order_details[0][unit_price]" id="id_unitprice1" value="' +
-      od_items[index].unit_price +
-      '">       </td><td id="preview_row_total1" class="pt-3">₹0.00</td>   <input type="hidden" required name="order_details[0][total]" id="id_total1" value="0"></tr>'
+      '<tr><td><input type="hidden" name="order_details[0][order_payterm_id]" value="0"><input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' + od_items[index].id + '"><input type="hidden" name="order_details[0][item]" id="id_item1" value="' + od_items[index].item + '">' + od_items[index].item + '</td><td ><input type="text" class="form-control desp" required name="order_details[0][description]" id="id_descp1" value="' + od_items[index].description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[0][qty]" id="id_qty1" min="1" value="' + remaining_qty + '" data-index="1" data-up="' + od_items[index].unit_price + '" data-uom="' + od_items[index].uom_id + '" max="' + remaining_qty + '"></td><td class="pt-3" >' + setuom(od_items[index].uom_id) + '<input type="hidden" required name="order_details[0][uom_id]" id="id_uom1" value="' + od_items[index].uom_id + '"></td><td class="pt-3"><input type="number" required name="order_details[0][unit_price]" style="width: 10rem;" class="form-control" id="id_unitprice1" value="' + od_items[index].unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹0.00</td>   <input type="hidden" required name="order_details[0][total]" id="id_total1" value="0"></tr>'
     );
     // previewlist.push(1);
     preview_footer(index, listname);
@@ -649,49 +620,7 @@ function preview_modal_body(index, listname) {
 
     $.each(firstselector, function (index, value) {
       $("#preview_tbody").append(
-        '<tr><td class="max100"><input type="hidden" name="order_details[' +
-        index +
-        '][order_payterm_id]" value="' +
-        od_payment_term[value].id +
-        '"><input type="hidden" name="order_details[' +
-        index +
-        '][order_item_id]" value="' +
-        od_payment_term[value].order_item_id +
-        '">   ' +
-        od_payment_term[value].item +
-        '<input type="hidden" name="order_details[' +
-        index +
-        '][item]" value="' +
-        od_payment_term[value].item +
-        '"></td><td class="max150"><input type="text" required name="order_details[' +
-        index +
-        '][description]" id="id_description" class="form-control" value="' +
-        od_payment_term[value].description +
-        '">   </td><td>' +
-        od_payment_term[value].qty +
-        ' <input type="hidden" name="order_details[' +
-        index +
-        '][qty]" value="' +
-        od_payment_term[value].qty +
-        '"> / ' +
-        setuom(od_payment_term[value].uom_id) +
-        '                <input type="hidden" name="order_details[' +
-        index +
-        '][unit_price]" value="' +
-        od_payment_term[value].unit_price +
-        '">          </td><td>' +
-        od_payment_term[value].unit_price +
-        '<input type="hidden" name="order_details[' +
-        index +
-        '][uom_id]" value="' +
-        od_payment_term[value].uom_id +
-        '"></td><td>' +
-        od_payment_term[value].total +
-        '  <input type="hidden" name="order_details[' +
-        index +
-        '][total]" value="' +
-        od_payment_term[value].total +
-        '"></td></tr>'
+        '<tr><td class="max100"><input type="hidden" name="order_details[' + index + '][order_payterm_id]" value="' + od_payment_term[value].id + '"><input type="hidden" name="order_details[' + index + '][order_item_id]" value="' + od_payment_term[value].order_item_id + '">' + od_payment_term[value].item + '<input type="hidden" name="order_details[' + index + '][item]" value="' + od_payment_term[value].item + '"></td><td class="max150"><input type="text" required name="order_details[' + index + '][description]" id="id_description" class="form-control" value="' + od_payment_term[value].description + '">   </td><td>' + od_payment_term[value].qty + ' <input type="hidden" name="order_details[' + index + '][qty]" value="' + od_payment_term[value].qty + '"> / ' + setuom(od_payment_term[value].uom_id) + '<input type="hidden" name="order_details[' + index + '][uom_id]" value="' + od_payment_term[value].uom_id + '"></td><td><input type="number" name="order_details[' + index + '][unit_price]" style="width: 10rem;" class="form-control" value="' + od_payment_term[value].unit_price + '"></td><td>' + od_payment_term[value].total + '  <input type="hidden" name="order_details[' + index + '][total]" value="' + od_payment_term[value].total + '"></td></tr>'
       );
       i += 1;
     });
