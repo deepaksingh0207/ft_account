@@ -109,18 +109,9 @@ CREATE TABLE IF NOT EXISTS `customer_payments` (
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `customer_payments`;
-INSERT INTO `customer_payments` (`id`, `group_id`, `customer_id`, `order_id`, `invoice_id`, `payment_date`, `cheque_utr_no`, `received_amt`, `utr_file`, `remarks`, `status`, `created_date`, `updated_date`) VALUES
-(1, 1, 2, 2, 1, '2021-10-26 00:00:00', '34343', '4250.00', '1635260436_3rd_nov_tkt.pdf', '', 1, '2021-10-26 20:30:36', '2021-10-26 20:30:36'),
-(2, 1, 2, 2, 1, '2021-10-24 00:00:00', '78758', '40000.00', '1635262252_3rd_nov_tkt.pdf', '', 1, '2021-10-26 21:00:52', '2021-10-26 21:00:52'),
-(3, 3, 1, 10, 3, '2021-10-28 00:00:00', '123456', '475000.00', '1635418014_[ENCRYPTED] message-2.pdf', '', 1, '2021-10-28 16:16:54', '2021-10-28 16:16:54'),
-(4, 3, 1, 10, 2, '2021-10-28 00:00:00', '654321', '65000.00', '1635419023_[ENCRYPTED] attachments.pdf', '', 1, '2021-10-28 16:33:43', '2021-10-28 16:33:43'),
-(5, 3, 1, 10, 3, '2021-11-02 00:00:00', '345', '900000.00', '1635836369_create.pdf', '', 1, '2021-11-02 12:29:29', '2021-11-02 12:29:29'),
-(6, 3, 1, 10, 3, '2021-11-01 00:00:00', '23234', '90000.00', '1635836541_create.pdf', '', 1, '2021-11-02 12:32:21', '2021-11-02 12:32:21'),
-(7, 3, 1, 4, 4, '2021-11-03 00:00:00', '12345', '1593000.00', '1635936758_create.pdf', '', 1, '2021-11-03 16:22:38', '2021-11-03 16:22:38');
-
 DROP TABLE IF EXISTS `invoices`;
 CREATE TABLE IF NOT EXISTS `invoices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -211,12 +202,17 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `customer_id` (`customer_id`,`po_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `orders`;
 INSERT INTO `orders` (`id`, `group_id`, `customer_id`, `order_date`, `pay_days`, `po_no`, `sales_person`, `bill_to`, `ship_to`, `order_type`, `sub_total`, `igst`, `cgst`, `sgst`, `tax_rate`, `ordertotal`, `po_file`, `po_from_date`, `po_to_date`, `remarks`, `status`, `added_date`, `updated_date`) VALUES
-(1, 3, 1, '2021-11-16 00:00:00', 0, '1000001', 'Mangesh', '1', '1', 99, '750000', '0.00', '67500.00', '67500.00', '9.00', '885000.00', '1637061293_Doc1.pdf', NULL, NULL, '', 1, '2021-11-16 16:44:53', '2021-11-16 16:44:53'),
-(2, 1, 2, '2021-11-16 00:00:00', 0, '1000002', 'Lalit', '2', '2', 99, '625000', '112500.00', '0.00', '0.00', '18.00', '737500.00', '1637061403_Doc1.pdf', NULL, NULL, '', 1, '2021-11-16 16:46:43', '2021-11-16 16:46:43');
+(1, 3, 1, '2021-11-26 00:00:00', 0, '10000001', 'Mangesh', '1', '1', 1, '600000', '0.00', '54000.00', '54000.00', '9.00', '708000.00', '1637921448_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(2, 3, 1, '2021-11-26 00:00:00', 0, '10000002', 'Mangesh', '1', '1', 2, '250000', '0.00', '22500.00', '22500.00', '9.00', '295000.00', '1637921510_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:41:50', '2021-11-26 15:41:50'),
+(3, 3, 1, '2021-11-27 00:00:00', 0, '10000003', 'Mangesh', '1', '1', 3, '5000', '0.00', '450.00', '450.00', '9.00', '5900.00', '1637921577_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:42:57', '2021-11-26 15:42:57'),
+(4, 3, 1, '2021-11-26 00:00:00', 0, '10000004', 'Mangesh', '1', '1', 4, '600000', '0.00', '54000.00', '54000.00', '9.00', '708000.00', '1637921625_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:43:45', '2021-11-26 15:43:45'),
+(5, 3, 1, '2021-11-27 00:00:00', 0, '10000005', 'Mangesh', '1', '1', 5, '10000', '0.00', '900.00', '900.00', '9.00', '11800.00', '1637921675_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:44:35', '2021-11-26 15:44:35'),
+(6, 3, 1, '2021-11-27 00:00:00', 0, '10000006', 'Mangesh', '1', '1', 6, '300000', '0.00', '27000.00', '27000.00', '9.00', '354000.00', '1637921756_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:45:56', '2021-11-26 15:45:56'),
+(7, 1, 2, '2021-11-27 00:00:00', 0, '10000007', 'Lalit', '2', '2', 99, '511000', '91980.00', '0.00', '0.00', '18.00', '602980.00', '1637922026_invoice_1236547.pdf', NULL, NULL, '', 1, '2021-11-26 15:50:26', '2021-11-26 15:50:26');
 
 DROP TABLE IF EXISTS `order_items`;
 CREATE TABLE IF NOT EXISTS `order_items` (
@@ -235,14 +231,22 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   `po_from_date` datetime DEFAULT NULL,
   `po_to_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `order_items`;
 INSERT INTO `order_items` (`id`, `order_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `tax`, `total`, `added_date`, `updated_date`, `order_type`, `po_from_date`, `po_to_date`) VALUES
-(1, 1, 'On Site Support', 'On Site Support Description', '5', 2, '500000.00', NULL, '500000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53', 1, '2021-11-16 00:00:00', '2021-11-16 00:00:00'),
-(2, 1, 'Hardware Sale', 'Hardware Sale', '5', 4, '50000.00', NULL, '250000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53', 5, NULL, NULL),
-(3, 2, 'Project Sale', 'Project Sale Descp', '5', 3, '500000.00', NULL, '500000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43', 2, NULL, NULL),
-(4, 2, 'Man Days', 'Man Days Descp', '5', 1, '25000.00', NULL, '125000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43', 4, NULL, NULL);
+(1, 1, 'On site support', 'On Site Support Descp', '6', 2, '600000.00', NULL, '600000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48', 1, '2021-11-26 00:00:00', '2021-11-27 00:00:00'),
+(2, 2, 'Accounts', 'Descp', '4', 3, '250000.00', NULL, '250000.00', '2021-11-26 15:41:50', '2021-11-26 15:41:50', 2, NULL, NULL),
+(3, 3, 'Amc ', 'Support', '5', 2, '5000.00', NULL, '5000.00', '2021-11-26 15:42:57', '2021-11-26 15:42:57', 3, '2021-11-26 00:00:00', '2021-11-26 00:00:00'),
+(4, 4, 'man Days', 'Man Days Descp', '12', 1, '50000.00', NULL, '600000.00', '2021-11-26 15:43:45', '2021-11-26 15:43:45', 4, NULL, NULL),
+(5, 5, 'Sap', 'Descp', '2', 1, '5000.00', NULL, '10000.00', '2021-11-26 15:44:35', '2021-11-26 15:44:35', 5, NULL, NULL),
+(6, 6, 'Hardware', 'Descp', '60', 4, '5000.00', NULL, '300000.00', '2021-11-26 15:45:56', '2021-11-26 15:45:56', 6, NULL, NULL),
+(7, 7, 'On site support', 'On Site Support Descp', '2', 2, '20000.00', NULL, '20000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26', 1, '2021-11-26 00:00:00', '2021-11-27 00:00:00'),
+(8, 7, 'Project', 'Descop', '3', 3, '50000.00', NULL, '50000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26', 2, NULL, NULL),
+(9, 7, 'Amc Support', 'Amc Support Descp', '5', 2, '25000.00', NULL, '25000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26', 3, '2021-11-26 00:00:00', '2021-11-27 00:00:00'),
+(10, 7, 'Man Day', 'Man Day Decp', '3', 1, '25000.00', NULL, '75000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26', 4, NULL, NULL),
+(11, 7, 'Sap License Sale', 'Sap License Sale', '5', 4, '25000.00', NULL, '125000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26', 5, NULL, NULL),
+(12, 7, 'Hardware', 'Descp', '6', 4, '36000.00', NULL, '216000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26', 6, NULL, NULL);
 
 DROP TABLE IF EXISTS `order_payterms`;
 CREATE TABLE IF NOT EXISTS `order_payterms` (
@@ -258,20 +262,35 @@ CREATE TABLE IF NOT EXISTS `order_payterms` (
   `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `order_payterms`;
 INSERT INTO `order_payterms` (`id`, `order_id`, `order_item_id`, `item`, `description`, `qty`, `uom_id`, `unit_price`, `total`, `added_date`, `updated_date`) VALUES
-(1, 1, 1, 'On Site Support', 'On Site Support 1', '1', 2, '100000.00', '100000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53'),
-(2, 1, 1, 'On Site Support', 'On Site Support 2', '1', 2, '100000.00', '100000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53'),
-(3, 1, 1, 'On Site Support', 'On Site Support 3', '1', 2, '100000.00', '100000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53'),
-(4, 1, 1, 'On Site Support', 'On Site Support 4', '1', 2, '100000.00', '100000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53'),
-(5, 1, 1, 'On Site Support', 'On Site Support 5', '1', 2, '100000.00', '100000.00', '2021-11-16 16:44:53', '2021-11-16 16:44:53'),
-(6, 2, 3, 'Project Sale', 'Project Sale 1', '20', 3, '500000.00', '100000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43'),
-(7, 2, 3, 'Project Sale', 'Project Sale 2', '20', 3, '500000.00', '100000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43'),
-(8, 2, 3, 'Project Sale', 'Project Sale 3', '20', 3, '500000.00', '100000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43'),
-(9, 2, 3, 'Project Sale', 'Project Sale 4', '20', 3, '500000.00', '100000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43'),
-(10, 2, 3, 'Project Sale', 'Project Sale 5', '20', 3, '500000.00', '100000.00', '2021-11-16 16:46:43', '2021-11-16 16:46:43');
+(1, 1, 1, 'On site support', 'jan', '1', 2, '100000.00', '100000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(2, 1, 1, 'On site support', 'Feb', '1', 2, '100000.00', '100000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(3, 1, 1, 'On site support', 'mar', '1', 2, '100000.00', '100000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(4, 1, 1, 'On site support', 'Apr', '1', 2, '100000.00', '100000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(5, 1, 1, 'On site support', 'May', '1', 2, '100000.00', '100000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(6, 1, 1, 'On site support', 'Jun', '1', 2, '100000.00', '100000.00', '2021-11-26 15:40:48', '2021-11-26 15:40:48'),
+(7, 2, 2, 'Accounts', 'advance', '25', 3, '250000.00', '62500.00', '2021-11-26 15:41:50', '2021-11-26 15:41:50'),
+(8, 2, 2, 'Accounts', 'Development', '25', 3, '250000.00', '62500.00', '2021-11-26 15:41:50', '2021-11-26 15:41:50'),
+(9, 2, 2, 'Accounts', 'testing', '25', 3, '250000.00', '62500.00', '2021-11-26 15:41:50', '2021-11-26 15:41:50'),
+(10, 2, 2, 'Accounts', 'Uat Submit', '25', 3, '250000.00', '62500.00', '2021-11-26 15:41:50', '2021-11-26 15:41:50'),
+(11, 3, 3, 'Amc ', 'jan', '1', 2, '1000.00', '1000.00', '2021-11-26 15:42:57', '2021-11-26 15:42:57'),
+(12, 3, 3, 'Amc ', 'Feb', '1', 2, '1000.00', '1000.00', '2021-11-26 15:42:57', '2021-11-26 15:42:57'),
+(13, 3, 3, 'Amc ', 'Mar', '1', 2, '1000.00', '1000.00', '2021-11-26 15:42:57', '2021-11-26 15:42:57'),
+(14, 3, 3, 'Amc ', 'Apr', '1', 2, '1000.00', '1000.00', '2021-11-26 15:42:57', '2021-11-26 15:42:57'),
+(15, 3, 3, 'Amc ', 'May', '1', 2, '1000.00', '1000.00', '2021-11-26 15:42:57', '2021-11-26 15:42:57'),
+(16, 7, 7, 'On site support', 'Jan', '1', 2, '10000.00', '10000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(17, 7, 7, 'On site support', 'Feb', '1', 2, '10000.00', '10000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(18, 7, 8, 'Project', 'Project 1', '35', 3, '50000.00', '17500.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(19, 7, 8, 'Project', 'Project 2', '35', 3, '50000.00', '17500.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(20, 7, 8, 'Project', 'Project 3', '30', 3, '50000.00', '15000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(21, 7, 9, 'Amc Support', 'Jan', '1', 2, '5000.00', '5000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(22, 7, 9, 'Amc Support', 'Feb', '1', 2, '5000.00', '5000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(23, 7, 9, 'Amc Support', 'Mar', '1', 2, '5000.00', '5000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(24, 7, 9, 'Amc Support', 'Apr', '1', 2, '5000.00', '5000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26'),
+(25, 7, 9, 'Amc Support', 'Jun', '1', 2, '5000.00', '5000.00', '2021-11-26 15:50:26', '2021-11-26 15:50:26');
 
 DROP TABLE IF EXISTS `order_types`;
 CREATE TABLE IF NOT EXISTS `order_types` (
@@ -308,12 +327,9 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 TRUNCATE TABLE `payments`;
-INSERT INTO `payments` (`id`, `customer_payment_id`, `invoice_id`, `basic_value`, `gst_amount`, `invoice_amount`, `tds_percent`, `tds_deducted`, `receivable_amt`, `allocated_amt`, `balance_amt`, `status`, `created_date`, `updated_date`) VALUES
-(1, 7, 4, '1500000.00', '270000.00', '1770000.00', '10.00', '177000.00', '1593000.00', '1593000.00', '0.00', 1, '2021-11-03 16:22:38', '2021-11-03 16:22:38');
-
 DROP TABLE IF EXISTS `proforma_invoices`;
 CREATE TABLE IF NOT EXISTS `proforma_invoices` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
