@@ -264,7 +264,7 @@ class InvoicesController extends Controller
         $vars = array(
             "{{INV_NO}}" => $invoice['invoice_no'],
             "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-            "{{COMPANY_BILLTO}}" => $company['address'],
+            "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
             "{{COMP_TEL}}" => $company['contact'],
             "{{COMP_PAN}}" => $company['pan'],
             "{{COMP_SAC}}" => $company['sac'],
@@ -274,13 +274,13 @@ class InvoicesController extends Controller
             "{{COMP_IFSC}}" => $company['ifsc_code'],
             "{{PO_NO}}" => $invoice['po_no'],
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $customer['address'],
+            "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{DECLARATION}}" => getdeclaration($customer['declaration']),
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
             "{{CUST_GST}}" => $customer['gstin'],
-            "{{CUST_SHIPTO}}" => $customerShipTo['address'],
+            "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
@@ -294,7 +294,7 @@ class InvoicesController extends Controller
             <td style="font-size: xx-small;">'.$item['description'].'</td>
             <td style="font-size: xx-small;">'.$item['qty'].'</td>
             <td style="font-size: xx-small;">'.number_format($item['unit_price'], 2).'</td>
-            <td style="font-size: xx-small;">'.number_format($item['total'], 2).'</td>
+            <td style="font-size: xx-small;text-align: right;">'.number_format($item['total'], 2).'</td>
             </tr>';
             
             $orderBaseTotal += $item['total'];
@@ -466,13 +466,12 @@ class InvoicesController extends Controller
             }
             
             $company = new CompanyModel();
-            $company = $company->get(1);
-            
+            $company = $company->get(1);           
             
             $vars = array(
                 "{{INV_NO}}" => $invoice['invoice_no'],
                 "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-                "{{COMPANY_BILLTO}}" => $company['address'],
+                "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
                 "{{COMP_TEL}}" => $company['contact'],
                 "{{COMP_PAN}}" => $company['pan'],
                 "{{COMP_SAC}}" => $company['sac'],
@@ -482,13 +481,13 @@ class InvoicesController extends Controller
                 "{{COMP_IFSC}}" => $company['ifsc_code'],
                 "{{PO_NO}}" => $invoice['po_no'],
                 "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-                "{{CUST_ADDRESS}}" =>$customer['name']."<br />". $customer['address'],
+                "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
                 "{{CUST_TEL}}" => $customer['pphone'],
                 "{{CUST_FAX}}" => $customer['fax'],
                 "{{CUST_PAN}}" => $customer['pan'],
                 "{{CUST_GST}}" => $customer['gstin'],
                 "{{DECLARATION}}" => getdeclaration($customer['declaration']),
-                "{{CUST_SHIPTO}}" => $customerShipTo['address'],
+                "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
                 "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
                 "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
                 "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
@@ -498,11 +497,11 @@ class InvoicesController extends Controller
             $itemList = '';
             foreach($dataItem as $key => $item) {
                 $itemList .= '<tr>
-            <td style="font-size: xx-small;">'.($key+1).'</td>
-            <td style="font-size: xx-small;">'.$item['description'].'</td>
-            <td style="font-size: xx-small;">'.$item['qty'].'</td>
-            <td style="font-size: xx-small;">'.number_format($item['unit_price'], 2).'</td>
-            <td style="font-size: xx-small;">'.number_format($item['total'], 2).'</td>
+            <td style="font-size: small;">'.($key+1).'</td>
+            <td style="font-size: small;">'.$item['description'].'</td>
+            <td style="font-size: small;">'.$item['qty'].'</td>
+            <td style="font-size: small;">'.number_format($item['unit_price'], 2).'</td>
+            <td style="font-size: small;text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 
                 $orderBaseTotal += $item['total'];
@@ -511,7 +510,7 @@ class InvoicesController extends Controller
             $taxesLayout = '';
             if((int)$invoice['igst']) {
                 $taxesLayout = '<tr class="text-right bb">
-                <td style="text-align: right; width: 100%; font-size: xx-small;">
+                <td style="text-align: right; width: 100%; font-size: small;">
                   IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
                 </td>
               </tr><tr>
@@ -521,7 +520,7 @@ class InvoicesController extends Controller
             </tr>';
             } else {
                 $taxesLayout = '<tr>
-                <td style="text-align: right; width: 100%;font-size: xx-small;">
+                <td style="text-align: right; width: 100%;font-size: small;">
                   CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
                   <br />
                   SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
@@ -665,5 +664,36 @@ function getdeclaration($val) {
     }else{
         return $val;
     }
+}
+
+function addressmaker($val) {
+    $pieces = explode(",", $val);
+    $maxlen = 0;
+    $skippiece = 0;
+    $jar = "";
+    for ($x = 0; $x < count($pieces); $x++) {
+        if ($x == 1) {
+            $jar = $pieces[$x] . ", ";
+        } else if ($x == 2) {
+            $jar = $jar . $pieces[$x] . ", <br>";
+            $maxlen = strlen($jar);
+        } else if ($x == $skippiece){
+            $skippiece = 0;
+        } else if ($x == count($pieces)-1){
+            $jar = $jar . $pieces[$x];
+        } else {
+            if ($x+1 <= count($pieces)-1 && strlen($pieces[$x]) + strlen($pieces[$x+1]) <= $maxlen + 3){
+                if ($x+1 == count($pieces)-1){
+                    $jar = $jar . $pieces[$x] . ", " . $pieces[$x+1] . ".";
+                } else {
+                    $jar = $jar . $pieces[$x] . ", " . $pieces[$x+1] . ",<br>";
+                }
+                $skippiece = $x+1;
+            } else {
+                $jar = $jar . $pieces[$x] . ",<br>";
+            }
+        }
+    }
+    return $jar;
 }
 // End
