@@ -541,7 +541,7 @@ function preview_builder() {
     $.each(payment_for_invoicing, function (j, p) {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"> / ' + setuom(p.uom_id) + '</td><td class="text-center">-</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-index="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
+          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"></td><td class="text-left">' + setuom(p.uom_id) + '</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-qty="'+p.qty+'" data-uom="' + p.uom_id + '" data-index="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
         c++;
       }
     });
@@ -549,8 +549,13 @@ function preview_builder() {
 }
 
 $(document).on("change", ".pup", function () {
-  $("#id_total_span" + $(this).data('index')).text($(this).val());
-  $("#id_total" + $(this).data('index')).val($(this).val());
+  if ($(this).data('uom') == 3) {
+    $("#id_total_span" + $(this).data('index')).text($(this).val()*$(this).data('qty')/100);
+    $("#id_total" + $(this).data('index')).val($(this).val()*$(this).data('qty')/100);
+  } else {
+    $("#id_total_span" + $(this).data('index')).text($(this).val());
+    $("#id_total" + $(this).data('index')).val($(this).val());
+  }
   $("#id_qty" + $(this).data('index')).trigger('change');
   preview_total()
 });
