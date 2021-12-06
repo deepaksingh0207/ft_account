@@ -249,269 +249,7 @@ function orderdetails() {
   $("#ship_id").val(od_order.ship_to);
   setordertype(od_order.order_type);
   fillorder(od_items);
-  // if (payterm_ordertype.includes(od_order.order_type, 0)) {
-  //   if (od_payment_term.length > 0) {
-  //     fillinvoices_body(od_payment_term, "payment_term");
-  //   }
-  // } else {
-  //   if (od_items.length > 0) {
-  //     fillinvoices_body(od_items, "items");
-  //   }
-  // }
   fillinvoice_body();
-}
-
-function fillinvoices_body(data, listname) {
-  if (data) {
-    var pt = [],
-      it = [],
-      iv = [];
-    if (listname == "payment_term") {
-      $.each(od_invoiceitems, function (i, value) {
-        pt.push(value.order_payterm_id);
-        iv.push(value.invoice_no);
-      });
-      var total = 0,
-        lock = false;
-      $("#id_invoiceblock_body").empty();
-      var olditem = "";
-      var i = 0;
-      $.each(data, function (index, value) {
-        if (value.order_item_id != olditem) {
-          $("#id_invoiceblock_body").append(
-            '<div class="col-sm-12 col-lg-12"><table class="table"><thead><tr><th></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="invoicept' +
-            value.order_item_id +
-            '"></tbody></table></div>'
-          );
-          olditem = value.order_item_id;
-          lock = false;
-        }
-        if (pt.includes(value.id)) {
-          $("#invoicept" + value.order_item_id).append(
-            "<tr><td>" +
-            value.item +
-            "</td><td>" +
-            value.description +
-            "</td><td>" +
-            value.qty +
-            " / " +
-            setuom(value.uom_id) +
-            "</td><td>" +
-            humanamount(value.unit_price) +
-            "</td><td>" +
-            humanamount(value.total) +
-            '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href="' +
-            baseUrl +
-            "pdf/invoice_" +
-            iv[pt.indexOf(value.id)] +
-            '.pdf" type="button">View Invoice</button></td></tr>'
-          );
-        } else {
-          if (lock == false) {
-            firstselector.push(index);
-            $("#invoicept" + value.order_item_id).append(
-              '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
-              index +
-              '" required class="paytrm" data-id="' +
-              index +
-              '" checked><label for="id_paytrm' +
-              index +
-              '"></label></div></td><td>' +
-              value.item +
-              "</td>      <td>" +
-              value.description +
-              "</td><td>" +
-              value.qty +
-              " / " +
-              setuom(value.uom_id) +
-              "</td><td>" +
-              humanamount(value.unit_price) +
-              "</td><td>" +
-              humanamount(value.total) +
-              '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-              index +
-              '" data-id="' +
-              index +
-              '" data-list="' +
-              listname +
-              '" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-            );
-            lock = true;
-          } else {
-            $("#invoicept" + value.order_item_id).append(
-              '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
-              index +
-              '" required class="paytrm" data-id="' +
-              index +
-              '" disabled><label for="id_paytrm' +
-              index +
-              '"></label></div></td><td>' +
-              value.item +
-              "</td>      <td>" +
-              value.description +
-              "</td><td>" +
-              value.qty +
-              " / " +
-              setuom(value.uom_id) +
-              "</td><td>" +
-              humanamount(value.unit_price) +
-              "</td><td>" +
-              humanamount(value.total) +
-              '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
-              index +
-              '" data-id="' +
-              index +
-              '" data-list="' +
-              listname +
-              '" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-            );
-          }
-        }
-        total += parseFloat(value.total);
-      });
-    } else if (listname == "items") {
-      $.each(od_invoiceitems, function (index, value) {
-        it.push(value.order_item_id);
-        iv.push(value.id);
-      });
-      $("#id_invoiceblock_body")
-        .empty()
-        .append(
-          '<table class="table"><thead><tr><th></th><th>Item</th><th>Item Description</th><th>' +
-          setheader(od_order.order_type) +
-          '</th><th>UOM</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></thead><tbody id="id_invoicebody"></tbody></table>'
-        );
-      var total = 0,
-        lock = false;
-      $.each(data, function (index, value) {
-        if (it.includes(value.id)) {
-          subtotal = parseFloat(value.total);
-          qty = parseFloat(value.qty);
-          $.each(od_invoiceitems, function (i, val) {
-            if (per_item.order_item_id == parseInt(value.id)) {
-              $("#id_invoicebody").append(
-                "<tr><td>" +
-                per_item.item +
-                "</td><td>" +
-                per_item.description +
-                "</td><td>" +
-                per_item.qty +
-                "</td><td>" +
-                setuom(value.uom_id) +
-                "</td><td>" +
-                humanamount(per_item.unit_price) +
-                "</td><td>" +
-                humanamount(per_item.total) +
-                '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href="' +
-                baseUrl +
-                "pdf/invoice_" +
-                per_item.invoice_no +
-                '.pdf" type="button">View Invoice</button>   </td></tr>'
-              );
-              subtotal -= parseFloat(per_item.sub_total);
-              qty -= parseFloat(per_item.qty);
-            }
-          });
-          if (subtotal > 0.0) {
-            if (lock == false) {
-              $("#id_invoicebody").append(
-                '<tr><td><div class="icheck-primary d-inline"><input type="checkbox" id="id_paytrm' +
-                index +
-                '" required name="id_paytrm" class="paytrm" data-id="' +
-                index +
-                '" checked>    <label for="id_paytrm' +
-                index +
-                '"></label></div></td><td>' +
-                value.item +
-                "</td><td>" +
-                value.description +
-                "</td><td>" +
-                qty +
-                "</td><td>" +
-                setuom(value.uom_id) +
-                "</td><td>" +
-                humanamount(value.unit_price) +
-                "</td><td>" +
-                humanamount(subtotal) +
-                '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-                index +
-                '" data-id="' +
-                index +
-                '" data-list="' +
-                listname +
-                '" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-              );
-              lock = true;
-            }
-          }
-        } else {
-          if (lock == false) {
-            $("#id_invoicebody").append(
-              '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-              index +
-              '" required name="id_paytrm" class="paytrm" data-id="' +
-              index +
-              '" checked>     <label for="id_paytrm' +
-              index +
-              '"></label></div></td> <td>' +
-              value.item +
-              "</td>      <td>" +
-              value.description +
-              "</td><td>" +
-              value.qty +
-              "</td><td>" +
-              setuom(value.uom_id) +
-              "</td> <td>" +
-              humanamount(value.unit_price) +
-              "</td><td>" +
-              humanamount(value.total) +
-              '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
-              index +
-              '" data-id="' +
-              index +
-              '" data-list="' +
-              listname +
-              '" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-            );
-            lock = true;
-          } else {
-            $("#id_invoicebody").append(
-              '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-              index +
-              '" required name="id_paytrm" class="paytrm" data-id="' +
-              index +
-              '" disabled><label for="id_paytrm' +
-              index +
-              '"></label></div></td>  <td>' +
-              value.item +
-              "</td>     <td>" +
-              value.description +
-              "</td><td>" +
-              value.qty +
-              "</td>        <td>" +
-              setuom(value.uom_id) +
-              "</td> <td>" +
-              humanamount(value.unit_price) +
-              "</td>           <td>" +
-              humanamount(value.total) +
-              '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
-              index +
-              '" data-id="' +
-              index +
-              '" data-list="' +
-              listname +
-              '" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-            );
-          }
-        }
-        total += parseFloat(value.total);
-      });
-    }
-    $("#id_invoiceblock_body").append(
-      '<input type="hidden" name="order_total" value="' + total + '">'
-    );
-    $("#id_invoiceblock").show();
-  }
 }
 
 function refreshpreview() {
@@ -586,8 +324,6 @@ $(document).on("change", "#id_invoice_no", function () {
       alert("Cannot validate PO No.");
     });
 });
-
-
 
 function preview_modal_body(index, listname) {
   i = 0;
@@ -1086,7 +822,7 @@ function fillinvoice_body() {
           '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href=" ' +
           baseUrl +
           "pdf/invoice_" +
-          item_Id +
+          getInvoice_noById(invoiced_Id) +
           '.pdf" type="button">View Invoice</button></td></tr>'
         );
         if (tree["items"][item_Id]["invoiced"][invoiced_Id].order_payterm_id != 0) {
@@ -1423,4 +1159,8 @@ function preview_label() {
   if (proformaguard) { return "Proforma "; } else {
     return "";
   }
+}
+
+function getInvoice_noById(invoiceId){
+  return tree["invoices"][invoiceId]["invoice_no"]
 }
