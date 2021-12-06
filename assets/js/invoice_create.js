@@ -885,7 +885,7 @@ function fillinvoice_body() {
             "</td><td>" +
             humanamount(tree["items"][item_Id].unit_price) +
             "</td><td>" +
-            humanamount(tree["items"][item_Id].total) +
+            humanamount(tree["items"][item_Id].bal_qty * tree["items"][item_Id].unit_price) +
             '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
             item_Id +
             '" data-id="' +
