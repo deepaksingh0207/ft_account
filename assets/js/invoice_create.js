@@ -25,12 +25,11 @@ function createbookeeper() {
     tree[key] = od_order[key];
   }
   tree["items"] = { ids: [] };
-  tree["invoices"] = { ids: [] };
-
   $.each(od_items, function (i, item) {
     tree["items"]["ids"].push(item.id);
     tree["items"][item.id] = item
     tree["items"][item.id]["ot"] = item.order_type
+    // Payment Terms Order Types Leaves
     if (item.order_type < 4 || item.order_type == 7) {
       tree["items"][item.id]["payment"] = { ids: [] }
       $.each(od_payment_term, function (j, payment) {
@@ -38,29 +37,42 @@ function createbookeeper() {
           tree["items"][item.id]["payment"]["ids"].push(payment.id);
           tree["items"][item.id]["payment"][payment.id] = payment
           tree["items"][item.id]["payment"][payment.id]["ot"] = item.order_type
+          tree["items"][item.id]["payment"][payment.id]["invoice"] = { ids: [] }
+          $.each(od_invoiceitems, function (k, invoiceItem) {
+            if (item.id == invoiceItem.order_item_id && payment.id == invoiceItem.order_payterm_id) {
+              tree["items"][item.id]["payment"][payment.id]["invoice"]["ids"].push(invoiceItem.id);
+              tree["items"][item.id]["payment"][payment.id]["invoice"][invoiceItem.id] = invoiceItem
+              tree["items"][item.id]["payment"][payment.id]["invoice"]["ot"] = item.order_type
+            }
+          });
+          tree["items"][item.id]["payment"][payment.id]["proforma"] = { ids: [] }
+          $.each(od_proforma_items, function (k, proforma) {
+            if (item.id == proforma.order_item_id && payment.id == proforma.order_payterm_id) {
+              tree["items"][item.id]["payment"][payment.id]["proforma"]["ids"].push(proforma.id);
+              tree["items"][item.id]["payment"][payment.id]["proforma"][proforma.id] = proforma
+              tree["items"][item.id]["payment"][payment.id]["proforma"]["ot"] = item.order_type
+            }
+          });
+        }
+      });
+    } else {
+      tree["items"][item.id]["invoice"] = { ids: [] }
+      $.each(od_invoiceitems, function (k, invoiceItem) {
+        if (item.id == invoiceItem.order_item_id && 0 == invoiceItem.order_payterm_id) {
+          tree["items"][item.id]["invoice"]["ids"].push(invoiceItem.id);
+          tree["items"][item.id]["invoice"][invoiceItem.id] = invoiceItem
+          tree["items"][item.id]["invoice"]["ot"] = item.order_type
+        }
+      });
+      tree["items"][item.id]["proforma"] = { ids: [] }
+      $.each(od_proforma_items, function (k, proforma) {
+        if (item.id == proforma.order_item_id && 0 == proforma.order_payterm_id) {
+          tree["items"][item.id]["proforma"]["ids"].push(proforma.id);
+          tree["items"][item.id]["proforma"][proforma.id] = proforma
+          tree["items"][item.id]["proforma"]["ot"] = item.order_type
         }
       });
     }
-    tree["items"][item.id]["invoiced"] = { ids: [] }
-    $.each(od_invoiceitems, function (k, invoiceitems) {
-      if (invoiceitems.order_item_id == item.id) {
-        tree["items"][item.id]["invoiced"]["ids"].push(invoiceitems.id);
-        tree["items"][item.id]["invoiced"][invoiceitems.id] = invoiceitems
-        tree["items"][item.id]["invoiced"][invoiceitems.id]["ot"] = item.order_type
-      }
-    });
-  });
-
-  $.each(od_invoices, function (a, invoice) {
-    tree["invoices"]["ids"].push(invoice.id);
-    tree["invoices"][invoice.id] = invoice
-    tree["invoices"][invoice.id]["item"] = { ids: [] }
-    $.each(od_invoiceitems, function (k, invoiceitem) {
-      if (invoiceitem.invoice_id == invoice.id) {
-        tree["invoices"][invoice.id]["item"]["ids"].push(invoiceitem.id);
-        tree["invoices"][invoice.id]["item"][invoiceitem.id] = invoiceitem
-      }
-    });
   });
 }
 
@@ -279,7 +291,7 @@ function preview_builder() {
     $.each(payment_for_invoicing, function (j, p) {
       if ($("#id_paytrm" + p.order_item_id + "_" + p.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"></td><td class="text-left">' + setuom(p.uom_id) + '</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-qty="'+p.qty+'" data-uom="' + p.uom_id + '" data-index="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
+          '<tr><td class="max100"><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + p.id + '"><input type="hidden" name="order_details[' + c + '][order_item_id]" value="' + p.order_item_id + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(p.order_item_id) + '">' + p.item + '<input type="hidden" name="order_details[' + c + '][item]" value="' + p.item + '"></td><td class="max150"><input type="text" required name="order_details[' + c + '][description]" id="id_description" class="form-control" value="' + p.description + '"></td><td>' + p.qty + ' <input type="hidden" name="order_details[' + c + '][qty]" value="' + p.qty + '"></td><td class="text-left">' + setuom(p.uom_id) + '</td><td><input type="number" style="width: 10rem;" name="order_details[' + c + '][unit_price]" class="form-control pup" data-qty="' + p.qty + '" data-uom="' + p.uom_id + '" data-index="' + c + '" value="' + p.unit_price + '"><input type="hidden" name="order_details[' + c + '][uom_id]" value="' + p.uom_id + '"></td><td><span id="id_total_span' + c + '">' + p.total + '</span><input type="hidden" name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + p.total + '"></td></tr>');
         c++;
       }
     });
@@ -288,8 +300,8 @@ function preview_builder() {
 
 $(document).on("change", ".pup", function () {
   if ($(this).data('uom') == 3) {
-    $("#id_total_span" + $(this).data('index')).text($(this).val()*$(this).data('qty')/100);
-    $("#id_total" + $(this).data('index')).val($(this).val()*$(this).data('qty')/100);
+    $("#id_total_span" + $(this).data('index')).text($(this).val() * $(this).data('qty') / 100);
+    $("#id_total" + $(this).data('index')).val($(this).val() * $(this).data('qty') / 100);
   } else {
     $("#id_total_span" + $(this).data('index')).text($(this).val());
     $("#id_total" + $(this).data('index')).val($(this).val());
@@ -1161,6 +1173,6 @@ function preview_label() {
   }
 }
 
-function getInvoice_noById(invoiceId){
+function getInvoice_noById(invoiceId) {
   return tree["invoices"][invoiceId]["invoice_no"]
 }
