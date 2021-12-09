@@ -835,32 +835,32 @@ function fillinvoice_body() {
     if (3 < tree["items"][item_Id].order_type && tree["items"][item_Id].order_type < 7 ||
       (tree["items"][item_Id].hasOwnProperty('payment') == true &&
         tree["items"][item_Id]["payment"]["ids"]).length == 0) {
-      if (old_ot == tree["items"][item_Id].order_type) {
+      // if (old_ot == tree["items"][item_Id].order_type) {
         // List disabled order items
-        $("#invoicept" + table_id).append(
-          '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-          item_Id +
-          '" required class="paytrm" data-id="' +
-          item_Id +
-          '" disabled><label for="id_paytrm' +
-          item_Id +
-          '"></label></div></td><td></td><td>' +
-          tree["items"][item_Id].item +
-          "</td><td>" +
-          tree["items"][item_Id].description +
-          "</td><td>" +
-          tree["items"][item_Id].qty +
-          "</td><td>" +
-          humanamount(tree["items"][item_Id].unit_price) +
-          "</td>           <td>" +
-          humanamount(tree["items"][item_Id].total) +
-          '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
-          b +
-          '" data-id="' +
-          b +
-          '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-        );
-      } else {
+      //   $("#invoicept" + table_id).append(
+      //     '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+      //     item_Id +
+      //     '" required class="paytrm" data-id="' +
+      //     item_Id +
+      //     '" disabled><label for="id_paytrm' +
+      //     item_Id +
+      //     '"></label></div></td><td></td><td>' +
+      //     tree["items"][item_Id].item +
+      //     "</td><td>" +
+      //     tree["items"][item_Id].description +
+      //     "</td><td>" +
+      //     tree["items"][item_Id].qty +
+      //     "</td><td>" +
+      //     humanamount(tree["items"][item_Id].unit_price) +
+      //     "</td>           <td>" +
+      //     humanamount(tree["items"][item_Id].total) +
+      //     '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
+      //     b +
+      //     '" data-id="' +
+      //     b +
+      //     '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+      //   );
+      // } else {
         // List enabled order items
         if (tree["items"][item_Id].bal_qty > 0) {
           $("#invoicept" + table_id).append(
@@ -895,7 +895,7 @@ function fillinvoice_body() {
           total += parseFloat(tree["items"][item_Id].total)
           items_for_invoicing.push(tree["items"][item_Id]);
         }
-      }
+      // }
     }
     // List non-invoiced payment terms & cleared
     var unchecked_paymentterm = false
