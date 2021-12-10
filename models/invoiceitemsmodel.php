@@ -24,13 +24,20 @@ class InvoiceItemsModel extends Model {
     }
     
     public function getListByInvoiceId($invoiceId) {
-        $sql = "select * from invoice_items where invoice_id = ? limit 1";
+        $sql = "select * from invoice_items where invoice_id = ?";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
         if (empty($user)){
             return false;
         }
         return $user;
+    }
+
+
+    public function deleteByInvoiceId($invoiceId) {
+        $sql = "delete from invoice_items where invoice_id = ?";
+        $stmt = $this->_db->prepare ($sql);
+        return $stmt->execute(array($invoiceId));
     }
     
     

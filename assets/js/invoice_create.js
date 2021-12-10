@@ -282,7 +282,7 @@ function preview_builder() {
     $.each(items_for_invoicing, function (i, t) {
       if ($("#id_paytrm" + t.id).is(':checked')) {
         $("#preview_tbody").append(
-          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.bal_qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3"><input type="number" class="form-control pup" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" data-index="' + c + '" data-up="' + t.unit_price + '" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '"></tr>');
+          '<tr><td><input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="0"><input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + t.id + '"><input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '"><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(t.id) + '">' + t.item + '</td><td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.bal_qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.bal_qty + '"></td><td class="pt-3" >' + setuom(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td><td class="pt-3"><input type="number" class="form-control pup" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" data-index="' + c + '" data-up="' + t.unit_price + '" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td><td id="preview_row_total' + c + '" class="pt-3">₹' + (t.unit_price * t.bal_qty) + '</td><input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + (t.unit_price * t.bal_qty) + '"></tr>');
         c++;
       }
     });
@@ -847,32 +847,32 @@ function fillinvoice_body() {
     if (3 < tree["items"][item_Id].order_type && tree["items"][item_Id].order_type < 7 ||
       (tree["items"][item_Id].hasOwnProperty('payment') == true &&
         tree["items"][item_Id]["payment"]["ids"]).length == 0) {
-      if (old_ot == tree["items"][item_Id].order_type) {
+      // if (old_ot == tree["items"][item_Id].order_type) {
         // List disabled order items
-        $("#invoicept" + table_id).append(
-          '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-          item_Id +
-          '" required class="paytrm" data-id="' +
-          item_Id +
-          '" disabled><label for="id_paytrm' +
-          item_Id +
-          '"></label></div></td><td></td><td>' +
-          tree["items"][item_Id].item +
-          "</td><td>" +
-          tree["items"][item_Id].description +
-          "</td><td>" +
-          tree["items"][item_Id].qty +
-          "</td><td>" +
-          humanamount(tree["items"][item_Id].unit_price) +
-          "</td>           <td>" +
-          humanamount(tree["items"][item_Id].total) +
-          '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
-          b +
-          '" data-id="' +
-          b +
-          '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-        );
-      } else {
+      //   $("#invoicept" + table_id).append(
+      //     '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
+      //     item_Id +
+      //     '" required class="paytrm" data-id="' +
+      //     item_Id +
+      //     '" disabled><label for="id_paytrm' +
+      //     item_Id +
+      //     '"></label></div></td><td></td><td>' +
+      //     tree["items"][item_Id].item +
+      //     "</td><td>" +
+      //     tree["items"][item_Id].description +
+      //     "</td><td>" +
+      //     tree["items"][item_Id].qty +
+      //     "</td><td>" +
+      //     humanamount(tree["items"][item_Id].unit_price) +
+      //     "</td>           <td>" +
+      //     humanamount(tree["items"][item_Id].total) +
+      //     '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
+      //     b +
+      //     '" data-id="' +
+      //     b +
+      //     '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
+      //   );
+      // } else {
         // List enabled order items
         if (tree["items"][item_Id].bal_qty > 0) {
           $("#invoicept" + table_id).append(
@@ -897,7 +897,7 @@ function fillinvoice_body() {
             "</td><td>" +
             humanamount(tree["items"][item_Id].unit_price) +
             "</td><td>" +
-            humanamount(tree["items"][item_Id].total) +
+            humanamount(tree["items"][item_Id].bal_qty * tree["items"][item_Id].unit_price) +
             '</td><td class="py-0 align-center" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' +
             item_Id +
             '" data-id="' +
@@ -907,7 +907,7 @@ function fillinvoice_body() {
           total += parseFloat(tree["items"][item_Id].total)
           items_for_invoicing.push(tree["items"][item_Id]);
         }
-      }
+      // }
     }
     // List non-invoiced payment terms & cleared
     var unchecked_paymentterm = false

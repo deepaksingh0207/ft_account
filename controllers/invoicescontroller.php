@@ -656,6 +656,29 @@ class InvoicesController extends Controller
         }
     }
 
+    public function delete($invoiceNo) {
+        $row = $this->_model->getByInvoiceNo($invoiceNo);
+
+        if(!empty($row)) {
+            $paymentTbl = new PaymentsModel();
+            $payments = $paymentTbl->getDetailsByInvoiceId($row['id']);
+
+            //print_r($payments); exit;
+
+            if(empty($payments)) {
+                $this->_model->deleteInvoice($invoiceNo);
+                $invoiceItemTbl = new InvoiceItemsModel();
+                $invoiceItemTbl->deleteByInvoiceId($row['id']);
+                echo "<b><span style='color:green;'>invoice no. $invoiceNo deleted successfully!</span></b>";
+            } else {
+                echo "<b><span style='color:red;'>Record can't be deleted, have some payment records against invoice no. $invoiceNo.</span></b>";
+            }
+        } else {
+            echo "<b><span style='color:red;'>No record for invoice no. $invoiceNo</span></b>";
+        }
+
+
+    }
 }
 // Jthayil Start
 function getdeclaration($val) {
