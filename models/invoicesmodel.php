@@ -58,6 +58,14 @@ class InvoicesModel extends Model {
         
         return $user;
     }
+
+    public function getByInvoiceNo($invoiceNo) {
+        $sql = "select * from invoices where invoice_no = ? limit 1";
+        $this->_setSql($sql);
+        $user = $this->getRow(array($invoiceNo));
+        
+        return $user;
+    }
     
     public function getInvoiceIds() {
         $sql = "select id from invoices ";
@@ -117,6 +125,12 @@ class InvoicesModel extends Model {
             } else {
                 return false;
             }
+    }
+
+    public function deleteInvoice($invoiceNo) {
+        $sql = "delete from invoices where invoice_no = ? ";
+        $stmt = $this->_db->prepare ($sql);
+        return $stmt->execute(array($invoiceNo));
     }
     
     public function getLastId() {
