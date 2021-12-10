@@ -32,6 +32,7 @@ function createbookeeper() {
     // Payment Terms Order Types Leaves
     if (item.order_type < 4 || item.order_type == 7) {
       tree["items"][item.id]["payment"] = { ids: [] }
+      tree["items"][item.id]["invoice"] = { ids: [] }
       $.each(od_payment_term, function (j, payment) {
         if (payment.order_item_id == item.id) {
           tree["items"][item.id]["payment"]["ids"].push(payment.id);
@@ -210,9 +211,6 @@ $(document).on("click", ".paytrm", function () {
   } else {
     $("#generate_" + $(this).data("id")).hide();
   }
-  // $("#generate_" + oldgen).hide();
-  // $("#generate_" + $(this).data("id")).show();
-  // oldgen = $(this).data("id");
 });
 
 $(document).on("click", "#gene", function () {
@@ -717,18 +715,6 @@ function preview_footer(val, listname) {
     (total).toFixed(2) +
     '"></div></div>'
   );
-  // if (listname == "items") {
-  //   $("#preview_subtotal_txt").text(humanamount(0));
-  //   $("#previewsubtotal").val(0);
-  //   $("#preview_sgst_val").text(humanamount(0));
-  //   $("#preview_cgst_val").text(humanamount(0));
-  //   $("#preview_igst_val").text(humanamount(0));
-  //   $("#previewsgst").val(0);
-  //   $("#previewcgst").val(0);
-  //   $("#previewigst").val(0);
-  //   $("#preview_total_val").text(humanamount(0));
-  //   $("#previewinvoice_total").val(0);
-  // }
   if (parseInt(gstlist[1]) == 9) {
     $("#previewigst").addClass("col-3");
     $("#sgstclass").show().addClass("col-3");
@@ -803,7 +789,7 @@ function fillinvoice_body() {
       (old_ot != tree["items"][item_Id].order_type) ||
       ( // Already Invoiced orders or 
         old_ot == tree["items"][item_Id].order_type &&
-        (tree["items"][item_Id]["invoiced"]["ids"]).length > 0
+        (tree["items"][item_Id]["invoice"]["ids"]).length > 0
       ) || ( // Payment term order type gets header
         tree["items"][item_Id].order_type < 4 &&
         (tree["items"][item_Id]["payment"]["ids"]).length > 0
@@ -815,31 +801,31 @@ function fillinvoice_body() {
       );
     }
     // List invoiced items and payment terms
-    if ((tree["items"][item_Id]["invoiced"]["ids"]).length > 0) {
-      $.each(tree["items"][item_Id]["invoiced"]["ids"], function (c, invoiced_Id) {
+    if ((tree["items"][item_Id]["invoice"]["ids"]).length > 0) {
+      $.each(tree["items"][item_Id]["invoice"]["ids"], function (c, invoiced_Id) {
         // Invoiced
         $("#invoicept" + table_id).append(
-          '<tr><td></td><td> <div class="icheck-primary d-inline"><input type="checkbox" disabled id="id_proforma' + item_Id + '" ' + check_proforma(tree["items"][item_Id]["invoiced"][invoiced_Id]["order_item_id"], tree["items"][item_Id]["invoiced"][invoiced_Id]["order_payterm_id"]) + '><label for="id_proforma' + item_Id + '"></label></div> </td><td>' +
-          tree["items"][item_Id]["invoiced"][invoiced_Id].item +
+          '<tr><td></td><td> <div class="icheck-primary d-inline"><input type="checkbox" id="id_proforma' + item_Id + '" ' + check_proforma(tree["items"][item_Id]["invoice"][invoiced_Id]["order_item_id"], tree["items"][item_Id]["invoice"][invoiced_Id]["order_payterm_id"]) + '><label for="id_proforma' + item_Id + '"></label></div> </td><td>' +
+          tree["items"][item_Id]["invoice"][invoiced_Id].item +
           "</td><td>" +
-          tree["items"][item_Id]["invoiced"][invoiced_Id].description +
+          tree["items"][item_Id]["invoice"][invoiced_Id].description +
           "</td><td>" +
-          tree["items"][item_Id]["invoiced"][invoiced_Id].qty +
+          tree["items"][item_Id]["invoice"][invoiced_Id].qty +
           " / " +
-          setuom(tree["items"][item_Id]["invoiced"][invoiced_Id].uom_id) +
+          setuom(tree["items"][item_Id]["invoice"][invoiced_Id].uom_id) +
           "</td><td>" +
-          humanamount(tree["items"][item_Id]["invoiced"][invoiced_Id].unit_price) +
+          humanamount(tree["items"][item_Id]["invoice"][invoiced_Id].unit_price) +
           "</td><td>" +
-          humanamount(tree["items"][item_Id]["invoiced"][invoiced_Id].total) +
+          humanamount(tree["items"][item_Id]["invoice"][invoiced_Id].total) +
           '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href=" ' +
           baseUrl +
           "pdf/invoice_" +
           getInvoice_noById(invoiced_Id) +
           '.pdf" type="button">View Invoice</button></td></tr>'
         );
-        if (tree["items"][item_Id]["invoiced"][invoiced_Id].order_payterm_id != 0) {
+        if (tree["items"][item_Id]["invoice"][invoiced_Id].order_payterm_id != 0) {
           // Capturing invoiced Payment term Ids
-          pt_list.push(tree["items"][item_Id]["invoiced"][invoiced_Id].order_payterm_id);
+          pt_list.push(tree["items"][item_Id]["invoice"][invoiced_Id].order_payterm_id);
         }
       });
     };
@@ -847,33 +833,6 @@ function fillinvoice_body() {
     if (3 < tree["items"][item_Id].order_type && tree["items"][item_Id].order_type < 7 ||
       (tree["items"][item_Id].hasOwnProperty('payment') == true &&
         tree["items"][item_Id]["payment"]["ids"]).length == 0) {
-      // if (old_ot == tree["items"][item_Id].order_type) {
-        // List disabled order items
-      //   $("#invoicept" + table_id).append(
-      //     '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
-      //     item_Id +
-      //     '" required class="paytrm" data-id="' +
-      //     item_Id +
-      //     '" disabled><label for="id_paytrm' +
-      //     item_Id +
-      //     '"></label></div></td><td></td><td>' +
-      //     tree["items"][item_Id].item +
-      //     "</td><td>" +
-      //     tree["items"][item_Id].description +
-      //     "</td><td>" +
-      //     tree["items"][item_Id].qty +
-      //     "</td><td>" +
-      //     humanamount(tree["items"][item_Id].unit_price) +
-      //     "</td>           <td>" +
-      //     humanamount(tree["items"][item_Id].total) +
-      //     '</td>                <td class="py-0 align-center" style="vertical-align: middle;">           <button type="button" class="btn btn-sm btn-primary generate" style="display: none;" id="generate_' +
-      //     b +
-      //     '" data-id="' +
-      //     b +
-      //     '" data-list="items" >Generate&nbsp;<i class="fas fa-chevron-right"></i></button></td></tr>'
-      //   );
-      // } else {
-        // List enabled order items
         if (tree["items"][item_Id].bal_qty > 0) {
           $("#invoicept" + table_id).append(
             '<tr><td> <div class="icheck-primary d-inline"> <input type="checkbox" id="id_paytrm' +
@@ -882,7 +841,7 @@ function fillinvoice_body() {
             item_Id +
             '" checked><label for="id_paytrm' +
             item_Id +
-            '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
+            '"></label></div></td><td> <div class="icheck-primary d-inline"> <input type="checkbox"  class="proforma" id="id_proforma_' +
             item_Id +
             '" required class="" data-id="' +
             item_Id +
@@ -963,7 +922,7 @@ function fillinvoice_body() {
               item_Id +
               '_' +
               paymentterm_Id +
-              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
+              '"></label></div></td><td><div class="icheck-primary d-inline"> <input type="checkbox"  class="proforma" id="id_proforma_' +
               item_Id +
               '" required class="" data-id="' +
               item_Id +
@@ -1005,7 +964,7 @@ function fillinvoice_body() {
         item_Id +
         '" checked>     <label for="id_paytrm' +
         item_Id +
-        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox" disabled class="proforma" id="id_proforma_' +
+        '"></label></div></td><td></td><div class="icheck-primary d-inline"> <input type="checkbox"  class="proforma" id="id_proforma_' +
         item_Id +
         '" required class="" data-id="' +
         item_Id +
