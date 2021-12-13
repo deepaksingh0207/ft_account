@@ -1,48 +1,16 @@
-$(function () {
-    $.ajax({
-        type: "POST",
-        url: baseUrl + "orders/getinvoicesforpayments/" + id,
-        data: id,
-        dataType: "json",
-        encode: true,
-    })
-        .done(function (data) {
-            if (data.payment_pending) {
-                $("#colid_pending").show();
-                $("#headid_pending").show();
-                // Fill pending table
-                $.each(data.payment_pending, function (index, value) {
-                    $("#bodyid_pending").append('<tr id="pdg_row' + index + '"></tr>');
-                    $("#pdg_row" + index)
-                        .append('<td id="pdg_invoice' + index + '">' + value.invoice_no + '</td>')
-                        .append('<td id="pdg_descp' + index + '">' + value.description + '</td>')
-                        .append('<td id="pdg_total' + index + '">' + value.invoice_total + '</td>')
-                        .append('<td id="pdg_date' + index + '">' + value.payment_date + '</td>')
-                        .append('<td id="pdg_utr' + index + '">' + value.cheque_utr_no + '</td>')
-                        .append('<td id="pdg_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>');
-                });
+$(document).on("click", ".sublist", function () {
+    url = baseUrl + 'utr_file/' + $(this).data("href")
+    error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
+    $.get(url)
+        .done(function (responseText) {
+            a = responseText
+            if (a.search("Customer List") < 0) {
+                $("#utr_body").empty().append('<embed src="' + url + '" type="application/pdf" style="width: 100%; height: 513px;">');
             } else {
-                $("#bodyid_pending").append('<tr><td colspan="6" class="text-center"> No Pending Payments</td></tr>');
+                $("#utr_body").empty().append(error);
             }
-            if (data.payment_completed) {
-                $("#colid_cleared").show();
-                $("#headid_cleared").show();
-                // Fill cleared table
-                $.each(data.payment_completed, function (index, value) {
-                    $("#bodyid_cleared").append('<tr id="clr_row' + index + '"></tr>');
-                    $("#clr_row" + index)
-                        .append('<td id="clr_invoice' + index + '">' + value.invoice_no + '</td>')
-                        .append('<td id="clr_descp' + index + '">' + value.description + '</td>')
-                        .append('<td id="clr_total' + index + '">' + value.invoice_total + '</td>')
-                        .append('<td id="clr_date' + index + '">' + value.payment_date + '</td>')
-                        .append('<td id="clr_utr' + index + '">' + value.cheque_utr_no + '</td>')
-                        .append('<td id="clr_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>');
-                });
-            } else {
-                $("#bodyid_cleared").append('<tr><td colspan="6"> No Payments Done</td></tr>');
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            alert("No orders found against this customer.");
+        }).fail(function () {
+            $("#utr_body").empty().append(error);
         });
+    $("#modelutr").click();
 });
