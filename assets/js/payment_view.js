@@ -21,6 +21,8 @@ $(function () {
                         .append('<td id="pdg_utr' + index + '">' + value.cheque_utr_no + '</td>')
                         .append('<td id="pdg_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>');
                 });
+            } else {
+                $("#bodyid_pending").append('<tr><td colspan="6" class="text-center"> No Pending Payments</td></tr>');
             }
             if (data.payment_completed) {
                 $("#colid_cleared").show();
@@ -36,6 +38,8 @@ $(function () {
                         .append('<td id="clr_utr' + index + '">' + value.cheque_utr_no + '</td>')
                         .append('<td id="clr_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>');
                 });
+            } else {
+                $("#bodyid_cleared").append('<tr><td colspan="6"> No Payments Done</td></tr>');
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {

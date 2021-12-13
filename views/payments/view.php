@@ -86,5 +86,5 @@
         </div>
       </section>
     </div>
-    <script>var id=<?php echo $customerPayment['invoice_id'] ?>;</script>
+    <script>var id=<?php echo $customerPayment['order_id'] ?>;</script>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
