@@ -439,7 +439,6 @@ function resetonorder() {
   $("#id_orderblock").hide();
   $("#orderlist").empty();
   $("#id_invoiceblock").hide();
-  $("#id_invoiceblock_body").empty();
   $("#preview_modal_body").empty();
   $("#id_invoiceblock_body").empty();
 }
@@ -822,7 +821,7 @@ function fillinvoice_body() {
           '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href=" ' +
           baseUrl +
           "pdf/invoice_" +
-          getInvoice_noById(invoiced_Id) +
+          tree["items"][item_Id]["invoiced"][invoiced_Id]["invoice_no"] +
           '.pdf" type="button">View Invoice</button></td></tr>'
         );
         if (tree["items"][item_Id]["invoiced"][invoiced_Id].order_payterm_id != 0) {
@@ -1159,8 +1158,4 @@ function preview_label() {
   if (proformaguard) { return "Proforma "; } else {
     return "";
   }
-}
-
-function getInvoice_noById(invoiceId){
-  return tree["invoices"][invoiceId]["invoice_no"]
 }

@@ -382,7 +382,7 @@ class InvoicesController extends Controller
         if(!empty($_POST)) {
             $data = $_POST;
             
-            //echo '<pre>'; print_r($data); exit;
+            // echo '<pre>'; print_r($data); exit;
             
             $invoice = array();
             $invoiceItems = array();
@@ -540,7 +540,7 @@ class InvoicesController extends Controller
             if($isProformaInvoice) {
                 $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
             } else {
-                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_preview_template.html'), $vars);
             }
             
             
