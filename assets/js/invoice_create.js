@@ -819,7 +819,7 @@ function fillinvoice_body() {
           '</td><td class="py-0 align-center" style="vertical-align: middle;"><button class="btn btn-default btn-sm pdf" data-href=" ' +
           baseUrl +
           "pdf/invoice_" +
-          tree["items"][item_Id]["invoiced"][invoiced_Id]["invoice_no"] +
+          tree["items"][item_Id]["invoice"][invoiced_Id]["invoice_no"] +
           '.pdf" type="button">View Invoice</button></td></tr>'
         );
         if (tree["items"][item_Id]["invoice"][invoiced_Id].order_payterm_id != 0) {

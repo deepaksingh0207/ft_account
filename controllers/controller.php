@@ -33,7 +33,7 @@ class Controller {
         
         
         $this->_view = new View(HOME . DS . 'views' . DS . strtolower($this->_modelBaseName) . DS . $action . '.php');
-        $this->_view->set("title", "Support Portal");
+        $this->_view->set("title", "Accounts");
         
         $this->_view->set("controller", strtolower($model));
         $this->_view->set("action", strtolower($action));
