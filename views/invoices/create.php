@@ -33,12 +33,12 @@
 
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="customerid_id">Customer : </label>
-                        <select class="form-control" name="customer_id" id="customerid_id" disabled></select>
+                        <select class="form-control" name="customer_id" id="customerid_id" readonly></select>
                       </div>
 
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="id_orderid">Customer PO No.:</label>
-                        <select name="order_id" id="id_orderid" class="form-control" disabled></select>
+                        <select name="order_id" id="id_orderid" class="form-control" readonly></select>
                       </div>
                       <div class="col-sm-0 col-lg-0 form-group">
                         <label for="customer_id"></label>
@@ -70,16 +70,16 @@
                           <div class="card-header">
                             <b>Order Details</b>
                           </div>
-                          <div class="card-body table-responsive py-3">
+                          <div class="card-body table-responsive p-0">
                             <table class="table text-center">
                               <thead>
                                 <tr>
-                                  <th class="min100">Item</th>
-                                  <th class="min100">Description</th>
-                                  <th class="minmax150" id="setheader"></th>
-                                  <th class="minmax150">Unit of Measure</th>
-                                  <th class="min100">Unit Price</th>
-                                  <th class="min100">Order Total</th>
+                                  <th>Item</th>
+                                  <th>Description</th>
+                                  <th id="setheader"></th>
+                                  <th>Unit of Measure</th>
+                                  <th>Unit Price</th>
+                                  <th>Order Total</th>
                                 </tr>
                               </thead>
                               <tbody id="orderlist"></tbody>
@@ -99,7 +99,7 @@
                                 <b><span id="cgst_label"></span></b>
                                 <span id="cgst_val"></span>
                               </div>
-                              <div class="col-3 text-center" id="igst_details" style="display: none">
+                              <div class="col-4 text-center" id="igst_details" style="display: none">
                                 <b><span id="igst_label"></span></b>
                                 <span id="igst_val"></span>
                               </div>
@@ -116,18 +116,10 @@
                     <div class="row" style="display: none" id="id_invoiceblock">
                       <div class="col-12">
                         <div class="card">
-                          <div class="card-header"><b>Invoice Details</b></div>
-                          <div class="card-body">
-                            <div class="row" id="id_invoiceblock_body">
-                              <div class="col-sm-12 col-lg-12">
-                                <input type="text" name="item" id="item" value="">
-                                <input type="text" name="description" id="description" value="">
-                                <input type="text" name="qty" id="qty" value="">
-                                <input type="text" name="uom_id" id="uom_id" value="">
-                                <input type="text" name="unit_price" id="unit_price" value="">
-                              </div>
-                            </div>
+                          <div class="card-header">
+                            <b>Invoice Details</b>
                           </div>
+                          <div class="card-body p-0" id="id_invoiceblock_body"></div>
                         </div>
                       </div>
                     </div>
