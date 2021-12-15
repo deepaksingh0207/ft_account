@@ -695,11 +695,9 @@ function addressmaker($val) {
     $skippiece = 0;
     $jar = "";
     for ($x = 0; $x < count($pieces); $x++) {
-        if ($x == 1) {
-            $jar = $pieces[$x] . ", ";
-        } else if ($x == 2) {
-            $jar = $jar . $pieces[$x] . ", <br>";
-            $maxlen = strlen($jar);
+        if ($x <= 2) {
+            $jar = $jar . $pieces[$x] . ", ";
+            if ($x == 2) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
         } else if ($x == $skippiece){
             $skippiece = 0;
         } else if ($x == count($pieces)-1){
