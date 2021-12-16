@@ -16,7 +16,6 @@
                       </a>
                     </div>
                   </div>
-
                   <div class="card-body" id="order">
                     <div class="row">
                       <div class="col-sm-12 col-lg-3 form-group">
@@ -30,12 +29,10 @@
                           <?php endforeach; ?>
                         </select>
                       </div>
-
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="customerid_id">Customer : </label>
                         <select class="form-control" name="customer_id" id="customerid_id" readonly></select>
                       </div>
-
                       <div class="col-sm-12 col-lg-3 form-group">
                         <label for="id_orderid">Customer PO No.:</label>
                         <select name="order_id" id="id_orderid" class="form-control" readonly></select>
@@ -63,7 +60,6 @@
                           id="comment_id" cols="30" rows="1"></textarea>
                       </div>
                     </div>
-
                     <div class="row" style="display: none" id="id_orderblock">
                       <div class="col-12">
                         <div class="card">
@@ -87,7 +83,7 @@
                           </div>
                           <div class="card-footer">
                             <div class="row">
-                              <div class="col-3">
+                              <div class="" id="subtotal_details">
                                 <b>Sub Total : </b>
                                 <span id="ordertotal_txt">0.00</span>
                               </div>
@@ -103,7 +99,7 @@
                                 <b><span id="igst_label"></span></b>
                                 <span id="igst_val"></span>
                               </div>
-                              <div class="col-3 text-right" id="total_details" style="color: mediumslateblue">
+                              <div class="text-right" id="total_details" style="color: mediumslateblue">
                                 <b>Total</b>
                                 <span id="total_val"></span>
                               </div>
@@ -112,7 +108,6 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="row" style="display: none" id="id_invoiceblock">
                       <div class="col-12">
                         <div class="card">
@@ -124,7 +119,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div class="card-footer">
                     <div class="text-right">
                       <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
@@ -133,13 +127,10 @@
                     </div>
                   </div>
                 </div>
-
                 <button type="button" class="hide" id="preview_modal" data-toggle="modal"
                   data-target="#modal-xl"></button>
-
                 <button type="button" id="modelpdf" style="display: none" data-toggle="modal"
                   data-target="#pdfmodal"></button>
-
                 <div class="modal fade" id="modal-xl">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -169,7 +160,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="modal fade" id="pdfmodal">
                   <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -183,7 +173,6 @@
                     </div>
                   </div>
                 </div>
-
               </form>
               <input type="hidden" name="paytype_body" id="id_paytype_val" value="1,2,3,4,5" />
             </div>
