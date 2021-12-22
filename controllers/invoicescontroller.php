@@ -214,7 +214,7 @@ class InvoicesController extends Controller
         }
     }
     
-    // Jthayil Start 17, Nov
+    // Jthayil Start 22 Dec
     public function generateInvoice($invoiceId, $proformaSwitch = false) {
         
         $dataItem = array();
@@ -222,13 +222,13 @@ class InvoicesController extends Controller
         if ($proformaSwitch){
             $tblProformaInvoice = new ProformaInvoicesModel();
             $invoice = $tblProformaInvoice->get($invoiceId);
-            $invoiceItem = $tblProformaInvoice->getInvoiceItem($invoiceId);
+            $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
             // $invoice = $this->_model->get($invoiceId);
             // $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
         }
         else{
             $invoice = $this->_model->get($invoiceId);
-            $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
+            $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
         }    
     // End
         $customerTbl = new CustomersModel();
@@ -241,7 +241,18 @@ class InvoicesController extends Controller
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
         if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
-            $dataItem = $invoiceItem;
+            // Jthayil 22 Dec Start
+            $tempInvoiceItem = [];
+            foreach($invoiceItems as $tempItem)
+            {
+                if($order['order_type'] == 2)
+                {
+                    $tempItem['qty'] = 1;
+                }
+                array_push($tempInvoiceItem,$tempItem);
+            }
+            // End
+            $dataItem = $tempInvoiceItem;
         } /*else if($order['order_type']  == 2 || $order['order_type']  == 1) {
             $row = array();
             //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
