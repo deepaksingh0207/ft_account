@@ -5,7 +5,7 @@ class InvoicesModel extends Model {
     
     public function getList($filter = array()) {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $where = ' WHERE 1=1 ';
+        $where = ' WHERE 1=1 and invoices.status=1 ';
         
         $fieldVal = array();
         if(!empty($filter)) {
@@ -68,7 +68,7 @@ class InvoicesModel extends Model {
     }
     
     public function getInvoiceIds() {
-        $sql = "select id from invoices ";
+        $sql = "select id from invoices where status = 1 ";
         $this->_setSql($sql);
         $user = $this->getAll();
         
@@ -143,7 +143,7 @@ class InvoicesModel extends Model {
     
     
     public function getInvoicesOfOrder($orderId) {
-        $sql = "select * from invoices where order_id = $orderId order by id desc";
+        $sql = "select * from invoices where order_id = $orderId and status = 1 order by id desc";
         $this->_setSql($sql);
         $invoices = $this->getAll();
         
@@ -167,6 +167,7 @@ class InvoicesModel extends Model {
         left join (select invoice_id, SUM(allocated_amt) allocated_amt from payments group by invoice_id) P on (P.invoice_id = I.id)
         join customers C ON (I.customer_id = C.id)
         join customer_groups CG on (C.group_id = CG.id)
+        where I.status = 1
         order by due_date asc";
 
         $this->_setSql($sql);
@@ -189,7 +190,7 @@ class InvoicesModel extends Model {
 
     public function getRecordsByField($field, $val) {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "select * from invoices where 1=1 and $field = ? limit 1";
+        $sql = "select * from invoices where 1=1 and $field = ? and status = 1 limit 1";
         $this->_setSql($sql);
         $data = $this->getAll(array($val));
 

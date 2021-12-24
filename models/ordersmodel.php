@@ -5,7 +5,7 @@ class OrdersModel extends Model {
     
     public function getList($filter = array()) {
         //$sql = "select * from orders where 1=1 order by updated_date desc";
-        $where = ' WHERE 1=1 ';
+        $where = ' WHERE 1=1 and orders.status=1 ';
         
         $fieldVal = array();
 
@@ -78,7 +78,7 @@ class OrdersModel extends Model {
 from orders o
 left join (select SUM(COALESCE(received_amt, 0)) payments, order_id FROM `customer_payments` group by order_id) as s on (s.order_id = o.id)
 join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
-where customer_id = ? 
+where customer_id = ? and status = 1 
 having ordertotal > payments";
 
         $this->_setSql($sql);
@@ -144,7 +144,7 @@ having ordertotal > payments";
     }
     
     public function getRecordsByField($field, $val) {
-        $sql = "select orders.*, customers.name customer_name from orders join customers on (orders.customer_id = customers.id) where 1=1 and $field = ? order by updated_date desc ";
+        $sql = "select orders.*, customers.name customer_name from orders join customers on (orders.customer_id = customers.id) where 1=1 and orders.status = 1 and $field = ? order by updated_date desc ";
         $this->_setSql($sql);
         $data = $this->getAll(array($val));
 
@@ -171,7 +171,7 @@ having ordertotal > payments";
     * 
   FROM invoice_items 
   LIMIT 1
-) invoice_items ON invoice_items.invoice_id = invoices.id
+) invoice_items ON invoice_items.invoice_id = invoices.id and status = 1
       where customer_payments.order_id=?";
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId));
@@ -197,7 +197,7 @@ having ordertotal > payments";
   FROM invoice_items 
   LIMIT 1
 ) invoice_items ON invoice_items.invoice_id = invoices.id
-        where order_id=? and invoices.invoice_total != (select IF(sum(received_amt) IS NULL,0, sum(received_amt)) from customer_payments where order_id=? and invoice_id = invoice_items.invoice_id )";
+        where order_id=? and status = 1 and invoices.invoice_total != (select IF(sum(received_amt) IS NULL,0, sum(received_amt)) from customer_payments where order_id=? and invoice_id = invoice_items.invoice_id )";
 
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId, $orderId, $orderId));

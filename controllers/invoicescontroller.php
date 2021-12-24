@@ -73,6 +73,10 @@ class InvoicesController extends Controller
                 $invoiceeData['due_date'] = $data['due_date'];
                 //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
                 $invoiceeData['invoice_no'] = $data['invoice_no'];
+
+                $invoiceeData['user_id'] = $this->_session->get('user_id'); // created by user
+                
+                
                 
                 /*
                 if(isset($data['item'])) {

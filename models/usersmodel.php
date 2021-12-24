@@ -15,7 +15,7 @@ class UsersModel extends Model {
     
     
     public function getList() {
-        $sql = "select * from customers where admin=0 order by updated_date desc";
+        $sql = "select * from users where admin != 1";
         $this->_setSql($sql);
         $user = $this->getAll();
         if (empty($user)){
@@ -25,7 +25,7 @@ class UsersModel extends Model {
     }
     
     public function get($id) {
-        $sql = "select * from customers where id = ? limit 1";
+        $sql = "select * from users where id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         if (empty($user)){
@@ -66,7 +66,7 @@ class UsersModel extends Model {
         $question_marks[] = '('  . $this->placeholders('?', sizeof($data)) . ')';
         $insert_values = array_merge($insert_values, array_values($data));
         
-        $sql = "INSERT INTO customers (" . implode(",", $datafields ) . ") VALUES " .
+        $sql = "INSERT INTO users (" . implode(",", $datafields ) . ") VALUES " .
             implode(',', $question_marks);
             
             
@@ -79,7 +79,7 @@ class UsersModel extends Model {
     }
     
     public function getLastId() {
-        $sql = "select id from customers order by id desc limit 1";
+        $sql = "select id from users order by id desc limit 1";
         $this->_setSql($sql);
         $user = $this->getrow();
         if (empty($user)){

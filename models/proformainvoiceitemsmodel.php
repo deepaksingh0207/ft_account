@@ -99,7 +99,7 @@ class ProformaInvoiceItemsModel extends Model {
 
     public function getListByOrderId($orderId) {
         $sql = "select proforma_invoice_items.*  from proforma_invoice_items 
-        join proforma_invoices I on (I.id = proforma_invoice_items.proforma_invoice_id) where I.order_id = ? ";
+        join proforma_invoices I on (I.id = proforma_invoice_items.proforma_invoice_id) where I.order_id = ? and I.status=1";
         $this->_setSql($sql);
         $user = $this->getAll(array($orderId));
         if (empty($user)){
