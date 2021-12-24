@@ -142,12 +142,30 @@ $("#id_orderid").change(function () {
         $("#setheader").text(setheader(od_order.order_type));
         gst_details(customerid);
         orderdetails();
+        fillsalesperson(customerid);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No Order Item details found against this order.");
       });
   }
 });
+
+function fillsalesperson(id){
+  $.ajax({
+    type: "POST",
+    url: baseUrl + "customers/getdetails/" + id,
+    data: id,
+    dataType: "json",
+    encode: true,
+  })
+    .done(function (r) {
+      $("#id_salesperson").val(r.contact_person);
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      alert("No details found against this customer.");
+      console.log(jqXHR, textStatus, errorThrown);
+    });
+}
 
 $(document).on("click", ".generate", function () {
   preview_builder();
@@ -244,7 +262,7 @@ $(document).on("click", ".pdf", function () {
 
 function orderdetails() {
   $("#id_pono").val(od_order.po_no);
-  $("#id_salesperson").val(od_order.sales_person);
+  // $("#id_salesperson").val(od_order.sales_person);
   $("#bill_id").val(od_order.bill_to);
   $("#ship_id").val(od_order.ship_to);
   setordertype(od_order.order_type);
