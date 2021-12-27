@@ -340,8 +340,14 @@ class InvoicesController extends Controller
         $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
         $vars["{{ITEM_LIST}}"] = $itemList;
         $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
-        
+        // JThayil 26 Dec Start
+        if ($proformaSwitch){
+        $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
+        }
+        else{
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+        }
+        // End
         
         require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
@@ -393,7 +399,7 @@ class InvoicesController extends Controller
         if(!empty($_POST)) {
             $data = $_POST;
             
-            echo '<pre>'; print_r($data); exit;
+            // echo '<pre>'; print_r($data); exit;
             
             $invoice = array();
             $invoiceItems = array();
@@ -549,7 +555,7 @@ class InvoicesController extends Controller
             $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
             
             if($isProformaInvoice) {
-                $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
+                $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_preview_template.html'), $vars);
             } else {
                 $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_preview_template.html'), $vars);
             }
