@@ -106,7 +106,7 @@ class InvoiceItemsModel extends Model {
 
     public function getListByOrderId($orderId) {
         $sql = "select invoice_items.*  from invoice_items 
-        join invoices I on (I.id = invoice_items.invoice_id) where I.order_id = ? ";
+        join invoices I on (I.id = invoice_items.invoice_id) where I.order_id = ? and I.status = 1";
         $this->_setSql($sql);
         $user = $this->getAll(array($orderId));
         if (empty($user)){

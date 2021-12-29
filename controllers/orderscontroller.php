@@ -115,6 +115,9 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
+
+                $orderData['user_id'] = $this->_session->get('user_id'); // created by user
+
                 
                 // if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
                 //     $orderData['po_from_date'] = $data['po_from_date'];

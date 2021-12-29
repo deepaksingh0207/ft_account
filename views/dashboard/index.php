@@ -61,7 +61,7 @@
                           <?php echo $invoice['customer_name'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center">
-                          <?php echo $invoice['invoice_id'] ?>
+                          <?php echo $invoice['invoice_no'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center">
                           <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>

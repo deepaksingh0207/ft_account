@@ -25,7 +25,7 @@ class PaymentsModel extends Model {
         $sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt, CP.payment_date, CP.cheque_utr_no
         from payments P
         join customer_payments CP ON (CP.id = P.customer_payment_id)
-        where CP.invoice_id = ?";
+        where CP.invoice_id = ? and CP.status = 1 ";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
         
@@ -42,7 +42,7 @@ class PaymentsModel extends Model {
     }
     
     public function getInvoiceIds() {
-        $sql = "select id from invoices ";
+        $sql = "select id from invoices where status = 1";
         $this->_setSql($sql);
         $user = $this->getAll();
         
@@ -101,7 +101,7 @@ class PaymentsModel extends Model {
         return $user['id'];
     }    
     public function getRecordsByField($field, $val) {
-        $sql = "select * from customer_payments  where 1=1 and $field = ? ";
+        $sql = "select * from customer_payments  where 1=1 and $field = ? and status = 1";
         $this->_setSql($sql);
         $data = $this->getAll(array($val));
 

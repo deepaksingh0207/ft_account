@@ -1,11 +1,10 @@
 <?php
 
 class CustomerPaymentsModel extends Model {
-    
-    
+        
     public function list() {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "select C.name, P.* from customer_payments P join customers C on (C.id = P.customer_id)";
+        $sql = "select C.name, P.* from customer_payments P join customers C on (C.id = P.customer_id) where P.status = 1 ";
         $this->_setSql($sql);
         $user = $this->getAll();
         
@@ -16,7 +15,7 @@ class CustomerPaymentsModel extends Model {
         $sql = "select CG.name cust_group, C.name customer_name, P.* from customer_payments P 
         join customers C on (C.id = P.customer_id)
         join customer_groups CG on (CG.id = C.group_id)
-         where P.id = ? limit 1";
+         where P.id = ? and P.status = 1 limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         
@@ -24,7 +23,7 @@ class CustomerPaymentsModel extends Model {
     }
     
     public function getInvoiceIds() {
-        $sql = "select id from customer_payments ";
+        $sql = "select id from customer_payments where and status = 1";
         $this->_setSql($sql);
         $user = $this->getAll();
         
