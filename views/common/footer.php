@@ -90,8 +90,8 @@
 <?php if ($controller == 'orders' && ($action == 'create')) : ?>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-  <script src="<?php echo ROOT; ?>assets/js/invoice_create_validation.js?<?php echo time(); ?>"></script>
-  <script src="<?php echo ROOT; ?>assets/js/invoice_create.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/o_validation.js?<?php echo time(); ?>"></script>
+  <script src="<?php echo ROOT; ?>assets/js/o_create.js?<?php echo time(); ?>"></script>
   <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 

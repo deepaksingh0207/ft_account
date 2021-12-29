@@ -171,7 +171,7 @@ having ordertotal > payments";
     * 
   FROM invoice_items 
   LIMIT 1
-) invoice_items ON invoice_items.invoice_id = invoices.id and status = 1
+) invoice_items ON invoice_items.invoice_id = invoices.id and invoices.status = 1
       where customer_payments.order_id=?";
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId));
