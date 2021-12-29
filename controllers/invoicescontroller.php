@@ -95,6 +95,9 @@ class InvoicesController extends Controller
                     $orderItem['order_item_id'] = $item['order_item_id'];
                     $orderItem['order_payterm_id'] = $item['order_payterm_id'];
                     $orderItem['item'] = $item['item'];
+                    if($isProformaInvoice == false) {
+                        $orderItem['proforma_invoice_item_id'] = $item['proforma_invoice_item_id'];
+                    }
                     $orderItem['description'] = $item['description'];
                     $orderItem['qty'] = $item['qty'];
                     $orderItem['uom_id'] = $item['uom_id'];
@@ -535,18 +538,18 @@ class InvoicesController extends Controller
                 <hr style="padding: 0px; margin: 0px" />
               </td>
             </tr>';
-            } else {
-                $taxesLayout = '<tr>
-                <td style="text-align: right; width: 100%;font-size: small;">
-                  CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
-                  <br />
-                  SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
-                </td>
-              </tr>
-              <tr>
-                <td colspan="5" style="padding: 0px">
-                  <hr style="padding: 0px; margin: 0px" />
-                </td>
+        } else {
+            $taxesLayout = '<tr>
+            <td style="text-align: right; width: 100%;font-size: small;">
+              CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
+              <br />
+              SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" style="padding: 0px">
+              <hr style="padding: 0px; margin: 0px" />
+            </td>
               </tr>';
             }
             
@@ -557,7 +560,7 @@ class InvoicesController extends Controller
             if($isProformaInvoice) {
                 $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_preview_template.html'), $vars);
             } else {
-                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_preview_template.html'), $vars);
+                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
             }
             
             
