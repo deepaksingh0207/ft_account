@@ -317,21 +317,21 @@ class InvoicesController extends Controller
         
         $taxesLayout = '';
         if((int)$invoice['igst']) {
-            $taxesLayout = '<tr class="text-right bb">
-            <td style="text-align: right; width: 100%;font-size: xx-small;">
-              IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
+            $taxesLayout = '<tr>
+            <td style="text-align: right; width: 85%; border-bottom: 1px solid grey;font-size: xx-small;">
+            IGST @ 18%
             </td>
-          </tr><tr>
-          <td colspan="5" style="padding: 0px">
-            <hr style="padding: 0px; margin: 0px" />
-          </td>
+            <td style="text-align: right; width: 15%; border-bottom: 1px solid grey;font-size: xx-small;">
+            '.number_format($invoice['igst'], 2).'
+            </td>
         </tr>';
         } else {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 100%;font-size: xx-small;">
-              CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
-              <br />
-              SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
+            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;font-size: xx-small;">
+              CGST @ 9%<br />SGST @ 9%
+            </td>
+            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;font-size: xx-small;">'.number_format($invoice['cgst'], 2).'
+              <br />'.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
           <tr>
@@ -526,7 +526,7 @@ class InvoicesController extends Controller
             if((int)$invoice['igst']) {
                 $taxesLayout = '<tr class="text-right bb">
                 <td style="text-align: right; width: 100%; font-size: small;">
-                  IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst']).'
+                  IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst'], 2).'
                 </td>
               </tr><tr>
               <td colspan="5" style="padding: 0px">
