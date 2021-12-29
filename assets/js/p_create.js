@@ -1,18 +1,17 @@
-var lastSelectedId;
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
-var invoice_details = {};
-function resetongroup() {
-    $("#customerid_id").val("").empty().attr("disabled", true);
-    resetoncustomer();
-}
+var orderstatus = {}, tree = { "index": [] };
 
+$("#id_payment_date").attr("max", today);
+
+$(function () {
+    bsCustomFileInput.init();
+});
 
 $(document).on("change", "#id_group_id", function () {
-    resetongroup();
     if ($(this).val()) {
         $.ajax({
             type: "POST",
@@ -21,28 +20,39 @@ $(document).on("change", "#id_group_id", function () {
             dataType: "json",
             encode: true,
         })
-            .done(function (data) {
-                $("#customerid_id").removeAttr('disabled').append("<option value=''>Select Customer</option>");
-                $.each(data, function (index, value) {
-                    $("#customerid_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+            .done(function (resp) {
+                dlog(resp)
+                $("#id_customerid").empty().append('<option selected="">Select Customer</option>');
+                $.each(resp, function (i_resp, value) {
+                    $("#id_customerid").append("<option value='" + value.id + "'>" + value.name + "</option>");
                 });
-                if (data.length < 2) {
-                    $("#customerid_id").val(data[0].id).trigger('change');
-                }
+                if (resp.length < 2) { $("#id_customerid").val(resp[0].id).trigger('change'); }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                alert("No customer found against this customer group.");
+                plog(jqXHR, textStatus, errorThrown);
             });
-    }
+    } else { reset_customer(); }
 });
 
-function resetoncustomer() {
-    $("#id_orderid").val("").empty().attr("disabled", true);
-    resetonorder();
+function reset_customer() {
+    $("#id_customerid").val("").empty();
+    reset_order();
 }
 
-$(document).on("change", "#customerid_id", function () {
-    resetoncustomer();
+function reset_order() {
+    $("#id_order_id").val("").empty();
+    reset_cards();
+}
+
+function reset_cards() {
+    $("#id_clearedpayments").hide();
+    $("#tbody_clearedpayment").empty().append('<tr><td colspan="4" class="text-center">No Cleared Payments</td></tr>');
+    $("#id_pendingpayments").hide();
+    $("#tbody_pendingpayment").empty();
+}
+
+$(document).on("change", "#id_customerid", function () {
+    reset_order();
     if ($(this).val()) {
         $.ajax({
             type: "POST",
@@ -51,52 +61,157 @@ $(document).on("change", "#customerid_id", function () {
             dataType: "json",
             encode: true,
         })
-            .done(function (data) {
-                $("#id_orderid").removeAttr('disabled').append("<option value=''>Select Order</option>");
-                $.each(data, function (index, value) {
-                    $("#id_orderid").append("<option value='" + value.id + "'>" + value.po_no + ' ' + value.item.substring(3, value.item.length) + "</option>");
+            .done(function (resp) {
+                dlog(resp);
+                $.each(resp, function (index, value) {
+                    get_orderstatus(value.id, value.po_no);
                 });
-                if (data.length < 2) {
-                    $("#id_orderid").val(data[0].id).trigger('change');
-                }
-
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                alert("No orders found against this customer.");
+                plog(jqXHR, textStatus, errorThrown);
             });
     }
 });
 
-function resetonorder() {
-    $("#id_pending_payments").hide();
-    $("#invoice_list_body").empty();
-    $("#headid_pending").hide();
-    $("#bodyid_pending").empty();
-    $("#id_cleared_payments").hide();
-    $("#headid_cleared").hide();
-    $("#bodyid_cleared").empty();
+function get_orderstatus(po_id, po_no) {
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "orders/getinvoicesforpayments/" + po_id,
+        data: po_id,
+        dataType: "json",
+        encode: true,
+    })
+        .done(function (resp) {
+            dlog(po_no, resp);
+            if (resp.payment_pending) {
+                tree[po_id] = {}
+                tree[po_id]["pending"] = { "index": [] }
+                $.each(resp.payment_pending, function (i_pending, value) {
+                    get_invoicedetails(po_id, value.id)
+                    tree[po_id]["pending"][value.id] = value;
+                    tree[po_id]["pending"]["index"].push(value.id);
+                });
+                $.each(resp.payment_completed, function (i_cleared, value) {
+                    tree[po_id]["cleared"][value.id] = value;
+                    tree[po_id]["cleared"]["index"].push(value.id);
+                });
+                $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
+                tree["index"].push(po_id);
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            plog(jqXHR, textStatus, errorThrown);
+        });
 }
 
-$(document).on("click", ".sublist", function () {
-    url = baseUrl + 'utr_file/' + $(this).data("href")
-    error = '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>'
-    $.get(url)
-        .done(function (responseText) {
-            a = responseText
-            if (a.search("Customer List") < 0) {
-                $("#utr_body").empty().append('<embed src="' + url + '" type="application/pdf" style="width: 100%; height: 513px;">');
-            } else {
-                $("#utr_body").empty().append(error);
+function get_invoicedetails(po_id, inv_id) {
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "invoices/getdetails/" + inv_id,
+        data: inv_id,
+        dataType: "json",
+        encode: true,
+    })
+        .done(function (data) {
+            for (var i in data) {
+                tree[po_id]["pending"][inv_id][i] = data[i];
             }
-        }).fail(function () {
-            $("#utr_body").empty().append(error);
         });
-    // $("#modal_body").empty().append('<iframe src="'+url+'" width="100%" height="513px">');
-    $("#modelutr").click();
+}
+
+$(document).on("change", "#id_order_id", function () {
+    $("#id_clearedpayments").show();
+    $("#id_pendingpayments").show();
+    var orderList = $(this).val();
+    $("#tbody_pendingpayment").empty();
+    $.each(orderList, function (order_index, orderId) {
+        $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
+            payment_row_creator(tree[orderId]["pending"][Id]);
+        });
+    });
+});
+
+
+function payment_row_creator(d) {
+    $("#tbody_pendingpayment").append('<tr id="' + d["id"] + '"></tr>');
+
+    $("#" + d["id"]).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + d["id"] + '" data-index="' + d["id"] + '" class="checkbox" value="' + d["invoice_no"] + '"><label for="id_invoice_id_' + d["id"] + '">' + d["invoice_no"] + '</label></div></td>');
+
+    $("#" + d["id"]).append('<td class="align-middle">' + d["description"] + '</td>');
+
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + d["sub_total"] + '">' + ra(d["sub_total"]) + '</td>');
+
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_gst_amount' + d["id"] + '" value="' + (parseFloat(d["invoice_total"]) - parseFloat(d["sub_total"])) + '">' + ra((parseFloat(d["invoice_total"]) - parseFloat(d["sub_total"]))) + '</td>');
+
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
+
+    $("#" + d["id"]).append('<td class="align-middle">' + ra(0) + '</td>');
+
+    $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '"><input type="hidden"  id="id_tds_deducted' + d["id"] + '"><span class="text-info" id="span' + d["id"] + '">' + ra(0) + '</span></td>');
+
+    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '"></td>');
+}
+
+$(document).on("change", ".allcate", function () {
+    var orderList = $("#id_order_id").val();
+    var receivedamt = 0
+    $.each(orderList, function (order_index, orderId) {
+        $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
+            var d = tree[orderId]["pending"][Id]
+            if ($("#id_invoice_id_" + d["id"]).is(':checked')) {
+                receivedamt += parseFloat($("#alloc" + d["id"]).val());
+            }
+        });
+    });
+    $("#id_received_amt").val(receivedamt).removeClass('is-invalid');
+
+});
+
+$(document).on("change", ".rvdamt", function () {
+    var orderList = $("#id_order_id").val();
+    var receivedamt = 0
+    $.each(orderList, function (order_index, orderId) {
+        $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
+            var d = tree[orderId]["pending"][Id]
+            if ($("#id_invoice_id_" + d["id"]).is(':checked')) {
+                receivedamt += parseFloat($("#alloc" + d["id"]).val());
+            }
+        });
+    });
+    if ($("#id_received_amt").val() != receivedamt) {
+        $("#id_received_amt").addClass('is-invalid');
+    } else {
+        $("#id_received_amt").removeClass('is-invalid');
+    }
+});
+
+$(document).on("change", ".tdscontrol", function () {
+    var spanid = $(this).data("span");
+    var tdsamt = $(this).data("tdsamt");
+    var basreval = parseFloat($(this).data("base"));
+    var ttl = basreval * parseFloat($(this).val()) / 100;
+    $("#" + spanid).text(ra(ttl));
+    $("#" + tdsamt).val(ttl);
 });
 
 $("#quickForm").on('submit', function (e) {
     e.preventDefault();
+    var c = 0
+    $('.checkbox').each(function (i, obj) {
+        var ID = $(this).data("index");
+        if ($(this).is(':checked')) {
+            $("#id_invoice_id_" + ID).attr("name", "tds_data[" + c + "][invoice_id]");
+            $("#id_basic_value" + ID).attr("name", "tds_data[" + c + "][basic_value]");
+            $("#id_gst_amount" + ID).attr("name", "tds_data[" + c + "][gst_amount]");
+            $("#id_invoice_amount" + ID).attr("name", "tds_data[" + c + "][invoice_amount]");
+            $("#tds" + ID).attr("name", "tds_data[" + c + "][tds_percent]");
+            $("#id_tds_deducted" + ID).attr("name", "tds_data[" + c + "][tds_deducted]");
+            $("#alloc" + ID).attr("name", "tds_data[" + c + "][allocated_amt]");
+            c++;
+        } else {
+            $("#row" + ID).removeAttr("name");
+        }
+    });
     $.ajax({
         type: 'POST',
         url: baseUrl + "payments/create",
@@ -110,13 +225,9 @@ $("#quickForm").on('submit', function (e) {
         },
         success: function (response) {
             if (response.status == 1) {
-                $("#modal_body").empty().append(response.message);
-                $("#modalclose").trigger('click');
-                $("#modalsubmit").removeAttr("disabled");
-                $("#id_orderid").trigger('change');
+                location.reload();
             } else {
-                $("#modal_body").empty().append('Submit Failed.<br>Please try again by clicking "Submit".');
-                $("#modalsubmit").removeAttr("disabled");
+                alert('Submit Failed.<br>Please try again by clicking "Submit".');
             }
         },
         cache: false,
@@ -125,163 +236,69 @@ $("#quickForm").on('submit', function (e) {
     });
 });
 
-$(document).on("change", "#id_orderid", function () {
-    resetonorder();
-    if ($(this).val()) {
-        $.ajax({
-            type: "POST",
-            url: baseUrl + "orders/getinvoicesforpayments/" + $(this).val(),
-            data: $(this).val(),
-            dataType: "json",
-            encode: true,
-        })
-            .done(function (data) {
-                console.log(data)
-                if (data.payment_pending) {
-                    invoice_details = {}
-                    $("#id_pending_payments").show();
-                    $("#headid_pending").show();
-                    // Crawling Invoice Id details
-                    $.each(data.payment_pending, function (index, value) {
-                        $.ajax({
-                            type: "POST",
-                            url: baseUrl + "invoices/getdetails/" + value.id,
-                            data: value.id,
-                            dataType: "json",
-                            encode: true,
-                        })
-                            .done(function (data) {
-                                console.log('invoice_data', data)
-                                invoice_details[data.id] = data;
-                                $("#invoice_list_body").append('<div class="card" id="invoice_list_' + index + '"></div>');
-
-                                $("#invoice_list_" + index).append('<div class="card-header" id="card_header_' + index + '"></div>');
-
-                                $("#card_header_" + index).append('<div class="icheck-primary d-inline mt-3">                                                   <input type="radio" id="id_invoice_id_' + index + '" data-invoice="' + value.id + '" data-id="' + index + '" name="invoice_id" class="radio" value="' + value.id + '"><label for="id_invoice_id_' + index + '">' + check_proforma(value.proforma) +'Invoice No. : ' + value.invoice_no + '</label><input type="hidden" id="id_tdsdata_invoice_id_' + index + '" class="payment" value="' + value.id + '"></div>');
-
-                                $("#card_header_" + index).append('<div class="card-tools"><button type="button" data-id="' + index + '" class="btn btn-primary save">Save</button ></div >');
-
-                                $("#invoice_list_" + index).append('<div class="card-body" id="card_body_' + index + '"><div class="row">                   <div class="col-4" id="col_description_' + index + '"></div>                                                                <div class="col-2" id="col_base_value_' + index + '"></div>                                                                 <div class="col-2" id="col_gst_amount_' + index + '"></div>                                                                  <div class="col-2" id="col_invoice_amount_' + index + '"></div>                                                              <div class="col-2" id="col_paid_amount_' + index + '"></div></div></div>');
-
-                                $("#col_description_" + index).append('<b>Description</b><br>' + value.description + '</div>');
-
-                                $("#col_base_value_" + index).append('<b>Base Value</b><br><input type="hidden" id="id_tdsdata_basic_value_' + index + '" class="payment" value="' + data.sub_total + '">' + data.sub_total + '');
-
-                                $("#col_gst_amount_" + index).append('<b>GST Amount</b><br><input type="hidden" id="id_tdsdata_gst_amount_' + index + '" class="payment" value="' + (parseFloat(data.cgst) + parseFloat(data.sgst) + parseFloat(data.igst)) + '">' + (parseFloat(data.cgst) + parseFloat(data.sgst) + parseFloat(data.igst)));
-
-                                $("#col_invoice_amount_" + index).append('<b>Invoice Amount</b><br><input type="hidden" id="id_tdsdata_invoice_amount_' + index + '" class="payment" value="' + data.invoice_total + '">' + data.invoice_total + '');
-
-                                $("#col_paid_amount_" + index).append('<b>Paid Amount</b><br>' + data.invoice_total);
-
-                                $("#invoice_list_" + index).append('<div class="card-footer" id="card_footer_' + index + '"><div class="row">                <div class="col-3" id="col_tds_percent_' + index + '"></div>                                                                   <div class="col-2" id="col_allocated_amt_' + index + '"></div>                                                              <div class="col-2" id="col_cheque_utr_no_' + index + '"></div>                                                              <div class="col-2" id="col_utr_file_' + index + '"></div>                                                                    <div class="col-3" id="col_payment_date_' + index + '"></div></div>');
-
-                                $("#col_tds_percent_" + index).append('<label for="id_tdsdata_tds_percent_' + index + '">TDS %</label><div  class="input-group"><input type="number" value="0" class="form-control monitortds payment" id="id_tdsdata_tds_percent_' + index + '" max="100" min="0" data-index="' + index + '"><input type="hidden" id="id_tdsdata_tds_deducted_' + index + '" class="payment" value="' + value.id + '"><div class="input-group-append"><span class="input-group-text" id="pdg_tdsamt' + index + '" data-index="' + index + '">₹ 0.0</span></div></div>');
-
-                                $("#col_allocated_amt_" + index).append('<label for="id_tdsdata_allocated_amt_' + index + '">Received Amount</label><input type="number" id="id_tdsdata_allocated_amt_' + index + '" class="form-control monitorallocated_amt payment" data-index="' + index + '" data-total="' + value.invoice_total + '" value="' + value.invoice_total + '"><input type="hidden" id="id_tdsdata_receivable_amt_' + index + '" class="payment" value="' + value.invoice_total + '"><input type="hidden" id="id_received_amt_' + index + '" class="payment" value="' + value.invoice_total + '"><input type="hidden" id="id_tdsdata_balance_amt_' + index + '" class="payment" value="' + value.invoice_total + '">');
-
-                                $("#col_cheque_utr_no_" + index).append('<label for="id_cheque_utr_no_' + index + '">UTR</label><input data-id="' + index + '" type="text" class="form-control max250 utr payment" id="id_cheque_utr_no_' + index + '">');
-
-                                $("#col_payment_date_" + index).append('<label for="id_payment_date_' + index + '">Payment Date</label><input type="date" class="form-control max250 mb-3 ptdate payment" data-id="' + index + '" id="id_payment_date_' + index + '" max="' + today + '">');
-
-                                $("#col_utr_file_" + index).append('<label for="id_utr_file_' + index + '">Attachment</label><input type="file" accept="application/pdf" id="id_utr_file_' + index + '" class="wrp max150 attach payment" disabled></div>');
-                                if (data.payments) {
-                                    // $.each(data.payments, function (j, value) {
-                                    $("#id_tdsdata_allocated_amt_" + index).val(data.payments.balance_amt);
-                                    if (data.payments.tds_deducted > 0) {
-                                        $("#id_tdsdata_tds_percent_" + index).val(data.payments.tds_percent).attr('readonly', true).trigger('change');
-                                        $("#pdg_tdsamt" + index).val(humanamount(data.payments.tds_deducted));
-                                    }
-                                    $("#id_tdsdata_receivable_amt_" + index).val(data.payments.receivable_amt);
-                                    // });
-                                }
-                            });
-                    });
-                }
-                if (data.payment_completed) {
-                    $("#id_cleared_payments").show();
-                    $("#headid_cleared").show();
-                    // Fill cleared table
-                    $.each(data.payment_completed, function (index, value) {
-                        $("#bodyid_cleared").append('<tr id="clr_row' + index + '"></tr>');
-                        $("#clr_row" + index)
-                            .append('<td id="clr_invoice' + index + '">' + value.invoice_no + '</td>')
-                            .append('<td id="clr_descp' + index + '">' + value.description + '</td>')
-                            .append('<td id="clr_total' + index + '">' + value.invoice_total + '</td>')
-                            .append('<td id="clr_date' + index + '">' + value.payment_date + '</td>')
-                            .append('<td id="clr_utr' + index + '">' + value.cheque_utr_no + '</td>')
-                            .append('<td id="clr_attach' + index + '"><i class="fas fa-paperclip sublist pointer" data-href="' + value.utr_file + '"></i></td>');
-                    });
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert("No orders found against this customer.");
-            });
-    }
+$(function () {
+    $.validator.setDefaults({
+        submitHandler: function () {
+            $("#responsemodal").click();
+        },
+    });
+    $("#quickForm").validate({
+        rules: {
+            group_id: {
+                required: true,
+            },
+            customer_id: {
+                required: true,
+            },
+            order_id: {
+                required: true,
+            },
+            utr_file: {
+                required: true,
+            },
+            cheque_utr_no: {
+                required: true,
+            },
+            received_amt: {
+                required: true,
+            },
+            payment_date: {
+                required: true,
+            },
+        },
+        messages: {
+            group_id: {
+                required: "Select Group ID",
+            },
+            customer_id: {
+                required: "Select Customer.",
+            },
+            order_id: {
+                required: "Select Order PO",
+            },
+            utr_file: {
+                required: "Attach UTR File",
+            },
+            cheque_utr_no: {
+                required: "Please enter cheque or UTR",
+            },
+            received_amt: {
+                required: "Please enter received amount.",
+            },
+            payment_date: {
+                required: "Please enter payment date.",
+            },
+        },
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+            error.addClass("invalid-feedback");
+            element.closest(".form-group").append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass("is-invalid");
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass("is-invalid");
+        },
+    });
 });
-
-$(document).on("change", ".monitorallocated_amt", function () {
-    $("#id_received_amt_" + $(this).data('index')).val($(this).val());
-});
-
-$(document).on("change", ".monitortds", function () {
-    var tds_percent = $(this).val();
-    var invoice_amt = $("#id_tdsdata_basic_value_" + $(this).data('index')).val();
-    $("#pdg_tdsamt" + $(this).data('index')).text(humanamount((invoice_amt * tds_percent / 100).toFixed(2)));
-    $("#id_tdsdata_tds_deducted_" + $(this).data('index')).val((invoice_amt * tds_percent / 100).toFixed(2));
-    $("#id_tdsdata_allocated_amt_" + $(this).data('index')).val($("#id_tdsdata_allocated_amt_" + $(this).data('index')).data('total') - (invoice_amt * tds_percent / 100).toFixed(2));
-    $("#id_tdsdata_receivable_amt_" + $(this).data('index')).val($("#id_tdsdata_allocated_amt_" + $(this).data('index')).data('total') - (invoice_amt * tds_percent / 100).toFixed(2));
-});
-
-$(document).on("click", ".radio", function () {
-    var index = $(this).data('id');
-    var invoice_id = $(this).data('invoice');
-    $(".payment").removeAttr("name");
-    $(".attach").attr("disabled", true);
-    $("#pdg_tdsamt" + index).text(humanamount(0));
-    $("#id_payment_date_" + index).attr("name", "payment_date");
-    $("#id_cheque_utr_no_" + index).attr("name", "cheque_utr_no");
-    $("#id_received_amt_" + index).attr("name", "received_amt");
-    $("#id_utr_file_" + index).removeAttr("disabled").attr("name", "utr_file");
-    $("#id_tdsdata_invoice_id_" + index).attr("name", "tds_data[0][invoice_id]");
-    $("#id_tdsdata_basic_value_" + index).attr("name", "tds_data[0][basic_value]");
-    $("#id_tdsdata_gst_amount_" + index).attr("name", "tds_data[0][gst_amount]");
-    $("#id_tdsdata_invoice_amount_" + index).attr("name", "tds_data[0][invoice_amount]");
-    $("#id_tdsdata_tds_percent_" + index).attr("name", "tds_data[0][tds_percent]").trigger('change');
-    $("#id_tdsdata_tds_deducted_" + index).attr("name", "tds_data[0][tds_deducted]");
-    $("#id_tdsdata_receivable_amt_" + index).attr("name", "tds_data[0][receivable_amt]");
-    $("#id_tdsdata_received_amt_" + index).attr("name", "received_amt");
-    $("#id_tdsdata_allocated_amt_" + index).attr("name", "tds_data[0][allocated_amt]");
-    $("#id_tdsdata_invoice_id_" + index).attr("name", "tds_data[0][invoice_id]");
-    $("#id_tdsdata_balance_amt_" + index).attr("name", "tds_data[0][balance_amt]");
-});
-
-$(document).on("click", ".save", function () {
-    $("#id_cheque_utr_no_" + $(this).data('id') + "-error").remove();
-    if ($("#id_payment_date_" + $(this).data('id')).val() == "") {
-        $("#id_payment_date_" + $(this).data('id')).addClass('is-invalid');
-        $("#col_payment_date_" + $(this).data('id')).append('<span id="' + $("#id_utr" + $(this).data('id')).attr('id') + '-error" class="error invalid-feedback">Please fill the details.</span>');
-        if ($("#id_cheque_utr_no_" + $(this).data('id')).val() == "") {
-            $("#id_cheque_utr_no_" + $(this).data('id')).addClass('is-invalid');
-        }
-    } else if ($("#id_cheque_utr_no_" + $(this).data('id')).val() == "") {
-        $("#id_cheque_utr_no_" + $(this).data('id')).addClass('is-invalid');
-        $("#col_payment_date_" + $(this).data('id')).append('<span id="' + $("#id_utr" + $(this).data('id')).attr('id') + '-error" class="error invalid-feedback">Please enter the UTR No.</span>');
-        if ($("#col_payment_date_" + $(this).data('id')).val() == "") {
-            $("#col_payment_date_" + $(this).data('id')).addClass('is-invalid');
-        }
-    } else {
-        $("#modal_body").empty().append('Are you sure to save this payment details.')
-        $("#modelpdf").trigger('click');
-        $('#modalsubmit').removeAttr('disabled');
-    }
-
-});
-
-
-function check_proforma(val){
-    if(val == 1){
-        return "Performa "
-    } else {
-        return ""
-    }
-}
