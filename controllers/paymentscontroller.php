@@ -11,7 +11,9 @@ class PaymentsController extends Controller
         
         try {
             
-            //$payments = $this->_model->list();
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
             
             $customerPayTbl = new CustomerPaymentsModel();
             $payments = $customerPayTbl->list();
@@ -56,6 +58,9 @@ class PaymentsController extends Controller
                 $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
                 $customerPayments['received_amt'] = $data['received_amt'];
                 $customerPayments['remarks'] = $data['remarks'];
+
+                $customerPayments['user_id'] = $this->_session->get('user_id'); // created by user
+
                 
                 if(!empty($_FILES)){
                     //Get the temp file path

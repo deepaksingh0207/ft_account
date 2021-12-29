@@ -9,20 +9,6 @@
               <div class="card card-default">
                 <div class="card-body">
                   <div class="row">
-                    <!-- <div class="col-sm-12 col-lg-2 form-group">
-                      <label for="id_period"> Period : </label>
-                      <select class="form-control fc ftsm mt-0" name="period" id="id_period">
-                        <option value="1">All</option>
-                        <option value="2">Custom Period</option>
-                        <option value="3">Today</option>
-                        <option value="4">Yesterday</option>
-                        <option value="5">Today</option>
-                        <option value="6">This Week</option>
-                        <option value="7">Last Week</option>
-                        <option value="8">This Month</option>
-                        <option value="9">Last Month</option>
-                      </select>
-                    </div> -->
                     <div class="col-sm-12 col-lg-3">
                       <label for="id_startdate"> Start Date :</label>
                       <input type="date" class="form-control ftsm" name="startdate" id="id_startdate">
@@ -35,7 +21,11 @@
                       <label for="id_customer"> Customer : </label>
                       <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
                         <option>Select Customer</option>
-                        <option value="">Customer A</option>
+                        <?php foreach ($customers as $customer) : ?>
+                    <option value="<?php echo $customer['id'] ?>">
+                      <?php echo $customer['name'] ?>
+                    </option>
+                    <?php endforeach; ?>
                       </select>
                     </div>
                     <div class="col-sm-12 col-lg-3 mt-4">
