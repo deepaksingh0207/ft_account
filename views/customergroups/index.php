@@ -88,11 +88,6 @@
               </div>
               <div class="modal-body p-0">
                 <table class="table mb-0" id="customerbody"></table>
-                <!-- <ul>
-                  <li>
-                    <a href="http://localhost/ft_account/customers/view/1">Aarti Industries Pvt. Ltd</a>
-                  </li> -->
-                </ul>
               </div>
             </div>
           </div>
