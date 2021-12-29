@@ -406,7 +406,7 @@ class InvoicesController extends Controller
         if(!empty($_POST)) {
             $data = $_POST;
             
-            // echo '<pre>'; print_r($data); exit;
+            echo '<pre>'; print_r($data); exit;
             
             $invoice = array();
             $invoiceItems = array();
@@ -533,21 +533,26 @@ class InvoicesController extends Controller
             
             $taxesLayout = '';
             if((int)$invoice['igst']) {
-                $taxesLayout = '<tr class="text-right bb">
-                <td style="text-align: right; width: 100%; font-size: small;">
-                  IGST @ 18% &nbsp; &nbsp;'.number_format($invoice['igst'], 2).'
+                $taxesLayout = '<tr>
+                <td style="text-align: right; width: 85%; font-size: small;">
+                  IGST @ 18%
                 </td>
-              </tr><tr>
+                <td style="text-align: right; width: 15%; font-size: small;">'.number_format($invoice['igst'], 2).'</td>
+              </tr>
+              <tr>
               <td colspan="5" style="padding: 0px">
                 <hr style="padding: 0px; margin: 0px" />
               </td>
             </tr>';
         } else {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 100%;font-size: small;">
-              CGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['cgst'], 2).'
+            <td style="text-align: right; width: 85%;font-size: small;">
+              CGST @ 9%
               <br />
-              SGST @ 9% &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '.number_format($invoice['sgst'], 2).'
+              SGST @ 9%
+            </td>
+            <td style="text-align: right; width: 15%;font-size: small;">
+            '.number_format($invoice['cgst'], 2).'<br>'.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
           <tr>
@@ -564,7 +569,7 @@ class InvoicesController extends Controller
             if($isProformaInvoice) {
                 $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_preview_template.html'), $vars);
             } else {
-                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_preview_template.html'), $vars);
             }
             
             
