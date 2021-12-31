@@ -145,7 +145,7 @@ function payment_row_creator(d) {
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle">' + ra(0) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["invoice_total"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="' + (parseFloat(d["invoice_total"])-500) + '">' + ra(0) + '</td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '"><input type="hidden"  id="id_tds_deducted' + d["id"] + '"><span class="text-info" id="span' + d["id"] + '">' + ra(0) + '</span></td>');
 
@@ -200,13 +200,15 @@ $("#quickForm").on('submit', function (e) {
     $('.checkbox').each(function (i, obj) {
         var ID = $(this).data("index");
         if ($(this).is(':checked')) {
-            $("#id_invoice_id_" + ID).attr("name", "tds_data[" + c + "][invoice_id]");
-            $("#id_basic_value" + ID).attr("name", "tds_data[" + c + "][basic_value]");
-            $("#id_gst_amount" + ID).attr("name", "tds_data[" + c + "][gst_amount]");
-            $("#id_invoice_amount" + ID).attr("name", "tds_data[" + c + "][invoice_amount]");
-            $("#tds" + ID).attr("name", "tds_data[" + c + "][tds_percent]");
-            $("#id_tds_deducted" + ID).attr("name", "tds_data[" + c + "][tds_deducted]");
-            $("#alloc" + ID).attr("name", "tds_data[" + c + "][allocated_amt]");
+            $("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]");
+            $("#id_basic_value" + ID).attr("name", "payment_invoice[" + c + "][basic_value]");
+            $("#id_gst_amount" + ID).attr("name", "payment_invoice[" + c + "][gst_amount]");
+            $("#id_invoice_amount" + ID).attr("name", "payment_invoice[" + c + "][invoice_amount]");
+            $("#tds" + ID).attr("name", "payment_invoice[" + c + "][tds_percent]");
+            $("#id_tds_deducted" + ID).attr("name", "payment_invoice[" + c + "][tds_deducted]");
+            $("#alloc" + ID).attr("name", "payment_invoice[" + c + "][allocated_amt]");
+            $("#id_receivable_amt" + ID).attr("name", "payment_invoice[" + c + "][receivable_amt]");
+            $("#id_balance_amt" + ID).attr("name", "payment_invoice[" + c + "][balance_amt]");
             c++;
         } else {
             $("#row" + ID).removeAttr("name");

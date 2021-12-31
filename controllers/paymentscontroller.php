@@ -28,6 +28,7 @@ class PaymentsController extends Controller
         
     }
     
+    /*
     public function create() {
         try {
 
@@ -119,8 +120,9 @@ class PaymentsController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+    */
 
-    /*public function create() {
+    public function create() {
         try {
             $this->_view->set('title', 'Add Payment');
             
@@ -141,13 +143,14 @@ class PaymentsController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                //echo '<pre>'; print_r($data); exit;
+                // echo '<pre>'; print_r($data); exit;
                 $customerPayments = array();
                 $payments = array();
                 
                 $customerPayments['group_id'] = $data['group_id'];
                 $customerPayments['customer_id'] = $data['customer_id'];
                 $customerPayments['payment_date'] = $data['payment_date'];
+                $customerPayments['order_id'] = $data['order_id'];
                 $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
                 $customerPayments['received_amt'] = $data['received_amt'];
                 $customerPayments['remarks'] = $data['remarks'];
@@ -188,7 +191,7 @@ class PaymentsController extends Controller
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();
         }
-    } */
+    }
     
     
     public function view($id) {
