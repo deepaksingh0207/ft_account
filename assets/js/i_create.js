@@ -183,8 +183,7 @@ function fillsalesperson(id) {
 $(document).on("click", ".generate", function () {
   preview_builder();
   refreshpreview();
-  // preview_modal_body($(this).data("id"), $(this).data("list"));
-  preview_footer($(this).data("id"), $(this).data("list"));
+  preview_footer();
   $("#preview_modal").trigger("click");
 });
 
@@ -385,14 +384,14 @@ function preview_modal_body(index, listname) {
       '<tr><td><input type="hidden" name="order_details[0][order_payterm_id]" value="0"><input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' + od_items[index].id + '"><input type="hidden" name="order_details[0][item]" id="id_item1" value="' + od_items[index].item + '">' + od_items[index].item + '</td><td ><input type="text" class="form-control desp" required name="order_details[0][description]" id="id_descp1" value="' + od_items[index].description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[0][qty]" id="id_qty1" min="1" value="' + remaining_qty + '" data-index="1" data-up="' + od_items[index].unit_price + '" data-uom="' + od_items[index].uom_id + '" max="' + remaining_qty + '"></td><td class="pt-3" >' + get_uom_display(od_items[index].uom_id) + '<input type="hidden" required name="order_details[0][uom_id]" id="id_uom1" value="' + od_items[index].uom_id + '"></td><td class="pt-3"><input type="number" required name="order_details[0][unit_price]" style="width: 10rem;" class="form-control pup" id="id_unitprice1" value="' + od_items[index].unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹0.00</td>   <input type="hidden" required name="order_details[0][total]" id="id_total1" value="0"></tr>'
     );
     // previewlist.push(1);
-    preview_footer(index, listname);
+    preview_footer();
     $(".qty").trigger("change");
     preview_total();
   } else {
     $("#preview_modal_body")
       .empty()
       .append(
-        '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body p-0"> <table class="table"><thead><tr><th>Item</th><th>Description</th>   <th>Qty./Unit</th><th>Unit Price</th><th>	Total Value</th> </tr></thead><tbody id="preview_tbody"></tbody></table></div><div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label><input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div><div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label>    <input type="number" class="form-control numberonly" pattern="[0-9]{7}" minlength="7" maxlength="7" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
+        '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body p-0"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>	Total Value</th> </tr></thead><tbody id="preview_tbody"></tbody></table></div><div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label><input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label><input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div><div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label>    <input type="number" class="form-control numberonly" pattern="[0-9]{7}" minlength="7" maxlength="7" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
       );
     $("#preview_tbody").empty();
 
@@ -402,7 +401,7 @@ function preview_modal_body(index, listname) {
       );
       i += 1;
     });
-    preview_footer(index, listname);
+    preview_footer();
   }
   $("#id_due_date").attr("min", tomorrow);
 }
@@ -653,7 +652,7 @@ function listval(index, list, itemname) {
   }
 }
 
-function preview_footer(val, listname) {
+function preview_footer() {
   var total = 0,
     subtotal = 0,
     cgst_total = 0,
@@ -688,7 +687,7 @@ function preview_footer(val, listname) {
   }
   total = sgst_total + cgst_total + igst_total + subtotal;
   $("#preview_footer").append(
-    '<div class="row text-center"><div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="sub_total" id="previewsubtotal" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
+    '<div class="row text-center"><div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="order_total" class="previewsubtotal" value="' + subtotal.toFixed(2) + '"><input type="hidden" name="sub_total" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
   if (parseInt(gstlist[1]) == 9) {
     $("#previewigst").addClass("col-3");
     $("#sgstclass").show().addClass("col-3");
@@ -755,7 +754,6 @@ function fillinvoice_body() {
 
   // Items that can be invoiced
   items_for_invoicing = [];
-  var v_total = 0
 
   // Table Header
   $("#id_invoiceblock_body").append('<table class="table" id="id_invoicetable"><tr><th><div class="icheck-primary d-inline"> <input type="checkbox" id="inv0"><label for="inv0"></label></div></th><th><div class="icheck-primary d-inline"> <input type="checkbox" id="pro0" ><label for="pro0">Proforma</label></div></th><th>Item</th><th>Description</th><th>Qty./Unit</th><th>Unit Price</th><th>Total Value</th><th class="min110"></th></tr></table>');
@@ -901,7 +899,6 @@ function fillinvoice_body() {
       }
     }
   });
-  $("#id_invoiceblock_body").append('<input type="hidden" name="order_total" value="' + v_total + '">');
 }
 
 $(document).on("click", "#inv0", function () {
