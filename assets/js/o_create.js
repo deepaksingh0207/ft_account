@@ -801,7 +801,7 @@ function order_item_calculator(id) {
           res = nz(b / a).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-            humanamount(res)
+            ra(res)
           );
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
           update_pt_total(id, pid);
@@ -810,7 +810,7 @@ function order_item_calculator(id) {
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
           update_pt_total(id, pid);
           // $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-          //   humanamount(res)
+          //   ra(res)
           // );
           // $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
         }
@@ -831,7 +831,7 @@ function order_item_calculator(id) {
     }
   }
   $("#orderitem_" + id + "_val_6").val(c);
-  // $("#orderitem_" + id + "_txt_6").text(humanamount(c));
+  // $("#orderitem_" + id + "_txt_6").text(ra(c));
   order_calculator(id);
 }
 
@@ -1425,7 +1425,7 @@ function update_pt_total(o, p) {
   }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
-    humanamount(res.toFixed(2))
+    ra(res.toFixed(2))
   );
 }
 

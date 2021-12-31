@@ -531,15 +531,15 @@ function fillorderbody(items) {
   $.each(tree["items"]["ids"], function (i_item, value) {
 
     if ((tree["items"][value]["payment"]["ids"]).length > 0) {
-      $("#orderlist").append('<tr data-widget="expandable-table" aria-expanded="false" id="parent_' + i_item + '"><td class="text-left"><i class="fas fa-caret-right fa-fw"></i>' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + humanamount(tree["items"][value]["unit_price"]) + '</td><td>' + humanamount(tree["items"][value]["total"]) + '</td></tr>');
+      $("#orderlist").append('<tr data-widget="expandable-table" aria-expanded="false" id="parent_' + i_item + '"><td class="text-left"><i class="fas fa-caret-right fa-fw"></i>' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + ra(tree["items"][value]["unit_price"]) + '</td><td>' + ra(tree["items"][value]["total"]) + '</td></tr>');
     } else {
-      $("#orderlist").append('<tr id="parent_' + i_item + '"><td class="text-left">' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + humanamount(tree["items"][value]["unit_price"]) + '</td><td>' + humanamount(tree["items"][value]["total"]) + '</td></tr>');
+      $("#orderlist").append('<tr id="parent_' + i_item + '"><td class="text-left">' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + ra(tree["items"][value]["unit_price"]) + '</td><td>' + ra(tree["items"][value]["total"]) + '</td></tr>');
     }
 
     if ((tree["items"][value]["payment"]["ids"]).length > 0) {
       $("#orderlist").append('<tr class="expandable-body d-none" id="child_1_' + i_item + '"><td colspan="8"><div class="p-0" style="display: none;"><table class="table table-hover m-0"><tbody id="child_1_' + i_item + '_1"><tr><th style="width: 230px" class="text-info">Sr No.</th><th class="text-info">Description</th><th class="text-info"> Qty./Unit </th><th style="width: 165px" class="text-info">Unit Price</th><th style="width: 180px" class="text-info">Total</th></tr></tbody></table></div></td></tr>');
       $.each(tree["items"][value]["payment"]["ids"], function (i_payment, pay) {
-        $("#child_1_" + i_item + "_1").append('<tr><td class="text-info">' + (i_payment + 1) + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["description"] + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["qty"] + '</td><td class="text-info">' + humanamount(tree["items"][value]["payment"][pay]["unit_price"]) + '</td><td class="text-info">' + humanamount(tree["items"][value]["payment"][pay]["total"]) + '</td></tr>');
+        $("#child_1_" + i_item + "_1").append('<tr><td class="text-info">' + (i_payment + 1) + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["description"] + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["qty"] + '</td><td class="text-info">' + ra(tree["items"][value]["payment"][pay]["unit_price"]) + '</td><td class="text-info">' + ra(tree["items"][value]["payment"][pay]["total"]) + '</td></tr>');
       });
     }
   });
@@ -553,13 +553,13 @@ function sgst_details() {
   $("#total_details").removeClass("col-4");
   $("#total_details").addClass("col-3");
   $("#sgst_label").empty().append("<b>SGST ( " + gstlist[1] + ".00% )</b>");
-  $("#sgst_val").text(humanamount(od_order.sgst));
+  $("#sgst_val").text(ra(od_order.sgst));
 }
 
 function cgst_details() {
   $("#cgst_details").show();
   $("#cgst_label").empty().append("<b>CGST ( " + gstlist[2] + ".00% )</b>");
-  $("#cgst_val").text(humanamount(od_order.cgst));
+  $("#cgst_val").text(ra(od_order.cgst));
 }
 
 function igst_details() {
@@ -571,12 +571,12 @@ function igst_details() {
   $("#total_details").removeClass("col-3");
   $("#total_details").addClass("col-4");
   $("#igst_label").empty().append("<b>IGST ( " + gstlist[1] + ".00% )</b>");
-  $("#igst_val").text(humanamount(od_order.igst));
+  $("#igst_val").text(ra(od_order.igst));
 }
 
 function fillorderfooter(subtotal, ordertotal) {
-  $("#ordertotal_txt").text(humanamount(subtotal));
-  $("#total_val").text(humanamount(ordertotal));
+  $("#ordertotal_txt").text(ra(subtotal));
+  $("#total_val").text(ra(ordertotal));
   $("#id_order_total_edit").val(subtotal);
   $("#id_sub_total_edit").val(subtotal);
 }
@@ -612,27 +612,27 @@ function preview_total() {
   $.each(previewList, function (i, id) {
     subtotal += parseFloat($("#id_total" + id).val());
   });
-  $("#preview_subtotal_txt").text(humanamount(subtotal));
+  $("#preview_subtotal_txt").text(ra(subtotal));
   $("#previewsubtotal").val(subtotal);
   if (parseInt(od_order.tax_rate) == 9) {
     gst = subtotal * ($("#preview_sgst_val").data("gst") / 100);
-    $("#preview_sgst_val").text(humanamount(gst));
-    $("#preview_cgst_val").text(humanamount(gst));
+    $("#preview_sgst_val").text(ra(gst));
+    $("#preview_cgst_val").text(ra(gst));
     $("#previewsgst").val(gst);
     $("#previewcgst").val(gst);
     total = subtotal + gst + gst;
   } else {
     gst = subtotal * ($("#preview_igst_val").data("gst") / 100);
-    $("#preview_igst_val").text(humanamount(gst));
+    $("#preview_igst_val").text(ra(gst));
     $("#previewigst").val(gst);
     total = subtotal + gst;
   }
   $("#previewinvoice_total").val((total).toFixed(2));
-  $("#preview_total_val").text(humanamount(total));
+  $("#preview_total_val").text(ra(total));
 }
 
 function previewtotal(index, value) {
-  $("#preview_row_total" + index).text(humanamount(value));
+  $("#preview_row_total" + index).text(ra(value));
   $("#id_total" + index).val(value);
   // preview_total();
 }
@@ -782,8 +782,8 @@ function fillinvoice_body() {
             $("#row0" + itm + ptm + ptmPro).append('<td>' + tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["item"] + '</td>');
             $("#row0" + itm + ptm + ptmPro).append('<td>' + tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["description"] + '</td>');
             $("#row0" + itm + ptm + ptmPro).append('<td>' + tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["qty"] + " / " + get_uom_display(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["uom_id"]) + '</td>');
-            $("#row0" + itm + ptm + ptmPro).append('<td>' + humanamount(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["unit_price"]) + '</td>');
-            $("#row0" + itm + ptm + ptmPro).append('<td>' + humanamount(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["total"]) + '</td>');
+            $("#row0" + itm + ptm + ptmPro).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["unit_price"]) + '</td>');
+            $("#row0" + itm + ptm + ptmPro).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["total"]) + '</td>');
             if ((tree["items"][itm]["payment"][ptm]["invoice"]["ids"]).length > 0) {
               var ptmProInvList = [];
               var linkList = "";
@@ -814,8 +814,8 @@ function fillinvoice_body() {
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["item"] + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["description"] + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["uom_id"]) +'</td>');
-            $("#row" + itm + ptm + ptmInv).append('<td>' + humanamount(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"]) + '</td>');
-            $("#row" + itm + ptm + ptmInv).append('<td>' + humanamount(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"]) + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"]) + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"]) + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"], false) + '.pdf" type="button">Tax Invoice</button></td>');
           });
         }
@@ -833,8 +833,8 @@ function fillinvoice_body() {
           $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].item + '</td>');
           $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].description + '</td>');
           $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].qty + " / " + get_uom_display(tree["items"][itm]["payment"][ptm].uom_id) + '</td>');
-          $("#row" + itm + ptm).append('<td>' + humanamount(tree["items"][itm]["payment"][ptm].unit_price) + '</td>');
-          $("#row" + itm + ptm).append('<td>' + humanamount(tree["items"][itm]["payment"][ptm].total) + '</td>');
+          $("#row" + itm + ptm).append('<td>' + ra(tree["items"][itm]["payment"][ptm].unit_price) + '</td>');
+          $("#row" + itm + ptm).append('<td>' + ra(tree["items"][itm]["payment"][ptm].total) + '</td>');
           if (plock) {
             $("#row" + itm + ptm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '_' + ptm + '" data-id="' + iItm + '" data-list="payments" >Generate <i class="fas fa-chevron-right"></i></button></td>');
             plock = false;
@@ -859,8 +859,8 @@ function fillinvoice_body() {
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["description"] + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["qty"] + ' / '+ get_uom_display(tree["items"][itm]["invoice"][inv]["uom_id"]) +'</td>');
           balQty -= parseInt(tree["items"][itm]["invoice"][inv]["qty"]);
-          $("#row" + iInv + itm + inv).append('<td>' + humanamount(tree["items"][itm]["invoice"][inv]["unit_price"]) + '</td>');
-          $("#row" + iInv + itm + inv).append('<td>' + humanamount(tree["items"][itm]["invoice"][inv]["total"]) + '</td>');
+          $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["unit_price"]) + '</td>');
+          $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"]) + '</td>');
           $("#row" + iInv + itm + inv).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["invoice"][inv]["invoice_id"], false) + '.pdf" type="button">Tax Invoice</button></td>');
         })
       }
@@ -878,8 +878,8 @@ function fillinvoice_body() {
           $("#row" + itm + pro + iPro).append('<td>' + tree["items"][itm]["proforma"][pro]["item"] + '</td>');
           $("#row" + itm + pro + iPro).append('<td>' + tree["items"][itm]["proforma"][pro]["description"] + '</td>');
           $("#row" + itm + pro + iPro).append('<td>' + tree["items"][itm]["proforma"][pro]["qty"] + '</td>');
-          $("#row" + itm + pro + iPro).append('<td>' + humanamount(tree["items"][itm]["proforma"][pro]["unit_price"]) + '</td>');
-          $("#row" + itm + pro + iPro).append('<td>' + humanamount(tree["items"][itm]["proforma"][pro]["total"]) + '</td>');
+          $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["unit_price"]) + '</td>');
+          $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["total"]) + '</td>');
           if ((tree["items"][itm]["invoice"]["ids"]).length == 0) {
             $("#row" + itm + pro + iPro).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf" type="button">Proforma Invoice</button></td>');
           } else {
@@ -895,8 +895,8 @@ function fillinvoice_body() {
         $("#row0" + itm).append('<td>' + tree["items"][itm]["item"] + '</td>');
         $("#row0" + itm).append('<td>' + tree["items"][itm]["description"] + '</td>');
         $("#row0" + itm).append('<td>' + balQty + '</td>');
-        $("#row0" + itm).append('<td>' + humanamount(tree["items"][itm]["unit_price"]) + '</td>');
-        $("#row0" + itm).append('<td>' + humanamount(balQty * tree["items"][itm]["unit_price"]) + '</td>');
+        $("#row0" + itm).append('<td>' + ra(tree["items"][itm]["unit_price"]) + '</td>');
+        $("#row0" + itm).append('<td>' + ra(balQty * tree["items"][itm]["unit_price"]) + '</td>');
         $("#row0" + itm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '" data-id="5" data-list="items">Generate <i class="fas fa-chevron-right"></i></button></td>');
       }
     }
