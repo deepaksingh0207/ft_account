@@ -126,18 +126,18 @@ $(document).on("change", "#id_order_id", function () {
     $("#tbody_pendingpayment").empty();
     $.each(orderList, function (order_index, orderId) {
         $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
-            payment_row_creator(tree[orderId]["pending"][Id]);
+            payment_row_creator(orderId, tree[orderId]["pending"][Id]);
         });
     });
 });
 
 
-function payment_row_creator(d) {
+function payment_row_creator(o, d) {
     $("#tbody_pendingpayment").append('<tr id="' + d["id"] + '"></tr>');
 
     $("#" + d["id"]).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + d["id"] + '" data-index="' + d["id"] + '" class="checkbox" value="' + d["invoice_no"] + '"><label for="id_invoice_id_' + d["id"] + '">' + d["invoice_no"] + '</label></div></td>');
 
-    $("#" + d["id"]).append('<td class="align-middle">' + d["description"] + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + d["id"] + '" value="' + o + '">' + d["description"] + '</td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + d["sub_total"] + '">' + ra(d["sub_total"]) + '</td>');
 
@@ -145,7 +145,7 @@ function payment_row_creator(d) {
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["invoice_total"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="' + (parseFloat(d["invoice_total"])-500) + '">' + ra(0) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["invoice_total"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="' + (parseFloat(d["invoice_total"]) - 500) + '">' + ra(0) + '</td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '"><input type="hidden"  id="id_tds_deducted' + d["id"] + '"><span class="text-info" id="span' + d["id"] + '">' + ra(0) + '</span></td>');
 
@@ -200,6 +200,7 @@ $("#quickForm").on('submit', function (e) {
     $('.checkbox').each(function (i, obj) {
         var ID = $(this).data("index");
         if ($(this).is(':checked')) {
+            $("#id_order_id" + ID).attr("name", "payment_invoice[" + c + "][order_id]");
             $("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]");
             $("#id_basic_value" + ID).attr("name", "payment_invoice[" + c + "][basic_value]");
             $("#id_gst_amount" + ID).attr("name", "payment_invoice[" + c + "][gst_amount]");

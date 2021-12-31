@@ -143,14 +143,13 @@ class PaymentsController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                // echo '<pre>'; print_r($data); exit;
+                echo '<pre>'; print_r($data); exit;
                 $customerPayments = array();
                 $payments = array();
                 
                 $customerPayments['group_id'] = $data['group_id'];
                 $customerPayments['customer_id'] = $data['customer_id'];
                 $customerPayments['payment_date'] = $data['payment_date'];
-                $customerPayments['order_id'] = $data['order_id'];
                 $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
                 $customerPayments['received_amt'] = $data['received_amt'];
                 $customerPayments['remarks'] = $data['remarks'];
@@ -164,6 +163,7 @@ class PaymentsController extends Controller
                         foreach($data['invoice_id'] as $key => $item) {
                             $row = array();
                             $row['customer_payment_id'] = $custPaymentId;
+                            $row['order_id'] = $data['order_id'][$key];
                             $row['invoice_id'] = $data['invoice_id'][$key];
                             $row['basic_value'] = $data['basic_value'][$key];
                             $row['gst_amount'] = $data['gst_amount'][$key];
