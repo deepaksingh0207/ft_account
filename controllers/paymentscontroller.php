@@ -141,9 +141,11 @@ class PaymentsController extends Controller
             
             
             if(!empty($_POST)) {
+
+                $output = array();
                 $data = $_POST;
                 
-                echo '<pre>'; print_r($data); exit;
+                //echo '<pre>'; print_r($data); exit;
                 $customerPayments = array();
                 $payments = array();
                 
@@ -153,26 +155,46 @@ class PaymentsController extends Controller
                 $customerPayments['cheque_utr_no'] = $data['cheque_utr_no'];
                 $customerPayments['received_amt'] = $data['received_amt'];
                 $customerPayments['remarks'] = $data['remarks'];
+                $customerPayments['user_id'] = $this->_session->get('user_id'); // created by user
                 
+                if(!empty($_FILES)){
+                    //Get the temp file path
+                    $tmpFilePath = $_FILES['utr_file']['tmp_name'];
+                    
+                    //Make sure we have a file path
+                    if ($tmpFilePath != ""){
+                        //Setup our new file path
+                        $newFileName = time().'_'. $_FILES['utr_file']['name'];
+                        $newFilePath =  "./utr_file/".$newFileName;
+                        //Upload the file into the temp dir
+                        if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                            $customerPayments['utr_file'] = $newFileName;
+                            
+                        }
+                    }
+                }
+
                 $customerPayTbl = new CustomerPaymentsModel();
                 $custPaymentId = $customerPayTbl->save($customerPayments);
                 
                 
                 if($custPaymentId) {
-                    if(isset($data['invoice_id'])) {
-                        foreach($data['invoice_id'] as $key => $item) {
+                    if(isset($data['payment_invoice'])) {
+                        foreach($data['payment_invoice'] as $item) {
                             $row = array();
                             $row['customer_payment_id'] = $custPaymentId;
-                            $row['order_id'] = $data['order_id'][$key];
-                            $row['invoice_id'] = $data['invoice_id'][$key];
-                            $row['basic_value'] = $data['basic_value'][$key];
-                            $row['gst_amount'] = $data['gst_amount'][$key];
-                            $row['invoice_amount'] = $data['invoice_amount'][$key];
-                            $row['tds_percent'] = $data['tds_percent'][$key];
-                            $row['tds_deducted'] = $data['tds_deducted'][$key];
-                            $row['receivable_amt'] = $data['receivable_amt'][$key];
-                            $row['allocated_amt'] = $data['allocated_amt'][$key];
-                            $row['balance_amt'] = $data['balance_amt'][$key];
+                            $row['order_id'] = $data['order_id'];
+                            $row['invoice_id'] = $item['invoice_id'];
+                            $row['basic_value'] = $item['basic_value'];
+                            $row['gst_amount'] = $item['gst_amount'];
+                            $row['invoice_amount'] = $item['invoice_amount'];
+                            $row['tds_percent'] = $item['tds_percent'];
+                            $row['tds_deducted'] = $item['tds_deducted'];
+                            $row['receivable_amt'] = $item['receivable_amt'];
+                            $row['allocated_amt'] = $item['allocated_amt'];
+                            $row['balance_amt'] = $item['balance_amt'];
+                            $row['user_id'] = $this->_session->get('user_id'); // created by user
+
                             //$payments[] = $row;
                             $this->_model->save($row);
                         }
@@ -180,11 +202,17 @@ class PaymentsController extends Controller
                     
                     
                     $_SESSION['message'] = 'Payment added successfully';
-                    header("location:". ROOT. "payments");
+                    $output['status'] = 1;
+                    $output['message'] = 'Payment added successfully';
+                    //header("location:". ROOT. "payments");
                     
                 } else {
-                    $_SESSION['error'] = 'Fail to add payment';
+                    //$_SESSION['error'] = 'Fail to add payment';
+                    $output['status'] = 0;
+                    $output['message'] = 'Fail to add payment';
                 }
+
+                echo json_encode($output); exit;
             }
             return $this->_view->output();
             

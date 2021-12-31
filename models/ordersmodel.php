@@ -155,14 +155,8 @@ having ordertotal > payments";
     }
 
     public function getPaymentDoneInvoices($orderId) {
-        /*$sql = "select  DISTINCT customer_payments.id, invoice_no, CONCAT_WS('', payment_description, invoice_items.description) description, invoice_total,payment_date,cheque_utr_no, utr_file
-        from 
-       customer_payments
-       join invoices  on (invoices.id = customer_payments.invoice_id) 
-       left join invoice_items on (invoice_items.invoice_id = invoices.id)
-       where customer_payments.order_id=?";
-       */
-      $sql = "select  DISTINCT customer_payments.id, invoice_no, CONCAT_WS('', payment_description, invoice_items.description) description, received_amt as invoice_total,
+        
+      /*$sql = "select  DISTINCT customer_payments.id, invoice_no, CONCAT_WS('', payment_description, invoice_items.description) description, received_amt as invoice_total,
       payment_date,cheque_utr_no, utr_file
       from customer_payments
       join invoices  on (invoices.id = customer_payments.invoice_id) 
@@ -172,7 +166,15 @@ having ordertotal > payments";
   FROM invoice_items 
   LIMIT 1
 ) invoice_items ON invoice_items.invoice_id = invoices.id and invoices.status = 1
-      where customer_payments.order_id=?";
+      where customer_payments.order_id=?"; */
+
+      $sql = "select  invoice_no, invoice_items.description description, payments.*
+      
+      from payments
+      join invoices  on (invoices.id = payments.invoice_id) 
+      left join invoice_items on (invoice_items.invoice_id = invoices.id)
+      where payments.order_id=?";
+
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId));
 
@@ -183,13 +185,13 @@ having ordertotal > payments";
     }
 
     public function getPendingInvoices($orderId) {
-        /*$sql = "select DISTINCT invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total from 
+        $sql = "select DISTINCT invoices.*, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total from 
         invoices 
         left join invoice_items on (invoice_items.invoice_id = invoices.id)
-        where order_id=? and invoices.id NOT IN ( select invoice_id from customer_payments where order_id=? )";
-        */
+        where order_id=? and invoices.id NOT IN ( select invoice_id from payments where order_id=? )";
+        
 
-        $sql = "select DISTINCT invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , (invoice_total - (select IF(sum(received_amt) IS NULL,0, sum(received_amt))  from customer_payments where order_id=? and invoice_id = invoices.id)) as invoice_total
+        /*$sql = "select DISTINCT invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , (invoice_total - (select IF(sum(received_amt) IS NULL,0, sum(received_amt))  from customer_payments where order_id=? and invoice_id = invoices.id)) as invoice_total
         from invoices 
         LEFT JOIN (
   SELECT
@@ -199,8 +201,10 @@ having ordertotal > payments";
 ) invoice_items ON invoice_items.invoice_id = invoices.id
         where order_id=? and status = 1 and invoices.invoice_total != (select IF(sum(received_amt) IS NULL,0, sum(received_amt)) from customer_payments where order_id=? and invoice_id = invoice_items.invoice_id )";
 
+        */
+
         $this->_setSql($sql);
-        $data = $this->getAll(array($orderId, $orderId, $orderId));
+        $data = $this->getAll(array($orderId, $orderId));
 
         if (empty($data)){
             return false;
