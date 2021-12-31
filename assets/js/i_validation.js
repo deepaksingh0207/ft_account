@@ -104,7 +104,7 @@ $(function () {
 });
 
 $(document).on("keyup", "#id_invoice_no", function (event) {
-  if ($(this).val() > 9999999) {
+  if (($(this).val()).length > 7) {
     event.preventDefault();
     return $(this).val($(this).val().substring(0, 7));
   }
