@@ -135,7 +135,7 @@ $(document).on("change", "#id_order_id", function () {
 function payment_row_creator(o, d) {
     $("#tbody_pendingpayment").append('<tr id="' + d["id"] + '"></tr>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + d["id"] + '" data-index="' + d["id"] + '" class="checkbox" value="' + d["invoice_no"] + '"><label for="id_invoice_id_' + d["id"] + '">' + d["invoice_no"] + '</label></div></td>');
+    $("#" + d["id"]).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + d["id"] + '" data-index="' + d["id"] + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + d["id"] + '">' + d["invoice_no"] + '</label></div></td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + d["id"] + '" value="' + o + '">' + d["description"] + '</td>');
 
