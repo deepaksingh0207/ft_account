@@ -12,6 +12,7 @@ $(function () {
 });
 
 $(document).on("change", "#id_group_id", function () {
+    reset_customer();
     if ($(this).val()) {
         $.ajax({
             type: "POST",
@@ -31,11 +32,13 @@ $(document).on("change", "#id_group_id", function () {
             .fail(function (jqXHR, textStatus, errorThrown) {
                 plog(jqXHR, textStatus, errorThrown);
             });
-    } else { reset_customer(); }
+    }
 });
 
 function reset_customer() {
     $("#id_customerid").val("").empty();
+    tree = { "index": [] }
+    
     reset_order();
 }
 
@@ -83,17 +86,28 @@ function get_orderstatus(po_id, po_no) {
     })
         .done(function (resp) {
             dlog(po_no, resp);
+            tree[po_id] = {}
+            tree[po_id]["pending"] = { "index": [] }
+            if (tree.hasOwnProperty("cleared") == false) {
+                tree["cleared"] = { "index": [] }
+            }
+            if (resp.payment_completed) {
+                $.each(resp.payment_completed, function (i_cleared, value) {
+                    if (tree["cleared"].hasOwnProperty(value.cheque_utr_no) == false) {
+                        tree["cleared"][value.cheque_utr_no] = [];
+                    }
+                    console.log(tree);
+                    tree["cleared"][value.cheque_utr_no].push(value);
+                    console.log(tree);
+                    tree["cleared"]["index"].push(value.cheque_utr_no);
+                });
+            }
+            fill_cleared_payment()
             if (resp.payment_pending) {
-                tree[po_id] = {}
-                tree[po_id]["pending"] = { "index": [] }
                 $.each(resp.payment_pending, function (i_pending, value) {
-                    get_invoicedetails(po_id, value.id)
+                    // get_invoicedetails(po_id, value.id)
                     tree[po_id]["pending"][value.id] = value;
                     tree[po_id]["pending"]["index"].push(value.id);
-                });
-                $.each(resp.payment_completed, function (i_cleared, value) {
-                    tree[po_id]["cleared"][value.id] = value;
-                    tree[po_id]["cleared"]["index"].push(value.id);
                 });
                 $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
                 tree["index"].push(po_id);
@@ -145,26 +159,27 @@ function payment_row_creator(o, d) {
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["invoice_total"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="' + (parseFloat(d["invoice_total"]) - 500) + '">' + ra(0) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="0">' + ra(d["invoice_total"] - d["tds_deducted"] - d["balance"]) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-index="' + d["id"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '" value="' + d["tds_percent"] + '" ' + freezetds(d["tds_deducted"]) + '><input type="hidden"  id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '"><input type="hidden"  id="id_tds_deducted' + d["id"] + '"><span class="text-info" id="span' + d["id"] + '">' + ra(0) + '</span></td>');
-
-    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '"></td>');
+    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"]).toFixed(2) + '" value="' + parseFloat(d["balance"]).toFixed(2) + '"><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"]).toFixed(2) + '</span></td>');
 }
 
 $(document).on("change", ".allcate", function () {
-    var orderList = $("#id_order_id").val();
-    var receivedamt = 0
-    $.each(orderList, function (order_index, orderId) {
-        $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
-            var d = tree[orderId]["pending"][Id]
-            if ($("#id_invoice_id_" + d["id"]).is(':checked')) {
-                receivedamt += parseFloat($("#alloc" + d["id"]).val());
-            }
-        });
-    });
-    $("#id_received_amt").val(receivedamt).removeClass('is-invalid');
-
+    var index = $(this).data('index');
+    var invoicetotal = parseFloat($(this).data('total'));
+    $("#id_balance_amt" + index).val(invoicetotal - parseFloat($(this).val()))
+    //     var orderList = $("#id_order_id").val();
+    //     var receivedamt = 0
+    //     $.each(orderList, function (order_index, orderId) {
+    //         $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
+    //             var d = tree[orderId]["pending"][Id]
+    //             if ($("#id_invoice_id_" + d["id"]).is(':checked')) {
+    //                 receivedamt += parseFloat($("#alloc" + d["id"]).val());
+    //             }
+    //         });
+    //     });
+    //     $("#id_received_amt").val(receivedamt).removeClass('is-invalid');
 });
 
 $(document).on("change", ".rvdamt", function () {
@@ -188,10 +203,13 @@ $(document).on("change", ".rvdamt", function () {
 $(document).on("change", ".tdscontrol", function () {
     var spanid = $(this).data("span");
     var tdsamt = $(this).data("tdsamt");
-    var basreval = parseFloat($(this).data("base"));
-    var ttl = basreval * parseFloat($(this).val()) / 100;
+    var index = $(this).data("index");
+    var baseval = parseFloat($(this).data("base"));
+    var receiveableval = parseFloat($("#id_receivable_amt" + index).val());
+    var ttl = baseval * parseFloat($(this).val()) / 100;
     $("#" + spanid).text(ra(ttl));
     $("#" + tdsamt).val(ttl);
+    $("#alloc" + index).val(receiveableval - ttl).attr("max", receiveableval - ttl);
 });
 
 $("#quickForm").on('submit', function (e) {
@@ -304,4 +322,72 @@ $(function () {
             $(element).removeClass("is-invalid");
         },
     });
+});
+
+function freezetds(val) {
+    if (val > 0) {
+        return "readonly"
+    }
+    return ""
+}
+
+function fill_cleared_payment() {
+    $.each(tree["cleared"]["index"], function (i_clear, clear) {
+        $("#tbody_clearedpayment").empty().append('<tr id="parent' + clear + '" data-widget="expandable-table" aria-expanded="false"></tr>');
+        $("#parent" + clear).append('<td><i class="fas fa-caret-right fa-fw"></i>' + tree["cleared"][clear][0]["payment_date"] + '</td>');
+        $("#parent" + clear).append('<td>' + tree["cleared"][clear][0]["received_amt"] + '</td>');
+        $("#parent" + clear).append('<td>' + tree["cleared"][clear][0]["cheque_utr_no"] + '</td>');
+        $("#parent" + clear).append('<td><a data-href="' + baseUrl + 'utr_file/' + tree["cleared"][clear][0]["utr_file"] + '" class="pdf">' + tree["cleared"][clear][0]["utr_file"] + '</a></td>');
+        $("#tbody_clearedpayment").append('<tr class="expandable-body d-none"><td colspan="4"><div class="p-0" ><table class="table table-hover m-0" style="width: 100%;"><thead><tr><th class="text-info">Invoice No.</th><th class="text-info">Base</th><th class="text-info">GST</th><th class="text-info">Invoice</th><th class="text-info">TDS %</th><th class="text-info">Allocated Amount</th></tr></thead><tbody id="child' + clear + '"><tbody></table></div></td></tr>');
+        $.each(tree["cleared"][clear], function (i_clearpay, clearpay) {
+            $("#child" + clear).append('<tr data-widget="expandable-table" aria-expanded="false"><td class="text-info">' + tree["cleared"][clear][i_clearpay]["invoice_no"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["basic_value"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["gst_amount"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["invoice_amount"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["tds_percent"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["allocated_amt"] + '</td></tr>');
+        });
+    });
+}
+
+$(document).on("change", "#id_cheque_utr_no", function () {
+    mydata = { cheque_utr_no: $(this).val() };
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "payments/utr_validty/",
+        data: mydata,
+        dataType: "json",
+        encode: true,
+    })
+        .done(function (data) {
+            if (data == false) {
+                $(".say").remove();
+                $("#id_cheque_utr_no")
+                    .addClass("is-invalid")
+                    .parent()
+                    .append(
+                        '<span id="id_po_no-error" class="say error invalid-feedback">UTR exist.</span>'
+                    );
+            } else {
+
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            dlog(jqXHR, textStatus, errorThrown);
+        });
+});
+
+$(document).on("click", ".pdf", function () {
+    url = $(this).data("href");
+    error =
+        '<div class="error-page"><h2 class="headline text-warning"> 404</h2> <div class="error-content pt-4"> <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Invoice not found.</h3><p>We could not find the invoice you were looking for.</p> </div></div>';
+    $.get(url)
+        .done(function (responseText) {
+            $("#modal_body")
+                .empty()
+                .append(
+                    '<embed src="' +
+                    url +
+                    '" type="application/pdf" style="width: 100%; height: 513px;">'
+                );
+        })
+        .fail(function () {
+            $("#modal_body").empty().append(error);
+        });
+    $("#modelpdf").click();
 });

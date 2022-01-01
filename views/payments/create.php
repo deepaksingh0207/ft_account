@@ -52,46 +52,49 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="col-sm-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label for="id_received_amt">Received Amount</label>
+                                            <input type="number" name="received_amt" id="id_received_amt"
+                                                class="form-control rvdamt">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label for="id_cheque_utr_no">UTR</label>
+                                            <input type="text" name="cheque_utr_no" id="id_cheque_utr_no"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-3">
+                                        <div class="form-group m-0">
+                                            <label for="customFile">Attachment</label>
+                                            <div class="custom-file">
+                                                <input type="file" name="utr_file" id="id_utr_file"
+                                                    class="custom-file-input" id="customFile">
+                                                <label class="custom-file-label" for="customFile"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-3">
+                                        <div class="form-group m-0">
+                                            <label for="id_payment_date">Payment Date</label>
+                                            <input type="date" name="payment_date" id="id_payment_date"
+                                                class="form-control">
+                                        </div>
+                                    </div>
                                     <div class="col-sm-12 col-lg-12 mb-3">
                                         <label for="id_remarks"></label>
                                         <textarea name="remarks" class="form-control" id="id_remarks" rows="1"
                                             placeholder="Remarks"></textarea>
                                     </div>
                                     <div class="col-sm-12 col-lg-12">
-                                        <div class="card" id="id_clearedpayments" style="display:none;">
-                                            <div class="card-header">
-                                                <h5 class="card-title">CLEARED PAYMENTS</h5>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool"></button>
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="collapse" data-toggle="tooltip"
-                                                        data-placement="top" title="Expand/Collapse">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="card-body p-0">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Payment Date</th>
-                                                            <th>Received Amount</th>
-                                                            <th>UTR</th>
-                                                            <th>Attachment</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tbody_clearedpayment">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-lg-12">
                                         <div class="card" id="id_pendingpayments" style="display:none;">
                                             <div class="card-header">
                                                 <h5 class="card-title">PENDING PAYMENTS</h5>
                                                 <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool"
+                                                    <button type="button" class="btn btn-tool pt-3"
                                                         data-card-widget="collapse" data-toggle="tooltip"
                                                         data-placement="top" title="Expand/Collapse">
                                                         <i class="fas fa-minus"></i>
@@ -130,41 +133,36 @@
                                                     <tbody id="tbody_pendingpayment"></tbody>
                                                 </table>
                                             </div>
-                                            <div class="card-footer">
-                                                <div class="row">
-                                                    <div class="col-3">
-                                                        <div class="form-group">
-                                                            <label for="id_received_amt">Received Amount</label>
-                                                            <input type="number" name="received_amt"
-                                                                id="id_received_amt" class="form-control rvdamt">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-group">
-                                                            <label for="id_cheque_utr_no">UTR</label>
-                                                            <input type="text" name="cheque_utr_no"
-                                                                id="id_cheque_utr_no" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-group m-0">
-                                                            <label for="customFile">Attachment</label>
-                                                            <div class="custom-file">
-                                                                <input type="file" name="utr_file" id="id_utr_file"
-                                                                    class="custom-file-input" id="customFile">
-                                                                <label class="custom-file-label"
-                                                                    for="customFile"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-group m-0">
-                                                            <label for="id_payment_date">Payment Date</label>
-                                                            <input type="date" name="payment_date" id="id_payment_date"
-                                                                class="form-control">
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-lg-12">
+                                        <div class="card" id="id_clearedpayments" style="display:none;">
+                                            <div class="card-header">
+                                                <h5 class="card-title">CLEARED PAYMENTS</h5>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool"></button>
+                                                    <button type="button" class="btn btn-tool"
+                                                        data-card-widget="collapse" data-toggle="tooltip"
+                                                        data-placement="top" title="Expand/Collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
                                                 </div>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Payment Date</th>
+                                                            <th>Received Amount</th>
+                                                            <th>UTR</th>
+                                                            <th>Attachment</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody_clearedpayment">
+                                                    <tbody>
+                                                    </tbody>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -184,45 +182,22 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="modelpdf" style="display: none;" data-toggle="modal"
-                            data-target="#pdfmodal"></button>
-                        <div class="modal fade" id="pdfmodal">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header" id="modal_header">
-                                        Confirm Payments
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body" id="modal_body"></div>
-                                    <div class="modal-footer" id="modal_footer">
-                                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"
-                                            id="modalclose">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-success btn-sm" id="modalsubmit">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </section>
         </div>
-        <button type="button" id="modelutr" style="display: none;" data-toggle="modal" data-target="#utrmodal"></button>
-        <div class="modal fade" id="utrmodal">
+        <button type="button" id="modelpdf" style="display: none" data-toggle="modal"
+                  data-target="#pdfmodal"></button>
+        <div class="modal fade" id="pdfmodal">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                    <div class="modal-header" id="utr_header">
-                        Payment Attchment
+                    <div class="modal-header" id="modal_header">
+                        UTR Attachment
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body" id="utr_body"></div>
+                    <div class="modal-body p-0" id="modal_body"></div>
                 </div>
             </div>
         </div>

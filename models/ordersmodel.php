@@ -168,12 +168,10 @@ having ordertotal > payments";
 ) invoice_items ON invoice_items.invoice_id = invoices.id and invoices.status = 1
       where customer_payments.order_id=?"; */
 
-      $sql = "select  invoice_no, invoice_items.description description, payments.*
-      
-      from payments
-      join invoices  on (invoices.id = payments.invoice_id) 
-      left join invoice_items on (invoice_items.invoice_id = invoices.id)
-      where payments.order_id=?";
+      $sql = "select cp.payment_date, cp.cheque_utr_no, cp.received_amt, cp.utr_file, pt.basic_value, pt.gst_amount, pt.invoice_amount, tds_percent, PT.allocated_amt, inv.invoice_no, inv.id  from customer_payments as cp
+      inner join payments as pt on cp.id = pt.customer_payment_id
+      inner join invoices as inv on inv.id = pt.invoice_id
+      where pt.order_id=?";
 
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId));
@@ -185,12 +183,14 @@ having ordertotal > payments";
     }
 
     public function getPendingInvoices($orderId) {
-        $sql = "select DISTINCT invoices.*, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total from 
+        /*$sql = "select DISTINCT invoices.*, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total from 
         invoices 
         left join invoice_items on (invoice_items.invoice_id = invoices.id)
-        where order_id=? and invoices.id NOT IN ( select invoice_id from payments where order_id=? )";
-        
+        where order_id=? and invoices.id NOT IN ( select invoice_id from payments where order_id=? )";*/
 
+        $sql = "select DISTINCT invoices.*, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total, IFNULL(max(payments.tds_deducted),0) as tds_deducted, IFNULL(max(payments.tds_percent),0) as tds_percent, invoices.invoice_total - IFNULL(sum(payments.allocated_amt),0) - IFNULL(tds_deducted, 0) as balance from invoices left outer join invoice_items on (invoice_items.invoice_id = invoices.id) left join payments on (payments.invoice_id = invoices.id) where invoices.order_id=? and 
+        invoices.id NOT IN ( select invoice_id from payments where balance_amt <= tds_deducted and order_id=? ) group by invoices.id";
+        
         /*$sql = "select DISTINCT invoices.id, invoice_no, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , (invoice_total - (select IF(sum(received_amt) IS NULL,0, sum(received_amt))  from customer_payments where order_id=? and invoice_id = invoices.id)) as invoice_total
         from invoices 
         LEFT JOIN (
