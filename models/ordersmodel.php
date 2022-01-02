@@ -192,7 +192,7 @@ having ordertotal > payments";
         invoices.id NOT IN ( select invoice_id from payments where balance_amt <= tds_deducted and order_id=? ) group by invoices.id";
         */
         
-        $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IF(sum(allocated_amt) IS NULL,0, sum(allocated_amt))  from payments where order_id=? and invoice_id = invoices.id)) as invoice_total
+        $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IF(sum(allocated_amt) IS NULL,0, sum(allocated_amt))  from payments where order_id=? and invoice_id = invoices.id)) as invoice_balance
         from invoices 
         left join invoice_items on (invoice_items.invoice_id = invoices.id)
         where order_id=? and status = 1 and invoices.invoice_total != (select IF(sum(allocated_amt) IS NULL,0, sum(allocated_amt)) from payments where order_id=? and invoice_id = invoice_items.invoice_id );";
