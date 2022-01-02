@@ -57,7 +57,32 @@
                       <?php if (is_array($invoices) || is_object($invoices)) : ?>
                       <?php foreach ($invoices as $invoice) : ?>
                       <tr data-href="<?php echo ROOT; ?>invoices/view/<?php echo $invoice['invoice_id'] ?>">
-                        <td class="align-middle text-center">
+                        <?php if ($invoice['balance_amount'] == 0) : ?>
+                        <td class="align-middle text-center text-success">
+                          <?php echo $invoice['customer_name'] ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success">
+                          <?php echo $invoice['invoice_no'] ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success">
+                          <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success">
+                          <?php echo $invoice['invoice_amount'] ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success">
+                          <?php echo $invoice['recieved_amount'] ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success">
+                          <?php echo $invoice['balance_amount'] ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success"
+                          id="due<?php echo $invoice['invoice_id'] ?>">
+                          <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
+                        </td>
+                        <td id="age<?php echo $invoice['invoice_id'] ?>" class="text-success"></td>
+                        <?php else :  ?>
+                          <td class="align-middle text-center">
                           <?php echo $invoice['customer_name'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center">
@@ -80,6 +105,7 @@
                           <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
                         </td>
                         <td id="age<?php echo $invoice['invoice_id'] ?>"></td>
+                        <?php endif; ?>
                       </tr>
                       <?php endforeach; ?>
                       <?php endif; ?>

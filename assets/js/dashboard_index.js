@@ -15,6 +15,12 @@ $(function () {
         }
     });
     $(".select2").select2();
+    $(document).ready( function () {
+        $('#example1').DataTable({
+            "ordering": false,
+            "searching": false,
+        });
+    } );
     // fill_datatable();
 });
 
