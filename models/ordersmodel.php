@@ -192,16 +192,10 @@ having ordertotal > payments";
         invoices.id NOT IN ( select invoice_id from payments where balance_amt <= tds_deducted and order_id=? ) group by invoices.id";
         */
         
-        $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IF(sum(allocated_amt) IS NULL,0, sum(allocated_amt))  from payments where order_id=? and invoice_id = invoices.id)) as invoice_balance
-        from invoices 
-        left join invoice_items on (invoice_items.invoice_id = invoices.id)
-        where order_id=? and status = 1 and invoices.invoice_total != (select IF(sum(allocated_amt) IS NULL,0, sum(allocated_amt)) from payments where order_id=? and invoice_id = invoice_items.invoice_id );";
-
-        
+        $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IFNULL(sum(allocated_amt),0)  from payments where order_id=? and invoice_id = invoices.id)) as balance, (select IFNULL(max(tds_deducted),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_deducted, (select IFNULL(max(tds_percent),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_percent from invoices LEFT JOIN (SELECT * FROM invoice_items LIMIT 1) invoice_items ON invoice_items.invoice_id = invoices.id where order_id=? and status = 1 and invoices.invoice_total != (select IFNULL(sum(received_amt),0) from customer_payments where order_id=? and invoice_id = invoice_items.invoice_id );";
 
         $this->_setSql($sql);
-        $data = $this->getAll(array($orderId, $orderId, $orderId));
-
+        $data = $this->getAll(array($orderId, $orderId, $orderId, $orderId, $orderId));
         if (empty($data)){
             return false;
         }

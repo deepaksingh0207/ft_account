@@ -110,7 +110,6 @@ function get_orderstatus(po_id, po_no) {
                     tree[po_id]["pending"]["index"].push(value.id);
                 });
                 $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
-                tree["index"].push(po_id);
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -159,10 +158,10 @@ function payment_row_creator(o, d) {
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="0">' + ra(d["invoice_total"] - d["tds_deducted"] - d["balance"]) + '</td>');
-    $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-index="' + d["id"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '" value="' + d["tds_percent"] + '" ' + freezetds(d["tds_deducted"]) + '><input type="hidden"  id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="0">' + ra(d["invoice_total"] - d["balance"]) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="number" id="tds' + d["id"] + '" max="100" min="0" data-base="' + d["sub_total"] + '" data-index="' + d["id"] + '" data-span="span' + d["id"] + '" class="form-control form-control-sm tdscontrol row' + d["id"] + '" data-tdsamt="id_tds_deducted' + d["id"] + '" value="' + d["tds_percent"] + '" ' + freezetds(d["tds_deducted"]) + '><input type="hidden" value="' + d["tds_deducted"] + '" id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
 
-    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"]).toFixed(2) + '" value="' + parseFloat(d["balance"]).toFixed(2) + '"><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"]).toFixed(2) + '</span></td>');
+    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"]).toFixed(2) + '" value="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '"><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
 }
 
 $(document).on("change", ".allcate", function () {
@@ -206,7 +205,11 @@ $(document).on("change", ".tdscontrol", function () {
     var index = $(this).data("index");
     var baseval = parseFloat($(this).data("base"));
     var receiveableval = parseFloat($("#id_receivable_amt" + index).val());
-    var ttl = baseval * parseFloat($(this).val()) / 100;
+    if($(this).val()){
+        var ttl = baseval * parseFloat($(this).val()) / 100;
+    } else {
+        var ttl = 0;
+    }
     $("#" + spanid).text(ra(ttl));
     $("#" + tdsamt).val(ttl);
     $("#alloc" + index).val(receiveableval - ttl).attr("max", receiveableval - ttl);
@@ -215,9 +218,11 @@ $(document).on("change", ".tdscontrol", function () {
 $("#quickForm").on('submit', function (e) {
     e.preventDefault();
     var c = 0
+    var gatepass = false
     $('.checkbox').each(function (i, obj) {
         var ID = $(this).data("index");
         if ($(this).is(':checked')) {
+            gatepass = true
             $("#id_order_id" + ID).attr("name", "payment_invoice[" + c + "][order_id]");
             $("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]");
             $("#id_basic_value" + ID).attr("name", "payment_invoice[" + c + "][basic_value]");
@@ -233,28 +238,32 @@ $("#quickForm").on('submit', function (e) {
             $("#row" + ID).removeAttr("name");
         }
     });
-    $.ajax({
-        type: 'POST',
-        url: baseUrl + "payments/create",
-        data: new FormData(this),
-        dataType: 'json',
-        contentType: false,
-        cache: false,
-        processData: false,
-        beforeSend: function () {
-            $('#modalsubmit').attr("disabled", "disabled");
-        },
-        success: function (response) {
-            if (response.status == 1) {
-                location.reload();
-            } else {
-                alert('Submit Failed.<br>Please try again by clicking "Submit".');
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+    if (gatepass){
+        $.ajax({
+            type: 'POST',
+            url: baseUrl + "payments/create",
+            data: new FormData(this),
+            dataType: 'json',
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                $('#modalsubmit').attr("disabled", "disabled");
+            },
+            success: function (response) {
+                if (response.status == 1) {
+                    location.reload();
+                } else {
+                    alert('Submit Failed.<br>Please try again by clicking "Submit".');
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    } else {
+        alert('Tick Invoice for payment');
+    }
 });
 
 $(function () {
@@ -332,8 +341,10 @@ function freezetds(val) {
 }
 
 function fill_cleared_payment() {
+    if ((tree["cleared"]["index"]).length > 0){
+    $("#tbody_clearedpayment").empty()
     $.each(tree["cleared"]["index"], function (i_clear, clear) {
-        $("#tbody_clearedpayment").empty().append('<tr id="parent' + clear + '" data-widget="expandable-table" aria-expanded="false"></tr>');
+        $("#tbody_clearedpayment").append('<tr id="parent' + clear + '" data-widget="expandable-table" aria-expanded="false"></tr>');
         $("#parent" + clear).append('<td><i class="fas fa-caret-right fa-fw"></i>' + tree["cleared"][clear][0]["payment_date"] + '</td>');
         $("#parent" + clear).append('<td>' + tree["cleared"][clear][0]["received_amt"] + '</td>');
         $("#parent" + clear).append('<td>' + tree["cleared"][clear][0]["cheque_utr_no"] + '</td>');
@@ -343,6 +354,7 @@ function fill_cleared_payment() {
             $("#child" + clear).append('<tr data-widget="expandable-table" aria-expanded="false"><td class="text-info">' + tree["cleared"][clear][i_clearpay]["invoice_no"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["basic_value"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["gst_amount"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["invoice_amount"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["tds_percent"] + '</td><td class="text-info">' + tree["cleared"][clear][i_clearpay]["allocated_amt"] + '</td></tr>');
         });
     });
+}
 }
 
 $(document).on("change", "#id_cheque_utr_no", function () {
