@@ -44,6 +44,14 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-sm-12 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="id_order_id">Customer PO No.</label>
+                                            <select class="select2" multiple="multiple" name="order_id" id="id_order_id"
+                                                data-placeholder="" style="width: 100%;">
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-12 col-lg-3">
                                         <div class="form-group m-0">
                                             <label for="id_payment_date">Payment Date</label>
@@ -58,31 +66,20 @@
                                                 class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-lg-4">
+                                    <div class="col-sm-12 col-lg-3">
                                         <div class="form-group">
                                             <label for="id_received_amt">Received Amount</label>
                                             <input type="number" name="received_amt" id="id_received_amt"
                                                 class="form-control rvdamt">
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-lg-4">
-                                        <div class="form-group mt-2">
-                                            <b>Attachment</b>
-                                            <div class="custom-file">
-                                                <input type="file" name="utr_file" id="id_utr_file" placeholder="asdasd"
-                                                    class="custom-file-input">
-                                                <label class="custom-file-label" for="id_utr_file"></label>
+                                    <div class="col-sm-12 col-lg-3">
+                                        <div class="form-group">
+                                            <label for="id_utr_file">Attachment</label>
+                                            <input type="file" name="utr_file" id="id_utr_file">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-12 col-lg-4">
-                                        <div class="form-group">
-                                            <label for="id_order_id">Customer PO No.</label>
-                                            <select class="select2" multiple="multiple" name="order_id" id="id_order_id"
-                                                data-placeholder="" style="width: 100%;">
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
                                 <div class="col-sm-12 col-lg-12 mb-3">
                                         <label for="id_remarks"></label>
                                         <textarea name="remarks" class="form-control" id="id_remarks" rows="1"
@@ -136,7 +133,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-lg-12">
-                                        <div class="card" id="id_clearedpayments" style="display:none;">
+                                        <div class="card" id="id_clearedpayments" style="display:block;">
                                             <div class="card-header">
                                                 <h5 class="card-title">CLEARED PAYMENTS</h5>
                                                 <div class="card-tools">
