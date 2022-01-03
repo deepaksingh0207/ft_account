@@ -87,6 +87,7 @@
                           <table class="table">
                             <thead>
                               <tr>
+                               <th>Invoice no.</th>
                                 <th>TDS Percent</th>
                                 <th>TDS Deducted</th>
                                 <th>Receivable Amount</th>
@@ -98,6 +99,9 @@
                               <?php if (is_array($invoicePayment) || is_object($invoicePayment)) : ?>
                               <?php foreach($invoicePayment as $row) : ?>
                               <tr>
+                               <td>
+                                  <?php echo $row['invoice_no']?>
+                                </td>
                                 <td>
                                   <?php echo $row['tds_percent']?>
                                 </td>
