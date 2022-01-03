@@ -161,7 +161,7 @@ function payment_row_creator(o, d) {
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="0">' + ra(d["invoice_total"] - d["balance"]) + '</td>');
     $("#" + d["id"]).append('<td class="align-middle">' + freezetds(d["id"], d["sub_total"], d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
 
-    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '" value="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '"><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
+    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '" value=""><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
 }
 
 $(document).on("change", ".allcate", function () {
@@ -212,7 +212,7 @@ $(document).on("change", ".tdscontrol", function () {
     }
     $("#" + spanid).text(ra(ttl));
     $("#" + tdsamt).val(ttl);
-    $("#alloc" + index).val(receiveableval - ttl).attr("max", receiveableval - ttl);
+    $("#alloc" + index).val(receiveableval - ttl.toFixed(2)).attr("max", receiveableval - ttl);
 });
 
 $("#quickForm").on('submit', function (e) {
@@ -234,7 +234,7 @@ $("#quickForm").on('submit', function (e) {
             $("#alloc" + ID).attr("name", "payment_invoice[" + c + "][allocated_amt]");
             $("#id_receivable_amt" + ID).attr("name", "payment_invoice[" + c + "][receivable_amt]");
             $("#id_balance_amt" + ID).attr("name", "payment_invoice[" + c + "][balance_amt]");
-            if ($("#alloc" + ID).val() > $("#alloc" + ID).attr("max")) {
+            if (parseFloat($("#alloc" + ID).val()) > parseFloat($("#alloc" + ID).attr("max"))) {
                 amtpass = false
             }
             c++;

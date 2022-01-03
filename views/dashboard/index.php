@@ -41,7 +41,10 @@
                     <thead>
                       <tr>
                         <th rowspan="2">Customer</th>
-                        <th colspan="3" class="text-center" style="border-bottom: 0px;">Invoice</th>
+                        <th colspan="3" class="text-center" style="border-bottom: 0px;">
+                        Invoice
+                        </th>
+                        <th rowspan="2">TDS</th>
                         <th rowspan="2">Received Amount</th>
                         <th rowspan="2">Balance Amount</th>
                         <th rowspan="2">Due Date</th>
@@ -71,6 +74,13 @@
                           <?php echo $invoice['invoice_amount'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center text-success">
+                        <?php if ($invoice['tds_deducted']) : ?>
+                          <?php echo $invoice['tds_deducted'] ?>
+                        <?php else :  ?>
+                          0
+                          <?php endif; ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center text-success">
                           <?php echo $invoice['recieved_amount'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center text-success">
@@ -93,6 +103,13 @@
                         </td>
                         <td class="sublist pointer align-middle text-center">
                           <?php echo $invoice['invoice_amount'] ?>
+                        </td>
+                        <td class="sublist pointer align-middle text-center">
+                        <?php if ($invoice['tds_deducted']) : ?>
+                          <?php echo $invoice['tds_deducted'] ?>
+                        <?php else :  ?>
+                          0
+                          <?php endif; ?>
                         </td>
                         <td class="sublist pointer align-middle text-center">
                           <?php echo $invoice['recieved_amount'] ?>
