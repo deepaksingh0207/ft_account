@@ -84,7 +84,7 @@
                           <?php echo $invoice['recieved_amount'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center text-success">
-                          <?php echo $invoice['balance_amount'] ?>
+                          <?php echo $invoice['balance_amount'] - $invoice['tds_deducted'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center text-success"
                           id="due<?php echo $invoice['invoice_id'] ?>">
@@ -115,7 +115,7 @@
                           <?php echo $invoice['recieved_amount'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center">
-                          <?php echo $invoice['balance_amount'] ?>
+                          <?php echo $invoice['balance_amount'] - $invoice['tds_deducted'] ?>
                         </td>
                         <td class="sublist pointer align-middle text-center"
                           id="due<?php echo $invoice['invoice_id'] ?>">
