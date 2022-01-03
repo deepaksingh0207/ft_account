@@ -76,7 +76,7 @@
                                     <div class="col-sm-12 col-lg-3">
                                         <div class="form-group">
                                             <label for="id_utr_file">Attachment</label>
-                                            <input type="file" name="utr_file" id="id_utr_file">
+                                            <input type="file" accept="application/pdf" name="utr_file" id="id_utr_file">
                                             </div>
                                         </div>
                                     
