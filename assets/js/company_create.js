@@ -18,7 +18,7 @@ $(function () {
       contact: {
         required: true,
         minlength: 8,
-        maxlength: 10,
+        maxlength: 11,
       },
       mobile: {
         required: true,

@@ -49,7 +49,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="contact" id="id_contact" pattern="^[0-9]+$"
-                          minlength="8" maxlength="10" value="" />
+                          minlength="8" maxlength="11" value="" />
                       </div>
                     </div>
                     <div class="row mx-1">

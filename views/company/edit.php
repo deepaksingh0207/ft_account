@@ -48,7 +48,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="contact" id="id_contact"
-                        minlength="8" maxlength="10" value="<?php echo $customer['contact'] ?>" />
+                        minlength="8" maxlength="11" value="<?php echo $customer['contact'] ?>" />
                       </div>
                     </div>
                     <div class="row mx-1">
