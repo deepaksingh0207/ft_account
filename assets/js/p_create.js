@@ -4,6 +4,7 @@ var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
 var orderstatus = {}, tree = { "index": [] };
+var utrvalidty = false
 
 $("#id_payment_date").attr("max", today);
 
@@ -239,10 +240,20 @@ $("#quickForm").on('submit', function (e) {
             }
             c++;
         } else {
-            $("#row" + ID).removeAttr("name");
+            $("#id_order_id" + ID).removeAttr("name");
+            $("#id_invoice_id_" + ID).removeAttr("name");
+            $("#id_basic_value" + ID).removeAttr("name");
+            $("#id_gst_amount" + ID).removeAttr("name");
+            $("#id_invoice_amount" + ID).removeAttr("name");
+            $("#tds" + ID).removeAttr("name");
+            $("#id_tds_deducted" + ID).removeAttr("name");
+            $("#alloc" + ID).removeAttr("name");
+            $("#id_receivable_amt" + ID).removeAttr("name");
+            $("#id_balance_amt" + ID).removeAttr("name");
         }
     });
-    if (gatepass && amtpass) {
+
+    if (gatepass && amtpass && utrvalidty) {
         $.ajax({
             type: 'POST',
             url: baseUrl + "payments/create",
@@ -267,6 +278,8 @@ $("#quickForm").on('submit', function (e) {
         });
     } else if (amtpass == false) {
         alert('Allocated Amt greater than Balance Amt');
+    } else if (utrvalidty == false) {
+        alert('UTR Exist.');
     } else {
         alert('Tick Invoice for payment');
     }
@@ -382,7 +395,7 @@ $(document).on("change", "#id_cheque_utr_no", function () {
                         '<span id="id_po_no-error" class="say error invalid-feedback">UTR exist.</span>'
                     );
             } else {
-
+                utrvalidty = true;
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
