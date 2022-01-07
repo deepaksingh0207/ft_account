@@ -15,7 +15,8 @@ var groupdata,
   payterm_ordertype = ["1", "2", "3"],
   proformaguard = false,
   tree = {},
-  items_for_invoicing = [];
+  items_for_invoicing = [],
+  invoicevalidityflag = null;
 
 function createbookeeper() {
   for (var key in od_order) {
@@ -348,6 +349,7 @@ $(document).on("change", "#id_invoice_no", function () {
     encode: true,
   })
     .done(function (data) {
+      invoicevalidityflag = data;
       if (data == false) {
         $(".say").remove();
         $("#id_invoice_no")
@@ -356,8 +358,6 @@ $(document).on("change", "#id_invoice_no", function () {
           .append(
             '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
           );
-      } else {
-
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -717,6 +717,11 @@ function checker() {
     $("#id_invoice_no").addClass("is-invalid");
     check = false;
   }
+  if (invoicevalidityflag) {
+    check = true;
+  } else {
+    check = false;
+  }
   if (check) {
     if ($("#t1").data("state") == "show") {
       $("#t1").data("state", "hide").hide();
@@ -811,7 +816,7 @@ function fillinvoice_body() {
             $("#row" + itm + ptm + ptmInv).append('<td><div class="icheck-primary d-inline"><input type="checkbox" id="pro' + itm + '_' + ptm + '" ' + createdProforma(tree["items"][itm]["payment"][ptm]["proforma"]["ids"]) + '><label for="pro' + itm + '_' + ptm + '"></label></div> </td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["item"] + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["description"] + '</td>');
-            $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["uom_id"]) +'</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["uom_id"]) + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"]) + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"]) + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"], false) + '.pdf" type="button">Tax Invoice</button></td>');
@@ -855,7 +860,7 @@ function fillinvoice_body() {
           }
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["item"] + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["description"] + '</td>');
-          $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["qty"] + ' / '+ get_uom_display(tree["items"][itm]["invoice"][inv]["uom_id"]) +'</td>');
+          $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["invoice"][inv]["uom_id"]) + '</td>');
           balQty -= parseInt(tree["items"][itm]["invoice"][inv]["qty"]);
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["unit_price"]) + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"]) + '</td>');

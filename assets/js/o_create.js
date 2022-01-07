@@ -270,7 +270,7 @@ function highlightrow(id) {
   $("#row_" + id).css("background-color", "powderblue");
 }
 
-$("#po_no").change(function () {
+$(document).on("focusout", "#po_no", function () {
   mydata = { customer_id: $("#customer_id").val(), po_no: $(this).val() };
   if ($(this).val()) {
     $.ajax({

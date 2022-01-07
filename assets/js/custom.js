@@ -1,4 +1,5 @@
 var DEBUG = true;
+var baseUrl = window.location.origin + '/';
 
 $('.select2').select2()
 

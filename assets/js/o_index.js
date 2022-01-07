@@ -1,13 +1,34 @@
 var dtable
 
 function fill_datatable(appliedfilter = {}) {
+  $('#example1 thead th').each(function () {
+    var col_list = ["Date", "Salesperson","Amount"]
+    var title = $(this).text();
+    if (col_list.indexOf(title) < 0) {
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+    }
+  });
   dtable = $("#example1").DataTable({
+    initComplete: function () {
+      // Apply the search
+      this.api().columns().every(function () {
+        var that = this;
+
+        $('input', this.footer()).on('keyup change clear', function () {
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+        });
+      });
+    },
     "processing": true,
     "ordering": false,
     "bLengthChange": false,
     "pageLength": 10,
     "order": [],
-    "searching": false,
+    "searching": true,
     "columns": [
       { data: 1 },
       { data: 2 },
@@ -27,6 +48,7 @@ function fill_datatable(appliedfilter = {}) {
       data: appliedfilter
     }
   });
+  $('#example1_filter').hide();
 }
 
 $("#id_startdate").on("change", function () {

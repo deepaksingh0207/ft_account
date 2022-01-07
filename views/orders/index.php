@@ -48,8 +48,8 @@
                     <thead class="text-center">
                       <tr>
                         <th>Date</th>
-                        <th>Order</th>
-                        <th>Customer</th>
+                        <th style="max-width:200px;">Order</th>
+                        <th style="max-width:250px;">Customer</th>
                         <th>Salesperson</th>
                         <th>Amount</th>
                       </tr>
