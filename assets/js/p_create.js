@@ -218,9 +218,8 @@ $(document).on("change", ".tdscontrol", function () {
     $("#alloc" + index).val(receiveableval - ttl.toFixed(2)).attr("max", receiveableval - ttl);
 });
 
-$("#quickForm").on('submit', function (e) {
-    e.preventDefault();
-    var c = 0
+
+$(document).on("click", "#id_save", function () {var c = 0
     var gatepass = false
     var amtpass = true
     $('.checkbox').each(function (i, obj) {
@@ -256,41 +255,20 @@ $("#quickForm").on('submit', function (e) {
     });
 
     if (gatepass && amtpass && utrvalidty) {
-        $.ajax({
-            type: 'POST',
-            url: baseUrl + "payments/create",
-            data: new FormData(this),
-            dataType: 'json',
-            contentType: false,
-            cache: false,
-            processData: false,
-            beforeSend: function () {
-                $('#modalsubmit').attr("disabled", "disabled");
-            },
-            success: function (response) {
-                if (response.status == 1) {
-                    location.reload();
-                } else {
-                    alert('Submit Failed.<br>Please try again by clicking "Submit".');
-                }
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
+        $("#id_submit").trigger("click");
     } else if (amtpass == false) {
         alert('Allocated Amt greater than Balance Amt');
     } else if (utrvalidty == false) {
         alert('UTR Exist.');
     } else {
         alert('Tick Invoice for payment');
-    }
-});
+    }});
+
 
 $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
-            $("#responsemodal").click();
+            form.submit();
         },
     });
     $("#quickForm").validate({
@@ -353,6 +331,7 @@ $(function () {
         },
     });
 });
+
 
 function freezetds(id, subtotal, deduct, percent = 0) {
     if (deduct > 0) {

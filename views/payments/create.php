@@ -172,10 +172,11 @@
                                         data-placement="top" title="Back to Payment List">
                                         Back
                                     </a>
-                                    <button type="submit" class="btn btn-tool btn-sm bg-gradient-primary"
-                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details">
+                                    <button type="button" class="btn btn-tool btn-sm bg-gradient-primary"
+                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details" id="id_save">
                                         SUBMIT
                                     </button>
+                                    <button type="button" style="display:none;" id="id_submit" onclick="form.submit()">
                                 </div>
                             </div>
                         </div>
