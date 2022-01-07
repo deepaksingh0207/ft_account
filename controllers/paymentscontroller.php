@@ -204,15 +204,15 @@ class PaymentsController extends Controller
                     $_SESSION['message'] = 'Payment added successfully';
                     $output['status'] = 1;
                     $output['message'] = 'Payment added successfully';
-                    //header("location:". ROOT. "payments");
+                    header("location:". ROOT. "payments"); exit;
                     
                 } else {
-                    //$_SESSION['error'] = 'Fail to add payment';
+                    $_SESSION['error'] = 'Fail to add payment';
                     $output['status'] = 0;
                     $output['message'] = 'Fail to add payment';
                 }
 
-                echo json_encode($output); exit;
+                //echo json_encode($output); exit;
             }
             return $this->_view->output();
             
