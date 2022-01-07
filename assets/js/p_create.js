@@ -378,7 +378,7 @@ function fill_cleared_payment() {
     }
 }
 
-$(document).on("change", "#id_cheque_utr_no", function () {
+$(document).on("focusout", "#id_cheque_utr_no", function () {
     mydata = { cheque_utr_no: $(this).val() };
     $.ajax({
         type: "POST",
