@@ -108,7 +108,9 @@ function get_orderstatus(po_id, po_no) {
                 $.each(resp.payment_pending, function (i_pending, value) {
                     // get_invoicedetails(po_id, value.id)
                     tree[po_id]["pending"][value.id] = value;
-                    tree[po_id]["pending"]["index"].push(value.id);
+                    if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
+                        tree[po_id]["pending"]["index"].push(value.id);
+                    }
                 });
                 $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
             }
@@ -376,7 +378,7 @@ function fill_cleared_payment() {
     }
 }
 
-$(document).on("change", "#id_cheque_utr_no", function () {
+$(document).on("focusout", "#id_cheque_utr_no", function () {
     mydata = { cheque_utr_no: $(this).val() };
     $.ajax({
         type: "POST",
