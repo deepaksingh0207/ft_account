@@ -145,7 +145,7 @@ class PaymentsController extends Controller
                 $output = array();
                 $data = $_POST;
                 
-                //echo '<pre>'; print_r($data); exit;
+                // echo '<pre>'; print_r($data); exit;
                 $customerPayments = array();
                 $payments = array();
                 
@@ -183,7 +183,7 @@ class PaymentsController extends Controller
                         foreach($data['payment_invoice'] as $item) {
                             $row = array();
                             $row['customer_payment_id'] = $custPaymentId;
-                            $row['order_id'] = $data['order_id'];
+                            $row['order_id'] = $item['order_id'];
                             $row['invoice_id'] = $item['invoice_id'];
                             $row['basic_value'] = $item['basic_value'];
                             $row['gst_amount'] = $item['gst_amount'];
