@@ -3,15 +3,36 @@ var currenturl    = window.location.href;
 var currentpath   = window.location.pathname;
 
 $(function () {
-  $("#example1")
-    .DataTable({
-      responsive: true,
-      lengthChange: false,
-      autoWidth: false,
-      paging: true,
-      ordering: false,
-      searching: false,
-    });
+  $('#example1 thead th').each(function () {
+    var col_list = ["Date", "Salesperson","Amount"]
+    var title = $(this).text();
+    if (col_list.indexOf(title) < 0) {
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+    }
+  });
+  dtable = $("#example1").DataTable({
+    initComplete: function () {
+      // Apply the search
+      this.api().columns().every(function () {
+        var that = this;
+
+        $('input', this.header()).on('keyup change clear', function () {
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+        });
+      });
+    },
+    "processing": true,
+    "ordering": false,
+    "bLengthChange": false,
+    "pageLength": 10,
+    "order": [],
+    "searching": true
+  });
+  $('#example1_filter').hide();
 });
 $(".sublist").click(function () {
   var parent_id = $(this).parent("tr").attr("data-href");

@@ -121,7 +121,6 @@ $pendingAmount = 0.00;
 										</div>
 									</div>
 								</div>
-
 								<div class="col	-12">
 									<div class="card">
 										<div class="card-header">
@@ -134,7 +133,7 @@ $pendingAmount = 0.00;
 												</div>
 											</div>
 										</div>
-										<div class="table-responsive card-body order" style="display: none;">
+										<div class="table-responsive card-body order p-0" style="display: none;">
 											<table class="table">
 												<thead>
 													<tr>
@@ -211,7 +210,8 @@ $pendingAmount = 0.00;
 									</div>
 								</div>
 
-								<?php if ($order['order_type'] == 1 || $order['order_type'] == 2) : // project sale ?>
+
+								<?php if (in_array($order['order_type'], [1, 2, 3, 7, 99])) : ?>
 								<div class="col-sm-12 col-md-12 col-lg-12">
 									<div class="card">
 										<div class="card-header">
@@ -224,7 +224,7 @@ $pendingAmount = 0.00;
 												</div>
 											</div>
 										</div>
-										<div class="table-responsive card-body payterm hide">
+										<div class="table-responsive card-body payterm hide p-0">
 											<table class="table text-center">
 												<thead>
 													<tr>
@@ -233,7 +233,6 @@ $pendingAmount = 0.00;
 														<th class="max150">Qty./Unit</th>
 														<th class="min100">Unit Price</th>
 														<th class="min150">Total Value</th>
-														<th></th>
 													</tr>
 												</thead>
 												<tbody>
@@ -259,6 +258,128 @@ $pendingAmount = 0.00;
 														<td id="pdf<?php echo $payterm['id'] ?>"></td>
 													</tr>
 													<?php endforeach; ?>
+													<?php endif; ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<?php endif; ?>
+
+								
+								<?php if (empty($invoices) == 0) : ?>
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="card">
+										<div class="card-header">
+											<div class="row invdtlstoggle pointer">
+												<div class="col-10">
+													<b>Invoice Details</b>
+												</div>
+												<div class="col-2 text-right">
+													<i id="id_invdtls" class="fas fa-chevron-right mt-1"></i>
+												</div>
+											</div>
+										</div>
+										<div class="table-responsive card-body invdetail hide p-0">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="min150">Invoice No.</th>
+														<th class="min150">Base Amt</th>
+														<th class="max150">GST</th>
+														<th class="min100">Invoice Amt</th>
+														<th class="min150">Due Date</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php if (is_array($invoices) || is_object($invoices)) : ?>
+													<?php foreach($invoices as $invoice) : ?>
+													<tr>
+														<td>
+															<?php echo $invoice['invoice_no']?>
+														</td>
+														<td>
+															<?php echo $invoice['sub_total']?>
+														</td>
+														<td>
+															<?php echo $invoice['igst'] + $invoice['sgst']+ $invoice['cgst']?>
+														</td>
+														<td>
+															<?php echo $invoice['invoice_total']?>
+														</td>
+														<td>
+															<?php echo date('d M Y', strtotime($invoice['due_date'])) ?>
+														</td>
+													</tr>
+													<?php endforeach; ?>
+													<?php else: ?>
+													<tr>
+														<td colspan="5">
+															No invoice raised
+														</td>
+													</tr>
+													<?php endif; ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<?php endif; ?>
+
+								
+								<?php if (is_array($paymentDone) || is_object($paymentDone)) : ?>
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="card">
+										<div class="card-header">
+											<div class="row paydtlstoggle pointer">
+												<div class="col-10">
+													<b>Payment Details</b>
+												</div>
+												<div class="col-2 text-right">
+													<i id="id_paydtls" class="fas fa-chevron-right mt-1"></i>
+												</div>
+											</div>
+										</div>
+										<div class="table-responsive card-body paydetail hide p-0">
+											<table class="table text-center">
+												<thead>
+													<tr>
+														<th class="min150">Invoice No.</th>
+														<th class="min150">Description</th>
+														<th class="max150">Payment Date</th>
+														<th class="min100">Received Amount</th>
+														<th class="min150">Cheque / UTR</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php if (is_array($paymentDone) || is_object($paymentDone)) : ?>
+													<?php foreach($paymentDone as $payment) : ?>
+													<tr>
+														<td>
+															<?php echo $payment['invoice_no']?>
+														</td>
+														<td>
+															<?php echo $payment['description']?>
+														</td>
+														<td>
+															<?php echo date('d M Y', strtotime($payment['payment_date']))?>
+														</td>
+														<td>
+															<?php echo $payment['received_amt']?>
+														</td>
+														<td>
+															<?php echo $payment['utr_file'] ?>
+														</td>
+													</tr>
+													<?php endforeach; ?>
+													<?php else: ?>
+													<tr>
+														<td colspan="5">
+															No Payment Received
+														</td>
+													</tr>
 													<?php endif; ?>
 												</tbody>
 											</table>
@@ -292,7 +413,7 @@ $pendingAmount = 0.00;
 			</div>
 		</div>
 		<script>
-			var oti = <? php echo $order['order_type'] ?> ;
-			var id = <? php echo $order['id'] ?> ;
+			var oti = <?php echo $order['order_type'] ?>;
+			var id = <?php echo $order['id'] ?>;
 		</script>
 		<?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

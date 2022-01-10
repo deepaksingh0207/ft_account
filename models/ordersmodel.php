@@ -168,11 +168,15 @@ having ordertotal > payments";
 ) invoice_items ON invoice_items.invoice_id = invoices.id and invoices.status = 1
       where customer_payments.order_id=?"; */
 
+      /*
       $sql = "select  invoice_no, invoice_items.description description, payments.*,payment_date, customer_payments.cheque_utr_no, customer_payments.received_amt, customer_payments.utr_file from payments
       join invoices  on (invoices.id = payments.invoice_id) 
       left join invoice_items on (invoice_items.invoice_id = invoices.id)
       join customer_payments on (customer_payments.id=payments.customer_payment_id)
       where payments.order_id=?";
+      */
+
+      $sql = "select invoice_no, invoice_items.description description, payments.*,payment_date, customer_payments.cheque_utr_no, customer_payments.received_amt, customer_payments.utr_file from payments join invoices on (invoices.id = payments.invoice_id) LEFT JOIN (SELECT * FROM invoice_items LIMIT 1) invoice_items ON invoice_items.invoice_id = invoices.id join customer_payments on (customer_payments.id=payments.customer_payment_id) where payments.order_id=?";
 
       /*
       $sql = "select cp.payment_date, cp.cheque_utr_no, cp.received_amt, cp.utr_file, pt.basic_value, pt.gst_amount, pt.invoice_amount, tds_percent, PT.allocated_amt, inv.invoice_no, inv.id  from customer_payments as cp

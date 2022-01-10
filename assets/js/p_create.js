@@ -4,7 +4,7 @@ var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
 var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
 var orderstatus = {}, tree = { "index": [] };
-var utrvalidty = false
+var utrvalidty = null
 
 $("#id_payment_date").attr("max", today);
 
@@ -39,7 +39,6 @@ $(document).on("change", "#id_group_id", function () {
 function reset_customer() {
     $("#id_customerid").val("").empty();
     tree = { "index": [] }
-
     reset_order();
 }
 
@@ -202,6 +201,11 @@ $(document).on("change", ".rvdamt", function () {
     }
 });
 
+function dupesave(){
+    $("#id_save").toggle();
+    $("#id_dup_save").toggle();
+}
+
 $(document).on("change", ".tdscontrol", function () {
     var spanid = $(this).data("span");
     var tdsamt = $(this).data("tdsamt");
@@ -215,13 +219,14 @@ $(document).on("change", ".tdscontrol", function () {
     }
     $("#" + spanid).text(ra(ttl));
     $("#" + tdsamt).val(ttl);
-    $("#alloc" + index).val(receiveableval - ttl.toFixed(2)).attr("max", receiveableval - ttl);
+    $("#alloc" + index).val((receiveableval - ttl).toFixed(2)).attr("max", receiveableval - ttl);
 });
 
 
-$(document).on("click", "#id_save", function () {var c = 0
-    var gatepass = false
-    var amtpass = true
+function checkme(){
+    var c = 0;
+    var gatepass = false;
+    var amtpass = true;
     $('.checkbox').each(function (i, obj) {
         var ID = $(this).data("index");
         if ($(this).is(':checked')) {
@@ -255,20 +260,26 @@ $(document).on("click", "#id_save", function () {var c = 0
     });
 
     if (gatepass && amtpass && utrvalidty) {
-        $("#id_submit").trigger("click");
-    } else if (amtpass == false) {
+        return true;
+    } else if (amtpass != true) {
         alert('Allocated Amt greater than Balance Amt');
-    } else if (utrvalidty == false) {
+    } else if (utrvalidty != true) {
         alert('UTR Exist.');
     } else {
-        alert('Tick Invoice for payment');
-    }});
+        alert('Invoice not selected.');
+    }
+    dupesave();
+    return false;
+};
 
 
 $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
-            form.submit();
+            dupesave();
+            if (checkme()){
+                form.submit();
+            }
         },
     });
     $("#quickForm").validate({

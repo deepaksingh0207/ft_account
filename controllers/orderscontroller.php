@@ -64,9 +64,13 @@ class OrdersController extends Controller
                 foreach($invoices as &$invoice) {
                     $invoice['invoice_date'] = date('d M Y', strtotime($invoice['invoice_date']));
                 }
-                $this->_view->set('invoices', $invoices);
             }
-            
+            $this->_view->set('invoices', $invoices);
+
+            // JThayil Start 10 Jan
+            $paymentDone = $this->_model->getPaymentDoneInvoices($id);
+            $this->_view->set('paymentDone', $paymentDone);
+            // JThayil End
             
             $this->_view->set('title', 'Order View');
             

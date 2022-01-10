@@ -1,20 +1,41 @@
 var dtable
 
 function fill_datatable(appliedfilter = {}) {
+  $('#example1 thead th').each(function () {
+    var col_list = ["Date", "Salesperson","Amount"]
+    var title = $(this).text();
+    if (col_list.indexOf(title) < 0) {
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+    }
+  });
   dtable = $("#example1").DataTable({
+    initComplete: function () {
+      // Apply the search
+      this.api().columns().every(function () {
+        var that = this;
+
+        $('input', this.header()).on('keyup change clear', function () {
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+        });
+      });
+    },
     "processing": true,
     "ordering": false,
     "pageLength": 10,
     "bLengthChange": false,
     "order": [],
-    "searching": false,
+    "searching": true,
     "columns": [
       { data: 1 },
       { data: 2 },
       { data: 3 },
       { data: 4 },
       { data: 5 },
-      { data: 6 },
+      { data: 6 }
     ],
     createdRow: function (row, data, dataIndex) {
       $(row).addClass('pointer').attr('data-href', data[2]).children('td').addClass('sublist');
@@ -25,6 +46,7 @@ function fill_datatable(appliedfilter = {}) {
       data: appliedfilter
     }
   });
+  $('#example1_filter').hide();
 }
 
 $(document).on("click", ".sublist", function () {

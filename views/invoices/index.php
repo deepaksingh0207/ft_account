@@ -47,9 +47,9 @@
                     <thead>
                       <tr>
                         <th>Date</th>
-                        <th>Invoice No</th>
-                        <th>Order/PO</th>
-                        <th>Customer</th>
+                        <th style="max-width:150px;">Invoice No</th>
+                        <th style="max-width:150px;">Order/PO</th>
+                        <th style="max-width:250px;">Customer</th>
                         <th>Salesperson</th>
                         <th>Amount</th>
                       </tr>

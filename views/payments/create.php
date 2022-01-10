@@ -172,11 +172,14 @@
                                         data-placement="top" title="Back to Payment List">
                                         Back
                                     </a>
-                                    <button type="button" class="btn btn-tool btn-sm bg-gradient-primary"
+                                    <button type="submit" class="btn btn-tool btn-sm bg-gradient-primary"
                                         data-toggle="tooltip" data-placement="top" title="Save Payment Details" id="id_save">
                                         SUBMIT
                                     </button>
-                                    <button type="button" style="display:none;" id="id_submit" onclick="form.submit()">
+                                    <button type="button" class="btn btn-tool btn-sm bg-gradient-primary"
+                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details" id="id_dup_save" style="display:none;">
+                                        SUBMIT
+                                    </button>
                                 </div>
                             </div>
                         </div>

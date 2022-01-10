@@ -45,7 +45,6 @@
                       <table id="example1" class="table table-striped table-hover">
                         <thead class="text-center">
                           <tr>
-                            <th></th>
                             <th>Customer</th>
                             <th>Cheque/UTR</th>
                             <th>Received Amt</th>
@@ -57,7 +56,6 @@
                         foreach($payments as $payment) :
                         ?>
                           <tr data-href="payments/view/<?php echo $payment['id']?>">
-                            <td></td>
                             <td class="sublist">
                               <?php echo $payment['name']?>
                             </td>
