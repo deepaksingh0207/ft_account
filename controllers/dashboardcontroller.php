@@ -12,6 +12,18 @@ class DashboardController extends Controller
     public function index() {
         
         try {
+
+            $dashModel = new DashboardModel();
+
+            $orderSumary = $dashModel->getOrderSummary(); 
+            $invoiceSumary = $dashModel->getInvoiceSummary(); 
+            $paymentSumary = $dashModel->getPaymentSummary(); 
+
+            $this->_view->set('orderSumary', $orderSumary);
+            $this->_view->set('invoiceSumary', $invoiceSumary);
+            $this->_view->set('paymentSumary', $paymentSumary);
+
+
             $invoices = $this->_model->getCustomerInvoiceList(); 
 
             if($invoices) {

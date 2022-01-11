@@ -30,13 +30,13 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1">
-                              10
+                              <?php echo $orderSumary['no']?>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Order</span>
                               <span class="info-box-number">
                                 <small><i class="fas fa-rupee-sign"></i></small>
-                                13, 800
+                                <?php echo number_format($orderSumary['ORD_AMT'])?>
                               </span>
                             </div>
                           </div>
@@ -44,13 +44,13 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box mb-3">
                             <span class="info-box-icon bg-danger elevation-1">
-                              12
+                            <?php echo $invoiceSumary['no']?>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Invoice</span>
                               <span class="info-box-number">
                                 <small><i class="fas fa-rupee-sign"></i></small>
-                                1,23,464
+                                <?php echo number_format($invoiceSumary['INV_AMT'])?>
                               </span>
                             </div>
                           </div>
@@ -65,7 +65,7 @@
                               <span class="info-box-text">TDS</span>
                               <span class="info-box-number">
                                 <small><i class="fas fa-rupee-sign"></i></small>
-                                1,23,4
+                                <?php echo number_format($paymentSumary['TDS'])?>
                               </span>
                             </div>
                           </div>
@@ -73,19 +73,52 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box mb-3">
                             <span class="info-box-icon bg-warning elevation-1">
-                              16
+                            <?php echo $paymentSumary['no']?>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Payments</span>
                               <span class="info-box-number">
                                 <small><i class="fas fa-rupee-sign"></i></small>
-                                1230
+                                <?php echo number_format($paymentSumary['AMT'])?>
                               </span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+
+                    <div class="tab-pane fade show active" id="sy" role="tabpanel" aria-labelledby="sy_tab">
+                      <div class="row">
+                        <div class="col-12 col-sm-6 col-md-3">
+                          <div class="info-box">
+                            <span class="info-box-icon bg-info elevation-1">
+                            <i class="fas fa-rupee-sign"></i>
+                            </span>
+                            <div class="info-box-content">
+                              <span class="info-box-text">Total</span>
+                              <span class="info-box-number">
+                                <small><i class="fas fa-rupee-sign"></i></small>
+                                <?php echo number_format($paymentSumary['AMT'] + $paymentSumary['TDS'])?>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                          <div class="info-box mb-3">
+                            <span class="info-box-icon bg-danger elevation-1">
+                            <i class="fas fa-rupee-sign"></i>
+                            </span>
+                            <div class="info-box-content">
+                              <span class="info-box-text">Balance</span>
+                              <span class="info-box-number">
+                                <small><i class="fas fa-rupee-sign"></i></small>
+                                <?php echo number_format($invoiceSumary['INV_AMT'] - ($paymentSumary['AMT'] + $paymentSumary['TDS']))?>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
                     <div class="tab-pane fade" id="ip" role="tabpanel" aria-labelledby="ip-tab">
                       <div class="row">
                         <div class="col-sm-12 col-lg-3">
