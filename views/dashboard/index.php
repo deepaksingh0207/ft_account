@@ -14,11 +14,11 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link active" id="ip_tab" data-toggle="pill" href="#ip" role="tab" aria-controls="ip"
-                        aria-selected="true">Invoice</a>
+                        aria-selected="true">Pending</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" id="pc_tab" data-toggle="pill" href="#pc" role="tab" aria-controls="pc"
-                        aria-selected="false">Payment</a>
+                        aria-selected="false">Completed</a>
                     </li>
                   </ul>
                 </div>
