@@ -84,11 +84,6 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-
-                    <div class="tab-pane fade show active" id="sy" role="tabpanel" aria-labelledby="sy_tab">
-                      <div class="row">
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1">
@@ -117,6 +112,8 @@
                             </div>
                           </div>
                         </div>
+                        <div class="clearfix hidden-md-up"></div>
+                      </div>
                     </div>
 
                     <div class="tab-pane fade" id="ip" role="tabpanel" aria-labelledby="ip-tab">
