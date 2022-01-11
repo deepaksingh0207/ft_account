@@ -348,7 +348,7 @@ $pendingAmount = 0.00;
 														<th class="min150">Invoice No.</th>
 														<th class="min150">Description</th>
 														<th class="max150">Payment Date</th>
-														<th class="min100">Received Amount</th>
+														<th class="min100">Allocated Amount</th>
 														<th class="min150">Cheque / UTR</th>
 														<th></th>
 													</tr>
@@ -367,7 +367,7 @@ $pendingAmount = 0.00;
 															<?php echo date('d M Y', strtotime($payment['payment_date']))?>
 														</td>
 														<td>
-															<?php echo $payment['received_amt']?>
+															<?php echo $payment['allocated_amt']?>
 														</td>
 														<td>
 															<?php echo $payment['utr_file'] ?>

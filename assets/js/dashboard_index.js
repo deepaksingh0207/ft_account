@@ -14,41 +14,37 @@ $(function () {
             $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
         }
     });
-    $(".select2").select2();
-    $(document).ready( function () {
-        $('#example1').DataTable({
-            "ordering": false,
-            "searching": false,
-        });
-    } );
-    // fill_datatable();
+    $('#example1').DataTable({
+        "ordering": false,
+        "searching": false,
+    });
 });
 
-function fill_datatable(appliedfilter = {}) {
-    dtable = $("#example1").DataTable({
-        "processing": true,
-        "ordering": false,
-        "bLengthChange": false,
-        "pageLength": 10,
-        "order": [],
-        "searching": false,
-        "columns": [ //data: 0 => invoice_id
-            { data: 1 },
-            { data: 2 },
-            { data: 3 },
-            { data: 4 },
-            { data: 5 }
-        ],
-        createdRow: function (row, data, dataIndex) {
-            $(row).attr('data-href', data[0]).children('td').addClass('sublist pointer align-middle text-center');
-        },
-        "ajax": {
-            url: baseUrl + "dashboard/search/",
-            type: "POST",
-            data: appliedfilter
-        }
-    });
-}
+// function fill_datatable(appliedfilter = {}) {
+//     dtable = $("#example1").DataTable({
+//         "processing": true,
+//         "ordering": false,
+//         "bLengthChange": false,
+//         "pageLength": 10,
+//         "order": [],
+//         "searching": false,
+//         "columns": [ //data: 0 => invoice_id
+//             { data: 1 },
+//             { data: 2 },
+//             { data: 3 },
+//             { data: 4 },
+//             { data: 5 }
+//         ],
+//         createdRow: function (row, data, dataIndex) {
+//             $(row).attr('data-href', data[0]).children('td').addClass('sublist pointer align-middle text-center');
+//         },
+//         "ajax": {
+//             url: baseUrl + "dashboard/search/",
+//             type: "POST",
+//             data: appliedfilter
+//         }
+//     });
+// }
 
 $("#id_startdate").on("change", function () {
     $("#id_enddate").attr('min', $(this).val());
