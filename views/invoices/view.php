@@ -14,7 +14,7 @@
                   <div class="text-right">
                     <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 										</a> -->
-                    <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                    <a href="<?php echo ROOT; ?>dashboard" class="btn btn-default btn-sm">
                       Back
                     </a>
                   </div>
@@ -261,7 +261,7 @@
                 <div class="card-footer text-right">
                   <!-- <a href="<?php echo ROOT; ?>customers/edit/<?php echo $customer['id'] ?>" class="btn btn-primary btn-sm"> Edit
 									</a> -->
-                  <a href="<?php echo ROOT; ?>invoices" class="btn btn-default btn-sm">
+                  <a href="<?php echo ROOT; ?>dashboard" class="btn btn-default btn-sm">
                     Back
                   </a>
                 </div>
