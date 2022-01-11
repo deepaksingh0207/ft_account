@@ -183,7 +183,6 @@ class InvoicesController extends Controller
             $customerShipTo = $customerTbl->get($invoice['ship_to']);
             $this->_view->set('shipToAddress', $customerShipTo['address']);
             
-            
             return $this->_view->output();
             
         } catch (Exception $e) {
@@ -396,8 +395,7 @@ class InvoicesController extends Controller
             
         }
     }
-    
-    
+        
     public function preview() {
         
         $dataItem = array();
@@ -673,7 +671,6 @@ class InvoicesController extends Controller
         echo json_encode($result);
         exit;
     }
-
     
     public function invoice_validty() {
         if(!empty($_POST)) {

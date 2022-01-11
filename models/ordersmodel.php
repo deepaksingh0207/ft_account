@@ -160,12 +160,7 @@ having ordertotal > payments";
       payment_date,cheque_utr_no, utr_file
       from customer_payments
       join invoices  on (invoices.id = customer_payments.invoice_id) 
-      LEFT JOIN (
-  SELECT
-    * 
-  FROM invoice_items 
-  LIMIT 1
-) invoice_items ON invoice_items.invoice_id = invoices.id and invoices.status = 1
+      LEFT JOIN (  SELECT    *   FROM invoice_items   LIMIT 1) invoice_items ON invoice_items.invoice_id = invoices.id and invoices.status = 1
       where customer_payments.order_id=?"; */
 
       /*

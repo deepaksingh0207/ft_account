@@ -83,7 +83,6 @@ class InvoicesModel extends Model {
         return $user;
     }
     
-    
     public function update($id, $updateRecord) {
         
         $fields = array_keys($updateRecord);
@@ -141,7 +140,6 @@ class InvoicesModel extends Model {
         return $user['id'];
     }
     
-    
     public function getInvoicesOfOrder($orderId) {
         $sql = "select * from invoices where order_id = $orderId and status = 1 order by id desc";
         $this->_setSql($sql);
@@ -149,7 +147,6 @@ class InvoicesModel extends Model {
         
         return $invoices;
     }
-    
     
     public function getInvoiceItem($id) {
         $sql = "select * from invoice_items where invoice_id = ? ";
@@ -199,5 +196,4 @@ class InvoicesModel extends Model {
         }
         return $data;
     }
-    
 }

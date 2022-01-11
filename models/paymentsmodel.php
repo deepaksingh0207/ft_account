@@ -25,7 +25,7 @@ class PaymentsModel extends Model {
         $sql = "select tds_percent, tds_deducted, receivable_amt, balance_amt, allocated_amt, CP.payment_date, CP.cheque_utr_no
         from payments P
         join customer_payments CP ON (CP.id = P.customer_payment_id)
-        where CP.invoice_id = ? and CP.status = 1 ";
+        where P.invoice_id = ? and CP.status = 1 ";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
         

@@ -20,88 +20,78 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> <b>Invoice No :</b> </label>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="row mx-1">
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_customername"> <b>Invoice No :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group">
+                          <?php echo $invoice['invoice_no'] ?>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_customername"> <b>Customer :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group">
+                          <?php echo $customer['name'] ?>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_contactperson"> <b>Order Number:</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group">
+                          <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>">
+                            <?php echo $invoice['po_no'] ?>
+                          </a>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_address"> <b>Contact Person:</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group">
+                          <?php echo $invoice['sales_person'] ?>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_pphone"> <b>Due Date :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group numberonly">
+                          <?php echo date('d, M Y', strtotime($invoice['due_date'])) ?>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['invoice_no'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_customername"> <b>Customer :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['name'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_contactperson"> <b>Order Number:</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <a href="<?php echo ROOT; ?>orders/view/<?php echo $invoice['order_id'] ?>">
-                        <?php echo $invoice['po_no'] ?>
-                      </a>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> <b>Date :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group" style="text-align: justify">
-                      <?php echo $invoice['invoice_date'] ?>
-                    </div>
-                  </div>
-
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_address"> <b>Contact Person:</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $invoice['sales_person'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>Bill To :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $customer['address'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_gst"> <b>Ship To :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group">
-                      <?php echo $shipToAddress ?>
+                    <div class="col-6">
+                      <div class="row">
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_address"> <b>Date :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group" style="text-align: justify">
+                          <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_pphone"> <b>Order Type :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group numberonly">
+                          <?php echo $invoice['order_type'] ?>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_gst"> <b>Bill To :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group">
+                          <?php echo $customer['address'] ?>
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                          <label for="id_gst"> <b>Ship To :</b> </label>
+                        </div>
+                        <div class="col-sm-12 col-lg-8 form-group">
+                          <?php echo $shipToAddress ?>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_pphone"> <b>Comments :</b> </label>
                     </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
+                    <div class="col-sm-12 col-lg-4 form-group numberonly">
                       <?php echo $invoice['remarks'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_pphone"> <b>Order Type :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $invoice['order_type'] ?>
-                    </div>
-                  </div>
-                  <div class="row mx-1">
-                    <div class="col-sm-12 col-lg-2">
-                      <label for="id_pphone"> <b>Due Date :</b> </label>
-                    </div>
-                    <div class="col-sm-12 col-lg-3 form-group numberonly">
-                      <?php echo $invoice['due_date'] ?>
                     </div>
                   </div>
 
@@ -109,9 +99,16 @@
                     <div class="col-12">
                       <div class="card">
                         <div class="card-header">
-                          <b>Order Details</b>
+                          <div class="row ordertoggle pointer">
+                            <div class="col-10">
+                              <b>Order Details</b>
+                            </div>
+                            <div class="col-2 text-right">
+                              <i id="id_order" class="fas fa-chevron-down mt-1"></i>
+                            </div>
+                          </div>
                         </div>
-                        <div class="table-responsive card-body p-3">
+                        <div class="table-responsive order card-body p-3">
                           <table class="table">
                             <thead>
                               <tr>
@@ -124,9 +121,8 @@
                               </tr>
                             </thead>
                             <tbody id="invoicelist">
-                              <?php if($invoiceItems && count($invoiceItems)) :
-                            foreach ($invoiceItems as $invoiceItem) :
-                            ?>
+                              <?php if (is_array($invoiceItems) || is_object($invoiceItems)) : ?>
+                              <?php foreach($invoiceItems as $invoiceItem) : ?>
                               <tr>
                                 <td>
                                   <?php echo $invoiceItem['item']?>
@@ -137,7 +133,7 @@
                                 <td>
                                   <?php echo $invoiceItem['qty']?>
                                 </td>
-                                <td>
+                                <td class="get_uom_display">
                                   <?php echo $invoiceItem['uom_id']?>
                                 </td>
                                 <td>
@@ -147,22 +143,12 @@
                                   <?php echo $invoiceItem['total']?>
                                 </td>
                               </tr>
-                              <?php endforeach; 
-                              endif; ?>
-                              <?php if( $invoice['order_type'] == 'Project Sale' ): ?>
-                              <tr>
-                              <td><?php echo $invoice['id'] ?></td>
-                              <td><?php echo $invoice['payment_description'] ?></td>
-                              <td><?php echo $invoice['pay_percent'] ?></td>
-                              <td>Percentage (%)</td>
-                              <td><?php echo $invoice['order_total'] ?></td>
-                              <td><?php echo $invoice['sub_total'] ?></td>
-                              </tr>
+                              <?php endforeach; ?>
                               <?php endif; ?>
                             </tbody>
                           </table>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer order">
                           <div class="row justify-content-center">
                             <?php if ($invoice['sgst'] != 0 ) : ?>
                             <div class="col-sm-12 col-lg-3 text-center">
