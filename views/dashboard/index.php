@@ -212,7 +212,7 @@
                       </div>
                     </div>
                     <div class="tab-pane fade" id="pc" role="tabpanel" aria-labelledby="pc-tab">
-                      <table id="example2" class="table table-striped table-hover table-bordered">
+                      <table id="example2" class="table table-striped table-hover table-bordered" style="width:100%">
                         <thead>
                           <tr>
                             <th rowspan="2">Customer</th>

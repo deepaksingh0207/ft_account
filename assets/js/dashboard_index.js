@@ -18,6 +18,10 @@ $(function () {
         "ordering": false,
         "searching": false,
     });
+    $('#example2').DataTable({
+        "ordering": false,
+        "searching": false,
+    });
 });
 
 // function fill_datatable(appliedfilter = {}) {
