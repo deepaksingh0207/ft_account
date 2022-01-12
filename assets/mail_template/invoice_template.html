@@ -2,6 +2,10 @@
 
 <head>
   <style>
+    @page {
+     margin: 10px;
+    }
+
     body {
       font-family: sans-serif;
       font-size: 10pt;
@@ -69,7 +73,7 @@
     </p>
     <table width="100%" cellpadding="10" style="border: 1px solid black">
       <tr>
-        <td width="50%" style="border-right: 1px solid black; padding-left: 1px;">
+        <td width="50%" style="border-right: 1px solid black; padding: 0px 0px 0px 1px;">
           <span style="font-family: sans; font-size: xx-small;">
             <b>Invoice No: {{INV_NO}}<br />
               Date: {{INV_DATE}}</b><br /><br />
@@ -84,16 +88,16 @@
               IFSC Code: {{COMP_IFSC}}</b>
           </span>
         </td>
-        <td width="50%" style="padding-left: 1px;">
+        <td width="50%" style="padding: 0px 0px 0px 1px;">
           <span style="font-family: sans; font-size: xx-small;">
             <b>Purchase Order No.: {{PO_NO}}<br />
               Date: {{PO_DATE}}</b><br /><br />
             <b>Bill To: </b>{{CUST_ADDRESS}}<br />
-            Tel: {{CUST_TEL}} Fax : {{CUST_FAX}}<br />
+            Tel: {{CUST_TEL}} Fax : {{CUST_FAX}}<br /><br />
             <b>PAN No.: {{CUST_PAN}}<br />
               GST No.: {{CUST_GST}}</b><br /><br />
-            <b>Ship To: </b>{{CUST_SHIPTO}}<br />
-            <br><b>Kind Attn: {{CUST_CONT_PERSON}}</b>
+            <b>Ship To: </b>{{CUST_SHIPTO}}<br /><br />
+            <b>Kind Attn: {{CUST_CONT_PERSON}}</b>
           </span>
         </td>
       </tr>

@@ -2,6 +2,10 @@
 
 <head>
   <style>
+    @page {
+     margin: 10px;
+    }
+
     body {
       font-family: sans-serif;
       font-size: 10pt;
@@ -68,7 +72,7 @@
     </p>
     <table width="100%" cellpadding="10" style="border: 1px solid black">
       <tr>
-        <td width="50%" style="border-right: 1px solid black; padding-left: 1px;">
+        <td width="50%" style="border-right: 1px solid black; padding: 0px 0px 0px 1px;">
           <span style="font-family: sans; font-size: xx-small;">
             <b>PI No.: PI {{INV_NO}}<br />
             Date: {{INV_DATE}}</b><br /><br />
@@ -83,16 +87,16 @@
               IFSC Code: {{COMP_IFSC}}</b>
           </span>
         </td>
-        <td width="50%" style="padding-left: 1px;">
+        <td width="50%" style="padding: 0px 0px 0px 1px;">
           <span style="font-family: sans; font-size: xx-small;">
             <b>Purchase Order No.: {{PO_NO}}<br />
               Date: {{PO_DATE}}</b><br /><br />
             <b>Bill To: </b>{{CUST_ADDRESS}}<br />
-            Tel: {{CUST_TEL}} Fax : {{CUST_FAX}}<br />
+            Tel: {{CUST_TEL}} Fax : {{CUST_FAX}}<br /><br />
             <b>PAN No.: {{CUST_PAN}}<br />
               GST No.: {{CUST_GST}}</b><br /><br />
-            <b>Ship To: </b>{{CUST_SHIPTO}}<br />
-            <br><b>Kind Attn: {{CUST_CONT_PERSON}}</b>
+            <b>Ship To: </b>{{CUST_SHIPTO}}<br /><br />
+            <b>Kind Attn: {{CUST_CONT_PERSON}}</b>
           </span>
         </td>
       </tr>
@@ -118,24 +122,29 @@
     </table>
     <table width="100%" style="font-size: xx-small;">
       <tr>
-        <td style="text-align: right; width: 100%; border-top: 1px solid grey;font-size: xx-small;">
-          Net Value INR. &nbsp; &nbsp; &nbsp; &nbsp; {{ORDER_TOTAL}}
+        <td style="text-align: right; width: 85%; border-top: 1px solid grey;font-size: xx-small;">
+          Net Value INR.
+        </td>
+        <td style="text-align: right; width: 15%; border-top: 1px solid grey;font-size: xx-small;">
+          {{ORDER_TOTAL}}
         </td>
       </tr>
       <tr>
-        <td style="padding: 0px">
+        <td style="padding: 0px" colspan="2">
           <hr style="padding: 0px; margin: 0px;" />
         </td>
       </tr>
       {{TAX_LAYOUT}}
       <tr>
-        <td style="text-align: right; width: 100%;font-size: xx-small;">
-          Total Value Including Taxes INR. &nbsp; &nbsp; &nbsp; &nbsp;
+        <td style="text-align: right; width: 85%;font-size: xx-small;">
+          Total Value Including Taxes INR.
+        </td>
+        <td style="text-align: right; width: 15%;font-size: xx-small;">
           <u>{{INV_TOTAL}}</u>
         </td>
       </tr>
       <tr>
-        <td style="padding: 0px">
+        <td style="padding: 0px" colspan="2">
           <hr style="padding: 0px; margin: 0px;" />
         </td>
       </tr>
