@@ -247,11 +247,11 @@ class InvoicesController extends Controller
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
         if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
-            // Jthayil 22 Dec Start
+            // Jthayil 12 jan 22 Start
             $tempInvoiceItem = [];
             foreach($invoiceItems as $tempItem)
             {
-                if($order['order_type'] == 2)
+                if($tempItem['uom_id'] == 3)
                 {
                     $tempItem['qty'] = 1;
                 }
@@ -337,11 +337,7 @@ class InvoicesController extends Controller
               <br />'.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
-          <tr>
-            <td style="padding: 0px">
-              <hr style="padding: 0px; margin: 0px;" />
-            </td>
-          </tr>';
+          <tr>';
         }
         
         $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
@@ -461,11 +457,11 @@ class InvoicesController extends Controller
             $oderItems = $orderTable->getOrderItem($invoice['order_id']);
             
             if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
-                // Jthayil 24 Nov Start
+                // Jthayil 12 Jan 22 Start
                 $tempInvoiceItem = [];
                 foreach($invoiceItems as $tempItem)
                 {
-                    if($order['order_type'] == 2)
+                    if($tempItem['uom_id'] == 3)
                     {
                         $tempItem['qty'] = 1;
                     }
@@ -534,10 +530,10 @@ class InvoicesController extends Controller
             $taxesLayout = '';
             if((int)$invoice['igst']) {
                 $taxesLayout = '<tr>
-                <td style="text-align: right; width: 85%; font-size: small;">
+                <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;font-size: small;">
                   IGST @ 18%
                 </td>
-                <td style="text-align: right; width: 15%; font-size: small;">'.number_format($invoice['igst'], 2).'</td>
+                <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;font-size: small;">'.number_format($invoice['igst'], 2).'</td>
               </tr>
               <tr>
               <td colspan="5" style="padding: 0px">
@@ -546,20 +542,16 @@ class InvoicesController extends Controller
             </tr>';
         } else {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 85%;font-size: small;">
+            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;font-size: small;">
               CGST @ 9%
               <br />
               SGST @ 9%
             </td>
-            <td style="text-align: right; width: 15%;font-size: small;">
+            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;font-size: small;">
             '.number_format($invoice['cgst'], 2).'<br>'.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
-          <tr>
-            <td colspan="5" style="padding: 0px">
-              <hr style="padding: 0px; margin: 0px" />
-            </td>
-              </tr>';
+          <tr>';
             }
             
             $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
