@@ -22,15 +22,15 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item report">
+          <a href="#" class="nav-link reportlink" id="menu_reports">
             <i class="far fa-file"></i>
             <p>
               Reports
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview" style="display: none;">
+          <ul class="nav nav-treeview" id="report_menu" style="display: none;">
             <li class="nav-item">
               <a href="\ft_account\dashboard/report" class="nav-link" id="menu_report">
                 <i class="fas fa-chart-line"></i>

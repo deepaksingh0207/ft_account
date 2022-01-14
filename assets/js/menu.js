@@ -22,10 +22,16 @@ $(document).ready(function () {
     $("#menu_payment").addClass("active");
   }
   if (menu == 'dashboard') {
-    if (submenu == 'reports') {
-      $("#menu_reports").addClass("active");
+    if (submenu == 'report') {
+      $("#menu_report").addClass("active");
+      $("#report_menu").show();
+      $(".report").addClass('menu-is-opening menu-open');
+      $(".reportlink").addClass("active");
     } else if (submenu == 'ordersummary') {
       $("#menu_ordersummary").addClass("active");
+      $("#report_menu").show();
+      $(".report").addClass('menu-is-opening menu-open');
+      $(".reportlink").addClass("active");
     } else {
       $("#menu_dashboard").addClass("active");
     }
