@@ -50,14 +50,15 @@ class DashboardModel extends Model {
     }
 
     public function orderSummary() {
-        $sql = "select C.name, O.po_no,O.po_from_date 'Valid From', O.po_to_date 'Valid To', O.ordertotal, Sum(I.invoice_total) invoice_total, sum(P.tds_deducted + P.allocated_amt) received,
-        (Sum(I.invoice_total) - sum(P.tds_deducted + P.allocated_amt)) balance
+        $sql = "select C.name, O.po_no,O.po_from_date 'Valid From', O.po_to_date 'Valid To', O.ordertotal, invoice_total, sum(P.tds_deducted + P.allocated_amt) received,
+        (ordertotal - sum(P.tds_deducted + P.allocated_amt)) balance
         from orders O
         Join customers C  on (O.customer_id = C.id)
-        Join invoices I on (I.order_id = O.id and I.status = 1)
-        Join payments P on (P.order_id = O.id and P.status = 1)
+        left Join (select Sum(invoice_total) invoice_total, order_id from invoices where status=1  GROUP by order_id) I on( I.order_id = O.id) 
+        left Join payments P on (P.order_id = O.id and P.status = 1)
         where O.status = 1
-        group by O.id";
+        group by O.id
+        having invoice_total > 0";
 
         $this->_setSql($sql);
         $list = $this->getAll();

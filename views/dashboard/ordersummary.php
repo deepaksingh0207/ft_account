@@ -19,7 +19,7 @@
                                 <th>PO No</th>
                                 <th>Valid From</th>
                                 <th>Valid TO</th>
-                                <th>Order Amount</th>
+                                <th>PO Amount</th>
                                 <th>Invoice Amount</th>
                                 <th>
                                   Received Amount<br />
