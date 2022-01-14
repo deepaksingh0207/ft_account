@@ -23,12 +23,27 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?php echo ROOT; ?>dashboard/report" class="nav-link" id="menu_report">
-          <i class="fas fa-chart-line"></i>
+          <a href="#" class="nav-link">
+            <i class="far fa-file"></i>
             <p>
-              Report
+              Reports
+              <i class="fas fa-angle-left right"></i>
             </p>
           </a>
+          <ul class="nav nav-treeview" style="display: none;">
+            <li class="nav-item">
+              <a href="\ft_account\dashboard/report" class="nav-link" id="menu_report">
+                <i class="fas fa-chart-line"></i>
+                <p>Report</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="\ft_account\dashboard/ordersummary" class="nav-link" id="menu_ordersummary">
+                <i class="fas fa-chart-pie"></i>
+                <p>Order Summary</p>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>company/view/1" class="nav-link" id="menu_company">

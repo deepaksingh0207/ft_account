@@ -11,42 +11,33 @@
                   <table id="example" class="table table-striped table-hover table-bordered" style="width: 100%;">
                     <thead>
                       <tr>
-                        <th>Customer</th>
-                        <th>PO No</th>
+                        <th>
+                          <label style="display: none;">Customer</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="Customer" />
+                        </th>
+                        <th>
+                          <label style="display: none;">PO No</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="PO No" />
+                        </th>
                         <th>Valid From</th>
-                        <th>Valid TO</th>
-                        <th>Invoice No</th>
+                        <th style="min-width:70px">
+                          <label style="display: none;">Valid TO</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="Valid TO" />
+                        </th>
+                        <th style="min-width:90px">
+                          <label style="display: none;">Invoice No</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="Invoice No" />
+                        </th>
                         <th>Description</th>
-                        <th>Due Date</th>
+                        <th>
+                          <label style="display: none;">Due Date</label>
+                          <input type="text" class="form-control form-control-sm" placeholder="Due Date" />
+                        </th>
                         <th>Invoice Amount</th>
                         <th>TDS Deducted</th>
                         <th>Allocated Amount</th>
                         <th>Received Amount</th>
                         <th>Balance Amount</th>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input type="text" class="form-control form-control-sm" placeholder="Search" />
-                        </td>
-                        <td>
-                          <input type="text" class="form-control form-control-sm" placeholder="Search" />
-                        </td>
-                        <td></td>
-                        <td>
-                          <input type="text" class="form-control form-control-sm" placeholder="Search" />
-                        </td>
-                        <td>
-                          <input type="text" class="form-control form-control-sm" placeholder="Search" />
-                        </td>
-                        <td></td>
-                        <td>
-                          <input type="text" class="form-control form-control-sm" placeholder="Search" />
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                       </tr>
                     </thead>
                     <tbody>

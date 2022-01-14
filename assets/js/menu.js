@@ -22,8 +22,10 @@ $(document).ready(function () {
     $("#menu_payment").addClass("active");
   }
   if (menu == 'dashboard') {
-    if (submenu == 'report') {
-      $("#menu_report").addClass("active");
+    if (submenu == 'reports') {
+      $("#menu_reports").addClass("active");
+    } else if (submenu == 'ordersummary') {
+      $("#menu_ordersummary").addClass("active");
     } else {
       $("#menu_dashboard").addClass("active");
     }

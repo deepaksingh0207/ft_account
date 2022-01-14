@@ -32,7 +32,7 @@
                               
                               <?php foreach ($reports as $row) : ?>
                                 
-                                <tr data-href="<?php echo $row['invoice_no'] ?>">
+                                <tr>
                                 <td><?php echo $row['name'] ?></td>
                                 <td><?php echo $row['po_no'] ?></td>
                                 <td><?php echo ($row['Valid From']) ? date('d/m/Y', strtotime($row['Valid From'])) : '' ?></td>
