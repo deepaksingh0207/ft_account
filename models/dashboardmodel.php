@@ -47,7 +47,22 @@ class DashboardModel extends Model {
         $list = $this->getAll();
         
         return $list;
+    }
 
+    public function orderSummary() {
+        $sql = "select C.name, O.po_no,O.po_from_date 'Valid From', O.po_to_date 'Valid To', O.ordertotal, Sum(I.invoice_total) invoice_total, sum(P.tds_deducted + P.allocated_amt) received,
+        (Sum(I.invoice_total) - sum(P.tds_deducted + P.allocated_amt)) balance
+        from orders O
+        Join customers C  on (O.customer_id = C.id)
+        Join invoices I on (I.order_id = O.id and I.status = 1)
+        Join payments P on (P.order_id = O.id and P.status = 1)
+        where O.status = 1
+        group by O.id";
+
+        $this->_setSql($sql);
+        $list = $this->getAll();
+        
+        return $list;
     }
     
 }

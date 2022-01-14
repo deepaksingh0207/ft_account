@@ -82,4 +82,24 @@ class DashboardController extends Controller
         }
         
     }
+
+    public function orderSummary() {
+        
+        try {
+
+            $dashModel = new DashboardModel();
+
+            $report = $dashModel->orderSummary(); 
+            
+            $this->_view->set('reports', $report);
+            $this->_view->set('title', 'Orders');
+            
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
 }
