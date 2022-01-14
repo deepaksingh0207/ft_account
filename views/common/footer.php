@@ -23,6 +23,13 @@
 <script src="<?php echo ROOT; ?>assets/js/dashboard_index.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'dashboard' && ($action == 'report')) : ?>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.3/b-2.1.1/b-colvis-2.1.1/b-html5-2.1.1/b-print-2.1.1/date-1.1.1/rg-1.1.4/sc-2.0.5/sb-1.3.0/sp-1.4.0/sl-1.3.4/datatables.min.js"></script>
+  <script src="<?php echo ROOT; ?>assets/js/dashboard_report.js"></script>
+<?php endif; ?>
+
 <?php if ($controller == 'customers' && ($action == 'index')) : ?>
 <!-- <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

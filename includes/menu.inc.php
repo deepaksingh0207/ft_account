@@ -23,6 +23,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="<?php echo ROOT; ?>dashboard/report" class="nav-link" id="menu_report">
+          <i class="fas fa-chart-line"></i>
+            <p>
+              Report
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="<?php echo ROOT; ?>company/view/1" class="nav-link" id="menu_company">
             <i class="far fa-building"></i>
             <p>
