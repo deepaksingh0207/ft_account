@@ -12,11 +12,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <title>F. T. Help & Support</title>
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/google_font.css" />
-  <link rel="stylesheet" href="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.css" />
+  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/toastr/toastr.min.css" />
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.3/b-2.1.1/b-colvis-2.1.1/b-html5-2.1.1/b-print-2.1.1/date-1.1.1/rg-1.1.4/sc-2.0.5/sb-1.3.0/sp-1.4.0/sl-1.3.4/datatables.min.css"/>
+  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
   <?php if ($controller == 'customers' && ($action == 'create') || ($action == 'edit') || ($action == 'view')) : ?>
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/new_customer.css" />

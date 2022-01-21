@@ -22,6 +22,29 @@
             </p>
           </a>
         </li>
+        <li class="nav-item report">
+          <a href="#" class="nav-link reportlink" id="menu_reports">
+            <i class="far fa-file"></i>
+            <p>
+              Reports
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" id="report_menu" style="display: none;">
+            <li class="nav-item">
+              <a href="<?php echo ROOT; ?>dashboard/report" class="nav-link" id="menu_report">
+                <i class="fas fa-chart-line"></i>
+                <p>Report</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo ROOT; ?>dashboard/ordersummary" class="nav-link" id="menu_ordersummary">
+                <i class="fas fa-chart-pie"></i>
+                <p>Order Summary</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>dashboard/report" class="nav-link" id="menu_report">
           <i class="fas fa-chart-line"></i>
