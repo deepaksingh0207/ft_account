@@ -32,13 +32,13 @@
           </a>
           <ul class="nav nav-treeview" id="report_menu" style="display: none;">
             <li class="nav-item">
-              <a href="\ft_account\dashboard/report" class="nav-link" id="menu_report">
+              <a href="<?php echo ROOT; ?>dashboard/report" class="nav-link" id="menu_report">
                 <i class="fas fa-chart-line"></i>
                 <p>Report</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="\ft_account\dashboard/ordersummary" class="nav-link" id="menu_ordersummary">
+              <a href="<?php echo ROOT; ?>dashboard/ordersummary" class="nav-link" id="menu_ordersummary">
                 <i class="fas fa-chart-pie"></i>
                 <p>Order Summary</p>
               </a>
