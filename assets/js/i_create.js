@@ -687,15 +687,15 @@ function preview_footer() {
   }
   total = sgst_total + cgst_total + igst_total + subtotal;
   $("#preview_footer").append(
-    '<div class="row text-center"><div id="previewigst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="order_total" class="previewsubtotal" value="' + subtotal.toFixed(2) + '"><input type="hidden" name="sub_total" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
+    '<div class="row text-center"><div id="previewgst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="order_total" class="previewsubtotal" value="' + subtotal.toFixed(2) + '"><input type="hidden" name="sub_total" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
   if (parseInt(gstlist[1]) == 9) {
-    $("#previewigst").addClass("col-3");
+    $("#previewgst").addClass("col-3");
     $("#sgstclass").show().addClass("col-3");
     $("#cgstclass").show().addClass("col-3");
     $("#igstclass").hide().addClass("col-0");
     $("#preview_total_val").addClass("col-3");
   } else {
-    $("#previewigst").addClass("col-4");
+    $("#previewgst").addClass("col-4");
     $("#sgstclass").hide().addClass("col-0");
     $("#cgstclass").hide().addClass("col-0");
     $("#igstclass").show().addClass("col-4");
