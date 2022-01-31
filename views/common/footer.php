@@ -126,7 +126,7 @@
 <script src="<?php echo ROOT; ?>assets/js/p_view.js"></script>
 <?php endif; ?>
 
-<script src="<?php echo ROOT; ?>assets/js/custom.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/menu.js"></script>

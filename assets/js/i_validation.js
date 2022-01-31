@@ -108,12 +108,3 @@ $(document).on("keyup", "#id_invoice_no", function (event) {
     return $(this).val($(this).val().substring(0, 7));
   }
 });
-
-$(document).ready(function() {
-  $(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
-});
