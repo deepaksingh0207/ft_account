@@ -8,11 +8,10 @@
     
     body {
       font-family: sans-serif;
-      font-size: 10pt;
     }
 
     .container {
-      width: 70%;
+      width: 95%;
       height: 100%;
       margin-right: auto;
       margin-left: auto;
@@ -73,7 +72,7 @@
     <table width="100%" cellpadding="10" style="border: 1px solid black">
       <tr>
         <td width="50%" style="border-right: 1px solid black; padding: 0px 0px 0px 1px;">
-          <span style="font-family: sans; font-size: small;">
+          <span style="font-family: sans;">
             <b>Invoice No: {{INV_NO}}<br />
             Date: {{INV_DATE}}</b><br /><br />
             <b>Billing Address: F.T. Solutions Pvt Ltd</b><br />{{COMPANY_BILLTO}}<br />
@@ -88,7 +87,7 @@
           </span>
         </td>
         <td width="50%" style="padding: 0px 0px 0px 1px;">
-          <span style="font-family: sans; font-size: small;">
+          <span style="font-family: sans;">
             <b>Purchase Order No.: {{PO_NO}}<br />
               Date: {{PO_DATE}}</b><br /><br />
             <b>Bill To: </b>{{CUST_ADDRESS}}<br />
@@ -101,14 +100,14 @@
         </td>
       </tr>
     </table>
-    <table width="100%" style="text-align: center;font-size: small;">
+    <table width="100%" style="text-align: center;">
       <thead>
         <tr>
-          <th style="font-size: small;">Sr. No.</th>
-          <th style="font-size: small;">Item Description</th>
-          <th style="font-size: small;">Qty./Unit</th>
-          <th style="font-size: small;">Unit Price</th>
-          <th style="font-size: small;text-align: right;">Total Value</th>
+          <th>Sr. No.</th>
+          <th>Item Description</th>
+          <th>Qty./Unit</th>
+          <th>Unit Price</th>
+          <th style="text-align: right;">Total Value</th>
         </tr>
       </thead>
       <tbody>
@@ -120,12 +119,12 @@
         {{ITEM_LIST}}
       </tbody>
     </table>
-    <table width="100%" style="font-size: small;">
+    <table width="100%">
       <tr>
-        <td style="text-align: right; width: 85%; border-top: 1px solid grey;font-size: small;">
+        <td style="text-align: right; width: 85%; border-top: 1px solid grey;">
           Net Value INR.
         </td>
-        <td style="text-align: right; width: 15%; border-top: 1px solid grey;font-size: small;">
+        <td style="text-align: right; width: 15%; border-top: 1px solid grey;">
           {{ORDER_TOTAL}}
         </td>
       </tr>
@@ -136,10 +135,10 @@
       </tr>
       {{TAX_LAYOUT}}
       <tr>
-        <td style="text-align: right; width: 85%;font-size: small;">
+        <td style="text-align: right; width: 85%;">
           Total Value Including Taxes INR.
         </td>
-        <td style="text-align: right; width: 15%;font-size: small;">
+        <td style="text-align: right; width: 15%;">
           <u>{{INV_TOTAL}}</u>
         </td>
       </tr>

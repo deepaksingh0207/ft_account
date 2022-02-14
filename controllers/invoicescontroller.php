@@ -308,11 +308,11 @@ class InvoicesController extends Controller
         $itemList = '';
         foreach($dataItem as $key => $item) {
             $itemList .= '<tr>
-            <td style="font-size: xx-small;">'.($key+1).'</td>
-            <td style="font-size: xx-small;">'.$item['description'].'</td>
-            <td style="font-size: xx-small;">'.$item['qty'].'</td>
-            <td style="font-size: xx-small;">'.number_format($item['unit_price'], 2).'</td>
-            <td style="font-size: xx-small;text-align: right;">'.number_format($item['total'], 2).'</td>
+            <td >'.($key+1).'</td>
+            <td >'.$item['description'].'</td>
+            <td >'.$item['qty'].'</td>
+            <td >'.number_format($item['unit_price'], 2).'</td>
+            <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
             </tr>';
             
             $orderBaseTotal += $item['total'];
@@ -321,19 +321,19 @@ class InvoicesController extends Controller
         $taxesLayout = '';
         if((int)$invoice['igst']) {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 85%; border-bottom: 1px solid grey;font-size: xx-small;">
+            <td style="text-align: right; width: 85%; border-bottom: 1px solid grey;">
             IGST @ 18%
             </td>
-            <td style="text-align: right; width: 15%; border-bottom: 1px solid grey;font-size: xx-small;">
+            <td style="text-align: right; width: 15%; border-bottom: 1px solid grey;">
             '.number_format($invoice['igst'], 2).'
             </td>
         </tr>';
         } else {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;font-size: xx-small;">
+            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
               CGST @ 9%<br />SGST @ 9%
             </td>
-            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;font-size: xx-small;">'.number_format($invoice['cgst'], 2).'
+            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">'.number_format($invoice['cgst'], 2).'
               <br />'.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
@@ -353,8 +353,13 @@ class InvoicesController extends Controller
         // End
         
         require_once HOME . DS. 'vendor/autoload.php';
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
         $mpdf->WriteHTML($messageBody);
+        $mpdf->SetHTMLFooter('<hr style="margin: 10px 0px 0px 0px;" />
+        <p style="text-align: center; ">
+          '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
+          Email: account@fts-pl.com Website: http://www.fts-pl.com
+        </p>');
         $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
         
         
@@ -517,11 +522,11 @@ class InvoicesController extends Controller
             $itemList = '';
             foreach($dataItem as $key => $item) {
                 $itemList .= '<tr>
-            <td style="font-size: small;">'.($key+1).'</td>
-            <td style="font-size: small;">'.$item['description'].'</td>
-            <td style="font-size: small;">'.$item['qty'].'</td>
-            <td style="font-size: small;">'.number_format($item['unit_price'], 2).'</td>
-            <td style="font-size: small;text-align: right;">'.number_format($item['total'], 2).'</td>
+            <td >'.($key+1).'</td>
+            <td >'.$item['description'].'</td>
+            <td >'.$item['qty'].'</td>
+            <td >'.number_format($item['unit_price'], 2).'</td>
+            <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 
                 $orderBaseTotal += $item['total'];
@@ -530,10 +535,10 @@ class InvoicesController extends Controller
             $taxesLayout = '';
             if((int)$invoice['igst']) {
                 $taxesLayout = '<tr>
-                <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;font-size: small;">
+                <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
                   IGST @ 18%
                 </td>
-                <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;font-size: small;">'.number_format($invoice['igst'], 2).'</td>
+                <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">'.number_format($invoice['igst'], 2).'</td>
               </tr>
               <tr>
               <td colspan="5" style="padding: 0px">
@@ -542,12 +547,12 @@ class InvoicesController extends Controller
             </tr>';
         } else {
             $taxesLayout = '<tr>
-            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;font-size: small;">
+            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
               CGST @ 9%
               <br />
               SGST @ 9%
             </td>
-            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;font-size: small;">
+            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">
             '.number_format($invoice['cgst'], 2).'<br>'.number_format($invoice['sgst'], 2).'
             </td>
           </tr>
@@ -563,8 +568,6 @@ class InvoicesController extends Controller
             } else {
                 $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_preview_template.html'), $vars);
             }
-            
-            
             echo $messageBody;
         }
         
@@ -718,6 +721,35 @@ function addressmaker($val) {
         if ($x <= 2) {
             $jar = $jar . $pieces[$x] . ", ";
             if ($x == 2) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
+        } else if ($x == $skippiece){
+            $skippiece = 0;
+        } else if ($x == count($pieces)-1){
+            $jar = $jar . $pieces[$x];
+        } else {
+            if ($x+1 <= count($pieces)-1 && strlen($pieces[$x]) + strlen($pieces[$x+1]) <= $maxlen + 3){
+                if ($x+1 == count($pieces)-1){
+                    $jar = $jar . $pieces[$x] . ", " . $pieces[$x+1] . ".";
+                } else {
+                    $jar = $jar . $pieces[$x] . ", " . $pieces[$x+1] . ",<br>";
+                }
+                $skippiece = $x+1;
+            } else {
+                $jar = $jar . $pieces[$x] . ",<br>";
+            }
+        }
+    }
+    return $jar;
+}
+
+function footeraddress($val) {
+    $pieces = explode(",", $val);
+    $maxlen = 0;
+    $skippiece = 0;
+    $jar = "";
+    for ($x = 0; $x < count($pieces); $x++) {
+        if ($x <= 3) {
+            $jar = $jar . $pieces[$x] . ", ";
+            if ($x == 3) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
         } else if ($x == $skippiece){
             $skippiece = 0;
         } else if ($x == count($pieces)-1){
