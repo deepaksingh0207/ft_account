@@ -44,7 +44,7 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box mb-3">
                             <span class="info-box-icon bg-danger elevation-1">
-                            <?php echo $invoiceSumary['no']?>
+                              <?php echo $invoiceSumary['no']?>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Invoice</span>
@@ -73,7 +73,7 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box mb-3">
                             <span class="info-box-icon bg-warning elevation-1">
-                            <?php echo $paymentSumary['no']?>
+                              <?php echo $paymentSumary['no']?>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Payments</span>
@@ -87,7 +87,7 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box">
                             <span class="info-box-icon bg-info elevation-1">
-                            <i class="fas fa-rupee-sign"></i>
+                              <i class="fas fa-rupee-sign"></i>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Total</span>
@@ -101,7 +101,7 @@
                         <div class="col-12 col-sm-6 col-md-3">
                           <div class="info-box mb-3">
                             <span class="info-box-icon bg-danger elevation-1">
-                            <i class="fas fa-rupee-sign"></i>
+                              <i class="fas fa-rupee-sign"></i>
                             </span>
                             <div class="info-box-content">
                               <span class="info-box-text">Balance</span>
@@ -148,7 +148,8 @@
                           </div>
                         </div>
                         <div class="col-sm-12 col-lg-12 mt-3">
-                          <table id="example1" class="table table-striped table-hover table-bordered" style="width: 100%;">
+                          <table id="example1" class="table table-striped table-hover table-bordered"
+                            style="width: 100%;">
                             <thead>
                               <tr>
                                 <th rowspan="2">Customer</th>
@@ -170,8 +171,8 @@
                             <tbody>
                               <?php if (is_array($invoices) || is_object($invoices)) : ?>
                               <?php foreach ($invoices as $invoice) : ?>
-                                <?php if ($invoice['balance_amount'] - $invoice['tds_deducted'] != 0) : ?>
-                                <tr data-href="<?php echo $invoice['invoice_id'] ?>">
+                              <?php if ($invoice['balance_amount'] - $invoice['tds_deducted'] != 0) : ?>
+                              <tr data-href="<?php echo $invoice['invoice_id'] ?>">
                                 <td class="align-middle text-center">
                                   <?php echo $invoice['customer_name'] ?>
                                 </td>
@@ -276,12 +277,69 @@
             </div>
           </div>
         </div>
+        <button type="button" class="btn btn-default hide" id="popup" data-toggle="modal" data-target="#modal-xl"></button>
+        <div class="modal fade" id="modal-xl">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header">
+                <!-- <h4 class="modal-title">Title</h4> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body p-0">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th>Invoice Number</th>
+                      <th>Company</th>
+                      <th>Customer PO</th>
+                      <th>Amount</th>
+                      <th>Due Date</th>
+                      <th>Ageing</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php if (is_array($invoices) || is_object($invoices)) : ?>
+                    <?php foreach ($invoices as $invoice) : ?>
+                    <?php if ($invoice['invoice_no'] != '') : ?>
+                    <tr id="poprow<?php echo $invoice['invoice_id'] ?>" data-href="<?php echo $invoice['invoice_id'] ?>">
+                      <td class="sublist pointer">
+                        <?php echo $invoice['invoice_no'] ?>
+                      </td>
+                      <td class="sublist pointer">
+                        <?php echo $invoice['customer_name'] ?>
+                      </td>
+                      <td class="sublist pointer">
+                        <?php echo $invoice['po_no'] ?>
+                      </td>
+                      <td class="sublist pointer">
+                        <?php echo $invoice['recieved_amount'] ?>
+                      </td>
+                      <td class="sublist pointer">
+                        <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
+                      </td>
+                      <td id="pop<?php echo $invoice['invoice_id'] ?>" class="sublist pointer"></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
       </section>
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
     <script>
       var invoicelist = [], tabledates = []
-      <?php if (is_array($invoices) || is_object($invoices)) : ?>
+        <?php if (is_array($invoices) || is_object($invoices)) : ?>
       <?php foreach($invoices as $invoice) : ?>
         invoicelist.push(<?php echo $invoice['invoice_id'] ?>);
       tabledates.push('<?php echo date('m / d / Y', strtotime($invoice['due_date'])) ?>');

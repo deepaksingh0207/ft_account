@@ -9,7 +9,7 @@
               <div class="card card-default">
                 <div class="card-header">View Customers</div>
                 <div class="card-body p-3" id="list" style="display: block">
-                  <table id="example1" class="table table-striped">
+                  <table id="example1" class="table table-hover table-striped">
                     <thead class="text-center">
                       <tr>
                         <th></th>
@@ -21,7 +21,7 @@
                     <tbody class="text-center">
                       <?php if (is_array($customers) || is_object($customers)) : ?>
                       <?php foreach ($customers as $customer) : ?>
-                      <tr
+                      <tr class="pointer"
                         data-href="<?php echo ROOT; ?>customers/view/<?php echo $customer['id'] ?>"
                       >
                         <td></td>

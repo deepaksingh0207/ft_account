@@ -1,17 +1,30 @@
 var dtable;
 
 $(function () {
+    $("#popup").trigger('click');
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
-        diff = appendcode(datediff(tabledates[index]));
+        var a = appendcode(datediff(tabledates[index]));
         console.log(duedate);
         $("#due" + value).empty();
-        if (diff[2] == '') {
-            $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '">' + diff[1] + '</span>');
-            $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
+        if (a[2] == '') {
+            $("#age" + value).append('<span class="description-percentage text-' + a[0] + '">' + a[1] + '</span>');
+            $("#pop" + value).append('<span class="description-percentage">' + a[1] + '</span>');
+            $("#poprow" + value).css({"background-color": '#f67161', "color": "#f9dd54"});
+            $("#due" + value).append('<span class="description-percentage text-' + a[0] + '">' + duedate + '</span>');
         } else {
-            $("#age" + value).append('<span class="description-percentage text-' + diff[0] + '"><i class="fas fa-caret-' + diff[2] + '"></i> ' + diff[1] + '</span>');
-            $("#due" + value).append('<span class="description-percentage text-' + diff[0] + '">' + duedate + '</span>');
+            $("#age" + value).append('<span class="description-percentage text-' + a[0] + '"><i class="fas fa-caret-' + a[2] + '"></i> ' + a[1] + '</span>');
+            $("#pop" + value).append('<span class="description-percentage"><i class="fas fa-caret-' + a[2] + '"></i> ' + a[1] + '</span>');
+            if (0 < a[3] && a[3] < 10){
+                $("#poprow" + value).css({"background-color": '#f67161', "color": "#FFF"});
+            } else if (11 < a[3] && a[3] < 20){
+                $("#poprow" + value).css({"background-color": '#FFE77AFF', "color": "#2C5F2DFF"});
+            } else if (21 < a[3] && a[3] < 31){
+                $("#poprow" + value).css({"background-color": '#2C5F2DFF', "color": "#FFE77AFF"});
+            } else {
+                $("#poprow" + value).remove();
+            }
+            $("#due" + value).append('<span class="description-percentage text-' + a[0] + '">' + duedate + '</span>');
         }
     });
     $('#example1').DataTable({
@@ -75,30 +88,34 @@ $(".update").on("click", function () {
 });
 
 function appendcode(val) {
-    val = parseInt(val)
+    var val = parseInt(val)
+    var day = 0
     if (val > 24) {
+        day = parseInt(val / 24)
         if (val > 168) {
-            val = ['success', parseInt(val / 24) + ' Days', 'up']
+            val = ['success', day + ' Days', 'up', day]
             return val
         } else {
-            val = ['warning', parseInt(val / 24) + ' Days', 'up']
+
+            val = ['warning', day + ' Days', 'up', day]
             return val
         }
     }
     else if (val < -48) {
-        val = ['danger', parseInt((val * -1) / 24) + ' Days ago', 'down']
+        day = parseInt((val * -1) / 24)
+        val = ['danger', day + ' Days ago', 'down', day]
         return val
     }
     else if (0 < val) {
-        val = ['warning', 'Tomorrow', 'down']
+        val = ['warning', 'Tomorrow', 'down', 1]
         return val
     }
     else if (val < -24) {
-        val = ['danger', 'Yesterday', 'down']
+        val = ['danger', 'Yesterday', 'down', -1]
         return val
     }
     else {
-        val = ['warning', 'Today', '']
+        val = ['warning', 'Today', '', 0]
         return val
     }
 }
