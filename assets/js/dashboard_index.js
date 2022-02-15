@@ -9,21 +9,9 @@ $(function () {
         $("#due" + value).empty();
         if (a[2] == '') {
             $("#age" + value).append('<span class="description-percentage text-' + a[0] + '">' + a[1] + '</span>');
-            $("#pop" + value).append('<span class="description-percentage">' + a[1] + '</span>');
-            $("#poprow" + value).css({"background-color": '#f67161', "color": "#f9dd54"});
             $("#due" + value).append('<span class="description-percentage text-' + a[0] + '">' + duedate + '</span>');
         } else {
             $("#age" + value).append('<span class="description-percentage text-' + a[0] + '"><i class="fas fa-caret-' + a[2] + '"></i> ' + a[1] + '</span>');
-            $("#pop" + value).append('<span class="description-percentage"><i class="fas fa-caret-' + a[2] + '"></i> ' + a[1] + '</span>');
-            if (0 < a[3] && a[3] < 10){
-                $("#poprow" + value).css({"background-color": '#f67161', "color": "#FFF"});
-            } else if (11 < a[3] && a[3] < 20){
-                $("#poprow" + value).css({"background-color": '#FFE77AFF', "color": "#2C5F2DFF"});
-            } else if (21 < a[3] && a[3] < 31){
-                $("#poprow" + value).css({"background-color": '#2C5F2DFF', "color": "#FFE77AFF"});
-            } else {
-                $("#poprow" + value).remove();
-            }
             $("#due" + value).append('<span class="description-percentage text-' + a[0] + '">' + duedate + '</span>');
         }
     });
@@ -35,33 +23,12 @@ $(function () {
         "ordering": false,
         "searching": false,
     });
+    $('#example3').DataTable({
+        rowsGroup: [0,1,2],
+        "ordering": false,
+        "searching": false,
+    });    
 });
-
-// function fill_datatable(appliedfilter = {}) {
-//     dtable = $("#example1").DataTable({
-//         "processing": true,
-//         "ordering": false,
-//         "bLengthChange": false,
-//         "pageLength": 10,
-//         "order": [],
-//         "searching": false,
-//         "columns": [ //data: 0 => invoice_id
-//             { data: 1 },
-//             { data: 2 },
-//             { data: 3 },
-//             { data: 4 },
-//             { data: 5 }
-//         ],
-//         createdRow: function (row, data, dataIndex) {
-//             $(row).attr('data-href', data[0]).children('td').addClass('sublist pointer align-middle text-center');
-//         },
-//         "ajax": {
-//             url: baseUrl + "dashboard/search/",
-//             type: "POST",
-//             data: appliedfilter
-//         }
-//     });
-// }
 
 $("#id_startdate").on("change", function () {
     $("#id_enddate").attr('min', $(this).val());
@@ -70,6 +37,11 @@ $("#id_startdate").on("change", function () {
 $(document).on("click", ".sublist", function () {
     var parent_id = $(this).parent("tr").data('href');
     window.location = baseUrl + 'invoices/view/' + parent_id;
+});
+
+$(document).on("click", ".ordlist", function () {
+    var parent_id = $(this).parent("tr").data('href');
+    window.location = baseUrl + 'orders/view/' + parent_id;
 });
 
 $(".update").on("click", function () {

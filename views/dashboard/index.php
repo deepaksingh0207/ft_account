@@ -280,80 +280,107 @@
         <button type="button" class="btn btn-default hide" id="popup" data-toggle="modal"
           data-target="#modal-xl"></button>
         <div class="modal fade" id="modal-xl">
-          <div class="modal-dialog modal-xl">
+          <div class="modal-dialog modal-xl" style="max-width:1200px;">
             <div class="modal-content">
               <div class="modal-header">
-                <!-- <h4 class="modal-title">Title</h4> -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body p-0">
-                <table class="table mb-0">
+              <div class="modal-body">
+                <table class="table table-bordered mb-0" id="example3" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Company</th>
+                      <th style="width:115px;">Company</th>
                       <th>Customer PO</th>
-                      <th>item</th>
+                      <th>Order Amount</th>
+                      <th>Item</th>
                       <th>Description</th>
                       <th>Item Amount</th>
-                      <th>Order Amount</th>
-                      <th>Order Date</th>
-                      <th>Due Date</th>
+                      <th style="width:55px;">Order Date</th>
+                      <th style="width:55px;">Due Date</th>
                       <th>Ageing</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php if (is_array($popuprows) || is_object($popuprows)) : ?>
-                    <?php foreach ($popuprows as $row) : ?>
-                    <tr>
-                    <td class="sublist pointer align-middle" rowspan="<?php echo count($row) ?>">
-                      <?php echo $row['name'] ?>
-                    </td>
-                      <td class="sublist pointer align-middle" rowspan="<?php echo count($row) ?>">
-                        <?php echo $row['po_no'] ?>
-                      </td>
-                    </tr>
-                      <?php foreach ($row['sub'] as $subrow) : ?>
-                      <?php if ($subrow['ageing'] < 11): ?>
-                      <tr style="background-color: #f67161;color: #FFF;">
-                      <?php elseif ($subrow['ageing'] < 21): ?>
-                      <tr style="background-color: #FFE77AFF;color: #2C5F2DFF;">
-                      <?php else: ?>
-                      <tr style="background-color: #2C5F2DFF;color: #FFE77AFF;">
-                      <?php endif; ?>
-                        <td class="sublist pointer">
-                          <?php echo $subrow['item'] ?>
-                        </td>
-                        <td class="sublist pointer">
-                          <?php echo $subrow['description'] ?>
-                        </td>
-                        <td class="sublist pointer">
-                          <?php echo $subrow['total'] ?>
-                        </td>
-                        <td class="sublist pointer">
-                          <?php echo $row['ordertotal'] ?>
-                        </td>
-                        <td class="sublist pointer">
-                          <?php echo $subrow['po_from_date'] ?>
-                        </td>
-                        <td class="sublist pointer">
-                          <?php echo $subrow['po_to_date'] ?>
-                        </td>
-                        <td class="sublist pointer">
-                          <?php echo $subrow['ageing'] ?>
-                        </td>
-                      </tr>
+                      <?php foreach ($popuprows as $row) : ?>
+                        <?php foreach ($row['sub'] as $key=>$subrow) : ?>
+                          <tr data-href="<?php echo $invoice['invoice_id'] ?>">
+                              <td class="ordlist pointer align-middle">
+                                <?php echo $row['name'] ?>
+                              </td>
+                              <td class="ordlist pointer align-middle">
+                                <?php echo $row['po_no'] ?>
+                              </td>
+                              <td class="ordlist pointer align-middle">
+                                <?php echo $row['ordertotal'] ?>
+                              </td>
+                          <?php if ($subrow['ageing'] < 11): ?>
+                            <td style="background-color: #f67161;color: #FFF;" class="ordlist pointer">
+                              <?php echo $subrow['item'] ?>
+                            </td>
+                            <td style="background-color: #f67161;color: #FFF;" class="ordlist pointer">
+                              <?php echo $subrow['description'] ?>
+                            </td>
+                            <td style="background-color: #f67161;color: #FFF;" class="ordlist pointer">
+                              <?php echo $subrow['total'] ?>
+                            </td>
+                            <td style="background-color: #f67161;color: #FFF;" class="ordlist pointer">
+                              <?php echo $subrow['po_from_date'] ?>
+                            </td>
+                            <td style="background-color: #f67161;color: #FFF;" class="ordlist pointer">
+                              <?php echo $subrow['po_to_date'] ?>
+                            </td>
+                            <td style="background-color: #f67161;color: #FFF;" class="ordlist pointer">
+                              <?php echo $subrow['ageing'] ?>
+                            </td>
+                          <?php elseif ($subrow['ageing'] < 21): ?>
+                            <td style="background-color: #FFE77AFF;color: #2C5F2DFF;" class="ordlist pointer">
+                              <?php echo $subrow['item'] ?>
+                            </td>
+                            <td style="background-color: #FFE77AFF;color: #2C5F2DFF;" class="ordlist pointer">
+                              <?php echo $subrow['description'] ?>
+                            </td>
+                            <td style="background-color: #FFE77AFF;color: #2C5F2DFF;" class="ordlist pointer">
+                              <?php echo $subrow['total'] ?>
+                            </td>
+                            <td style="background-color: #FFE77AFF;color: #2C5F2DFF;" class="ordlist pointer">
+                              <?php echo $subrow['po_from_date'] ?>
+                            </td>
+                            <td style="background-color: #FFE77AFF;color: #2C5F2DFF;" class="ordlist pointer">
+                              <?php echo $subrow['po_to_date'] ?>
+                            </td>
+                            <td style="background-color: #FFE77AFF;color: #2C5F2DFF;" class="ordlist pointer">
+                              <?php echo $subrow['ageing'] ?>
+                            </td>
+                          <?php else: ?>
+                            <td style="background-color: #2C5F2DFF;color: #FFE77AFF;" class="ordlist pointer">
+                              <?php echo $subrow['item'] ?>
+                            </td>
+                            <td style="background-color: #2C5F2DFF;color: #FFE77AFF;" class="ordlist pointer">
+                              <?php echo $subrow['description'] ?>
+                            </td>
+                            <td style="background-color: #2C5F2DFF;color: #FFE77AFF;" class="ordlist pointer">
+                              <?php echo $subrow['total'] ?>
+                            </td>
+                            <td style="background-color: #2C5F2DFF;color: #FFE77AFF;" class="ordlist pointer">
+                              <?php echo $subrow['po_from_date'] ?>
+                            </td>
+                            <td style="background-color: #2C5F2DFF;color: #FFE77AFF;" class="ordlist pointer">
+                              <?php echo $subrow['po_to_date'] ?>
+                            </td>
+                            <td style="background-color: #2C5F2DFF;color: #FFE77AFF;" class="ordlist pointer">
+                              <?php echo $subrow['ageing'] ?>
+                            </td>
+                          <?php endif; ?>
+                          </tr>
+                        <?php endforeach; ?>
                       <?php endforeach; ?>
-                    <?php endforeach; ?>
                     <?php endif; ?>
                   </tbody>
                 </table>
               </div>
-              <!-- <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div> -->
             </div>
           </div>
         </div>
@@ -361,8 +388,8 @@
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
     <script>
-      var invoicelist = [], tabledates = []
-      <?php if (is_array($invoices) || is_object($invoices)) : ?>
+      var invoicelist = [], tabledates = [];
+        <?php if (is_array($invoices) || is_object($invoices)) : ?>
       <?php foreach($invoices as $invoice) : ?>
         invoicelist.push(<?php echo $invoice['invoice_id'] ?>);
       tabledates.push('<?php echo date('m / d / Y', strtotime($invoice['due_date'])) ?>');

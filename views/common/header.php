@@ -73,11 +73,13 @@
     href="<?php echo ROOT; ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" /> -->
   <?php endif; ?>
-
+    
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/custom.css" />
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/fontawesome-free/css/all.min.css" />
   <link rel="stylesheet" href="<?php echo ROOT ?>assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/dist/css/adminlte.min.css" />
   <script src="<?php echo ROOT; ?>assets/plugins/jquery/jquery.min.js"></script>
   <script src="<?php echo ROOT; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="http://datatables.net/download/build/nightly/jquery.dataTables.js"></script>
+  <script src="http://cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
 </head>
