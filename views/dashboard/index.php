@@ -277,7 +277,8 @@
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-default hide" id="popup" data-toggle="modal" data-target="#modal-xl"></button>
+        <button type="button" class="btn btn-default hide" id="popup" data-toggle="modal"
+          data-target="#modal-xl"></button>
         <div class="modal fade" id="modal-xl">
           <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -291,37 +292,59 @@
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th>Invoice Number</th>
                       <th>Company</th>
                       <th>Customer PO</th>
-                      <th>Amount</th>
+                      <th>item</th>
+                      <th>Description</th>
+                      <th>Item Amount</th>
+                      <th>Order Amount</th>
+                      <th>Order Date</th>
                       <th>Due Date</th>
                       <th>Ageing</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if (is_array($invoices) || is_object($invoices)) : ?>
-                    <?php foreach ($invoices as $invoice) : ?>
-                    <?php if ($invoice['invoice_no'] != '') : ?>
-                    <tr id="poprow<?php echo $invoice['invoice_id'] ?>" data-href="<?php echo $invoice['invoice_id'] ?>">
-                      <td class="sublist pointer">
-                        <?php echo $invoice['invoice_no'] ?>
+                    <?php if (is_array($popuprows) || is_object($popuprows)) : ?>
+                    <?php foreach ($popuprows as $row) : ?>
+                    <tr>
+                    <td class="sublist pointer align-middle" rowspan="<?php echo count($row) ?>">
+                      <?php echo $row['name'] ?>
+                    </td>
+                      <td class="sublist pointer align-middle" rowspan="<?php echo count($row) ?>">
+                        <?php echo $row['po_no'] ?>
                       </td>
-                      <td class="sublist pointer">
-                        <?php echo $invoice['customer_name'] ?>
-                      </td>
-                      <td class="sublist pointer">
-                        <?php echo $invoice['po_no'] ?>
-                      </td>
-                      <td class="sublist pointer">
-                        <?php echo $invoice['recieved_amount'] ?>
-                      </td>
-                      <td class="sublist pointer">
-                        <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
-                      </td>
-                      <td id="pop<?php echo $invoice['invoice_id'] ?>" class="sublist pointer"></td>
                     </tr>
-                    <?php endif; ?>
+                      <?php foreach ($row['sub'] as $subrow) : ?>
+                      <?php if ($subrow['ageing'] < 11): ?>
+                      <tr style="background-color: #f67161;color: #FFF;">
+                      <?php elseif ($subrow['ageing'] < 21): ?>
+                      <tr style="background-color: #FFE77AFF;color: #2C5F2DFF;">
+                      <?php else: ?>
+                      <tr style="background-color: #2C5F2DFF;color: #FFE77AFF;">
+                      <?php endif; ?>
+                        <td class="sublist pointer">
+                          <?php echo $subrow['item'] ?>
+                        </td>
+                        <td class="sublist pointer">
+                          <?php echo $subrow['description'] ?>
+                        </td>
+                        <td class="sublist pointer">
+                          <?php echo $subrow['total'] ?>
+                        </td>
+                        <td class="sublist pointer">
+                          <?php echo $row['ordertotal'] ?>
+                        </td>
+                        <td class="sublist pointer">
+                          <?php echo $subrow['po_from_date'] ?>
+                        </td>
+                        <td class="sublist pointer">
+                          <?php echo $subrow['po_to_date'] ?>
+                        </td>
+                        <td class="sublist pointer">
+                          <?php echo $subrow['ageing'] ?>
+                        </td>
+                      </tr>
+                      <?php endforeach; ?>
                     <?php endforeach; ?>
                     <?php endif; ?>
                   </tbody>
@@ -339,7 +362,7 @@
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
     <script>
       var invoicelist = [], tabledates = []
-        <?php if (is_array($invoices) || is_object($invoices)) : ?>
+      <?php if (is_array($invoices) || is_object($invoices)) : ?>
       <?php foreach($invoices as $invoice) : ?>
         invoicelist.push(<?php echo $invoice['invoice_id'] ?>);
       tabledates.push('<?php echo date('m / d / Y', strtotime($invoice['due_date'])) ?>');
