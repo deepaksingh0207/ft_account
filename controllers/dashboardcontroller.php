@@ -46,39 +46,23 @@ class DashboardController extends Controller
             $temp_popuprows = array();
             if($popuprows) {
                 $temp_mergerow = array();
-                $last_po = "";
                 foreach($popuprows as &$row) {
-                    if ($last_po == $row['po_no']) {
-                        $tmp = array();
-                        $tmp['item'] = $row['item'];
-                        $tmp['description'] = $row['description'];
-                        $tmp['total'] = $row['total'];
-                        $tmp['po_from_date'] = date('d, M Y',strtotime($row['po_from_date']));
-                        $tmp['po_to_date'] = date('d, M Y',strtotime($row['po_to_date']));
-                        $tmp['ageing'] = $row['ageing'];
-                        $temp_mergerow['sub'][] = $tmp;
-                    } else {
-                        if ($last_po != ""){
-                            $temp_popuprows[] = $temp_mergerow;
-                        }
-                        $last_po = $row['po_no'];
-                        $temp_mergerow['id'] =  $row['id'];
-                        $temp_mergerow['name'] =  $row['name'];
-                        $temp_mergerow['ordertotal'] =  $row['ordertotal'];
-                        $temp_mergerow['po_no'] =  $row['po_no'];
-                        $tmp = array();
-                        $tmp['item'] = $row['item'];
-                        $tmp['description'] = $row['description'];
-                        $tmp['total'] = $row['total'];
-                        $tmp['po_from_date'] = date('d, M Y',strtotime($row['po_from_date']));
-                        $tmp['po_to_date'] = date('d, M Y',strtotime($row['po_to_date']));
-                        $tmp['ageing'] = $row['ageing'];
-                        $temp_mergerow['sub'][] = $tmp;
-                    }
+                    $temp = array();
+                    $temp['id'] =  $row['id'];
+                    $temp['name'] =  $row['name'];
+                    $temp['ordertotal'] =  $row['ordertotal'];
+                    $temp['po_no'] =  $row['po_no'];
+                    $temp['item'] = $row['item'];
+                    $temp['description'] = $row['description'];
+                    $temp['total'] = $row['total'];
+                    $temp['po_from_date'] = date('d, M Y',strtotime($row['po_from_date']));
+                    $temp['po_to_date'] = date('d, M Y',strtotime($row['po_to_date']));
+                    $temp['ageing'] = $row['ageing'];
+                    $temp_mergerow[] = $temp;
                 }
-                $temp_popuprows[] = $temp_mergerow;
             }
-            $popuprows = $temp_popuprows;
+
+            $popuprows = $temp_mergerow;
             
             $this->_view->set('popuprows', $popuprows);
             //echo '<pre>'; print_r($invoices); exit;
