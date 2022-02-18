@@ -43,6 +43,12 @@
                 <p>Order Summary</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="<?php echo ROOT; ?>dashboard/expiredpo" class="nav-link" id="menu_expiredpo">
+                <i class="fas fa-chart-pie"></i>
+                <p>Expired PO</p>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="nav-item">
