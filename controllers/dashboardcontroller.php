@@ -124,4 +124,46 @@ class DashboardController extends Controller
         }
         
     }
+
+    public function expiredpo() {
+        
+        try {
+
+            $dashModel = new DashboardModel();
+
+            $popuprows = $dashModel->popupSummary();
+
+            $temp_popuprows = array();
+            if($popuprows) {
+                $temp_mergerow = array();
+                foreach($popuprows as &$row) {
+                    $temp = array();
+                    $temp['id'] =  $row['id'];
+                    $temp['name'] =  $row['name'];
+                    $temp['ordertotal'] =  $row['ordertotal'];
+                    $temp['po_no'] =  $row['po_no'];
+                    $temp['item'] = $row['item'];
+                    $temp['description'] = $row['description'];
+                    $temp['total'] = $row['total'];
+                    $temp['po_from_date'] = date('d, M Y',strtotime($row['po_from_date']));
+                    $temp['po_to_date'] = date('d, M Y',strtotime($row['po_to_date']));
+                    $temp['ageing'] = $row['ageing'];
+                    $temp_mergerow[] = $temp;
+                }
+            }
+            
+            $popuprows = $temp_mergerow;
+            
+            $this->_view->set('popuprows', $popuprows);
+
+            $this->_view->set('title', 'Expired PO');
+            
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
 }

@@ -81,7 +81,7 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- <script src="<?php echo ROOT; ?>assets/js/dashboard_report.js"></script> -->
+<script src="<?php echo ROOT; ?>assets/js/dashboard_expiredpo.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'customers' && ($action == 'index')) : ?>
