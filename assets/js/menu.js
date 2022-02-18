@@ -32,6 +32,11 @@ $(document).ready(function () {
       $("#report_menu").show();
       $(".report").addClass('menu-is-opening menu-open');
       $(".reportlink").addClass("active");
+    } else if (submenu == 'expiredpo') {
+      $("#menu_expiredpo").addClass("active");
+      $("#report_menu").show();
+      $(".report").addClass('menu-is-opening menu-open');
+      $(".reportlink").addClass("active");
     } else {
       $("#menu_dashboard").addClass("active");
     }
