@@ -133,9 +133,8 @@ class DashboardController extends Controller
 
             $popuprows = $dashModel->popupSummary();
 
-            $temp_popuprows = array();
+            $temp_mergerow = array();
             if($popuprows) {
-                $temp_mergerow = array();
                 foreach($popuprows as &$row) {
                     $temp = array();
                     $temp['id'] =  $row['id'];
