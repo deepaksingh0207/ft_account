@@ -1,7 +1,9 @@
 var dtable;
 
 $(function () {
-    $("#popup").trigger('click');
+    if (popup) {
+        $("#popup").trigger('click');
+    }
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
         var a = appendcode(datediff(tabledates[index]));
@@ -24,10 +26,10 @@ $(function () {
         "searching": false,
     });
     $('#example3').DataTable({
-        rowsGroup: [0,1,2],
+        rowsGroup: [0, 1, 2],
         "ordering": false,
         "searching": false,
-    });    
+    });
 });
 
 $("#id_startdate").on("change", function () {

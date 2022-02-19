@@ -43,7 +43,6 @@ class DashboardController extends Controller
                     }
                 }
             }
-            $temp_popuprows = array();
             if($popuprows) {
                 $temp_mergerow = array();
                 foreach($popuprows as &$row) {
@@ -60,9 +59,9 @@ class DashboardController extends Controller
                     $temp['ageing'] = $row['ageing'];
                     $temp_mergerow[] = $temp;
                 }
+                $popuprows = $temp_mergerow;
             }
 
-            $popuprows = $temp_mergerow;
             
             $this->_view->set('popuprows', $popuprows);
             //echo '<pre>'; print_r($invoices); exit;

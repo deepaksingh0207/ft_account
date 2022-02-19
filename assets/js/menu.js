@@ -1,8 +1,15 @@
 $(document).ready(function () {
   var urlpath = window.location.pathname
   var parts = urlpath.split("/");
+  
+  // Development
   var menu = parts[2];
   var submenu = parts[3];
+  
+  // Production
+  // var menu = parts[1];
+  // var submenu = parts[2];
+  
   if (menu == 'invoices') {
     $("#menu_invoices").addClass("active");
   }
