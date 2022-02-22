@@ -66,7 +66,8 @@ class DashboardModel extends Model {
         left Join payments P on (P.order_id = O.id and P.status = 1)
         where O.status = 1
         group by O.id
-        having invoice_total > 0";
+        having balance is null or balance != 0";
+        //having invoice_total > 0";
 
         $this->_setSql($sql);
         $list = $this->getAll();
