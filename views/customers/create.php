@@ -124,7 +124,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control ftsm" name="pphone" id="id_pphone" pattern="^[0-9]+$"
-                          minlength="8" maxlength="10" value="" />
+                          minlength="8" maxlength="11" value="" />
                       </div>
                     </div>
 
@@ -134,7 +134,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control ftsm" name="aphone" id="id_sphone" pattern="^[0-9]+$"
-                          minlength="8" maxlength="10" value="" />
+                          minlength="8" maxlength="11" value="" />
                       </div>
                     </div>
 
@@ -143,7 +143,7 @@
                         <label for="id_fax"> Fax </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control ftsm" name="fax" id="id_fax" value="" />
+                        <input type="tel" minlength="10" maxlength="15" class="form-control ftsm" name="fax" id="id_fax" value="" />
                       </div>
                     </div>
 

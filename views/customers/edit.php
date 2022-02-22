@@ -121,7 +121,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="pphone" id="id_pphone" pattern="^[0-9]+$"
-                          minlength="8" maxlength="10" value="<?php echo $customer['pphone'] ?>" />
+                          minlength="8" maxlength="11" value="<?php echo $customer['pphone'] ?>" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -130,7 +130,7 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="aphone" id="id_sphone" pattern="^[0-9]+$"
-                          minlength="8" maxlength="10" value="<?php echo $customer['aphone'] ?>" />
+                          minlength="8" maxlength="11" value="<?php echo $customer['aphone'] ?>" />
                       </div>
                     </div>
                     <div class="row mx-1">
@@ -138,7 +138,7 @@
                         <label for="id_fax"> Fax </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
-                        <input type="tel" class="form-control fc ftsm" name="fax" id="id_fax"
+                        <input type="tel" class="form-control fc ftsm" name="fax" minlength="10" maxlength="15" id="id_fax"
                           value="<?php echo $customer['fax'] ?>" />
                       </div>
                     </div>

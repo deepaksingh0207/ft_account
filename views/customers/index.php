@@ -5,11 +5,47 @@
       <section class="content">
         <div class="container-fluid pb-5">
           <div class="row my-3">
-            <div class="col-12">
-              <div class="card card-default">
-                <div class="card-header">View Customers</div>
-                <div class="card-body p-3" id="list" style="display: block">
-                  <table id="example1" class="table table-hover table-striped">
+          <div class="col-12">
+              <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                  <ul
+                    class="nav nav-tabs"
+                    id="custom-tabs-four-tab"
+                    role="tablist"
+                  >
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        id="customergroup_tab"
+                      >
+                        Customer Group
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" id="customer_tab">
+                        Customer
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        id="customer_tab"
+                        href="/ft_account/company/view/1"
+                      >
+                        Company
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-four-tabContent">
+                    <div
+                      class="tab-pane fade show active"
+                      id="customergroup"
+                      role="tabpanel"
+                      aria-labelledby="customergroup_tab"
+                    >
+                    <table id="example1" class="table table-hover table-striped">
                     <thead class="text-center">
                       <tr>
                         <th></th>
@@ -37,6 +73,8 @@
                       <?php endif; ?>
                     </tbody>
                   </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

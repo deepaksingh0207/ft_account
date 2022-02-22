@@ -35,6 +35,7 @@ function plog() {
 }
 
 $(document).ready(function() {
+  $("#copyright_year").text(new Date().getFullYear());
   $(window).keydown(function(event){
     if(event.keyCode == 13) {
       event.preventDefault();

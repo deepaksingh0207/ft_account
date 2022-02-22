@@ -51,30 +51,15 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="<?php echo ROOT; ?>company/view/1" class="nav-link" id="menu_company">
             <i class="far fa-building"></i>
             <p>
               Company
             </p>
           </a>
-        </li>
-        <li class="nav-item">
-          <a href="<?php echo ROOT; ?>customergroups" class="nav-link" id="menu_group">
-            <i class="fas fa-users"></i>
-            <p>
-              Customer Group
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="<?php echo ROOT; ?>customers" class="nav-link" id="menu_customers">
-            <i class="fas fa-users"></i>
-            <p>
-              Customer
-            </p>
-          </a>
-        </li>
+        </li> -->
+        
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>orders" class="nav-link" id="menu_orders">
             <i class="fas fa-luggage-cart"></i>
@@ -99,6 +84,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="<?php echo ROOT; ?>customergroups" class="nav-link" id="menu_group">
+            <i class="fas fa-users"></i>
+            <p>
+              Masters
+            </p>
+          </a>
+        </li>
         <!-- <li class="nav-item">
           <a href="#" class="nav-link active">
           <a href="#" class="nav-link">
@@ -119,14 +112,14 @@
             </li>
           </ul>
         </li> -->
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="<?php echo ROOT; ?>settings" class="nav-link" id="menu_settings">
             <i class="fas fa-cog"></i>
             <p>
               Settings
             </p>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
             <i class="fas fa-power-off"></i>

@@ -1,5 +1,3 @@
-
-
 $(function () {
 	$('.select2').select2();
 	$('#state_id').val("1");

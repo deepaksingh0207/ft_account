@@ -1,15 +1,16 @@
-
-
 $(function () {
-	$("#example1").DataTable({
+	$("#company_tab").attr("href", baseUrl + "/company/view/1");
+  $("#customergroup_tab").attr("href", baseUrl + "/customergroups");
+  $("#customer_tab").attr("href", baseUrl + "/customers");
+	$("#customergroup_list").DataTable({
 		responsive: false,
 		lengthChange: false,
 		autoWidth: true,
 		paging: true,
 		ordering: false,
-		searching: false,
+		searching: true,
 	});
-	$("#id_quickForm").validate({
+	$("#customergroup").validate({
 		rules: {
 			name: {
 				required: true,
@@ -17,7 +18,7 @@ $(function () {
 		},
 		messages: {
 			name: {
-				required: "Select a customer group.",
+				required: "Please enter a customer group.",
 			},
 		},
 		errorElement: "span",

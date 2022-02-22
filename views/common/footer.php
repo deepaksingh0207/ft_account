@@ -148,7 +148,6 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/company_index.js?<?php echo time(); ?>"></script>
-
 <?php endif; ?>
 
 <?php if ($controller == 'company' && ($action == 'create')) : ?>
@@ -162,6 +161,10 @@
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/company_edit.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
+<?php if ($controller == 'company' && ($action == 'view')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/company_view.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'index')) : ?>
