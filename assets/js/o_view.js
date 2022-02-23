@@ -21,6 +21,15 @@ $(document).on("click", ".attach", function () {
 	$("#modelpdf").click();
 });
 
+$(document).on("click", ".summarytoggle", function () {
+	$(".summary").toggle();
+	if ($("#id_summary").attr('class') == "fas fa-chevron-down mt-1") {
+		$("#id_summary").attr('class', 'fas fa-chevron-right mt-1');
+	} else {
+		$("#id_summary").attr('class', 'fas fa-chevron-down mt-1');
+	}
+});
+
 $(document).on("click", ".ordertoggle", function () {
 	$(".order").toggle();
 	if ($("#id_order").attr('class') == "fas fa-chevron-down mt-1") {
