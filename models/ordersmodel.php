@@ -153,7 +153,22 @@ having ordertotal > payments";
         }
         return $data;
     }
-
+    
+    // JThayil 22 Feb
+    public function getOrderViewSummary($orderId) {
+        $sql = "select o.ordertotal, sum(i.invoice_total) as invoice_total, sum(q.received_amt) as received_amt, o.ordertotal - received_amt as balance_amt
+        from orders as o
+        inner join customers as c on o.customer_id = c.id
+        left outer join invoices as i on i.order_id=o.id
+        left outer join payments as p on p.invoice_id = i.id
+        left outer join customer_payments as q on p.customer_payment_id = q.id
+        where o.id = $orderId LIMIT 1";
+        $this->_setSql($sql);
+        $invoices = $this->getrow();
+        
+        return $invoices;
+    }
+    // JThayil End
     public function getPaymentDoneInvoices($orderId) {
         
       /*$sql = "select  DISTINCT customer_payments.id, invoice_no, CONCAT_WS('', payment_description, invoice_items.description) description, received_amt as invoice_total,

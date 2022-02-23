@@ -51,7 +51,10 @@ class OrdersController extends Controller
             $this->_view->set('payterms', $payterms);
             
             $invoiceModel = new InvoicesModel();
-            $invoices = $invoiceModel->getInvoicesOfOrder($id);
+            // $invoices = $invoiceModel->getInvoicesOfOrder($id);
+            // Jthayil 22 Feb
+            $invoices = $invoiceModel->getPaymentOfInvoices($id);
+            // Jthayil End
             
             $customerTbl = new CustomersModel();
             $customer = $customerTbl->get($order['customer_id']);
@@ -66,11 +69,16 @@ class OrdersController extends Controller
                 }
             }
             $this->_view->set('invoices', $invoices);
+            
+            // JThayil 22 Feb
+            $summary = $this->_model->getOrderViewSummary($id);
+            $this->_view->set('summary', $summary);
+            // JThayil End
 
-            // JThayil Start 10 Jan
+            
             $paymentDone = $this->_model->getPaymentDoneInvoices($id);
             $this->_view->set('paymentDone', $paymentDone);
-            // JThayil End
+
             
             $this->_view->set('title', 'Order View');
             

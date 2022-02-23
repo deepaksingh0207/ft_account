@@ -25,11 +25,28 @@ $(function () {
         "ordering": false,
         "searching": false,
     });
+    $("#ordersummary").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": true, "ordering": false,
+        "buttons": ["excel"],
+        initComplete: function () {
+          this.api().columns().every(function () {
+            var that = this;
+            $('input', this.header()).on('keyup change clear', function () {
+              if (that.search() !== this.value) {that.search(this.value).draw();}
+            });
+          });
+        }
+      }).buttons().container().appendTo('#ordersummary_wrapper .col-md-6:eq(0)');
     $('#example3').DataTable({
         rowsGroup: [0, 1, 2],
         "ordering": false,
         "searching": false,
     });
+});
+
+$(document).on("click", ".ordersummary", function () {
+    var parent_id = $(this).parent("tr").data('href');
+    window.location = baseUrl + 'orders/view/' + parent_id;
 });
 
 $("#id_startdate").on("change", function () {

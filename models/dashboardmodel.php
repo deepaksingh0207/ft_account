@@ -58,7 +58,7 @@ class DashboardModel extends Model {
     }
 
     public function orderSummary() {
-        $sql = "select C.name, O.po_no,O.po_from_date 'Valid From', O.po_to_date 'Valid To', O.ordertotal, invoice_total, sum(P.tds_deducted + P.allocated_amt) received,
+        $sql = "select O.id, C.name, O.po_no,O.po_from_date 'Valid From', O.po_to_date 'Valid To', O.ordertotal, invoice_total, sum(P.tds_deducted + P.allocated_amt) received,
         (ordertotal - sum(P.tds_deducted + P.allocated_amt)) balance
         from orders O
         Join customers C  on (O.customer_id = C.id)
@@ -74,5 +74,23 @@ class DashboardModel extends Model {
         
         return $list;
     }
+
+    // JThayil 22 Feb
+    public function openpo() {
+        $sql = "select distinct o.order_date, o.po_no, c.name, CONCAT(o.ordertotal, '/-') as ordertotal, oi.item, i.invoice_no,
+        CONCAT('( ',i.invoice_total, '/- )') as invoice_total, p.receivable_amt, i.due_date
+        from orders as o
+        inner join order_items as oi on oi.order_id=o.id
+        inner join customers as c on o.customer_id = c.id
+        left outer join invoices as i on i.order_id=o.id
+        left outer join invoice_items as ii on ii.invoice_id=i.id
+        left outer join payments as p on p.order_id = o.id and p.invoice_id = i.id";
+
+        $this->_setSql($sql);
+        $list = $this->getAll();
+        
+        return $list;
+    }
+    // JThayil End
     
 }

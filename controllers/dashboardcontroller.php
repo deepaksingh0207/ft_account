@@ -19,6 +19,10 @@ class DashboardController extends Controller
             $invoiceSumary = $dashModel->getInvoiceSummary(); 
             $paymentSumary = $dashModel->getPaymentSummary();
             $popuprows = $dashModel->popupSummary();
+            // JThayil 22 Feb
+            // $openpo = $dashModel->openpo();
+            $report = $dashModel->orderSummary();
+            // JThayil End
 
             $this->_view->set('orderSumary', $orderSumary);
             $this->_view->set('invoiceSumary', $invoiceSumary);
@@ -43,6 +47,7 @@ class DashboardController extends Controller
                     }
                 }
             }
+
             if($popuprows) {
                 $temp_mergerow = array();
                 foreach($popuprows as &$row) {
@@ -64,6 +69,10 @@ class DashboardController extends Controller
 
             
             $this->_view->set('popuprows', $popuprows);
+            // JThayil 22 Feb
+            // $this->_view->set('opo', $openpo);
+            $this->_view->set('reports', $report);
+            // JThayil End
             //echo '<pre>'; print_r($invoices); exit;
 
             //$report = new TopCustomerReport();

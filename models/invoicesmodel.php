@@ -147,7 +147,18 @@ class InvoicesModel extends Model {
         
         return $invoices;
     }
-    
+
+    // JThayil 22 Feb
+    public function getPaymentOfInvoices($orderId) {
+        $sql = "select * from invoices as i
+        left join payments as p on i.id =p.invoice_id
+        where i.order_id = $orderId and i.status = 1 order by i.id desc";
+        $this->_setSql($sql);
+        $invoices = $this->getAll();
+        
+        return $invoices;
+    }
+    // JThayil End
     public function getInvoiceItem($id) {
         $sql = "select * from invoice_items where invoice_id = ? ";
         $this->_setSql($sql);

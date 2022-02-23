@@ -121,6 +121,28 @@ $pendingAmount = 0.00;
 										</div>
 									</div>
 								</div>
+
+								<div class="col-12">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Order Total</th>
+												<th>Invoice Total</th>
+												<th>Payment Total</th>
+												<th>Balance Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><?php echo $summary['ordertotal']?></td>
+												<td><?php echo $summary['invoice_total']?></td>
+												<td><?php echo $summary['received_amt']?></td>
+												<td><?php echo $summary['balance_amt']?></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
 								<div class="col	-12">
 									<div class="card">
 										<div class="card-header">
@@ -210,7 +232,6 @@ $pendingAmount = 0.00;
 									</div>
 								</div>
 
-
 								<?php if (in_array($order['order_type'], [1, 2, 3, 7, 99])) : ?>
 								<div class="col-sm-12 col-md-12 col-lg-12">
 									<div class="card">
@@ -289,7 +310,7 @@ $pendingAmount = 0.00;
 														<th class="max150">GST</th>
 														<th class="min100">Invoice Amt</th>
 														<th class="min150">Due Date</th>
-														<th></th>
+														<th class="min150">Balance Amt.</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -310,6 +331,9 @@ $pendingAmount = 0.00;
 														</td>
 														<td>
 															<?php echo date('d M Y', strtotime($invoice['due_date'])) ?>
+														</td>
+														<td>
+														<?php echo $invoice['balance_amt']?>
 														</td>
 													</tr>
 													<?php endforeach; ?>
@@ -350,7 +374,6 @@ $pendingAmount = 0.00;
 														<th class="max150">Payment Date</th>
 														<th class="min100">Allocated Amount</th>
 														<th class="min150">Cheque / UTR</th>
-														<th></th>
 													</tr>
 												</thead>
 												<tbody>
