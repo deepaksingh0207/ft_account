@@ -30,6 +30,11 @@ class OrdersModel extends Model {
                         $where .= " and orders.customer_id= ? ";
                         $fieldVal[] = $val;
                     }
+
+                    if($key == 'open_po') { 
+                        $where .= " and orders.open_po= ? ";
+                        $fieldVal[] = $val;
+                    }
                     
                     if(is_array($val)){
                         $where .= " and $key in (".implode(',', array_filter($val)).") ";
@@ -40,7 +45,7 @@ class OrdersModel extends Model {
 
         $sql = "select orders.*, customers.name customer_name from orders 
         join customers on (orders.customer_id = customers.id) $where order by updated_date desc";
-
+        
         //echo $sql;
 
         $this->_setSql($sql);
