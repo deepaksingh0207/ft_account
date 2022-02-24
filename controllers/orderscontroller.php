@@ -127,6 +127,10 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
+                $orderData['open_po'] = 1;
+                if(isset($data['open_po'])){
+                    $orderData['open_po'] = 1;
+                }
 
                 $orderData['user_id'] = $this->_session->get('user_id'); // created by user
 
