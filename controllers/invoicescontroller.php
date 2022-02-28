@@ -679,6 +679,18 @@ class InvoicesController extends Controller
         }
     }
 
+    public function proforma_validty() {
+        if(!empty($_POST)) {
+             if($t = $this->_model->proformaFieldRecord('invoice_no', $_POST['invoice_no'])) {
+                 echo 0;
+             } else {
+                echo true;
+             }
+        } else {
+            echo false;
+        }
+    }
+
     public function delete($invoiceNo) {
         $row = $this->_model->getByInvoiceNo($invoiceNo);
 

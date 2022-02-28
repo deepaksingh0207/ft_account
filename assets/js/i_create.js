@@ -340,30 +340,55 @@ $(document).on("change", ".pup", function () {
 });
 
 $(document).on("change", "#id_invoice_no", function () {
-  mydata = { invoice_no: $(this).val() };
-  $.ajax({
-    type: "POST",
-    url: baseUrl + "invoices/invoice_validty/",
-    data: mydata,
-    dataType: "json",
-    encode: true,
-  })
-    .done(function (data) {
-      invoicevalidityflag = data;
-      if (data == false) {
-        $(".say").remove();
-        $("#id_invoice_no")
-          .addClass("is-invalid")
-          .parent()
-          .append(
-            '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
-          );
-      }
+  mydata = { invoice_no: $(this).val() }
+  if (proformaguard) {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "invoices/proforma_validty/",
+      data: mydata,
+      dataType: "json",
+      encode: true,
     })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      alert("Cannot validate PO No.");
-    });
-});
+      .done(function (data) {
+        invoicevalidityflag = data
+        if (data == false) {
+          $(".say").remove()
+          $("#id_invoice_no")
+            .addClass("is-invalid")
+            .parent()
+            .append(
+              '<span id="id_po_no-error" class="say error invalid-feedback">Proforma No exist.</span>'
+            )
+        }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("Cannot validate PO No.")
+      })
+  } else {
+    $.ajax({
+      type: "POST",
+      url: baseUrl + "invoices/invoice_validty/",
+      data: mydata,
+      dataType: "json",
+      encode: true,
+    })
+      .done(function (data) {
+        invoicevalidityflag = data
+        if (data == false) {
+          $(".say").remove()
+          $("#id_invoice_no")
+            .addClass("is-invalid")
+            .parent()
+            .append(
+              '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
+            )
+        }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("Cannot validate PO No.")
+      })
+  }
+})
 
 function preview_modal_body(index, listname) {
   i = 0;

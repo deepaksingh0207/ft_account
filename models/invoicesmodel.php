@@ -208,4 +208,16 @@ class InvoicesModel extends Model {
         }
         return $data;
     }
+
+    public function proformaFieldRecord($field, $val) {
+        //$sql = "select * from invoices where 1=1 order by updated_date desc";
+        $sql = "select * from proforma_invoices where 1=1 and $field = ? and status = 1 limit 1";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($val));
+
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
 }
