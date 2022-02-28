@@ -91,7 +91,7 @@ class OrdersController extends Controller
         
     }
     
-    
+
     public function create() {
         try {
             $this->_view->set('title', 'Create Order');
@@ -239,6 +239,74 @@ class OrdersController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+
+    // JThayil 25 Feb
+    public function renew($id) {
+        try {
+            
+            $order = $this->_model->renew_header($id);            
+            $this->_view->set('order', $order);
+            
+            $customerList = new CustomersModel();
+            $customer = $customerList->get($order['customer_id']);
+            $this->_view->set('customer', $customer);
+            
+            $tblOrderItem = new OrderItemsModel();
+            $items = $tblOrderItem->getItemByOrderId($id);
+            
+            // echo '<pre>'; print_r($items); exit;
+            $this->_view->set('items', $items);
+            if(!empty($_POST)) {
+                $data = $_POST;
+                // echo '<pre>';print_r($data); exit;
+
+                $orderData = array();
+                $orderId = $data['order_id'];
+                if($orderId) {
+                    $tblOrderItem = new OrderItemsModel();
+                    $tblOrderPaymentTerm = new OrderPaytermsModel();
+
+                    foreach($data['order_details'] as $item) {
+                        $orderItem = array();
+                        $orderItem['item'] = $item['item'];
+                        $orderItem['description'] = $item['description'];
+                        $orderItem['qty'] = $item['qty'];
+                        $orderItem['uom_id'] = $item['uom_id'];
+                        $orderItem['unit_price'] = $item['unit_price'];
+                        $orderItem['total'] = $item['total'];
+                        $orderItem['order_id'] = $orderId;
+                        $orderItem['order_type'] = $item['ordertype'];
+
+                        if($item['ordertype'] == 1 || $item['ordertype'] == 3) {
+                            $orderItem['po_from_date'] = $item['po_from_date'];
+                            $orderItem['po_to_date'] = $item['po_to_date'];
+                        }
+
+                        $orderItemId = $tblOrderItem->save($orderItem);
+
+                        if($orderItem['order_type'] == 2 || $orderItem['order_type'] == 1 || $orderItem['order_type'] == 3 || $orderItem['order_type'] == 7) {
+                            foreach($item['payment_term'] as $orderPayTerm) {
+                                $orderPayTerm['order_id'] = $orderId;
+                                $orderPayTerm['order_item_id'] = $orderItemId;
+                                $tblOrderPaymentTerm->save($orderPayTerm);
+                            }
+                        }
+                    }
+                    
+                    $_SESSION['message'] = 'Order added successfully';
+                    header("location:". ROOT. "orders"); 
+                } else {
+                    $_SESSION['error'] = 'Fail to add order';
+                }
+            }
+
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+    // JThayil End
 
     public function getOrderListByCustomer($id) {
         if($id) {

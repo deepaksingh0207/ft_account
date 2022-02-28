@@ -14,11 +14,14 @@ $pendingAmount = 0.00;
             <div class="card-header">
               <h3 class="card-title" style="line-height: 2.2">Order Details</h3>
               <div class="text-right">
-                <a
-                  href="<?php echo ROOT; ?>orders"
-                  class="btn btn-default btn-sm"
-                >
+                <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
                   Back
+                </a>
+                <a href="" class="btn btn-default btn-sm">
+                  Edit
+                </a>
+                <a href="<?php echo ROOT; ?>orders/renew/<?php echo $order['id'] ?>/" class="btn btn-default btn-sm">
+                  Renew
                 </a>
               </div>
             </div>
@@ -418,12 +421,15 @@ $pendingAmount = 0.00;
               </div>
             </div>
             <div class="card-footer text-right">
-              <a
-                href="<?php echo ROOT; ?>orders"
-                class="btn btn-default btn-sm"
-              >
-                Back
-              </a>
+                <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
+                  Back
+                </a>
+                <a href="#" class="btn btn-default btn-sm">
+                  Edit
+                </a>
+                <a href="<?php echo ROOT; ?>orders/renew/<?php echo $order['id'] ?>" class="btn btn-default btn-sm">
+                  Renew
+                </a>
             </div>
           </div>
         </div>

@@ -10,7 +10,6 @@
                 method="post"
                 id="quickForm"
                 novalidate="novalidate"
-                enctype="multipart/form-data"
                 class="mb-0"
               >
                 <div class="card" id="main_card">
@@ -36,17 +35,10 @@
                         <div class="card-tools">
                           <button
                             type="button"
-                            class="btn btn-tool"
+                            class="btn btn-tool pt-3"
                             data-card-widget="collapse"
                           >
                             <i class="fas fa-minus"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-tool"
-                            data-card-widget="remove"
-                          >
-                            <i class="fas fa-times"></i>
                           </button>
                         </div>
                       </div>

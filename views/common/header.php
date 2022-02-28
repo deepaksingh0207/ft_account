@@ -63,10 +63,6 @@
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/parallax.css" />
   <?php endif; ?>
 
-  <?php if ($controller == 'orders' && ($action == 'create')) : ?>
-  <link rel="stylesheet" href="<?php echo ROOT; ?>assets/css/custom.css" />
-  <?php endif; ?>
-
   <?php if ($controller == 'orders' && ($action == 'index')) : ?>
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?php echo ROOT; ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">

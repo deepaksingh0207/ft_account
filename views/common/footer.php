@@ -191,6 +191,13 @@
 <script src="<?php echo ROOT; ?>assets/js/o_validation.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'orders' && ($action == 'renew')) : ?>
+<script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/o_renew.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/o_validation_renew.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
 <?php if ($controller == 'orders' && ($action == 'view')) : ?>
 <script src="<?php echo ROOT; ?>assets/js/o_view.js"></script>
 <?php endif; ?>
