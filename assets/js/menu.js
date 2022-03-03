@@ -28,6 +28,17 @@ $(document).ready(function () {
   if (menu == 'payments') {
     $("#menu_payment").addClass("active");
   }
+  if (menu == 'orders') {
+    $("#menu_order").addClass("active");
+    $(".order").addClass('menu-is-opening menu-open');
+    $(".orderlink").addClass("active");
+    $("#neworder_menu").show();
+    if (submenu == 'list') {
+      $("#menu_list").addClass("active");
+    } else {
+      $("#menu_neworder").addClass("active");
+    }
+  }
   if (menu == 'dashboard') {
     if (submenu == 'report') {
       $("#menu_report").addClass("active");

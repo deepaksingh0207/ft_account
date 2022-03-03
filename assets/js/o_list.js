@@ -1,7 +1,7 @@
 var dtable
 
-function fill_datatable(appliedfilter = {}) {
-  appliedfilter.open_po = 0;
+function fill_opentable(appliedfilter = {}) {
+  appliedfilter.open_po = 1;
   $('#example1 thead th').each(function () {
     var col_list = ["Date", "Salesperson","Amount"]
     var title = $(this).text();
@@ -73,12 +73,12 @@ $(".update").on("click", function () {
     f.customer_id = $("#id_customer").val()
   }
   dtable.destroy();
-  fill_datatable(f);
+  fill_opentable(f);
 });
 
 $(function () {
   $(".select2").select2();
-  fill_datatable();
+  fill_opentable();
 });
 
 // https://www.youtube.com/watch?v=M0cEiFAzwf0

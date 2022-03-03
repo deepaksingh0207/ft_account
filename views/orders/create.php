@@ -157,24 +157,6 @@
                                 />
                               </div>
                             </div>
-
-                            <div class="row form-group">
-                              <div class="col-sm-12 col-md-4 col-lg-4">
-                                <label for="date_id">Open PO :</label>
-                              </div>
-                              <div class="col-sm-12 col-md-6 col-lg-6">
-                                <div class="form-group clearfix">
-                                  <div class="icheck-primary d-inline">
-                                    <input
-                                      type="checkbox"
-                                      id="open_po_id"
-                                      name="open_po"
-                                    />
-                                    <label for="open_po_id"></label>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
                           </div>
 
                           <div class="col-6">
@@ -230,14 +212,11 @@
                                 </label>
                               </div>
                               <div class="col-sm-12 col-md-6 col-lg-6">
-                                <input
-                                  type="file"
-                                  name="upload_po"
-                                  id="upload_po"
-                                  accept="application/pdf"
-                                  required
-                                />
+                              <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="upload_po" id="upload_po" accept="application/pdf" required>
+                                <label class="custom-file-label" for="upload_po">Choose file</label>
                               </div>
+                            </div>
                             </div>
                           </div>
                         </div>

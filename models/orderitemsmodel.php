@@ -31,7 +31,7 @@ class OrderItemsModel extends Model {
         
         $fields = array_keys($updateRecord);
         
-        $sql = "update users set ";
+        $sql = "update order_items set ";
         
         foreach ($fields as $field) {
             $sql .= " $field = ?,";
