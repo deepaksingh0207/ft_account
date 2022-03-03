@@ -9,7 +9,7 @@
               <form method="post"
                 id="quickForm"
                 novalidate="novalidate">
-                <input type="hidden" name="order_id" value="<?php echo $order['order_id'] ?>">
+                <input type="hidden" name="order_id" id="id_order_id" value="<?php echo $order['order_id'] ?>">
               <div class="card">
                 <div class="card-header">Renew Order</div>
                 <div class="card-body">

@@ -10,15 +10,17 @@
                 <input
                   type="hidden"
                   name="order_id"
+                  id="id_order_id"
                   value="<?php echo $order['order_id'] ?>"
                 />
                 <div class="card">
-                  <div class="card-header">Renew Order</div>
+                  <div class="card-header">Edit Order</div>
                   <div class="card-body">
                     <div class="row">
                       <div
                         class="col-sm-12 col-md-6 col-lg-6 mb-2" id="group_id"
                         data-id="<?php echo $order['group_id'] ?>"
+                        data-customer="<?php echo $order['customer_id'] ?>"
                       >
                         <b>Customer Group : </b>
                         <?php echo $order['customer_group'] ?>
@@ -52,7 +54,7 @@
                         <?php echo $order['attachment'] ?>
                       </div>
                       <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
-                        <div id="itemcard">
+                        <div id="itemcard" class="hide">
                           <div class="card" id="order_items_card">
                             <div
                               class="card-header"
@@ -100,15 +102,6 @@
                               id="order_items_cardfooter"
                               style="display: none"
                             ></div>
-                          </div>
-                          <div class="text-left m-2">
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              onclick="create()"
-                            >
-                              Add Order Item
-                            </button>
                           </div>
                         </div>
                       </div>
@@ -404,7 +397,7 @@
                               </div>
                             </div>
                           </div>
-
+                          
                           <div
                             class="card-footer text-right"
                             id="add_order_cardfooter"

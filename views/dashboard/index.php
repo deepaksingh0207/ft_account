@@ -28,14 +28,28 @@
                     <li class="nav-item">
                       <a
                         class="nav-link"
+                        id="opo_tab"
+                        data-toggle="pill"
+                        href="#opo"
+                        role="tab"
+                        aria-controls="opo"
+                        aria-selected="false"
+                      >
+                        Open PO
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
                         id="ip_tab"
                         data-toggle="pill"
                         href="#ip"
                         role="tab"
                         aria-controls="ip"
                         aria-selected="true"
-                        >Pending</a
-                      >
+                        >
+                        Receivable
+                        </a>
                     </li>
                     <li class="nav-item">
                       <a
@@ -48,19 +62,6 @@
                         aria-selected="false"
                         >Completed</a
                       >
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        class="nav-link"
-                        id="opo_tab"
-                        data-toggle="pill"
-                        href="#opo"
-                        role="tab"
-                        aria-controls="opo"
-                        aria-selected="false"
-                      >
-                        Open PO
-                      </a>
                     </li>
                   </ul>
                 </div>

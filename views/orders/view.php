@@ -17,12 +17,14 @@ $pendingAmount = 0.00;
                 <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
                   Back
                 </a>
+                <?php if ($order['open_po']) : ?>
                 <a href="<?php echo ROOT; ?>orders/edit/<?php echo $order['id'] ?>/" class="btn btn-default btn-sm">
                   Edit
                 </a>
                 <a href="<?php echo ROOT; ?>orders/renew/<?php echo $order['id'] ?>/" class="btn btn-default btn-sm">
                   Renew
                 </a>
+                <?php endif;  ?>
               </div>
             </div>
             <div class="card-body">
@@ -424,12 +426,14 @@ $pendingAmount = 0.00;
                 <a href="<?php echo ROOT; ?>orders" class="btn btn-default btn-sm">
                   Back
                 </a>
+                <?php if ($order['open_po']) : ?>
                 <a href="#" class="btn btn-default btn-sm">
                   Edit
                 </a>
                 <a href="<?php echo ROOT; ?>orders/renew/<?php echo $order['id'] ?>" class="btn btn-default btn-sm">
                   Renew
                 </a>
+                <?php endif; ?>
             </div>
           </div>
         </div>
