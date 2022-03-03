@@ -51,22 +51,28 @@
             </li>
           </ul>
         </li>
-        <!-- <li class="nav-item">
-          <a href="<?php echo ROOT; ?>company/view/1" class="nav-link" id="menu_company">
-            <i class="far fa-building"></i>
-            <p>
-              Company
-            </p>
-          </a>
-        </li> -->
-        
-        <li class="nav-item">
-          <a href="<?php echo ROOT; ?>orders" class="nav-link" id="menu_orders">
-            <i class="fas fa-luggage-cart"></i>
+        <li class="nav-item order">
+          <a href="#" class="nav-link orderlink" id="menu_order">
+            <i class="far fa-file"></i>
             <p>
               Order
+              <i class="fas fa-angle-left right"></i>
             </p>
           </a>
+          <ul class="nav nav-treeview" id="neworder_menu" style="display: none;">
+            <li class="nav-item">
+              <a href="<?php echo ROOT; ?>orders/" class="nav-link" id="menu_neworder">
+                <i class="fas fa-envelope-open"></i>
+                <p>New Order</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo ROOT; ?>orders/list" class="nav-link" id="menu_list">
+                <i class="fas fa-envelope-open-text"></i>
+                <p>Open PO</p>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>invoices" class="nav-link" id="menu_invoices">

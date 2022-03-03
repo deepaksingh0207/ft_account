@@ -1,32 +1,15 @@
-var sgst;
-var cgst;
-var igst;
-var l_gst;
-var del_ot;
-var del_id;
-var old_row = 0;
-var oti = 0;
-var groupId;
-var r_groupId;
-var group_id;
-var r_groupId;
-var checked_shipto;
-var checked_billto;
-var paymentterm_list = [];
-var tree = { otl: [] };
-var item_id;
-var writemode = true;
+var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id
+var paymentterm_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0;
+
+$(function () {
+  bsCustomFileInput.init();
+});
 
 $("#group_id").change(function () {
   group_id_reset();
   groupId = $(this).val();
   if (groupId) {
-    $.ajax({
-      type: "POST",
-      url: baseUrl + "customers/groupcustomers/" + groupId,
-      dataType: "json",
-      encode: true,
-    })
+    $.ajax({ type: "POST", url: baseUrl + "customers/groupcustomers/" + groupId, dataType: "json", encode: true })
       .done(function (r) {
         r_groupId = r;
         if (r.length == 1) {
@@ -35,38 +18,25 @@ $("#group_id").change(function () {
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
-        alert("Data not found for this customer group.");
         console.log(jqXHR, textStatus, errorThrown);
       });
   }
 });
 
-function billto_reset() {
-  $("#sales_person").val("");
-}
+function billto_reset() { $("#sales_person").val(""); }
 
 function group_id_reset() {
   $("#bill_to").val("");
   $("#ship_to").val("");
   $("#customer_name").text("");
-  group_id = "";
-  r_groupId = "";
-  checked_shipto = "";
-  checked_billto = "";
+  group_id = r_groupId = checked_shipto = checked_billto = "";
   billto_reset();
   $("#itemcard").hide();
 }
 
 function getgst(id) {
-  sgst = 0;
-  cgst = 0;
-  igst = 0;
-  $.ajax({
-    type: "POST",
-    url: baseUrl + "invoices/gettaxesrate/" + id,
-    dataType: "json",
-    encode: true,
-  })
+  sgst = cgst = igst = 0;
+  $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + id, dataType: "json", encode: true })
     .done(function (r) {
       l_gst = r;
       if (r.state == "same") {
@@ -78,7 +48,6 @@ function getgst(id) {
       update_tax();
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      alert("Data not found for this customer group.");
       console.log(jqXHR, textStatus, errorThrown);
     });
   $("#itemcard").show();
@@ -86,19 +55,12 @@ function getgst(id) {
 
 function get_sales_person(id) {
   billto_reset();
-  $.ajax({
-    type: "POST",
-    url: baseUrl + "customers/getdetails/" + id,
-    data: id,
-    dataType: "json",
-    encode: true,
-  })
+  $.ajax({ type: "POST", url: baseUrl + "customers/getdetails/" + id, data: id, dataType: "json", encode: true })
     .done(function (r) {
       $("#sales_person").val(r.contact_person).removeClass("is-invalid");
       getgst(id);
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      alert("No details found against this customer.");
       console.log(jqXHR, textStatus, errorThrown);
     });
 }
@@ -172,76 +134,12 @@ function modelfill(checkboxclass, label) {
     $.each(r_groupId, function (index, row) {
       $("#addbody").append("<tr id='row_" + index + "' ></tr>");
       $("#row_" + index)
-        .append(
-          "<td id='col_1_" +
-          index +
-          "'><div class='icheck-primary d-inline'><input type='radio' id='checkbox" +
-          index +
-          "' name='id_customer' class='fill_customer_details' data-index='" +
-          index +
-          "' data-id='" +
-          row.id +
-          "' data-name='" +
-          row.name +
-          "' data-address='" +
-          row.address +
-          "' data-modal='" +
-          checkboxclass +
-          "' ><label for='checkbox" +
-          index +
-          "'></label></div></td>"
-        )
-        .append(
-          "<td class='fill_customer_details' id='col_2_" +
-          index +
-          "' data-index='" +
-          index +
-          "' data-id='" +
-          row.id +
-          "' data-name='" +
-          row.name +
-          "' data-address='" +
-          row.address +
-          "' data-modal='" +
-          checkboxclass +
-          "' >" +
-          row.id +
-          "</td>"
-        )
-        .append(
-          "<td class='fill_customer_details' id='col_3_" +
-          index +
-          "' data-index='" +
-          index +
-          "' data-id='" +
-          row.id +
-          "' data-name='" +
-          row.name +
-          "' data-address='" +
-          row.address +
-          "' data-modal='" +
-          checkboxclass +
-          "' >" +
-          row.name +
-          "</td>"
-        )
-        .append(
-          "<td class='fill_customer_details' id='col_4_" +
-          index +
-          "' data-index='" +
-          index +
-          "' data-id='" +
-          row.id +
-          "' data-name='" +
-          row.name +
-          "' data-address='" +
-          row.address +
-          "' data-modal='" +
-          checkboxclass +
-          "' style='width: 455px'>" +
-          row.address +
-          "</td>"
-        );
+        .append("<td id='col_1_" + index + "'><div class='icheck-primary d-inline'><input type='radio' id='checkbox" + index +
+          "' name='id_customer' class='fill_customer_details' data-index='" + index +
+          "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' ><label for='checkbox" + index + "'></label></div></td>")
+        .append("<td class='fill_customer_details' id='col_2_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' >" + row.id + "</td>")
+        .append("<td class='fill_customer_details' id='col_3_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' >" + row.name + "</td>")
+        .append("<td class='fill_customer_details' id='col_4_" + index + "' data-index='" + index + "' data-id='" + row.id + "' data-name='" + row.name + "' data-address='" + row.address + "' data-modal='" + checkboxclass + "' style='width: 455px'>" + row.address + "</td>");
     });
   } else {
     $("#addhead").append("No Records");
@@ -274,11 +172,8 @@ $(document).on("focusout", "#po_no", function () {
   mydata = { customer_id: $("#customer_id").val(), po_no: $(this).val() };
   if ($(this).val()) {
     $.ajax({
-      type: "POST",
-      url: baseUrl + "orders/po_validty/",
-      data: mydata,
-      dataType: "json",
-      encode: true,
+      type: "POST", url: baseUrl + "orders/po_validty/", data: mydata,
+      dataType: "json", encode: true
     })
       .done(function (data) {
         if (data == false) {
@@ -343,8 +238,6 @@ function create() {
   $("#order_type").val("");
   ordertype_reset();
   $("#add_order_card").show();
-  // $("#add_order_cardbody").show();
-  // $("#add_order_item_card").show();
 }
 
 function uom(tag = true, i = oti) {
@@ -434,89 +327,10 @@ $(document).on("change", "#order_type", function () {
 
 function add_order(id) {
   if (oti < 5) {
-    $("#order_item_list").append(
-      '<tr id="order_item_' +
-      id +
-      '"> <td class="form-group" id="orderitem_' +
-      id +
-      '_col_1"> <input type="text" data-id="' +
-      id +
-      '" class="form-control item capitalize" id="orderitem_' +
-      id +
-      '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' +
-      id +
-      '_col_2"> <input type="text" data-id="' +
-      id +
-      '" class="form-control min150 desp capitalize" id="orderitem_' +
-      id +
-      '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' +
-      id +
-      '_col_3"> <input type="number" data-id="' +
-      id +
-      '" class="form-control order_item_quantity numberonly" id="orderitem_' +
-      id +
-      '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' +
-      id +
-      '_col_4"> <span id="orderitem_' +
-      id +
-      '_txt_4">' +
-      uom() +
-      '</span> </td> <td class="form-group max150" id="orderitem_' +
-      id +
-      '_col_35"> <input type="number" data-id="' +
-      id +
-      '" class="form-control order_item_unitprice" id="orderitem_' +
-      id +
-      '_val_5" /> <input type="hidden" data-id="' +
-      id +
-      '" class="form-control rowtotal" id="orderitem_' +
-      id +
-      '_val_6" /> </td> </tr>'
+    $("#order_item_list").append('<tr id="order_item_' + id + '"> <td class="form-group" id="orderitem_' + id + '_col_1"> <input type="text" data-id="' + id + '" class="form-control item capitalize" id="orderitem_' + id + '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' + id + '_col_2"> <input type="text" data-id="' + id + '" class="form-control min150 desp capitalize" id="orderitem_' + id + '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' + id + '_col_3"> <input type="number" data-id="' + id + '" class="form-control order_item_quantity numberonly" id="orderitem_' + id + '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' + id + '_col_4"> <span id="orderitem_' + id + '_txt_4">' + uom() + '</span> </td> <td class="form-group max150" id="orderitem_' + id + '_col_35"> <input type="number" data-id="' + id + '" class="form-control order_item_unitprice" id="orderitem_' + id + '_val_5" /> <input type="hidden" data-id="' + id + '" class="form-control rowtotal" id="orderitem_' + id + '_val_6" /> </td> </tr>'
     );
   } else {
-    $("#order_item_list").append(
-      '<tr id="order_item_' +
-      id +
-      '"> <td class="form-group" id="orderitem_' +
-      id +
-      '_col_1"> <input type="text" data-id="' +
-      id +
-      '" class="form-control item capitalize" id="orderitem_' +
-      id +
-      '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' +
-      id +
-      '_col_2"> <input type="text" data-id="' +
-      id +
-      '" class="form-control min150 desp capitalize" id="orderitem_' +
-      id +
-      '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' +
-      id +
-      '_col_3"> <input type="number" data-id="' +
-      id +
-      '" class="form-control order_item_quantity numberonly" id="orderitem_' +
-      id +
-      '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' +
-      id +
-      '_col_4"> <span id="orderitem_' +
-      id +
-      '_txt_4">' +
-      uom() +
-      '</span><select data-id="' +
-      id +
-      '" class="form-control order_item_uom" id="orderitem_' +
-      id +
-      '_val_4"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td> <td class="form-group max150" id="orderitem_' +
-      id +
-      '_col_5"> <input type="number" data-id="' +
-      id +
-      '" class="form-control order_item_unitprice" id="orderitem_' +
-      id +
-      '_val_5" /> <input type="hidden" data-id="' +
-      id +
-      '" class="form-control rowtotal" id="orderitem_' +
-      id +
-      '_val_6" /> </td></tr>'
-    );
+    $("#order_item_list").append('<tr id="order_item_' + id + '"> <td class="form-group" id="orderitem_' + id + '_col_1"> <input type="text" data-id="' + id + '" class="form-control item capitalize" id="orderitem_' + id + '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' + id + '_col_2"> <input type="text" data-id="' + id + '" class="form-control min150 desp capitalize" id="orderitem_' + id + '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' + id + '_col_3"> <input type="number" data-id="' + id + '" class="form-control order_item_quantity numberonly" id="orderitem_' + id + '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' + id + '_col_4"> <span id="orderitem_' + id + '_txt_4">' + uom() + '</span><select data-id="' + id + '" class="form-control order_item_uom" id="orderitem_' + id + '_val_4"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td> <td class="form-group max150" id="orderitem_' + id + '_col_5"> <input type="number" data-id="' + id + '" class="form-control order_item_unitprice" id="orderitem_' + id + '_val_5" /> <input type="hidden" data-id="' + id + '" class="form-control rowtotal" id="orderitem_' + id + '_val_6" /> </td></tr>');
   }
   if (oti < 4 || oti == 7) {
     payment_term_cardbody(id);
@@ -526,29 +340,17 @@ function add_order(id) {
 function payment_term_cardbody(id) {
   if (oti == 1 || oti == 3) {
     $("#payment_term_cardbody").append(
-      '<table class="table" id="table_' +
-      id +
-      '"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
-      id +
-      '"></tbody></table>'
+      '<table class="table" id="table_' + id + '"><thead><tr><th class="max100">Sr. No.</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' + id + '"></tbody></table>'
     );
   }
   else if (oti == 2) {
     $("#payment_term_cardbody").append(
-      '<table class="table" id="table_' +
-      id +
-      '"><thead><tr><th class="max100">Sr. No.</th><th class="max100">Item</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
-      id +
-      '"></tbody></table>'
+      '<table class="table" id="table_' + id + '"><thead><tr><th class="max100">Sr. No.</th><th class="max100">Item</th><th class="min100">Item Description</th><th class="minmax150">Qty./Unit</th><th class="min100">Unit Price</th><th class="min100">Total Value</th></tr></thead><tbody id="paymentterm_list_' + id + '"></tbody></table>'
     );
   }
   else if (oti == 7) {
     $("#payment_term_cardbody").append(
-      '<table class="table" id="table_' +
-      id +
-      '"><thead><tr><th class="max150">Sr. No.</th><th class="max150">Item Description</th><th class="max100">Qty.</th><th class="min150">UOM</th><th class="min150">Unit Price</th><th class="min150">Total Value</th></tr></thead><tbody id="paymentterm_list_' +
-      id +
-      '"></tbody></table>'
+      '<table class="table" id="table_' + id + '"><thead><tr><th class="max150">Sr. No.</th><th class="max150">Item Description</th><th class="max100">Qty.</th><th class="min150">UOM</th><th class="min150">Unit Price</th><th class="min150">Total Value</th></tr></thead><tbody id="paymentterm_list_' + id + '"></tbody></table>'
     );
     $("#payment_term_cardbody").append('<div class="text-left"><button type="button" class="btn btn-primary btn-sm mr-2" id="add_new_paymentterm" onclick="add_pt()" >Add</button><button type="button" class="btn btn-danger btn-sm" id="del_paymentterm" onclick="del_pt()">Delete Last Term</button></div>');
   }
@@ -583,174 +385,13 @@ function add_pt() {
 function add_paymentterm(oid, pid) {
   if (oti == 2) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '"><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_2"></td><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_4" max="100" min="5" step="5" data-oid="' +
-      oid +
-      '" data-pid="' +
-      pid +
-      '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_6" /><span id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_txt_6">₹0.00</span></td></tr>;'
-    );
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_2"></td><td class="form-group" d="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4" max="100" min="5" step="5" data-oid="' + oid + '" data-pid="' + pid + '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">₹0.00</span></td></tr>;');
   } else if (oti == 1 || oti == 3) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '"><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_4"><input type="hidden" value="1" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_6" /><span id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_txt_6">₹0.00</span></td></tr>;'
-    );
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="hidden" value="1" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">₹0.00</span></td></tr>;');
   } else if (oti == 7) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '"><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_4"><input type="number" data-oid="' +
-      oid +
-      '" data-pid="' +
-      pid +
-      '" class="form-control paymentterm_quantity" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_4"></td><td class="form-group max100" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_7"><select class="form-control paymentterm_uom" data-oid="' +
-      oid +
-      '" data-pid="' +
-      pid +
-      '" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_7"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td><td class="form-group max100" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_5"><input type="number" data-oid="' +
-      oid +
-      '" data-pid="' +
-      pid +
-      '" class="form-control paymentterm_unitprice" value="' + $("#orderitem_" + oid + "_val_5").val() + '" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
-      '_val_6" /><span id="orderitem_' +
-      oid +
-      "_paymentterm_" +
-      pid +
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4"></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_7"><select class="form-control paymentterm_uom" data-oid="' + oid + '" data-pid="' + pid + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_7"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_unitprice" value="' + $("#orderitem_" + oid + "_val_5").val() + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid +
       '_txt_6">₹0.00</span></td></tr>;'
     );
   }
@@ -809,10 +450,6 @@ function order_item_calculator(id) {
           res = nz(b).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
           update_pt_total(id, pid);
-          // $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-          //   ra(res)
-          // );
-          // $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
         }
       });
     }
@@ -831,7 +468,6 @@ function order_item_calculator(id) {
     }
   }
   $("#orderitem_" + id + "_val_6").val(c);
-  // $("#orderitem_" + id + "_txt_6").text(ra(c));
   order_calculator(id);
 }
 
@@ -897,46 +533,21 @@ function treeleaves() {
       tree[oti][item_id]["till"] = "";
     }
     $.each(paymentterm_list, function (index, pid) {
-      if (tree[oti][item_id].hasOwnProperty(pid) == false) {
-        tree[oti][item_id][pid] = {};
-      }
-      if (tree[oti][item_id]["ptl"].includes(pid) == false) {
-        tree[oti][item_id]["ptl"].push(pid);
-      }
-      tree[oti][item_id][pid]["itm"] = $(
-        "#orderitem_" + item_id + "_val_1"
-      ).val();
-      tree[oti][item_id][pid]["dsp"] = $(
-        "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_3"
-      ).val();
-      tree[oti][item_id][pid]["qty"] = $(
-        "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_4"
-      ).val();
-      if (oti == 7) {
-        tree[oti][item_id][pid]["uom"] = $(
-          "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_7"
-        ).val();
-      } else {
-        tree[oti][item_id][pid]["uom"] = uom("x");
-      }
-      tree[oti][item_id][pid]["utp"] = $(
-        "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_5"
-      ).val();
-      tree[oti][item_id][pid]["stl"] = $(
-        "#orderitem_" + item_id + "_paymentterm_" + pid + "_val_6"
-      ).val();
+      if (tree[oti][item_id].hasOwnProperty(pid) == false) { tree[oti][item_id][pid] = {}; }
+      if (tree[oti][item_id]["ptl"].includes(pid) == false) { tree[oti][item_id]["ptl"].push(pid); }
+      tree[oti][item_id][pid]["itm"] = $("#orderitem_" + item_id + "_val_1").val();
+      tree[oti][item_id][pid]["dsp"] = $("#orderitem_" + item_id + "_paymentterm_" + pid + "_val_3").val();
+      tree[oti][item_id][pid]["qty"] = $("#orderitem_" + item_id + "_paymentterm_" + pid + "_val_4").val();
+      if (oti == 7) { tree[oti][item_id][pid]["uom"] = $("#orderitem_" + item_id + "_paymentterm_" + pid + "_val_7").val(); } else { tree[oti][item_id][pid]["uom"] = uom("x"); }
+      tree[oti][item_id][pid]["utp"] = $("#orderitem_" + item_id + "_paymentterm_" + pid + "_val_5").val();
+      tree[oti][item_id][pid]["stl"] = $("#orderitem_" + item_id + "_paymentterm_" + pid + "_val_6").val();
     });
   } else {
-    if (oti == 4) {
-      tree[oti][item_id]["uom"] = "1";
-    } else {
-      tree[oti][item_id]["uom"] = $("#orderitem_" + item_id + "_val_4").val();
-    }
+    if (oti == 4) { tree[oti][item_id]["uom"] = "1"; }
+    else { tree[oti][item_id]["uom"] = $("#orderitem_" + item_id + "_val_4").val(); }
   }
   treecleaner();
   treehouse();
-  // ordertype_reset();
-  // $("#order_type").val("");
 }
 
 function treecleaner() {
@@ -951,9 +562,7 @@ function treecleaner() {
         $.each(tree[val]["oil"], function (index, o_val) {
           if (jQuery.isEmptyObject(tree[val][o_val])) {
             delete tree[val][o_val];
-            tree[val]["oil"] = jQuery.grep(tree[val]["oil"], function (b) {
-              return b != o_val;
-            });
+            tree[val]["oil"] = jQuery.grep(tree[val]["oil"], function (b) { return b != o_val; });
           } else {
             if (tree[val][o_val].hasOwnProperty("ptl")) {
               if (tree[val][o_val]["ptl"].length == 0) {
@@ -964,9 +573,7 @@ function treecleaner() {
                     delete tree[val][o_val][p_val];
                     tree[val][o_val]["ptl"] = jQuery.grep(
                       tree[val][o_val]["ptl"],
-                      function (b) {
-                        return b != p_val;
-                      }
+                      function (b) { return b != p_val; }
                     );
                   }
                 });
@@ -978,9 +585,7 @@ function treecleaner() {
           }
           if (tree[val]["oil"].length == 0) {
             delete tree[val];
-            tree["otl"] = jQuery.grep(tree["otl"], function (b) {
-              return b != val;
-            });
+            tree["otl"] = jQuery.grep(tree["otl"], function (b) { return b != val; });
           }
         });
       }
@@ -1014,103 +619,23 @@ function treehouse() {
       subttl += parseFloat(tree[ot][oi]["stl"]);
       if (ot < 4) {
         $("#order_items").append(
-          '<tr data-widget="expandable-table" aria-expanded="false" id="parent_' +
-          ot +
-          "_" +
-          oi +
-          '"><td><i class="fas fa-caret-right fa-fw"></i>' +
-          tree[ot][oi]["itm"] +
-          "</td><td>" +
-          tree[ot][oi]["dsp"] +
-          "</td><td>" +
-          getot(ot) +
-          "</td><td>" +
-          tree[ot][oi]["qty"] +
-          "</td><td>" +
-          tree[ot][oi]["uom"] +
-          "</td><td>" +
-          tree[ot][oi]["utp"] +
-          "</td><td>" +
-          tree[ot][oi]["stl"] +
-          '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
-          ot +
-          '" data-oii="' +
-          oi +
-          '"><i class="fas fa-pen text-primary"></i></button><button type="button" class="btn btn-sm btn-default remove_saved_item" data-oti="' +
-          ot +
-          '" data-oii="' +
-          oi +
-          '"><i class="fas fa-times text-danger" data-oti="' +
-          ot +
-          '" data-oii="' +
-          oi +
-          '"></i></button></div></td></tr>'
-        );
+          '<tr data-widget="expandable-table" aria-expanded="false" id="parent_' + ot + "_" + oi + '"><td><i class="fas fa-caret-right fa-fw"></i>' + tree[ot][oi]["itm"] + "</td><td>" + tree[ot][oi]["dsp"] + "</td><td>" + getot(ot) + "</td><td>" + tree[ot][oi]["qty"] + "</td><td>" + tree[ot][oi]["uom"] + "</td><td>" + tree[ot][oi]["utp"] + "</td><td>" + tree[ot][oi]["stl"] + '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' + ot + '" data-oii="' + oi + '"><i class="fas fa-pen text-primary"></i></button><button type="button" class="btn btn-sm btn-default remove_saved_item" data-oti="' + ot + '" data-oii="' + oi + '"><i class="fas fa-times text-danger" data-oti="' +
+          ot + '" data-oii="' + oi + '"></i></button></div></td></tr>');
       } else {
         $("#order_items").append(
-          '<tr id="parent_' +
-          ot +
-          "_" +
-          oi +
-          '"><td>' +
-          tree[ot][oi]["itm"] +
-          "</td><td>" +
-          tree[ot][oi]["dsp"] +
-          "</td><td>" +
-          getot(ot) +
-          "</td><td>" +
-          tree[ot][oi]["qty"] +
-          "</td><td>" +
-          tree[ot][oi]["uom"] +
-          "</td><td>" +
-          tree[ot][oi]["utp"] +
-          "</td><td>" +
-          tree[ot][oi]["stl"] +
-          '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' +
-          ot +
-          '" data-oii="' +
-          oi +
-          '"><i class="fas fa-pen text-primary"></i></button><button type="button" class="btn btn-sm btn-default remove_saved_item" data-oti="' +
-          ot +
-          '" data-oii="' +
-          oi +
-          '"><i class="fas fa-times text-danger" data-oti="' +
-          ot +
-          '" data-oii="' +
-          oi +
-          '"></i></button></div></td></tr>'
+          '<tr id="parent_' + ot + "_" + oi + '"><td>' + tree[ot][oi]["itm"] + "</td><td>" + tree[ot][oi]["dsp"] +
+          "</td><td>" + getot(ot) + "</td><td>" + tree[ot][oi]["qty"] + "</td><td>" + tree[ot][oi]["uom"] + "</td><td>" + tree[ot][oi]["utp"] + "</td><td>" + tree[ot][oi]["stl"] + '</td><td style="min-width: 8vw;"><div class="card-tools"><button type="button" class="btn btn-sm btn-default myorder mr-1" data-oti="' + ot + '" data-oii="' + oi + '"><i class="fas fa-pen text-primary"></i></button><button type="button" class="btn btn-sm btn-default remove_saved_item" data-oti="' + ot + '" data-oii="' + oi + '"><i class="fas fa-times text-danger" data-oti="' + ot + '" data-oii="' + oi + '"></i></button></div></td></tr>'
         );
       }
       if (ot < 4) {
         $.each(tree[ot][oi]["ptl"], function (k, pt) {
           if (k == 0) {
             $("#order_items").append(
-              '<tr class="expandable-body d-none text-center" id="child_' +
-              ot +
-              "_" +
-              oi +
-              '"><td colspan="8"><div class="p-0"><table class="table table-hover"><tbody id="' +
-              ot +
-              "_" +
-              oi +
-              '"><tr><td style="width: 8rem;">Sr No.</td><td style="width: 22rem;">Description</td><td style="width: 11rem;"> Qty./Unit </td><td>Unit Price</td><td style="width: 14rem;">Total</td></tr>'
+              '<tr class="expandable-body d-none text-center" id="child_' + ot + "_" + oi + '"><td colspan="8"><div class="p-0"><table class="table table-hover"><tbody id="' + ot + "_" + oi + '"><tr><td style="width: 8rem;">Sr No.</td><td style="width: 22rem;">Description</td><td style="width: 11rem;"> Qty./Unit </td><td>Unit Price</td><td style="width: 14rem;">Total</td></tr>'
             );
           }
           $("#" + ot + "_" + oi).append(
-            "<tr><td>" +
-            j +
-            "." +
-            k +
-            "</td><td>" +
-            tree[ot][oi][pt]["dsp"] +
-            "</td><td>" +
-            tree[ot][oi][pt]["qty"] +
-            "</td><td>" +
-            tree[ot][oi][pt]["utp"] +
-            "</td><td>" +
-            tree[ot][oi][pt]["stl"] +
-            "</td></tr></tbody></table></div></td></tr>"
-          );
+            "<tr><td>" + j + "." + k + "</td><td>" + tree[ot][oi][pt]["dsp"] + "</td><td>" + tree[ot][oi][pt]["qty"] + "</td><td>" + tree[ot][oi][pt]["utp"] + "</td><td>" + tree[ot][oi][pt]["stl"] + "</td></tr></tbody></table></div></td></tr>");
         });
       }
     });
@@ -1119,35 +644,11 @@ function treehouse() {
     cgstttl = (subttl * cgst) / 100;
     sgstttl = (subttl * sgst) / 100;
     ttl = subttl + sgstttl + cgstttl;
-    $("#order_items_cardfooter").append(
-      '<div class="row"><div class="col-3"><b>Sub Total : </b>₹ ' +
-      subttl.toFixed(2) +
-      '</div><div class="col-3"><b>SGST ' +
-      sgst +
-      "% : </b>" +
-      sgstttl.toFixed(2) +
-      '<br /></div><div class="col-3"><b>CGST ' +
-      cgst +
-      "% : </b>₹ " +
-      cgstttl.toFixed(2) +
-      '<br /></div><div class="col-3"><b>Total : </b>₹ ' +
-      ttl.toFixed(2) +
-      "</div></div>"
-    );
+    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b>₹ ' + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b>₹ " + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b>₹ ' + ttl.toFixed(2) + "</div></div>");
   } else {
     igstttl = (subttl * igst) / 100;
     ttl = subttl + igstttl;
-    $("#order_items_cardfooter").append(
-      '<div class="row"><div class="col-4"><b>Sub Total : </b>₹ ' +
-      subttl +
-      ' </div><div class="col-4"><b>IGST ' +
-      igst +
-      "% : </b>₹ " +
-      igstttl +
-      '<br /></div><div class="col-4"><b>Total : </b>₹ ' +
-      ttl +
-      "</div></div>"
-    );
+    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>₹ ' + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b>₹ " + igstttl + '<br /></div><div class="col-4"><b>Total : </b>₹ ' + ttl + "</div></div>");
   }
   $("#order_items_cardfooter").show();
 }
@@ -1169,32 +670,18 @@ $(document).on("click", ".myorder", function () {
   $("#orderitem_" + oi + "_val_2").val(tree[ot][oi]["dsp"]);
   $("#orderitem_" + oi + "_val_4").val(tree[ot][oi]["uom"]);
   $("#orderitem_" + oi + "_val_5").val(tree[ot][oi]["utp"]);
-  $("#orderitem_" + oi + "_val_3")
-    .val(tree[ot][oi]["qty"])
-    .trigger("change");
+  $("#orderitem_" + oi + "_val_3").val(tree[ot][oi]["qty"]).trigger("change");
   if (tree[ot][oi].hasOwnProperty("ptl")) {
     $.each(tree[ot][oi]["ptl"], function (index, pt) {
       $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_1").text(index);
-      $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_3").val(
-        tree[ot][oi][pt]["dsp"]
-      );
-      $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_5").val(
-        tree[ot][oi][pt]["utp"]
-      );
+      $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_3").val(tree[ot][oi][pt]["dsp"]);
+      $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_5").val(tree[ot][oi][pt]["utp"]);
       if (ot == 2 || ot == 7) {
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
-          tree[ot][oi][pt]["qty"]
-        );
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_txt_6").text(
-          tree[ot][oi][pt]["stl"]
-        );
-        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_6").val(
-          tree[ot][oi][pt]["stl"]
-        );
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(tree[ot][oi][pt]["qty"]);
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_txt_6").text(tree[ot][oi][pt]["stl"]);
+        $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_6").val(tree[ot][oi][pt]["stl"]);
         if (ot == 7) {
-          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_7").val(
-            tree[ot][oi][pt]["uom"]
-          );
+          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_7").val(tree[ot][oi][pt]["uom"]);
         }
       }
     });
@@ -1225,9 +712,7 @@ $(".killrow").click(function () {
       return b != del_ot;
     });
   }
-  if (tree["otl"].length == 0) {
-    $("#order_items_cardfooter").hide();
-  }
+  if (tree["otl"].length == 0) { $("#order_items_cardfooter").hide(); }
   treehouse();
   $("#byemodal").click();
 });
@@ -1239,141 +724,37 @@ function form_maker() {
     firstcheck = 0;
   $.each(tree["otl"], function (index, ot) {
     if (ot != order_change_flag && index == 0) {
-      $("#hiddendata").append(
-        '<input type="hidden" name="ordertype" id="id_order_type" value="' +
-        ot +
-        '" />'
-      );
-    } else if (ot != order_change_flag && index != 0) {
-      $("#id_order_type").val("99");
+      $("#hiddendata").append('<input type="hidden" name="ordertype" id="id_order_type" value="' +
+        ot + '" />');
     }
+    else if (ot != order_change_flag && index != 0) { $("#id_order_type").val("99"); }
 
     $.each(tree[ot]["oil"], function (index, oi) {
       subtotal += parseFloat(tree[ot][oi]["stl"]);
       $("#hiddendata")
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][ordertype]" value="' +
-          ot +
-          '">'
-        )
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][item]" value="' +
-          tree[ot][oi]["itm"] +
-          '">'
-        )
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][description]" value="' +
-          tree[ot][oi]["dsp"] +
-          '">'
-        )
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][qty]" value="' +
-          tree[ot][oi]["qty"] +
-          '">'
-        )
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][uom_id]" value="' +
-          tree[ot][oi]["uom"] +
-          '">'
-        )
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][unit_price]" value="' +
-          tree[ot][oi]["utp"] +
-          '">'
-        )
-        .append(
-          '<input type="hidden" name="order_details[' +
-          fakeoi +
-          '][total]" value="' +
-          tree[ot][oi]["stl"] +
-          '">'
-        );
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][ordertype]" value="' +
+          ot + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][item]" value="' + tree[ot][oi]["itm"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][description]" value="' + tree[ot][oi]["dsp"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][qty]" value="' +
+          tree[ot][oi]["qty"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][uom_id]" value="' + tree[ot][oi]["uom"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][unit_price]" value="' + tree[ot][oi]["utp"] + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][total]" value="' + tree[ot][oi]["stl"] + '">');
       if (ot == 1 || ot == 3) {
         $("#hiddendata")
-          .append(
-            '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][po_from_date]" value="' +
-            tree[ot][oi]["from"] +
-            '">'
-          )
-          .append(
-            '<input type="hidden" name="order_details[' +
-            fakeoi +
-            '][po_to_date]" value="' +
-            tree[ot][oi]["till"] +
-            '">'
-          );
+          .append('<input type="hidden" name="order_details[' + fakeoi + '][po_from_date]" value="' + tree[ot][oi]["from"] + '">')
+          .append('<input type="hidden" name="order_details[' + fakeoi + '][po_to_date]" value="' + tree[ot][oi]["till"] + '">');
       }
       if (tree[ot][oi].hasOwnProperty("ptl")) {
         $.each(tree[ot][oi]["ptl"], function (index, pt) {
           $("#hiddendata")
-            .append(
-              '<input type="hidden" name="order_details[' +
-              fakeoi +
-              "][payment_term][" +
-              pt +
-              '][item]" value="' +
-              tree[ot][oi][pt]["itm"] +
-              '">'
-            )
-            .append(
-              '<input type="hidden" name="order_details[' +
-              fakeoi +
-              "][payment_term][" +
-              pt +
-              '][description]" value="' +
-              tree[ot][oi][pt]["dsp"] +
-              '">'
-            )
-            .append(
-              '<input type="hidden" name="order_details[' +
-              fakeoi +
-              "][payment_term][" +
-              pt +
-              '][qty]" value="' +
-              tree[ot][oi][pt]["qty"] +
-              '">'
-            )
-            .append(
-              '<input type="hidden" name="order_details[' +
-              fakeoi +
-              "][payment_term][" +
-              pt +
-              '][uom_id]" value="' +
-              tree[ot][oi][pt]["uom"] +
-              '">'
-            )
-            .append(
-              '<input type="hidden" name="order_details[' +
-              fakeoi +
-              "][payment_term][" +
-              pt +
-              '][unit_price]" value="' +
-              tree[ot][oi][pt]["utp"] +
-              '">'
-            )
-            .append(
-              '<input type="hidden" name="order_details[' +
-              fakeoi +
-              "][payment_term][" +
-              pt +
-              '][total]" value="' +
-              tree[ot][oi][pt]["stl"] +
-              '">'
-            );
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][item]" value="' + tree[ot][oi][pt]["itm"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][description]" value="' + tree[ot][oi][pt]["dsp"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][qty]" value="' + tree[ot][oi][pt]["qty"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][uom_id]" value="' + tree[ot][oi][pt]["uom"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][unit_price]" value="' + tree[ot][oi][pt]["utp"] + '">')
+            .append('<input type="hidden" name="order_details[' + fakeoi + "][payment_term][" + pt + '][total]" value="' + tree[ot][oi][pt]["stl"] + '">');
         });
       }
       ++fakeoi;
@@ -1384,45 +765,29 @@ function form_maker() {
   c = (igst / 100) * subtotal;
   var total = parseFloat(subtotal + a + b + c);
   if (l_gst.state == "same") {
-    $("#hiddendata").append(
-      '<input type="hidden" name="taxrate" value="' + l_gst.sgst + '">'
-    );
+    $("#hiddendata").append('<input type="hidden" name="taxrate" value="' + l_gst.sgst + '">');
   } else {
-    $("#hiddendata").append(
-      '<input type="hidden" name="taxrate" value="' + l_gst.igst + '">'
-    );
+    $("#hiddendata").append('<input type="hidden" name="taxrate" value="' + l_gst.igst + '">');
   }
   $("#hiddendata")
-    .append(
-      '<input type="hidden" name="ordersubtotal" value="' +
-      subtotal.toFixed(2) +
-      '">'
-    )
+    .append('<input type="hidden" name="ordersubtotal" value="' + subtotal.toFixed(2) + '">')
     .append('<input type="hidden" name="sgst" value="' + a.toFixed(2) + '">')
     .append('<input type="hidden" name="cgst" value="' + b.toFixed(2) + '">')
     .append('<input type="hidden" name="igst" value="' + c.toFixed(2) + '">')
-    .append(
-      '<input type="hidden" name="ordertotal" value="' + total.toFixed(2) + '">'
-    );
+    .append('<input type="hidden" name="ordertotal" value="' + total.toFixed(2) + '">');
 }
 
 $(document).on("change", ".item", function () {
-  if (oti == 2) {
-    $(".paymentterm_item").text($(this).val());
-  }
+  if (oti == 2) { $(".paymentterm_item").text($(this).val()); }
 });
 
 function update_pt_total(o, p) {
   var a = $("#orderitem_" + o + "_paymentterm_" + p + "_val_4").val();
   var b = $("#orderitem_" + o + "_paymentterm_" + p + "_val_5").val();
   var c = $("#orderitem_" + o + "_paymentterm_" + p + "_val_7").val();
-  if (oti == 7 && c != 3) {
-    var res = nz(b * a);
-  } else if (oti == 2 || (oti == 7 && c == 3)) {
-    var res = nz((b * a) / 100);
-  } else {
-    var res = nz(b * a);
-  }
+  if (oti == 7 && c != 3) { var res = nz(b * a); }
+  else if (oti == 2 || (oti == 7 && c == 3)) { var res = nz((b * a) / 100); }
+  else { var res = nz(b * a); }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
     ra(res.toFixed(2))
@@ -1441,30 +806,17 @@ $(document).on("change", ".paymentterm_quantity", function () {
   if (oti == 2) {
     $.each(paymentterm_list, function (index, pt) {
       if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
-        if (
-          paymentterm_list[paymentterm_list.length - 1] == pt &&
-          empty_qty_ids.length < 1
-        ) {
-          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(
-            100 - qtyttl
-          );
+        if (paymentterm_list[paymentterm_list.length - 1] == pt && empty_qty_ids.length < 1) {
+          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(100 - qtyttl);
           update_pt_total(oi, pt);
         }
-        qtyttl += parseInt(
-          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()
-        );
-      } else {
-        empty_qty_ids.push(pt);
-      }
+        qtyttl += parseInt($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val());
+      } else { empty_qty_ids.push(pt); }
     });
     if (empty_qty_ids.length == 1) {
       balanc = 100 - qtyttl;
-      if (balanc < 0) {
-        balanc = "";
-      }
-      $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(
-        balanc
-      );
+      if (balanc < 0) { balanc = ""; }
+      $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(balanc);
       update_pt_total(oi, empty_qty_ids[0]);
     }
   }

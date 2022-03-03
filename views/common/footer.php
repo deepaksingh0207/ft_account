@@ -184,9 +184,27 @@
 <script src="<?php echo ROOT; ?>assets/js/o_index.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
-<?php if ($controller == 'orders' && ($action == 'create')) : ?>
+<?php if ($controller == 'orders' && ($action == 'list')) : ?>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/o_list.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
+<?php if ($controller == 'orders' && ($action == 'create' || $action == 'openpo')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js?<?php echo time(); ?>"></script>
 <script src="<?php echo ROOT; ?>assets/js/o_create.js?<?php echo time(); ?>"></script>
 <script src="<?php echo ROOT; ?>assets/js/o_validation.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
@@ -194,15 +212,15 @@
 <?php if ($controller == 'orders' && ($action == 'renew')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-<script src="<?php echo ROOT; ?>assets/js/o_renew.js?<?php echo time(); ?>"></script>
-<script src="<?php echo ROOT; ?>assets/js/o_validation_renew.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/o_renew.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/o_validation_renew.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'edit')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/o_edit.js?<?php echo time(); ?>"></script>
-<script src="<?php echo ROOT; ?>assets/js/o_validation_edit.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/o_validation_edit.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'orders' && ($action == 'view')) : ?>

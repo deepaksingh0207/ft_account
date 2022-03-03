@@ -28,6 +28,28 @@ class OrdersController extends Controller
         }
         
     }
+
+    public function list() {
+        
+        try {
+            
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
+            
+            //$orders = $this->_model->getList();
+            //$this->_view->set('orders', $orders);
+
+            $this->_view->set('title', 'Order List');
+            
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
     
     public function view($id) {
         
@@ -91,7 +113,6 @@ class OrdersController extends Controller
         
     }
     
-
     public function create() {
         try {
             $this->_view->set('title', 'Create Order');
@@ -127,10 +148,152 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
-                $orderData['open_po'] = 1;
-                if(isset($data['open_po'])){
-                    $orderData['open_po'] = 1;
+                if(isset($data['open_po'])){ $orderData['open_po'] = 1; }
+
+                $orderData['user_id'] = $this->_session->get('user_id'); // created by user
+
+                
+                // if($data['ordertype'] == 1 || $data['ordertype'] == 3) {
+                //     $orderData['po_from_date'] = $data['po_from_date'];
+                //     $orderData['po_to_date'] = $data['po_to_date'];
+                // }
+                
+                if(!empty($_FILES)){
+                    //Get the temp file path
+                    $tmpFilePath = $_FILES['upload_po']['tmp_name'];
+                    
+                    //Make sure we have a file path
+                    if ($tmpFilePath != ""){
+                        //Setup our new file path
+                        $newFileName = time().'_'. $_FILES['upload_po']['name'];
+                        $newFilePath =  "./order_po/".$newFileName;
+                        //Upload the file into the temp dir
+                        if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+                            $orderData['po_file'] = $newFileName;
+                            
+                        }
+                    }
                 }
+
+                
+                /*
+                if($orderData['order_type'] == 2 || $orderData['order_type'] == 1) {
+                    foreach($data['ptitem'] as $key => $item) {
+                        $row = array();
+                        $row['item'] = $data['ptitem'][$key];
+                        $row['description'] = $data['paymentterm'][$key];
+                        $row['qty'] = $data['ptqty'][$key];
+                        $row['uom_id'] = $data['ptuom'][$key];
+                        $row['unit_price'] = $data['ptunit_price'][$key];
+                        $row['total'] = $data['pttotal'][$key];
+                        $orderPayTerms[] = $row;
+                    }
+                }
+                
+                
+                foreach($data['item'] as $key => $item) {
+                    $row = array();
+                    $row['item'] = $data['item'][$key];
+                    $row['description'] = $data['description'][$key];
+                    $row['qty'] = $data['qty'][$key];
+                    $row['uom_id'] = $data['uom'][$key];
+                    $row['unit_price'] = $data['unit_price'][$key];;
+                    $row['total'] = $data['total'][$key];
+
+                    $orderItems[] = $row;
+                }
+
+                */
+
+
+                // echo '<pre>';
+                // print_r($orderItems);
+                // print_r($orderPayTerms);
+                // exit;
+                //print_r($data); exit;
+                $orderId = $this->_model->save($orderData);
+                if($orderId) {
+
+                    $tblOrderItem = new OrderItemsModel();
+                    $tblOrderPaymentTerm = new OrderPaytermsModel();
+
+                    foreach($data['order_details'] as $item) {
+                        $orderItem = array();
+                        $orderItem['item'] = $item['item'];
+                        $orderItem['description'] = $item['description'];
+                        $orderItem['qty'] = $item['qty'];
+                        $orderItem['uom_id'] = $item['uom_id'];
+                        $orderItem['unit_price'] = $item['unit_price'];
+                        $orderItem['total'] = $item['total'];
+                        $orderItem['order_id'] = $orderId;
+                        $orderItem['order_type'] = $item['ordertype'];
+
+                        if($item['ordertype'] == 1 || $item['ordertype'] == 3) {
+                            $orderItem['po_from_date'] = $item['po_from_date'];
+                            $orderItem['po_to_date'] = $item['po_to_date'];
+                        }
+
+                        $orderItemId = $tblOrderItem->save($orderItem);
+
+                        if($orderItem['order_type'] == 2 || $orderItem['order_type'] == 1 || $orderItem['order_type'] == 3 || $orderItem['order_type'] == 7) {
+                            foreach($item['payment_term'] as $orderPayTerm) {
+                                $orderPayTerm['order_id'] = $orderId;
+                                $orderPayTerm['order_item_id'] = $orderItemId;
+                                $tblOrderPaymentTerm->save($orderPayTerm);
+                            }
+                        }
+                    }
+                    
+                    $_SESSION['message'] = 'Order added successfully';
+                    header("location:". ROOT. "orders"); 
+                } else {
+                    $_SESSION['error'] = 'Fail to add order';
+                }
+            }
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+
+    public function openpo() {
+        try {
+            $this->_view->set('title', 'Create Order');
+            
+            $customerList = new CustomersModel();
+            $customers = $customerList->getNameList();
+            $this->_view->set('customers', $customers);
+            
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            
+            
+            if(!empty($_POST)) {
+                $data = $_POST;
+                
+                // echo '<pre>';print_r($data); exit;
+
+                $orderData = array();
+                
+                $orderData['group_id'] = $data['group_id'];
+                $orderData['customer_id'] = $data['customer_id'];
+                $orderData['order_date'] = $data['order_date'];
+                $orderData['po_no'] = $data['po_no'];
+                $orderData['sales_person'] = $data['sales_person'];
+                $orderData['bill_to'] = $data['bill_to'];
+                $orderData['ship_to'] = $data['ship_to'];
+                $orderData['order_type'] = $data['ordertype'];
+                $orderData['sub_total'] = $data['ordersubtotal'];
+                $orderData['sgst'] = $data['sgst'];
+                $orderData['cgst'] = $data['cgst'];
+                $orderData['igst'] = $data['igst'];
+                $orderData['tax_rate'] = $data['taxrate'];
+                $orderData['ordertotal'] = $data['ordertotal'];
+                $orderData['remarks'] = $data['remarks'];
+                if(isset($data['open_po'])){ $orderData['open_po'] = 1; }
 
                 $orderData['user_id'] = $this->_session->get('user_id'); // created by user
 
@@ -254,13 +417,13 @@ class OrdersController extends Controller
             $tblOrderItem = new OrderItemsModel();
             $items = $tblOrderItem->getItemByOrderId($id);
             
-            // echo '<pre>'; print_r($items); exit;
             $this->_view->set('items', $items);
+            // echo '<pre>'; print_r($items); exit;
+
             if(!empty($_POST)) {
                 $data = $_POST;
                 // echo '<pre>';print_r($data); exit;
 
-                $orderData = array();
                 $orderId = $data['order_id'];
                 if($orderId) {
                     $tblOrderItem = new OrderItemsModel();
@@ -277,18 +440,17 @@ class OrdersController extends Controller
                         $orderItem['order_id'] = $orderId;
                         $orderItem['order_type'] = $item['ordertype'];
 
-                        if($item['ordertype'] == 1 || $item['ordertype'] == 3) {
+                        if(in_array($item['order_type'], array(1, 3))) {
                             $orderItem['po_from_date'] = $item['po_from_date'];
                             $orderItem['po_to_date'] = $item['po_to_date'];
                         }
 
                         $orderItemId = $tblOrderItem->save($orderItem);
 
-                        if($orderItem['order_type'] == 2 || $orderItem['order_type'] == 1 || $orderItem['order_type'] == 3 || $orderItem['order_type'] == 7) {
+                        if(in_array($orderItem['order_type'], array(1, 2, 3, 7))) {
                             foreach($item['payment_term'] as $orderPayTerm) {
                                 $orderPayTerm['order_id'] = $orderId;
-                                $orderPayTerm['order_item_id'] = $orderItemId;
-                                $tblOrderPaymentTerm->save($orderPayTerm);
+                                $orderPayTerm['order_item_id'] = $orderItemId;$tblOrderPaymentTerm->save($orderPayTerm);
                             }
                         }
                     }
@@ -322,13 +484,13 @@ class OrdersController extends Controller
             $tblOrderItem = new OrderItemsModel();
             $items = $tblOrderItem->getItemByOrderId($id);
             
-            // echo '<pre>'; print_r($items); exit;
             $this->_view->set('items', $items);
+            // echo '<pre>'; print_r($items); exit;
+
             if(!empty($_POST)) {
                 $data = $_POST;
                 // echo '<pre>';print_r($data); exit;
-
-                $orderData = array();
+                
                 $orderId = $data['order_id'];
                 if($orderId) {
                     $tblOrderItem = new OrderItemsModel();
@@ -344,19 +506,24 @@ class OrdersController extends Controller
                         $orderItem['total'] = $item['total'];
                         $orderItem['order_id'] = $orderId;
                         $orderItem['order_type'] = $item['ordertype'];
+                        $orderItem['id'] = $item['id'];
 
-                        if($item['ordertype'] == 1 || $item['ordertype'] == 3) {
+                        if(in_array($item['order_type'], array(1, 3))) {
                             $orderItem['po_from_date'] = $item['po_from_date'];
                             $orderItem['po_to_date'] = $item['po_to_date'];
                         }
 
-                        $orderItemId = $tblOrderItem->save($orderItem);
+                        if ($item['id'] > 0){$orderItemId = $tblOrderItem->update($item['id'], $orderItem);}
+                        else {$orderItemId = $tblOrderItem->save($orderItem);}
 
-                        if($orderItem['order_type'] == 2 || $orderItem['order_type'] == 1 || $orderItem['order_type'] == 3 || $orderItem['order_type'] == 7) {
+                        if(in_array($orderItem['order_type'], array(1, 2, 3, 7))) {
                             foreach($item['payment_term'] as $orderPayTerm) {
                                 $orderPayTerm['order_id'] = $orderId;
                                 $orderPayTerm['order_item_id'] = $orderItemId;
-                                $tblOrderPaymentTerm->save($orderPayTerm);
+
+                                if ($orderPayTerm['id'] > 0) {$tblOrderPaymentTerm->update($orderPayTerm['id'], $orderPayTerm);}
+                                else {$tblOrderPaymentTerm->save($orderPayTerm);}
+
                             }
                         }
                     }
