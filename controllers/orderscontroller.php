@@ -670,6 +670,33 @@ class OrdersController extends Controller
         exit;
     }
 
+    public function searchopenpo() {
+        
+        $orders = $this->_model->getPOList($_POST);
+        
+        $result = array(); 
+        $result['draw'] = 1;
+        $result['data'] = array();
+        $result['recordsTotal'] = count($orders);
+        $result['recordsFiltered'] = count($orders);
+
+        foreach($orders as $order) {
+            $tmp = array();
+            $tmp[] = $order['id'];
+            $tmp[] = date('d, M Y',strtotime($order['order_date']));
+            $tmp[] = $order['po_no'];
+            $tmp[] = $order['customer_name'];
+            $tmp[] = $order['sales_person'];
+            $tmp[] = $order['ordertotal'];
+            $result['data'][] = $tmp;
+        }
+
+        
+
+        echo json_encode($result);
+        exit;
+    }
+
     function getInvoicesForPayments($id) {
         if($id) {
             $paymentDone = $this->_model->getPaymentDoneInvoices($id);

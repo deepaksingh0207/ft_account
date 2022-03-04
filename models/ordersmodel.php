@@ -5,7 +5,58 @@ class OrdersModel extends Model {
     
     public function getList($filter = array()) {
         //$sql = "select * from orders where 1=1 order by updated_date desc";
-        $where = ' WHERE 1=1 and orders.status=1 ';
+        $where = ' WHERE open_po=0 and orders.status=1 ';
+        
+        $fieldVal = array();
+
+        if(!empty($filter)) {
+            foreach($filter as $key => $val) {
+                if(!empty(trim($val)))  {
+                    if($key == 'status') {
+                        $key = "orders.$key";
+                        $fieldVal[] = $val;
+                    }
+                    
+                    if($key == 'startdate') {
+                        $where .= " and orders.order_date >= ? ";
+                        $fieldVal[] = $val;
+                    } 
+                    if($key == 'enddate') {
+                        $where .= " and orders.order_date <= ? ";
+                        $fieldVal[] = $val;
+                    }
+
+                    if($key == 'customer_id') { 
+                        $where .= " and orders.customer_id= ? ";
+                        $fieldVal[] = $val;
+                    }
+
+                    if($key == 'open_po') { 
+                        $where .= " and orders.open_po= ? ";
+                        $fieldVal[] = $val;
+                    }
+                    
+                    if(is_array($val)){
+                        $where .= " and $key in (".implode(',', array_filter($val)).") ";
+                    }
+                }
+            }
+        }
+
+        $sql = "select orders.*, customers.name customer_name from orders 
+        join customers on (orders.customer_id = customers.id) $where order by updated_date desc";
+        
+        //echo $sql;
+
+        $this->_setSql($sql);
+        $user = $this->getAll($fieldVal);
+        
+        return $user;
+    }
+
+    public function getPOList($filter = array()) {
+        //$sql = "select * from orders where 1=1 order by updated_date desc";
+        $where = ' WHERE open_po=1 and orders.status=1 ';
         
         $fieldVal = array();
 
