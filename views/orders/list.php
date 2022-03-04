@@ -38,7 +38,7 @@
                     <a href="<?php echo ROOT; ?>orders" type="button" class="btn btn-default">
                       Clear
                     </a>
-                    <a href="<?php echo ROOT; ?>orders/list" type="button" class="btn btn-default">
+                    <a href="<?php echo ROOT; ?>orders/openpo" type="button" class="btn btn-default">
                       New Order
                     </a>
                   </div>
