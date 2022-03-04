@@ -33,7 +33,7 @@ $(document).ready(function () {
     $(".order").addClass('menu-is-opening menu-open');
     $(".orderlink").addClass("active");
     $("#neworder_menu").show();
-    if (submenu == 'list') {
+    if (submenu == 'list' || submenu == 'openpo') {
       $("#menu_list").addClass("active");
     } else {
       $("#menu_neworder").addClass("active");
