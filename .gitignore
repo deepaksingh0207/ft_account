@@ -5,3 +5,4 @@ new_config.php
 .DS_Store
 *.old
 utr_file/
+assets/js_repo/
