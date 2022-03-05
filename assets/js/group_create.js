@@ -1,7 +1,7 @@
 $(function () {
-	$("#company_tab").attr("href", baseUrl + "/company/view/1");
-  $("#customergroup_tab").attr("href", baseUrl + "/customergroups");
-  $("#customer_tab").attr("href", baseUrl + "/customers");
+	$("#company_tab").attr("href", baseUrl + "company/view/1");
+	$("#customergroup_tab").attr("href", baseUrl + "customergroups");
+	$("#customer_tab").attr("href", baseUrl + "customers");
 	$("#customergroup_list").DataTable({
 		responsive: false,
 		lengthChange: false,
@@ -10,6 +10,12 @@ $(function () {
 		ordering: false,
 		searching: true,
 	});
+	$("#customergroup_list_wrapper").children("div:first-child").attr("id", "yoyo");
+	$("#yoyo")
+		.children("div:first-child")
+		.append(
+			'<form method="post" id="customergroup" class="mb-0"> <div class="row"> <div class="col-sm-12 col-lg-8 form-group"><input type="text" class="form-control form-control-sm ftsm" required="" name="name" id="id_group_id" /> </div > <div class="col-sm-12 col-lg-2"> <div class="btn-group"> <button type="submit" id="add" class="btn btn-sm btn-default" > Add </button> <button type="submit" id="update" style="display: none" class="btn btn-sm btn-default" > Update </button> <a href="' + baseUrl + 'customergroups" id="cancel" class="btn btn-sm btn-default" > Cancel </a> </div> </div> </div > </form > '
+		);
 	$("#customergroup").validate({
 		rules: {
 			name: {

@@ -29,8 +29,7 @@
                     <li class="nav-item">
                       <a
                         class="nav-link"
-                        id="customer_tab"
-                        href="/ft_account/company/view/1"
+                        id="company_tab"
                       >
                         Company
                       </a>

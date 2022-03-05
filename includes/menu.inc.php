@@ -91,41 +91,21 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?php echo ROOT; ?>customergroups" class="nav-link" id="menu_group">
+          <a href="<?php echo ROOT; ?>customergroups" class="nav-link" id="menu_master">
             <i class="fas fa-users"></i>
             <p>
               Masters
             </p>
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a href="#" class="nav-link active">
-          <a href="#" class="nav-link">
-            <i class="nav-icon far fa-file-pdf"></i>
+        <li class="nav-item">
+          <a href="<?php echo ROOT; ?>admin" class="nav-link" id="menu_admin">
+          <i class="fab fa-autoprefixer"></i>
             <p>
-              Reports
-              <i class="right fas fa-angle-left"></i>
+              Admin
             </p>
           </a>
-          <ul class="nav nav-treeview" style="display: none;">
-            <li class="nav-item">
-              <a href="./index.html" class="nav-link active">
-              <a href="./index.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <i class="fas fa-caret-right nav-icon"></i>
-                <p>Export</p>
-              </a>
-            </li>
-          </ul>
-        </li> -->
-        <!-- <li class="nav-item">
-          <a href="<?php echo ROOT; ?>settings" class="nav-link" id="menu_settings">
-            <i class="fas fa-cog"></i>
-            <p>
-              Settings
-            </p>
-          </a>
-        </li> -->
+        </li>
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>users/logout" class="nav-link">
             <i class="fas fa-power-off"></i>

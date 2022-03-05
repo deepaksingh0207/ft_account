@@ -2,7 +2,7 @@
 <script>
   var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
 </script>
-
+<script src="<?php echo ROOT; ?>assets/js/menu.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/moment/moment.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
@@ -13,6 +13,22 @@
 
 <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/toastr/toastr.min.js"></script>
+
+<?php if ($controller == 'admin' && ($action == 'index')) : ?>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/a_list.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
 
 <?php if ($controller == 'users') : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
@@ -283,7 +299,6 @@
 
 <script src="<?php echo ROOT; ?>assets/dist/js/adminlte.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/dist/js/demo.js"></script>
-<script src="<?php echo ROOT; ?>assets/js/menu.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/custom.js?<?php echo time(); ?>"></script>
 </body>
 

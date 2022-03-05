@@ -5,7 +5,8 @@
       <section class="content">
         <div class="container-fluid mt-2 pb-5">
           <div class="card">
-            <div class="card-body">
+
+            <div class="card-header">
               <div class="row">
 
                 <div class="col-sm-12 col-lg-3">
@@ -43,25 +44,27 @@
                     </a>
                   </div>
                 </div>
-                <div class="col-12 mt-3">
-                  <div class="card card-primary card-outline">
-                    <div class="card-body">
-                      <table id="example1" class="table table-striped table-hover">
-                        <thead class="text-center">
-                          <tr>
-                            <th>Date</th>
-                            <th style="max-width:200px;">Order</th>
-                            <th style="max-width:250px;">Customer</th>
-                            <th>Salesperson</th>
-                            <th>Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody class="text-center"></tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+
               </div>
+            </div>
+
+            <div class="card-body">
+              <table id="example1" class="table table-striped table-hover">
+                
+                <thead class="text-center">
+                  <tr>
+                    <th>Date</th>
+                    <th style="max-width:200px;">Order</th>
+                    <th style="max-width:250px;">Customer</th>
+                    <th>Salesperson</th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+
+                <tbody class="text-center">
+                </tbody>
+
+              </table>
             </div>
           </div>
         </div>

@@ -30,6 +30,7 @@
                       <a
                         class="nav-link"
                         id="customer_tab"
+                        href="<?php echo ROOT; ?>customers"
                       >
                         Customer
                       </a>
@@ -38,6 +39,7 @@
                       <a
                         class="nav-link"
                         id="customer_tab"
+                        href="<?php echo ROOT; ?>company/view/1"
                       >
                         Company
                       </a>
@@ -52,46 +54,7 @@
                       role="tabpanel"
                       aria-labelledby="customergroup_tab"
                     >
-                      <form method="post" id="customergroup">
-                        <div class="row">
-                          <div class="col-sm-12 col-lg-5 form-group">
-                            <label for="id_group_id"></label>
-                            <input
-                              type="text"
-                              class="form-control ftsm"
-                              required=""
-                              name="name"
-                              id="id_group_id"
-                            />
-                          </div>
-                          <div class="col-sm-12 col-lg-3 pt-2">
-                            <div class="btn-group">
-                              <button
-                                type="submit"
-                                id="add"
-                                class="btn btn-default"
-                              >
-                                Add
-                              </button>
-                              <button
-                                type="submit"
-                                id="update"
-                                style="display: none"
-                                class="btn btn-default"
-                              >
-                                Update
-                              </button>
-                              <button
-                                type="reset"
-                                id="cancel"
-                                class="btn btn-default"
-                              >
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
+                      
                       <table
                         id="customergroup_list"
                         class="table table-striped"

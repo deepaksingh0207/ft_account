@@ -1,1 +1,43 @@
-$(document).ready((function(){var e=window.location.pathname.split("/");if("ft_account"==e[1])var a=e[2],s=e[3];else a=e[1],s=e[2];"invoices"==a&&$("#menu_invoices").addClass("active"),"company"==a&&$("#menu_company").addClass("active"),"customers"==a&&$("#menu_customers").addClass("active"),"orders"==a&&$("#menu_orders").addClass("active"),"group"==a&&$("#menu_group").addClass("active"),"payments"==a&&$("#menu_payment").addClass("active"),"orders"==a&&($("#menu_order").addClass("active"),$(".order").addClass("menu-is-opening menu-open"),$(".orderlink").addClass("active"),$("#neworder_menu").show(),"list"==s||"openpo"==s?$("#menu_list").addClass("active"):$("#menu_neworder").addClass("active")),"dashboard"==a&&("report"==s?($("#menu_report").addClass("active"),$("#report_menu").show(),$(".report").addClass("menu-is-opening menu-open"),$(".reportlink").addClass("active")):"ordersummary"==s?($("#menu_ordersummary").addClass("active"),$("#report_menu").show(),$(".report").addClass("menu-is-opening menu-open"),$(".reportlink").addClass("active")):"expiredpo"==s?($("#menu_expiredpo").addClass("active"),$("#report_menu").show(),$(".report").addClass("menu-is-opening menu-open"),$(".reportlink").addClass("active")):$("#menu_dashboard").addClass("active")),"settings"==a&&$("#menu_settings").addClass("active")}));
+$(document).ready(function () {
+  var e = window.location.pathname.split("/");
+
+  // Cross Server
+  if (e[1] == "ft_account") {
+    var a = e[2]; var s = e[3];
+  } else {
+    var a = e[1]; var s = e[2];
+  }
+
+  if (a == 'orders') { $("#menu_orders").addClass("active"); }
+  if (a == 'invoices') { $("#menu_invoices").addClass("active"); }
+  if (['customers', 'company', 'customergroups'].includes(a)) { $("#menu_master").addClass("active"); }
+  if (a == 'payments') { $("#menu_payment").addClass("active"); }
+  if (a == 'admin') { $("#menu_admin").addClass("active"); }
+  if (a == 'orders') {
+    $("#menu_order").addClass("active");
+    $(".order").addClass('menu-is-opening menu-open');
+    $(".orderlink").addClass("active");
+    $("#neworder_menu").show();
+    if (s == 'list' || s == 'openpo') { $("#menu_list").addClass("active"); }
+    else { $("#menu_neworder").addClass("active"); }
+  }
+  if (a == 'dashboard') {
+    if (s == 'report') {
+      $("#menu_report").addClass("active");
+      $("#report_menu").show();
+      $(".report").addClass('menu-is-opening menu-open');
+      $(".reportlink").addClass("active");
+    } else if (s == 'ordersummary') {
+      $("#menu_ordersummary").addClass("active");
+      $("#report_menu").show();
+      $(".report").addClass('menu-is-opening menu-open');
+      $(".reportlink").addClass("active");
+    } else if (s == 'expiredpo') {
+      $("#menu_expiredpo").addClass("active");
+      $("#report_menu").show();
+      $(".report").addClass('menu-is-opening menu-open');
+      $(".reportlink").addClass("active");
+    } else { $("#menu_dashboard").addClass("active"); }
+  }
+  if (a == 'settings') { $("#menu_settings").addClass("active"); }
+});
