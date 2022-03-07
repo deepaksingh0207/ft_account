@@ -20,6 +20,15 @@ class AdminModel extends Model {
         
         return $user;
     }
+
+    public function myaccess($userid, $controller, $action) {
+        $sql = "select * from acl where user=? and controller=? and action=? limit 1";
+        $this->_setSql($sql);
+        $user = $this->getRow(array($userid, $controller, $action));
+        // echo '<pre>'; var_dump($user); exit;
+        if (empty($user)){ return false; }
+        return true;
+    }
     
     public function delete($id) {
         $sql = "DELETE FROM acl WHERE id=$id";

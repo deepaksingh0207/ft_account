@@ -62,4 +62,14 @@ class AdminController extends Controller
         }
         
     }
+
+    public function restrict(){
+        try {
+            $this->_view->set('title', 'Access Denied');
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
 }

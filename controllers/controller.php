@@ -24,9 +24,20 @@ class Controller {
         }
         
         
-        if(!$this->_session->get('signed_in') && !in_array($action, array('login', 'forgot', 'reset'))) {
-            header("location:" .ROOT. "users/login");
-            exit;
+        if( !in_array($action, array('login', 'forgot', 'reset', 'restrict', 'logout')) )
+        {
+            if( !$this->_session->get('signed_in') )
+            { header("location:" .ROOT. "users/login"); exit; }
+
+            if(!$this->_session->get('is_admin')){
+                // echo '<pre>';
+                // print_r(intval($_SESSION['user_id']));
+                // print_r(strtolower($model));
+                // print_r($action);
+                // exit;
+                if ( $this->admin->myaccess(intval($_SESSION['user_id']), strtolower($model), $action) == false )
+                { header("location:" .ROOT. "admin/restrict"); exit; }
+            }
         }
         
         
