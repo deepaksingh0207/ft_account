@@ -44,7 +44,7 @@ function fill_opentable(appliedfilter = {}) {
     //   { className: 'sublist', targets: "_all" }
     // ],
     "ajax": {
-      url: baseUrl + "orders/search/",
+      url: baseUrl + "orders/searchopenpo/",
       type: "POST",
       data: appliedfilter
     }
