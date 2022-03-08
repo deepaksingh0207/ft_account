@@ -25,6 +25,12 @@ class AdminController extends Controller
     
     
     public function acl($id) {
+        // $router = service('router'); 
+        // $controller  = $router->controllerName();
+        // $method = $router->methodName();
+        // $logger = service('logger');
+        // $routes = service('routes');
+        // echo '<pre>'; print_r($controller); exit;
         
         try {
             $accesslist = $this->_model->get($id);

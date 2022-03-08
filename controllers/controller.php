@@ -8,7 +8,7 @@ class Controller {
     protected $_modelBaseName;
     protected $_session;
     protected $_utils;
-    
+    public $admin;
     
 
     public function __construct($model, $action) {
@@ -17,6 +17,7 @@ class Controller {
         $this->_modelBaseName = $model;
         $this->_session = App::session();
         $this->_utils = App::utils();
+        $this->admin = new AdminModel;
          
         if(!file_exists(HOME . DS.'new_config.php')) {
             header("location:" .ROOT. "setup");
