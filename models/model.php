@@ -42,4 +42,14 @@ class Model {
         $sth->execute($data);
         return $sth->fetch();
     }
+
+    public function getController($id) {
+        $sql = "select distinct controller from acl where user=$id";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($id));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
 }

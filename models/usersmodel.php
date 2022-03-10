@@ -56,12 +56,9 @@ class UsersModel extends Model {
     public function update($id, $updateRecord) {
         
         $fields = array_keys($updateRecord);
-        
         $sql = "update users set ";
         
-        foreach ($fields as $field) {
-            $sql .= " $field = ?,";
-        }
+        foreach ($fields as $field) { $sql .= " $field = ?,"; }
         $sql = substr($sql, 0, -1);
         $sql .= " where id = ?";
         
@@ -71,7 +68,6 @@ class UsersModel extends Model {
         //echo '<pre>'; print_r($data);
         
         $sth = $this->_db->prepare($sql);
-        
         return $sth->execute($data);
     }
     
