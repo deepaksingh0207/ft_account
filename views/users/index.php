@@ -1,47 +1,36 @@
-<div class="wrapper">
-  <div class="main">
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
     <?php include HOME . DS . 'includes' . DS . 'menu.inc.php'; ?>
-
-    <main class="content">
-      <div class="container-fluid p-0 leavelow">
-        <div class="card m-2">
-          <div class="card-header">
-            <a href="<?php echo ROOT ?>users/create" class="btn mybtn"
-              >Add New Customer</a
-            >
-          </div>
-          <div class="card-body mb-5 table-responsive">
-            <table id="cust_list_table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Customer No.</th>
-                  <th>Company</th>
-                  <th>Name</th>
-                  <th>Contact</th>
-                  <th>Email ID</th>
-                  <th>System</th>
-                  <th>Man Days</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php if (!empty($customers)) : foreach ($customers as $customer) : ?>
-                <tr data-href='<?php echo ROOT ?>users/profile/<?php echo $customer['id']?>'>
-                  <td class="t-1 clickable-row"><?php echo $customer['cust_num']?></td>
-                  <td class="t-2 clickable-row"><?php echo $customer['cust_name']?></td>
-                  <td class="t-1 clickable-row"><?php echo $customer['emp_name']?></td>
-                  <td class="t-1 clickable-row"><?php echo $customer['emp_mobile']?></td>
-                  <td class="t-1 clickable-row"><?php echo $customer['emp_email']?></td>
-                  <td class="t-1 clickable-row"><?php echo $customer['instances']?></td>
-                  <td class="t-1 clickable-row"><?php echo $customer['man_days']?></td>
-                </tr>
-              <?php endforeach; endif; ?>
-              </tbody>
-            </table>
+    <div class="content-wrapper">
+      <section class="content">
+        <div class="container-fluid mt-2 pb-5">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body p-0 table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Users ACL</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <?php if (is_array($users) || is_object($users)) : ?>
+                      <?php foreach ($users as $user) : ?>
+                      <tr data-href="<?php echo ROOT; ?>users/setPermission/<?php echo $user['id'] ?>">
+                        <td class="sublist">
+                          <?php echo $user['name'] ?>
+                        </td>
+                      </tr>
+                      <?php endforeach; ?>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
-
+      </section>
+    </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
-  </div>
-</div>

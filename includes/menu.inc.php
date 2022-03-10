@@ -53,9 +53,9 @@
         </li>
         <li class="nav-item order">
           <a href="#" class="nav-link orderlink" id="menu_order">
-            <i class="far fa-file"></i>
+            <i class="fas fa-mail-bulk"></i>
             <p>
-              Order
+              Order Category
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -63,13 +63,13 @@
             <li class="nav-item">
               <a href="<?php echo ROOT; ?>orders/" class="nav-link" id="menu_neworder">
                 <i class="fas fa-envelope-open"></i>
-                <p>New Order</p>
+                <p>List Orders</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?php echo ROOT; ?>orders/list" class="nav-link" id="menu_list">
                 <i class="fas fa-envelope-open-text"></i>
-                <p>Open PO</p>
+                <p>List Open POs</p>
               </a>
             </li>
           </ul>
@@ -92,17 +92,17 @@
         </li>
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>customergroups" class="nav-link" id="menu_master">
-            <i class="fas fa-users"></i>
+            <i class="fa fa-border-all"></i>
             <p>
               Masters
             </p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?php echo ROOT; ?>admin" class="nav-link" id="menu_admin">
-          <i class="fab fa-autoprefixer"></i>
+          <a href="<?php echo ROOT; ?>users/" class="nav-link" id="menu_users">
+            <i class="fas fa-users"></i>
             <p>
-              Admin
+              Users
             </p>
           </a>
         </li>

@@ -43,3 +43,7 @@ $(document).ready(function() {
     }
   });
 });
+
+function firstcap(string){
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
