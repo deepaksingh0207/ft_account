@@ -84,7 +84,7 @@ class UsersController extends Controller
         $controllersList = array_diff(scandir('controllers'), array('..', '.'));
         $cphp = 'controller.php';
         $skipController = [$cphp, 'users'.$cphp, 'admin'.$cphp];
-        $skipActions = ['__construct', 'create_old'];
+        $skipActions = ['__construct', 'create_old', 'getDetails', 'groupCustomers', 'getTaxesRate', 'generateInvoice', 'preview', 'getInvoiceIdsByCustomer','genInvoiceNo', 'invoice_validty', 'proforma_validty', 'getOrderListByCustomer', 'getdetails', 'getSearchResult', 'po_validty', 'search', 'searchopenpo', 'utr_validty'];
         $actionControllers = [];
         foreach ($controllersList as $controllerName) {
             if (!in_array($controllerName, $skipController, true)){

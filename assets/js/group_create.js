@@ -45,7 +45,7 @@ $(".groupy").on("click", function () {
 	valy = $(this).data("name");
 	id = $(this).data("id");
 	$("#id_group_id").val(valy);
-	$("#update").attr("formaction", baseUrl + "customergroups/update/" + id);
+	$("#update").attr("formaction", baseUrl + "customergroups/edit/" + id);
 	$("#add").hide();
 	$("#update").show();
 });
