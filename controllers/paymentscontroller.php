@@ -29,7 +29,7 @@ class PaymentsController extends Controller
     }
     
     /*
-    public function create() {
+    public function create_old() {
         try {
 
             $this->_view->set('title', 'Add Payment');

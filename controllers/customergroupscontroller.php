@@ -63,7 +63,7 @@ class CustomerGroupsController extends Controller
         
     }
 
-    public function update($id) {
+    public function edit($id) {
         
         try {
             

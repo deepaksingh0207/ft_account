@@ -14,7 +14,7 @@
 <script src="<?php echo ROOT; ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/toastr/toastr.min.js"></script>
 
-<?php if ($controller == 'admin' && ($action == 'index')) : ?>
+<?php if ($controller == 'users' && ($action == 'index')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -30,7 +30,7 @@
 <script src="<?php echo ROOT; ?>assets/js/a_list.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
-<?php if ($controller == 'users') : ?>
+<?php if ($controller == 'users' && ($action == 'login')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/login.js?<?php echo time(); ?>"></script>

@@ -17,7 +17,7 @@ class Controller {
         $this->_modelBaseName = $model;
         $this->_session = App::session();
         $this->_utils = App::utils();
-        $this->admin = new AdminModel;
+        $this->admin = new UsersModel;
          
         if(!file_exists(HOME . DS.'new_config.php')) {
             header("location:" .ROOT. "setup");
@@ -37,7 +37,7 @@ class Controller {
                 // print_r($action);
                 // exit;
                 if ( $this->admin->myaccess(intval($_SESSION['user_id']), strtolower($model), $action) == false )
-                { header("location:" .ROOT. "admin/restrict"); exit; }
+                { header("location:" .ROOT. "users/restrict"); exit; }
             }
         }
         

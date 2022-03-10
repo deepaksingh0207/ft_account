@@ -7,6 +7,21 @@ class UsersController extends Controller
         $this->_setModel("users");
     }
 
+    public function index() {
+        
+        try {
+            $users = $this->_model->getUserList();
+            
+            $this->_view->set('users', $users);
+            $this->_view->set('title', 'ACL');
+            
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+
     public function login() {
         
         if($this->_session->get('signed_in')) {
@@ -65,24 +80,78 @@ class UsersController extends Controller
         Header("location:".ROOT."incidents");
     }
 
-    public function setPermission() {
-        $directory = 'controllers';
-        $controllers = array_diff(scandir($directory), array('..', '.'));
-
-        $xcludeController = ['controller', 'users', 'company', 'dashboard'];
-        $xcludeActions = ['view'];
-        $actions = ['create', 'edit', 'delete'];
-        foreach ($controllers as &$controller) {
-            $controller = str_replace('controller.php', '', $controller);
+    public function setPermission($id) {
+        $controllersList = array_diff(scandir('controllers'), array('..', '.'));
+        $cphp = 'controller.php';
+        $skipController = [$cphp, 'users'.$cphp, 'admin'.$cphp];
+        $skipActions = ['__construct', 'create_old', 'getDetails', 'groupCustomers', 'getTaxesRate', 'generateInvoice', 'preview', 'getInvoiceIdsByCustomer','genInvoiceNo', 'invoice_validty', 'proforma_validty', 'getOrderListByCustomer', 'getdetails', 'getSearchResult', 'po_validty', 'search', 'searchopenpo', 'utr_validty'];
+        $actionControllers = [];
+        foreach ($controllersList as $controllerName) {
+            if (!in_array($controllerName, $skipController, true)){
+                $tempController = [];
+                $controllerFile = __dir__.'\\'.$controllerName;
+                $methodPrefix = 'public function ';
+                                
+                // escape special characters in the query
+                $pattern = preg_quote($methodPrefix, '/');
+                
+                // search, and store all matching occurences in $matches
+                if(preg_match_all("/^.*$pattern.*\$/m", file_get_contents($controllerFile), $matches)){
+                    $actionsList =  explode($methodPrefix, implode("",$matches[0]));
+                    foreach ($actionsList as $action) {
+                        $actionName = preg_replace("/\s|\(.*/", "", $action);
+                        if (!empty($actionName) && !in_array($actionName, $skipActions, true)){
+                            $tempController[] = $actionName;
+                        }
+                    }
+                }
+                $actionControllers[str_replace($cphp, '', $controllerName)] = $tempController;
+            }
         }
+        // echo '<pre>'; print_r($actionControllers);
+        try {
+            $accesslist = $this->_model->getacl($id);
+            if(!empty($_POST)) {
+                $data = $_POST;
+                
+                // echo '<pre>'; print_r($data); exit;
+                
+                foreach(array_keys($data['controller']) as $controller) {
+                    $accessrecord = array();
+                    $accessrecord['user'] = $id;
+                    $accessrecord['controller'] = $controller;
+                    // echo '<pre>'; print_r($controller); exit;
+                    
+                    foreach(array_keys($data['controller'][$controller]) as $actions) {
+                        // echo '<pre>'; print_r($accessrecord); exit;
+                        $accessrecord['action'] = $actions;
+                        $this->_model->save_acl($accessrecord);
+                    }
+                }
+                foreach($accesslist as $row) {
+                    // echo '<pre>'; print_r($row["id"]); exit;
+                    $this->_model->delete_acl($row["id"]);
+                }
+                $accesslist = $this->_model->get($id);
+            }
+            $this->_view->set('form', $actionControllers);
+            $this->_view->set('accesslist', $accesslist);
+            $this->_view->set('title', 'ACL');
 
-        $controllers = array_filter(array_diff($controllers, $xcludeController));
-        sort($controllers);
-
-        $this->_view->set('controllers', $controllers);
-        $this->_view->set('actions', $actions);
-
-        exit;
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }  
     }
-    
+
+    public function restrict(){
+        try {
+            $this->_view->set('title', 'Access Denied');
+            return $this->_view->output();
+            
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
 }
