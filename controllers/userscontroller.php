@@ -43,12 +43,20 @@ class UsersController extends Controller
         
         if($username && $password) {
             $user = $this->_model->login($username, $password);
-            //echo '<pre>'; print_r($user); exit;
             if($user) {
-                    $this->_session->set('signed_in', true);
-                    $this->_session->set('user_id', $user['id']);
-                    $this->_session->set('is_admin', $user['admin']);
-                    $this->_session->set('user', $user);
+                $list = [];
+                $contlist = $this->_model->getController($user['id']);
+                foreach ($contlist as $value) { $list[] = $value['controller']; }
+                $this->_session->set('controller', $list);
+                $list = [];
+                $menulist = $this->_model->getmenu($user['id']);
+                foreach ($menulist as $value) { $list[] = $value['menu']; }
+                $this->_session->set('menu', $list);
+                $this->_session->set('action', $list);
+                $this->_session->set('signed_in', true);
+                $this->_session->set('user_id', $user['id']);
+                $this->_session->set('is_admin', $user['admin']);
+                $this->_session->set('user', $user);
                     
                     if($_POST["remember_me"]=='1' || $_POST["remember_me"]=='on')
                     {
@@ -108,7 +116,7 @@ class UsersController extends Controller
                 $actionControllers[str_replace($cphp, '', $controllerName)] = $tempController;
             }
         }
-        // echo '<pre>'; print_r($actionControllers);
+        echo '<pre>'; print_r($actionControllers); exit;
         try {
             $accesslist = $this->_model->getacl($id);
             if(!empty($_POST)) {

@@ -25,7 +25,6 @@ class CustomersController extends Controller
         
     }
     
-    
     public function view($id) {
         
         try {
