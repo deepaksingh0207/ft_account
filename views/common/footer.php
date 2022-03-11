@@ -30,10 +30,14 @@
 <script src="<?php echo ROOT; ?>assets/js/a_list.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'users' && ($action == 'index')) : ?>
+  <script src="<?php echo ROOT; ?>assets/js/u_setpermission.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
 <?php if ($controller == 'users' && ($action == 'login')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-<script src="<?php echo ROOT; ?>assets/js/login.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/u_login.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'dashboard' && ($action == 'index')) : ?>
