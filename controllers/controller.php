@@ -17,13 +17,8 @@ class Controller {
         $this->_modelBaseName = $model;
         $this->_session = App::session();
         $this->_utils = App::utils();
-<<<<<<< HEAD
-        $this->admin = new UsersModel;
-         
-=======
         $this->usermodel = new UsersModel;
         
->>>>>>> JThayil
         if(!file_exists(HOME . DS.'new_config.php')) {
             header("location:" .ROOT. "setup");
             exit;
