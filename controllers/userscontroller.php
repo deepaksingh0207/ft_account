@@ -47,14 +47,14 @@ class UsersController extends Controller
                 $list = [];
                 $contlist = $this->_model->getController($user['id']);
                 if (is_array($contlist) || is_object($contlist)){
-                foreach ($contlist as $value) { $list[] = $value['controller']; }
-                $this->_session->set('controller', $list);}
+                foreach ($contlist as $value) { $list[] = $value['controller']; }}
+                $this->_session->set('controller', $list);
 
                 $list = [];
                 $menulist = $this->_model->getmenu($user['id']);
                 if (is_array($menulist) || is_object($menulist)){
-                foreach ($menulist as $value) { $list[] = $value['menu']; }
-                $this->_session->set('menu', $list);}
+                foreach ($menulist as $value) { $list[] = $value['menu']; }}
+                $this->_session->set('menu', $list);
 
                 $this->_session->set('action', $list);
                 $this->_session->set('signed_in', true);
