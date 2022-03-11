@@ -56,12 +56,9 @@ class UsersModel extends Model {
     public function update($id, $updateRecord) {
         
         $fields = array_keys($updateRecord);
-        
         $sql = "update users set ";
         
-        foreach ($fields as $field) {
-            $sql .= " $field = ?,";
-        }
+        foreach ($fields as $field) { $sql .= " $field = ?,"; }
         $sql = substr($sql, 0, -1);
         $sql .= " where id = ?";
         
@@ -71,7 +68,6 @@ class UsersModel extends Model {
         //echo '<pre>'; print_r($data);
         
         $sth = $this->_db->prepare($sql);
-        
         return $sth->execute($data);
     }
     
@@ -107,12 +103,63 @@ class UsersModel extends Model {
     }
     
     public function myaccess($userid, $controller, $action) {
-        $sql = "select * from acl where user=? and controller=? and action=? limit 1";
+        // user=0 adds global controller and action
+        $sql = "select * from acl where user=0 or user=? and controller=? and action=? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($userid, $controller, $action));
         // echo '<pre>'; var_dump($user); exit;
         if (empty($user)){ return false; }
         return true;
+    }
+
+    public function getController($id) {
+        $sql = "select distinct controller from acl where user=$id";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($id));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
+
+    public function checkController($id, $controller) {
+        $sql = "select distinct controller from acl where user=$id and controller=$controller";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($id, $controller));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
+
+    public function getAction($id) {
+        $sql = "select distinct action from acl where user=$id";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($id));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
+
+    public function checkAction($id, $controller) {
+        $sql = "select distinct action from acl where user=$id and action=$controller";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($id, $controller));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
+
+    public function getmenu($id) {
+        $sql = "select concat(controller, '_', action) as menu from acl where user=$id";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($id));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
     }
     
     public function delete_acl($id) {

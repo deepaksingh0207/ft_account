@@ -27,7 +27,6 @@ class InvoicesController extends Controller
         }
     }
     
-    
     public function create() {
         try {
             $this->_view->set('title', 'Create Invoice');

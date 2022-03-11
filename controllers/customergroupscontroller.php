@@ -36,7 +36,6 @@ class CustomerGroupsController extends Controller
         
     }
     
-    
     public function view($id) {
         
         try {

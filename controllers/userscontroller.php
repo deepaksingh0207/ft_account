@@ -8,7 +8,6 @@ class UsersController extends Controller
     }
 
     public function index() {
-        
         try {
             $users = $this->_model->getUserList();
             
@@ -43,12 +42,20 @@ class UsersController extends Controller
         
         if($username && $password) {
             $user = $this->_model->login($username, $password);
-            //echo '<pre>'; print_r($user); exit;
             if($user) {
-                    $this->_session->set('signed_in', true);
-                    $this->_session->set('user_id', $user['id']);
-                    $this->_session->set('is_admin', $user['admin']);
-                    $this->_session->set('user', $user);
+                $list = [];
+                $contlist = $this->_model->getController($user['id']);
+                foreach ($contlist as $value) { $list[] = $value['controller']; }
+                $this->_session->set('controller', $list);
+                $list = [];
+                $menulist = $this->_model->getmenu($user['id']);
+                foreach ($menulist as $value) { $list[] = $value['menu']; }
+                $this->_session->set('menu', $list);
+                $this->_session->set('action', $list);
+                $this->_session->set('signed_in', true);
+                $this->_session->set('user_id', $user['id']);
+                $this->_session->set('is_admin', $user['admin']);
+                $this->_session->set('user', $user);
                     
                     if($_POST["remember_me"]=='1' || $_POST["remember_me"]=='on')
                     {
@@ -59,9 +66,8 @@ class UsersController extends Controller
                     
                     header("location:". ROOT. "dashboard"); 
                     exit;
-            } else {
-                $this->_view->set("err_msg", ' Incorrect login details');
             }
+            else {$this->_view->set("err_msg", ' Incorrect login details');}
         }
             
         
@@ -80,10 +86,11 @@ class UsersController extends Controller
         Header("location:".ROOT."incidents");
     }
 
+    
     public function setPermission($id) {
         $controllersList = array_diff(scandir('controllers'), array('..', '.'));
         $cphp = 'controller.php';
-        $skipController = [$cphp, 'users'.$cphp, 'admin'.$cphp];
+        $skipController = [$cphp, 'users'.$cphp];
         $skipActions = ['__construct', 'create_old', 'getDetails', 'groupCustomers', 'getTaxesRate', 'generateInvoice', 'preview', 'getInvoiceIdsByCustomer','genInvoiceNo', 'invoice_validty', 'proforma_validty', 'getOrderListByCustomer', 'getdetails', 'getSearchResult', 'po_validty', 'search', 'searchopenpo', 'utr_validty'];
         $actionControllers = [];
         foreach ($controllersList as $controllerName) {
@@ -108,7 +115,7 @@ class UsersController extends Controller
                 $actionControllers[str_replace($cphp, '', $controllerName)] = $tempController;
             }
         }
-        // echo '<pre>'; print_r($actionControllers);
+        // echo '<pre>'; print_r($actionControllers); exit;
         try {
             $accesslist = $this->_model->getacl($id);
             if(!empty($_POST)) {
@@ -132,7 +139,7 @@ class UsersController extends Controller
                     // echo '<pre>'; print_r($row["id"]); exit;
                     $this->_model->delete_acl($row["id"]);
                 }
-                $accesslist = $this->_model->get($id);
+                $accesslist = $this->_model->getacl($id);
             }
             $this->_view->set('form', $actionControllers);
             $this->_view->set('accesslist', $accesslist);
@@ -153,5 +160,38 @@ class UsersController extends Controller
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();
         }
+    }
+    
+    public function controllerActionList($id) {
+        $controllersList = array_diff(scandir('controllers'), array('..', '.'));
+        $cphp = 'controller.php';
+        $skipController = [$cphp, 'users'.$cphp];
+        $skipActions = [
+            // '__construct', 'create_old', 'getDetails', 'groupCustomers', 'getTaxesRate', 'generateInvoice', 'preview', 'getInvoiceIdsByCustomer','genInvoiceNo', 'invoice_validty', 'proforma_validty', 'getOrderListByCustomer', 'getdetails', 'getSearchResult', 'po_validty', 'search', 'searchopenpo', 'utr_validty'
+        ];
+        $actionControllers = [];
+        foreach ($controllersList as $controllerName) {
+            if (!in_array($controllerName, $skipController, true)){
+                $tempController = [];
+                $controllerFile = __dir__.'\\'.$controllerName;
+                $methodPrefix = 'public function ';
+                                
+                // escape special characters in the query
+                $pattern = preg_quote($methodPrefix, '/');
+                
+                // search, and store all matching occurences in $matches
+                if(preg_match_all("/^.*$pattern.*\$/m", file_get_contents($controllerFile), $matches)){
+                    $actionsList =  explode($methodPrefix, implode("",$matches[0]));
+                    foreach ($actionsList as $action) {
+                        $actionName = preg_replace("/\s|\(.*/", "", $action);
+                        if (!empty($actionName) && !in_array($actionName, $skipActions, true)){
+                            $tempController[] = $actionName;
+                        }
+                    }
+                }
+                $actionControllers[str_replace($cphp, '', $controllerName)] = $tempController;
+            }
+        }
+        echo '<pre>'; print_r($actionControllers); exit;
     }
 }
