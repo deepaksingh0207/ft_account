@@ -24,7 +24,7 @@
           </a>
         </li>
         <?php endif; ?>
-        <?php if(in_array('dashboard', $_SESSION['controller']) or $_SESSION['is_admin']) : ?>
+        <?php if(in_array('dashboard_report', $_SESSION['menu']) or in_array('dashboard_orderSummary', $_SESSION['menu']) or in_array('dashboard_expiredpo', $_SESSION['menu']) or $_SESSION['is_admin']) : ?>
         <li class="nav-item report">
           <a href="#" class="nav-link reportlink" id="menu_reports">
             <i class="far fa-file"></i>
@@ -110,7 +110,7 @@
           </a>
         </li>
         <?php endif; ?>
-        <?php if(in_array('customers_index', $_SESSION['menu']) || in_array('customergroups', $_SESSION['menu']) || in_array('company', $_SESSION['menu']) or $_SESSION['is_admin']) : ?>
+        <?php if(in_array('customers_index', $_SESSION['menu']) or in_array('customergroups_index', $_SESSION['menu']) or in_array('company_index', $_SESSION['menu']) or $_SESSION['is_admin']) : ?>
         <li class="nav-item">
           <a href="<?php echo ROOT; ?>customergroups" class="nav-link" id="menu_master">
             <i class="fa fa-border-all"></i>
