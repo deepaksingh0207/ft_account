@@ -101,7 +101,7 @@ class UsersController extends Controller
         foreach ($controllersList as $controllerName) {
             if (!in_array($controllerName, $skipController, true)){
                 $tempController = [];
-                $controllerFile = __dir__.'\\'.$controllerName;
+                $controllerFile = getcwd().'\\controllers\\'.$controllerName;
                 $methodPrefix = 'public function ';
                                 
                 // escape special characters in the query
