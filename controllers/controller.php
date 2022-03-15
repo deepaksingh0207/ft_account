@@ -23,18 +23,28 @@ class Controller {
             header("location:" .ROOT. "setup");
             exit;
         }
+
         if( !in_array($action, array('login', 'forgot', 'reset', 'restrict', 'logout')) )
         {
             if(!$this->_session->get('signed_in'))
             { header("location:" .ROOT. "users/login"); exit; }
-
-            if(!$this->_session->get('is_admin'))
-            {
-                if ( $this->usermodel->myaccess(intval($_SESSION['user_id']), strtolower($model), $action) == false )
-                { header("location:" .ROOT. "users/restrict"); exit; }
+            if(!$this->_session->get('is_admin')){
+                $result = $this->usermodel->myaccess(intval($_SESSION['user_id']), strtolower($model), $action);
+                if ( $result == false ) {
+                    // No access
+                    if (strtolower($model) == 'customergroups'){ // Check access to customers
+                        $customerAccess = $this->usermodel->myaccess(intval($_SESSION['user_id']), 'customers', $action);
+                        if ( $customerAccess == false) { // Check access to company
+                            $companyAccess = $this->usermodel->myaccess(intval($_SESSION['user_id']), 'company', 'view');
+                            if ( $companyAccess == false ) { header("location:" .ROOT. "users/restrict"); exit; }
+                            else { header("location:" .ROOT. "company/view/1"); exit; }
+                        } else { $header("location:" .ROOT. "customers"); exit; }
+                    }
+                    header("location:" .ROOT. "users/restrict"); exit;
+                }
             }
         }
-        
+
         $this->_view = new View(HOME . DS . 'views' . DS . strtolower($this->_modelBaseName) . DS . $action . '.php');
         $this->_view->set("title", "Accounts");
         $this->_view->set("controller", strtolower($model));
