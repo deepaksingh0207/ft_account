@@ -96,27 +96,29 @@ class UsersController extends Controller
         $controllersList = array_diff(scandir('controllers'), array('..', '.'));
         $cphp = 'controller.php';
         $skipController = [$cphp, 'users'.$cphp];
-        $skipActions = ['__construct', 'create_old', 'getDetails', 'groupCustomers', 'getTaxesRate', 'generateInvoice', 'preview', 'getInvoiceIdsByCustomer','genInvoiceNo', 'invoice_validty', 'proforma_validty', 'getOrderListByCustomer', 'getdetails', 'getSearchResult', 'po_validty', 'search', 'searchopenpo', 'utr_validty'];
+        $skipActions = ['__construct', '_setModel', '_setView', '_clear', 'sendMail', 'getInvoicesForPayments', 'create_old', 'getDetails', 'groupCustomers', 'getTaxesRate', 'generateInvoice', 'preview', 'getInvoiceIdsByCustomer','genInvoiceNo', 'invoice_validty', 'proforma_validty', 'getOrderListByCustomer', 'getdetails', 'getSearchResult', 'po_validty', 'search', 'searchopenpo', 'utr_validty'];
         $actionControllers = [];
         foreach ($controllersList as $controllerName) {
             if (!in_array($controllerName, $skipController, true)){
                 $tempController = [];
-                $controllerFile = getcwd().'\\controllers\\'.$controllerName;
-                $methodPrefix = 'public function ';
+
+                // $controllerFile = getcwd().'\\controllers\\'.$controllerName;
+                // $methodPrefix = 'public function ';
                                 
                 // escape special characters in the query
-                $pattern = preg_quote($methodPrefix, '/');
+                // $pattern = preg_quote($methodPrefix, '/');
                 
                 // search, and store all matching occurences in $matches
-                if(preg_match_all("/^.*$pattern.*\$/m", file_get_contents($controllerFile), $matches)){
-                    $actionsList =  explode($methodPrefix, implode("",$matches[0]));
+                // if(preg_match_all("/^.*$pattern.*\$/m", file_get_contents($controllerFile), $matches)){
+                    // $actionsList =  explode($methodPrefix, implode("",$matches[0]));
+                    $actionsList = get_class_methods(str_replace('.php', '', $controllerName));
                     foreach ($actionsList as $action) {
-                        $actionName = preg_replace("/\s|\(.*/", "", $action);
-                        if (!empty($actionName) && !in_array($actionName, $skipActions, true)){
-                            $tempController[] = $actionName;
+                        // $actionName = preg_replace("/\s|\(.*/", "", $action);
+                        if (!empty($action) && !in_array($action, $skipActions, true)){
+                            $tempController[] = $action;
                         }
                     }
-                }
+                // }
                 $actionControllers[str_replace($cphp, '', $controllerName)] = $tempController;
             }
         }
