@@ -104,12 +104,11 @@ class UsersModel extends Model {
     
     public function myaccess($userid, $controller, $action) {
         // user=0 adds global controller and action
-        $sql = "select * from acl where user=0 or user=? and controller=? and action=? limit 1";
+        $sql = "select * from acl where (user=".$userid." or user=0) and controller='".$controller."' and action='".$action."' limit 1";
         $this->_setSql($sql);
-        $user = $this->getRow(array($userid, $controller, $action));
-        // echo '<pre>'; var_dump($user); exit;
-        if (empty($user)){ return false; }
-        return true;
+        $user = $this->getRow();
+        if (!empty($user)){ return true; }
+        return false;
     }
 
     public function getController($id) {

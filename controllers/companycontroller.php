@@ -25,7 +25,6 @@ class CompanyController extends Controller
         
     }
     
-    
     public function view($id) {
         
         try {
