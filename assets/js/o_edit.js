@@ -267,11 +267,11 @@ function payment_term_cardbody(id) {
 function add_order(id) {
   if (oti < 5) {
     $("#order_item_list").append(
-      '<tr id="order_item_' + id + '"> <td class="form-group" id="orderitem_' + id + '_col_1"> <input type="text" data-id="' + id + '" class="form-control item capitalize" id="orderitem_' + id + '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' + id + '_col_2"> <input type="text" data-id="' + id + '" class="form-control min150 desp capitalize" id="orderitem_' + id + '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' + id + '_col_3"> <input type="number" data-id="' + id + '" class="form-control order_item_quantity numberonly" id="orderitem_' + id + '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' + id + '_col_4"> <span id="orderitem_' + id + '_txt_4">' + uom() + '</span> </td> <td class="form-group max150" id="orderitem_' + id + '_col_35"> <input type="number" data-id="' + id + '" class="form-control order_item_unitprice" id="orderitem_' + id + '_val_5" /> <input type="hidden" data-id="' + id + '" class="form-control rowtotal" id="orderitem_' + id + '_val_6" /> </td> </tr>'
+      '<tr id="order_item_' + id + '"> <td class="form-group" id="orderitem_' + id + '_col_1"> <input type="text" data-id="' + id + '" class="form-control item capitalize" id="orderitem_' + id + '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' + id + '_col_2"> <input type="text" data-id="' + id + '" class="form-control min150 desp capitalize" id="orderitem_' + id + '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' + id + '_col_3"> <input type="number" data-id="' + id + '" data-type="' + oti + '" class="form-control order_item_quantity numberonly" id="orderitem_' + id + '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' + id + '_col_4"> <span id="orderitem_' + id + '_txt_4">' + uom() + '</span> </td> <td class="form-group max150" id="orderitem_' + id + '_col_35"> <input type="number" data-id="' + id + '" class="form-control order_item_unitprice" id="orderitem_' + id + '_val_5" /> <input type="hidden" data-id="' + id + '" class="form-control rowtotal" id="orderitem_' + id + '_val_6" /> </td> </tr>'
     )
   } else {
     $("#order_item_list").append(
-      '<tr id="order_item_' + id + '"> <td class="form-group" id="orderitem_' + id + '_col_1"> <input type="text" data-id="' + id + '" class="form-control item capitalize" id="orderitem_' + id + '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' + id + '_col_2"> <input type="text" data-id="' + id + '" class="form-control min150 desp capitalize" id="orderitem_' + id + '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' + id + '_col_3"> <input type="number" data-id="' + id + '" class="form-control order_item_quantity numberonly" id="orderitem_' + id + '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' + id + '_col_4"> <span id="orderitem_' + id + '_txt_4">' + uom() + '</span><select data-id="' + id + '" class="form-control order_item_uom" id="orderitem_' + id + '_val_4"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td> <td class="form-group max150" id="orderitem_' + id + '_col_5"> <input type="number" data-id="' + id + '" class="form-control order_item_unitprice" id="orderitem_' + id + '_val_5" /> <input type="hidden" data-id="' + id + '" class="form-control rowtotal" id="orderitem_' + id + '_val_6" /> </td></tr>'
+      '<tr id="order_item_' + id + '"> <td class="form-group" id="orderitem_' + id + '_col_1"> <input type="text" data-id="' + id + '" class="form-control item capitalize" id="orderitem_' + id + '_val_1" placeholder="*Enter Item" /> </td> <td class="form-group" id="orderitem_' + id + '_col_2"> <input type="text" data-id="' + id + '" class="form-control min150 desp capitalize" id="orderitem_' + id + '_val_2" placeholder="*Enter Description" /> </td> <td class="form-group max150" id="orderitem_' + id + '_col_3"> <input type="number" data-id="' + id + '" data-type="' + oti + '" class="form-control order_item_quantity numberonly" id="orderitem_' + id + '_val_3" min="1" step="1" aria-invalid="false" /> </td> <td class="form-group min150" id="orderitem_' + id + '_col_4"> <span id="orderitem_' + id + '_txt_4">' + uom() + '</span><select data-id="' + id + '" class="form-control order_item_uom" id="orderitem_' + id + '_val_4"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td> <td class="form-group max150" id="orderitem_' + id + '_col_5"> <input type="number" data-id="' + id + '" class="form-control order_item_unitprice" id="orderitem_' + id + '_val_5" /> <input type="hidden" data-id="' + id + '" class="form-control rowtotal" id="orderitem_' + id + '_val_6" /> </td></tr>'
     )
   }
   if (oti < 4 || oti == 7) {
@@ -398,7 +398,7 @@ $(document).on("click", ".myorder", function () {
   $("#orderitem_" + oi + "_val_2").val(tree[ot][oi]["dsp"]);
   $("#orderitem_" + oi + "_val_4").val(tree[ot][oi]["uom"]);
   $("#orderitem_" + oi + "_val_5").val(tree[ot][oi]["utp"]);
-  $("#orderitem_" + oi + "_val_3").val(tree[ot][oi]["qty"]).data('type', ot).trigger("change");
+  $("#orderitem_" + oi + "_val_3").val(tree[ot][oi]["qty"]).attr('min', tree[ot][oi]["qty"]).data('type', ot).trigger("change");
   if (tree[ot][oi].hasOwnProperty("ptl")) {
     $.each(tree[ot][oi]["ptl"], function (index, pt) {
       $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_1").text(index);
@@ -523,10 +523,18 @@ function gen_paymentterm(ot, id, value) {
   if (ot < 4) {
     var bal = value - paymentterm_list.length;
     if (bal > 0) {
-      $.each(tree[ot][id]["ptl"], function (index, pid) {
-        add_paymentterm(id, pid);
-        paymentterm_list.push(pid);
-      });
+      if (paymentterm_list.length < 1) {
+        $.each(tree[ot][id]["ptl"], function (index, pid) {
+          add_paymentterm(id, pid);
+          paymentterm_list.push(pid);
+        });
+      } else {
+        for (i = 1; i <= bal; i++) {
+          var new_pid = paymentterm_list[paymentterm_list.length - 1] + 1;
+          add_paymentterm(id, new_pid);
+          paymentterm_list.push(new_pid);
+        }
+      }
     }
     if (bal < 0) {
       bal *= -1;
