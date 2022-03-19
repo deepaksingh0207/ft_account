@@ -205,8 +205,6 @@ function getgst(customergroup_id) {
     })
 }
 
-getgst($("#group_id").data("id"))
-
 function create_from_date(create = true) {
   if (create) {
     $("#col_from_date").append('<div class="col-4 mt-3 text-right"><label for="from_date">From Date :</label></div><div class="col-8 mt-2"><input type="date" class="form-control" id="from_date" required="" aria-invalid="false"></div>')
@@ -689,3 +687,5 @@ function form_maker() {
     .append('<input type="hidden" name="igst" value="' + c.toFixed(2) + '">')
     .append('<input type="hidden" name="ordertotal" value="' + total.toFixed(2) + '">');
 }
+
+$(window).on('load', function () { getgst($("#group_id").data("id")) });

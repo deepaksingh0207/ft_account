@@ -54,7 +54,7 @@
                         <?php echo $order['attachment'] ?>
                       </div>
                       <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
-                        <div id="itemcard" class="hide">
+                        <div id="itemcard" style="display: none;">
                           <div class="card" id="order_items_card">
                             <div
                               class="card-header"
@@ -98,17 +98,18 @@
                               </table>
                             </div>
                             <div
-                              class="card-footer hide"
+                              class="card-footer"
                               id="order_items_cardfooter"
-                              style="display: none"
+                              style="display: none;"
                             ></div>
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-12 col-md-12 col-lg-12 mt-2">
                         <div
-                          class="card card-primary card-outline mb-0 hide"
+                          class="card card-primary card-outline mb-0"
                           id="add_order_card"
+                          style="display: none;"
                         >
                           <div class="card-body p-0" id="add_order_cardbody">
                             <div class="card mb-0" id="add_order_item_card">
@@ -183,8 +184,9 @@
                                 </div>
                               </div>
                               <div
-                                class="card-body table-responsive hide p-0"
+                                class="card-body table-responsive p-0"
                                 id="add_order_item_cardbody"
+                                style="display: none;"
                               >
                                 <table class="table text-center">
                                   <thead>
@@ -266,9 +268,9 @@
                                 </table>
                               </div>
                               <div
-                                class="card-footer hide"
+                                class="card-footer"
                                 id="add_order_item_cardfooter"
-                                style="display: block"
+                                style="display: none;"
                               >
                                 <div class="row text-center">
                                   <div class="col-3" id="col_sub_total">
@@ -276,9 +278,9 @@
                                     <span id="add_order_subtotal_val">0</span>
                                   </div>
                                   <div
-                                    class="col-3 hide"
+                                    class="col-3"
                                     id="col_sgst"
-                                    style="display: block"
+                                    style="display: none;"
                                   >
                                     <b
                                       >SGST <span id="add_order_sgst"> </span>%
@@ -287,9 +289,9 @@
                                     <span id="add_order_sgst_val">0</span>
                                   </div>
                                   <div
-                                    class="col-3 hide"
+                                    class="col-3"
                                     id="col_cgst"
-                                    style="display: block"
+                                    style="display: none;"
                                   >
                                     <b
                                       >CGST <span id="add_order_cgst"> </span>%
@@ -298,9 +300,9 @@
                                     <span id="add_order_cgst_val">0</span>
                                   </div>
                                   <div
-                                    class="col-4 hide"
+                                    class="col-4"
                                     id="col_igst"
-                                    style="display: none"
+                                    style="display: none;"
                                   >
                                     <b
                                       >IGST <span id="add_order_igst"> </span>%
@@ -317,8 +319,9 @@
                             </div>
 
                             <div
-                              class="card mb-0 mt-3 hide"
+                              class="card mb-0 mt-3"
                               id="payment_term_card"
+                              style="display: none;"
                             >
                               <div
                                 class="card-header"
@@ -421,7 +424,7 @@
                       </div>
                     </div>
                   </div>
-                  <div id="hiddendata" style="display: none"></div>
+                  <div id="hiddendata" style="display: none;"></div>
                   <div class="card-footer">
                     <div class="text-right" id="main_cardfooter">
                       <button type="submit" class="btn btn-sm btn-primary">
@@ -442,7 +445,7 @@
                   class="btn btn-default"
                   data-toggle="modal"
                   data-target="#modal-sm"
-                  style="display: none"
+                  style="display: none;"
                 ></button>
 
                 <div class="modal fade" id="modal-sm">
@@ -489,7 +492,7 @@
         <button
           type="button"
           id="modelactivate"
-          style="display: none"
+          style="display: none;"
           data-toggle="modal"
           data-target="#modal-default"
         ></button>
