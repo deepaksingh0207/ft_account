@@ -31,7 +31,7 @@ class OrderPaytermsModel extends Model {
         
         $fields = array_keys($updateRecord);
         
-        $sql = "update users set ";
+        $sql = "update order_payterms set ";
         
         foreach ($fields as $field) {
             $sql .= " $field = ?,";
