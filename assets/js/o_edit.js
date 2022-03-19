@@ -66,17 +66,21 @@ function createbookeeper() {
   $.each(od_proforma, function (iProforma, proforma) { tree["proforma"][proforma.id] = proforma })
   $.each(od_invoices, function (iInvoices, invoice) { tree["invoice"][invoice.id] = invoice })
   $.each(od_items, function (i, item) {
-    tree["otl"].push(nz(item.order_type))
-    tree[nz(item.order_type)] = { oil: [nz(item.id)] }
-    tree[nz(item.order_type)][nz(item.id)] = {
+    var i_ot = nz(item.order_type);
+    var i_itemid = nz(item.id);
+    if (tree["otl"].indexOf(i_ot) < 0) {
+      tree["otl"].push(i_ot)
+      tree[i_ot] = { oil: [i_itemid] }
+    } else { tree[i_ot]["oil"].push(i_itemid) }
+    tree[i_ot][i_itemid] = {
       "itm": item.item, "dsp": item.description,
       "qty": item.qty, "utp": item.unit_price,
       "stl": item.total, "utp": item.unit_price,
       "uom": item.uom_id, "ptl": [], "id": item.id,
     }
     if (item.order_type == 1 || item.order_type == 3 || item.order_type == 7) {
-      tree[nz(item.order_type)][nz(item.id)]["from"] = item.po_from_date.split(" ", 1)
-      tree[nz(item.order_type)][nz(item.id)]["till"] = item.po_to_date.split(" ", 1)
+      tree[i_ot][i_itemid]["from"] = item.po_from_date.split(" ", 1)
+      tree[i_ot][i_itemid]["till"] = item.po_to_date.split(" ", 1)
     }
     tree["items"]["ids"].push(item.id)
     tree["items"][item.id] = item
@@ -88,10 +92,10 @@ function createbookeeper() {
     if (item.order_type < 4 || item.order_type == 7) {
       $.each(od_payment_term, function (j, payment) {
         if (payment.order_item_id == item.id) {
-          tree[nz(item.order_type)][nz(item.id)]["ptl"].push(nz(payment.id))
-          tree[nz(item.order_type)][nz(item.id)][nz(payment.id)] = {
+          tree[i_ot][i_itemid]["ptl"].push(nz(payment.id))
+          tree[i_ot][i_itemid][nz(payment.id)] = {
             "itm": payment.item, "dsp": payment.description,
-            "qty": payment.qty, "uom": payment.uom_id,
+            "qty": payment.qty, "uom": payment.uom_id, "id": nz(payment.id),
             "utp": payment.unit_price, "stl": payment.total
           }
           if (payment.hasOwnProperty("id")) { tree["items"][item.id]["payment"]["id"] = payment.id }
@@ -256,8 +260,8 @@ function payment_term_cardbody(id) {
     );
     $("#payment_term_cardbody").append('<div class="text-left"><button type="button" class="btn btn-primary btn-sm mr-2" id="add_new_paymentterm" onclick="add_pt()" >Add</button></div>');
   }
-  add_paymentterm(id, 1);
-  paymentterm_list = [1];
+  // add_paymentterm(id, 1);
+  // paymentterm_list = [1];
 }
 
 function add_order(id) {
@@ -394,7 +398,7 @@ $(document).on("click", ".myorder", function () {
   $("#orderitem_" + oi + "_val_2").val(tree[ot][oi]["dsp"]);
   $("#orderitem_" + oi + "_val_4").val(tree[ot][oi]["uom"]);
   $("#orderitem_" + oi + "_val_5").val(tree[ot][oi]["utp"]);
-  $("#orderitem_" + oi + "_val_3").val(tree[ot][oi]["qty"]).trigger("change");
+  $("#orderitem_" + oi + "_val_3").val(tree[ot][oi]["qty"]).data('type', ot).trigger("change");
   if (tree[ot][oi].hasOwnProperty("ptl")) {
     $.each(tree[ot][oi]["ptl"], function (index, pt) {
       $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_1").text(index);
@@ -515,15 +519,14 @@ $(document).on("click", ".showmain_card", function () {
   }
 });
 
-function gen_paymentterm(id, value) {
-  if (oti < 4) {
+function gen_paymentterm(ot, id, value) {
+  if (ot < 4) {
     var bal = value - paymentterm_list.length;
     if (bal > 0) {
-      for (i = 1; i <= bal; i++) {
-        var new_pti = paymentterm_list[paymentterm_list.length - 1] + 1;
-        add_paymentterm(id, new_pti);
-        paymentterm_list.push(new_pti);
-      }
+      $.each(tree[ot][id]["ptl"], function (index, pid) {
+        add_paymentterm(id, pid);
+        paymentterm_list.push(pid);
+      });
     }
     if (bal < 0) {
       bal *= -1;
@@ -540,7 +543,7 @@ function gen_paymentterm(id, value) {
 
 $(document).on("change", ".order_item_quantity", function () {
   if (oti < 4) {
-    gen_paymentterm($(this).data("id"), $(this).val());
+    gen_paymentterm($(this).data("type"), $(this).data("id"), $(this).val());
     order_item_calculator($(this).data("id"));
     $(".item").trigger("change");
   } else {

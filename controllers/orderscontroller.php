@@ -508,22 +508,36 @@ class OrdersController extends Controller
                         $orderItem['order_type'] = $item['ordertype'];
                         $orderItem['id'] = $item['id'];
 
-                        if(in_array($item['order_type'], array(1, 3))) {
+                        if(in_array($orderItem['order_type'], array(1, 3))) {
                             $orderItem['po_from_date'] = $item['po_from_date'];
                             $orderItem['po_to_date'] = $item['po_to_date'];
                         }
 
-                        if ($item['id'] > 0){$orderItemId = $tblOrderItem->update($item['id'], $orderItem);}
+                        if ($item['id'] > 0){
+                            $tblOrderItem->update($item['id'], $orderItem);
+                            $orderItemId = $item['id'];
+                        }
                         else {$orderItemId = $tblOrderItem->save($orderItem);}
+                        // echo '<pre>';print_r($data); exit;
 
                         if(in_array($orderItem['order_type'], array(1, 2, 3, 7))) {
                             foreach($item['payment_term'] as $orderPayTerm) {
-                                $orderPayTerm['order_id'] = $orderId;
-                                $orderPayTerm['order_item_id'] = $orderItemId;
+                                $orderTerm = array();
+                                $orderTerm['order_id'] = $orderId;
+                                $orderTerm['order_item_id'] = $orderItemId;
+                                $orderTerm['item'] = $orderPayTerm['item'];
+                                $orderTerm['description'] = $orderPayTerm['description'];
+                                $orderTerm['qty'] = $orderPayTerm['qty'];
+                                $orderTerm['uom_id'] = $orderPayTerm['uom_id'];
+                                $orderTerm['unit_price'] = $orderPayTerm['unit_price'];
+                                $orderTerm['total'] = $orderPayTerm['total'];
 
-                                if ($orderPayTerm['id'] > 0) {$tblOrderPaymentTerm->update($orderPayTerm['id'], $orderPayTerm);}
-                                else {$tblOrderPaymentTerm->save($orderPayTerm);}
-
+                                if ($orderPayTerm['id'] > 0) {
+                                    $tblOrderPaymentTerm->update($orderPayTerm['id'], $orderTerm);
+                                }
+                                else {
+                                    $tblOrderPaymentTerm->save($orderTerm);
+                                }
                             }
                         }
                     }
