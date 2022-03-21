@@ -10,6 +10,7 @@
                 method="post"
                 id="quickForm"
                 novalidate="novalidate"
+                enctype="multipart/form-data"
                 class="mb-0"
               >
                 <div class="card" id="main_card">
