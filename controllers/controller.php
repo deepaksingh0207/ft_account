@@ -19,15 +19,14 @@ class Controller {
         $this->_utils = App::utils();
         $this->usermodel = new UsersModel;
         
-        if(!file_exists(HOME . DS.'new_config.php')) {
-            header("location:" .ROOT. "setup");
-            exit;
-        }
+        if(!file_exists(HOME . DS.'new_config.php'))
+        { header("location:" .ROOT. "setup"); exit; }
 
         if( !in_array($action, array('login', 'forgot', 'reset', 'restrict', 'logout')) )
         {
             if(!$this->_session->get('signed_in'))
             { header("location:" .ROOT. "users/login"); exit; }
+            
             if(!$this->_session->get('is_admin')){
                 $result = $this->usermodel->myaccess(intval($_SESSION['user_id']), strtolower($model), $action);
                 if ( $result == false ) {
