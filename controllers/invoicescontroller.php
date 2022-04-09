@@ -244,6 +244,7 @@ class InvoicesController extends Controller
         $orderTable = new OrdersModel();
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
+        $print_uom_qty= '<th>Qty./Unit</th>';
         
         if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
             // Jthayil 12 jan 22 Start
@@ -252,7 +253,8 @@ class InvoicesController extends Controller
             {
                 if($tempItem['uom_id'] == 3)
                 {
-                    $tempItem['qty'] = 1;
+                    $print_uom_qty= '<th></th><th></th>';
+                    $tempItem['qty'] = '';
                 }
                 array_push($tempInvoiceItem,$tempItem);
             }
@@ -290,6 +292,7 @@ class InvoicesController extends Controller
             "{{COMP_ACCNO}}" => $company['account_no'],
             "{{COMP_IFSC}}" => $company['ifsc_code'],
             "{{PO_NO}}" => $invoice['po_no'],
+            "{{ORDER_TYPE}}" => $print_uom_qty,
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
             "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
             "{{CUST_TEL}}" => $customer['pphone'],
@@ -305,16 +308,29 @@ class InvoicesController extends Controller
         
         $orderBaseTotal = 0.00;
         $itemList = '';
-        foreach($dataItem as $key => $item) {
-            $itemList .= '<tr>
-            <td >'.($key+1).'</td>
-            <td >'.$item['description'].'</td>
-            <td >'.$item['qty'].'</td>
-            <td >'.number_format($item['unit_price'], 2).'</td>
-            <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-            </tr>';
-            
-            $orderBaseTotal += $item['total'];
+        if($tempItem['uom_id'] == 3)
+            {
+                foreach($dataItem as $key => $item) {
+                    $itemList .= '<tr>
+                <td >'.($key+1).'</td>
+                <td >'.$item['description'].'</td>
+                <td ></td><td ></td>
+                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
+                </tr>';
+                    $orderBaseTotal += $item['total'];
+                }
+            } else {
+            foreach($dataItem as $key => $item) {
+                $itemList .= '<tr>
+                <td >'.($key+1).'</td>
+                <td >'.$item['description'].'</td>
+                <td >'.$item['qty'].'</td>
+                <td >'.number_format($item['unit_price'], 2).'</td>
+                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
+                </tr>';
+                
+                $orderBaseTotal += $item['total'];
+            }
         }
         
         $taxesLayout = '';
@@ -459,6 +475,7 @@ class InvoicesController extends Controller
             $orderTable = new OrdersModel();
             $order = $orderTable->get($invoice['order_id']);
             $oderItems = $orderTable->getOrderItem($invoice['order_id']);
+            $print_uom_qty= '<th>Qty./Unit</th>';
             
             if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
                 // Jthayil 12 Jan 22 Start
@@ -467,7 +484,8 @@ class InvoicesController extends Controller
                 {
                     if($tempItem['uom_id'] == 3)
                     {
-                        $tempItem['qty'] = 1;
+                        $print_uom_qty= '<th></th><th></th>';
+                        $tempItem['qty'] = '';
                     }
                     array_push($tempInvoiceItem,$tempItem);
                 }
@@ -489,7 +507,7 @@ class InvoicesController extends Controller
             }
             
             $company = new CompanyModel();
-            $company = $company->get(1);           
+            $company = $company->get(1);
             
             $vars = array(
                 "{{INV_NO}}" => $invoice['invoice_no'],
@@ -504,6 +522,7 @@ class InvoicesController extends Controller
                 "{{COMP_ACCNO}}" => $company['account_no'],
                 "{{COMP_IFSC}}" => $company['ifsc_code'],
                 "{{PO_NO}}" => $invoice['po_no'],
+                "{{ORDER_TYPE}}" => $print_uom_qty,
                 "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
                 "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
                 "{{CUST_TEL}}" => $customer['pphone'],
@@ -519,16 +538,28 @@ class InvoicesController extends Controller
             
             $orderBaseTotal = 0.00;
             $itemList = '';
-            foreach($dataItem as $key => $item) {
-                $itemList .= '<tr>
-            <td >'.($key+1).'</td>
-            <td >'.$item['description'].'</td>
-            <td >'.$item['qty'].'</td>
-            <td >'.number_format($item['unit_price'], 2).'</td>
-            <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
+            if($tempItem['uom_id'] == 3)
+            {
+                foreach($dataItem as $key => $item) {
+                    $itemList .= '<tr>
+                <td >'.($key+1).'</td>
+                <td >'.$item['description'].'</td>
+                <td ></td><td ></td>
+                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
-                
-                $orderBaseTotal += $item['total'];
+                    $orderBaseTotal += $item['total'];
+                }
+            } else {
+                foreach($dataItem as $key => $item) {
+                    $itemList .= '<tr>
+                <td >'.($key+1).'</td>
+                <td >'.$item['description'].'</td>
+                <td >'.$item['qty'].'</td>
+                <td >'.number_format($item['unit_price'], 2).'</td>
+                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
+                </tr>';
+                    $orderBaseTotal += $item['total'];
+                }
             }
             
             $taxesLayout = '';
