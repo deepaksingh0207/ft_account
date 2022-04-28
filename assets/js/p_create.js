@@ -154,9 +154,9 @@ function payment_row_creator(o, d) {
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + d["id"] + '" value="' + o + '">' + d["description"] + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + d["sub_total"] + '">' + ra(d["sub_total"]) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + (parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"])) + '">' + ra((parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"]))) + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_gst_amount' + d["id"] + '" value="' + (parseFloat(d["invoice_total"]) - parseFloat(d["sub_total"])) + '">' + ra((parseFloat(d["invoice_total"]) - parseFloat(d["sub_total"]))) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_gst_amount' + d["id"] + '" value="' + (parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"])) + '">' + ra(parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"])) + '</td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
