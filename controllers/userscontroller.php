@@ -111,7 +111,7 @@ class UsersController extends Controller
                 // search, and store all matching occurences in $matches
                 // if(preg_match_all("/^.*$pattern.*\$/m", file_get_contents($controllerFile), $matches)){
                     // $actionsList =  explode($methodPrefix, implode("",$matches[0]));
-                    $actionsList = get_class_methods(str_replace('.php', '', $controllerName));
+                    $actionsList = get_class_methods(str_replace('.php', '', strtolower($controllerName)));
                     foreach ($actionsList as $action) {
                         // $actionName = preg_replace("/\s|\(.*/", "", $action);
                         if (!empty($action) && !in_array($action, $skipActions, true)){
@@ -122,7 +122,6 @@ class UsersController extends Controller
                 $actionControllers[str_replace($cphp, '', $controllerName)] = $tempController;
             }
         }
-        // echo '<pre>'; print_r($actionControllers); exit;
         try {
             $accesslist = $this->_model->getacl($id);
             if(!empty($_POST)) {
