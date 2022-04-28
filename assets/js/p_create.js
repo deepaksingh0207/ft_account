@@ -346,9 +346,9 @@ $(function () {
 
 function freezetds(id, subtotal, deduct, percent = 0) {
     // Comment Code since tds can be deducted as much times as needed for each invoice
-    // if (deduct > 0) {
-    //     return '<input type="hidden" id="tds' + id + '" class="form-control form-control-sm row' + id + '" value="0" readonly><input type="number" class="form-control form-control-sm row' + id + '" value="' + percent + '" readonly>'
-    // }
+    if (deduct > 0) {
+        return '<input type="hidden" id="tds' + id + '" class="form-control form-control-sm row' + id + '" value="0" readonly><input type="number" class="form-control form-control-sm row' + id + '" value="' + percent + '" readonly>'
+    }
     return '<input type="number" id="tds' + id + '" max="100" min="0" data-base="' + subtotal + '" data-index="' + id + '" data-span="span' + id + '" class="form-control form-control-sm tdscontrol row' + id + '" data-tdsamt="id_tds_deducted' + id + '" value="' + percent + '" >'
 }
 
