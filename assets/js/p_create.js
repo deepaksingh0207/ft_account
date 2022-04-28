@@ -148,20 +148,23 @@ $(document).on("change", "#id_order_id", function () {
 
 
 function payment_row_creator(o, d) {
+    var invoice_base = parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"]);
+    var invoice_gst = parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"]);
     $("#tbody_pendingpayment").append('<tr id="' + d["id"] + '"></tr>');
 
     $("#" + d["id"]).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + d["id"] + '" data-index="' + d["id"] + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + d["id"] + '">' + d["invoice_no"] + '</label></div></td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + d["id"] + '" value="' + o + '">' + d["description"] + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + (parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"])) + '">' + ra((parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"]))) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + invoice_base + '">' + ra(invoice_base) + '</td>');
 
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_gst_amount' + d["id"] + '" value="' + (parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"])) + '">' + ra(parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"])) + '</td>');
+    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_gst_amount' + d["id"] + '" value="' + invoice_gst + '">' + ra(invoice_gst) + '</td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
     $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="0">' + ra(d["invoice_total"] - d["balance"]) + '</td>');
-    $("#" + d["id"]).append('<td class="align-middle">' + freezetds(d["id"], d["sub_total"], d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
+
+    $("#" + d["id"]).append('<td class="align-middle">' + freezetds(d["id"], invoice_base, d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
 
     $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '" value=""><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
 }
@@ -201,7 +204,7 @@ $(document).on("change", ".rvdamt", function () {
     }
 });
 
-function dupesave(){
+function dupesave() {
     $("#id_save").toggle();
     $("#id_dup_save").toggle();
 }
@@ -212,18 +215,15 @@ $(document).on("change", ".tdscontrol", function () {
     var index = $(this).data("index");
     var baseval = parseFloat($(this).data("base"));
     var receiveableval = parseFloat($("#id_receivable_amt" + index).val());
-    if ($(this).val()) {
-        var ttl = baseval * parseFloat($(this).val()) / 100;
-    } else {
-        var ttl = 0;
-    }
+    var ttl = 0;
+    if ($(this).val()) { ttl = baseval * parseFloat($(this).val()) / 100; }
     $("#" + spanid).text(ra(ttl));
     $("#" + tdsamt).val(ttl);
     $("#alloc" + index).val((receiveableval - ttl).toFixed(2)).attr("max", receiveableval - ttl);
 });
 
 
-function checkme(){
+function checkme() {
     var c = 0;
     var gatepass = false;
     var amtpass = true;
@@ -277,7 +277,7 @@ $(function () {
     $.validator.setDefaults({
         submitHandler: function () {
             dupesave();
-            if (checkme()){
+            if (checkme()) {
                 form.submit();
             }
         },
@@ -345,9 +345,10 @@ $(function () {
 
 
 function freezetds(id, subtotal, deduct, percent = 0) {
-    if (deduct > 0) {
-        return '<input type="hidden" id="tds' + id + '" class="form-control form-control-sm row' + id + '" value="0" readonly><input type="number" class="form-control form-control-sm row' + id + '" value="' + percent + '" readonly>'
-    }
+    // Comment Code since tds can be deducted as much times as needed for each invoice
+    // if (deduct > 0) {
+    //     return '<input type="hidden" id="tds' + id + '" class="form-control form-control-sm row' + id + '" value="0" readonly><input type="number" class="form-control form-control-sm row' + id + '" value="' + percent + '" readonly>'
+    // }
     return '<input type="number" id="tds' + id + '" max="100" min="0" data-base="' + subtotal + '" data-index="' + id + '" data-span="span' + id + '" class="form-control form-control-sm tdscontrol row' + id + '" data-tdsamt="id_tds_deducted' + id + '" value="' + percent + '" >'
 }
 
