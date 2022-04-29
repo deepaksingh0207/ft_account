@@ -34,9 +34,8 @@ class PaymentsModel extends Model {
     
     
     public function getDetailsByPaymentId($paymentId) {
-        $sql = "select orders.po_no, invoices.invoice_no, invoice_id, tds_percent, tds_deducted, receivable_amt, balance_amt - (select sum(tds_deducted) from payments where invoice_id=invoice_id) as balance_amt, allocated_amt from payments
-        join invoices on (invoices.id = payments.invoice_id)
-        join orders on (orders.id = payments.order_id)
+        $sql = "select orders.po_no, invoices.invoice_no, invoice_id, tds_percent, tds_deducted, balance_amt, receivable_amt, balance_amt - (select sum(tds_deducted) from payments
+        where invoice_id = (select invoice_id from payments where customer_payment_id = ?)) as balance_amt, allocated_amt from payments left join invoices on (invoices.id = payments.invoice_id) left join orders on (orders.id = payments.order_id)
         where customer_payment_id = ?";
         $this->_setSql($sql);
         $user = $this->getAll(array($paymentId));
