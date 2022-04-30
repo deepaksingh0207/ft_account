@@ -38,7 +38,7 @@ class PaymentsModel extends Model {
         where invoice_id = (select invoice_id from payments where customer_payment_id = ?)) as balance_amt, allocated_amt from payments left join invoices on (invoices.id = payments.invoice_id) left join orders on (orders.id = payments.order_id)
         where customer_payment_id = ?";
         $this->_setSql($sql);
-        $user = $this->getAll(array($paymentId));
+        $user = $this->getAll(array($paymentId,$paymentId));
         
         return $user;
     }
