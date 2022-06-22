@@ -6,3 +6,4 @@ new_config.php
 *.old
 utr_file/
 assets/js_repo/
+*.zip

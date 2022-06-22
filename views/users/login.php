@@ -56,7 +56,7 @@
           </div>
         </form>
         <div class="text-center" style="color: crimson; font-style: italic; text-transform: capitalize;">
-        <!-- alert: print alert message in small -->
+        <?php echo isset($err_msg) ? $err_msg : '' ?>
         <small></small>
         </div>
       </div>

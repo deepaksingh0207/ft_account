@@ -122,7 +122,7 @@
 
                                                             <th class="text-center">Base</th>
                                                             <th class="text-center">GST</th>
-                                                            <th class="text-center">invoice</th>
+                                                            <th class="text-center">Invoice</th>
                                                             <th class="text-center">Paid</th>
 
                                                         </tr>
