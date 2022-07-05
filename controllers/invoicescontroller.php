@@ -370,7 +370,7 @@ class InvoicesController extends Controller
         require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
         $mpdf->WriteHTML($messageBody);
-        $mpdf->SetHTMLFooter('<hr style="margin: 10px 0px 0px 0px;" />
+        $mpdf->SetHTMLFooter('<br><hr style="margin: 10px 0px 0px 0px;" />
         <p style="text-align: center; ">
           '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
           Email: account@fts-pl.com Website: http://www.fts-pl.com
