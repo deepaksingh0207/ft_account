@@ -123,7 +123,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->generateInvoice($invoiceId, true); 
+                        $this->generateInvoice($invoiceId, true);
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -235,23 +235,23 @@ class InvoicesController extends Controller
             $invoice = $this->_model->get($invoiceId);
             $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
         }    
-    // End
+        // End
         $customerTbl = new CustomersModel();
         $customer = $customerTbl->get($invoice['customer_id']);
-        
+
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         
         $orderTable = new OrdersModel();
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
-        $print_uom_qty= '<th>Qty./Unit</th>';
+        $print_uom_qty= '<th>Qty.</th><th>Unit</th>';
         
-        if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
+        if(in_array($order['order_type'], array(1, 2, 3, 4, 5, 6, 7, 99))) {
             // Jthayil 12 jan 22 Start
             $tempInvoiceItem = [];
             foreach($invoiceItems as $tempItem)
             {
-                if($tempItem['uom_id'] == 3)
+                if(in_array($order['order_type'], array(1, 2, 3)))
                 {
                     $print_uom_qty= '<th></th><th></th>';
                     $tempItem['qty'] = '';
@@ -270,9 +270,8 @@ class InvoicesController extends Controller
             
             $dataItem[] = $row;
             
-        } */else {
-            $dataItem =  $oderItems;
-        }
+        } */
+        else { $dataItem =  $oderItems; }
 
         $company = new CompanyModel();
         $company = $company->get(1);
@@ -308,18 +307,18 @@ class InvoicesController extends Controller
         
         $orderBaseTotal = 0.00;
         $itemList = '';
-        if($tempItem['uom_id'] == 3)
-            {
-                foreach($dataItem as $key => $item) {
-                    $itemList .= '<tr>
+        if(in_array($order['order_type'], array(1, 2, 3)))
+        {
+            foreach($dataItem as $key => $item) {
+                $itemList .= '<tr>
                 <td >'.($key+1).'</td>
                 <td >'.$item['description'].'</td>
                 <td ></td><td ></td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
-                    $orderBaseTotal += $item['total'];
-                }
-            } else {
+                $orderBaseTotal += $item['total'];
+            }
+        } else {
             foreach($dataItem as $key => $item) {
                 $itemList .= '<tr>
                 <td >'.($key+1).'</td>
@@ -328,7 +327,7 @@ class InvoicesController extends Controller
                 <td >'.number_format($item['unit_price'], 2).'</td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
-                
+
                 $orderBaseTotal += $item['total'];
             }
         }
@@ -361,8 +360,7 @@ class InvoicesController extends Controller
         // JThayil 26 Dec Start
         if ($proformaSwitch){
         $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
-        }
-        else{
+        } else{
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
         }
         // End
@@ -370,7 +368,7 @@ class InvoicesController extends Controller
         require_once HOME . DS. 'vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
         $mpdf->WriteHTML($messageBody);
-        $mpdf->SetHTMLFooter('<br><hr style="margin: 10px 0px 0px 0px;" />
+        $mpdf->SetHTMLFooter('<hr style="margin: 0px 0px 0px 0px;" />
         <p style="text-align: center; ">
           '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
           Email: account@fts-pl.com Website: http://www.fts-pl.com
@@ -415,7 +413,7 @@ class InvoicesController extends Controller
     public function preview() {
         
         $dataItem = array();
-        
+
         $invoiceId  = ($this->_model->getLastId() + 1);
         
         if(!empty($_POST)) {
@@ -425,7 +423,7 @@ class InvoicesController extends Controller
             
             $invoice = array();
             $invoiceItems = array();
-            
+
             $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
             
             //$invoice['invoice_no'] = $this->genInvoiceNo();
@@ -444,7 +442,7 @@ class InvoicesController extends Controller
             $invoice['cgst'] = $data['cgst'];
             $invoice['igst'] = $data['igst'];
             $invoice['invoice_total'] = $data['invoice_total'];
-            
+
             $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
             $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
@@ -461,10 +459,7 @@ class InvoicesController extends Controller
                 $orderItem['uom_id'] = $item['uom_id'];
                 $orderItem['unit_price'] = $item['unit_price'];
                 $orderItem['total'] = $item['total'];
-
-                if($item['total'] > 0) {
-                    $invoiceItems[] = $orderItem;
-                }
+                if($item['total'] > 0) { $invoiceItems[] = $orderItem; }
                 
             }
         
@@ -475,14 +470,14 @@ class InvoicesController extends Controller
             $orderTable = new OrdersModel();
             $order = $orderTable->get($invoice['order_id']);
             $oderItems = $orderTable->getOrderItem($invoice['order_id']);
-            $print_uom_qty= '<th>Qty./Unit</th>';
+            $print_uom_qty= '<th>Qty.</th><th>Unit</th>';
             
             if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
                 // Jthayil 12 Jan 22 Start
                 $tempInvoiceItem = [];
                 foreach($invoiceItems as $tempItem)
                 {
-                    if($tempItem['uom_id'] == 3)
+                    if(in_array($order['order_type'], array(1, 2, 3)))
                     {
                         $print_uom_qty= '<th></th><th></th>';
                         $tempItem['qty'] = '';
@@ -538,26 +533,26 @@ class InvoicesController extends Controller
             
             $orderBaseTotal = 0.00;
             $itemList = '';
-            if($tempItem['uom_id'] == 3)
+            if(in_array($order['order_type'], array(1, 2, 3)))
             {
                 foreach($dataItem as $key => $item) {
                     $itemList .= '<tr>
-                <td >'.($key+1).'</td>
-                <td >'.$item['description'].'</td>
-                <td ></td><td ></td>
-                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-                </tr>';
+                    <td >'.($key+1).'</td>
+                    <td >'.$item['description'].'</td>
+                    <td ></td><td ></td>
+                    <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
+                    </tr>';
                     $orderBaseTotal += $item['total'];
                 }
             } else {
                 foreach($dataItem as $key => $item) {
                     $itemList .= '<tr>
-                <td >'.($key+1).'</td>
-                <td >'.$item['description'].'</td>
-                <td >'.$item['qty'].'</td>
-                <td >'.number_format($item['unit_price'], 2).'</td>
-                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-                </tr>';
+                    <td >'.($key+1).'</td>
+                    <td >'.$item['description'].'</td>
+                    <td >'.$item['qty'].'</td>
+                    <td >'.number_format($item['unit_price'], 2).'</td>
+                    <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
+                    </tr>';
                     $orderBaseTotal += $item['total'];
                 }
             }
@@ -575,7 +570,7 @@ class InvoicesController extends Controller
                 <hr style="padding: 0px; margin: 0px" />
               </td>
             </tr>';
-        } else {
+            } else {
             $taxesLayout = '<tr>
             <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
               CGST @ 9%
@@ -583,10 +578,10 @@ class InvoicesController extends Controller
               SGST @ 9%
             </td>
             <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">
-            '.number_format($invoice['cgst'], 2).'<br>'.number_format($invoice['sgst'], 2).'
-            </td>
-          </tr>
-          <tr>';
+                '.number_format($invoice['cgst'], 2).'<br>'.number_format($invoice['sgst'], 2).'
+                </td>
+            </tr>
+            <tr>';
             }
             
             $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
@@ -747,11 +742,8 @@ class InvoicesController extends Controller
 }
 // Jthayil Start
 function getdeclaration($val) {
-    if ($val != ""){
-        return "<b>Declaration</b><br>" . $val;
-    }else{
-        return $val;
-    }
+    if ($val != ""){ return "<b>Declaration</b><br>" . $val."<br><br><br>"; }
+    else{ return "<br><br><br><br><br><br><br><br><br><br>"; }
 }
 
 function addressmaker($val) {

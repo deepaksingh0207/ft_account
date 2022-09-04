@@ -133,10 +133,11 @@ class InvoicesModel extends Model {
     }
     
     public function getLastId() {
-        $sql = "select id from invoices order by id desc limit 1";
+        $sql = "select id as id from invoices 
+        union select 0 as id order by id desc limit 1";
         $this->_setSql($sql);
         $user = $this->getrow();
-        
+
         return $user['id'];
     }
     
