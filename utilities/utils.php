@@ -77,7 +77,7 @@ class Utils {
             $num = floor($num / $get_divider);
             $x += $get_divider == 10 ? 1 : 2;
             if ($amount) {
-                $add_plural = (($counter = count($string)) && $amount > 9) ? 's' : null;
+                $add_plural = (($counter = count($string)) && $amount > 9) ? '' : null;
                 $amt_hundred = ($counter == 1 && $string[0]) ? ' and ' : null;
                 $string [] = ($amount < 21) ? $change_words[$amount].' '. $here_digits[$counter]. $add_plural.'
        '.$amt_hundred:$change_words[floor($amount / 10) * 10].' '.$change_words[$amount % 10]. '
