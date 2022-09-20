@@ -170,7 +170,6 @@ class OrdersController extends Controller
                         //Upload the file into the temp dir
                         if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                             $orderData['po_file'] = $newFileName;
-                            
                         }
                     }
                 }
