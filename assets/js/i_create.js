@@ -495,7 +495,7 @@ function resetonorder() {
 }
 
 function setheader(index) {
-  list = ["", "Month", "Payment Slab", "Qty."]
+  list = ["", "Month", "Payment Slab", "Qty.", "Qty."]
   list[99] = "Qty."
   return list[index]
 }
