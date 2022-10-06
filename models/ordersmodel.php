@@ -299,5 +299,22 @@ class OrdersModel extends Model {
         }
         return $data;
     }
+
+    public function getPendingProforma($orderId) {
+        $sql = "select DISTINCT proforma_invoices.*, proforma_invoice_items.description description ,
+        (invoice_total - (select IFNULL(sum(allocated_amt),0) from payments where order_id=? and proforma_id = proforma_invoices.id)) as balance,
+        (select IFNULL(sum(tds_deducted),0)  from payments where order_id=? and proforma_id = proforma_invoices.id) as tds_deducted,
+        (select IFNULL(sum(tds_percent),0)  from payments where order_id=? and proforma_id = proforma_invoices.id) as tds_percent from proforma_invoices 
+        left join proforma_invoice_items on (proforma_invoice_items.proforma_invoice_id = proforma_invoices.id)
+        where order_id=? and status = 1 and proforma_invoices.invoice_total > (select IFNULL(sum(allocated_amt)+sum(tds_deducted),0) from payments
+        where order_id=? and proforma_id = proforma_invoice_items.proforma_invoice_id );";
+
+        $this->_setSql($sql);
+        $data = $this->getAll(array($orderId, $orderId, $orderId, $orderId, $orderId));
+        if (empty($data)){
+            return false;
+        }
+        return $data;
+    }
     
 }

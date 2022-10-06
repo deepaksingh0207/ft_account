@@ -713,11 +713,10 @@ class OrdersController extends Controller
     function getInvoicesForPayments($id) {
         if($id) {
             $paymentDone = $this->_model->getPaymentDoneInvoices($id);
+            $paymentProforma = $this->_model->getPendingProforma($id);
             $paymentPending = $this->_model->getPendingInvoices($id);
 
-            echo json_encode(array('payment_completed' => $paymentDone, 'payment_pending' => $paymentPending));
-        }  else {
-            echo false;
-        }
+            echo json_encode(array('payment_completed' => $paymentDone, 'payment_pending' => $paymentPending, 'payment_proforma' => $paymentProforma));
+        }  else {            echo false;        }
     }
 }

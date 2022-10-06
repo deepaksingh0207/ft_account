@@ -637,7 +637,7 @@ function preview_total() {
     subtotal += parseFloat($("#id_total" + id).val());
   });
   $("#preview_subtotal_txt").text(ra(subtotal));
-  $("#previewsubtotal").val(subtotal);
+  $(".previewsubtotal").val(subtotal);
   if (parseInt(od_order.tax_rate) == 9) {
     gst = subtotal * ($("#preview_sgst_val").data("gst") / 100);
     $("#preview_sgst_val").text(ra(gst));

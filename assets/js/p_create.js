@@ -103,15 +103,57 @@ function get_orderstatus(po_id, po_no) {
                 });
             }
             fill_cleared_payment()
-            if (resp.payment_pending) {
-                $.each(resp.payment_pending, function (i_pending, value) {
-                    // get_invoicedetails(po_id, value.id)
+            // if only Proforma is created
+            if (!resp.payment_pending && resp.payment_proforma) {
+                $.each(resp.payment_proforma, function (i_pending, value) {
+                    value["proforma"] = true;
                     tree[po_id]["pending"][value.id] = value;
                     if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
                         tree[po_id]["pending"]["index"].push(value.id);
                     }
                 });
                 $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
+            } // if only invoice is created
+            else if (resp.payment_pending && !resp.payment_proforma) {
+                $.each(resp.payment_pending, function (i_pending, value) {
+                    value["proforma"] = false;
+                    tree[po_id]["pending"][value.id] = value;
+                    if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
+                        tree[po_id]["pending"]["index"].push(value.id);
+                    }
+                });
+                $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
+            } // if proforma & invoice is created
+            else if (resp.payment_pending && resp.payment_proforma) {
+                $.each(resp.payment_proforma, function (i_pending, value) {
+                    var caught = true
+                    $.each(resp.payment_pending, function (i_proforma, proval) {
+                        console.log(value["order_id"]);
+                        console.log(proval["order_id"]);
+                        console.log(value["customer_id"]);
+                        console.log(proval["customer_id"]);
+                        console.log(value["order_total"]);
+                        console.log(proval["order_total"]);
+                        if (value["order_id"]==proval["order_id"] && value["customer_id"]==proval["customer_id"] && value["order_total"]==proval["order_total"])
+                        { caught = false; }
+                    });
+                    if (caught) {
+                        value["proforma"] = true;
+                        tree[po_id]["pending"][value.id] = value;
+                        if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
+                            tree[po_id]["pending"]["index"].push(value.id);
+                        }
+                        $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
+                    }
+                });
+                $.each(resp.payment_pending, function (i_pending, value) {
+                    value["proforma"] = false;
+                    tree[po_id]["pending"][value.id] = value;
+                    if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
+                        tree[po_id]["pending"]["index"].push(value.id);
+                    }
+                    $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
+                });
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
