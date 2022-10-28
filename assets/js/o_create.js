@@ -18,7 +18,7 @@ $("#group_id").change(function () {
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR, textStatus, errorThrown);
+        
       });
   }
 });
@@ -48,7 +48,7 @@ function getgst(id) {
       update_tax();
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR, textStatus, errorThrown);
+      
     });
   $("#itemcard").show();
 }
@@ -61,7 +61,7 @@ function get_sales_person(id) {
       getgst(id);
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR, textStatus, errorThrown);
+      
     });
 }
 

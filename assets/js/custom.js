@@ -20,20 +20,6 @@ function ra(val) {
   return val
 }
 
-function dlog() {
-  if (DEBUG) {
-    for (var i = 0; i < arguments.length; i++) {
-      console.log(arguments[i]);
-    }
-  }
-}
-
-function plog() {
-  for (var i = 0; i < arguments.length; i++) {
-    console.log(arguments[i]);
-  }
-}
-
 $(document).ready(function() {
   $("#copyright_year").text(new Date().getFullYear());
   $(window).keydown(function(event){

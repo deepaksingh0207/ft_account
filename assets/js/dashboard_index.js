@@ -7,7 +7,7 @@ $(function () {
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
         var a = appendcode(datediff(tabledates[index]));
-        console.log(duedate);
+        
         $("#due" + value).empty();
         if (a[2] == '') {
             $("#age" + value).append('<span class="description-percentage text-' + a[0] + '">' + a[1] + '</span>');

@@ -177,7 +177,7 @@ function fillsalesperson(id) {
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
-      console.log(jqXHR, textStatus, errorThrown);
+      
     });
 }
 
@@ -734,19 +734,16 @@ function checker() {
     $("#id_invoicedate").addClass("is-invalid");
     check = false;
   }
-  if ($("#id_due_date").val() == "") {
+  if ($("#id_due_date").val() == "" && check) {
     $("#id_due_date").addClass("is-invalid");
     check = false;
   }
-  if ($("#id_invoice_no").val().length != 7) {
+  if ($("#id_invoice_no").val().length != 7 && check) {
     $("#id_invoice_no").addClass("is-invalid");
     check = false;
   }
-  if (invoicevalidityflag) {
-    check = true;
-  } else {
-    check = false;
-  }
+  if (invoicevalidityflag && check) { check = true; }
+  else { check = false; }
   if (check) {
     if ($("#t1").data("state") == "show") {
       $("#t1").data("state", "hide").hide();

@@ -184,6 +184,7 @@ class PaymentsController extends Controller
                             $row = array();
                             $row['customer_payment_id'] = $custPaymentId;
                             $row['order_id'] = $item['order_id'];
+                            $row['proforma_id'] = $item['proforma_id'];
                             $row['invoice_id'] = $item['invoice_id'];
                             $row['basic_value'] = $item['basic_value'];
                             $row['gst_amount'] = $item['gst_amount'];

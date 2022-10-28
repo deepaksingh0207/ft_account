@@ -5,7 +5,7 @@ class PaymentsModel extends Model {
     
     public function list() {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "select * from payments";
+        $sql = "select * from payments order by created_date desc";
         $this->_setSql($sql);
         $user = $this->getAll();
         

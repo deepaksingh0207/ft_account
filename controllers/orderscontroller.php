@@ -677,8 +677,6 @@ class OrdersController extends Controller
             $result['data'][] = $tmp;
         }
 
-        
-
         echo json_encode($result);
         exit;
     }
@@ -717,6 +715,6 @@ class OrdersController extends Controller
             $paymentPending = $this->_model->getPendingInvoices($id);
 
             echo json_encode(array('payment_completed' => $paymentDone, 'payment_pending' => $paymentPending, 'payment_proforma' => $paymentProforma));
-        }  else {            echo false;        }
+        }  else {echo false;}
     }
 }

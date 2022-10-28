@@ -82,7 +82,7 @@ function createbookeeper() {
         tree[nz(item.order_type)][nz(item.id)]["from"] = item.po_from_date.split(" ", 1)
         tree[nz(item.order_type)][nz(item.id)]["till"] = item.po_to_date.split(" ", 1)
       } catch (error) {
-        console.log(error);
+        
       }
     }
     tree["items"]["ids"].push(item.id)
@@ -161,7 +161,7 @@ function get_order_data() {
       createbookeeper()
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR, textStatus, errorThrown)
+      
     })
 }
 
@@ -204,7 +204,7 @@ function getgst(customergroup_id) {
       get_order_data();
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR, textStatus, errorThrown)
+      
     })
 }
 

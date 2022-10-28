@@ -294,7 +294,7 @@
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<script src="<?php echo ROOT; ?>assets/js/p_create.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/p_create.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'payments' && ($action == 'view')) : ?>

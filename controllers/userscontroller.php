@@ -123,8 +123,8 @@ class UsersController extends Controller
             }
         }
         try {
-            $accesslist = $this->_model->getacl($id);
             if(!empty($_POST)) {
+                $accesslist = $this->_model->getacl($id);
                 $data = $_POST;
                 
                 // echo '<pre>'; print_r($data); exit;
@@ -146,13 +146,8 @@ class UsersController extends Controller
                     $this->_model->delete_acl($row["id"]);
                 }
                 $accesslist = $this->_model->getacl($id);
-            } else {
-                foreach($accesslist as $row) {
-                    // echo '<pre>'; print_r($row["id"]); exit;
-                    $this->_model->delete_acl($row["id"]);
-                }
-                $accesslist = $this->_model->getacl($id);
             }
+            $accesslist = $this->_model->getacl($id);
             $this->_view->set('form', $actionControllers);
             $this->_view->set('accesslist', $accesslist);
             $this->_view->set('title', 'ACL');

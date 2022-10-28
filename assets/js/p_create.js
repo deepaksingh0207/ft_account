@@ -23,16 +23,13 @@ $(document).on("change", "#id_group_id", function () {
             encode: true,
         })
             .done(function (resp) {
-                dlog(resp)
                 $("#id_customerid").empty().append('<option selected="">Select Customer</option>');
                 $.each(resp, function (i_resp, value) {
                     $("#id_customerid").append("<option value='" + value.id + "'>" + value.name + "</option>");
                 });
                 if (resp.length < 2) { $("#id_customerid").val(resp[0].id).trigger('change'); }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                plog(jqXHR, textStatus, errorThrown);
-            });
+            .fail(function (jqXHR, textStatus, errorThrown) {});
     }
 });
 
@@ -65,13 +62,11 @@ $(document).on("change", "#id_customerid", function () {
             encode: true,
         })
             .done(function (resp) {
-                dlog(resp);
                 $.each(resp, function (index, value) {
                     get_orderstatus(value.id, value.po_no);
                 });
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                plog(jqXHR, textStatus, errorThrown);
             });
     }
 });
@@ -85,12 +80,12 @@ function get_orderstatus(po_id, po_no) {
         encode: true,
     })
         .done(function (resp) {
-            dlog(po_no, resp);
+            console.log(resp);
+            var custPO = []
             tree[po_id] = {}
             tree[po_id]["pending"] = { "index": [] }
-            if (tree.hasOwnProperty("cleared") == false) {
-                tree["cleared"] = { "index": [] }
-            }
+            tree[po_id]["proforma"] = { "index": [] }
+            if (tree.hasOwnProperty("cleared") == false) { tree["cleared"] = { "index": [] } }
             if (resp.payment_completed) {
                 $.each(resp.payment_completed, function (i_cleared, value) {
                     if (tree["cleared"].hasOwnProperty(value.cheque_utr_no) == false) {
@@ -112,53 +107,30 @@ function get_orderstatus(po_id, po_no) {
                         tree[po_id]["pending"]["index"].push(value.id);
                     }
                 });
-                $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
-            } // if only invoice is created
-            else if (resp.payment_pending && !resp.payment_proforma) {
+                if (!custPO.includes(po_id)) { custPO.push(po_id); $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>"); }
+            } else if (resp.payment_pending || resp.payment_proforma) {
+                // if proforma & invoice is created
                 $.each(resp.payment_pending, function (i_pending, value) {
                     value["proforma"] = false;
                     tree[po_id]["pending"][value.id] = value;
-                    if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
-                        tree[po_id]["pending"]["index"].push(value.id);
-                    }
+                    if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) { tree[po_id]["pending"]["index"].push(value.id); }
+                    if (!custPO.includes(po_id)) { custPO.push(po_id); $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>"); }
                 });
-                $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
-            } // if proforma & invoice is created
-            else if (resp.payment_pending && resp.payment_proforma) {
                 $.each(resp.payment_proforma, function (i_pending, value) {
-                    var caught = true
+                    var notFound = true
                     $.each(resp.payment_pending, function (i_proforma, proval) {
-                        console.log(value["order_id"]);
-                        console.log(proval["order_id"]);
-                        console.log(value["customer_id"]);
-                        console.log(proval["customer_id"]);
-                        console.log(value["order_total"]);
-                        console.log(proval["order_total"]);
-                        if (value["order_id"]==proval["order_id"] && value["customer_id"]==proval["customer_id"] && value["order_total"]==proval["order_total"])
-                        { caught = false; }
+                        if (value["order_id"] == proval["order_id"] && value["customer_id"] == proval["customer_id"] && value["order_total"] == proval["order_total"] && value["description"] == proval["description"]) { notFound = false; }
                     });
-                    if (caught) {
+                    if (notFound) {
                         value["proforma"] = true;
-                        tree[po_id]["pending"][value.id] = value;
-                        if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
-                            tree[po_id]["pending"]["index"].push(value.id);
-                        }
-                        $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
+                        tree[po_id]["proforma"][value.id] = value;
+                        if (tree[po_id]["proforma"]["index"].indexOf(value.id) < 0) { tree[po_id]["proforma"]["index"].push(value.id); }
+                        if (!custPO.includes(po_id)) { custPO.push(po_id); $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>"); }
                     }
-                });
-                $.each(resp.payment_pending, function (i_pending, value) {
-                    value["proforma"] = false;
-                    tree[po_id]["pending"][value.id] = value;
-                    if (tree[po_id]["pending"]["index"].indexOf(value.id) < 0) {
-                        tree[po_id]["pending"]["index"].push(value.id);
-                    }
-                    $("#id_order_id").append("<option value='" + po_id + "'>" + po_no + "</option>");
                 });
             }
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            plog(jqXHR, textStatus, errorThrown);
-        });
+        .fail(function (jqXHR, textStatus, errorThrown) { });
 }
 
 function get_invoicedetails(po_id, inv_id) {
@@ -177,46 +149,54 @@ function get_invoicedetails(po_id, inv_id) {
 }
 
 $(document).on("change", "#id_order_id", function () {
-    $("#id_clearedpayments").show();
-    $("#id_pendingpayments").show();
+    $("#id_clearedpayments, #id_pendingpayments").show();
     var orderList = $(this).val();
     $("#tbody_pendingpayment").empty();
     $.each(orderList, function (order_index, orderId) {
         $.each(tree[orderId]["pending"]["index"], function (i_index, Id) {
             payment_row_creator(orderId, tree[orderId]["pending"][Id]);
         });
+        $.each(tree[orderId]["proforma"]["index"], function (i_index, Id) {
+            payment_row_creator(orderId, tree[orderId]["proforma"][Id], true);
+        });
     });
 });
 
 
-function payment_row_creator(o, d) {
+function payment_row_creator(o, d, proforma = false) {
     var invoice_base = parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"]);
     var invoice_gst = parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"]);
-    $("#tbody_pendingpayment").append('<tr id="' + d["id"] + '"></tr>');
+    var rowID = parseInt(d["id"]);
+    if (proforma) { rowID += tree[o]["pending"]["index"].length }
+    $("#tbody_pendingpayment").append('<tr id="' + rowID + '"></tr>');
 
     // Invoice No.
-    $("#" + d["id"]).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + d["id"] + '" data-index="' + d["id"] + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + d["id"] + '">' + d["invoice_no"] + '</label></div></td>');
+    if (d["proforma"]) {
+        $("#" + rowID).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + rowID + '" data-proforma="1" data-index="' + rowID + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + rowID + '">PI' + d["invoice_no"] + '</label></div></td>');
+    } else {
+        $("#" + rowID).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + rowID + '" data-proforma="0" data-index="' + rowID + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + rowID + '">' + d["invoice_no"] + '</label></div></td>');
+    }
 
     // Description
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + d["id"] + '" value="' + o + '">' + d["description"] + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + rowID + '" value="' + o + '">' + d["description"] + '</td>');
 
     // Base Amount
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_basic_value' + d["id"] + '" value="' + invoice_base + '">' + ra(invoice_base) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_basic_value' + rowID + '" value="' + invoice_base + '">' + ra(invoice_base) + '</td>');
 
     // GST Amount
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_gst_amount' + d["id"] + '" value="' + invoice_gst + '">' + ra(invoice_gst) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_gst_amount' + rowID + '" value="' + invoice_gst + '">' + ra(invoice_gst) + '</td>');
 
     // Invoice Amount
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden" class="row' + d["id"] + '" id="id_invoice_amount' + d["id"] + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_invoice_amount' + rowID + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
 
     // Paid Amount
-    $("#" + d["id"]).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + d["id"] + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + d["id"] + '" value="0">' + ra(d["invoice_total"] - d["balance"]) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + rowID + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + rowID + '" value="0">' + ra(d["invoice_total"] - d["balance"]) + '</td>');
 
     // TDS %
-    $("#" + d["id"]).append('<td class="align-middle">' + freezetds(d["id"], invoice_base, d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + d["id"] + '"><span class="text-info" style="font-size: small;" id="span' + d["id"] + '">' + ra(d["tds_deducted"]) + '</span></td>');
+    $("#" + rowID).append('<td class="align-middle">' + freezetds(rowID, invoice_base, d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + rowID + '"><span class="text-info" style="font-size: small;" id="span' + rowID + '">' + ra(d["tds_deducted"]) + '</span></td>');
 
     // Allocated Amount
-    $("#" + d["id"]).append('<td> <input type="number" id="alloc' + d["id"] + '" class="form-control form-control-sm allcate row' + d["id"] + '" data-tds="' + d["tds_deducted"] + '" data-total="' + d["balance"] + '" data-index="' + d["id"] + '" max="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '" value=""><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
+    $("#" + rowID).append('<td> <input type="number" id="alloc' + rowID + '" class="form-control form-control-sm allcate row' + rowID + '" data-tds="' + d["tds_deducted"] + '" data-total="' + d["balance"] + '" data-index="' + rowID + '" max="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '" value=""><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
 }
 
 $(document).on("change", ".allcate", function () {
@@ -282,8 +262,10 @@ function checkme() {
         var ID = $(this).data("index");
         if ($(this).is(':checked')) {
             gatepass = true
+            if($("#id_invoice_id_" + ID).data('proforma') == '1')
+            {$("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][proforma_id]");}
+            else {$("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]");}
             $("#id_order_id" + ID).attr("name", "payment_invoice[" + c + "][order_id]");
-            $("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]");
             $("#id_basic_value" + ID).attr("name", "payment_invoice[" + c + "][basic_value]");
             $("#id_gst_amount" + ID).attr("name", "payment_invoice[" + c + "][gst_amount]");
             $("#id_invoice_amount" + ID).attr("name", "payment_invoice[" + c + "][invoice_amount]");
@@ -310,15 +292,10 @@ function checkme() {
         }
     });
 
-    if (gatepass && amtpass && utrvalidty) {
-        return true;
-    } else if (amtpass != true) {
-        alert('Allocated Amt greater than Balance Amt');
-    } else if (utrvalidty != true) {
-        alert('UTR Exist.');
-    } else {
-        alert('Invoice not selected.');
-    }
+    if (gatepass && amtpass && utrvalidty) { return true; }
+    else if (amtpass != true) { alert('Allocated Amt greater than Balance Amt'); }
+    else if (utrvalidty != true) { alert('UTR Exist.'); }
+    else { alert('Invoice not selected.'); }
     dupesave();
     return false;
 };
@@ -335,50 +312,22 @@ $(function () {
     });
     $("#quickForm").validate({
         rules: {
-            group_id: {
-                required: true,
-            },
-            customer_id: {
-                required: true,
-            },
-            order_id: {
-                required: true,
-            },
-            utr_file: {
-                required: true,
-            },
-            cheque_utr_no: {
-                required: true,
-            },
-            received_amt: {
-                required: true,
-            },
-            payment_date: {
-                required: true,
-            },
+            group_id: { required: true, },
+            customer_id: { required: true, },
+            order_id: { required: true, },
+            utr_file: { required: true, },
+            cheque_utr_no: { required: true, },
+            received_amt: { required: true, },
+            payment_date: { required: true, },
         },
         messages: {
-            group_id: {
-                required: "Select Group ID",
-            },
-            customer_id: {
-                required: "Select Customer.",
-            },
-            order_id: {
-                required: "Select Order PO",
-            },
-            utr_file: {
-                required: "Attach UTR File",
-            },
-            cheque_utr_no: {
-                required: "Please enter cheque or UTR",
-            },
-            received_amt: {
-                required: "Please enter received amount.",
-            },
-            payment_date: {
-                required: "Please enter payment date.",
-            },
+            group_id: { required: "Select Group ID", },
+            customer_id: { required: "Select Customer.", },
+            order_id: { required: "Select Order PO", },
+            utr_file: { required: "Attach UTR File", },
+            cheque_utr_no: { required: "Please enter cheque or UTR", },
+            received_amt: { required: "Please enter received amount.", },
+            payment_date: { required: "Please enter payment date.", },
         },
         errorElement: "span",
         errorPlacement: function (error, element) {
@@ -443,7 +392,6 @@ $(document).on("focusout", "#id_cheque_utr_no", function () {
             }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            dlog(jqXHR, textStatus, errorThrown);
         });
 });
 

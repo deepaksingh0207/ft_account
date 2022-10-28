@@ -158,7 +158,7 @@ function get_order_data() {
       createbookeeper()
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR, textStatus, errorThrown)
+      
     })
 }
 
@@ -201,7 +201,7 @@ function getgst(customergroup_id) {
       get_order_data();
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR, textStatus, errorThrown)
+      
     })
 }
 
