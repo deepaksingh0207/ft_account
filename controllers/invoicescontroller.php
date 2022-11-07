@@ -110,8 +110,6 @@ class InvoicesController extends Controller
                     $invoiceItems[] = $orderItem;
                     
                 }
-
-                
                 
                 if($isProformaInvoice) {
                     $tblProformaInvoice = new ProformaInvoicesModel();
@@ -373,7 +371,11 @@ class InvoicesController extends Controller
           '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
           Email: account@fts-pl.com Website: http://www.fts-pl.com
         </p>');
+        if ($proformaSwitch){
+            $mpdf->Output('pdf/proforma_'.$invoice['invoice_no'].'.pdf', 'F');
+        } else{
         $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
+    }
         
         
         if(SEND_MAIL) {
