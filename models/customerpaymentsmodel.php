@@ -4,7 +4,7 @@ class CustomerPaymentsModel extends Model {
         
     public function list() {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "select C.name, P.* from customer_payments P join customers C on (C.id = P.customer_id) where P.status = 1 ";
+        $sql = "select C.name, P.* from customer_payments P join customers C on (C.id = P.customer_id) where P.status = 1 order by payment_date desc";
         $this->_setSql($sql);
         $user = $this->getAll();
         
