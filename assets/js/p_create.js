@@ -172,7 +172,7 @@ function payment_row_creator(o, d, proforma = false) {
 
     // Invoice No.
     if (d["proforma"]) {
-        $("#" + rowID).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + rowID + '" data-proforma="1" data-index="' + rowID + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + rowID + '">PI' + d["invoice_no"] + '</label></div></td>');
+        $("#" + rowID).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + rowID + '" data-proforma="1" data-index="' + rowID + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + rowID + '">PI-' + d["invoice_no"] + '</label></div></td>');
     } else {
         $("#" + rowID).append('<td class="align-middle"><div class="icheck-primary d-inline mt-3"><input type="checkbox" id="id_invoice_id_' + rowID + '" data-proforma="0" data-index="' + rowID + '" class="checkbox" value="' + d["id"] + '"><label for="id_invoice_id_' + rowID + '">' + d["invoice_no"] + '</label></div></td>');
     }

@@ -63,11 +63,9 @@ class InvoicesController extends Controller
                 $invoiceeData['cgst'] = $data['cgst'];
                 $invoiceeData['igst'] = $data['igst'];
                 $invoiceeData['invoice_total'] = $data['invoice_total'];
-                
                 $invoiceeData['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
                 $invoiceeData['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
                 $invoiceeData['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
-                
                 $invoiceeData['remarks'] = $data['remarks'];
                 $invoiceeData['due_date'] = $data['due_date'];
                 //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
@@ -132,7 +130,11 @@ class InvoicesController extends Controller
                     $invoiceId = $this->_model->save($invoiceeData);
                     if($invoiceId) {
                         $tblInvoiceItem = new InvoiceItemsModel();
+                        $tblPayments = new PaymentsModel();
                         foreach($invoiceItems as $invoiceItem) {
+                            if($isProformaInvoice == false) {
+                                $tblPayments->upd_paytrm_inv_id($invoiceItem['proforma_invoice_item_id'], $invoiceId);
+                            }
                             $invoiceItem['invoice_id'] = $invoiceId;
                             $tblInvoiceItem->save($invoiceItem);
                         }
@@ -376,8 +378,6 @@ class InvoicesController extends Controller
         } else{
         $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
     }
-        
-        
         if(SEND_MAIL) {
             $this->sendMail($invoice, $customer);
         }

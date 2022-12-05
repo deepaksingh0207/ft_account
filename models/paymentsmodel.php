@@ -113,4 +113,16 @@ class PaymentsModel extends Model {
         }
         return $data;
     }
+    public function upd_paytrm_inv_id($proforma_inv_item_id, $invoice_id) {
+
+        // echo '<pre>'; print_r($proforma_inv_item_id." ");print_r($invoice_id);exit;
+        
+        $sql = "update payments set `invoice_id`=".$invoice_id." where `invoice_id` is null and `proforma_id` in ( select proforma_invoice_id from proforma_invoice_items where id=".$proforma_inv_item_id.")";
+
+        // echo '<pre>'; print_r($sql);exit;
+        
+        $sth = $this->_db->prepare($sql);
+        
+        return $sth->execute($data);
+    }
 }

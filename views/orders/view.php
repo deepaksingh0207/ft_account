@@ -450,7 +450,7 @@ $pendingAmount = 0.00;
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header" id="modal_header">
-            Invoice
+            Open PO
             <button
               type="button"
               class="close"

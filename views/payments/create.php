@@ -103,7 +103,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th rowspan="2" class="align-middle text-center">
-                                                                P/Invoice No.
+                                                                PI / Invoice No.
                                                             </th>
                                                             <th rowspan="2" class="align-middle text-center">
                                                                 Description
