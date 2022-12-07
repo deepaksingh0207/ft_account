@@ -331,6 +331,13 @@ class InvoicesController extends Controller
                 $orderBaseTotal += $item['total'];
             }
         }
+
+        if(in_array($order['order_type'], array(6)))
+        {
+            $vars["{{TDS}}"] = "";
+        } else {
+            $vars["{{TDS}}"] = "<li>TDS should be Deduct @10% As per Sec.194J.</li>";
+        }
         
         $taxesLayout = '';
         if((int)$invoice['igst']) {
@@ -557,6 +564,13 @@ class InvoicesController extends Controller
                     </tr>';
                     $orderBaseTotal += $item['total'];
                 }
+            }
+
+            if(in_array($order['order_type'], array(6)))
+            {
+                $vars["{{TDS}}"] = "";
+            } else {
+                $vars["{{TDS}}"] = "<li>TDS should be Deduct @10% As per Sec.194J.</li>";
             }
             
             $taxesLayout = '';
