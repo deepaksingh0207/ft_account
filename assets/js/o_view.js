@@ -65,3 +65,23 @@ $(document).on("click", ".paydtlstoggle", function () {
 		$("#id_paydtls").attr('class', 'fas fa-chevron-down mt-1');
 	}
 });
+
+$(document).on("click", ".hidemon", function () {
+	$.ajax({
+		type: "POST",
+		url: baseUrl + "dashboard/toggleMonitoringOrder/" + parseInt($(this).attr("name")),
+		data: parseInt($(this).attr("name")),
+		dataType: "json",
+		encode: true,
+	})
+		.done(function (data) {
+			if (data["disable_monitor"] == 1) {
+				$("#hide" + data["id"]).prop('checked', true)
+			} else {
+				$("#hide" + data["id"]).prop('checked', false)
+			}
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			alert("Failed to update Order hide.");
+		});
+});

@@ -316,5 +316,14 @@ class OrdersModel extends Model {
         }
         return $data;
     }
+
+    public function togglemonitor($data){
+        $id=$data[0];
+        $sql = "update orders set disable_monitor=(select * from(SELECT CASE WHEN disable_monitor = 0 THEN 1 ELSE 0 END FROM orders where id = '".$id."') as b) where id = '".$id."'";
+
+        $sth = $this->_db->prepare($sql);
+        
+        return $sth->execute($data);
+    }
     
 }

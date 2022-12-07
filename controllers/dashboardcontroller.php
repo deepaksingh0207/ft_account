@@ -133,6 +133,22 @@ class DashboardController extends Controller
         
     }
 
+    public function toggleMonitoringOrder($id) {
+        
+        try {
+            // echo '<pre>'; print_r($id); exit;
+            if($id) {
+                $tblOrder = new OrdersModel();
+                $tblOrder->togglemonitor([$id]);
+                $disable_monitor = $tblOrder->get($id);
+                echo json_encode($disable_monitor);
+            } else { echo false; }
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+        
+    }
+
     public function expiredpo() {
         
         try {

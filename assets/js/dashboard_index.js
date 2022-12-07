@@ -7,7 +7,7 @@ $(function () {
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
         var a = appendcode(datediff(tabledates[index]));
-        
+
         $("#due" + value).empty();
         if (a[2] == '') {
             $("#age" + value).append('<span class="description-percentage text-' + a[0] + '">' + a[1] + '</span>');
@@ -29,19 +29,39 @@ $(function () {
         "responsive": true, "lengthChange": false, "autoWidth": true, "ordering": false,
         "buttons": ["excel"],
         initComplete: function () {
-          this.api().columns().every(function () {
-            var that = this;
-            $('input', this.header()).on('keyup change clear', function () {
-              if (that.search() !== this.value) {that.search(this.value).draw();}
+            this.api().columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) { that.search(this.value).draw(); }
+                });
             });
-          });
         }
-      }).buttons().container().appendTo('#ordersummary_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#ordersummary_wrapper .col-md-6:eq(0)');
     $('#example3').DataTable({
         rowsGroup: [0, 1, 2],
         "ordering": false,
         "searching": false,
     });
+});
+
+$(document).on("click", ".hidemon", function () {
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "dashboard/toggleMonitoringOrder/" + parseInt($(this).attr("name")),
+        data: parseInt($(this).attr("name")),
+        dataType: "json",
+        encode: true,
+    })
+        .done(function (data) {
+            if (data["disable_monitor"] == 1) {
+                $("#hide" + data["id"]).prop('checked', true)
+            } else {
+                $("#hide" + data["id"]).prop('checked', false)
+            }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            alert("Failed to update Order hide.");
+        });
 });
 
 $(document).on("click", ".ordersummary", function () {

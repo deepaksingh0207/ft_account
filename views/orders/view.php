@@ -72,16 +72,19 @@ $pendingAmount = 0.00;
                 </div>
                 <div class="col-sm-12 col-lg-6">
                   <div class="row">
+
                     <div class="col-6">
                       <label for="id_pincode"> <b>Contact Person :</b> </label>
                     </div>
                     <div class="col-6 form-group">
                       <?php echo $order['sales_person'] ?>
                     </div>
+
                     <div class="col-6"><b>Order Type :</b></div>
                     <div class="col-6 form-group">
                       <?php echo $ORDER_TYPE[$order['order_type']] ?>
                     </div>
+
                     <?php if ($order['po_from_date']) :  ?>
                     <div class="col-6">
                       <label for="id_amc_from">
@@ -100,6 +103,8 @@ $pendingAmount = 0.00;
                       <?php echo date('d, M Y', strtotime($order['po_to_date'])) ?>
                     </div>
                     <?php endif;  ?>
+
+                    
                   </div>
                 </div>
 
@@ -133,6 +138,20 @@ $pendingAmount = 0.00;
                       <?php echo $shipToAddress ?>
                     </div>
                   </div>
+                </div>
+                
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                  <div class="col-3 form-group">
+                    <b>Hide from Dashboard Order PO Monitor</b>
+                  </div>
+                  <div class="col-1">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input hidemon" name="<?php echo $order['id'] ?>" id="hide<?php echo $order['id'] ?>">
+                        <label class="custom-control-label" for="hide<?php echo $order['id'] ?>"></label>
+                    </div>
+                  </div>
+                </div>
                 </div>
 
 								<div class="col-sm-12 col-md-12 col-lg-12">
@@ -467,6 +486,9 @@ $pendingAmount = 0.00;
     <script>
       var oti = <?php echo $order['order_type'] ?>;
       var id = <?php echo $order['id'] ?>;
+      <?php if ($order['disable_monitor'] == 1) :  ?>
+        $("#hide<?php echo $order['id'] ?>").prop('checked', true)
+      <?php endif;  ?>
     </script>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
   </div>

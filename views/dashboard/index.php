@@ -464,6 +464,7 @@
                 >
                   <thead>
                     <tr>
+                      <th>Hide</th>
                       <th style="width: 115px">Company</th>
                       <th>Customer PO</th>
                       <th>Order Amount</th>
@@ -479,6 +480,12 @@
                     <?php if (is_array($popuprows) || is_object($popuprows)) : ?>
                     <?php foreach ($popuprows as $key=>$row) : ?>
                     <tr data-href="<?php echo $row['id'] ?>">
+                      <td class="pointer align-middle">
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" class="custom-control-input hidemon" name="<?php echo $row['id'] ?>" id="hide<?php echo $row['id'] ?>">
+                          <label class="custom-control-label" for="hide<?php echo $row['id'] ?>"></label>
+                        </div>
+                      </td>
                       <td class="ordlist pointer align-middle">
                         <?php echo $row['name'] ?>
                       </td>
