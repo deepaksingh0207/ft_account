@@ -338,6 +338,7 @@ $(document).on("change", ".pup", function () {
 });
 
 $(document).on("change", "#id_invoice_no", function () {
+  $("#togglepdf").attr("disabled", true);
   mydata = { invoice_no: $(this).val() }
   if (proformaguard) {
     $.ajax({
@@ -357,7 +358,7 @@ $(document).on("change", "#id_invoice_no", function () {
             .append(
               '<span id="id_po_no-error" class="say error invalid-feedback">Proforma No exist.</span>'
             )
-        }
+        } else {$("#togglepdf").attr("disabled", false);}
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.")
@@ -380,7 +381,7 @@ $(document).on("change", "#id_invoice_no", function () {
             .append(
               '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
             )
-        }
+        } else {$("#togglepdf").attr("disabled", false);}
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.")
@@ -904,7 +905,8 @@ function fillinvoice_body() {
           $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["unit_price"]) + '</td>');
           $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["total"]) + '</td>');
           if ((tree["items"][itm]["invoice"]["ids"]).length == 0) {
-            $("#row" + itm + pro + iPro).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/proforma_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf" type="button">Proforma Invoice</button></td>');
+            $("#row" + itm + pro + iPro).append('<td><div class="btn-group"><button type="button" class="btn btn-primary btn-sm generate" id="generate_' + itm + '" data-id="' + iItm + '" data-list="items">Generate</button><button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu p-1" role="menu"><a class="dropdown-item pdf" data-href=" ' + baseUrl + 'pdf/proforma_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf">Proforma Invoice</a></div></div></td>');
+            // $("#row" + itm + pro + iPro).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/proforma_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf" type="button">Proforma Invoice</button></td>');
           } else {
             $("#row" + itm + pro + iPro).append('<td><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], false) + '.pdf" type="button">Proforma Invoice</button></td>');
           }
