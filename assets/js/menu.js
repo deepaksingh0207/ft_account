@@ -2,11 +2,8 @@ $(document).ready(function () {
   var e = window.location.pathname.split("/");
 
   // Cross Server
-  if (e[1] == "ft_account") {
-    var a = e[2]; var s = e[3];
-  } else {
-    var a = e[1]; var s = e[2];
-  }
+  if (e[1] == "ft_account") { var a = e[2]; var s = e[3]; }
+  else { var a = e[1]; var s = e[2]; }
 
   if (a == 'orders') { $("#menu_orders").addClass("active"); }
   if (a == 'invoices') { $("#menu_invoices").addClass("active"); }

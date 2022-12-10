@@ -106,9 +106,10 @@ class InvoicesController extends Controller
                     $orderItem['total'] = $item['total'];
 
                     $invoiceItems[] = $orderItem;
-                    
                 }
                 
+                $hide_po = isset($data['hidepo']) ? ($data['hidepo'] == "1"? true: false) : false;
+
                 if($isProformaInvoice) {
                     $tblProformaInvoice = new ProformaInvoicesModel();
                     $invoiceId = $tblProformaInvoice->save($invoiceeData);
@@ -119,7 +120,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->generateInvoice($invoiceId, true);
+                        $this->generateInvoice($invoiceId, true, $hide_po);
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -132,14 +133,14 @@ class InvoicesController extends Controller
                         $tblInvoiceItem = new InvoiceItemsModel();
                         $tblPayments = new PaymentsModel();
                         foreach($invoiceItems as $invoiceItem) {
-                            if($isProformaInvoice == false) {
+                            if($isProformaInvoice == false && $invoiceItem['proforma_invoice_item_id'] != 0) {
                                 $tblPayments->upd_paytrm_inv_id($invoiceItem['proforma_invoice_item_id'], $invoiceId);
                             }
                             $invoiceItem['invoice_id'] = $invoiceId;
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->generateInvoice($invoiceId); 
+                        $this->generateInvoice($invoiceId, false, $hide_po); 
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -220,7 +221,7 @@ class InvoicesController extends Controller
     }
     
     // Jthayil Start 22 Dec
-    public function generateInvoice($invoiceId, $proformaSwitch = false) {
+    public function generateInvoice($invoiceId, $proformaSwitch = false, $hidepo=false) {
         
         $dataItem = array();
         
@@ -234,7 +235,7 @@ class InvoicesController extends Controller
         else{
             $invoice = $this->_model->get($invoiceId);
             $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
-        }    
+        }
         // End
         $customerTbl = new CustomersModel();
         $customer = $customerTbl->get($invoice['customer_id']);
@@ -304,9 +305,39 @@ class InvoicesController extends Controller
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
         );
+        if ($hidepo == true){
+            $vars = array(
+                "{{INV_NO}}" => $invoice['invoice_no'],
+                "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
+                "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
+                "{{BILLTO_ADDRESS}}" => $company['address'],
+                "{{COMP_TEL}}" => $company['contact'],
+                "{{COMP_PAN}}" => $company['pan'],
+                "{{COMP_SAC}}" => $company['sac'],
+                "{{COMP_GSTIN}}" => $company['gstin'],
+                "{{COMP_BANK}}" => $company['bank_name'],
+                "{{COMP_ACCNO}}" => $company['account_no'],
+                "{{COMP_IFSC}}" => $company['ifsc_code'],
+                "{{PO_NO}}" => "",
+                "{{ORDER_TYPE}}" => $print_uom_qty,
+                "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
+                "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
+                "{{CUST_TEL}}" => $customer['pphone'],
+                "{{DECLARATION}}" => getdeclaration($customer['declaration']),
+                "{{CUST_FAX}}" => $customer['fax'],
+                "{{CUST_PAN}}" => $customer['pan'],
+                "{{CUST_GST}}" => $customer['gstin'],
+                "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
+                "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
+                "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
+                "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+            ); 
+        }
         
         $orderBaseTotal = 0.00;
         $itemList = '';
+        $brtominus = 8;
+        if(getdeclaration($customer['declaration'], true) == true){$brtominus = 2;}
         if(in_array($order['order_type'], array(1, 2, 3)))
         {
             foreach($dataItem as $key => $item) {
@@ -317,6 +348,7 @@ class InvoicesController extends Controller
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 $orderBaseTotal += $item['total'];
+                $brtominus = $brtominus - 1;
             }
         } else {
             foreach($dataItem as $key => $item) {
@@ -327,10 +359,13 @@ class InvoicesController extends Controller
                 <td >'.number_format($item['unit_price'], 2).'</td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
-
                 $orderBaseTotal += $item['total'];
+                $brtominus = $brtominus - 1;
             }
         }
+
+        $brtoadd = "";
+        for($x=0;$x<=$brtominus;$x++){ $brtoadd = $brtoadd."<br>"; }
 
         if(in_array($order['order_type'], array(6)))
         {
@@ -341,7 +376,7 @@ class InvoicesController extends Controller
         
         $taxesLayout = '';
         if((int)$invoice['igst']) {
-            $taxesLayout = '<tr>
+            $taxesLayout = '<tr style="line-height: 30px;font-size: small;">
             <td style="text-align: right; width: 85%; border-bottom: 1px solid grey;">
             IGST @ 18%
             </td>
@@ -350,7 +385,7 @@ class InvoicesController extends Controller
             </td>
         </tr>';
         } else {
-            $taxesLayout = '<tr>
+            $taxesLayout = '<tr style="line-height: 30px;font-size: small;">
             <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
               CGST @ 9%<br />SGST @ 9%
             </td>
@@ -364,11 +399,20 @@ class InvoicesController extends Controller
         $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
         $vars["{{ITEM_LIST}}"] = $itemList;
         $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
+        $vars["{{BRTOADD}}"] = $brtoadd;
         // JThayil 26 Dec Start
-        if ($proformaSwitch){
-        $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
-        } else{
-        $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+        if(getdeclaration($customer['declaration'], true) == true){
+            if ($proformaSwitch){
+            $messageBody = strtr(file_get_contents('./assets/mail_template/dc_proforma_template.html'), $vars);
+            } else{
+            $messageBody = strtr(file_get_contents('./assets/mail_template/dc_invoice_template.html'), $vars);
+            }
+        }else{
+            if ($proformaSwitch){
+                $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
+                } else{
+                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
+                }
         }
         // End
         
@@ -376,7 +420,7 @@ class InvoicesController extends Controller
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
         $mpdf->WriteHTML($messageBody);
         $mpdf->SetHTMLFooter('<hr style="margin: 0px 0px 0px 0px;" />
-        <p style="text-align: center; ">
+        <p style="text-align: center;font-size: small;">
           '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
           Email: account@fts-pl.com Website: http://www.fts-pl.com
         </p>');
@@ -525,7 +569,7 @@ class InvoicesController extends Controller
                 "{{COMP_BANK}}" => $company['bank_name'],
                 "{{COMP_ACCNO}}" => $company['account_no'],
                 "{{COMP_IFSC}}" => $company['ifsc_code'],
-                "{{PO_NO}}" => $invoice['po_no'],
+                "{{PO_NO}}" => "<b>Purchase Order No.: ".$invoice['po_no'],
                 "{{ORDER_TYPE}}" => $print_uom_qty,
                 "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
                 "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
@@ -539,7 +583,35 @@ class InvoicesController extends Controller
                 "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
                 "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
             );
-            
+            if(isset($data['hidepo']) && $data['hidepo'] == "1"? true:false){
+                $vars = array(
+                    "{{INV_NO}}" => $invoice['invoice_no'],
+                    "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
+                    "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
+                    "{{BILLTO_ADDRESS}}" => $company['address'],
+                    "{{COMP_TEL}}" => $company['contact'],
+                    "{{COMP_PAN}}" => $company['pan'],
+                    "{{COMP_SAC}}" => $company['sac'],
+                    "{{COMP_GSTIN}}" => $company['gstin'],
+                    "{{COMP_BANK}}" => $company['bank_name'],
+                    "{{COMP_ACCNO}}" => $company['account_no'],
+                    "{{COMP_IFSC}}" => $company['ifsc_code'],
+                    "{{PO_NO}}" => "",
+                    "{{ORDER_TYPE}}" => $print_uom_qty,
+                    "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
+                    "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
+                    "{{CUST_TEL}}" => $customer['pphone'],
+                    "{{CUST_FAX}}" => $customer['fax'],
+                    "{{CUST_PAN}}" => $customer['pan'],
+                    "{{CUST_GST}}" => $customer['gstin'],
+                    "{{DECLARATION}}" => getdeclaration($customer['declaration']),
+                    "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
+                    "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
+                    "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
+                    "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+                );
+            }
+            // echo '<pre>'; print_r($vars); exit;
             $orderBaseTotal = 0.00;
             $itemList = '';
             if(in_array($order['order_type'], array(1, 2, 3)))
@@ -757,9 +829,13 @@ class InvoicesController extends Controller
     }
 }
 // Jthayil Start
-function getdeclaration($val) {
-    if ($val != ""){ return "<b>Declaration</b><br>" . $val."<br><br><br>"; }
-    else{ return "<br><br><br><br><br><br><br><br><br><br>"; }
+function getdeclaration($val, $flag=false) {
+    if ($flag == false){
+        if ($val != ""){ return "<b>Declaration</b><br>" . $val; }
+        else{ return ""; }
+    }
+    else{if ($val != "") { return true; }
+    else { return false; }}
 }
 
 function addressmaker($val) {
