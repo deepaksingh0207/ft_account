@@ -255,7 +255,7 @@ function refreshpreview() {
 
 function preview_builder() {
   proformaguard = false;
-  var check = false;
+  var html_hidepo = ``, check = false;
   $.each(items_for_invoicing, function (i, id) {
     if ($("#" + id).is(':checked')) {
       var item = $("#" + id).data("item");
@@ -272,8 +272,9 @@ function preview_builder() {
   } else {
     var c = 0
     previewList = []
+    if (tree["open_po"] == "1") { html_hidepo = `<div class="col-sm-12 col-lg-3 mt-3 pt-3"><div class="icheck-primary d-inline"><input type="checkbox" checked value="1" name="hidepo" id="id_hide_po" ><label for="id_hide_po">Hide PO</label></div></div>` }
     $("#preview_modal_body").empty().append(
-      '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + preview_label() + 'Invoice</div><div class="card-body p-0"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value=""></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date" value=""></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
+      '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + preview_label() + 'Invoice</div><div class="card-body p-0"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value=""></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date" value=""></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div>' + html_hidepo + '</div></div></div><div class="row" id="t2" data-state="hide"></div>'
     );
     // if (proformaguard){
     //   $("#preview_tbody").append('<input type="hidden" name="proforma" value="1">');
@@ -309,7 +310,7 @@ function preview_builder() {
             $("#id_descp" + c).attr('readonly', 'readonly');
             $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][proforma_invoice_item_id]" value="' + t.proforma_invoice_item_id + '">');
           } else {
-            $("#ptb" + c).append('<td ><input type="text" class="form-control desp" required name="order_details[' + c + '][proforma_invoice_item_id]" id="id_descp' + c + '" value="' + t.proforma_invoice_id + '"></td>');
+            $("#ptb" + c).append('<td ><input type="text" class="form-control desp" required name="order_details[' + c + '][proforma_invoice_item_id]" id="id_descp' + c + '" value="' + t.qty + '"></td>');
             $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][proforma_invoice_item_id]" value="0">');
           }
         }
@@ -358,7 +359,7 @@ $(document).on("change", "#id_invoice_no", function () {
             .append(
               '<span id="id_po_no-error" class="say error invalid-feedback">Proforma No exist.</span>'
             )
-        } else {$("#togglepdf").attr("disabled", false);}
+        } else { $("#togglepdf").attr("disabled", false); }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.")
@@ -381,7 +382,7 @@ $(document).on("change", "#id_invoice_no", function () {
             .append(
               '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
             )
-        } else {$("#togglepdf").attr("disabled", false);}
+        } else { $("#togglepdf").attr("disabled", false); }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.")
@@ -395,7 +396,7 @@ function preview_modal_body(index, listname) {
     $("#preview_modal_body")
       .empty()
       .append(
-        '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
+        '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + getordertype() + '</div><div class="card-body"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate"></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date"></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div></div></div></div><div class="row" id="t2" data-state="hide"></div>'
       );
     $("#preview_tbody").empty();
     remaining_qty = parseInt(od_items[index].qty);
