@@ -232,7 +232,7 @@ class OrdersModel extends Model {
     
     // JThayil 22 Feb
     public function getOrderViewSummary($orderId) {
-        $sql = "select o.ordertotal, sum(i.invoice_total) as invoice_total,
+        $sql = "select o.ordertotal, (select sum(i.invoice_total) from invoices i inner join orders as o on i.order_id=o.id where o.id = $orderId) as invoice_total,
         sum(p.allocated_amt) as received_amt, o.ordertotal - sum(p.allocated_amt) as balance_amt
         from orders as o
         inner join customers as c on o.customer_id = c.id
