@@ -27,7 +27,7 @@ class DashboardModel extends Model {
     }
 
     public function popupSummary() {
-        $sql = "select * from (select O.id, C.name, O.po_no, O.ordertotal, I.item, I.description, I.total, I.po_from_date, I.po_to_date, DATEDIFF(I.po_to_date, current_date) as ageing from orders O inner join order_items I on (O.id = I.order_id) inner join customers C on (O.customer_id = C.id) where I.order_type in (1, 3) and O.disable_monitor = 0) as a where ageing between 0 and 32 order by id, ageing;";
+        $sql = "select * from (select O.id, C.name, O.po_no, O.ordertotal, I.item, I.description, I.total, I.po_from_date, I.po_to_date, DATEDIFF(I.po_to_date, current_date) as ageing from orders O inner join order_items I on (O.id = I.order_id) inner join customers C on (O.customer_id = C.id) where I.order_type in (1, 3) and O.disable_monitor = 0) as a where ageing between 0 and 91 order by id, ageing;";
 
         $this->_setSql($sql);
         $list = $this->getAll();
