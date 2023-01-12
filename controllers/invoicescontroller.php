@@ -349,6 +349,7 @@ class InvoicesController extends Controller
                 </tr>';
                 $orderBaseTotal += $item['total'];
                 $brtominus = $brtominus - 1;
+                
             }
         } else {
             foreach($dataItem as $key => $item) {
@@ -363,7 +364,8 @@ class InvoicesController extends Controller
                 $brtominus = $brtominus - 1;
             }
         }
-
+        if (strlen($customerShipTo['address']) > 100)
+        {$brtominus = $brtominus - 2;}
         $brtoadd = "";
         for($x=0;$x<=$brtominus;$x++){ $brtoadd = $brtoadd."<br>"; }
 
