@@ -69,20 +69,27 @@ function createbookeeper() {
   $.each(od_proforma, function (iProforma, proforma) { tree["proforma"][proforma.id] = proforma })
   $.each(od_invoices, function (iInvoices, invoice) { tree["invoice"][invoice.id] = invoice })
   $.each(od_items, function (i, item) {
-    tree["otl"].push(nz(item.order_type))
-    tree[nz(item.order_type)] = { oil: [nz(item.id)] }
-    tree[nz(item.order_type)][nz(item.id)] = {
-      "itm": item.item, "dsp": item.description,
-      "qty": item.qty, "utp": item.unit_price,
-      "stl": item.total, "utp": item.unit_price,
-      "uom": item.uom_id, "ptl": [], "id": item.id, old: true
+    if (tree["otl"].includes(nz(item.order_type)) == false) {
+      tree["otl"].push(nz(item.order_type));
+      tree[nz(item.order_type)] = { oil: [] };
+    }
+    if (tree[nz(item.order_type)]["oil"].includes(nz(item.id)) == false) {
+      tree[nz(item.order_type)]["oil"].push(nz(item.id));
+      if (tree[nz(item.order_type)].hasOwnProperty(nz(item.id)) == false) {
+        tree[nz(item.order_type)][nz(item.id)] = {
+          "itm": item.item, "dsp": item.description,
+          "qty": item.qty, "utp": item.unit_price,
+          "stl": item.total, "utp": item.unit_price,
+          "uom": item.uom_id, "ptl": [], "id": item.id, old: true
+        };
+      }
     }
     if (item.order_type == 1 || item.order_type == 3 || item.order_type == 7) {
       try {
         tree[nz(item.order_type)][nz(item.id)]["from"] = item.po_from_date.split(" ", 1)
         tree[nz(item.order_type)][nz(item.id)]["till"] = item.po_to_date.split(" ", 1)
       } catch (error) {
-        
+
       }
     }
     tree["items"]["ids"].push(item.id)
@@ -161,7 +168,7 @@ function get_order_data() {
       createbookeeper()
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      
+
     })
 }
 
@@ -204,7 +211,7 @@ function getgst(customergroup_id) {
       get_order_data();
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-      
+
     })
 }
 
