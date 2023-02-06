@@ -106,6 +106,7 @@ class InvoicesController extends Controller
                     $orderItem['uom_id'] = $item['uom_id'];
                     $orderItem['unit_price'] = $item['unit_price'];
                     $orderItem['total'] = $item['total'];
+                    $orderItem['hsn_id'] = $item['hsn_id'];
 
                     $invoiceItems[] = $orderItem;
                     
@@ -274,6 +275,7 @@ class InvoicesController extends Controller
         else { $dataItem =  $oderItems; }
 
         $company = new CompanyModel();
+        $hsn = new HsnModel();
         $company = $company->get(1);
         // echo print_r($invoiceItem);
         // echo '<pre>';print_r($invoice); exit;
@@ -313,17 +315,19 @@ class InvoicesController extends Controller
                 $itemList .= '<tr>
                 <td >'.($key+1).'</td>
                 <td >'.$item['description'].'</td>
-                <td ></td><td ></td>
+                <td ></td><td ></td><td ></td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 $orderBaseTotal += $item['total'];
             }
         } else {
             foreach($dataItem as $key => $item) {
+                $hsncode = $hsn->get($item['hsn']);
                 $itemList .= '<tr>
                 <td >'.($key+1).'</td>
                 <td >'.$item['description'].'</td>
                 <td >'.$item['qty'].'</td>
+                <td >'.$hsncode.'</td>
                 <td >'.number_format($item['unit_price'], 2).'</td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
@@ -464,6 +468,7 @@ class InvoicesController extends Controller
             }
         
             $customerTbl = new CustomersModel();
+            $hsn = new HsnModel();
             $customer = $customerTbl->get($invoice['customer_id']);
             $customerShipTo = $customerTbl->get($invoice['ship_to']);
             
@@ -539,17 +544,19 @@ class InvoicesController extends Controller
                     $itemList .= '<tr>
                     <td >'.($key+1).'</td>
                     <td >'.$item['description'].'</td>
-                    <td ></td><td ></td>
+                    <td ></td><td ></td><td ></td>
                     <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                     </tr>';
                     $orderBaseTotal += $item['total'];
                 }
             } else {
                 foreach($dataItem as $key => $item) {
+                    $hsncode = $hsn->get($item['hsn']);
                     $itemList .= '<tr>
                     <td >'.($key+1).'</td>
                     <td >'.$item['description'].'</td>
                     <td >'.$item['qty'].'</td>
+                    <td >'.$hsncode.'</td>
                     <td >'.number_format($item['unit_price'], 2).'</td>
                     <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                     </tr>';

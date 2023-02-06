@@ -13,37 +13,7 @@
                     id="custom-tabs-four-tab"
                     role="tablist"
                   >
-                    <li class="nav-item">
-                      <a
-                        class="nav-link active"
-                        id="customergroup_tab"
-                        data-toggle="pill"
-                        href="#customergroup"
-                        role="tab"
-                        aria-controls="customergroup"
-                        aria-selected="true"
-                      >
-                        Customer Group
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        class="nav-link"
-                        id="customer_tab"
-                        href="<?php echo ROOT; ?>customers"
-                      >
-                        Customer
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        class="nav-link"
-                        id="customer_tab"
-                        href="<?php echo ROOT; ?>company/view/1"
-                      >
-                        Company
-                      </a>
-                    </li>
+                  <?php include HOME . DS . 'includes' . DS . 'masters.inc.php'; ?>
                   </ul>
                 </div>
                 <div class="card-body">
@@ -54,7 +24,6 @@
                       role="tabpanel"
                       aria-labelledby="customergroup_tab"
                     >
-                      
                       <table
                         id="customergroup_list"
                         class="table table-striped"

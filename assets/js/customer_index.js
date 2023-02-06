@@ -3,9 +3,7 @@ var currenturl    = window.location.href;
 var currentpath   = window.location.pathname;
 
 $(function () {
-  $("#company_tab").attr("href", baseUrl + "company/view/1");
-  $("#customergroup_tab").attr("href", baseUrl + "customergroups");
-  $("#customer_tab").attr("href", baseUrl + "customers");
+  $("#customer_tab").addClass("active").attr('href','customergroup').attr('role','tab').attr('aria-controls','customergroup').attr('aria-selected','true').attr('data-toggle','pill');
   $("#example1")
     .DataTable({
       responsive: true,
