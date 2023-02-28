@@ -42,7 +42,7 @@ class InvoicesController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                // echo '<pre>'; print_r($data); exit;
+                echo '<pre>'; print_r($data); exit;
 
                 $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
 
@@ -104,6 +104,7 @@ class InvoicesController extends Controller
                     $orderItem['uom_id'] = $item['uom_id'];
                     $orderItem['unit_price'] = $item['unit_price'];
                     $orderItem['total'] = $item['total'];
+                    $orderItem['hsn_id'] = $item['hsn_id'];
 
                     $invoiceItems[] = $orderItem;
                 }
@@ -245,7 +246,7 @@ class InvoicesController extends Controller
         $orderTable = new OrdersModel();
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
-        $print_uom_qty= '<th>Qty.</th><th>Unit</th>';
+        $print_uom_qty= '<th>Qty.</th><th>Unit</th><th>HSN Code</th>';
         
         if(in_array($order['order_type'], array(1, 2, 3, 4, 5, 6, 7, 99))) {
             // Jthayil 12 jan 22 Start
@@ -254,7 +255,7 @@ class InvoicesController extends Controller
             {
                 if(in_array($order['order_type'], array(1, 2, 3)))
                 {
-                    $print_uom_qty= '<th></th><th></th>';
+                    $print_uom_qty= '<th></th><th></th><th>HSN Code</th>';
                     $tempItem['qty'] = '';
                 }
                 array_push($tempInvoiceItem,$tempItem);
@@ -275,6 +276,7 @@ class InvoicesController extends Controller
         else { $dataItem =  $oderItems; }
 
         $company = new CompanyModel();
+        $hsn = new HsnModel();
         $company = $company->get(1);
         // echo print_r($invoiceItem);
         // echo '<pre>';print_r($invoice); exit;
@@ -344,7 +346,7 @@ class InvoicesController extends Controller
                 $itemList .= '<tr>
                 <td >'.($key+1).'</td>
                 <td >'.$item['description'].'</td>
-                <td ></td><td ></td>
+                <td ></td><td ></td><td >HSN Code</td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 $orderBaseTotal += $item['total'];
@@ -353,10 +355,12 @@ class InvoicesController extends Controller
             }
         } else {
             foreach($dataItem as $key => $item) {
+                $hsncode = $hsn->get($item['hsn']);
                 $itemList .= '<tr>
                 <td >'.($key+1).'</td>
                 <td >'.$item['description'].'</td>
                 <td >'.$item['qty'].'</td>
+                <td >'.$hsncode.'</td>
                 <td >'.number_format($item['unit_price'], 2).'</td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
@@ -474,7 +478,7 @@ class InvoicesController extends Controller
         if(!empty($_POST)) {
             $data = $_POST;
             
-            // echo '<pre>'; print_r($data); exit;
+            echo '<pre>'; print_r($data); exit;
             
             $invoice = array();
             $invoiceItems = array();
@@ -558,6 +562,7 @@ class InvoicesController extends Controller
             
             $company = new CompanyModel();
             $company = $company->get(1);
+            $hsn = new HsnModel();
             
             $vars = array(
                 "{{INV_NO}}" => $invoice['invoice_no'],
@@ -619,20 +624,23 @@ class InvoicesController extends Controller
             if(in_array($order['order_type'], array(1, 2, 3)))
             {
                 foreach($dataItem as $key => $item) {
+                    $hsncode = $hsn->get($item['hsn']);
                     $itemList .= '<tr>
                     <td >'.($key+1).'</td>
                     <td >'.$item['description'].'</td>
-                    <td ></td><td ></td>
+                    <td ></td><td ></td><td >'.$hsncode['code'].'</td>
                     <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                     </tr>';
                     $orderBaseTotal += $item['total'];
                 }
             } else {
                 foreach($dataItem as $key => $item) {
+                    $hsncode = $hsn->get($item['hsn']);
                     $itemList .= '<tr>
                     <td >'.($key+1).'</td>
                     <td >'.$item['description'].'</td>
                     <td >'.$item['qty'].'</td>
+                    <td >'.$hsncode['code'].'</td>
                     <td >'.number_format($item['unit_price'], 2).'</td>
                     <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                     </tr>';

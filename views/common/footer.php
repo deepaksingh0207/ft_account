@@ -1,7 +1,4 @@
 </div>
-<script>
-  var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
-</script>
 <script src="<?php echo ROOT; ?>assets/js/menu.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/moment/moment.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
@@ -118,21 +115,18 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/customer_index.js?<?php echo time(); ?>"></script>
-
 <?php endif; ?>
 
 <?php if ($controller == 'customers' && ($action == 'create')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/customer_create.js?<?php echo time(); ?>"></script>
-
 <?php endif; ?>
 
 <?php if ($controller == 'customers' && ($action == 'edit')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/customer_edit.js?<?php echo time(); ?>"></script>
-
 <?php endif; ?>
 
 <?php if ($controller == 'customergroups' && ($action == 'index')) : ?>
@@ -150,8 +144,25 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-<script src="<?php echo ROOT; ?>assets/js/group_create.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/group_create.js"></script>
+<?php endif; ?>
 
+<?php if ($controller == 'hsn' && ($action == 'index')) : ?>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/hsn_create.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'company' && ($action == 'index')) : ?>

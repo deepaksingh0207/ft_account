@@ -13,27 +13,7 @@
                       id="custom-tabs-four-tab"
                       role="tablist"
                     >
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          id="customergroup_tab"
-                        >
-                          Customer Group
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="customer_tab">
-                          Customer
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link active"
-                          id="company_tab"
-                        >
-                          Company
-                        </a>
-                      </li>
+                    <?php include HOME . DS . 'includes' . DS . 'masters.inc.php'; ?>
                     </ul>
                   </div>
                   <div class="card-body">

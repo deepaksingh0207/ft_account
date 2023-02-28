@@ -405,7 +405,7 @@ class OrdersController extends Controller
     // JThayil 25 Feb
     public function renew($id) {
         try {
-            
+            $dorder = $this->_model->get($id);
             $order = $this->_model->renew_header($id);            
             $this->_view->set('order', $order);
             
@@ -439,7 +439,7 @@ class OrdersController extends Controller
                         $orderItem['order_id'] = $orderId;
                         $orderItem['order_type'] = $item['ordertype'];
 
-                        if(in_array($item['order_type'], array(1, 3))) {
+                        if(in_array($item['ordertype'], array(1, 3))) {
                             $orderItem['po_from_date'] = $item['po_from_date'];
                             $orderItem['po_to_date'] = $item['po_to_date'];
                         }
@@ -453,9 +453,16 @@ class OrdersController extends Controller
                             }
                         }
                     }
+
+                    $dorder["sub_total"] = $dorder["sub_total"] + $data["ordersubtotal"];
+                    $dorder["sgst"] = $dorder["sgst"] + $data["sgst"];
+                    $dorder["cgst"] = $dorder["cgst"] + $data["cgst"];
+                    $dorder["igst"] = $dorder["igst"] + $data["igst"];
+                    $dorder["ordertotal"] = $dorder["ordertotal"] + $data["ordertotal"];
+                    $this->_model->update($id, $dorder);
                     
                     $_SESSION['message'] = 'Order added successfully';
-                    header("location:". ROOT. "orders"); 
+                    header("location:". ROOT. "orders". "/list"); 
                 } else {
                     $_SESSION['error'] = 'Fail to add order';
                 }
