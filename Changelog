@@ -1,2 +1,28 @@
-ALTER TABLE `db_account`.`proforma_invoice_items` 
-ADD COLUMN `hsn_id` INT NULL AFTER `updated_date`;
+CREATE TABLE `hsn_codes` (
+  `id` int(11) NOT NULL,
+  `description` varchar(150) NOT NULL,
+  `code` varchar(8) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `hsn_codes` (`id`, `description`, `code`, `status`, `added_date`, `updated_date`) VALUES
+(1, 'RFID Scanner', '84711000', 1, '2023-01-12 15:47:35', '2023-01-12 15:47:35'),
+(2, 'HARDWARE WEIGHBRIDGEINTEGRATION WITHSAP', '84231000', 1, '2023-01-12 15:47:35', '2023-01-12 15:47:35'),
+(3, 'API Charges', '998313', 1, '2023-01-12 15:48:14', '2023-01-12 15:48:14'),
+(4, 'Man Days Support', '998313', 1, '2023-01-12 15:48:14', '2023-01-12 15:48:14'),
+(5, 'Onsite / Offsite Support', '998313', 1, '2023-01-12 15:48:54', '2023-01-12 15:48:54'),
+(6, 'AMC for Hardware', '998713', 1, '2023-01-12 15:48:54', '2023-01-12 15:48:54'),
+(7, 'AMC  for Software', '998713', 1, '2023-01-12 15:49:23', '2023-01-12 15:49:23'),
+(8, 'Point Mobile Hand Gun', '84711000', 1, '2023-01-12 15:49:23', '2023-01-12 15:49:23');
+
+ALTER TABLE `hsn_codes` ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `hsn_codes` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+ALTER TABLE `proforma_invoice_items` 
+ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
+
+ALTER TABLE `invoice_items` 
+ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
