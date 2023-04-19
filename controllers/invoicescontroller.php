@@ -42,7 +42,7 @@ class InvoicesController extends Controller
             if(!empty($_POST)) {
                 $data = $_POST;
                 
-                echo '<pre>'; print_r($data); exit;
+                // echo '<pre>'; print_r($data); exit;
 
                 $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
 
@@ -478,7 +478,7 @@ class InvoicesController extends Controller
         if(!empty($_POST)) {
             $data = $_POST;
             
-            echo '<pre>'; print_r($data); exit;
+            // echo '<pre>'; print_r($data); exit;
             
             $invoice = array();
             $invoiceItems = array();
@@ -516,6 +516,7 @@ class InvoicesController extends Controller
                 $orderItem['description'] = $item['description'];
                 $orderItem['qty'] = $item['qty'];
                 $orderItem['uom_id'] = $item['uom_id'];
+                $orderItem['hsn_id'] = $item['hsn_id'];
                 $orderItem['unit_price'] = $item['unit_price'];
                 $orderItem['total'] = $item['total'];
                 if($item['total'] > 0) { $invoiceItems[] = $orderItem; }
@@ -538,7 +539,7 @@ class InvoicesController extends Controller
                 {
                     if(in_array($order['order_type'], array(1, 2, 3)))
                     {
-                        $print_uom_qty= '<th></th><th></th>';
+                        $print_uom_qty= '<th></th><th></th><th>HSN Code</th>';
                         $tempItem['qty'] = '';
                     }
                     array_push($tempInvoiceItem,$tempItem);
@@ -556,7 +557,8 @@ class InvoicesController extends Controller
                 
                 $dataItem[] = $row;
                 
-            } */ else {
+            } */
+            else {
                 $dataItem =  $oderItems;
             }
             
@@ -618,13 +620,13 @@ class InvoicesController extends Controller
                     "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
                 );
             }
-            // echo '<pre>'; print_r($vars); exit;
             $orderBaseTotal = 0.00;
             $itemList = '';
+            
             if(in_array($order['order_type'], array(1, 2, 3)))
             {
                 foreach($dataItem as $key => $item) {
-                    $hsncode = $hsn->get($item['hsn']);
+                    $hsncode = $hsn->get($item['hsn_id']);
                     $itemList .= '<tr>
                     <td >'.($key+1).'</td>
                     <td >'.$item['description'].'</td>
@@ -635,12 +637,12 @@ class InvoicesController extends Controller
                 }
             } else {
                 foreach($dataItem as $key => $item) {
-                    $hsncode = $hsn->get($item['hsn']);
+                    $hsncode = $hsn->get($item['hsn_id']);
                     $itemList .= '<tr>
                     <td >'.($key+1).'</td>
                     <td >'.$item['description'].'</td>
                     <td >'.$item['qty'].'</td>
-                    <td >'.$hsncode['code'].'</td>
+                    <td ></td><td ></td><td >'.$hsncode['code'].'</td>
                     <td >'.number_format($item['unit_price'], 2).'</td>
                     <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                     </tr>';
