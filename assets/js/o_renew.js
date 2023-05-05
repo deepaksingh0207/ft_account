@@ -694,3 +694,32 @@ function form_maker() {
     .append('<input type="hidden" name="igst" value="' + c.toFixed(2) + '">')
     .append('<input type="hidden" name="ordertotal" value="' + total.toFixed(2) + '">');
 }
+
+$(document).on("change", ".item", function () {
+  if (oti == 2) { $(".paymentterm_item").text($(this).val()); }
+});
+
+
+$(document).on("change", ".paymentterm_quantity", function () {
+  var oi = $(this).data("oid");
+  update_pt_total(oi, $(this).data("pid"));
+  var qtyttl = 0;
+  var empty_qty_ids = [];
+  if (oti == 2) {
+    $.each(paymentterm_list, function (index, pt) {
+      if ($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val()) {
+        if (paymentterm_list[paymentterm_list.length - 1] == pt && empty_qty_ids.length < 1) {
+          $("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val(100 - qtyttl);
+          update_pt_total(oi, pt);
+        }
+        qtyttl += parseInt($("#orderitem_" + oi + "_paymentterm_" + pt + "_val_4").val());
+      } else { empty_qty_ids.push(pt); }
+    });
+    if (empty_qty_ids.length == 1) {
+      balanc = 100 - qtyttl;
+      if (balanc < 0) { balanc = ""; }
+      $("#orderitem_" + oi + "_paymentterm_" + empty_qty_ids[0] + "_val_4").val(balanc);
+      update_pt_total(oi, empty_qty_ids[0]);
+    }
+  }
+});
