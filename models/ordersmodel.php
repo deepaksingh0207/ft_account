@@ -233,15 +233,14 @@ class OrdersModel extends Model {
     // JThayil 22 Feb
     public function getOrderViewSummary($orderId) {
         $sql = "select o.ordertotal, (select sum(i.invoice_total) from invoices i inner join orders as o on i.order_id=o.id where o.id = $orderId) as invoice_total,
-        sum(p.allocated_amt) as received_amt, o.ordertotal - sum(p.allocated_amt) - sum(p.tds_deducted) as balance_amt
+        sum(p.allocated_amt) as received_amt, o.ordertotal - sum(p.allocated_amt) - sum(p.tds_deducted) as balance_amt,sum(p.tds_deducted) AS tds_deducted
         from orders as o
         inner join customers as c on o.customer_id = c.id
         left outer join invoices as i on i.order_id=o.id
         left outer join payments as p on p.invoice_id = i.id
-        where o.id = $orderId LIMIT 1";
+        where o.id = $orderId LIMIT 1;";
         $this->_setSql($sql);
         $invoices = $this->getrow();
-        
         return $invoices;
     }
     // JThayil End

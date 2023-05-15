@@ -80,7 +80,7 @@ $pendingAmount = 0.00;
                       <?php echo $order['sales_person'] ?>
                     </div>
 
-                    <div class="col-6"><b>Order Type :</b></div>
+                    <div class="col-6"><b>Order Type : </b></div>
                     <div class="col-6 form-group">
                       <?php echo $ORDER_TYPE[$order['order_type']] ?>
                     </div>
@@ -175,16 +175,18 @@ $pendingAmount = 0.00;
                       <table class="table">
 												<thead>
 													<tr>
-														<th>Order Total</th>
+														<th>Order Total <span>(A)</span></th>
 														<th>Invoice Total</th>
-														<th>Payment Total</th>
-														<th>Balance Total</th>
+                            <th>TDS <span>(B)</span></th>
+														<th>Payment Total <span>(C)</span></th>
+														<th>Balance Total  <span>(A-B-C)</span></th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
 														<td><?php echo $summary['ordertotal']?></td>
 														<td><?php echo $summary['invoice_total']?></td>
+                            <td><?php echo $summary['tds_deducted']?></td>
 														<td><?php echo $summary['received_amt']?></td>
 														<td><?php echo $summary['balance_amt']?></td>
 													</tr>
@@ -352,7 +354,7 @@ $pendingAmount = 0.00;
                               <?php echo $invoice['invoice_no']?>
                             </td>
                             <td>
-                              <?php echo $invoice['sub_total']?>
+                              <?php echo $invoice['order_total']?>
                             </td>
                             <td>
                               <?php echo $invoice['igst'] + $invoice['sgst']+ $invoice['cgst']?>
@@ -401,7 +403,7 @@ $pendingAmount = 0.00;
                         <thead>
                           <tr>
                             <th class="min150">Invoice No.</th>
-                            <th class="min150">Description</th>
+                          
                             <th class="max150">Payment Date</th>
                             <th class="min100">Allocated Amount</th>
                             <th class="min150">Cheque / UTR</th>
@@ -414,9 +416,7 @@ $pendingAmount = 0.00;
                             <td>
                               <?php echo $payment['invoice_no']?>
                             </td>
-                            <td>
-                              <?php echo $payment['description']?>
-                            </td>
+                           
                             <td>
                               <?php echo date('d M Y', strtotime($payment['payment_date']))?>
                             </td>
