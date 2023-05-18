@@ -343,10 +343,11 @@ class InvoicesController extends Controller
         if(in_array($order['order_type'], array(1, 2, 3)))
         {
             foreach($dataItem as $key => $item) {
+                $hsncode = $hsn->get($item['hsn_id']);
                 $itemList .= '<tr>
                 <td>'.($key+1).'</td>
                 <td>'.$item['description'].'</td>
-                <td>HSN Code</td><td ></td><td ></td>
+                <td>'.$hsncode['code'].'</td><td ></td><td ></td>
                 <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
                 </tr>';
                 $orderBaseTotal += $item['total'];
