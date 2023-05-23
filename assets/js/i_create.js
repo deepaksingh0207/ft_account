@@ -177,7 +177,7 @@ function fillsalesperson(id) {
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
-      
+
     });
 }
 
@@ -261,13 +261,9 @@ function preview_builder() {
       var item = $("#" + id).data("item");
       var payment = $("#" + id).data("payment");
       var proformaId = $("#" + id).data("proformaid");
-      if ($("#" + proformaId).is(':checked') && $("#" + proformaId).is(':disabled')) {
-        check = true;
-      } else if ($("#" + proformaId).is(':checked')) {
-        proformaguard = true;
-      } else {
-        check = true;
-      }
+      if ($("#" + proformaId).is(':checked') && $("#" + proformaId).is(':disabled')) { check = true; }
+      else if ($("#" + proformaId).is(':checked')) { proformaguard = true; }
+      else { check = true; }
     }
   });
   $("#preview_modal_body").empty();
@@ -316,7 +312,9 @@ function preview_builder() {
           }
         }
         $("#ptb" + c).append('<td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td>');
-        $("#ptb" + c).append('<td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + t.qty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + t.qty + '"></td>');
+        var maxqty = t.qty;
+        $.each(t.invoice.ids, function (k, l) { maxqty -= parseInt(t.invoice[l].qty); });
+        $("#ptb" + c).append('<td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + maxqty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + maxqty + '"></td>');
         $("#ptb" + c).append('<td class="pt-3" >' + get_uom_display(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td>');
         $("#ptb" + c).append('<td class="pt-3"><input type="number" class="form-control pup" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" data-index="' + c + '" data-up="' + t.unit_price + '" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td>');
         $("#ptb" + c).append('<td id="preview_row_hsn' + c + '" class="pt-3"><select class="form-control" style="width:15vw;" name="order_details[' + c + '][hsn_id]" id="id_hsn_id' + c + '"></select></td>');
