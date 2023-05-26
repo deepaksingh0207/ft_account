@@ -6,9 +6,9 @@
   <div class="float-right d-none d-sm-inline">
     <strong>
       Copyright &copy; <span id="copyright_year"></span>
-      <a href="http://www.futuretecsol.com/">F.T. Solutions Pvt. Ltd.</a>
+      <a href="https://www.fts-pl.com/">F.T. Solutions Pvt. Ltd.</a>
       | All Rights Reserved. |
-      <a href="http://www.futuretecsol.com/privacy-policy/">
+      <a href="https://www.fts-pl.com/privacy-policy/">
         Privacy Policy
       </a>
     </strong>
