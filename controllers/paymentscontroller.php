@@ -16,7 +16,7 @@ class PaymentsController extends Controller
             $this->_view->set('customers', $customers);
             
             $customerPayTbl = new CustomerPaymentsModel();
-            $payments = $customerPayTbl->list();
+            $payments = $customerPayTbl->customlist();
             
             $this->_view->set('payments', $payments);
             

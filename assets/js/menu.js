@@ -6,6 +6,7 @@ $(document).ready(function () {
   else { var a = e[1]; var s = e[2]; }
 
   if (a == 'orders') { $("#menu_orders").addClass("active"); }
+  if (a == 'gstr') { $("#menu_gstr").addClass("active"); }
   if (a == 'invoices') { $("#menu_invoices").addClass("active"); }
   if (['customers', 'company', 'customergroups'].includes(a)) { $("#menu_master").addClass("active"); }
   if (a == 'payments') { $("#menu_payment").addClass("active"); }

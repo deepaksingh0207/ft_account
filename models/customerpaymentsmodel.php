@@ -10,6 +10,18 @@ class CustomerPaymentsModel extends Model {
         
         return $user;
     }
+
+    public function customlist() {
+        //$sql = "select * from invoices where 1=1 order by updated_date desc";
+        $sql = "select C.name, P.*, Q.invoice_no from customer_payments P
+        join customers C on (C.id = P.customer_id)
+        join (select x.customer_payment_id, GROUP_CONCAT(y.invoice_no) as invoice_no from payments x left join invoices y on x.invoice_id=y.id group by x.customer_payment_id) Q on (P.id = Q.customer_payment_id) 
+        where P.status = 1 order by payment_date desc";
+        $this->_setSql($sql);
+        $user = $this->getAll();
+        
+        return $user;
+    }
     
     public function get($id) {
         $sql = "select CG.name cust_group, C.name customer_name, P.* from customer_payments P 

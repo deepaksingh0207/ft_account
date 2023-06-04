@@ -24,6 +24,16 @@
           </a>
         </li>
         <?php endif; ?>
+        <?php if(in_array('gstr', $_SESSION['menu']) or $_SESSION['is_admin']) : ?>
+        <li class="nav-item">
+          <a href="<?php echo ROOT; ?>gstr" class="nav-link" id="menu_gstr">
+            <i class="far fa-chart-bar"></i>
+            <p>
+              GSTR
+            </p>
+          </a>
+        </li>
+        <?php endif; ?>
         <?php if(in_array('dashboard_report', $_SESSION['menu']) or in_array('dashboard_orderSummary', $_SESSION['menu']) or in_array('dashboard_expiredpo', $_SESSION['menu']) or $_SESSION['is_admin']) : ?>
         <li class="nav-item report">
           <a href="#" class="nav-link reportlink" id="menu_reports">

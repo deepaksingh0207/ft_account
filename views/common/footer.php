@@ -1,5 +1,5 @@
 </div>
-<script src="<?php echo ROOT; ?>assets/js/menu.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/menu.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/moment/moment.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>

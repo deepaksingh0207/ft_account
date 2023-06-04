@@ -29,3 +29,6 @@ ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
 
 ALTER TABLE invoices
 ADD CONSTRAINT uc_invoice_no UNIQUE (invoice_no);
+
+ALTER TABLE `invoices` 
+ADD COLUMN `gstr_set` BIGINT NULL DEFAULT NULL;

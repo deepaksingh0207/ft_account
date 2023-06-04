@@ -46,6 +46,7 @@
                         <thead class="text-center">
                           <tr>
                             <th>Customer</th>
+                            <th>Invoice</th>
                             <th>Cheque/UTR</th>
                             <th>Received Amt</th>
                             <th>Payment Date</th>
@@ -58,6 +59,9 @@
                           <tr data-href="payments/view/<?php echo $payment['id']?>">
                             <td class="sublist">
                               <?php echo $payment['name']?>
+                            </td>
+                            <td class="sublist">
+                              <?php echo $payment['invoice_no']?>
                             </td>
                             <td class="sublist">
                               <?php echo $payment['cheque_utr_no']?>
