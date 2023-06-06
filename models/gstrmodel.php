@@ -13,7 +13,7 @@ class GstrModel extends Model {
     }
 
     public function getsetid(){
-        $sql = "SELECT distinct gstr_set FROM db_account.invoices where gstr_set is not null order by gstr_set desc;";
+        $sql = "SELECT distinct gstr_set FROM invoices where gstr_set is not null order by gstr_set desc;";
         $this->_setSql($sql);
         $user = $this->getAll();
         return $user;
