@@ -200,7 +200,7 @@
             <td>`+ crow.invoice_value + `</td>
             <td></td>
             <td>` + subtotal.toFixed(2) + `</td></tr>`;
-            $("#id_showgstr").append(row);
+            if(index){$("#id_showgstr").append(row);}
             total += subtotal;
           });
           $("#id_total").html(total)
