@@ -42,10 +42,10 @@
                               <th>Applicable % of Tax Rate</th>
                               <th>Invoice Type</th>
                               <th>E-Commerce GSTIN</th>
-                              <th>Rate<br>( A )</th>
+                              <th>Rate % <br>( A )</th>
                               <th>Taxable Value<br>( B )</th>
                               <th>Cess Amount</th>
-                              <th>A + B</th>
+                              <th>A * B</th>
                             </tr>
                           </thead>
                           <tbody class="tbody_gstr" id="id_showgstr">
@@ -126,14 +126,14 @@
               gstrdata[c].receiver,
               gstrdata[c].invoice_no,
               gstrdata[c].invoice_date,
-              gstrdata[c].invoice_value,
+              gstrdata[c].invoice_total,
               gstrdata[c].pos,
               gstrdata[c].rc,
               gstrdata[c].tr,
               gstrdata[c].it,
               gstrdata[c].egst,
               gstrdata[c].rate,
-              gstrdata[c].invoice_total,
+              gstrdata[c].invoice_value,
               gstrdata[c].cs
             ]
             rows.push(subset);
@@ -180,7 +180,7 @@
           $("#id_nonegstr").empty();
           $("#id_showgstr").empty();
           $.each(gstrdata, function (index, crow) {
-            var subtotal = (0.18 * crow.invoice_value) + parseFloat(crow.invoice_value);
+            var subtotal = 0.18 * crow.invoice_value;
             var row = `<tr>
             <td>
               <input class="form-control form-control-sm checkme" type="checkbox" name="gstr[]"
@@ -190,14 +190,14 @@
             <td>`+ crow.receiver + `</td>
             <td>`+ crow.invoice_no + `</td>
             <td>`+ crow.invoice_date + `</td>
-            <td>`+ crow.invoice_value + `</td>
+            <td>`+ crow.invoice_total + `</td>
             <td>`+ crow.pos + `</td>
             <td>N</td>
             <td></td>
             <td>Regular B2B</td>
             <td></td>
             <td>18</td>
-            <td>`+ crow.invoice_total + `</td>
+            <td>`+ crow.invoice_value + `</td>
             <td></td>
             <td>` + subtotal.toFixed(2) + `</td></tr>`;
             $("#id_showgstr").append(row);
