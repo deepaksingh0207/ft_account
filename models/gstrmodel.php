@@ -4,8 +4,8 @@ class GstrModel extends Model {
     
     public function getGstrReportList($id) {
         $sql = "SELECT i.id, c.gstin, c.name receiver, i.invoice_no, LEFT(i.invoice_date , 10) invoice_date, sum(t.total) invoice_value, CONCAT(LEFT(c.gstin , 2),'-',s.name) pos, 'N' rc, NULL tr, 'Regular B2B' it, NULL egst, 18 rate, invoice_total,NULL cs FROM invoices i inner join invoice_items t on t.invoice_id = i.id inner join customers c on i.customer_id = c.id inner join states s on s.id = c.state";
-        if ($id) { $sql = $sql." where i.gstr_set = ".$id.";"; }
-        else { $sql .= " where i.gstr_set is null "; }        
+        if ($id) { $sql = $sql." where i.gstr_set = ".$id." group by i.id, c.gstin, c.name, i.invoice_no, t.total, i.invoice_date;"; }
+        else { $sql .= " where i.gstr_set is null group by i.id, c.gstin, c.name, i.invoice_no, t.total, i.invoice_date;"; }        
         $this->_setSql($sql);
         $order = $this->getAll(array($id));
         if (empty($order)){ return false; }

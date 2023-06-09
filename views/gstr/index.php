@@ -6,7 +6,7 @@
         <div class="container-fluid p-1">
           <div class="loader">
             <img style="    margin-left: 15vw;margin-top: 15vh;position: absolute;z-index: 1000000;"
-              src="/ft_account/assets/img/loader.gif" />
+              src="/assets/img/loader.gif" />
           </div>
           <div class="row">
             <div class="col-12">
@@ -166,8 +166,8 @@
 
       function getgstr(val = "") {
         $(".loader").show()
-        gstrdata = getRemote(baseUrl + '/gstr/getGstrReportList/' + val);
-        gstrsetdata = getRemote(baseUrl + '/gstr/getsetid/' + val);
+        gstrdata = getRemote(baseUrl + 'gstr/getGstrReportList/' + val);
+        gstrsetdata = getRemote(baseUrl + 'gstr/getsetid/' + val);
         $("#id_gstrset").empty().append(`<option value="0">Pending</option>`);
         $.each(gstrsetdata, function (index, brown) {
           if (val == brown){
