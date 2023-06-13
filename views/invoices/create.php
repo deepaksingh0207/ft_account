@@ -160,19 +160,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="modal fade" id="pdfmodal">
-                  <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                      <div class="modal-header" id="modal_header">
-                        Invoice
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body p-0" id="modal_body"></div>
-                    </div>
-                  </div>
-                </div>
               </form>
               <input type="hidden" name="paytype_body" id="id_paytype_val" value="1,2,3,4,5" />
             </div>

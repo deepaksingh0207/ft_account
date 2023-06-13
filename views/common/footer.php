@@ -281,10 +281,6 @@
 <script src="<?php echo ROOT; ?>assets/js/i_create.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
-<?php if ($controller == 'invoices' && ($action == 'view')) : ?>
-<script src="<?php echo ROOT; ?>assets/js/i_view.js?<?php echo time(); ?>"></script>
-<?php endif; ?>
-
 <?php if ($controller == 'payments' && ($action == 'index')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
