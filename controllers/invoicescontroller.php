@@ -121,7 +121,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->generateInvoice($invoiceId, true, $hide_po);
+                        $this->geninv($invoiceId, true, true, $hide_po);
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -141,7 +141,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->generateInvoice($invoiceId, false, $hide_po); 
+                        // $this->geninv($invoiceId, true, false, $hide_po); 
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -218,6 +218,172 @@ class InvoicesController extends Controller
             
         } catch (Exception $e) {
             echo "Application error:" . $e->getMessage();
+        }
+    }
+
+    public function geninv($invoiceId=null, $proformaSwitch = false, $createpdf=false, $hidepo=false){
+        $dataItem = array();
+        $invoice = array();
+        $invoiceItems = array();
+        $tblProformaInvoice = new ProformaInvoicesModel();
+        $customerTbl = new CustomersModel();
+        $orderTable = new OrdersModel();
+        $company = new CompanyModel();
+        $hsn = new HsnModel();
+        if(!empty($_POST)) {
+            $data = $_POST;
+
+            // echo '<pre>'; print_r($data); exit;
+            
+            if (!$invoiceId){ $invoiceId = ($this->_model->getLastId() + 1); }
+            $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
+            
+            $invoice['invoice_no'] = $data['invoice_no'];
+            $invoice['group_id'] = $data['group_id'];
+            $invoice['customer_id'] = $data['customer_id'];
+            $invoice['order_id'] = $data['order_id'];
+            $invoice['invoice_date'] = $data['invoice_date'];
+            $invoice['po_no'] = $data['po_no'];
+            $invoice['sales_person'] = $data['sales_person'];
+            $invoice['bill_to'] = $data['bill_to'];
+            $invoice['ship_to'] = $data['ship_to'];
+            $invoice['order_total'] = $data['order_total'];
+            $invoice['sub_total'] = $data['sub_total'];
+            $invoice['sgst'] = $data['sgst'];
+            $invoice['cgst'] = $data['cgst'];
+            $invoice['igst'] = $data['igst'];
+            $invoice['invoice_total'] = $data['invoice_total'];
+            $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
+            $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
+            $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
+            $invoice['remarks'] = $data['remarks'];
+
+            foreach($data['order_details'] as $item) {
+                $orderItem = array();
+                $orderItem['order_item_id'] = $item['order_item_id'];
+                $orderItem['order_payterm_id'] = $item['order_payterm_id'];
+                $orderItem['item'] = $item['item'];
+                $orderItem['description'] = $item['description'];
+                $orderItem['qty'] = $item['qty'];
+                $orderItem['uom_id'] = $item['uom_id'];
+                $orderItem['hsn_id'] = $item['hsn_id'];
+                $orderItem['unit_price'] = $item['unit_price'];
+                $orderItem['total'] = $item['total'];
+                if($item['total'] > 0) { $invoiceItems[] = $orderItem; }
+            }
+
+        } else {
+            $invoice = $this->_model->get($invoiceId);
+            $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
+            if ($proformaSwitch && !$invoiceId){
+                $invoice = $tblProformaInvoice->get($invoiceId);
+                $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
+            }
+        }
+
+        $company = $company->get(1);
+        
+        $customer = $customerTbl->get($invoice['customer_id']);
+        $customerShipTo = $customerTbl->get($invoice['ship_to']);
+
+        $order = $orderTable->get($invoice['order_id']);
+        $oderItems = $orderTable->getOrderItem($invoice['order_id']);
+        
+        $print_uom_qty= '<th>HSN Code</th><th>Qty.</th><th>Unit</th>';
+        if(in_array($order['order_type'], array(1, 2, 3))) { $print_uom_qty= '<th>HSN Code</th><th></th><th></th>'; }
+        if(in_array($order['order_type'], array(1, 2, 3, 4, 5, 6, 7, 99))) {
+            $tempInvoiceItem = [];
+            foreach($invoiceItems as $tempItem)
+            {
+                // if(in_array($order['order_type'], array(1, 2, 3)))
+                // {
+                //     $print_uom_qty= '<th>HSN Code</th><th></th><th></th>';
+                //     $tempItem['qty'] = '';
+                // }
+                array_push($tempInvoiceItem,$tempItem);
+            }
+            $dataItem = $tempInvoiceItem;
+        } else { $dataItem =  $oderItems; }
+
+        $vars = array(
+            "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
+            "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
+            "{{BILLTO_ADDRESS}}" => $company['address'],
+            "{{COMP_TEL}}" => $company['contact'],
+            "{{COMP_PAN}}" => $company['pan'],
+            "{{COMP_SAC}}" => $company['sac'],
+            "{{COMP_GSTIN}}" => $company['gstin'],
+            "{{COMP_BANK}}" => $company['bank_name'],
+            "{{COMP_ACCNO}}" => $company['account_no'],
+            "{{COMP_IFSC}}" => $company['ifsc_code'],
+            "{{PO_NO}}" => "Purchase Order No.: ".$invoice['po_no'],
+            "{{ORDER_TYPE}}" => $print_uom_qty,
+            "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
+            "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
+            "{{CUST_TEL}}" => $customer['pphone'],
+            "{{DECLARATION}}" => getdeclaration($customer['declaration']),
+            "{{CUST_FAX}}" => $customer['fax'],
+            "{{CUST_PAN}}" => $customer['pan'],
+            "{{CUST_GST}}" => $customer['gstin'],
+            "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
+            "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
+            "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+        );
+        
+        if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; }
+        else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; }
+
+        if ($hidepo){ $vars["{{PO_NO}}"] = ""; }
+
+        $orderBaseTotal = 0.00;
+        $itemList = '';
+        foreach($dataItem as $key => $item) {
+            $hsncode = $hsn->get($item['hsn_id']);
+            $itemList .= '<tr>
+            <td class="txtc">'.($key+1).'</td>
+            <td>'.$item['description'].'</td>
+            <td>'.$hsncode['code'].'</td>
+            <td>'.$item['qty'].'</td>
+            <td class="txtc">'.number_format($item['unit_price'], 2).'</td>
+            <td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
+            $orderBaseTotal += $item['total'];
+        }
+
+        // echo '<pre>'; print_r($itemList); exit;
+
+        if(in_array($order['order_type'], array(6))){ $vars["{{TDS}}"] = ""; }
+        else { $vars["{{TDS}}"] = "<li>TDS should be Deduct @10% As per Sec.194J.</li>"; }
+
+        $taxName = '';
+        $taxesLayout = '';
+        if((int)$invoice['igst']) {
+            $taxName ="IGST @ 18%";
+            $taxesLayout = number_format($invoice['igst'], 2);
+        } else {
+            $taxName ="CGST @ 9%<br />SGST @ 9%";
+            $taxesLayout = number_format($invoice['cgst'], 2).'<br />'.number_format($invoice['sgst'], 2);
+        }
+        
+        $vars["{{GST_LABEL}}"] = $taxName;
+        $vars["{{GST_VALUE}}"] = $taxesLayout;
+        $vars["{{ITEM_LIST}}"] = $itemList;
+        $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
+
+        $messageBody = strtr(file_get_contents('./assets/mail_template/invoiceTemplate.html'), $vars);
+        if (!$createpdf){echo $messageBody;}
+        else{
+            require_once HOME . DS. 'vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
+            $mpdf->WriteHTML($messageBody);
+            $mpdf->SetHTMLFooter('<hr style="margin: 0px 0px 0px 0px;" />
+            <p style="text-align: center;font-size: small;">
+            '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
+            Email: account@fts-pl.com Website: http://www.fts-pl.com
+            </p>');
+            if ($proformaSwitch){ $mpdf->Output('pdf/proforma_'.$invoice['invoice_no'].'.pdf', 'F'); }
+            else{ $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F'); }
+            echo 'chacha';
         }
     }
     
@@ -435,7 +601,7 @@ class InvoicesController extends Controller
             $mpdf->Output('pdf/proforma_'.$invoice['invoice_no'].'.pdf', 'F');
         } else{
         $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
-    }
+        }
         if(SEND_MAIL) {
             $this->sendMail($invoice, $customer);
         }
@@ -521,7 +687,6 @@ class InvoicesController extends Controller
                 $orderItem['unit_price'] = $item['unit_price'];
                 $orderItem['total'] = $item['total'];
                 if($item['total'] > 0) { $invoiceItems[] = $orderItem; }
-                
             }
         
             $customerTbl = new CustomersModel();
@@ -845,7 +1010,7 @@ class InvoicesController extends Controller
 // Jthayil Start
 function getdeclaration($val, $flag=false) {
     if ($flag == false){
-        if ($val != ""){ return "<b>Declaration</b><br>" . $val; }
+        if ($val != ""){ return "<tr><td colspan='6'><b>Declaration</b><br>". $val."</td></tr>"; }
         else{ return ""; }
     }
     else{if ($val != "") { return true; }
@@ -857,15 +1022,20 @@ function addressmaker($val) {
     $maxlen = 0;
     $skippiece = 0;
     $jar = "";
+    // echo '<pre>';print_r($pieces); print_r(count($pieces));
     for ($x = 0; $x < count($pieces); $x++) {
-        if ($x <= 2) {
+        if ($x <= 3) {
+            // print_r("0.".$x);
             $jar = $jar . $pieces[$x] . ", ";
-            if ($x == 2) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
+            if ($x == 3) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
         } else if ($x == $skippiece){
+            // print_r(" 1.".$x);
             $skippiece = 0;
         } else if ($x == count($pieces)-1){
+            // print_r(" 2.".$x);
             $jar = $jar . $pieces[$x];
         } else {
+            // print_r(" 3.".$x);
             if ($x+1 <= count($pieces)-1 && strlen($pieces[$x]) + strlen($pieces[$x+1]) <= $maxlen + 3){
                 if ($x+1 == count($pieces)-1){
                     $jar = $jar . $pieces[$x] . ", " . $pieces[$x+1] . ".";
@@ -878,6 +1048,7 @@ function addressmaker($val) {
             }
         }
     }
+    // print_r($jar);
     return $jar;
 }
 

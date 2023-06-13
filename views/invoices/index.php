@@ -62,22 +62,6 @@
             </div>
           </div>
         </div>
-        <button type="button" id="modelpdf" style="display: none" data-toggle="modal" data-target="#modal-xl"></button>
-        <div class="modal fade" id="modal-xl">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header" id="modal_header">
-                Invoice
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body p-0" id="modal_body">
-              </div>
-            </div>
-          </div>
-        </div>
-
       </section>
     </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
