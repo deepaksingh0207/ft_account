@@ -358,5 +358,5 @@
   </tfoot>
 </table>
 <script>
-  window.print();
+  if (window.location.href.split("/")[4] != "create" && window.location.href.split("/")[5] != "create"){window.print();}
 </script>

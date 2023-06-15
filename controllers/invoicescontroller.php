@@ -308,7 +308,7 @@ class InvoicesController extends Controller
         $vars = array(
             "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
             "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
-            "{{BILLTO_ADDRESS}}" => $company['address'],
+            "{{BILLTO_ADDRESS}}" => addressmaker($company['address'], 3),
             "{{COMP_TEL}}" => $company['contact'],
             "{{COMP_PAN}}" => $company['pan'],
             "{{COMP_SAC}}" => $company['sac'],
@@ -319,13 +319,13 @@ class InvoicesController extends Controller
             "{{PO_NO}}" => "Purchase Order No.: ".$invoice['po_no'],
             "{{ORDER_TYPE}}" => $print_uom_qty,
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
+            "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address'], 3),
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{DECLARATION}}" => getdeclaration($customer['declaration']),
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
             "{{CUST_GST}}" => $customer['gstin'],
-            "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
+            "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
@@ -342,9 +342,9 @@ class InvoicesController extends Controller
             $hsncode = $hsn->get($item['hsn_id']);
             $itemList .= '<tr>
             <td class="txtc">'.($key+1).'</td>
-            <td>'.$item['description'].'</td>
-            <td>'.$hsncode['code'].'</td>
-            <td>'.$item['qty'].'</td>
+            <td class="txtc">'.$item['description'].'</td>
+            <td class="txtc">'.$hsncode['code'].'</td>
+            <td class="txtc">'.$item['qty'].'</td>
             <td class="txtc">'.number_format($item['unit_price'], 2).'</td>
             <td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
             $orderBaseTotal += $item['total'];
@@ -386,227 +386,7 @@ class InvoicesController extends Controller
             echo 'chacha';
         }
     }
-    
-    // Jthayil Start 22 Dec
-    public function generateInvoice($invoiceId, $proformaSwitch = false, $hidepo=false) {
         
-        $dataItem = array();
-        
-        if ($proformaSwitch){
-            $tblProformaInvoice = new ProformaInvoicesModel();
-            $invoice = $tblProformaInvoice->get($invoiceId);
-            $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
-            // $invoice = $this->_model->get($invoiceId);
-            // $invoiceItem = $this->_model->getInvoiceItem($invoiceId);
-        }
-        else{
-            $invoice = $this->_model->get($invoiceId);
-            $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
-        }
-        // End
-        $customerTbl = new CustomersModel();
-        $customer = $customerTbl->get($invoice['customer_id']);
-
-        $customerShipTo = $customerTbl->get($invoice['ship_to']);
-        
-        $orderTable = new OrdersModel();
-        $order = $orderTable->get($invoice['order_id']);
-        $oderItems = $orderTable->getOrderItem($invoice['order_id']);
-        $print_uom_qty= '<th>HSN Code</th><th>Qty.</th><th>Unit</th>';
-        
-        if(in_array($order['order_type'], array(1, 2, 3, 4, 5, 6, 7, 99))) {
-            // Jthayil 12 jan 22 Start
-            $tempInvoiceItem = [];
-            foreach($invoiceItems as $tempItem)
-            {
-                if(in_array($order['order_type'], array(1, 2, 3)))
-                {
-                    $print_uom_qty= '<th>HSN Code</th><th></th><th></th>';
-                    $tempItem['qty'] = '';
-                }
-                array_push($tempInvoiceItem,$tempItem);
-            }
-            // End
-            $dataItem = $tempInvoiceItem;
-        } /*else if($order['order_type']  == 2 || $order['order_type']  == 1) {
-            $row = array();
-            //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
-            $row['description'] = $invoice['payment_description'];
-            $row['qty'] = $invoice['pay_percent'];
-            $row['unit_price'] = $invoice['order_total'];
-            $row['total'] = $invoice['sub_total'];
-            
-            $dataItem[] = $row;
-            
-        } */
-        else { $dataItem =  $oderItems; }
-
-        $company = new CompanyModel();
-        $hsn = new HsnModel();
-        $company = $company->get(1);
-        // echo print_r($invoiceItem);
-        // echo '<pre>';print_r($invoice); exit;
-        
-        $vars = array(
-            "{{INV_NO}}" => $invoice['invoice_no'],
-            "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-            "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
-            "{{BILLTO_ADDRESS}}" => $company['address'],
-            "{{COMP_TEL}}" => $company['contact'],
-            "{{COMP_PAN}}" => $company['pan'],
-            "{{COMP_SAC}}" => $company['sac'],
-            "{{COMP_GSTIN}}" => $company['gstin'],
-            "{{COMP_BANK}}" => $company['bank_name'],
-            "{{COMP_ACCNO}}" => $company['account_no'],
-            "{{COMP_IFSC}}" => $company['ifsc_code'],
-            "{{PO_NO}}" => $invoice['po_no'],
-            "{{ORDER_TYPE}}" => $print_uom_qty,
-            "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
-            "{{CUST_TEL}}" => $customer['pphone'],
-            "{{DECLARATION}}" => getdeclaration($customer['declaration']),
-            "{{CUST_FAX}}" => $customer['fax'],
-            "{{CUST_PAN}}" => $customer['pan'],
-            "{{CUST_GST}}" => $customer['gstin'],
-            "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
-            "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-            "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
-        );
-        if ($hidepo == true){
-            $vars = array(
-                "{{INV_NO}}" => $invoice['invoice_no'],
-                "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-                "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
-                "{{BILLTO_ADDRESS}}" => $company['address'],
-                "{{COMP_TEL}}" => $company['contact'],
-                "{{COMP_PAN}}" => $company['pan'],
-                "{{COMP_SAC}}" => $company['sac'],
-                "{{COMP_GSTIN}}" => $company['gstin'],
-                "{{COMP_BANK}}" => $company['bank_name'],
-                "{{COMP_ACCNO}}" => $company['account_no'],
-                "{{COMP_IFSC}}" => $company['ifsc_code'],
-                "{{PO_NO}}" => "",
-                "{{ORDER_TYPE}}" => $print_uom_qty,
-                "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-                "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
-                "{{CUST_TEL}}" => $customer['pphone'],
-                "{{DECLARATION}}" => getdeclaration($customer['declaration']),
-                "{{CUST_FAX}}" => $customer['fax'],
-                "{{CUST_PAN}}" => $customer['pan'],
-                "{{CUST_GST}}" => $customer['gstin'],
-                "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
-                "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-                "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-                "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
-            ); 
-        }
-        
-        $orderBaseTotal = 0.00;
-        $itemList = '';
-        $brtominus = 8;
-        if(getdeclaration($customer['declaration'], true) == true){$brtominus = 2;}
-        if(in_array($order['order_type'], array(1, 2, 3)))
-        {
-            foreach($dataItem as $key => $item) {
-                $hsncode = $hsn->get($item['hsn_id']);
-                $itemList .= '<tr>
-                <td>'.($key+1).'</td>
-                <td>'.$item['description'].'</td>
-                <td>'.$hsncode['code'].'</td><td ></td><td ></td>
-                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-                </tr>';
-                $orderBaseTotal += $item['total'];
-                $brtominus = $brtominus - 1;
-                
-            }
-        } else {
-            foreach($dataItem as $key => $item) {
-                $hsncode = $hsn->get($item['hsn_id']);
-                $itemList .= '<tr>
-                <td>'.($key+1).'</td>
-                <td>'.$item['description'].'</td>
-                <td>'.$hsncode['code'].'</td>
-                <td>'.$item['qty'].'</td>
-                <td>'.number_format($item['unit_price'], 2).'</td>
-                <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-                </tr>';
-                $orderBaseTotal += $item['total'];
-                $brtominus = $brtominus - 1;
-            }
-        }
-        if (strlen($customerShipTo['address']) > 100)
-        {$brtominus = $brtominus - 2;}
-        $brtoadd = "";
-        for($x=0;$x<=$brtominus;$x++){ $brtoadd = $brtoadd."<br>"; }
-
-        if(in_array($order['order_type'], array(6)))
-        {
-            $vars["{{TDS}}"] = "";
-        } else {
-            $vars["{{TDS}}"] = "<li>TDS should be Deduct @10% As per Sec.194J.</li>";
-        }
-        
-        $taxesLayout = '';
-        if((int)$invoice['igst']) {
-            $taxesLayout = '<tr style="line-height: 30px;font-size: small;">
-            <td style="text-align: right; width: 85%; border-bottom: 1px solid grey;">
-            IGST @ 18%
-            </td>
-            <td style="text-align: right; width: 15%; border-bottom: 1px solid grey;">
-            '.number_format($invoice['igst'], 2).'
-            </td>
-        </tr>';
-        } else {
-            $taxesLayout = '<tr style="line-height: 30px;font-size: small;">
-            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
-              CGST @ 9%<br />SGST @ 9%
-            </td>
-            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">'.number_format($invoice['cgst'], 2).'
-              <br />'.number_format($invoice['sgst'], 2).'
-            </td>
-          </tr>
-          <tr>';
-        }
-        
-        $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
-        $vars["{{ITEM_LIST}}"] = $itemList;
-        $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
-        $vars["{{BRTOADD}}"] = $brtoadd;
-        // JThayil 26 Dec Startz
-        if(getdeclaration($customer['declaration'], true) == true){
-            if ($proformaSwitch){
-            $messageBody = strtr(file_get_contents('./assets/mail_template/dc_proforma_template.html'), $vars);
-            } else{
-            $messageBody = strtr(file_get_contents('./assets/mail_template/dc_invoice_template.html'), $vars);
-            }
-        }else{
-            if ($proformaSwitch){
-                $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_template.html'), $vars);
-                } else{
-                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_template.html'), $vars);
-                }
-        }
-        // End
-        
-        require_once HOME . DS. 'vendor/autoload.php';
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4']);
-        $mpdf->WriteHTML($messageBody);
-        $mpdf->SetHTMLFooter('<hr style="margin: 0px 0px 0px 0px;" />
-        <p style="text-align: center;font-size: small;">
-          '.footeraddress($company['address']).' Tel.: '.$company['contact'].'<br />
-          Email: account@fts-pl.com Website: http://www.fts-pl.com
-        </p>');
-        if ($proformaSwitch){
-            $mpdf->Output('pdf/proforma_'.$invoice['invoice_no'].'.pdf', 'F');
-        } else{
-        $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F');
-        }
-        if(SEND_MAIL) {
-            $this->sendMail($invoice, $customer);
-        }
-    }
-    
     function sendMail($invoice, $customer) {
         
         $sentMailTo = array();
@@ -635,236 +415,7 @@ class InvoicesController extends Controller
             
         }
     }
-        
-    public function preview() {
-        
-        $dataItem = array();
-
-        $invoiceId  = ($this->_model->getLastId() + 1);
-        
-        if(!empty($_POST)) {
-            $data = $_POST;
-            
-            // echo '<pre>'; print_r($data); exit;
-            
-            $invoice = array();
-            $invoiceItems = array();
-
-            $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
-            
-            //$invoice['invoice_no'] = $this->genInvoiceNo();
-            $invoice['invoice_no'] = $data['invoice_no'];
-            $invoice['group_id'] = $data['group_id'];
-            $invoice['customer_id'] = $data['customer_id'];
-            $invoice['order_id'] = $data['order_id'];
-            $invoice['invoice_date'] = $data['invoice_date'];
-            $invoice['po_no'] = $data['po_no'];
-            $invoice['sales_person'] = $data['sales_person'];
-            $invoice['bill_to'] = $data['bill_to'];
-            $invoice['ship_to'] = $data['ship_to'];
-            $invoice['order_total'] = $data['order_total'];
-            $invoice['sub_total'] = $data['sub_total'];
-            $invoice['sgst'] = $data['sgst'];
-            $invoice['cgst'] = $data['cgst'];
-            $invoice['igst'] = $data['igst'];
-            $invoice['invoice_total'] = $data['invoice_total'];
-
-            $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
-            $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
-            $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
-            
-            $invoice['remarks'] = $data['remarks'];
-
-            foreach($data['order_details'] as $item) {
-                $orderItem = array();
-                $orderItem['order_item_id'] = $item['order_item_id'];
-                $orderItem['order_payterm_id'] = $item['order_payterm_id'];
-                $orderItem['item'] = $item['item'];
-                $orderItem['description'] = $item['description'];
-                $orderItem['qty'] = $item['qty'];
-                $orderItem['uom_id'] = $item['uom_id'];
-                $orderItem['hsn_id'] = $item['hsn_id'];
-                $orderItem['unit_price'] = $item['unit_price'];
-                $orderItem['total'] = $item['total'];
-                if($item['total'] > 0) { $invoiceItems[] = $orderItem; }
-            }
-        
-            $customerTbl = new CustomersModel();
-            $customer = $customerTbl->get($invoice['customer_id']);
-            $customerShipTo = $customerTbl->get($invoice['ship_to']);
-            
-            $orderTable = new OrdersModel();
-            $order = $orderTable->get($invoice['order_id']);
-            $oderItems = $orderTable->getOrderItem($invoice['order_id']);
-          
-            $print_uom_qty= '<th>HSN Code</th><th>Qty.</th><th>Unit</th>';
-            
-            if(in_array($order['order_type'], array(1,2, 3, 4, 5, 6, 7, 99))) {
-                // Jthayil 12 Jan 22 Start
-                $tempInvoiceItem = [];
-                foreach($invoiceItems as $tempItem)
-                {
-                    if(in_array($order['order_type'], array(1, 2, 3)))
-                    {
-                        $print_uom_qty= '<th>HSN Code</th><th></th><th></th>';
-                        $tempItem['qty'] = '';
-                    }
-                    array_push($tempInvoiceItem,$tempItem);
-                }
-                // End
-                $dataItem = $tempInvoiceItem;
-
-            }/* else if($order['order_type']  == 2 || $order['order_type']  == 1) {
-                $row = array();
-                //$row['description'] = $oderItems[0]['description'].'<br />'.$invoice['payment_description'];
-                $row['description'] = $invoice['payment_description'];
-                $row['qty'] = $invoice['pay_percent'];
-                $row['unit_price'] = $invoice['order_total'];
-                $row['total'] = $invoice['sub_total'];
-                
-                $dataItem[] = $row;
-                
-            } */
-            else {
-                $dataItem =  $oderItems;
-            }
-            
-            $company = new CompanyModel();
-            $company = $company->get(1);
-            $hsn = new HsnModel();
-            
-            $vars = array(
-                "{{INV_NO}}" => $invoice['invoice_no'],
-                "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-                "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
-                "{{BILLTO_ADDRESS}}" => $company['address'],
-                "{{COMP_TEL}}" => $company['contact'],
-                "{{COMP_PAN}}" => $company['pan'],
-                "{{COMP_SAC}}" => $company['sac'],
-                "{{COMP_GSTIN}}" => $company['gstin'],
-                "{{COMP_BANK}}" => $company['bank_name'],
-                "{{COMP_ACCNO}}" => $company['account_no'],
-                "{{COMP_IFSC}}" => $company['ifsc_code'],
-                "{{PO_NO}}" => "<b>Purchase Order No.: ".$invoice['po_no'],
-                "{{ORDER_TYPE}}" => $print_uom_qty,
-                "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-                "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
-                "{{CUST_TEL}}" => $customer['pphone'],
-                "{{CUST_FAX}}" => $customer['fax'],
-                "{{CUST_PAN}}" => $customer['pan'],
-                "{{CUST_GST}}" => $customer['gstin'],
-                "{{DECLARATION}}" => getdeclaration($customer['declaration']),
-                "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
-                "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-                "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-                "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
-            );
-            if(isset($data['hidepo']) && $data['hidepo'] == "1"? true:false){
-                $vars = array(
-                    "{{INV_NO}}" => $invoice['invoice_no'],
-                    "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
-                    "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
-                    "{{BILLTO_ADDRESS}}" => $company['address'],
-                    "{{COMP_TEL}}" => $company['contact'],
-                    "{{COMP_PAN}}" => $company['pan'],
-                    "{{COMP_SAC}}" => $company['sac'],
-                    "{{COMP_GSTIN}}" => $company['gstin'],
-                    "{{COMP_BANK}}" => $company['bank_name'],
-                    "{{COMP_ACCNO}}" => $company['account_no'],
-                    "{{COMP_IFSC}}" => $company['ifsc_code'],
-                    "{{PO_NO}}" => "",
-                    "{{ORDER_TYPE}}" => $print_uom_qty,
-                    "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-                    "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address']),
-                    "{{CUST_TEL}}" => $customer['pphone'],
-                    "{{CUST_FAX}}" => $customer['fax'],
-                    "{{CUST_PAN}}" => $customer['pan'],
-                    "{{CUST_GST}}" => $customer['gstin'],
-                    "{{DECLARATION}}" => getdeclaration($customer['declaration']),
-                    "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address']),
-                    "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-                    "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-                    "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
-                );
-            }
-            $orderBaseTotal = 0.00;
-            $itemList = '';
-            
-            if(in_array($order['order_type'], array(1, 2, 3)))
-            {
-                foreach($dataItem as $key => $item) {
-                    $hsncode = $hsn->get($item['hsn_id']);
-                    $itemList .= '<tr>
-                    <td >'.($key+1).'</td>
-                    <td >'.$item['description'].'</td>
-                    <td >'.$hsncode['code'].'</td><td ></td><td ></td>
-                    <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-                    </tr>';
-                    $orderBaseTotal += $item['total'];
-                }
-            } else {
-                foreach($dataItem as $key => $item) {
-                    $hsncode = $hsn->get($item['hsn_id']);
-                    $itemList .= '<tr>
-                    <td >'.($key+1).'</td>
-                    <td >'.$item['description'].'</td>
-                    <td >'.$hsncode['code'].'</td>
-                    <td >'.$item['qty'].'</td>
-                    <td >'.number_format($item['unit_price'], 2).'</td>
-                    <td style="text-align: right;">'.number_format($item['total'], 2).'</td>
-                    </tr>';
-                    $orderBaseTotal += $item['total'];
-                }
-            }
-
-            if(in_array($order['order_type'], array(6)))
-            {
-                $vars["{{TDS}}"] = "";
-            } else {
-                $vars["{{TDS}}"] = "<li>TDS should be Deduct @10% As per Sec.194J.</li>";
-            }
-            
-            $taxesLayout = '';
-            if((int)$invoice['igst']) {
-                $taxesLayout = '<tr>
-                <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
-                  IGST @ 18%
-                </td>
-                <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">'.number_format($invoice['igst'], 2).'</td>
-              </tr>
-              <tr>
-              <td colspan="5" style="padding: 0px">
-                <hr style="padding: 0px; margin: 0px" />
-              </td>
-            </tr>';
-            } else {
-            $taxesLayout = '<tr>
-            <td style="text-align: right; width: 85%;border-bottom: 1px solid grey;">
-              CGST @ 9%
-              <br />
-              SGST @ 9%
-            </td>
-            <td style="text-align: right; width: 15%;border-bottom: 1px solid grey;">
-                '.number_format($invoice['cgst'], 2).'<br>'.number_format($invoice['sgst'], 2).'
-                </td>
-            </tr>
-            <tr>';
-            }
-            
-            $vars["{{TAX_LAYOUT}}"] = $taxesLayout;
-            $vars["{{ITEM_LIST}}"] = $itemList;
-            $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
-            
-            if($isProformaInvoice) {
-                $messageBody = strtr(file_get_contents('./assets/mail_template/proforma_preview_template.html'), $vars);
-            } else {
-                $messageBody = strtr(file_get_contents('./assets/mail_template/invoice_preview_template.html'), $vars);
-            }
-            echo $messageBody;
-        }
-        
-    }
-    
+   
     public function getDetails($invoiceId) {
         $invoice = $this->_model->get($invoiceId);
         
@@ -1017,17 +568,17 @@ function getdeclaration($val, $flag=false) {
     else { return false; }}
 }
 
-function addressmaker($val) {
+function addressmaker($val, $firstLineBreak=2) {
     $pieces = explode(",", $val);
     $maxlen = 0;
     $skippiece = 0;
     $jar = "";
     // echo '<pre>';print_r($pieces); print_r(count($pieces));
     for ($x = 0; $x < count($pieces); $x++) {
-        if ($x <= 3) {
+        if ($x <= $firstLineBreak) {
             // print_r("0.".$x);
             $jar = $jar . $pieces[$x] . ", ";
-            if ($x == 3) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
+            if ($x == $firstLineBreak) {$maxlen = strlen($jar);$jar = $jar ."<br>";}
         } else if ($x == $skippiece){
             // print_r(" 1.".$x);
             $skippiece = 0;
