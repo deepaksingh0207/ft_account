@@ -600,6 +600,8 @@ class InvoicesController extends Controller
         $request['DOCDTLS']['DT'] = date('d/m/Y', strtotime($invoice['invoice_date']));
 
         //FTSPL Details
+        $company['gstin'] = '06AACCC1596Q002';
+        $company['pincode'] = '122004';
         $request['SELLERDTLS']['GSTIN'] = $company['gstin'];
         $request['SELLERDTLS']['LGLNM'] = $company['name'];
         $request['SELLERDTLS']['TRDNM'] = $company['name'];
@@ -708,7 +710,7 @@ class InvoicesController extends Controller
         //echo '<pre>'; print_r($request); exit;
 
         $response = $this->sendRequest('POST', $url, $request);
-        echo '<pre>'; print_r($response); exit;
+        echo '<pre>'; print_r(json_decode($response, true)); exit;
 
     }
 
