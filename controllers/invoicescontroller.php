@@ -142,6 +142,9 @@ class InvoicesController extends Controller
                         }
                         
                         // $this->geninv($invoiceId, true, false, $hide_po); 
+                        $customerTbl = new CustomersModel();
+                        $customer = $customerTbl->get($invoiceeData['customer_id']);
+                        $this->postEinvoiceRequest($invoiceeData, $invoiceItems, $customer);
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -382,7 +385,7 @@ class InvoicesController extends Controller
             Email: account@fts-pl.com Website: http://www.fts-pl.com
             </p>');
             if ($proformaSwitch){ $mpdf->Output('pdf/proforma_'.$invoice['invoice_no'].'.pdf', 'F'); }
-            else{ $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F'); }
+            else{  $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F'); }
             echo 'chacha';
         }
     }
@@ -557,6 +560,183 @@ class InvoicesController extends Controller
 
 
     }
+
+    //einvoice 
+    function getEinvoiceAuthToken($gst) {
+        $url = EINVOICE_URL . 'eivital/dec/v1.04/auth?';
+        $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' => GST_NO, 'eInvPwd' => EINVPWD);
+        $url = $url . http_build_query($params);
+        $response = $this->sendRequest('GET', $url, $params);
+        $data = json_decode($response, true);
+
+        if($data['Status']) {
+            return $data['Data']['AuthToken'];
+        } else {
+            return '';
+        }
+    }
+
+    function postEinvoiceRequest($invoice, $dataItem, $customer) {
+
+        $hsn = new HsnModel();
+        $company = new CompanyModel();
+        $company = $company->get(1);
+
+        $authToken = $this->getEinvoiceAuthToken($company['gstin']);
+        $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
+        $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' => GST_NO, 'AuthToken' => $authToken);
+        $url = $url . http_build_query($params);
+        
+
+        $request = array();
+        $request['VERSION'] = '1.1';
+        $request['TRANDTLS']['TAXSCH'] = 'GST';
+        $request['TRANDTLS']['SUPTYP'] = 'B2B';
+        $request['TRANDTLS']['REGREV'] = 'N';
+
+        //Invoice no
+        $request['DOCDTLS']['TYP'] = 'INV';
+        $request['DOCDTLS']['NO'] = $invoice['invoice_no'];
+        $request['DOCDTLS']['DT'] = date('d/m/Y', strtotime($invoice['invoice_date']));
+
+        //FTSPL Details
+        $request['SELLERDTLS']['GSTIN'] = $company['gstin'];
+        $request['SELLERDTLS']['LGLNM'] = $company['name'];
+        $request['SELLERDTLS']['TRDNM'] = $company['name'];
+        $request['SELLERDTLS']['ADDR1'] = substr($company['address'], 0, 100);
+        $request['SELLERDTLS']['ADDR2'] = null;
+        $request['SELLERDTLS']['LOC'] = 'INDIA';
+        $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
+        $request['SELLERDTLS']['STCD'] = substr($company['gstin'], 0, 2);
+        $request['SELLERDTLS']['PH'] = null;
+        $request['SELLERDTLS']['EM'] = null;
+
+        //Client Details
+        $request['BUYERDTLS']['GSTIN'] = $customer['gstin'];
+        $request['BUYERDTLS']['LGLNM'] = $customer['name'];
+        $request['BUYERDTLS']['TRDNM'] = $customer['name'];
+        $request['BUYERDTLS']['POS'] = substr($customer['gstin'], 0, 2);
+        $request['BUYERDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+        $request['BUYERDTLS']['ADDR2'] = null;
+        $request['BUYERDTLS']['LOC'] = 'INDIA';
+        $request['BUYERDTLS']['PIN'] = (int)$customer['pincode'];
+        $request['BUYERDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
+        $request['BUYERDTLS']['PH'] = null;
+        $request['BUYERDTLS']['EM'] = null;
+
+        $request['DISPDTLS']['NM'] = $customer['gstin'];
+        $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+        $request['DISPDTLS']['ADDR2'] = null;
+        $request['DISPDTLS']['LOC'] = 'INDIA';
+        $request['DISPDTLS']['PIN'] = (int)$customer['pincode'];
+        $request['DISPDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
+
+        //Item list
+        $request['ITEMLIST'] = array();
+
+        foreach($dataItem as $key => $item) {
+            $tmp = array();
+            $hsncode = $hsn->get($item['hsn_id']);
+            $tmp['SLNO'] = (String)$key;
+            $tmp['PRDDESC'] = $item['description'];
+            $tmp['ISSERVC'] = 'N';
+            $tmp['HSNCD'] = $hsncode['code'];
+            $tmp['BARCDE'] = null;
+            $tmp['QTY'] = (float)$item['qty'];
+            $tmp['FREEQTY'] = 0;
+            $tmp['UNIT'] = 'NOS';
+            $tmp['UNITPRICE'] = (float)$item['unit_price'];
+            $tmp['TOTAMT'] = (float)$item['total'];
+            $tmp['DISCOUNT'] = 0;
+            $tmp['PRETAXVAL'] = 0;
+            $tmp['ASSAMT'] = (float)$item['total'];
+            
+            if($invoice['igst']) {
+                $tmp['GSTRT'] = 18;
+                $tmp['IGSTAMT'] = ($item['total'] * $tmp['GSTRT']) / 100;
+                $tmp['CGSTAMT'] = 0;
+                $tmp['SGSTAMT'] = 0;    
+            } else {
+                $tmp['GSTRT'] = 9;
+                $tmp['IGSTAMT'] = 0;
+                $tmp['CGSTAMT'] = ($item['total'] * $tmp['GSTRT']) / 100;
+                $tmp['SGSTAMT'] = ($item['total'] * $tmp['GSTRT']) / 100;    
+            }
+            $tmp['CESRT'] = 0;
+            $tmp['CESAMT'] = 0;
+            $tmp['CESNONADVLAMT'] = 0;
+            $tmp['STATECESRT'] = 0;
+            $tmp['STATECESAMT'] = 0;
+            $tmp['STATECESNONADVLAMT'] = 0;
+            $tmp['OTHCHRG'] = 0;
+            $tmp['TOTITEMVAL'] = $item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'];
+            $tmp['ORDLINEREF'] = null;
+            $tmp['ORGCNTRY'] = null;
+
+            $request['ITEMLIST'][] = $tmp;
+        }
+
+        //Value detail
+        $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
+        $request['VALDTLS']['CGSTVAL'] = (float)$invoice['cgst'];
+        $request['VALDTLS']['SGSTVAL'] = (float)$invoice['sgst'];
+        $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
+        $request['VALDTLS']['CESVAL'] = 0;
+        $request['VALDTLS']['STCESVAL'] = 0;
+        $request['VALDTLS']['RNDOFFAMT'] = 0;
+        $request['VALDTLS']['TOTINVVAL'] = (float)$invoice['invoice_total'];
+        $request['VALDTLS']['TOTINVVALFC'] = (float)$invoice['invoice_total'];
+
+        $request['EXPDTLS']['SHIPBNO'] = null;
+        $request['EXPDTLS']['SHIPBDT'] = null;
+        $request['EXPDTLS']['PORT'] = null;
+        $request['EXPDTLS']['REFCLM'] = null;
+        $request['EXPDTLS']['FORCUR'] = null;
+        $request['EXPDTLS']['CNTCODE'] = null;
+        $request['EXPDTLS']['EXPDUTY'] = 0;
+
+        $request['EWBDTLS']['TRANSID'] = null;
+        $request['EWBDTLS']['TRANSNAME'] = null;
+        $request['EWBDTLS']['TRANSMODE'] = null;
+        $request['EWBDTLS']['DISTANCE'] = 0;
+        $request['EWBDTLS']['TRANSDOCNO'] = null;
+        $request['EWBDTLS']['TRANSDOCDT'] = null;
+        $request['EWBDTLS']['VEHNO'] = null;
+        $request['EWBDTLS']['VEHTYPE'] = null;
+
+
+        //echo '<pre>'; print_r($request); exit;
+
+        $response = $this->sendRequest('POST', $url, $request);
+        echo '<pre>'; print_r($response); exit;
+
+    }
+
+    function sendRequest($method, $url, $data) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type:application/json',
+            )
+        );
+                
+        if( strtoupper($method) == "POST" )
+        {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        }
+
+        $response = curl_exec($ch);
+        $info =curl_errno($ch)>0 ? array("curl_error_".curl_errno($ch)=>curl_error($ch)) : curl_getinfo($ch);
+        //print_r($response);
+        curl_close($ch);
+        return $response;
+    }
+
 }
 // Jthayil Start
 function getdeclaration($val, $flag=false) {
