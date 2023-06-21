@@ -666,8 +666,8 @@ function preview_total() {
     $("#previewigst").val(gst);
     total = subtotal + gst;
   }
-  $("#previewinvoice_total").val((total).toFixed(2));
-  $("#preview_total_val").text(ra(total));
+  $("#previewinvoice_total").val((total).toFixed(0));
+  $("#preview_total_val").text(ra((total).toFixed(0)));
 }
 
 function previewtotal(index, value) {
