@@ -15,7 +15,16 @@ class HsnController extends Controller
             
             $this->_view->set('hsn', $hsn);
             $this->_view->set('title', 'HSN List');
-            
+            if(!empty($_POST)) {
+                $data = $_POST;
+                // echo '<pre>'; print_r($data); exit;
+                if($this->_model->save($data)) {
+                    $_SESSION['message'] = 'Hsn added successfully';
+                    header("location:". ROOT. "hsn"); 
+                } else {
+                    $_SESSION['error'] = 'Fail to add HSN';
+                }
+            }
             
             return $this->_view->output();
             
@@ -33,7 +42,7 @@ class HsnController extends Controller
             
             $this->_view->set('hsn', $hsn);
             $this->_view->set('title', 'HSN Detail');
-                       
+            
             return $this->_view->output();
             
         } catch (Exception $e) {
@@ -72,9 +81,9 @@ class HsnController extends Controller
     public function create() {
         try {
             $this->_view->set('title', 'Create HSN');            
-            
             if(!empty($_POST)) {
                 $data = $_POST;
+                echo '<pre>'; print_r($data); exit;
                 if($this->_model->save($data)) {
                     $_SESSION['message'] = 'Hsn added successfully';
                     header("location:". ROOT. "hsn"); 
