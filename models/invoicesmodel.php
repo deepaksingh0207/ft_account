@@ -126,6 +126,27 @@ class InvoicesModel extends Model {
             }
     }
 
+    public function save_irn($data) {
+        
+        $insert_values = array();
+        $datafields = array_keys($data);
+        $question_marks = array();
+        
+        $question_marks[] = '('  . $this->placeholders('?', sizeof($data)) . ')';
+        $insert_values = array_merge($insert_values, array_values($data));
+        
+        $sql = "INSERT INTO invoice_irns (" . implode(",", $datafields ) . ") VALUES " .
+            implode(',', $question_marks);
+            
+            
+            $stmt = $this->_db->prepare ($sql);
+            if($stmt->execute($insert_values)) {
+                return $this->_db->lastInsertId();
+            } else {
+                return false;
+            }
+    }
+
     public function deleteInvoice($invoiceNo) {
         $sql = "delete from invoices where invoice_no = ? ";
         $stmt = $this->_db->prepare ($sql);

@@ -64,4 +64,41 @@
         </div>
       </section>
     </div>
+    <div class="modal fade" id="modal-lg">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <h4 class="modal-title"> -->
+              Invoice Panel
+            <!-- </h4> -->
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12 mb-2 col_invid" style="align-self: center;">
+                <label for="id_invoice">Generate IRN for invoice no</label>
+                <input type="text" class="form-control" required id="id_invoice">
+              </div>
+              <div class="col-3 col_invcpy">
+                <a class="btn btn-info btn-block btn-flat py-3 invcpy" target="_blank"><i class="far fa-file-pdf fa-lg"></i><br>Print</a>
+              </div>
+              <div class="col-3 col_genirn">
+                <button class="btn btn-info btn-block btn-flat py-3 genirn"><i class="fas fa-file-invoice fa-lg"></i><br>Generate IRN</button>
+              </div>
+              <div class="col-3 col_rgenirn">
+                <button class="btn btn-info btn-block btn-flat py-3 rgenirn"><i class="far fa-clone fa-lg"></i><br>Regenerate IRN</button>
+              </div>
+              <div class="col-3 col_ecanirn">
+                <button class="btn btn-info btn-block btn-flat py-3 ecanirn"><i class="fas fa-edit fa-lg"></i><br>Cancel E-IRN</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between feeter">
+            <b>Please wait <span class="text-primary dot"></span></b>
+          </div>
+        </div>
+      </div>
+    </div>
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

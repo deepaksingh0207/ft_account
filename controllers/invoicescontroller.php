@@ -141,10 +141,9 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        // $this->geninv($invoiceId, true, false, $hide_po); 
-                        $customerTbl = new CustomersModel();
-                        $customer = $customerTbl->get($invoiceeData['customer_id']);
-                        $this->postEinvoiceRequest($invoiceeData, $invoiceItems, $customer);
+                        // $this->geninv($invoiceId, true, false, $hide_po);
+
+                        // $this->postEinvoiceRequest($invoiceId);
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -161,7 +160,6 @@ class InvoicesController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
-    
     
     public function view($id) {
         try {
@@ -386,7 +384,7 @@ class InvoicesController extends Controller
             </p>');
             if ($proformaSwitch){ $mpdf->Output('pdf/proforma_'.$invoice['invoice_no'].'.pdf', 'F'); }
             else{  $mpdf->Output('pdf/invoice_'.$invoice['invoice_no'].'.pdf', 'F'); }
-            echo 'chacha';
+            // echo 'chacha';
         }
     }
         
@@ -410,13 +408,8 @@ class InvoicesController extends Controller
             
             // Send the message
             $result = $mailer->send($message);
-            
             echo $result;
-        } catch (Exception $e) {
-            
-            print_r($e->getMessage());
-            
-        }
+        } catch (Exception $e) { print_r($e->getMessage()); }
     }
    
     public function getDetails($invoiceId) {
@@ -451,7 +444,6 @@ class InvoicesController extends Controller
     public function getInvoiceIdsByCustomer($custId) {
         $invoice = $this->_model->getInvoiceIdsByCustomer($custId);
         echo json_encode($invoice);
-        
     }
 
     private function genInvoiceNo() {
@@ -568,20 +560,22 @@ class InvoicesController extends Controller
         $url = $url . http_build_query($params);
         $response = $this->sendRequest('GET', $url, $params);
         $data = json_decode($response, true);
-
-        if($data['Status']) {
-            return $data['Data']['AuthToken'];
-        } else {
-            return '';
-        }
+        // print_r($data);
+        if($data['Status']) { return $data['Data']['AuthToken']; }
+        return '';
     }
 
-    function postEinvoiceRequest($invoice, $dataItem, $customer) {
-
+    function postEinvoiceRequest($invoiceId) {
         $hsn = new HsnModel();
+        $customerList = new CustomersModel();
+        $invoiceItemTbl = new InvoiceItemsModel();
+        $invoiceIrnTbl = new InvoiceIrnModel();
         $company = new CompanyModel();
         $company = $company->get(1);
-
+        
+        $invoice = $this->_model->get($invoiceId);
+        $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
+        $customer = $customerList->get($invoice['customer_id']);
         $authToken = $this->getEinvoiceAuthToken($company['gstin']);
         $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
         $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' => GST_NO, 'AuthToken' => $authToken);
@@ -602,7 +596,7 @@ class InvoicesController extends Controller
         //FTSPL Details
         $company['gstin'] = '06AACCC1596Q002';
         $company['pincode'] = '122004';
-        $request['SELLERDTLS']['GSTIN'] = $company['gstin'];
+        $request['SELLERDTLS']['GSTIN'] = GST_NO;
         $request['SELLERDTLS']['LGLNM'] = $company['name'];
         $request['SELLERDTLS']['TRDNM'] = $company['name'];
         $request['SELLERDTLS']['ADDR1'] = substr($company['address'], 0, 100);
@@ -707,24 +701,37 @@ class InvoicesController extends Controller
         $request['EWBDTLS']['VEHTYPE'] = null;
 
 
-        //echo '<pre>'; print_r($request); exit;
-
+        // echo '<pre>';
+        // print_r($request);
         $response = $this->sendRequest('POST', $url, $request);
-        echo '<pre>'; print_r(json_decode($response, true)); exit;
+        $data = json_decode($response, true);
+        // print_r($data);
 
+        if($data['Status']) {
+            // print_r($data['Data']);
+            $newdata = json_decode($data['Data'], true);
+            // print_r($newdata);
+            $irn_invoice = array();
+            $irn_invoice['invoice_id'] = $invoiceId;
+            $irn_invoice['irn_no'] = $newdata['Irn'];
+            $irn_invoice['ack_no'] = $newdata['AckNo'];
+            $irn_invoice['ack_date'] = $newdata['AckDt'];
+            $irn_invoice['signed_invoice'] = $newdata['SignedInvoice'];
+            $irn_invoice['signed_qrcode'] = $newdata['SignedQRCode'];
+            $irn_invoice['status'] = 1;
+            $irnInvoiceId = $invoiceIrnTbl->save($irn_invoice);
+            echo $irnInvoiceId;
+        } else { echo false; }
     }
 
     function sendRequest($method, $url, $data) {
+        // print_r($method);print_r($url);print_r($data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,
-            array(
-                'Content-Type:application/json',
-            )
-        );
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json',));
                 
         if( strtoupper($method) == "POST" )
         {

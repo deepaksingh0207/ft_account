@@ -92,12 +92,6 @@
     <script>
       var gstrdata;
 
-      function getRemote(remote_url, method = "GET", r_data = null, type = "json", convertapi = true) {
-        var resp = $.ajax({ type: method, data: r_data, dataType: type, url: remote_url, async: false }).responseText;
-        if (convertapi) { return JSON.parse(resp); }
-        return resp;
-      }
-
       $(document).on("click", ".download", function () {
         var date = new Date();
         var genid = date.getFullYear() + ("0" + (date.getMonth() + 1)).slice(-2) + ("0" + date.getDate()).slice(-2) + ("0" + date.getHours()).slice(-2) + ("0" + date.getMinutes()).slice(-2) + ("0" + date.getSeconds()).slice(-2);

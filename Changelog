@@ -21,14 +21,10 @@ ALTER TABLE `hsn_codes` ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `hsn_codes` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
-ALTER TABLE `proforma_invoice_items` 
-ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
+ALTER TABLE `proforma_invoice_items` ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
 
-ALTER TABLE `invoice_items` 
-ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
+ALTER TABLE `invoice_items` ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
 
-ALTER TABLE invoices
-ADD CONSTRAINT uc_invoice_no UNIQUE (invoice_no);
+ALTER TABLE invoices ADD CONSTRAINT uc_invoice_no UNIQUE (invoice_no);
 
-ALTER TABLE `invoices` 
-ADD COLUMN `gstr_set` BIGINT NULL DEFAULT NULL;
+ALTER TABLE `invoices` ADD COLUMN `gstr_set` BIGINT NULL DEFAULT NULL;
