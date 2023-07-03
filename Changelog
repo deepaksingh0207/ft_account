@@ -28,3 +28,17 @@ ALTER TABLE `invoice_items` ADD COLUMN `hsn_id` INT NULL DEFAULT NULL;
 ALTER TABLE invoices ADD CONSTRAINT uc_invoice_no UNIQUE (invoice_no);
 
 ALTER TABLE `invoices` ADD COLUMN `gstr_set` BIGINT NULL DEFAULT NULL;
+
+CREATE TABLE `invoice_irns` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `invoice_id` int NOT NULL,
+  `irn_no` varchar(64) NOT NULL,
+  `ack_no` varchar(15) NOT NULL,
+  `ack_date` datetime NOT NULL,
+  `signed_invoice` text NOT NULL,
+  `signed_qrcode` text NOT NULL,
+  `added_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;

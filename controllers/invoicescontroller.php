@@ -227,6 +227,7 @@ class InvoicesController extends Controller
         $invoice = array();
         $invoiceItems = array();
         $tblProformaInvoice = new ProformaInvoicesModel();
+        $invoiceIrnTbl = new InvoiceIrnModel();
         $customerTbl = new CustomersModel();
         $orderTable = new OrdersModel();
         $company = new CompanyModel();
@@ -290,23 +291,26 @@ class InvoicesController extends Controller
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
-        $print_uom_qty= '<th>HSN Code</th><th>Qty.</th><th>Unit</th>';
-        if(in_array($order['order_type'], array(1, 2, 3))) { $print_uom_qty= '<th>HSN Code</th><th></th><th></th>'; }
-        if(in_array($order['order_type'], array(1, 2, 3, 4, 5, 6, 7, 99))) {
-            $tempInvoiceItem = [];
-            foreach($invoiceItems as $tempItem)
-            {
-                // if(in_array($order['order_type'], array(1, 2, 3)))
-                // {
-                //     $print_uom_qty= '<th>HSN Code</th><th></th><th></th>';
-                //     $tempItem['qty'] = '';
-                // }
-                array_push($tempInvoiceItem,$tempItem);
-            }
-            $dataItem = $tempInvoiceItem;
-        } else { $dataItem =  $oderItems; }
+        $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc">Qty.</th><th class="bb2 txtc">Unit</th>';
+        if(in_array($order['order_type'], array(1, 2, 3, 5, 7, 99))) { $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>'; }
+        $dataItem = $invoiceItems;
+        $irn = '';
+        $slt = '';
+        $qrcode = '';
+        $irndt = '';
+        $irnrec = $invoiceIrnTbl->getByInvoiceId($invoiceId);
+        if(count($irnrec)) {
+            $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
+            $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
+            $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            $qrcode = '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.$irnrec['signed_qrcode'].'&choe=UTF-8" title="QR Code" />';
+        }
 
         $vars = array(
+            "{{IRN}}" => $irn,
+            "{{IRN_DATE}}" => $irndt,
+            "{{SLT}}" => $slt,
+            "{{QR_CODE}}" => $qrcode,
             "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
             "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
             "{{BILLTO_ADDRESS}}" => addressmaker($company['address'], 3),
@@ -341,13 +345,10 @@ class InvoicesController extends Controller
         $itemList = '';
         foreach($dataItem as $key => $item) {
             $hsncode = $hsn->get($item['hsn_id']);
-            $itemList .= '<tr>
-            <td class="txtc">'.($key+1).'</td>
-            <td class="txtc">'.$item['description'].'</td>
-            <td class="txtc">'.$hsncode['code'].'</td>
-            <td class="txtc">'.$item['qty'].'</td>
-            <td class="txtc">'.number_format($item['unit_price'], 2).'</td>
-            <td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
+            $itemList .= '<tr class="txtsmr"><td class="txtc">'.($key+1).'</td><td>'.$item['description'].'</td><td class="txtc">'.$hsncode['code'].'</td>';
+            if(in_array($order['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td></td><td></td>'; }
+            else { $itemList .= '<td class="txtc">'.$item['qty'].'</td><td class="txtc">'.number_format($item['unit_price'], 2).'</td>'; }
+            $itemList .= '<td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
             $orderBaseTotal += $item['total'];
         }
 
@@ -705,7 +706,7 @@ class InvoicesController extends Controller
         // print_r($request);
         $response = $this->sendRequest('POST', $url, $request);
         $data = json_decode($response, true);
-        // print_r($data);
+        // print_r($data);exit;
 
         if($data['Status']) {
             // print_r($data['Data']);
