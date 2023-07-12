@@ -277,7 +277,7 @@ class InvoicesController extends Controller
         } else {
             $invoice = $this->_model->get($invoiceId);
             $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
-            if ($proformaSwitch && !$invoiceId){
+            if ($proformaSwitch && $invoiceId){
                 $invoice = $tblProformaInvoice->get($invoiceId);
                 $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
             }
