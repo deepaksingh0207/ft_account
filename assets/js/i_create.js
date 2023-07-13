@@ -57,6 +57,7 @@ function createbookeeper() {
               tree["items"][item.id]["payment"][payment.id]["proforma"]["ids"].push(proforma.id);
               tree["items"][item.id]["payment"][payment.id]["proforma"][proforma.id] = proforma
               tree["items"][item.id]["payment"][payment.id]["proforma"]["ot"] = item.order_type
+              tree["items"][item.id]["payment"][payment.id]["proforma"][proforma.id]["invoice"] = { ids: [] }
             }
           });
         }
@@ -283,17 +284,11 @@ function preview_builder() {
       var payment = $("#" + id).data("payment");
       var proforma = $("#" + id).data("proforma");
       if (payment == 0) {
-        if (proforma == 0) {
-          t = tree["items"][item]
-        } else {
-          t = tree["items"][item]
-        }
+        if (proforma == 0) { t = tree["items"][item] }
+        else { t = tree["items"][item] }
       } else {
-        if (proforma == 0) {
-          t = tree["items"][item]["payment"][payment]
-        } else {
-          t = tree["items"][item]["payment"][payment]["proforma"][proforma]
-        }
+        if (proforma == 0) { t = tree["items"][item]["payment"][payment] }
+        else { t = tree["items"][item]["payment"][payment]["proforma"][proforma] }
       }
       if ($("#" + id).is(':checked')) {
         $("#preview_tbody").append('<tr id="ptb' + c + '"></tr>');
@@ -559,7 +554,6 @@ function setordertype(val) {
   }
 }
 
-
 function get_uom_display(index) {
   list = ["", "Day(s)", "AU", "Percentage (%)", "PC"]
   return list[index];
@@ -659,13 +653,17 @@ function preview_total() {
     $("#preview_cgst_val").text(ra(gst));
     $("#previewsgst").val(gst);
     $("#previewcgst").val(gst);
+    $("#previewigst").val(0);
     total = subtotal + gst + gst;
   } else {
     gst = subtotal * ($("#preview_igst_val").data("gst") / 100);
+    $("#previewsgst").val(0);
+    $("#previewcgst").val(0);
     $("#preview_igst_val").text(ra(gst));
     $("#previewigst").val(gst);
     total = subtotal + gst;
   }
+  $("#previewinvoice_sub_total").val((total).toFixed(0));
   $("#previewinvoice_total").val((total).toFixed(0));
   $("#preview_total_val").text(ra((total).toFixed(0)));
 }
@@ -703,21 +701,13 @@ function preview_footer() {
     var payment = $("#" + id).data("payment");
     var proforma = $("#" + id).data("proforma");
     if (payment == 0) {
-      if (proforma == 0) {
-        t = tree["items"][item]
-      } else {
-        t = tree["items"][item]["proforma"][proforma]
-      }
+      if (proforma == 0) {t = tree["items"][item]} 
+      else {t = tree["items"][item]["proforma"][proforma]}
     } else {
-      if (proforma == 0) {
-        t = tree["items"][item]["payment"][payment]
-      } else {
-        t = tree["items"][item]["payment"][payment]["proforma"][proforma]
-      }
+      if (proforma == 0) {t = tree["items"][item]["payment"][payment]} 
+      else {t = tree["items"][item]["payment"][payment]["proforma"][proforma]}
     }
-    if ($("#" + id).is(':checked')) {
-      subtotal += parseFloat(t.total)
-    }
+    if ($("#" + id).is(':checked')) {subtotal += parseFloat(t.total)}
   });
   if (gstlist.length > 2) {
     sgst_total = (gstlist[1] / 100) * subtotal;
@@ -727,7 +717,7 @@ function preview_footer() {
   }
   total = sgst_total + cgst_total + igst_total + subtotal;
   $("#preview_footer").append(
-    '<div class="row text-center"><div id="previewgst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="order_total" class="previewsubtotal" value="' + subtotal.toFixed(2) + '"><input type="hidden" name="sub_total" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
+    '<div class="row text-center"><div id="previewgst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="order_total" class="previewsubtotal" value="' + subtotal.toFixed(2) + '"><input type="hidden" name="sub_total" id="previewinvoice_sub_total" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
   if (parseInt(gstlist[1]) == 9) {
     $("#previewgst").addClass("col-3");
     $("#sgstclass").show().addClass("col-3");

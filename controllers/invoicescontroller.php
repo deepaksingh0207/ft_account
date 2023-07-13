@@ -238,7 +238,7 @@ class InvoicesController extends Controller
             // echo '<pre>'; print_r($data); exit;
             
             if (!$invoiceId){ $invoiceId = ($this->_model->getLastId() + 1); }
-            $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
+            $proformaSwitch = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
             
             $invoice['invoice_no'] = $data['invoice_no'];
             $invoice['group_id'] = $data['group_id'];
@@ -336,8 +336,8 @@ class InvoicesController extends Controller
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
         );
         
-        if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; }
-        else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; }
+        if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICES"; }
+        else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; $vars["{{TITLE}}"] = "TAX INVOICES"; }
 
         if ($hidepo){ $vars["{{PO_NO}}"] = ""; }
 
@@ -722,7 +722,7 @@ class InvoicesController extends Controller
             $irn_invoice['status'] = 1;
             $irnInvoiceId = $invoiceIrnTbl->save($irn_invoice);
             echo $irnInvoiceId;
-        } else { echo false; }
+        } else { echo $request."\n".$response; }
     }
 
     function sendRequest($method, $url, $data) {
