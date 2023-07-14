@@ -299,7 +299,7 @@ class InvoicesController extends Controller
         $qrcode = '';
         $irndt = '';
         $irnrec = $invoiceIrnTbl->getByInvoiceId($invoiceId);
-        if(count($irnrec)) {
+        if(count($irnrec) && !$proformaSwitch ) {
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
@@ -636,7 +636,7 @@ class InvoicesController extends Controller
             $hsncode = $hsn->get($item['hsn_id']);
             $tmp['SLNO'] = (String)$key;
             $tmp['PRDDESC'] = $item['description'];
-            $tmp['ISSERVC'] = 'N';
+            $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
             $tmp['HSNCD'] = $hsncode['code'];
             $tmp['BARCDE'] = null;
             $tmp['QTY'] = (float)$item['qty'];
@@ -703,15 +703,12 @@ class InvoicesController extends Controller
 
 
         // echo '<pre>';
-        // print_r($request);
+        // echo json_encode($request);
         $response = $this->sendRequest('POST', $url, $request);
         $data = json_decode($response, true);
-        // print_r($data);exit;
 
         if($data['Status']) {
-            // print_r($data['Data']);
             $newdata = json_decode($data['Data'], true);
-            // print_r($newdata);
             $irn_invoice = array();
             $irn_invoice['invoice_id'] = $invoiceId;
             $irn_invoice['irn_no'] = $newdata['Irn'];
@@ -722,7 +719,7 @@ class InvoicesController extends Controller
             $irn_invoice['status'] = 1;
             $irnInvoiceId = $invoiceIrnTbl->save($irn_invoice);
             echo $irnInvoiceId;
-        } else { echo $request."\n".$response; }
+        } else { echo $response; }
     }
 
     function sendRequest($method, $url, $data) {

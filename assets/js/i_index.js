@@ -82,11 +82,14 @@ $(document).on("click", ".genirn", function () {
   pleasewait(10);
   var geturl = $(this).data('href');
   var getIrnId = getRemote(geturl);
-  if (getIrnId) {
+  if (getIrnId['Status'] == "0"){
+    $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
+  }
+  else {
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
     if (getInvIrn) { $('.col_genirn, .col_invid').hide(); }
   }
-  pleasewait(0);
+  // pleasewait(0);
 });
 
 $("#id_startdate").on("change", function () {
