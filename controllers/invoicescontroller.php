@@ -337,7 +337,7 @@ class InvoicesController extends Controller
         );
         
         if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICES"; }
-        else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; $vars["{{TITLE}}"] = "TAX INVOICES"; }
+        else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; $vars["{{TITLE}}"] = "TAX INVOICE"; }
 
         if ($hidepo){ $vars["{{PO_NO}}"] = ""; }
 

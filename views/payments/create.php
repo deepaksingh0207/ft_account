@@ -76,16 +76,18 @@
                                     <div class="col-sm-12 col-lg-3">
                                         <div class="form-group">
                                             <label for="id_utr_file">Attachment</label>
-                                            <input type="file" accept="image/gif, image/png, image/jpeg, application/pdf" name="utr_file" id="id_utr_file">
-                                            </div>
+                                            <input type="file"
+                                                accept="image/gif, image/png, image/jpeg, application/pdf"
+                                                name="utr_file" id="id_utr_file">
                                         </div>
-                                    
-                                <div class="col-sm-12 col-lg-12 mb-3">
+                                    </div>
+
+                                    <div class="col-sm-12 col-lg-12 mb-3">
                                         <label for="id_remarks"></label>
                                         <textarea name="remarks" class="form-control" id="id_remarks" rows="1"
                                             placeholder="Remarks"></textarea>
                                     </div>
-                                    
+
                                     <div class="col-sm-12 col-lg-12">
                                         <div class="card" id="id_pendingpayments" style="display:none;">
                                             <div class="card-header">
@@ -133,7 +135,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-lg-12">
-                                        <div class="card" id="id_clearedpayments" style="display:block;">
+                                        <div class="card collapsed-card" id="id_clearedpayments">
                                             <div class="card-header">
                                                 <h5 class="card-title">CLEARED PAYMENTS</h5>
                                                 <div class="card-tools">
@@ -141,11 +143,11 @@
                                                     <button type="button" class="btn btn-tool"
                                                         data-card-widget="collapse" data-toggle="tooltip"
                                                         data-placement="top" title="Expand/Collapse">
-                                                        <i class="fas fa-minus"></i>
+                                                        <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div class="card-body p-0">
+                                            <div class="card-body p-0" style="display: none;">
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
@@ -155,10 +157,7 @@
                                                             <th>Attachment</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="tbody_clearedpayment">
-                                                    <tbody>
-                                                    </tbody>
-                                                    </tbody>
+                                                    <tbody id="tbody_clearedpayment"></tbody>
                                                 </table>
                                             </div>
                                         </div>
@@ -173,11 +172,13 @@
                                         Back
                                     </a>
                                     <button type="submit" class="btn btn-tool btn-sm bg-gradient-primary"
-                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details" id="id_save">
+                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details"
+                                        id="id_save">
                                         SUBMIT
                                     </button>
                                     <button type="button" class="btn btn-tool btn-sm bg-gradient-primary"
-                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details" id="id_dup_save" style="display:none;">
+                                        data-toggle="tooltip" data-placement="top" title="Save Payment Details"
+                                        id="id_dup_save" style="display:none;">
                                         SUBMIT
                                     </button>
                                 </div>
@@ -187,8 +188,7 @@
                 </div>
             </section>
         </div>
-        <button type="button" id="modelpdf" style="display: none" data-toggle="modal"
-                  data-target="#pdfmodal"></button>
+        <button type="button" id="modelpdf" style="display: none" data-toggle="modal" data-target="#pdfmodal"></button>
         <div class="modal fade" id="pdfmodal">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
