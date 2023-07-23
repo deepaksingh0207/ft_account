@@ -2,9 +2,6 @@
 
 class ItMasterModel extends Model {
     
-    
-   
-    
     public function get($id) {
         $sql = "select * from it_master where id = ? limit 1";
         $this->_setSql($sql);

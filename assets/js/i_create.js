@@ -280,30 +280,28 @@ function preview_builder() {
     // } else {
     //   $("#preview_tbody").append('<input type="hidden" name="proforma" value="0">');
     // }
-    
+
     $.each(items_for_invoicing, function (i, id) {
       var item = $("#" + id).data("item");
       var payment = $("#" + id).data("payment");
       var proforma = $("#" + id).data("proforma");
 
-      if (payment == 0) {
-        // Non Payment-Term Item
-        if (proforma == 0) { t = tree["items"][item] }
-        else { t = tree["items"][item] }
-      } else {
+      // Non Payment-Term Item
+      if (payment == 0) { t = tree["items"][item] } 
+      else {
         if (proforma == 0) { t = tree["items"][item]["payment"][payment] }
         else { t = tree["items"][item]["payment"][payment]["proforma"][proforma] }
       }
-      
+
       if ($("#" + id).is(':checked')) {
         var maxqty = t.qty;
-        
+
         $("#preview_tbody").append('<tr id="ptb' + c + '"></tr>');
         $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + payment + '">');
         $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + item + '">');
         $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][item]" id="id_item' + c + '" value="' + t.item + '">');
         $("#ptb" + c).append('<td><input type="hidden" name="proforma" id="id_p_proforma' + c + '" value="' + get_proforma(item, payment) + '">' + t.item + '</td>');
-        
+
         if (processing_proforma == false) {
           if (t.hasOwnProperty('proforma_invoice_item_id')) {
             $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][proforma_invoice_item_id]" value="' + t.proforma_invoice_item_id + '">');
@@ -338,7 +336,6 @@ function fillhsnselect(id) {
   })
     .done(function (data) {
       $.each(data, function (x, y) {
-        console.log(x, y);
         $(id).append('<option value="' + y.id + '">' + y.code + ' - ' + y.description + '</option>');
       });
     })

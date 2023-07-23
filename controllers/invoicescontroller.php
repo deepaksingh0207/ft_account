@@ -232,6 +232,7 @@ class InvoicesController extends Controller
         $orderTable = new OrdersModel();
         $company = new CompanyModel();
         $hsn = new HsnModel();
+        $totalbr = 11;
         if(!empty($_POST)) {
             $data = $_POST;
 
@@ -271,7 +272,7 @@ class InvoicesController extends Controller
                 $orderItem['hsn_id'] = $item['hsn_id'];
                 $orderItem['unit_price'] = $item['unit_price'];
                 $orderItem['total'] = $item['total'];
-                if($item['total'] > 0) { $invoiceItems[] = $orderItem; }
+                if($item['total'] > 0) { $invoiceItems[] = $orderItem; $totalbr--;}
             }
 
         } else {
@@ -306,6 +307,11 @@ class InvoicesController extends Controller
             $qrcode = '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.$irnrec['signed_qrcode'].'&choe=UTF-8" title="QR Code" />';
         }
 
+        $br = "<tr><td colspan='6'><br>";
+        for ($i=1; $i< ($totalbr/2 - 1); $i++){ $br .= '<br>'; }
+        $br .= "</td></tr>";
+
+
         $vars = array(
             "{{IRN}}" => $irn,
             "{{IRN_DATE}}" => $irndt,
@@ -326,7 +332,7 @@ class InvoicesController extends Controller
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
             "{{CUST_ADDRESS}}" =>"<b>" . $customer['name']."</b><br />". addressmaker($customer['address'], 3),
             "{{CUST_TEL}}" => $customer['pphone'],
-            "{{DECLARATION}}" => getdeclaration($customer['declaration']),
+            "{{DECLARATION}}" => getdeclaration($customer['declaration'], $totalbr),
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
             "{{CUST_GST}}" => $customer['gstin'],
@@ -334,6 +340,7 @@ class InvoicesController extends Controller
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+            "{{REST_BR}}" => $br,
         );
         
         if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICES"; }
@@ -749,13 +756,13 @@ class InvoicesController extends Controller
 
 }
 // Jthayil Start
-function getdeclaration($val, $flag=false) {
-    if ($flag == false){
-        if ($val != ""){ return "<tr><td colspan='6'><b>Declaration</b><br>". $val."</td></tr>"; }
-        else{ return ""; }
-    }
-    else{if ($val != "") { return true; }
-    else { return false; }}
+function getdeclaration($val, $brcount) {
+    if ($val != ""){ return "<tr><td colspan='6'><b>Declaration</b><br>". $val."<br></td></tr>"; }
+    $br = "<tr><td colspan='6'><br>";
+    for ($i=1; $i< ($brcount/2); $i++){ $br .= '<br>'; }
+    $br .= "</td></tr>";
+    // print_r(($brcount/2));
+    return $br;
 }
 
 function addressmaker($val, $firstLineBreak=2) {
