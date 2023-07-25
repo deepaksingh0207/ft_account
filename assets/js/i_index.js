@@ -84,10 +84,11 @@ $(document).on("click", ".genirn", function () {
   var getIrnId = getRemote(geturl);
   if (getIrnId['Status'] == "0"){
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
-  }
-  else {
+  } else {
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
     if (getInvIrn) { $('.col_genirn, .col_invid').hide(); }
+    $('.feeter').show().text();
+
   }
   // pleasewait(0);
 });
