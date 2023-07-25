@@ -232,7 +232,7 @@ class InvoicesController extends Controller
         $orderTable = new OrdersModel();
         $company = new CompanyModel();
         $hsn = new HsnModel();
-        $totalbr = 11;
+        $totalbr = 10;
         if(!empty($_POST)) {
             $data = $_POST;
 
@@ -294,7 +294,7 @@ class InvoicesController extends Controller
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         
         $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc">Qty.</th><th class="bb2 txtc">Unit</th>';
-        if(in_array($order['order_type'], array(1, 2, 3, 5, 7, 99))) { $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>'; }
+        if(in_array($order['order_type'], array(1, 2, 3, 5, 99))) { $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>'; }
         $dataItem = $invoiceItems;
         $irn = '';
         $slt = '';
@@ -302,13 +302,14 @@ class InvoicesController extends Controller
         $irndt = '';
         $irnrec = $invoiceIrnTbl->getByInvoiceId($invoiceId);
         if(count($irnrec) && !$proformaSwitch ) {
+            $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
             $qrcode = '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.$irnrec['signed_qrcode'].'&choe=UTF-8" title="QR Code" />';
         }
 
-        $br = "<tr><td colspan='6'><br>";
+        $br = "<tr><td colspan='6'>";
         for ($i=1; $i< ($totalbr/2 - 1); $i++){ $br .= '<br>'; }
         $br .= "</td></tr>";
 
@@ -320,7 +321,7 @@ class InvoicesController extends Controller
             "{{QR_CODE}}" => $qrcode,
             "{{INV_DATE}}" => date('d/m/Y', strtotime($invoice['invoice_date'])),
             "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
-            "{{BILLTO_ADDRESS}}" => addressmaker($company['address'], 3),
+            "{{BILLTO_ADDRESS}}" => addressmaker($company['address'], 6),
             "{{COMP_TEL}}" => $company['contact'],
             "{{COMP_PAN}}" => $company['pan'],
             "{{COMP_SAC}}" => $company['sac'],
