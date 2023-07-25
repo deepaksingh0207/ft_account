@@ -282,6 +282,7 @@ class InvoicesController extends Controller
                 $invoice = $tblProformaInvoice->get($invoiceId);
                 $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
             }
+            foreach($invoiceItems as $item) {$totalbr--;}
         }
 
         $company = $company->get(1);
