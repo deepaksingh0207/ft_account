@@ -75,6 +75,7 @@ function createbookeeper() {
           tree["items"][item.id]["proforma"]["ids"].push(proforma.id);
           tree["items"][item.id]["proforma"][proforma.id] = proforma
           tree["items"][item.id]["proforma"]["ot"] = item.order_type
+          tree["items"][item.id]["proforma"][proforma.id]["invoice"] = { ids: [] }
         }
       });
     }
@@ -287,8 +288,10 @@ function preview_builder() {
       var proforma = $("#" + id).data("proforma");
 
       // Non Payment-Term Item
-      if (payment == 0) { t = tree["items"][item] } 
-      else {
+      if (payment == 0) {
+        if (proforma == 0) { t = tree["items"][item] }
+        else { t = tree["items"][item]["proforma"][proforma] }
+      } else {
         if (proforma == 0) { t = tree["items"][item]["payment"][payment] }
         else { t = tree["items"][item]["payment"][payment]["proforma"][proforma] }
       }
