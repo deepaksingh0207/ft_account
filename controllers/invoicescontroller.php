@@ -566,7 +566,7 @@ class InvoicesController extends Controller
     //einvoice 
     function getEinvoiceAuthToken() {
         $url = EINVOICE_URL . 'eivital/dec/v1.04/auth?';
-        $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' => GST_NO, 'eInvPwd' => EINVPWD);
+        $params = array('aspid' =>urlencode(ASP_ID), 'password' => urlencode(EINVOICE_PASSWORD), 'user_name' => urlencode(EINVOICE_USERNAME),'Gstin' => urlencode(GST_NO), 'eInvPwd' => urlencode(EINVPWD));
         $url = $url . http_build_query($params);
         
         // echo '<pre>'; print_r($url);
@@ -594,7 +594,7 @@ class InvoicesController extends Controller
         // echo '<pre>'; print_r($authToken);
         
         if ($authToken['Status'] == 1){
-            $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' =>GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
+            $params = array('aspid' => urlencode(ASP_ID), 'password' => urlencode(EINVOICE_PASSWORD), 'user_name' => urlencode(EINVOICE_USERNAME),'Gstin' =>urlencode(GST_NO), 'AuthToken' => $authToken['Data']['AuthToken']);
             $url = $url . http_build_query($params);
             
 
