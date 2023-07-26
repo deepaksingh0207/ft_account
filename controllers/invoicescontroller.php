@@ -345,19 +345,38 @@ class InvoicesController extends Controller
             "{{REST_BR}}" => $br,
         );
         
-        if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICES"; }
+        if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICE"; }
         else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; $vars["{{TITLE}}"] = "TAX INVOICE"; }
 
         if ($hidepo){ $vars["{{PO_NO}}"] = ""; }
 
         $orderBaseTotal = 0.00;
         $itemList = '';
+        $keys = array_key_last($dataItem);
+        // echo '<pre>'; print_r($keys); exit;
         foreach($dataItem as $key => $item) {
             $hsncode = $hsn->get($item['hsn_id']);
-            $itemList .= '<tr class="txtsmr"><td class="txtc">'.($key+1).'</td><td>'.$item['description'].'</td><td class="txtc">'.$hsncode['code'].'</td>';
-            if(in_array($order['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td></td><td></td>'; }
-            else { $itemList .= '<td class="txtc">'.$item['qty'].'</td><td class="txtc">'.number_format($item['unit_price'], 2).'</td>'; }
-            $itemList .= '<td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
+            if ($keys == $key && 0 == $key){
+                $itemList .= '<tr class="txtsmr"><td class="txtc pb-1 pt-1">'.($key+1).'</td><td class="pb-1 pt-1">'.$item['description'].'</td><td class="txtc pb-1 pt-1">'.$hsncode['code'].'</td>';
+                if(in_array($order['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td class="pb-1 pt-1"></td><td class="pb-1 pt-1"></td>'; }
+                else { $itemList .= '<td class="txtc pb-1 pt-1">'.$item['qty'].'</td><td class="txtc pb-1 pt-1">'.number_format($item['unit_price'], 2).'</td>'; }
+                $itemList .= '<td class="txtc pb-1 pt-1">'.number_format($item['total'], 2).'</td></tr>';
+            } else if ($keys == $key){
+                $itemList .= '<tr class="txtsmr"><td class="txtc pb-1">'.($key+1).'</td><td class=" pb-1">'.$item['description'].'</td><td class="txtc pb-1">'.$hsncode['code'].'</td>';
+                if(in_array($order['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td class="pb-1"></td><td class="pb-1"></td>'; }
+                else { $itemList .= '<td class="txtc pb-1">'.$item['qty'].'</td><td class="txtc pb-1">'.number_format($item['unit_price'], 2).'</td>'; }
+                $itemList .= '<td class="txtc pb-1">'.number_format($item['total'], 2).'</td></tr>';
+            } else if (0 == $key){
+                $itemList .= '<tr class="txtsmr"><td class="txtc pt-1">'.($key+1).'</td><td class=" pt-1">'.$item['description'].'</td><td class="txtc pt-1">'.$hsncode['code'].'</td>';
+                if(in_array($order['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td class="pt-1"></td><td class="pt-1"></td>'; }
+                else { $itemList .= '<td class="txtc pt-1">'.$item['qty'].'</td><td class="txtc pt-1">'.number_format($item['unit_price'], 2).'</td>'; }
+                $itemList .= '<td class="txtc pt-1">'.number_format($item['total'], 2).'</td></tr>';
+            } else {
+                $itemList .= '<tr class="txtsmr"><td class="txtc">'.($key+1).'</td><td>'.$item['description'].'</td><td class="txtc">'.$hsncode['code'].'</td>';
+                if(in_array($order['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td></td><td></td>'; }
+                else { $itemList .= '<td class="txtc">'.$item['qty'].'</td><td class="txtc">'.number_format($item['unit_price'], 2).'</td>'; }
+                $itemList .= '<td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
+            }
             $orderBaseTotal += $item['total'];
         }
 
