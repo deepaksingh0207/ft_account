@@ -204,6 +204,14 @@
   .txtsmr {
     font-size: smaller;
   }
+  
+  .pb-1 {
+    padding-bottom: 1rem;
+  }
+
+  .pt-1 {
+    padding-top: 1rem;;
+  }
 </style>
 <table cellspacing="0" width="100%" class="f-xl">
   <thead>
@@ -306,18 +314,18 @@
       <!-- {{TAX_LAYOUT}} -->
     </tr>
     <tr class="txtsmr">
-      <td colspan="5" class="bb1 txtr">Total invoice amount including taxes INR</td>
+      <td colspan="5" class="bb1 txtr">Total invoice value including taxes INR</td>
       <td class="bb1 txtc">{{INV_TOTAL}}</td>
     </tr>
-    <tr>
+    <tr class="txtsm">
       <td colspan="6"><i><b> In Words: {{AMOUNT_WORD}} Only.</b></i></td>
     </tr>
     {{DECLARATION}}
-    <tr>
+    <tr class="txtsm">
       <td colspan="3"><b><u><i>Term & Condition:</i></u></b></td>
       <td colspan="3" rowspan="5" style="text-align: right; padding-right: 2em;">{{QR_CODE}}</td>
     </tr>
-    <tr>
+    <tr class="txtsm">
       <td colspan="3">
         <ol>
           <li>Payment 100% -</li>
@@ -327,13 +335,13 @@
       </td>
     </tr>
     {{REST_BR}}
-    <tr>
+    <tr class="txtsm">
       <td colspan="3">For F.T. Solutions Pvt. Ltd.</td>
     </tr>
     <tr>
       <td colspan="3"><br><br><br><br></td>
     </tr>
-    <tr>
+    <tr class="txtsm">
       <td colspan="6">Authorised Signature</td>
     </tr>
   </tbody>
@@ -341,7 +349,7 @@
     <tr>
       <td colspan="6">
         <hr />
-        <p style="text-align: center;font-size: x-small;">
+        <p style="text-align: center;font-size: 5px;">
           {{BILLTO_ADDRESS}} Tel.: {{COMP_TEL}}<br />
           Email: account@fts-pl.com Website: http://www.fts-pl.com
         </p>
