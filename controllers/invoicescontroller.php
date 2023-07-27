@@ -610,7 +610,7 @@ class InvoicesController extends Controller
         $authToken = $this->getEinvoiceAuthToken();
         $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
         
-        // echo '<pre>'; print_r($authToken);
+        //echo '<pre>'; print_r($authToken); exit;
         
         if ($authToken['Status'] == 1){
             $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' =>GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
@@ -635,8 +635,8 @@ class InvoicesController extends Controller
             $request['SELLERDTLS']['ADDR1'] = substr($company['address'], 0, 100);
             $request['SELLERDTLS']['ADDR2'] = null;
             $request['SELLERDTLS']['LOC'] = 'INDIA';
-            $request['SELLERDTLS']['PIN'] = '133001';
-            $request['SELLERDTLS']['STCD'] = '06';
+            $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
+            $request['SELLERDTLS']['STCD'] = '27';
             $request['SELLERDTLS']['PH'] = null;
             $request['SELLERDTLS']['EM'] = null;
 
@@ -657,8 +657,8 @@ class InvoicesController extends Controller
             $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
             $request['DISPDTLS']['ADDR2'] = null;
             $request['DISPDTLS']['LOC'] = 'INDIA';
-            $request['DISPDTLS']['PIN'] = '133001';
-            $request['DISPDTLS']['STCD'] = '06';
+            $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
+            $request['DISPDTLS']['STCD'] = '27';
 
             //Item list
             $request['ITEMLIST'] = array();
@@ -731,12 +731,13 @@ class InvoicesController extends Controller
             $request['EWBDTLS']['VEHNO'] = null;
             $request['EWBDTLS']['VEHTYPE'] = null;
 
-            // echo '<pre>';
-            // print_r($request);
-            // print_r($url);
 
+            //echo $url;
             $response = $this->sendRequest('POST', $url, $request);
             $data = json_decode($response, true);
+
+             //echo '<pre>'; print_r($data); print_r($url);
+
             if($data['Status']) {
                 $newdata = json_decode($data['Data'], true);
                 $irn_invoice = array();
