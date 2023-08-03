@@ -696,7 +696,7 @@ class InvoicesController extends Controller
                 $tmp['STATECESAMT'] = 0;
                 $tmp['STATECESNONADVLAMT'] = 0;
                 $tmp['OTHCHRG'] = 0;
-                $tmp['TOTITEMVAL'] = $item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'];
+                $tmp['TOTITEMVAL'] = number_format($item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'],2, ".", "");
                 $tmp['ORDLINEREF'] = null;
                 $tmp['ORGCNTRY'] = null;
 
@@ -711,8 +711,8 @@ class InvoicesController extends Controller
             $request['VALDTLS']['CESVAL'] = 0;
             $request['VALDTLS']['STCESVAL'] = 0;
             $request['VALDTLS']['RNDOFFAMT'] = 0;
-            $request['VALDTLS']['TOTINVVAL'] = (float)$invoice['invoice_total'];
-            $request['VALDTLS']['TOTINVVALFC'] = (float)$invoice['invoice_total'];
+            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'],2, ".", "");
+            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'],2, ".", "");
 
             $request['EXPDTLS']['SHIPBNO'] = null;
             $request['EXPDTLS']['SHIPBDT'] = null;
