@@ -636,7 +636,7 @@ class InvoicesController extends Controller
             $request['SELLERDTLS']['ADDR2'] = null;
             $request['SELLERDTLS']['LOC'] = 'INDIA';
             $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
-            $request['SELLERDTLS']['STCD'] = '27';
+            $request['SELLERDTLS']['STCD'] = substr($company['gstin'], 0, 2);
             $request['SELLERDTLS']['PH'] = null;
             $request['SELLERDTLS']['EM'] = null;
 
@@ -658,7 +658,7 @@ class InvoicesController extends Controller
             $request['DISPDTLS']['ADDR2'] = null;
             $request['DISPDTLS']['LOC'] = 'INDIA';
             $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
-            $request['DISPDTLS']['STCD'] = '27';
+            $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
 
             //Item list
             $request['ITEMLIST'] = array();
@@ -681,13 +681,13 @@ class InvoicesController extends Controller
                 $tmp['ASSAMT'] = (float)$item['total'];
                 $tmp['GSTRT'] = 18;
                 if($invoice['igst'] > 0) {
-                    $tmp['IGSTAMT'] = ($item['total'] * $tmp['GSTRT']) / 100;
+                    $tmp['IGSTAMT'] = number_format((float)($item['total'] * $tmp['GSTRT']) / 100, 2, '.', '');
                     $tmp['CGSTAMT'] = 0;
                     $tmp['SGSTAMT'] = 0;    
                 } else {
                     $tmp['IGSTAMT'] = 0;
-                    $tmp['CGSTAMT'] = ($item['total'] * ($tmp['GSTRT'] / 100))/2;
-                    $tmp['SGSTAMT'] = ($item['total'] * ($tmp['GSTRT'] / 100))/2;    
+                    $tmp['CGSTAMT'] = number_format((float)($item['total'] * ($tmp['GSTRT'] / 100))/2, 2, '.', '');
+                    $tmp['SGSTAMT'] = number_format((float)($item['total'] * ($tmp['GSTRT'] / 100))/2, 2, '.', '');    
                 }
                 $tmp['CESRT'] = 0;
                 $tmp['CESAMT'] = 0;
@@ -696,7 +696,7 @@ class InvoicesController extends Controller
                 $tmp['STATECESAMT'] = 0;
                 $tmp['STATECESNONADVLAMT'] = 0;
                 $tmp['OTHCHRG'] = 0;
-                $tmp['TOTITEMVAL'] = number_format($item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'],2, ".", "");
+                $tmp['TOTITEMVAL'] = number_format((float)$item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'], 2, '.', '');
                 $tmp['ORDLINEREF'] = null;
                 $tmp['ORGCNTRY'] = null;
 
@@ -711,8 +711,8 @@ class InvoicesController extends Controller
             $request['VALDTLS']['CESVAL'] = 0;
             $request['VALDTLS']['STCESVAL'] = 0;
             $request['VALDTLS']['RNDOFFAMT'] = 0;
-            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'],2, ".", "");
-            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'],2, ".", "");
+            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
 
             $request['EXPDTLS']['SHIPBNO'] = null;
             $request['EXPDTLS']['SHIPBDT'] = null;
@@ -732,6 +732,7 @@ class InvoicesController extends Controller
             $request['EWBDTLS']['VEHTYPE'] = null;
 
 
+            // echo '<pre>'; print_r($request);exit;
             //echo $url;
             $response = $this->sendRequest('POST', $url, $request);
             $data = json_decode($response, true);
