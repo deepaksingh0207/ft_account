@@ -636,7 +636,7 @@ class InvoicesController extends Controller
             $request['SELLERDTLS']['ADDR2'] = null;
             $request['SELLERDTLS']['LOC'] = 'INDIA';
             $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
-            $request['SELLERDTLS']['STCD'] = '27';
+            $request['SELLERDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
             $request['SELLERDTLS']['PH'] = null;
             $request['SELLERDTLS']['EM'] = null;
 
@@ -658,7 +658,7 @@ class InvoicesController extends Controller
             $request['DISPDTLS']['ADDR2'] = null;
             $request['DISPDTLS']['LOC'] = 'INDIA';
             $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
-            $request['DISPDTLS']['STCD'] = '27';
+            $request['DISPDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
 
             //Item list
             $request['ITEMLIST'] = array();
