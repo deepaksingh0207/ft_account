@@ -10,6 +10,8 @@ class DashboardController extends Controller
     }
 
     public function index() {
+        $customerList = new CustomersModel();
+        $customers = $customerList->getNameList();
         
         try {
 
@@ -27,24 +29,18 @@ class DashboardController extends Controller
             $this->_view->set('orderSumary', $orderSumary);
             $this->_view->set('invoiceSumary', $invoiceSumary);
             $this->_view->set('paymentSumary', $paymentSumary);
+            $this->_view->set('customers', $customers);
             
             
             $invoices = $this->_model->getCustomerInvoiceList(); 
             
             if($invoices) {
                 foreach($invoices as &$invoice) {
-                    
-                    if(strtotime($invoice['due_date']) < strtotime('today')) {
-                        $invoice['due_status'] = 'expired';
-                    } else if(strtotime($invoice['due_date']) === strtotime('today')) {
-                        $invoice['due_status'] = 'expire today';
-                    } else if(strtotime($invoice['due_date']) > strtotime('today') &&
-                    strtotime($invoice['due_date']) < strtotime('+7 days')
-                    ) {
-                        $invoice['due_status'] = 'expire soon';
-                    } else {
-                        $invoice['due_status'] = 'valid';
-                    }
+                    if(strtotime($invoice['due_date']) < strtotime('today')) { $invoice['due_status'] = 'expired'; }
+                    else if(strtotime($invoice['due_date']) === strtotime('today')) { $invoice['due_status'] = 'expire today'; }
+                    else if(strtotime($invoice['due_date']) > strtotime('today') && strtotime($invoice['due_date']) < strtotime('+7 days'))
+                    { $invoice['due_status'] = 'expire soon'; }
+                    else { $invoice['due_status'] = 'valid'; }
                 }
             }
 
@@ -90,6 +86,30 @@ class DashboardController extends Controller
             echo "Application error:" . $e->getMessage();
         }
         
+    }
+
+    public function search() {
+        $invoices = $this->_model->getCustomerInvoiceList($_POST);
+        if($invoices) {
+            foreach($invoices as &$invoice) {
+                $tmp = $invoice;
+                if(strtotime($invoice['due_date']) < strtotime('today')) { $tmp['due_status'] = 'expired'; }
+                else if(strtotime($invoice['due_date']) === strtotime('today')) { $tmp['due_status'] = 'expire today'; }
+                else if(strtotime($invoice['due_date']) > strtotime('today') && strtotime($invoice['due_date']) < strtotime('+7 days'))
+                { $tmp['due_status'] = 'expire soon'; }
+                else { $tmp['due_status'] = 'valid'; }
+                $temp[] = $tmp;
+            }
+        }
+        
+        $result = array();
+        $result['draw'] = 1;
+        $result['data'] = $temp;
+        $result['recordsTotal'] = count($invoices);
+        $result['recordsFiltered'] = count($invoices);
+
+        echo json_encode($result);
+        exit;        
     }
 
     public function report() {

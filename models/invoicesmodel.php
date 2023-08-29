@@ -59,6 +59,13 @@ class InvoicesModel extends Model {
         return $user;
     }
 
+    public function getByID($id) {
+        $sql = "SELECT * FROM invoices where id = ? limit 1";
+        $this->_setSql($sql);
+        $user = $this->getRow(array($id));
+        return $user;
+    }
+
     public function getByInvoiceNo($invoiceNo) {
         $sql = "select * from invoices where invoice_no = ? limit 1";
         $this->_setSql($sql);
@@ -87,7 +94,7 @@ class InvoicesModel extends Model {
         
         $fields = array_keys($updateRecord);
         
-        $sql = "update orders set ";
+        $sql = "update invoices set ";
         
         foreach ($fields as $field) {
             $sql .= " $field = ?,";
@@ -98,7 +105,7 @@ class InvoicesModel extends Model {
         $data = array_values($updateRecord);
         $data[] = $id;
         
-        //echo '<pre>'; print_r($data);
+        // echo '<pre>'; print_r($sql);
         
         $sth = $this->_db->prepare($sql);
         
@@ -191,22 +198,44 @@ class InvoicesModel extends Model {
         return $items;
     }
     
-    public function getCustomerInvoiceList() {
-        // JThayil 14 Feb Dashboard
-        $sql = "select CG.name customer_group, C.name customer_name, I.po_no, I.id invoice_id, I.invoice_no, I.invoice_date, IFNULL(I.invoice_total, 0) invoice_amount, IFNULL(P.allocated_amt, 0) recieved_amount, IFNULL((invoice_total - IFNULL(P.allocated_amt, 0)), 0) balance_amount, tds_deducted, I.due_date
+    public function getCustomerInvoiceList($filter = array()) {
+        $where = ' where I.status = 1 ';
+
+        $fieldVal = array();
+        if(!empty($filter)) {
+            foreach($filter as $key => $val) {
+                if(!empty(trim($val)))  {
+                    
+                    if($key == 'startdate') {
+                        $where .= " and I.invoice_date >= ? ";
+                        $fieldVal[] = $val;
+                    } 
+                    if($key == 'enddate') {
+                        $where .= " and I.invoice_date <= ? ";
+                        $fieldVal[] = $val;
+                    }
+
+                    if($key == 'customer_id') { 
+                        $where .= " and C.id= ? ";
+                        $fieldVal[] = $val;
+                    }
+                }
+            }
+        }
+
+        $sql = "select 
+
+        C.name customer_name, I.invoice_no, I.invoice_date, IFNULL(I.invoice_total, 0) invoice_amount, tds_deducted, IFNULL(P.allocated_amt, 0) recieved_amount, IFNULL((invoice_total - IFNULL(P.allocated_amt, 0)), 0) balance_amount, I.due_date, I.id invoice_id
         from invoices I
         left join (select invoice_id, SUM(allocated_amt) allocated_amt,  SUM(tds_deducted) tds_deducted from payments group by invoice_id) P on (P.invoice_id = I.id)
         join customers C ON (I.customer_id = C.id)
         join customer_groups CG on (C.group_id = CG.id)
-        where I.status = 1
-        order by due_date asc";
-        // JThayil 14 Feb End
-        $this->_setSql($sql);
-        $list = $this->getAll();
+        $where order by due_date asc";
         
-        if (empty($list)) {
-            return false;
-        }
+        $this->_setSql($sql);
+        $list = $this->getAll($fieldVal);
+        
+        if (empty($list)) { return false; }
     
         return $list;
     }
@@ -217,6 +246,18 @@ class InvoicesModel extends Model {
         $user = $this->getrow();
         
         return $user;
+    }
+
+    public function check_invoice_validty($val) {
+        //$sql = "select * from invoices where 1=1 order by updated_date desc";
+        $sql = "select * from (select invoice_no from invoices where status = 1 union select invoice_no from invoice_irns) as mgr where invoice_no = ? limit 1;";
+        $this->_setSql($sql);
+        $data = $this->getAll(array($val));
+
+        if (empty($data)){
+            return false;
+        }
+        return $data;
     }
 
     public function getRecordsByField($field, $val) {

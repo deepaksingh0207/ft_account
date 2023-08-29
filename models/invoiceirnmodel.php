@@ -34,7 +34,7 @@ class InvoiceIrnModel extends Model {
     }
 
     public function getByInvoiceId($id) {
-        $sql = "select * from invoice_irns where invoice_id = ? and status = 1";
+        $sql = "select * from invoice_irns where invoice_id = ?";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         if (empty($user)){
@@ -48,6 +48,18 @@ class InvoiceIrnModel extends Model {
         $sql = "delete from invoice_irns where invoice_id = ?";
         $stmt = $this->_db->prepare ($sql);
         return $stmt->execute(array($invoiceId));
+    }
+
+    public function cancelIrnByInvoice($invoiceId) {
+        $sql = "update invoice_irns set status = 0 where invoice_id = ?";
+        $stmt = $this->_db->prepare ($sql);
+        return $stmt->execute(array($invoiceId));
+    }
+
+    public function cancelIrnByIrn($id) {
+        $sql = "update invoice_irns status = 0 where id = ?";
+        $stmt = $this->_db->prepare ($sql);
+        return $stmt->execute(array($id));
     }
     
     

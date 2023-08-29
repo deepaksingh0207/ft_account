@@ -17,9 +17,7 @@ $("#group_id").change(function () {
           fill_shipto_details(0, r[0].id);
         }
       })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        
-      });
+      .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
   }
 });
 
@@ -47,9 +45,7 @@ function getgst(id) {
       }
       update_tax();
     })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      
-    });
+    .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
   $("#itemcard").show();
 }
 
@@ -60,9 +56,7 @@ function get_sales_person(id) {
       $("#sales_person").val(r.contact_person).removeClass("is-invalid");
       getgst(id);
     })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-      
-    });
+    .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
 }
 
 function fill_billto_details(index, id, name) {
@@ -191,6 +185,7 @@ $(document).on("focusout", "#po_no", function () {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.");
+        console.log(jqXHR, textStatus, errorThrown);
       });
   }
 });
