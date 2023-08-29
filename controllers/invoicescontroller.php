@@ -18,13 +18,9 @@ class InvoicesController extends Controller
             //$invoices = $this->_model->getList();
             //$this->_view->set('invoices', $invoices);
             $this->_view->set('title', 'Invoice List');
-            
-            
             return $this->_view->output();
             
-        } catch (Exception $e) {
-            echo "Application error:" . $e->getMessage();
-        }
+        } catch (Exception $e) { echo "Application error:" . $e->getMessage(); }
     }
     
     public function create() {
@@ -70,7 +66,8 @@ class InvoicesController extends Controller
                 $invoiceeData['due_date'] = $data['due_date'];
                 //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
                 $invoiceeData['invoice_no'] = $data['invoice_no'];
-
+                $invoiceeData['hide_po'] = isset($data['hidepo']) ? ($data['hidepo'] == "on" ? 1: 0) : 0;
+                // echo '<pre>'; print_r($invoiceeData); exit;
                 $invoiceeData['user_id'] = $this->_session->get('user_id'); // created by user
                 
                 
@@ -108,11 +105,10 @@ class InvoicesController extends Controller
 
                     $invoiceItems[] = $orderItem;
                 }
-                
-                $hide_po = isset($data['hidepo']) ? ($data['hidepo'] == "1"? true: false) : false;
 
                 if($isProformaInvoice) {
                     $tblProformaInvoice = new ProformaInvoicesModel();
+                    // echo '<pre>'; print_r($invoiceeData); exit;
                     $invoiceId = $tblProformaInvoice->save($invoiceeData);
                     if($invoiceId) {
                         $tblInvoiceItem = new ProformaInvoiceItemsModel();
@@ -121,7 +117,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        $this->geninv($invoiceId, true, true, $hide_po);
+                        $this->geninv($invoiceId, true, true, $invoiceeData['hide_po']);
 
                         $_SESSION['message'] = 'Invoice added successfully';
                         header("location:". ROOT. "invoices"); 
@@ -129,6 +125,7 @@ class InvoicesController extends Controller
                         $_SESSION['error'] = 'Fail to add invoice';
                     }
                 } else {
+                    // echo '<pre>'; print_r($invoiceeData); exit;
                     $invoiceId = $this->_model->save($invoiceeData);
                     if($invoiceId) {
                         $tblInvoiceItem = new InvoiceItemsModel();
@@ -141,7 +138,7 @@ class InvoicesController extends Controller
                             $tblInvoiceItem->save($invoiceItem);
                         }
                         
-                        // $this->geninv($invoiceId, true, false, $hide_po);
+                        // $this->geninv($invoiceId, true, false, $invoiceeData['hide_po']);
 
                         // $this->postEinvoiceRequest($invoiceId);
 
@@ -240,6 +237,8 @@ class InvoicesController extends Controller
             
             if (!$invoiceId){ $invoiceId = ($this->_model->getLastId() + 1); }
             $proformaSwitch = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
+
+            $hidepo = isset($data['hidepo']) ? ($data['hidepo'] == "on" ? true: false) : false;
             
             $invoice['invoice_no'] = $data['invoice_no'];
             $invoice['group_id'] = $data['group_id'];
@@ -259,6 +258,7 @@ class InvoicesController extends Controller
             $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
             $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
+            $invoice['hide_po'] = $hidepo;
             $invoice['remarks'] = $data['remarks'];
 
             foreach($data['order_details'] as $item) {
@@ -348,7 +348,7 @@ class InvoicesController extends Controller
         if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICE"; }
         else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; $vars["{{TITLE}}"] = "TAX INVOICE"; }
 
-        if ($hidepo){ $vars["{{PO_NO}}"] = ""; }
+        if ($hidepo){ $vars["{{PO_NO}}"] = "Purchase Order No.: As per mail"; }
 
         $orderBaseTotal = 0.00;
         $itemList = '';
@@ -507,7 +507,6 @@ class InvoicesController extends Controller
     }
 
     public function search() {
-
         $invoices = $this->_model->getList($_POST);
         
         $result = array(); 
@@ -527,23 +526,20 @@ class InvoicesController extends Controller
             $tmp[] = $invoice['invoice_total'];
             $result['data'][] = $tmp;
         }
-
-        
-
         echo json_encode($result);
         exit;
     }
     
     public function invoice_validty() {
         if(!empty($_POST)) {
-             if($t = $this->_model->getRecordsByField('invoice_no', $_POST['invoice_no'])) {
-                 echo 0;
-             } else {
-                echo true;
-             }
-        } else {
-            echo false;
-        }
+             if($t = $this->_model->check_invoice_validty($_POST['invoice_no'])) { echo 0; }
+             else { echo true; } }
+        else { echo false; }
+    }
+
+    public function check_invoice_validty($invoice_no=null) {
+        if($t = $this->_model->check_invoice_validty($invoice_no)) { echo 0; }
+        else { echo true; }
     }
 
     public function proforma_validty() {
@@ -596,7 +592,14 @@ class InvoicesController extends Controller
         return $data;
     }
 
-    function postEinvoiceRequest($invoiceId) {
+    function updateCreditNote($invoiceIrnId, $creditnote = null) {
+        $invoiceIrnTbl = new InvoiceIrnModel();
+        $irnrec = $invoiceIrnTbl->updateCreditNote($invoiceIrnId, $invoiceId);
+        $data = json_decode($irnrec, true);
+        return $data;
+    }
+    
+    function postEinvoiceRequest($invoiceId, $invoiceNo = 0) {
         $hsn = new HsnModel();
         $customerList = new CustomersModel();
         $invoiceItemTbl = new InvoiceItemsModel();
@@ -604,13 +607,17 @@ class InvoicesController extends Controller
         $company = new CompanyModel();
         $company = $company->get(1);
         
-        $invoice = $this->_model->get($invoiceId);
+        $invoice = $this->_model->getByID($invoiceId);
+        if($invoiceNo != 0){ $invoice['invoice_no'] = $invoiceNo; }
+
+        print_r($invoice);
+        $this->_model->update($invoiceId, $invoice);
         $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
         $customer = $customerList->get($invoice['customer_id']);
         $authToken = $this->getEinvoiceAuthToken();
         $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
         
-        //echo '<pre>'; print_r($authToken); exit;
+        // echo '<pre>'; print_r($invoiceNo); exit;
         
         if ($authToken['Status'] == 1){
             $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' =>GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
@@ -625,7 +632,8 @@ class InvoicesController extends Controller
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'INV';
-            $request['DOCDTLS']['NO'] = $invoice['invoice_no'];
+            if ($invoiceNo != 0) {$request['DOCDTLS']['NO'] = $invoiceNo;}
+            else {$request['DOCDTLS']['NO'] = $invoice['invoice_no'];}
             $request['DOCDTLS']['DT'] = date('d/m/Y', strtotime($invoice['invoice_date']));
 
             //FTSPL Details
@@ -732,7 +740,7 @@ class InvoicesController extends Controller
             $request['EWBDTLS']['VEHTYPE'] = null;
 
 
-            // echo '<pre>'; print_r($request);exit;
+            // echo '<pre>'; print_r($request); exit;
             //echo $url;
             $response = $this->sendRequest('POST', $url, $request);
             $data = json_decode($response, true);
@@ -743,6 +751,8 @@ class InvoicesController extends Controller
                 $newdata = json_decode($data['Data'], true);
                 $irn_invoice = array();
                 $irn_invoice['invoice_id'] = $invoiceId;
+                if ($invoiceNo != 0) { $irn_invoice['invoice_no'] = $invoiceNo; }
+                else {$irn_invoice['invoice_no'] = $invoice['invoice_no'];}
                 $irn_invoice['irn_no'] = $newdata['Irn'];
                 $irn_invoice['ack_no'] = $newdata['AckNo'];
                 $irn_invoice['ack_date'] = $newdata['AckDt'];
@@ -775,6 +785,15 @@ class InvoicesController extends Controller
         //print_r($response);
         curl_close($ch);
         return $response;
+    }
+
+    function cancelEinvoiceRequest($Id) {
+        try {
+            $invoiceirn = $this->_model->getListByInvoiceId($Id);
+            $invoiceirn['status'] = 0;
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
     }
 
 }

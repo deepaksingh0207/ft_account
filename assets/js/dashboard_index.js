@@ -1,9 +1,7 @@
 var dtable;
 
 $(function () {
-    if (popup) {
-        $("#popup").trigger('click');
-    }
+    if (popup) { $("#popup").trigger('click'); }
     $.each(invoicelist, function (index, value) {
         duedate = $("#due" + value).text();
         var a = appendcode(datediff(tabledates[index]));
@@ -17,10 +15,9 @@ $(function () {
             $("#due" + value).append('<span class="description-percentage text-' + a[0] + '">' + duedate + '</span>');
         }
     });
-    $('#example1').DataTable({
-        "ordering": false,
-        "searching": false,
-    });
+
+    fill_datatable()
+
     $('#example2').DataTable({
         "ordering": false,
         "searching": false,
@@ -53,14 +50,12 @@ $(document).on("click", ".hidemon", function () {
         encode: true,
     })
         .done(function (data) {
-            if (data["disable_monitor"] == 1) {
-                $("#hide" + data["id"]).prop('checked', true)
-            } else {
-                $("#hide" + data["id"]).prop('checked', false)
-            }
+            if (data["disable_monitor"] == 1) { $("#hide" + data["id"]).prop('checked', true) }
+            else { $("#hide" + data["id"]).prop('checked', false) }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             alert("Failed to update Order hide.");
+            console.log(jqXHR, textStatus, errorThrown);
         });
 });
 
@@ -85,18 +80,43 @@ $(document).on("click", ".ordlist", function () {
 
 $(".update").on("click", function () {
     var f = {};
-    if ($("#id_startdate").val()) {
-        f.startdate = $("#id_startdate").val()
-    }
-    if ($("#id_enddate").val()) {
-        f.enddate = $("#id_enddate").val()
-    }
-    if ($("#id_customer").val()) {
-        f.customer_id = $("#id_customer").val()
-    }
+    if ($("#id_startdate").val()) { f['startdate'] = $("#id_startdate").val() }
+    if ($("#id_enddate").val()) { f['enddate'] = $("#id_enddate").val() }
+    if ($("#id_customer").val()) { f['customer_id'] = $("#id_customer").val() }
     dtable.destroy();
     fill_datatable(f);
 });
+
+
+function fill_datatable(appliedfilter = {}) {
+    dtable = $("#example1").DataTable({
+        "processing": true,
+        "ordering": false,
+        "bLengthChange": false,
+        "pageLength": 10,
+        "order": [],
+        "searching": false,
+        "columns": [
+            { data: 'customer_name' },
+            { data: 'invoice_no' },
+            { data: 'invoice_date' },
+            { data: 'invoice_amount' },
+            { data: 'tds_deducted' },
+            { data: 'recieved_amount' },
+            { data: 'balance_amount' },
+            { data: 'due_date' },
+            { data: 'due_status' },
+        ],
+        createdRow: function (row, data, dataIndex) {
+            $(row).attr('data-href', data['invoice_id']).children('td').addClass('sublist pointer align-middle text-center');
+        },
+        "ajax": {
+            url: baseUrl + "dashboard/search/",
+            type: "POST",
+            data: appliedfilter
+        }
+    });
+}
 
 function appendcode(val) {
     var val = parseInt(val)

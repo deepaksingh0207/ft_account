@@ -249,62 +249,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <?php if (is_array($invoices) || is_object($invoices)) : ?>
-                              <?php foreach ($invoices as $invoice) : ?>
-                              <?php if ($invoice['balance_amount'] - $invoice['tds_deducted'] != 0) : ?>
-                              <tr
-                                data-href="<?php echo $invoice['invoice_id'] ?>"
-                              >
-                                <td class="align-middle text-center">
-                                  <?php echo $invoice['customer_name'] ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                >
-                                  <?php echo $invoice['invoice_no'] ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                >
-                                  <?php echo date('d, M Y', strtotime($invoice['invoice_date'])) ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                >
-                                  <?php echo $invoice['invoice_amount'] ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                >
-                                  <?php if ($invoice['tds_deducted']) : ?>
-                                  <?php echo $invoice['tds_deducted'] ?>
-                                  <?php else :  ?>
-                                  0
-                                  <?php endif; ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                >
-                                  <?php echo $invoice['recieved_amount'] ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                >
-                                  <?php echo $invoice['balance_amount'] - $invoice['tds_deducted'] ?>
-                                </td>
-                                <td
-                                  class="sublist pointer align-middle text-center"
-                                  id="due<?php echo $invoice['invoice_id'] ?>"
-                                >
-                                  <?php echo date('D, d M Y', strtotime($invoice['due_date'])) ?>
-                                </td>
-                                <td
-                                  id="age<?php echo $invoice['invoice_id'] ?>"
-                                ></td>
-                              </tr>
-                              <?php endif; ?>
-                              <?php endforeach; ?>
-                              <?php endif; ?>
+
                             </tbody>
                           </table>
                         </div>

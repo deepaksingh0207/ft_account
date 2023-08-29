@@ -24,4 +24,14 @@ class InvoiceIrnController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+
+    public function cancelIrnByInvoice($Id) {
+        try {
+            $this->_model->cancelIrnByInvoice($Id);
+            $invoiceirn = $this->_model->getByInvoiceId($Id);
+            echo json_encode($invoiceirn);
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
 }

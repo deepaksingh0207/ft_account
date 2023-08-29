@@ -109,6 +109,7 @@ $(document).on("change", "#id_group_id", function () {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
+        console.log(jqXHR, textStatus, errorThrown);
       });
   }
 });
@@ -129,6 +130,7 @@ $("#customerid_id").change(function () {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No details found against this customer.");
+        console.log(jqXHR, textStatus, errorThrown);
       });
     customerid = $(this).val();
   }
@@ -160,6 +162,7 @@ $("#id_orderid").change(function () {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("No Order Item details found against this order.");
+        console.log(jqXHR, textStatus, errorThrown);
       });
   }
 });
@@ -177,7 +180,7 @@ function fillsalesperson(id) {
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
-
+      console.log(jqXHR, textStatus, errorThrown);
     });
 }
 
@@ -230,8 +233,9 @@ $(document).on("click", ".pdf", function () {
         $("#modal_body").empty().append(error);
       }
     })
-    .fail(function () {
+    .fail(function (jqXHR, textStatus, errorThrown) {
       $("#modal_body").empty().append(error);
+      console.log(jqXHR, textStatus, errorThrown);
     });
   $("#modelpdf").click();
 });
@@ -272,9 +276,60 @@ function preview_builder() {
   else {
     var c = 0
     previewList = []
-    $("#preview_modal_body").empty().append(
-      '<div class="row" id="t1" data-state="show"><div class="col-sm-12 col-lg-12"><div class="row"><div class="col-sm-12 col-lg-12"><div class="card"><div class="card-header">' + preview_label() + 'Invoice</div><div class="card-body p-0"> <table class="table"><thead><tr><th>Item</th><th>Description</th><th>' + setheader(od_order.order_type) + '</th><th>UOM</th><th>Unit Price</th><th>HSN Code</th><th>Total</th></tr></thead><tbody id="preview_tbody"></tbody></table></div> <div class="card-footer" id="preview_footer"></div></div></div><div class="col-sm-12 col-lg-3"><label for="id_invoicedate">Invoice Date</label> <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value=""></div>  <div class="col-sm-12 col-lg-3"><label for="id_due_date">Due Date</label> <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date" value=""></div> <div class="col-sm-12 col-lg-3"><label for="id_invoice_no">Invoice No.</label> <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no"></div> </div></div></div><div class="row" id="t2" data-state="hide"></div>'
-    );
+    var preview_modal_body = `
+    <div class="row" id="t1" data-state="show">
+      <div class="col-sm-12 col-lg-12">
+        <div class="row">
+          <div class="col-sm-12 col-lg-12">
+            <div class="card">
+              <div class="card-header">` + preview_label() + `Invoice</div>
+              <div class="card-body p-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Description</th>
+                      <th>` + setheader(od_order.order_type) + `</th>
+                      <th>UOM</th>
+                      <th>Unit Price</th>
+                      <th>HSN Code</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="preview_tbody"></tbody>
+                </table>
+              </div>
+              <div class="card-footer" id="preview_footer"></div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-3">
+            <label for="id_invoicedate">Invoice Date</label>
+            <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value="">
+          </div>
+          <div class="col-sm-12 col-lg-3">
+            <label for="id_due_date">Due Date</label>
+            <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date" value="">
+          </div>
+          <div class="col-sm-12 col-lg-3">
+            <label for="id_invoice_no">Invoice No.</label>
+            <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no">
+          </div>`;
+    if (od_order.open_po == '1') {
+      preview_modal_body += `<div class="col-sm-12 col-lg-3 pt-4">
+                              <div class="form-group mt-1">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                  <input type="checkbox" class="custom-control-input" name="hidepo" id="id_hidepo">
+                                  <label class="custom-control-label" for="id_hidepo">PO No : As per mail</label>
+                                </div>
+                              </div>
+                            </div>`;
+    } else {
+      preview_modal_body += `</div>
+                          </div>
+                        </div>
+                        <div class="row" id="t2" data-state="hide"></div>`
+    }
+    $("#preview_modal_body").empty().append(preview_modal_body);
 
     // if (proformaguard){
     //   $("#preview_tbody").append('<input type="hidden" name="proforma" value="1">');
@@ -381,6 +436,7 @@ $(document).on("change", "#id_invoice_no", function () {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.")
+        console.log(jqXHR, textStatus, errorThrown);
       })
   } else {
     $.ajax({
@@ -404,6 +460,7 @@ $(document).on("change", "#id_invoice_no", function () {
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
         alert("Cannot validate PO No.")
+        console.log(jqXHR, textStatus, errorThrown);
       })
   }
 })
@@ -500,6 +557,7 @@ function gst_details(customerid) {
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No tax details found.");
+      console.log(jqXHR, textStatus, errorThrown);
     });
 }
 
@@ -779,12 +837,8 @@ function checker() {
           // .children("img")
           // .css("max-width", "925px");
         })
-        .fail(function (data) {
-          debug("FAILED");
-        });
-    } else {
-      refreshpreview();
-    }
+        .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown) });
+    } else { refreshpreview(); }
   }
 }
 
