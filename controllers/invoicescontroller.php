@@ -277,6 +277,7 @@ class InvoicesController extends Controller
 
         } else {
             $invoice = $this->_model->get($invoiceId);
+            $hidepo = $invoice['hide_po'];
             $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
             if ($proformaSwitch && $invoiceId){
                 $invoice = $tblProformaInvoice->get($invoiceId);

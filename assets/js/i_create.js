@@ -323,12 +323,11 @@ function preview_builder() {
                                 </div>
                               </div>
                             </div>`;
-    } else {
-      preview_modal_body += `</div>
+    }
+    preview_modal_body += `</div>
                           </div>
                         </div>
                         <div class="row" id="t2" data-state="hide"></div>`
-    }
     $("#preview_modal_body").empty().append(preview_modal_body);
 
     // if (proformaguard){
