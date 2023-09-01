@@ -34,7 +34,7 @@ class InvoiceIrnModel extends Model {
     }
 
     public function getByInvoiceId($id) {
-        $sql = "select * from invoice_irns where invoice_id = ?";
+        $sql = "select * from invoice_irns where status=1 and invoice_id = ?";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         if (empty($user)){

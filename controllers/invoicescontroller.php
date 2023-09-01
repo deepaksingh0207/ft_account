@@ -534,13 +534,13 @@ class InvoicesController extends Controller
     public function invoice_validty() {
         if(!empty($_POST)) {
              if($t = $this->_model->check_invoice_validty($_POST['invoice_no'])) { echo 0; }
-             else { echo true; } }
-        else { echo false; }
+             else { echo 1; } }
+        else { echo 0; }
     }
 
     public function check_invoice_validty($invoice_no=null) {
         if($t = $this->_model->check_invoice_validty($invoice_no)) { echo 0; }
-        else { echo true; }
+        else { echo 1; }
     }
 
     public function proforma_validty() {
@@ -611,7 +611,7 @@ class InvoicesController extends Controller
         $invoice = $this->_model->getByID($invoiceId);
         if($invoiceNo != 0){ $invoice['invoice_no'] = $invoiceNo; }
 
-        print_r($invoice);
+        // print_r($invoice);
         $this->_model->update($invoiceId, $invoice);
         $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
         $customer = $customerList->get($invoice['customer_id']);
