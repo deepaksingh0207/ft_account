@@ -547,6 +547,16 @@ class OrdersController extends Controller
                             }
                         }
                     }
+
+                    $order = $this->_model->get($id);
+                    $order['ordertotal'] = $data['ordertotal'];
+                    $order['igst'] = $data['igst'];
+                    $order['sub_total'] = $data['ordersubtotal'];
+                    $order['tax_rate'] = $data['taxrate'];
+                    
+                    if ($orderId > 0) {
+                        $this->_model->update($orderId, $order);
+                    }
                     
                     $_SESSION['message'] = 'Order added successfully';
                     header("location:". ROOT. "orders"); 
