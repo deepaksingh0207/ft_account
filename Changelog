@@ -46,7 +46,7 @@ CREATE TABLE `invoice_irns` (
 
 ALTER TABLE `invoice_irns` ADD COLUMN `invoice_no` VARCHAR(7) NOT NULL AFTER `invoice_id`;
 
-ALTER TABLE `invoice_irns` ADD COLUMN `credit_note` VARCHAR(20) NULL DEFAULT NULL AFTER `invoice_no`;
+ALTER TABLE `invoice_irns` ADD COLUMN `credit_note` VARCHAR(20) NULL DEFAULT NULL;
 
 ALTER TABLE `invoices` ADD COLUMN `hide_po` INT NULL DEFAULT 0;
 

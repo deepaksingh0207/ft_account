@@ -129,12 +129,14 @@ $(document).on("click", ".rgenirn", function () {
   $('.feeter').show().html('<b>Please wait <span class="text-primary dot"></span></b>');
   pleasewait(10);
   var getIrnId, geturl = $(this).data('href') + "/" + new_invoiceno;
+  checkinvoice = getRemote(baseUrl + "invoices/check_invoice_validty/" + new_invoiceno);
+  if (checkinvoice == 0){$('.feeter').show().html('<span class="text-danger">Invoice No Invalid<span>'); return;}
   getIrnId = getRemote(geturl);
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
     $('.col_rgenirn').show();
   } else {
-    if (new_creditnote) { updatecredit = getRemote(baseUrl + "invoices/check_invoice_validty/" + inv_id + "/" + new_creditnote); }
+    if (new_creditnote) { updatecredit = getRemote(baseUrl + "invoices/updatecreditnote/" + inv_id + "/" + new_creditnote); }
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
     if (getInvIrn) { $('.col_genirn, .col_invid, .col_crednote').hide(); $('.col_ecanirn').show(); }
     else { $('.col_genirn').show(); }
@@ -174,7 +176,8 @@ $(document).on("click", ".ecanirn", function () {
     if (getIrnId['added_date'] > currentdate) { $('.col_crednote').show(); }
   } else {
     $('.feeter').show().html(getIrnId);
-    $('.col_ecanirn').show();
+    $('.col_conecanirn').hide();
+    $('.col_rgenirn, .col_invid').show();
   }
 });
 

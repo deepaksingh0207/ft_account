@@ -227,6 +227,7 @@ class InvoicesController extends Controller
         $invoiceIrnTbl = new InvoiceIrnModel();
         $customerTbl = new CustomersModel();
         $orderTable = new OrdersModel();
+        $orderItemsTable = new OrderItemsModel();
         $company = new CompanyModel();
         $hsn = new HsnModel();
         $totalbr = 10;
@@ -277,6 +278,7 @@ class InvoicesController extends Controller
 
         } else {
             $invoice = $this->_model->get($invoiceId);
+            $hidepo = $invoice['hide_po'];
             $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
             if ($proformaSwitch && $invoiceId){
                 $invoice = $tblProformaInvoice->get($invoiceId);
@@ -292,9 +294,14 @@ class InvoicesController extends Controller
 
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
+        $hide_qty = true;
+        foreach($invoiceItems as $key => $item) {
+            $oderItems = $orderItemsTable->get($item['order_item_id']);
+            if(in_array($oderItems['order_type'], array(4, 6, 7, 99))) { $hide_qty = false; }
+        }
         
         $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc">Qty.</th><th class="bb2 txtc">Unit</th>';
-        if(in_array($order['order_type'], array(1, 2, 3, 5, 99))) { $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>'; }
+        if($hide_qty) { $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>'; }
         $dataItem = $invoiceItems;
         $irn = '';
         $slt = '';
@@ -356,24 +363,26 @@ class InvoicesController extends Controller
         // echo '<pre>'; print_r($keys); exit;
         foreach($dataItem as $key => $item) {
             $hsncode = $hsn->get($item['hsn_id']);
+            $oderItems = $orderItemsTable->get($item['order_item_id']);
+            // print_r($item);
             if ($keys == $key && 0 == $key){
                 $itemList .= '<tr class="txtsmr"><td class="txtc pb-1 pt-1">'.($key+1).'</td><td class="pb-1 pt-1">'.$item['description'].'</td><td class="txtc pb-1 pt-1">'.$hsncode['code'].'</td>';
-                if(in_array($order['order_type'], array(1, 2, 3, 5, 99))) { $itemList .= '<td class="pb-1 pt-1"></td><td class="pb-1 pt-1"></td>'; }
+                if(in_array($oderItems['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td class="pb-1 pt-1"></td><td class="pb-1 pt-1"></td>'; }
                 else { $itemList .= '<td class="txtc pb-1 pt-1">'.$item['qty'].'</td><td class="txtc pb-1 pt-1">'.number_format($item['unit_price'], 2).'</td>'; }
                 $itemList .= '<td class="txtc pb-1 pt-1">'.number_format($item['total'], 2).'</td></tr>';
             } else if ($keys == $key){
                 $itemList .= '<tr class="txtsmr"><td class="txtc pb-1">'.($key+1).'</td><td class=" pb-1">'.$item['description'].'</td><td class="txtc pb-1">'.$hsncode['code'].'</td>';
-                if(in_array($order['order_type'], array(1, 2, 3, 5, 99))) { $itemList .= '<td class="pb-1"></td><td class="pb-1"></td>'; }
+                if(in_array($oderItems['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td class="pb-1"></td><td class="pb-1"></td>'; }
                 else { $itemList .= '<td class="txtc pb-1">'.$item['qty'].'</td><td class="txtc pb-1">'.number_format($item['unit_price'], 2).'</td>'; }
                 $itemList .= '<td class="txtc pb-1">'.number_format($item['total'], 2).'</td></tr>';
             } else if (0 == $key){
                 $itemList .= '<tr class="txtsmr"><td class="txtc pt-1">'.($key+1).'</td><td class=" pt-1">'.$item['description'].'</td><td class="txtc pt-1">'.$hsncode['code'].'</td>';
-                if(in_array($order['order_type'], array(1, 2, 3, 5, 99))) { $itemList .= '<td class="pt-1"></td><td class="pt-1"></td>'; }
+                if(in_array($oderItems['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td class="pt-1"></td><td class="pt-1"></td>'; }
                 else { $itemList .= '<td class="txtc pt-1">'.$item['qty'].'</td><td class="txtc pt-1">'.number_format($item['unit_price'], 2).'</td>'; }
                 $itemList .= '<td class="txtc pt-1">'.number_format($item['total'], 2).'</td></tr>';
             } else {
                 $itemList .= '<tr class="txtsmr"><td class="txtc">'.($key+1).'</td><td>'.$item['description'].'</td><td class="txtc">'.$hsncode['code'].'</td>';
-                if(in_array($order['order_type'], array(1, 2, 3, 5, 99))) { $itemList .= '<td></td><td></td>'; }
+                if(in_array($oderItems['order_type'], array(1, 2, 3, 5))) { $itemList .= '<td></td><td></td>'; }
                 else { $itemList .= '<td class="txtc">'.$item['qty'].'</td><td class="txtc">'.number_format($item['unit_price'], 2).'</td>'; }
                 $itemList .= '<td class="txtc">'.number_format($item['total'], 2).'</td></tr>';
             }
@@ -533,13 +542,13 @@ class InvoicesController extends Controller
     public function invoice_validty() {
         if(!empty($_POST)) {
              if($t = $this->_model->check_invoice_validty($_POST['invoice_no'])) { echo 0; }
-             else { echo true; } }
-        else { echo false; }
+             else { echo 1; } }
+        else { echo 0; }
     }
 
     public function check_invoice_validty($invoice_no=null) {
         if($t = $this->_model->check_invoice_validty($invoice_no)) { echo 0; }
-        else { echo true; }
+        else { echo 1; }
     }
 
     public function proforma_validty() {
@@ -610,7 +619,7 @@ class InvoicesController extends Controller
         $invoice = $this->_model->getByID($invoiceId);
         if($invoiceNo != 0){ $invoice['invoice_no'] = $invoiceNo; }
 
-        print_r($invoice);
+        // print_r($invoice);
         $this->_model->update($invoiceId, $invoice);
         $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
         $customer = $customerList->get($invoice['customer_id']);
