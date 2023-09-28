@@ -43,6 +43,13 @@ class InvoiceIrnModel extends Model {
         return $user;
     }
 
+    public function getByCreditId($id) {
+        $sql = "select * from invoice_irns where credit_note is not null and status=1 and invoice_id = ?";
+        $this->_setSql($sql);
+        $user = $this->getRow(array($id));
+        if (empty($user)){ return []; }
+        return $user;
+    }
 
     public function deleteByInvoiceId($invoiceId) {
         $sql = "delete from invoice_irns where invoice_id = ?";

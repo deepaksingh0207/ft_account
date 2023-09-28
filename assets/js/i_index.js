@@ -49,29 +49,62 @@ function fill_datatable(appliedfilter = {}) {
   $('#example1_filter').hide();
 }
 
-async function dot(loopme) { if (loopme > 0) { setTimeout(function () { loopme--; $('.dot').append('.'); dot(loopme); }, 1000); } }
-
-function pleasewait(val) {
-  loopme = val;
-  if (val) { $('.dot').empty(); $('.feeter').show(); dot(loopme); }
-  else { $('.feeter').hide(); }
-}
-
 function diff_hours(dt2, dt1) {
   var diff = (dt2.getTime() - dt1.getTime()) / 1000;
   diff /= (60 * 60);
   return Math.abs(Math.round(diff));
 }
 
+$(document).on("click", ".sublist", function () {
+  var inv_id = $(this).parent("tr").data("href");
+  var customer = $(this).parent("tr").data("customer");
+  var po_no = $(this).parent("tr").data("po_no");
+  var invoice = $(this).parent("tr").data("invoice");
+  var o_date = $(this).parent("tr").data("date");
+
+  $('.act').hide();
+  $("#id_modelcustomer").text(customer);
+  $("#id_modelinvoice_no").text(invoice);
+  $("#id_modelpo_order").text(po_no);
+  $("#id_modeldate").text(o_date);
+  $('.invcpy').attr('href', baseUrl + "invoices/geninv/" + inv_id)
+  $('.cbncpy').attr('href', baseUrl + "invoices/gencbn/" + inv_id)
+  $('.col_invcpy').show();
+
+  // Get IRN List
+  $('.genirn, .rgenirn').data('href', baseUrl + "invoices/postEinvoiceRequest/" + inv_id).data('inv_id', inv_id);
+  $('.ecanirn').data('href', baseUrl + "invoiceirn/cancelIrnByInvoice/" + inv_id);
+  $('.gencbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + inv_id);
+  var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnByInvoice/" + inv_id);
+  if (!getInvIrn) {
+    $("#id_invoice").data('invoice_no', invoice);
+    $('.col_genirn').show();
+  } else {
+    if (getInvIrn[0]['credit_note'] != null) { $('.col_cbncpy, .col_rgenirn, #id_invoice').show(); }
+    else {
+      var ack_date = new Date(getInvIrn[0]['ack_date']);
+      var today = new Date();
+      if (getInvIrn[0]['status'] == "0") {
+        $("#id_invoice").data('invoice_no', getInvIrn[0]['invoice_no']);
+        $('#id_invoice, .col_rgenirn, .col_invid').show();
+      } else if (diff_hours(today, ack_date) > 24) { $('#id_creditnote, .col_gencbn').show(); }
+      else { $('.col_ecanirn').show(); }
+    }
+  }
+  $('.feeter').html('');
+});
+
 $(document).on("click", ".initrgenirn", function () {
   var new_invoiceno = $("#id_invoice").val();
-  if (new_invoiceno != $("#id_invoice").data('invoice_no')) {
+  if (new_invoiceno.length > 6 && new_invoiceno != $("#id_invoice").data('invoice_no')) {
     geturl = baseUrl + "invoices/check_invoice_validty/" + new_invoiceno;
     getIrnId = getRemote(geturl);
     if (getIrnId == 0) { $('.feeter').show().html('<span class="text-danger">Invoice No Exist</span>'); return; }
-  }
-  $('.col_rgenirn').hide();
-  $('.col_conrgenirn').show();
+    $('.act').hide();
+    $('.accept, .reject').show()
+    $("#id_accept").attr('data-class', '.rgenirn');
+    $("#id_reject").attr('data-class', '#id_invoice, .col_rgenirn');
+  } else if (new_invoiceno.length != 7) { $('.feeter').show().html('<span class="text-danger">Invalid Invoice No<span>'); return; }
 });
 
 $(document).on("click", ".exitrgenirn", function () {
@@ -80,8 +113,44 @@ $(document).on("click", ".exitrgenirn", function () {
 });
 
 $(document).on("click", ".initecanirn", function () {
-  $('.col_ecanirn').hide();
-  $('.col_conecanirn').show();
+  $('.act').hide();
+  $('.accept, .reject').show()
+  $("#id_accept").attr('data-class', '.ecanirn');
+  $("#id_reject").attr('data-class', '.col_ecanirn');
+});
+
+$(document).on("click", ".initgencbn", function () {
+  var new_creditnote = $("#id_creditnote").val();
+  if (new_creditnote.length == 5) {
+    $('.act').hide();
+    $('.accept, .reject').show()
+    $("#id_accept").attr('data-class', '.gencbn');
+    $("#id_reject").attr('data-class', '#id_creditnote, .col_gencbn');
+  } else { $('.feeter').show().html('<span class="text-danger">Invalid Credit Note No.<span>'); return; }
+});
+
+$(document).on("click", ".gencbn", function () {
+  $('.act').hide();
+  $('.feeter, .col_gencbn, .col_invcpy').show();
+  $('.gencbn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
+  var new_creditnote = $("#id_creditnote").val();
+  var getIrnId = getRemote($(this).data('href') + "/" + new_creditnote);
+  if (getIrnId['Status'] == "0") {
+    $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
+    $('.gencbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate Credit Note');
+  } else { $('.col_gencbn').hide(); $('.col_cbncpy').show(); }
+});
+
+$(document).on("click", "#id_accept", function () {
+  $(".act").hide()
+  $($(this).attr('data-class')).trigger('click');
+  $('.col_invcpy').show();
+});
+
+$(document).on("click", "#id_reject", function () {
+  $(".act").hide()
+  $($(this).attr('data-class')).show();
+  $('.col_invcpy').show();
 });
 
 $(document).on("click", ".exitecanirn", function () {
@@ -89,83 +158,45 @@ $(document).on("click", ".exitecanirn", function () {
   $('.col_conecanirn').hide();
 });
 
-$(document).on("click", ".sublist", function () {
-  $('.feeter, .col_invid, .col_crednote, .col_invcpy, .col_genirn, .col_rgenirn, .col_ecanirn, .col_conrgenirn, .col_conecanirn').hide();
-  var inv_id = $(this).parent("tr").data("href");
-  var customer = $(this).parent("tr").data("customer");
-  var po_no = $(this).parent("tr").data("po_no");
-  var invoice = $(this).parent("tr").data("invoice");
-  var o_date = $(this).parent("tr").data("date");
-  $("#id_modelcustomer").text(customer);
-  $("#id_modelinvoice_no").text(invoice);
-  $("#id_modelpo_order").text(po_no);
-  $("#id_modeldate").text(o_date);
-  $('.invcpy').attr('href', baseUrl + "invoices/geninv/" + inv_id)
-  $('.col_invcpy').show();
-
-  // Get IRN List
-  var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnByInvoice/" + inv_id);
-  $('.genirn, .rgenirn').data('href', baseUrl + "invoices/postEinvoiceRequest/" + inv_id).data('inv_id', inv_id);
-  $('.ecanirn').data('href', baseUrl + "invoiceirn/cancelIrnByInvoice/" + inv_id);
-  if (!getInvIrn) {
-    $("#id_invoice").val(invoice).attr('placeholder', invoice).data('invoice_no', invoice);
-    $('.col_genirn').show();
-  } else {
-    if (getInvIrn[0]['status'] == "0") {
-      $("#id_invoice").val('').attr('placeholder', getInvIrn[0]['invoice_no']).data('invoice_no', getInvIrn[0]['invoice_no']);
-      var ack_date = new Date(getInvIrn[0]['ack_date']);
-      var today = new Date();
-      $('.col_rgenirn, .col_invid').show();
-      if (diff_hours(today, ack_date) > 24) { $('.col_crednote').show(); }
-    } else { $('.col_ecanirn').show(); }
-  }
-});
-
 $(document).on("click", ".rgenirn", function () {
   var new_invoiceno = $("#id_invoice").val();
-  var new_creditnote = $("#id_crednote").val();
-  if (new_invoiceno == "") { $('.feeter').show().html('<span class="text-danger">Invoice No Mandatory<span>'); return; }
-  $('.col_rgenirn, .col_invid, .col_crednote, .col_conrgenirn').hide();
-  $('.feeter').show().html('<b>Please wait <span class="text-primary dot"></span></b>');
-  pleasewait(10);
+
+  if (new_invoiceno.length != 7) { $('.feeter').show().html('<span class="text-danger">Invoice No Mandatory<span>'); return; }
+
+  $('.act').hide();
   var getIrnId, geturl = $(this).data('href') + "/" + new_invoiceno;
   checkinvoice = getRemote(baseUrl + "invoices/check_invoice_validty/" + new_invoiceno);
-  if (checkinvoice == 0){$('.feeter').show().html('<span class="text-danger">Invoice No Invalid<span>'); return;}
+  if (checkinvoice == 0) { $('.feeter').show().html('<span class="text-danger">Invoice No Invalid<span>'); return; }
   getIrnId = getRemote(geturl);
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
-    $('.col_rgenirn').show();
+    $('.col_invcpy, .col_rgenirn').show();
   } else {
-    if (new_creditnote) { updatecredit = getRemote(baseUrl + "invoices/updatecreditnote/" + inv_id + "/" + new_creditnote); }
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
-    if (getInvIrn) { $('.col_genirn, .col_invid, .col_crednote').hide(); $('.col_ecanirn').show(); }
-    else { $('.col_genirn').show(); }
+    if (getInvIrn) { $('#id_invoice, .col_genirn, .col_invid, .col_crednote').hide(); $('.col_invcpy, .col_ecanirn').show(); }
+    else { $('.col_invcpy, .col_genirn').show(); }
     $('.feeter').show().text('');
   }
 });
 
 $(document).on("click", ".genirn", function () {
-  var getIrnId;
-  $('.col_genirn, .col_invid, .col_crednote').hide();
-  $('.feeter').show().html('<b>Please wait <span class="text-primary dot"></span></b>');
-  pleasewait(10);
+  $('.act').hide();
+  $('.feeter, .col_gencbn, .col_invcpy').show();
+  $('.genirn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
   var geturl = $(this).data('href');
-  getIrnId = getRemote(geturl);
+  var getIrnId = getRemote(geturl);
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
-    $('.col_genirn').show();
+    $('.genirn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
   } else {
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
-    if (getInvIrn) { $('.col_genirn, .col_invid, .col_crednote').hide(); $('.col_ecanirn').show(); }
-    else { $('.col_genirn').show(); }
-    $('.feeter').hide().text('');
+    if (getInvIrn) { $('.act').hide(); $('.col_ecanirn').show(); }
   }
 });
 
 $(document).on("click", ".ecanirn", function () {
-  $('.col_ecanirn, .col_invid, .col_crednote').hide();
-  $('.feeter').show().html('<b>Please wait <span class="text-primary dot"></span></b>');
-  pleasewait(10);
+  $('.act').hide();
+  $('.ecanirn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px"><br><br>Generate E-Invoice');
   var geturl = $(this).data('href');
   var getIrnId = getRemote(geturl)
   if (getIrnId['status'] == "0") {
@@ -177,7 +208,7 @@ $(document).on("click", ".ecanirn", function () {
   } else {
     $('.feeter').show().html(getIrnId);
     $('.col_conecanirn').hide();
-    $('.col_rgenirn, .col_invid').show();
+    $('.col_rgenirn, .col_invid, .col_invcpy, #id_invoice').show();
   }
 });
 
