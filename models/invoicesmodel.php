@@ -46,6 +46,13 @@ class InvoicesModel extends Model {
         
         return $user;
     }
+
+    public function cancelAllIRN($id) {
+        $sql = "update invoice_irns set status=0 where credit_note is not null and invoice_no = ?";
+        $data[] = $id;
+        $sth = $this->_db->prepare($sql);
+        return $sth->execute($data);
+    }
     
     public function get($id) {
         $sql = "SELECT I.*, OT.title as order_type

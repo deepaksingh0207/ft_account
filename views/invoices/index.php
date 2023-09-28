@@ -68,87 +68,86 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <!-- <h4 class="modal-title"> -->
-              Invoice Panel
-            <!-- </h4> -->
+            Invoice Panel
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="card-body">
+          <div class="modal-body">
             <div class="row">
-              <div class="col-3">
-                <label>Customer</label>
-                <p id="id_modelcustomer"></p>
+              <div class="col-6">
+                <span id="id_modelcustomer" style="font-size: x-large;font-weight: bold;"></span><br>
+                <span id="id_modeldate" style="font-style: italic; color: slategrey;"></span>
+                <div class="row mt-4">
+                  <div class="col-6">
+                    <label>Invoice No</label>
+                  </div>
+                  <div class="col-6">
+                    <p id="id_modelinvoice_no"></p>
+                  </div>
+                  <div class="col-6">
+                    <label>PO Order</label>
+                  </div>
+                  <div class="col-6">
+                    <p id="id_modelpo_order"></p>
+                  </div>
+                </div>
               </div>
-              <div class="col-3">
-                <label>Invoice No</label>
-                <p id="id_modelinvoice_no"></p>
-              </div>
-              <div class="col-3">
-                <label>PO Order</label>
-                <p id="id_modelpo_order"></p>
-              </div>
-              <div class="col-3">
-                <label>Date</label>
-                <p id="id_modeldate"></p>
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-6 mb-2 col_invid" style="align-self: center;">
-                <label for="id_invoice">Generate IRN for invoice no</label>
-                <input type="text" class="form-control" id="id_invoice" pattern="[0-9]{7}" minlength="7" maxlength="7" min="0000000" max="9999999">
-              </div>
-              <div class="col-6 mb-2 col_crednote" style="align-self: center;">
-                <label for="id_crednote">Credit Note</label>
-                <input type="text" class="form-control" id="id_crednote">
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-3 col_invcpy">
-                <a class="btn btn-info btn-block btn-flat py-3 invcpy" target="_blank"><i
-                    class="far fa-file-pdf fa-lg"></i><br><br>Print</a>
-              </div>
-              <div class="col-3 col_genirn">
-                <button class="btn btn-info btn-block btn-flat py-3 genirn"><i
-                    class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN</button>
-              </div>
-              <div class="col-3 col_rgenirn">
-                <button class="btn btn-info btn-block btn-flat py-3 initrgenirn">
-                  <i class="far fa-clone fa-lg"></i><br><br>
-                  Regenerate IRN
-                </button>
-              </div>
-              <div class="col-3 col_conrgenirn">
-                <button class="btn btn-danger btn-block btn-flat py-3 exitrgenirn">
-                  <i class="far fa-clone fa-lg"></i><br><br>
-                    No Regenerate IRN
-                </button>
-              </div>
-              <div class="col-3 col_conrgenirn">
-                <button class="btn btn-success btn-block btn-flat py-3 rgenirn">
-                  <i class="far fa-clone fa-lg"></i><br><br>
-                  Yes Regenerate IRN
-                </button>
-              </div>
-              <div class="col-3 col_ecanirn">
-                <button class="btn btn-info btn-block btn-flat py-3 initecanirn">
-                  <i class="fas fa-edit fa-lg"></i><br><br>Cancel E-IRN</button>
-              </div>
-              <div class="col-3 col_conecanirn">
-                <button class="btn btn-danger btn-block btn-flat py-3 exitecanirn">
-                  <i class="fas fa-edit fa-lg"></i><br><br>Reject E-IRN Cancel</button>
-              </div>
-              <div class="col-3 col_conecanirn">
-                <button class="btn btn-success btn-block btn-flat py-3 ecanirn">
-                  <i class="fas fa-edit fa-lg"></i><br><br>Confirm E-IRN Cancel</button>
+              <div class="col-6">
+                <input type="text" class="form-control mb-2 act" id="id_invoice" pattern="[0-9]{7}" minlength="7" maxlength="7" placeholder="New Invoice No" min="0000000" max="9999999">
+                <input type="text" class="form-control mb-2 act"  id="id_creditnote" placeholder="New Credit No" >
+                <div class="row">
+                  <div class="col-6 mb-2 act col_invcpy">
+                    <a class="btn btn-info btn-block btn-flat py-3 invcpy" target="_blank"><i
+                        class="far fa-file-pdf fa-lg"></i><br><br>Print Invoice</a>
+                  </div>
+
+                  <div class="col-6 mb-2 act col_cbncpy">
+                    <a class="btn btn-info btn-block btn-flat py-3 cbncpy" target="_blank"><i
+                        class="far fa-file-pdf fa-lg"></i><br><br>Print Credit Note</a>
+                  </div>
+
+                  <div class="col-6 mb-2 act col_genirn">
+                    <button class="btn btn-info btn-block btn-flat py-3 genirn">
+                      <i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice
+                    </button>
+                  </div>
+
+                  <div class="col-6 mb-2 act col_ecanirn">
+                    <button class="btn btn-info btn-block btn-flat py-3 initecanirn">
+                      <i class="fas fa-edit fa-lg"></i><br><br>Cancel E-Invoice</button>
+                    <button class="ecanirn hide">ecanirn</button>
+                  </div>
+
+                  <div class="col-6 mb-2 act col_gencbn">
+                    <button class="btn btn-info btn-block btn-flat py-3 initgencbn"><i
+                        class="fas fa-file-invoice fa-lg"></i><br><br>Generate Credit Note</button>
+                    <button class="gencbn hide">gencbn</button>
+                  </div>
+
+                  <div class="col-6 mb-2 act col_rgenirn">
+                    <button class="btn btn-info btn-block btn-flat py-3 initrgenirn">
+                      <i class="far fa-clone fa-lg"></i><br><br>Regenerate E-Invoice</button>
+                      <button class="rgenirn hide"></button>
+                  </div>
+
+                  <div class="col-6 mb-2 act reject">
+                    <button class="btn btn-danger btn-block btn-flat py-3" id="id_reject">
+                      <i class="fab fa-mixer"></i><br><br>Cancel</button>
+                  </div>
+
+                  <div class="col-6 mb-2 act accept">
+                    <button class="btn btn-success btn-block btn-flat py-3" id="id_accept">
+                      <i class="fas fa-check"></i><br><br>Continue</button>
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
-          <div class="modal-footer justify-content-between feeter">
-            <b>Please wait <span class="text-primary dot"></span></b>
-          </div>
+          <div class="modal-footer justify-content-between feeter"></div>
         </div>
       </div>
     </div>
-    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+  </div>
+  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
