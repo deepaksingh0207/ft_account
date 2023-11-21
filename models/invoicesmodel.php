@@ -206,7 +206,7 @@ class InvoicesModel extends Model {
     }
     
     public function getCustomerInvoiceList($filter = array()) {
-        $where = ' where I.status = 1 ';
+        $where = ' where I.status = 1';
 
         $fieldVal = array();
         if(!empty($filter)) {
@@ -230,12 +230,12 @@ class InvoicesModel extends Model {
             }
         }
 
-        $sql = "select C.name customer_name, I.invoice_no, I.invoice_date, IFNULL(I.invoice_total, 0) invoice_amount, tds_deducted, IFNULL(P.allocated_amt, 0) recieved_amount, IFNULL((invoice_total - IFNULL(P.allocated_amt, 0)), 0) balance_amount, I.due_date, I.id invoice_id
-        from invoices I
+        $sql = "select * from (select C.name customer_name, I.invoice_no, I.invoice_date, IFNULL(I.invoice_total, 0) invoice_amount, tds_deducted, IFNULL(P.allocated_amt, 0) recieved_amount, IFNULL((invoice_total - IFNULL(P.allocated_amt, 0)), 0) - IFNULL(tds_deducted,0) balance_amount, I.due_date, I.id invoice_id from invoices I
         left join (select invoice_id, SUM(allocated_amt) allocated_amt,  SUM(tds_deducted) tds_deducted from payments group by invoice_id) P on (P.invoice_id = I.id)
         join customers C ON (I.customer_id = C.id)
         join customer_groups CG on (C.group_id = CG.id)
-        $where order by due_date asc";
+        $where ) tmp where tmp.balance_amount > 0
+        order by tmp.due_date asc";
 
         // echo '<pre>'; print_r($sql); exit;
         
