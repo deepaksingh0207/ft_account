@@ -247,10 +247,11 @@ $(document).on("change", ".tdscontrol", function () {
     var baseval = parseFloat($(this).data("base"));
     var receiveableval = parseFloat($("#id_receivable_amt" + index).val());
     var ttl = 0;
-    if ($(this).val()) { ttl = baseval * parseFloat($(this).val()) / 100; }
+    if ($(this).val()) { ttl = parseFloat((baseval * parseFloat($(this).val()) / 100).toFixed(2)); }
     $("#" + spanid).text(ra(ttl));
     $("#" + tdsamt).val(ttl);
-    $("#alloc" + index).val((receiveableval - ttl).toFixed(2)).attr("max", receiveableval - ttl);
+    var max_alloc = parseFloat((receiveableval - ttl).toFixed(2));
+    $("#alloc" + index).val(max_alloc).attr("max", max_alloc);
 });
 
 
