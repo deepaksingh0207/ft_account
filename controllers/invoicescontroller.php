@@ -1,4 +1,5 @@
 <?php
+include 'vendor/phpqrcode/qrlib.php';
 class InvoicesController extends Controller
 {
     
@@ -313,7 +314,11 @@ class InvoicesController extends Controller
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
-            $qrcode = '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.$irnrec['signed_qrcode'].'&choe=UTF-8" title="QR Code" />';
+            $file = "assets/qr_code/".$irnrec['ack_no'].".png";
+            if (!file_exists($file)) {
+                QRcode::png($irnrec['signed_qrcode'], $file, 'L', 150, 1);
+            }
+            $qrcode = '<img src="'.$file.'" title="QR Code" />';
         }
 
         $br = "<tr><td colspan='6'>";
@@ -473,7 +478,11 @@ class InvoicesController extends Controller
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
-            $qrcode = '<img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.$irnrec['signed_qrcode'].'&choe=UTF-8" title="QR Code" />';
+            $file = "assets/qr_code/".$irnrec['ack_no'].".png";
+            if (!file_exists($file)) {
+                QRcode::png($irnrec['signed_qrcode'], $file, 'L', 150, 1);
+            }
+            $qrcode = '<img src="'.$file.'" title="QR Code" />';
         }
 
         $br = "<tr><td colspan='6'>";
@@ -927,6 +936,15 @@ class InvoicesController extends Controller
                 $irn_invoice['signed_qrcode'] = $newdata['SignedQRCode'];
                 $irn_invoice['status'] = 1;
                 $irnInvoiceId = $invoiceIrnTbl->save($irn_invoice);
+
+                // $path variable store the location where to  
+                // store image and $file creates directory name 
+                $path = "assets/img/";
+                $file = $path.$newdata['AckNo'].".png"; 
+                
+                // Generates QR Code and Stores it in directory given 
+                QRcode::png($newdata['SignedQRCode'], $file, 'L', 150, 1);
+
                 echo $irnInvoiceId;
             } else { echo $response; }
         } else {echo $authToken['ErrorDetails'][0]['ErrorMessage'];}
