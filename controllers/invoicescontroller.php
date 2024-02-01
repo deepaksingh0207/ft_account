@@ -314,11 +314,11 @@ class InvoicesController extends Controller
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
-            $file = "assets/qr_code/".$irnrec['ack_no'].".png";
-            if (!file_exists($file)) {
+            $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
+            if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
                 QRcode::png($irnrec['signed_qrcode'], $file, 'L', 150, 1);
             }
-            $qrcode = '<img src="'.$file.'" title="QR Code" />';
+            $qrcode = '<img src="'.$file.'" title="QR Code" width="150px" />';
         }
 
         $br = "<tr><td colspan='6'>";
@@ -478,11 +478,11 @@ class InvoicesController extends Controller
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
-            $file = "assets/qr_code/".$irnrec['ack_no'].".png";
-            if (!file_exists($file)) {
+            $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
+            if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
                 QRcode::png($irnrec['signed_qrcode'], $file, 'L', 150, 1);
             }
-            $qrcode = '<img src="'.$file.'" title="QR Code" />';
+            $qrcode = '<img src="'.$file.'" title="QR Code" width="150px" />';
         }
 
         $br = "<tr><td colspan='6'>";
