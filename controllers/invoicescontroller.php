@@ -316,7 +316,7 @@ class InvoicesController extends Controller
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
             $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
             if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
-                QRcode::png($irnrec['signed_qrcode'], $file, 'L', 150, 1);
+                QRcode::png($irnrec['signed_qrcode'], "assets/qr_code/".$irnrec['ack_no'].".png", 'L', 150, 1);
             }
             $qrcode = '<img src="'.$file.'" title="QR Code" width="150px" />';
         }
@@ -480,7 +480,7 @@ class InvoicesController extends Controller
             $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
             $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
             if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
-                QRcode::png($irnrec['signed_qrcode'], $file, 'L', 150, 1);
+                QRcode::png($irnrec['signed_qrcode'], "assets/qr_code/".$irnrec['ack_no'].".png", 'L', 150, 1);
             }
             $qrcode = '<img src="'.$file.'" title="QR Code" width="150px" />';
         }
