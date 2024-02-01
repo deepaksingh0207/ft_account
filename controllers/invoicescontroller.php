@@ -49,7 +49,7 @@ class InvoicesController extends Controller
                 $invoiceeData['group_id'] = $data['group_id'];
                 $invoiceeData['customer_id'] = $data['customer_id'];
                 $invoiceeData['order_id'] = $data['order_id'];
-                $invoiceeData['invoice_date'] = date('d/m/Y');
+                $invoiceeData['invoice_date'] = date('Y/m/d');
                 $invoiceeData['po_no'] = $data['po_no'];
                 $invoiceeData['sales_person'] = $data['sales_person'];
                 $invoiceeData['bill_to'] = $data['bill_to'];
@@ -246,7 +246,7 @@ class InvoicesController extends Controller
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];
-            $invoice['invoice_date'] = date('d/m/Y');
+            $invoice['invoice_date'] = $data['invoice_date'];
             $invoice['po_no'] = $data['po_no'];
             $invoice['sales_person'] = $data['sales_person'];
             $invoice['bill_to'] = $data['bill_to'];
@@ -784,7 +784,7 @@ class InvoicesController extends Controller
         $company = $company->get(1);
         
         $invoice = $this->_model->getByID($invoiceId);
-        if($invoiceNo != 0){ $invoice['invoice_no'] = $invoiceNo; }
+        if($invoiceNo != 0){ $invoice['invoice_no'] = $invoiceNo; $invoice['invoice_date'] = date('Y/m/d'); }
 
         // print_r($invoice);
         $this->_model->update($invoiceId, $invoice);
