@@ -49,7 +49,7 @@ class InvoicesController extends Controller
                 $invoiceeData['group_id'] = $data['group_id'];
                 $invoiceeData['customer_id'] = $data['customer_id'];
                 $invoiceeData['order_id'] = $data['order_id'];
-                $invoiceeData['invoice_date'] = $data['invoice_date'];
+                $invoiceeData['invoice_date'] = date('d/m/Y');
                 $invoiceeData['po_no'] = $data['po_no'];
                 $invoiceeData['sales_person'] = $data['sales_person'];
                 $invoiceeData['bill_to'] = $data['bill_to'];
@@ -246,7 +246,7 @@ class InvoicesController extends Controller
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];
-            $invoice['invoice_date'] = $data['invoice_date'];
+            $invoice['invoice_date'] = date('d/m/Y');
             $invoice['po_no'] = $data['po_no'];
             $invoice['sales_person'] = $data['sales_person'];
             $invoice['bill_to'] = $data['bill_to'];
@@ -810,7 +810,7 @@ class InvoicesController extends Controller
             $request['DOCDTLS']['TYP'] = 'INV';
             if ($invoiceNo != 0) {$request['DOCDTLS']['NO'] = $invoiceNo;}
             else {$request['DOCDTLS']['NO'] = $invoice['invoice_no'];}
-            $request['DOCDTLS']['DT'] = date('d/m/Y', strtotime($invoice['invoice_date']));
+            $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details
             $request['SELLERDTLS']['GSTIN'] = GST_NO;
@@ -983,7 +983,7 @@ class InvoicesController extends Controller
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'CRN';
             $request['DOCDTLS']['NO'] = $credit_note;
-            $request['DOCDTLS']['DT'] = date('d/m/Y', strtotime($invoice['invoice_date']));
+            $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details
             $request['SELLERDTLS']['GSTIN'] = GST_NO;
