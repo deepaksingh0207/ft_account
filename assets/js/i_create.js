@@ -16,7 +16,9 @@ var groupdata,
   processing_proforma = false,
   tree = {},
   items_for_invoicing = [],
-  invoicevalidityflag = null;
+  invoicevalidityflag = null,
+  symbol = '₹ ',
+  NRI = false;
 
 function createbookeeper() {
   for (var key in od_order) { tree[key] = od_order[key]; }
@@ -95,6 +97,7 @@ $(document).on("change", "#id_group_id", function () {
       .done(function (data) {
         if (data != false) {
           groupdata = data;
+          if (groupdata[0].country != "101") { symbol = '$ '; NRI = true; }
           $("#customerid_id").removeAttr("readonly");
           filldata("#customerid_id", groupdata, "Select Customer", [
             "id",
@@ -276,6 +279,12 @@ function preview_builder() {
   else {
     var c = 0
     previewList = []
+    var invoice_date_template = `
+    <div class="col-sm-12 col-lg-3">
+      <label for="id_invoicedate">Invoice Date</label>
+      <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value="">
+    </div>`;
+    if (processing_proforma == false) { invoice_date_template = `` }
     var preview_modal_body = `
     <div class="row" id="t1" data-state="show">
       <div class="col-sm-12 col-lg-12">
@@ -302,10 +311,7 @@ function preview_builder() {
               <div class="card-footer" id="preview_footer"></div>
             </div>
           </div>
-          <div class="col-sm-12 col-lg-3">
-            <label for="id_invoicedate">Invoice Date</label>
-            <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value="">
-          </div>
+          `+ invoice_date_template + `
           <div class="col-sm-12 col-lg-3">
             <label for="id_due_date">Due Date</label>
             <input type="date" class="form-control ftsm" required name="due_date" id="id_due_date" value="">
@@ -314,6 +320,16 @@ function preview_builder() {
             <label for="id_invoice_no">Invoice No.</label>
             <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no">
           </div>`;
+    if (NRI) {
+      preview_modal_body = preview_modal_body + `
+      <div class="col-sm-12 col-lg-3">
+        <label for="id_exchangerate">Exchange Rate</label>
+        <input type="number" class="form-control ftsm" name="exchangerate" required id="id_exchangerate" >
+        <input type="hidden" class="form-control ftsm" name="nri" required id="id_nri" value="1" >
+      </div>`;
+    } else {
+      preview_modal_body = preview_modal_body + `<input type="text" class="form-control ftsm" name="nri" required id="id_nri" value="0" >`
+    }
     if (od_order.open_po == '1') {
       preview_modal_body += `<div class="col-sm-12 col-lg-3 pt-4">
                               <div class="form-group mt-1">
@@ -374,7 +390,7 @@ function preview_builder() {
         $("#ptb" + c).append('<td class="pt-3" >' + get_uom_display(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td>');
         $("#ptb" + c).append('<td class="pt-3"><input type="number" class="form-control pup" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" data-index="' + c + '" data-up="' + t.unit_price + '" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td>');
         $("#ptb" + c).append('<td id="preview_row_hsn' + c + '" class="pt-3"><select class="form-control" style="width:15vw;" name="order_details[' + c + '][hsn_id]" id="id_hsn_id' + c + '"></select></td>');
-        $("#ptb" + c).append('<td id="preview_row_total' + c + '" class="pt-3">₹' + t.total + '</td>');
+        $("#ptb" + c).append('<td id="preview_row_total' + c + '" class="pt-3">' + symbol + t.total + '</td>');
         $("#ptb" + c).append('<input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '">');
         fillhsnselect('#id_hsn_id' + c)
         previewList.push(c)
@@ -480,7 +496,7 @@ function preview_modal_body(index, listname) {
       }
     });
     $("#preview_tbody").append(
-      '<tr><td><input type="hidden" name="order_details[0][order_payterm_id]" value="0"><input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' + od_items[index].id + '"><input type="hidden" name="order_details[0][item]" id="id_item1" value="' + od_items[index].item + '">' + od_items[index].item + '</td><td ><input type="text" class="form-control desp" required name="order_details[0][description]" id="id_descp1" value="' + od_items[index].description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[0][qty]" id="id_qty1" min="1" value="' + remaining_qty + '" data-index="1" data-up="' + od_items[index].unit_price + '" data-uom="' + od_items[index].uom_id + '" max="' + remaining_qty + '"></td><td class="pt-3" >' + get_uom_display(od_items[index].uom_id) + '<input type="hidden" required name="order_details[0][uom_id]" id="id_uom1" value="' + od_items[index].uom_id + '"></td><td class="pt-3"><input type="number" required name="order_details[0][unit_price]" style="width: 10rem;" class="form-control pup" id="id_unitprice1" value="' + od_items[index].unit_price + '"></td><td id="preview_row_total1" class="pt-3">₹0.00</td>   <input type="hidden" required name="order_details[0][total]" id="id_total1" value="0"></tr>'
+      '<tr><td><input type="hidden" name="order_details[0][order_payterm_id]" value="0"><input type="hidden" name="order_details[0][order_item_id]" id="id_order_item_id1" value="' + od_items[index].id + '"><input type="hidden" name="order_details[0][item]" id="id_item1" value="' + od_items[index].item + '">' + od_items[index].item + '</td><td ><input type="text" class="form-control desp" required name="order_details[0][description]" id="id_descp1" value="' + od_items[index].description + '"></td><td class="minmax150"><input type="number" class="form-control qty" required name="order_details[0][qty]" id="id_qty1" min="1" value="' + remaining_qty + '" data-index="1" data-up="' + od_items[index].unit_price + '" data-uom="' + od_items[index].uom_id + '" max="' + remaining_qty + '"></td><td class="pt-3" >' + get_uom_display(od_items[index].uom_id) + '<input type="hidden" required name="order_details[0][uom_id]" id="id_uom1" value="' + od_items[index].uom_id + '"></td><td class="pt-3"><input type="number" required name="order_details[0][unit_price]" style="width: 10rem;" class="form-control pup" id="id_unitprice1" value="' + od_items[index].unit_price + '"></td><td id="preview_row_total1" class="pt-3">' + symbol + '0.00</td>   <input type="hidden" required name="order_details[0][total]" id="id_total1" value="0"></tr>'
     );
     // previewlist.push(1);
     preview_footer();
@@ -507,6 +523,7 @@ function preview_modal_body(index, listname) {
 
 function resetongroup() {
   $("#customerid_id").empty().attr("readonly", true);
+  symbol = '₹ '; NRI = false;
   resetoncustomer();
 }
 
@@ -516,16 +533,9 @@ function filldata(id, data, msg, field) {
     .append("<option value=''>" + msg + "</option>");
   $.each(data, function (index, value) {
     val = [];
-    for (var key in value) {
-      if (field.includes(key, 0)) {
-        val.push(value[key]);
-      }
-    }
-    if (val[2] != null) {
-      $(id).append("<option value='" + val[0] + "'>" + val[1] + " - " + val[2] + "</option>");
-    } else {
-      $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>");
-    }
+    for (var key in value) { if (field.includes(key, 0)) { val.push(value[key]); } }
+    if (val[2] != null) { $(id).append("<option value='" + val[0] + "'>" + val[1] + " - " + val[2] + "</option>"); }
+    else { $(id).append("<option value='" + val[0] + "'>" + val[1] + "</option>"); }
   });
 }
 
@@ -629,52 +639,57 @@ function fillorderbody(items) {
   $.each(tree["items"]["ids"], function (i_item, value) {
 
     if ((tree["items"][value]["payment"]["ids"]).length > 0) {
-      $("#orderlist").append('<tr data-widget="expandable-table" aria-expanded="false" id="parent_' + i_item + '"><td class="text-left"><i class="fas fa-caret-right fa-fw"></i>' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + ra(tree["items"][value]["unit_price"]) + '</td><td>' + ra(tree["items"][value]["total"]) + '</td></tr>');
+      $("#orderlist").append('<tr data-widget="expandable-table" aria-expanded="false" id="parent_' + i_item + '"><td class="text-left"><i class="fas fa-caret-right fa-fw"></i>' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + ra(tree["items"][value]["unit_price"], NRI) + '</td><td>' + ra(tree["items"][value]["total"], NRI) + '</td></tr>');
     } else {
-      $("#orderlist").append('<tr id="parent_' + i_item + '"><td class="text-left">' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + ra(tree["items"][value]["unit_price"]) + '</td><td>' + ra(tree["items"][value]["total"]) + '</td></tr>');
+      $("#orderlist").append('<tr id="parent_' + i_item + '"><td class="text-left">' + tree["items"][value]["item"] + '</td><td>' + tree["items"][value]["description"] + '</td><td>' + tree["items"][value]["qty"] + '</td><td>' + get_uom_display(tree["items"][value]["uom_id"]) + '</td><td>' + ra(tree["items"][value]["unit_price"], NRI) + '</td><td>' + ra(tree["items"][value]["total"], NRI) + '</td></tr>');
     }
 
     if ((tree["items"][value]["payment"]["ids"]).length > 0) {
       $("#orderlist").append('<tr class="expandable-body d-none" id="child_1_' + i_item + '"><td colspan="8"><div class="p-0" style="display: none;"><table class="table table-hover m-0"><tbody id="child_1_' + i_item + '_1"><tr><th style="width: 230px" class="text-info">Sr No.</th><th class="text-info">Description</th><th class="text-info"> Qty./Unit </th><th style="width: 165px" class="text-info">Unit Price</th><th style="width: 180px" class="text-info">Total</th></tr></tbody></table></div></td></tr>');
       $.each(tree["items"][value]["payment"]["ids"], function (i_payment, pay) {
-        $("#child_1_" + i_item + "_1").append('<tr><td class="text-info">' + (i_payment + 1) + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["description"] + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["qty"] + '</td><td class="text-info">' + ra(tree["items"][value]["payment"][pay]["unit_price"]) + '</td><td class="text-info">' + ra(tree["items"][value]["payment"][pay]["total"]) + '</td></tr>');
+        $("#child_1_" + i_item + "_1").append('<tr><td class="text-info">' + (i_payment + 1) + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["description"] + '</td><td class="text-info">' + tree["items"][value]["payment"][pay]["qty"] + '</td><td class="text-info">' + ra(tree["items"][value]["payment"][pay]["unit_price"], NRI) + '</td><td class="text-info">' + ra(tree["items"][value]["payment"][pay]["total"], NRI) + '</td></tr>');
       });
     }
   });
 }
 
 function sgst_details() {
-  $("#sgst_details").show();
-  $("#igst_details").hide();
+  $("#igst_details, #cgst_details, #sgst_details").hide();
   $("#subtotal_details").removeClass("col-4");
   $("#subtotal_details").addClass("col-3");
   $("#total_details").removeClass("col-4");
   $("#total_details").addClass("col-3");
-  $("#sgst_label").empty().append("<b>SGST ( " + gstlist[1] + ".00% )</b>");
-  $("#sgst_val").text(ra(od_order.sgst));
+  if (!NRI) {
+    $("#sgst_details").show();
+    $("#sgst_label").empty().append("<b>SGST ( " + gstlist[1] + ".00% )</b>");
+    $("#sgst_val").text(ra(od_order.sgst, NRI));
+  }
 }
 
 function cgst_details() {
-  $("#cgst_details").show();
-  $("#cgst_label").empty().append("<b>CGST ( " + gstlist[2] + ".00% )</b>");
-  $("#cgst_val").text(ra(od_order.cgst));
+  if (!NRI) {
+    $("#cgst_details").show();
+    $("#cgst_label").empty().append("<b>CGST ( " + gstlist[2] + ".00% )</b>");
+    $("#cgst_val").text(ra(od_order.cgst, NRI));
+  }
 }
 
 function igst_details() {
-  $("#sgst_details").hide();
-  $("#cgst_details").hide();
-  $("#igst_details").show();
+  $("#sgst_details, #cgst_details, #igst_details").hide();
   $("#subtotal_details").removeClass("col-3");
   $("#subtotal_details").addClass("col-4");
   $("#total_details").removeClass("col-3");
   $("#total_details").addClass("col-4");
-  $("#igst_label").empty().append("<b>IGST ( " + gstlist[1] + ".00% )</b>");
-  $("#igst_val").text(ra(od_order.igst));
+  $("#igst_details").show();
+  if (!NRI) {
+    $("#igst_label").empty().append("<b>IGST ( " + gstlist[1] + ".00% )</b>");
+    $("#igst_val").text(ra(od_order.igst, NRI));
+  }
 }
 
 function fillorderfooter(subtotal, ordertotal) {
-  $("#ordertotal_txt").text(ra(subtotal));
-  $("#total_val").text(ra(ordertotal));
+  $("#ordertotal_txt").text(ra(subtotal, NRI));
+  $("#total_val").text(ra(ordertotal, NRI));
   $("#id_order_total_edit").val(subtotal);
   $("#id_sub_total_edit").val(subtotal);
 }
@@ -707,34 +722,34 @@ function getordertype() {
 function preview_total() {
   var c = 0
   var subtotal = 0;
-  $.each(previewList, function (i, id) {
-    subtotal += parseFloat($("#id_total" + id).val());
-  });
-  $("#preview_subtotal_txt").text(ra(subtotal));
+  $.each(previewList, function (i, id) { subtotal += parseFloat($("#id_total" + id).val()); });
+  $("#preview_subtotal_txt").text(ra(subtotal, NRI));
   $(".previewsubtotal").val(subtotal);
-  if (parseInt(od_order.tax_rate) == 9) {
-    gst = subtotal * ($("#preview_sgst_val").data("gst") / 100);
-    $("#preview_sgst_val").text(ra(gst));
-    $("#preview_cgst_val").text(ra(gst));
-    $("#previewsgst").val(gst);
-    $("#previewcgst").val(gst);
-    $("#previewigst").val(0);
-    total = subtotal + gst + gst;
-  } else {
-    gst = subtotal * ($("#preview_igst_val").data("gst") / 100);
-    $("#previewsgst").val(0);
-    $("#previewcgst").val(0);
-    $("#preview_igst_val").text(ra(gst));
-    $("#previewigst").val(gst);
-    total = subtotal + gst;
-  }
+  if (!NRI) {
+    if (parseInt(od_order.tax_rate) == 9) {
+      gst = subtotal * ($("#preview_sgst_val").data("gst") / 100);
+      $("#preview_sgst_val").text(ra(gst, NRI));
+      $("#preview_cgst_val").text(ra(gst, NRI));
+      $("#previewsgst").val(gst);
+      $("#previewcgst").val(gst);
+      $("#previewigst").val(0);
+      total = subtotal + gst + gst;
+    } else {
+      gst = subtotal * ($("#preview_igst_val").data("gst") / 100);
+      $("#previewsgst").val(0);
+      $("#previewcgst").val(0);
+      $("#preview_igst_val").text(ra(gst, NRI));
+      $("#previewigst").val(gst);
+      total = subtotal + gst;
+    }
+  } else { total = subtotal; }
   $("#previewinvoice_sub_total").val((subtotal).toFixed(0));
   $("#previewinvoice_total").val((total).toFixed(0));
-  $("#preview_total_val").text(ra((total).toFixed(0)));
+  $("#preview_total_val").text(ra((total).toFixed(0), NRI));
 }
 
 function previewtotal(index, value) {
-  $("#preview_row_total" + index).text(ra(value));
+  $("#preview_row_total" + index).text(ra(value, NRI));
   $("#id_total" + index).val(value);
   // preview_total();
 }
@@ -774,27 +789,76 @@ function preview_footer() {
     }
     if ($("#" + id).is(':checked')) { subtotal += parseFloat(t.total) }
   });
-  if (gstlist.length > 2) {
-    sgst_total = (gstlist[1] / 100) * subtotal;
-    cgst_total = (gstlist[2] / 100) * subtotal;
-  } else {
-    igst_total = (gstlist[1] / 100) * subtotal;
+  if (!NRI) {
+    if (gstlist.length > 2) {
+      sgst_total = (gstlist[1] / 100) * subtotal;
+      cgst_total = (gstlist[2] / 100) * subtotal;
+    } else { igst_total = (gstlist[1] / 100) * subtotal; }
   }
   total = sgst_total + cgst_total + igst_total + subtotal;
-  $("#preview_footer").append(
-    '<div class="row text-center"><div id="previewgst"><b>Sub Total : </b><span id="preview_subtotal_txt">₹' + subtotal.toFixed(2) + '</span></div><input type="hidden" name="order_total" class="previewsubtotal" value="' + subtotal.toFixed(2) + '"><input type="hidden" name="sub_total" id="previewinvoice_sub_total" value="' + subtotal.toFixed(2) + '"><div id="sgstclass" style="display: none;"><b>SGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_sgst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + sgst_total.toFixed(2) + '</span><input type="hidden" name="sgst" id="previewsgst" value="' + sgst_total.toFixed(2) + '"></div><div id="cgstclass" style="display: none;"><b>CGST ( <span>' + parseInt(gstlist[2]) + ' %</span> ) : </b><span id="preview_cgst_val">₹' + cgst_total.toFixed(2) + '</span><input type="hidden" name="cgst" id="previewcgst" value="' + cgst_total.toFixed(2) + '"></div><div id="igstclass" style="display: none;"><b>IGST ( <span>' + parseInt(gstlist[1]) + ' %</span> ) : </b><span id="preview_igst_val" data-gst="' + parseInt(gstlist[1]) + '">₹ ' + igst_total.toFixed(2) + '</span><input type="hidden" name="igst" id="previewigst" value="' + igst_total.toFixed(2) + '"></div><div id="totalclass" style="color: mediumslateblue;"><b>Total : </b><span id="preview_total_val">₹ ' + total.toFixed(2) + '</span><input type="hidden" name="invoice_total" id="previewinvoice_total" value="' + total.toFixed(2) + '"></div></div>');
-  if (parseInt(gstlist[1]) == 9) {
-    $("#previewgst").addClass("col-3");
-    $("#sgstclass").show().addClass("col-3");
-    $("#cgstclass").show().addClass("col-3");
-    $("#igstclass").hide().addClass("col-0");
-    $("#preview_total_val").addClass("col-3");
+
+  if (!NRI) {
+    $("#preview_footer").append(
+      `<div class="row text-center">
+        <div id="previewgst"><b>Sub Total : </b>
+          <span id="preview_subtotal_txt">` + symbol + subtotal.toFixed(2) + `</span>
+        </div>
+        <input type="hidden" name="order_total" class="previewsubtotal" value="` + subtotal.toFixed(2) + `">
+        <input type="hidden" name="sub_total" id="previewinvoice_sub_total" value="` + subtotal.toFixed(2) + `">
+        <div id="sgstclass" style="display: none;">
+          <b>SGST ( <span>` + parseInt(gstlist[1]) + ` %</span> ) : </b>
+          <span id="preview_sgst_val" data-gst="` + parseInt(gstlist[1]) + `">` + symbol + sgst_total.toFixed(2) + `</span>
+          <input type="hidden" name="sgst" id="previewsgst" value="` + sgst_total.toFixed(2) + `">
+        </div>
+        <div id="cgstclass" style="display: none;">
+          <b>CGST ( <span>` + parseInt(gstlist[2]) + ` %</span> ) : </b>
+          <span id="preview_cgst_val">₹` + cgst_total.toFixed(2) + `</span>
+          <input type="hidden" name="cgst" id="previewcgst" value="` + cgst_total.toFixed(2) + `">
+        </div>
+        <div id="igstclass" style="display: none;">
+          <b>IGST ( <span>` + parseInt(gstlist[1]) + ` %</span> ) : </b>
+          <span id="preview_igst_val" data-gst="` + parseInt(gstlist[1]) + `">` + symbol + igst_total.toFixed(2) + `</span>
+          <input type="hidden" name="igst" id="previewigst" value="` + igst_total.toFixed(2) + `">
+        </div>
+        <div id="totalclass" style="color: mediumslateblue;">
+          <b>Total : </b>
+          <span id="preview_total_val">` + symbol + total.toFixed(2) + `</span>
+          <input type="hidden" name="invoice_total" id="previewinvoice_total" value="` + total.toFixed(2) + `">
+        </div>
+      </div>`);
+    if (parseInt(gstlist[1]) == 9) {
+      $("#previewgst").addClass("col-3");
+      $("#sgstclass").show().addClass("col-3");
+      $("#cgstclass").show().addClass("col-3");
+      $("#igstclass").hide().addClass("col-0");
+      $("#preview_total_val, #totalclass").addClass("col-3");
+    } else {
+      $("#previewgst").addClass("col-4");
+      $("#sgstclass").hide().addClass("col-0");
+      $("#cgstclass").hide().addClass("col-0");
+      $("#igstclass").show().addClass("col-4");
+      $("#preview_total_val, #totalclass").addClass("col-4");
+    }
   } else {
-    $("#previewgst").addClass("col-4");
-    $("#sgstclass").hide().addClass("col-0");
-    $("#cgstclass").hide().addClass("col-0");
-    $("#igstclass").show().addClass("col-4");
-    $("#preview_total_val").addClass("col-4");
+    $("#preview_footer").append(
+      `<div class="row text-center">
+        <div id="previewgst" class="col-4">
+          <b>Sub Total : </b>
+          <span id="preview_subtotal_txt">` + symbol + subtotal.toFixed(2) + `</span>
+        </div>
+        <input type="hidden" name="order_total" class="previewsubtotal" value="` + subtotal.toFixed(2) + `">
+        <input type="hidden" name="sub_total" id="previewinvoice_sub_total" value="` + subtotal.toFixed(2) + `">
+        <div class="col-4">
+          <input type="hidden" name="cgst" value="0">
+          <input type="hidden" name="igst" value="0">
+          <input type="hidden" name="sgst" value="0">
+        </div>
+        <div id="totalclass" class="col-4" style="color: mediumslateblue;">
+          <b>Total : </b>
+          <span id="preview_total_val">` + symbol + total.toFixed(2) + `</span>
+          <input type="hidden" name="invoice_total" id="previewinvoice_total" value="` + total.toFixed(2) + `">
+        </div>
+      </div>`);
   }
 }
 
@@ -873,8 +937,8 @@ function fillinvoice_body() {
             $("#row0" + itm + ptm + ptmPro).append('<td>' + tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["item"] + '</td>');
             $("#row0" + itm + ptm + ptmPro).append('<td>' + tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["description"] + '</td>');
             $("#row0" + itm + ptm + ptmPro).append('<td>' + tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["qty"] + " / " + get_uom_display(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["uom_id"]) + '</td>');
-            $("#row0" + itm + ptm + ptmPro).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["unit_price"]) + '</td>');
-            $("#row0" + itm + ptm + ptmPro).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["total"]) + '</td>');
+            $("#row0" + itm + ptm + ptmPro).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["unit_price"], NRI) + '</td>');
+            $("#row0" + itm + ptm + ptmPro).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["proforma"][ptmPro]["total"], NRI) + '</td>');
             if ((tree["items"][itm]["payment"][ptm]["invoice"]["ids"]).length > 0) {
               var ptmProInvList = [];
               var linkList = "";
@@ -905,8 +969,8 @@ function fillinvoice_body() {
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["item"] + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["description"] + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["uom_id"]) + '</td>');
-            $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"]) + '</td>');
-            $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"]) + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"], NRI) + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"], NRI) + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"] + '" type="button">Tax Invoice</a></td>');
           });
         }
@@ -924,8 +988,8 @@ function fillinvoice_body() {
           $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].item + '</td>');
           $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].description + '</td>');
           $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].qty + " / " + get_uom_display(tree["items"][itm]["payment"][ptm].uom_id) + '</td>');
-          $("#row" + itm + ptm).append('<td>' + ra(tree["items"][itm]["payment"][ptm].unit_price) + '</td>');
-          $("#row" + itm + ptm).append('<td>' + ra(tree["items"][itm]["payment"][ptm].total) + '</td>');
+          $("#row" + itm + ptm).append('<td>' + ra(tree["items"][itm]["payment"][ptm].unit_price, NRI) + '</td>');
+          $("#row" + itm + ptm).append('<td>' + ra(tree["items"][itm]["payment"][ptm].total, NRI) + '</td>');
           if (plock) {
             $("#row" + itm + ptm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '_' + ptm + '" data-id="' + itm + '_' + ptm + '" data-list="payments" >Generate <i class="fas fa-chevron-right"></i></button></td>');
             plock = false;
@@ -950,8 +1014,8 @@ function fillinvoice_body() {
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["description"] + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["invoice"][inv]["uom_id"]) + '</td>');
           balQty -= parseInt(tree["items"][itm]["invoice"][inv]["qty"]);
-          $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["unit_price"]) + '</td>');
-          $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"]) + '</td>');
+          $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["unit_price"], NRI) + '</td>');
+          $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"], NRI) + '</td>');
           $("#row" + iInv + itm + inv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["invoice"][inv]["invoice_id"] + '" type="button">Tax Invoice</a></td>');
         })
       }
@@ -969,8 +1033,8 @@ function fillinvoice_body() {
           $("#row" + itm + pro + iPro).append('<td>' + tree["items"][itm]["proforma"][pro]["item"] + '</td>');
           $("#row" + itm + pro + iPro).append('<td>' + tree["items"][itm]["proforma"][pro]["description"] + '</td>');
           $("#row" + itm + pro + iPro).append('<td>' + tree["items"][itm]["proforma"][pro]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["proforma"][pro]["uom_id"]) + '</td>');
-          $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["unit_price"]) + '</td>');
-          $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["total"]) + '</td>');
+          $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["unit_price"], NRI) + '</td>');
+          $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["total"], NRI) + '</td>');
           if ((tree["items"][itm]["invoice"]["ids"]).length == 0) {
             // $("#row" + itm + pro + iPro).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf" type="button">Proforma Invoice</button></td>');
             $("#row" + itm + pro + iPro).append('<td><div class="btn-group"><button type="button" class="btn btn-primary btn-sm generate" id="generate_' + itm + '_' + pro + '_' + iPro + '" data-id="' + itm + '_' + pro + '_' + iPro + '" data-list="items">Generate</button><button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu p-1" role="menu"><a class="dropdown-item pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["proforma"][pro]["proforma_invoice_id"] + '/1">Proforma Invoice</a></div></div></td>');
@@ -987,8 +1051,8 @@ function fillinvoice_body() {
         $("#row0" + itm).append('<td>' + tree["items"][itm]["item"] + '</td>');
         $("#row0" + itm).append('<td>' + tree["items"][itm]["description"] + '</td>');
         $("#row0" + itm).append('<td>' + balQty + '</td>');
-        $("#row0" + itm).append('<td>' + ra(tree["items"][itm]["unit_price"]) + '</td>');
-        $("#row0" + itm).append('<td>' + ra(balQty * tree["items"][itm]["unit_price"]) + '</td>');
+        $("#row0" + itm).append('<td>' + ra(tree["items"][itm]["unit_price"], NRI) + '</td>');
+        $("#row0" + itm).append('<td>' + ra(balQty * tree["items"][itm]["unit_price"], NRI) + '</td>');
         $("#row0" + itm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '" data-id="' + itm + '" data-list="items">Generate <i class="fas fa-chevron-right"></i></button></td>');
       }
     }
@@ -1101,9 +1165,6 @@ function preview_label() {
 }
 
 function getInvoiceNo(val, proforma = false) {
-  if (proforma) {
-    return tree["proforma"][val]["invoice_no"]
-  } else {
-    return tree["invoice"][val]["invoice_no"]
-  }
+  if (proforma) { return tree["proforma"][val]["invoice_no"] }
+  else { return tree["invoice"][val]["invoice_no"] }
 }

@@ -70,6 +70,7 @@
                           maxlength="15" value="<?php echo $customer['fax'] ?>" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_email"> Email </label>
@@ -80,6 +81,7 @@
                           style="text-transform: lowercase" />
                       </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_pan"> PAN No. </label>
@@ -88,6 +90,16 @@
                         <input type="text" class="form-control fc ftsm pan" name="pan" id="id_pan"
                           pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" minlength="10" maxlength="10"
                           value="<?php echo $customer['pan'] ?>" />
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_swift_code"> SWIFT Code </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <input type="text" class="form-control fc ftsm" name="swift_code" id="id_swift_code" minlength="8" maxlength="10"
+                          value="<?php echo $customer['swift_code'] ?>" />
                       </div>
                     </div>
 

@@ -51,23 +51,24 @@
       <div class="card-footer hide" id="add_order_item_cardfooter">
         <div class="row text-center">
           <div class="col-3" id="col_sub_total">
-            <b>Sub Total : </b>₹
+            <b>Sub Total : </b>
             <span id="add_order_subtotal_val">0.00</span>
           </div>
           <div class="col-3 hide" id="col_sgst">
-            <b>SGST <span id="add_order_sgst"></span>% : </b>₹
+            <b>SGST <span id="add_order_sgst"></span>% : </b>
             <span id="add_order_sgst_val">0.00</span>
           </div>
           <div class="col-3 hide" id="col_cgst">
-            <b>CGST <span id="add_order_cgst"></span>% : </b>₹
+            <b>CGST <span id="add_order_cgst"></span>% : </b>
             <span id="add_order_cgst_val">0.00</span>
           </div>
           <div class="col-4 hide" id="col_igst">
-            <b>IGST <span id="add_order_igst"></span>% : </b>₹
+            <b>IGST <span id="add_order_igst"></span>% : </b>
             <span id="add_order_igst_val">0.00</span>
           </div>
+          <div class="col-4 hide" id="col_nogst"></div>
           <div class="col-3" id="col_total">
-            <b>Total : </b>₹
+            <b>Total : </b>
             <span id="add_order_total_val">0.00</span>
           </div>
         </div>

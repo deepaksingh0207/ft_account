@@ -239,6 +239,7 @@ class InvoicesController extends Controller
             
             if (!$invoiceId){ $invoiceId = ($this->_model->getLastId() + 1); }
             $proformaSwitch = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
+            $nri = (isset($data['nri']) && $data['nri'] == 1) ? true : false;
 
             $hidepo = isset($data['hidepo']) ? ($data['hidepo'] == "on" ? true: false) : false;
             
@@ -246,7 +247,7 @@ class InvoicesController extends Controller
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];
-            $invoice['invoice_date'] = $data['invoice_date'];
+            $invoice['invoice_date'] = date('Y/m/d');
             $invoice['po_no'] = $data['po_no'];
             $invoice['sales_person'] = $data['sales_person'];
             $invoice['bill_to'] = $data['bill_to'];
@@ -257,6 +258,7 @@ class InvoicesController extends Controller
             $invoice['cgst'] = $data['cgst'];
             $invoice['igst'] = $data['igst'];
             $invoice['invoice_total'] = $data['invoice_total'];
+            $invoice['exchange_rate'] = $data['exchangerate'];
             $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
             $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
@@ -276,7 +278,6 @@ class InvoicesController extends Controller
                 $orderItem['total'] = $item['total'];
                 if($item['total'] > 0) { $invoiceItems[] = $orderItem; $totalbr--;}
             }
-
         } else {
             $invoice = $this->_model->get($invoiceId);
             $hidepo = $invoice['hide_po'];
@@ -285,13 +286,14 @@ class InvoicesController extends Controller
                 $invoice = $tblProformaInvoice->get($invoiceId);
                 $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
             }
-            foreach($invoiceItems as $item) {$totalbr--;}
+            foreach($invoiceItems as $item) { $totalbr--; }
         }
 
         $company = $company->get(1);
         
         $customer = $customerTbl->get($invoice['customer_id']);
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
+        $nri = $customer['country'] == '101'? false:true;
 
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
@@ -341,6 +343,7 @@ class InvoicesController extends Controller
             "{{COMP_BANK}}" => $company['bank_name'],
             "{{COMP_ACCNO}}" => $company['account_no'],
             "{{COMP_IFSC}}" => $company['ifsc_code'],
+            "{{COMP_SWIFT}}" => $company['swift_code'],
             "{{PO_NO}}" => "Purchase Order No.: ".$invoice['po_no'],
             "{{ORDER_TYPE}}" => $print_uom_qty,
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
@@ -353,12 +356,23 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri),
             "{{REST_BR}}" => $br,
+            "{{NRI}}" => $nri ? "hide": '',
+            "{{NONNRI}}" => $nri ? "": 'hide',
+            "{{CURRENCY}}"=> $nri ? "USD": 'INR',
+            "{{TOTAL_TERMS}}"=> $nri ? "Amount": 'value including taxes',
+            "{{PAY_TERM}}"=> 'Against Invoice within 30 days',
+            "{{GROSS_AMOUNT}}"=> number_format($invoice['exchange_rate']*$invoice['invoice_total'], 2),
+            "{{EXCHANGE_RATE}}"=> number_format($invoice['exchange_rate'], 2),
         );
         
         if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICE"; }
-        else { $vars["{{INV_NO}}"] = "Invoice No: ".$invoice['invoice_no']; $vars["{{TITLE}}"] = "TAX INVOICE"; }
+        else {
+            $vars["{{INV_NO}}"] = $nri ? "Invoice No: EXP".$invoice['invoice_no']: "Invoice No: ".$invoice['invoice_no']; 
+            if (!$nri){ $vars["{{TITLE}}"] = "TAX INVOICE"; }
+            else { $vars["{{TITLE}}"] = "TAX CUM EXPORT INVOICE"; }
+        }
 
         if ($hidepo){ $vars["{{PO_NO}}"] = "Purchase Order No.: As per mail"; }
 
@@ -396,23 +410,29 @@ class InvoicesController extends Controller
 
         // echo '<pre>'; print_r($itemList); exit;
 
-        if(in_array($order['order_type'], array(6))){ $vars["{{TDS}}"] = ""; }
+        if($nri || in_array($order['order_type'], array(6))){ $vars["{{TDS}}"] = ""; }
         else { $vars["{{TDS}}"] = "<li>TDS should be Deduct @10% As per Sec.194J.</li>"; }
 
         $taxName = '';
         $taxesLayout = '';
-        if((int)$invoice['igst']) {
-            $taxName ="IGST @ 18%";
-            $taxesLayout = number_format($invoice['igst'], 2);
+        if(!$nri){
+            if((int)$invoice['igst']) {
+                $taxName ="IGST @ 18%";
+                $taxesLayout = number_format($invoice['igst'], 2);
+            } else {
+                $taxName ="CGST @ 9%<br />SGST @ 9%";
+                $taxesLayout = number_format($invoice['cgst'], 2).'<br />'.number_format($invoice['sgst'], 2);
+            }
         } else {
-            $taxName ="CGST @ 9%<br />SGST @ 9%";
-            $taxesLayout = number_format($invoice['cgst'], 2).'<br />'.number_format($invoice['sgst'], 2);
+            $taxName ="GST";
+            $taxesLayout = "-";
         }
         
         $vars["{{GST_LABEL}}"] = $taxName;
         $vars["{{GST_VALUE}}"] = $taxesLayout;
         $vars["{{ITEM_LIST}}"] = $itemList;
         $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
+        $vars["{{URL}}"] = ROOT;
 
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoiceTemplate.html'), $vars);
         if (!$createpdf){echo $messageBody;}
@@ -517,8 +537,10 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total']),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri),
             "{{REST_BR}}" => $br,
+            "{{GROSS_AMOUNT}}"=> number_format($invoice['exchange_rate']*$invoice['invoice_total'], 2),
+            "{{EXCHANGE_RATE}}"=> number_format($invoice['exchange_rate'], 2),
         );
         
         $vars["{{INV_NO}}"] = "Credit Note No: ".$invoice['invoice_no'];

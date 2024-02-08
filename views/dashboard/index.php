@@ -290,7 +290,7 @@
                         <tbody>
                           <?php if (is_array($invoices) || is_object($invoices)) : ?>
                           <?php foreach ($invoices as $invoice) : ?>
-                          <?php if ($invoice['balance_amount'] -$invoice['tds_deducted'] == 0) : ?>
+                          <?php if ($invoice['balance_amount'] - $invoice['tds_deducted'] == 0) : ?>
                           <tr data-href="<?php echo $invoice['invoice_id'] ?>">
                             <td class="align-middle text-center text-success">
                               <?php echo $invoice['customer_name'] ?>

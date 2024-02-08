@@ -173,6 +173,10 @@
     text-align: left;
   }
 
+  .nri {
+    display: none;
+  }
+
   .txtc {
     text-align: center;
   }
@@ -204,23 +208,23 @@
   .txtsmr {
     font-size: smaller;
   }
-  
+
   .pb-1 {
     padding-bottom: 1rem;
   }
 
   .pt-1 {
-    padding-top: 1rem;;
+    padding-top: 1rem;
   }
 </style>
 <table cellspacing="0" width="100%" class="f-xl">
   <thead>
     <tr>
       <td colspan="3">
-        <img src="/assets/img/invimgl.jpg" alt="invimgl" width="150px">
+        <img src="{{URL}}/assets/img/invimgl.jpg" alt="invimgl" width="150px">
       </td>
       <td colspan="3">
-        <img src="/assets/img/invimgr.jpg" alt="invimgr" width="150px" class="fr">
+        <img src="{{URL}}/assets/img/invimgr.jpg" alt="invimgr" width="150px" class="fr">
       </td>
     </tr>
   </thead>
@@ -274,11 +278,11 @@
             </tr>
             <tr>
               <td class="byr2"><b>Pan No.: {{COMP_PAN}}</b></td>
-              <td class="byl2"><b>PAN No.: {{CUST_PAN}}</b></td>
+              <td class="byl2"><span class="{{NRI}}"><b>PAN No.: {{CUST_PAN}}</b></span></td>
             </tr>
             <tr>
               <td class="byr2"><b>GSTIN NO: {{COMP_GSTIN}}</b></td>
-              <td class="byl2"><b>GST No.: {{CUST_GST}}</b></td>
+              <td class="byl2"><span class="{{NRI}}"><b>GST No.: {{CUST_GST}}</b></span></td>
             </tr>
             <tr>
               <td class="byr2">&nbsp;</td>
@@ -286,7 +290,7 @@
             </tr>
             <tr>
               <td class="blb2r vt" style="max-width: 50vw; overflow-wrap: anywhere;" rowspan="2"><b>Bank Details:
-                  {{COMP_BANK}}<br>A/C No.: {{COMP_ACCNO}}<br>IFSC Code: {{COMP_IFSC}}</b></td>
+                  {{COMP_BANK}}<br>A/C No.: {{COMP_ACCNO}}<br>IFSC Code: {{COMP_IFSC}}<br>SWIFT Code: {{COMP_SWIFT}}</b></td>
               <td class="byl2"><b>Ship To: </b>{{CUST_SHIPTO}}</b></td>
             </tr>
             <tr>
@@ -305,7 +309,7 @@
     </tr>
     {{ITEM_LIST}}
     <tr class="txtsmr">
-      <td colspan="5" class="bb1 bt1 txtr">Net Value INR.</td>
+      <td colspan="5" class="bb1 bt1 txtr">Net Value {{CURRENCY}}.</td>
       <td class="bb1 bt1 txtc">{{ORDER_TOTAL}}</td>
     </tr>
     <tr class="txtsmr">
@@ -314,11 +318,15 @@
       <!-- {{TAX_LAYOUT}} -->
     </tr>
     <tr class="txtsmr">
-      <td colspan="5" class="bb1 txtr">Total invoice value including taxes INR</td>
+      <td colspan="5" class="bb1 txtr">Total invoice {{TOTAL_TERMS}} {{CURRENCY}}</td>
       <td class="bb1 txtc">{{INV_TOTAL}}</td>
     </tr>
     <tr class="txtsm">
       <td colspan="6"><i><b> In Words: {{AMOUNT_WORD}} Only.</b></i></td>
+    </tr>
+    <tr class="txtsm{{NONNRI}}">
+      <td colspan="3"><i><b> Gross Amount : {{GROSS_AMOUNT}} INR</b></i></td>
+      <td colspan="3" class="text-right"><i><b> Exchange Rate : $1= {{EXCHANGE_RATE}} INR</b></i></td>
     </tr>
     {{DECLARATION}}
     <tr class="txtsm">
@@ -328,8 +336,8 @@
     <tr class="txtsm">
       <td colspan="3">
         <ol>
-          <li>Payment 100% -</li>
-          <li>INR. 1000/- will be charged for any Cheque Bouncing.</li>
+          <li>Payment 100% - {{PAY_TERM}}</li>
+          <li class="{{NRI}}">INR. 1000/- will be charged for any Cheque Bouncing.</li>
           {{TDS}}
         </ol>
       </td>

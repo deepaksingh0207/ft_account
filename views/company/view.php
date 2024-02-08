@@ -91,6 +91,13 @@
                             <div class="col-7 my-2">
                               <?php echo $customer['gstin'] ?>
                             </div>
+                            
+                            <div class="col-5 my-2">
+                              <b>SWIFT Code : </b>
+                            </div>
+                            <div class="col-7 my-2">
+                              <?php echo $customer['swift_code'] ?>
+                            </div>
     
                           </div>
                           <hr>
