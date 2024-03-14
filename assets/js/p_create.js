@@ -22,7 +22,8 @@ $(document).on("change", "#id_group_id", function () {
             dataType: "json",
             encode: true,
         })
-            .done(function (resp) {
+            .done(function (res) {
+                resp = res.data
                 $("#id_customerid").empty().append('<option selected="">Select Customer</option>');
                 $.each(resp, function (i_resp, value) {
                     $("#id_customerid").append("<option value='" + value.id + "'>" + value.name + "</option>");
@@ -263,9 +264,8 @@ function checkme() {
         var ID = $(this).data("index");
         if ($(this).is(':checked')) {
             gatepass = true
-            if($("#id_invoice_id_" + ID).data('proforma') == '1')
-            {$("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][proforma_id]");}
-            else {$("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]");}
+            if ($("#id_invoice_id_" + ID).data('proforma') == '1') { $("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][proforma_id]"); }
+            else { $("#id_invoice_id_" + ID).attr("name", "payment_invoice[" + c + "][invoice_id]"); }
             $("#id_order_id" + ID).attr("name", "payment_invoice[" + c + "][order_id]");
             $("#id_basic_value" + ID).attr("name", "payment_invoice[" + c + "][basic_value]");
             $("#id_gst_amount" + ID).attr("name", "payment_invoice[" + c + "][gst_amount]");
