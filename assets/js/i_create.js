@@ -94,7 +94,8 @@ $(document).on("change", "#id_group_id", function () {
       dataType: "json",
       encode: true,
     })
-      .done(function (data) {
+      .done(function (resp) {
+        data = resp.data
         if (data != false) {
           groupdata = data;
           if (groupdata[0].country != "101") { symbol = '$ '; NRI = true; }
@@ -178,8 +179,8 @@ function fillsalesperson(id) {
     dataType: "json",
     encode: true,
   })
-    .done(function (r) {
-      $("#id_salesperson").val(r.contact_person);
+    .done(function (resp) {
+      $("#id_salesperson").val(resp.data.contact_person);
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
@@ -551,7 +552,8 @@ function gst_details(customerid) {
     dataType: "json",
     encode: true,
   })
-    .done(function (data) {
+    .done(function (resp) {
+      var data = resp.data;
       gstlist = [];
       gstlist.push(data.state);
       if (gstlist[0] == "same") {

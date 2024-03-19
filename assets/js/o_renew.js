@@ -198,7 +198,8 @@ function update_tax(s = sgst, c = cgst, i = igst) {
 function getgst(customergroup_id) {
   sgst = cgst = igst = 0
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customergroup_id, dataType: "json", encode: true })
-    .done(function (resp) {
+    .done(function (res) {
+      var resp = res.data;
       $("#itemcard").show()
       l_gst = resp
       if (resp.state == "same") {

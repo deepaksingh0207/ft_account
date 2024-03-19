@@ -212,12 +212,12 @@ class InvoicesController extends Controller
                 $result['state'] = 'other';
                 $result['igst'] = $itMaster['igst'];
             }
-            echo json_encode($result); exit;
-            
+            $resp = array('status'=>true,'data'=>$result, 'message'=>'Success');
             
         } catch (Exception $e) {
-            echo "Application error:" . $e->getMessage();
+            $resp = array('status'=>false,'data'=>null, 'message'=>$e->getMessage());
         }
+        echo json_encode($resp); exit;
     }
 
     public function geninv($invoiceId=null, $proformaSwitch = false, $createpdf=false, $hidepo=false){

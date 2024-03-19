@@ -120,18 +120,20 @@ class CustomersController extends Controller
     public function getDetails($id) {
         if($id) {
             $customer = $this->_model->get($id);
-            echo json_encode($customer);
+            $resp = array('status'=>true, 'msg'=>'Success', 'data'=>$customer);
         } else {
-            echo false;
+            $resp = array('status'=>false, 'msg'=>'Failed', 'data'=>null);
         }
+        echo json_encode($resp); exit();
     }
     
     public function groupCustomers($id) {
         if($id) {
             $customer = $this->_model->getCustomersByGroup($id);
-            echo json_encode($customer);
+            $resp = array('status'=>true, 'data'=>$customer, 'message'=>'Success');
         } else {
-            echo false;
+            $resp = array('status'=>false, 'data'=>$customer, 'message'=>'Success');
         }
+        echo json_encode($resp); exit;
     }
 }
