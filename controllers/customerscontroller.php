@@ -91,6 +91,10 @@ class CustomersController extends Controller
         try {
             $this->_view->set('title', 'Create Customer');
             
+            $country = new CountryModel();
+            $country = $country->list();
+            $this->_view->set('countries', $country);
+            
             $states = new StatesModel();
             $states = $states->list();
             $this->_view->set('states', $states);
