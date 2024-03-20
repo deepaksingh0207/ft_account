@@ -59,6 +59,10 @@ class CustomersController extends Controller
             
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Customer Edit');
+
+            $country = new CountryModel();
+            $country = $country->list();
+            $this->_view->set('countries', $country);
             
             $states = new StatesModel();
             $states = $states->list();

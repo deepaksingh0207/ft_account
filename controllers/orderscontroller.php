@@ -664,8 +664,8 @@ class OrdersController extends Controller
     public function po_validty() {
         $resp = false;
         if(!empty($_POST)) {
-            $t = $this->_model->getRecordsByField('po_no', $_POST['po_no']);
-            if(!t) { $resp = true; }
+            $record = $this->_model->getRecordsByField('po_no', $_POST['po_no']);
+            if(!$record) { $resp = true; }
         }
         echo $resp;
     }

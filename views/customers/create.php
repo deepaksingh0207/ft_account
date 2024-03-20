@@ -87,7 +87,7 @@
                         <label for="id_address"> Country </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm select2" name="state" id="state_id">
+                        <select class="form-control ftsm select2" name="country" id="country_id">
                           <option value="">&nbsp;</option>
                           <?php foreach ($countries as $country) : ?>
                           <option value="<?php echo $country['id'] ?>">
