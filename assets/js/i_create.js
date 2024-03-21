@@ -127,7 +127,8 @@ $("#customerid_id").change(function () {
       dataType: "json",
       encode: true,
     })
-      .done(function (data) {
+      .done(function (resp) {
+        var data = resp.data;
         $("#id_orderid").removeAttr("readonly");
         customerdata = data;
         filldata("#id_orderid", customerdata, "Select Order", ["id", "po_no", "item",]);
@@ -149,7 +150,8 @@ $("#id_orderid").change(function () {
       dataType: "json",
       encode: true,
     })
-      .done(function (data) {
+      .done(function (res) {
+        var data = res.data;
         orderdata = data;
         od_order = orderdata.order;
         od_items = orderdata.items;
@@ -179,9 +181,7 @@ function fillsalesperson(id) {
     dataType: "json",
     encode: true,
   })
-    .done(function (resp) {
-      $("#id_salesperson").val(resp.data.contact_person);
-    })
+    .done(function (resp) { $("#id_salesperson").val(resp.data.contact_person); })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No details found against this customer.");
       console.log(jqXHR, textStatus, errorThrown);
@@ -196,24 +196,16 @@ $(document).on("click", ".generate", function () {
 });
 
 $(document).on("click", ".genebox", function () {
-  if ($(this).is(':checked')) {
-    $("#generate_" + $(this).data("id")).show();
-  } else {
-    $("#generate_" + $(this).data("id")).hide();
-  }
+  if ($(this).is(':checked')) { $("#generate_" + $(this).data("id")).show(); }
+  else { $("#generate_" + $(this).data("id")).hide(); }
 });
 
-$(document).on("click", "#gene", function () {
-  $(this).attr("disabled", true);
-});
+$(document).on("click", "#gene", function () { $(this).attr("disabled", true); });
 
 $(document).on("change", ".qty", function () {
   var rowId = $(this).data("index");
-  if ($("#id_qty" + rowId).data("uom") != 3) {
-    val = $("#id_qty" + rowId).val() * $("#id_unitprice" + rowId).val()
-  } else {
-    val = parseInt($("#id_qty" + rowId).val()) / 100 * parseFloat($("#id_unitprice" + rowId).val())
-  }
+  if ($("#id_qty" + rowId).data("uom") != 3) { val = $("#id_qty" + rowId).val() * $("#id_unitprice" + rowId).val() }
+  else { val = parseInt($("#id_qty" + rowId).val()) / 100 * parseFloat($("#id_unitprice" + rowId).val()) }
   previewtotal(rowId, val);
   preview_total();
 });
@@ -408,7 +400,8 @@ function fillhsnselect(id) {
     dataType: "json",
     encode: true,
   })
-    .done(function (data) {
+    .done(function (res) {
+      var data = res.data;
       $.each(data, function (x, y) {
         $(id).append('<option value="' + y.id + '">' + y.code + ' - ' + y.description + '</option>');
       });
@@ -438,16 +431,15 @@ $(document).on("change", "#id_invoice_no", function () {
       dataType: "json",
       encode: true,
     })
-      .done(function (data) {
+      .done(function (res) {
+        var data = res.data;
         invoicevalidityflag = data
         if (data == false) {
           $(".say").remove()
           $("#id_invoice_no")
             .addClass("is-invalid")
             .parent()
-            .append(
-              '<span id="id_po_no-error" class="say error invalid-feedback">Proforma No exist.</span>'
-            )
+            .append('<span id="id_po_no-error" class="say error invalid-feedback">Proforma No exist.</span>')
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -469,9 +461,7 @@ $(document).on("change", "#id_invoice_no", function () {
           $("#id_invoice_no")
             .addClass("is-invalid")
             .parent()
-            .append(
-              '<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>'
-            )
+            .append('<span id="id_po_no-error" class="say error invalid-feedback">Invoice No exist.</span>')
         }
       })
       .fail(function (jqXHR, textStatus, errorThrown) {

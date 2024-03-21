@@ -79,6 +79,22 @@
                     </div>
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
+                        <label for="id_address"> Country </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control ftsm select2" name="country" id="country_id">
+                          <option value="">&nbsp;</option>
+                          <?php foreach ($countries as $country) : ?>
+                          <option value="<?php echo $country['id'] ?>" <?php echo ($customer['country']==$country['id'])
+                            ? 'selected="selected"' : '' ?>>
+                            <?php echo $country['country_name'] ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
                         <label for="id_address"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
