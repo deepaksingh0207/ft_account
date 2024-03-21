@@ -153,7 +153,8 @@ function createbookeeper() {
 
 function get_order_data() {
   $.ajax({ type: "POST", url: baseUrl + "orders/getdetails/" + $("#id_order_id").val(), dataType: "json", encode: true })
-    .done(function (data) {
+    .done(function (res) {
+      var data = res.data;
       orderdata = data
       od_order = orderdata.order
       od_items = orderdata.items
@@ -168,7 +169,7 @@ function get_order_data() {
       createbookeeper()
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-
+      console.log(jqXHR, textStatus, errorThrown);
     })
 }
 

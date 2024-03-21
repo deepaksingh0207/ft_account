@@ -729,10 +729,13 @@ class InvoicesController extends Controller
     }
     
     public function invoice_validty() {
+        $status=0; $message="Failed"; $data=null;
         if(!empty($_POST)) {
-             if($t = $this->_model->check_invoice_validty($_POST['invoice_no'])) { echo 0; }
-             else { echo 1; } }
-        else { echo 0; }
+            if(!$t = $this->_model->check_invoice_validty($_POST['invoice_no'])) {
+                $status = 1; $message = "Invoice No Not Found";
+            }
+        }
+        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 
     public function check_invoice_validty($invoice_no=null) {
@@ -741,15 +744,14 @@ class InvoicesController extends Controller
     }
 
     public function proforma_validty() {
+        $status=0; $message="Failed"; $data=null;
         if(!empty($_POST)) {
-             if($t = $this->_model->proformaFieldRecord('invoice_no', $_POST['invoice_no'])) {
-                 echo 0;
-             } else {
-                echo true;
-             }
-        } else {
-            echo false;
+            if(!$result = $this->_model->proformaFieldRecord('invoice_no', $_POST['invoice_no'])) {
+                $message="Invoice No not Found";
+                $status=1;
+            }
         }
+        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 
     public function delete($invoiceNo) {

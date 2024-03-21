@@ -126,22 +126,20 @@ class CustomersController extends Controller
     }
 
     public function getDetails($id) {
+        $status=0; $message="Failed"; $data=null;
         if($id) {
             $customer = $this->_model->get($id);
-            $resp = array('status'=>true, 'msg'=>'Success', 'data'=>$customer);
-        } else {
-            $resp = array('status'=>false, 'msg'=>'Failed', 'data'=>null);
+            $status=1; $message="Success"; $data=$customer;
         }
-        echo json_encode($resp); exit();
+        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
     
     public function groupCustomers($id) {
+        $status=0; $message="Failed"; $data=null;
         if($id) {
             $customer = $this->_model->getCustomersByGroup($id);
-            $resp = array('status'=>true, 'data'=>$customer, 'message'=>'Success');
-        } else {
-            $resp = array('status'=>false, 'data'=>$customer, 'message'=>'Success');
+            $status=1; $message="Success"; $data=$customer;
         }
-        echo json_encode($resp); exit;
+        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 }

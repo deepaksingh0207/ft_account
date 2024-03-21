@@ -62,12 +62,14 @@ $(document).on("change", "#id_customerid", function () {
             dataType: "json",
             encode: true,
         })
-            .done(function (resp) {
+            .done(function (res) {
+                var resp = res.data;
                 $.each(resp, function (index, value) {
                     get_orderstatus(value.id, value.po_no);
                 });
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
             });
     }
 });
