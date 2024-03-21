@@ -443,9 +443,7 @@ function order_item_calculator(id) {
         if ([1, 3].includes(oti)) {
           res = nz(b / a).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
-          $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-            ra(res)
-          );
+          $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(ra(res, NRI));
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
           update_pt_total(id, pid);
         } else if (oti == 2 || oti == 7) {
@@ -768,6 +766,7 @@ function form_maker() {
   a = (sgst / 100) * subtotal;
   b = (cgst / 100) * subtotal;
   c = (igst / 100) * subtotal;
+  if (!$("#id_calculate").is(":checked")) { a = b = c = 0; }
   var total = parseFloat(subtotal + a + b + c);
   if (l_gst.state == "same") {
     $("#hiddendata").append('<input type="hidden" name="taxrate" value="' + l_gst.sgst + '">');
@@ -795,7 +794,7 @@ function update_pt_total(o, p) {
   else { var res = nz(b * a); }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
-    ra(res.toFixed(2))
+    ra(res.toFixed(2), NRI)
   );
 }
 
