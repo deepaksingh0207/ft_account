@@ -212,7 +212,7 @@ $pendingAmount = 0.00;
                       </div>
                     </div>
                     <div
-                      class="table-responsive card-body order p-0"
+                      class="table-responsive card-body torder p-0"
                       style="display: none"
                     >
                       <table class="table">
@@ -246,7 +246,7 @@ $pendingAmount = 0.00;
                               <?php echo $item['unit_price']?>
                             </td>
                             <td>
-                              ₹
+                            <?php if ($customer['country'] == '101') : ?>₹<?php else: ?>$<?php endif; ?>
                               <?php echo $item['total'] ?>
                             </td>
                           </tr>
@@ -304,7 +304,7 @@ $pendingAmount = 0.00;
                               <?php echo $payterm['unit_price']?>
                             </td>
                             <td>
-                              ₹
+                            <?php if ($customer['country'] == '101') : ?>₹<?php else: ?>$<?php endif; ?>
                               <?php echo $payterm['total'] ?>
                             </td>
                             <td id="pdf<?php echo $payterm['id'] ?>"></td>
