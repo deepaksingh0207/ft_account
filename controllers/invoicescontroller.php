@@ -239,7 +239,10 @@ class InvoicesController extends Controller
             
             if (!$invoiceId){ $invoiceId = ($this->_model->getLastId() + 1); }
             $proformaSwitch = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
-            $nri = (isset($data['nri']) && $data['nri'] == 1) ? true : false;
+            
+            // $nri = (isset($data['nri']) && $data['nri'] == 1) ? true : false;
+            $customer = $customerTbl->get($data['customer_id']);
+            $nri = $customer['country'] == '101'? false:true;
 
             $hidepo = isset($data['hidepo']) ? ($data['hidepo'] == "on" ? true: false) : false;
             
@@ -424,8 +427,8 @@ class InvoicesController extends Controller
                 $taxesLayout = number_format($invoice['cgst'], 2).'<br />'.number_format($invoice['sgst'], 2);
             }
         } else {
-            $taxName ="GST";
-            $taxesLayout = "-";
+            $taxName ="IGST";
+            $taxesLayout = number_format($invoice['igst'], 2);
         }
         
         $vars["{{GST_LABEL}}"] = $taxName;
