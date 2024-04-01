@@ -398,6 +398,7 @@ $(document).on("change", ".pup", function () {
 
 $(document).on("change", "#id_invoice_no", function () {
   mydata = { invoice_no: $(this).val() }
+  if (NRI && !processing_proforma) { mydata = { invoice_no: 'EXP' + ($(this).val()).toString() }; }
   if (processing_proforma) {
     $.ajax({
       type: "POST",
@@ -407,7 +408,7 @@ $(document).on("change", "#id_invoice_no", function () {
       encode: true,
     })
       .done(function (res) {
-        var data = res.data;
+        var data = res.status;
         invoicevalidityflag = data
         if (data == false) {
           $(".say").remove()
@@ -430,8 +431,8 @@ $(document).on("change", "#id_invoice_no", function () {
       encode: true,
     })
       .done(function (data) {
-        invoicevalidityflag = data
-        if (data == false) {
+        invoicevalidityflag = data.status
+        if (invoicevalidityflag == false) {
           $(".say").remove()
           $("#id_invoice_no")
             .addClass("is-invalid")
@@ -863,17 +864,17 @@ function preview_footer() {
     if ($("#" + id).is(':checked')) { subtotal += parseFloat(t.total) }
   });
   // if (!NRI) {
-    if (gstlist.length > 2 && od_order.sgst > 0) {
-      sgst_total = (gstlist[1] / 100) * subtotal;
-      cgst_total = (gstlist[2] / 100) * subtotal;
-    }
-    else if( od_order.igst > 0) { igst_total = (gstlist[1] / 100) * subtotal; }
+  if (gstlist.length > 2 && od_order.sgst > 0) {
+    sgst_total = (gstlist[1] / 100) * subtotal;
+    cgst_total = (gstlist[2] / 100) * subtotal;
+  }
+  else if (od_order.igst > 0) { igst_total = (gstlist[1] / 100) * subtotal; }
   // }
   total = sgst_total + cgst_total + igst_total + subtotal;
 
   // if (!NRI) {
-    $("#preview_footer").append(
-      `<div class="row text-center">
+  $("#preview_footer").append(
+    `<div class="row text-center">
         <div id="previewgst"><b>Sub Total : </b>
           <span id="preview_subtotal_txt">` + ra(subtotal.toFixed(2), NRI) + `</span>
           <input type="hidden" name="order_total" class="previewsubtotal" value="` + subtotal.toFixed(2) + `">
@@ -900,19 +901,19 @@ function preview_footer() {
           <input type="hidden" name="invoice_total" id="previewinvoice_total" value="` + total.toFixed(2) + `">
         </div>
       </div>`);
-    if (parseInt(gstlist[1]) == 9) {
-      $("#previewgst").addClass("col-3");
-      $("#sgstclass").show().addClass("col-3");
-      $("#cgstclass").show().addClass("col-3");
-      $("#igstclass").hide().addClass("col-0");
-      $("#preview_total_val, #totalclass").addClass("col-3");
-    } else {
-      $("#previewgst").addClass("col-4");
-      $("#sgstclass").hide().addClass("col-0");
-      $("#cgstclass").hide().addClass("col-0");
-      $("#igstclass").show().addClass("col-4");
-      $("#preview_total_val, #totalclass").addClass("col-4");
-    }
+  if (parseInt(gstlist[1]) == 9) {
+    $("#previewgst").addClass("col-3");
+    $("#sgstclass").show().addClass("col-3");
+    $("#cgstclass").show().addClass("col-3");
+    $("#igstclass").hide().addClass("col-0");
+    $("#preview_total_val, #totalclass").addClass("col-3");
+  } else {
+    $("#previewgst").addClass("col-4");
+    $("#sgstclass").hide().addClass("col-0");
+    $("#cgstclass").hide().addClass("col-0");
+    $("#igstclass").show().addClass("col-4");
+    $("#preview_total_val, #totalclass").addClass("col-4");
+  }
   // } else {
   //   $("#preview_footer").append(
   //     `<div class="row text-center">
