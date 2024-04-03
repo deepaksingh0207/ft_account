@@ -318,7 +318,11 @@ class InvoicesController extends Controller
             $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
-            $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            if($customer['country'] == '101'){
+                $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            } else {
+                $slt = '<td class="brt2l"><b>Supply Type: EXPWOP</b></td></tr>';
+            }
             $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
             if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
                 QRcode::png($irnrec['signed_qrcode'], "assets/qr_code/".$irnrec['ack_no'].".png", 'L', 150, 1);
@@ -732,7 +736,7 @@ class InvoicesController extends Controller
     }
     
     public function invoice_validty() {
-        $status=0; $message="Failed"; $data=null;
+        $status=0; $message="Invoice No Found"; $data=null;
         if(!empty($_POST)) {
             if(!$t = $this->_model->check_invoice_validty($_POST['invoice_no'])) {
                 $status = 1; $message = "Invoice No Not Found";
@@ -830,13 +834,30 @@ class InvoicesController extends Controller
             $request = array();
             $request['VERSION'] = '1.1';
             $request['TRANDTLS']['TAXSCH'] = 'GST';
-            $request['TRANDTLS']['SUPTYP'] = 'B2B';
-            $request['TRANDTLS']['REGREV'] = 'N';
+            $request['TRANDTLS']['SUPTYP'] = $customer['country'] == '101' ? 'B2B':'EXPWOP';
+            if($customer['country'] == '101'){
+                $request['TRANDTLS']['REGREV'] = 'N';
+            } else {
+                $request['TRANDTLS']['REGREV'] = null;
+                $request['TRANDTLS']['ECMGSTIN'] = null;
+                $request['TRANDTLS']['IGSTONINTRA'] = "N";
+            }
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'INV';
-            if ($invoiceNo != 0) {$request['DOCDTLS']['NO'] = $invoiceNo;}
-            else {$request['DOCDTLS']['NO'] = $invoice['invoice_no'];}
+            if ($invoiceNo != 0) {
+                if($customer['country'] == '101'){
+                    $request['DOCDTLS']['NO'] = $invoiceNo;
+                } else {
+                    $request['DOCDTLS']['NO'] = "EXP".$invoiceNo;
+                }
+            } else {
+                if($customer['country'] == '101'){
+                    $request['DOCDTLS']['NO'] = $invoice['invoice_no'];
+                } else {
+                    $request['DOCDTLS']['NO'] = "EXP".$invoice['invoice_no'];
+                }
+            }
             $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details
@@ -852,24 +873,17 @@ class InvoicesController extends Controller
             $request['SELLERDTLS']['EM'] = null;
 
             //Client Details
-            $request['BUYERDTLS']['GSTIN'] = $customer['gstin'];
+            $request['BUYERDTLS']['GSTIN'] = $customer['country'] == '101' ? $customer['gstin']:'URP';
             $request['BUYERDTLS']['LGLNM'] = $customer['name'];
             $request['BUYERDTLS']['TRDNM'] = $customer['name'];
-            $request['BUYERDTLS']['POS'] = substr($customer['gstin'], 0, 2);
+            $request['BUYERDTLS']['POS'] = $customer['country'] == '101' ? substr($customer['gstin'], 0, 2):'96';
             $request['BUYERDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
             $request['BUYERDTLS']['ADDR2'] = null;
-            $request['BUYERDTLS']['LOC'] = 'INDIA';
+            $request['BUYERDTLS']['LOC'] = strtoupper($customer['country_name']);
             $request['BUYERDTLS']['PIN'] = (int)$customer['pincode'];
-            $request['BUYERDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
+            $request['BUYERDTLS']['STCD'] = $customer['country'] == '101' ? substr($customer['gstin'], 0, 2):'96';
             $request['BUYERDTLS']['PH'] = null;
             $request['BUYERDTLS']['EM'] = null;
-
-            $request['DISPDTLS']['NM'] = $company['name'];
-            $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
-            $request['DISPDTLS']['ADDR2'] = null;
-            $request['DISPDTLS']['LOC'] = 'INDIA';
-            $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
-            $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
 
             //Item list
             $request['ITEMLIST'] = array();
@@ -881,9 +895,7 @@ class InvoicesController extends Controller
                 $tmp['PRDDESC'] = $item['description'];
                 $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
                 $tmp['HSNCD'] = $hsncode['code'];
-                $tmp['BARCDE'] = null;
                 $tmp['QTY'] = (float)$item['qty'];
-                $tmp['FREEQTY'] = 0;
                 $tmp['UNIT'] = 'NOS';
                 $tmp['UNITPRICE'] = (float)$item['unit_price'];
                 $tmp['TOTAMT'] = (float)$item['total'];
@@ -891,6 +903,14 @@ class InvoicesController extends Controller
                 $tmp['PRETAXVAL'] = 0;
                 $tmp['ASSAMT'] = (float)$item['total'];
                 $tmp['GSTRT'] = 18;
+                if($customer['country'] == '101'){
+                    $tmp['ORDLINEREF'] = null;
+                    $tmp['ORGCNTRY'] = null;
+                    $tmp['BARCDE'] = null;
+                    $tmp['FREEQTY'] = 0;
+                } else {
+                    if($invoice['igst'] == 0) { $tmp['GSTRT'] = 0; }
+                }
                 if($invoice['igst'] > 0) {
                     $tmp['IGSTAMT'] = number_format((float)($item['total'] * $tmp['GSTRT']) / 100, 2, '.', '');
                     $tmp['CGSTAMT'] = 0;
@@ -908,40 +928,68 @@ class InvoicesController extends Controller
                 $tmp['STATECESNONADVLAMT'] = 0;
                 $tmp['OTHCHRG'] = 0;
                 $tmp['TOTITEMVAL'] = number_format((float)$item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'], 2, '.', '');
-                $tmp['ORDLINEREF'] = null;
-                $tmp['ORGCNTRY'] = null;
 
                 $request['ITEMLIST'][] = $tmp;
             }
 
-            //Value detail
-            $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
-            $request['VALDTLS']['CGSTVAL'] = (float)$invoice['cgst'];
-            $request['VALDTLS']['SGSTVAL'] = (float)$invoice['sgst'];
-            $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
-            $request['VALDTLS']['CESVAL'] = 0;
-            $request['VALDTLS']['STCESVAL'] = 0;
-            $request['VALDTLS']['RNDOFFAMT'] = 0;
-            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
-            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+            if($customer['country'] == '101'){
+                $request['DISPDTLS']['NM'] = $company['name'];
+                $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+                $request['DISPDTLS']['ADDR2'] = null;
+                $request['DISPDTLS']['LOC'] = 'INDIA';
+                $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
+                $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
 
-            $request['EXPDTLS']['SHIPBNO'] = null;
-            $request['EXPDTLS']['SHIPBDT'] = null;
-            $request['EXPDTLS']['PORT'] = null;
-            $request['EXPDTLS']['REFCLM'] = null;
-            $request['EXPDTLS']['FORCUR'] = null;
-            $request['EXPDTLS']['CNTCODE'] = null;
-            $request['EXPDTLS']['EXPDUTY'] = 0;
+                //Value detail
+                $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
+                $request['VALDTLS']['CGSTVAL'] = (float)$invoice['cgst'];
+                $request['VALDTLS']['SGSTVAL'] = (float)$invoice['sgst'];
+                $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
+                $request['VALDTLS']['CESVAL'] = 0;
+                $request['VALDTLS']['STCESVAL'] = 0;
+                $request['VALDTLS']['RNDOFFAMT'] = 0;
+                $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+                $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
 
-            $request['EWBDTLS']['TRANSID'] = null;
-            $request['EWBDTLS']['TRANSNAME'] = null;
-            $request['EWBDTLS']['TRANSMODE'] = null;
-            $request['EWBDTLS']['DISTANCE'] = 0;
-            $request['EWBDTLS']['TRANSDOCNO'] = null;
-            $request['EWBDTLS']['TRANSDOCDT'] = null;
-            $request['EWBDTLS']['VEHNO'] = null;
-            $request['EWBDTLS']['VEHTYPE'] = null;
+                $request['EXPDTLS']['SHIPBNO'] = null;
+                $request['EXPDTLS']['SHIPBDT'] = null;
+                $request['EXPDTLS']['PORT'] = null;
+                $request['EXPDTLS']['REFCLM'] = null;
+                $request['EXPDTLS']['FORCUR'] = null;
+                $request['EXPDTLS']['CNTCODE'] = null;
+                $request['EXPDTLS']['EXPDUTY'] = 0;
 
+                $request['EWBDTLS']['TRANSID'] = null;
+                $request['EWBDTLS']['TRANSNAME'] = null;
+                $request['EWBDTLS']['TRANSMODE'] = null;
+                $request['EWBDTLS']['DISTANCE'] = 0;
+                $request['EWBDTLS']['TRANSDOCNO'] = null;
+                $request['EWBDTLS']['TRANSDOCDT'] = null;
+                $request['EWBDTLS']['VEHNO'] = null;
+                $request['EWBDTLS']['VEHTYPE'] = null;
+            } else {
+                $request['SHIPDTLS'] = null;
+                $request['EXPDTLS'] = null;
+                $request['PAYDTLS'] = null;
+                $request['REFDTLS'] = null;
+
+                // $request['ADDLDOCDTLS']['URL'] = null;
+                // $request['ADDLDOCDTLS']['DOCS'] = null;
+                // $request['ADDLDOCDTLS']['INFO'] = null;
+                
+
+                $request['VALDTLS']['ASSVAL'] = $invoice['invoice_total'];
+                $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
+                $request['VALDTLS']['CGSTVAL'] = 0;
+                $request['VALDTLS']['SGSTVAL'] = 0;
+                $request['VALDTLS']['CESVAL'] = 0;
+                $request['VALDTLS']['STCESVAL'] = 0;
+                $request['VALDTLS']['DISCOUNT'] = 0;
+                $request['VALDTLS']['OTHCHRG'] = 0;
+                $request['VALDTLS']['RNDOFFAMT'] = 0;
+                $request['VALDTLS']['TOTINVVAL'] = $invoice['invoice_total'];
+                $request['VALDTLS']['TOTINVVALFC'] = 0;
+            }
 
             // echo '<pre>'; print_r($request); exit;
             //echo $url;
@@ -1004,8 +1052,14 @@ class InvoicesController extends Controller
             $request = array();
             $request['VERSION'] = '1.1';
             $request['TRANDTLS']['TAXSCH'] = 'GST';
-            $request['TRANDTLS']['SUPTYP'] = 'B2B';
-            $request['TRANDTLS']['REGREV'] = 'N';
+            $request['TRANDTLS']['SUPTYP'] = $customer['country'] == '101' ? 'B2B':'EXPWOP';
+            if($customer['country'] == '101'){
+                $request['TRANDTLS']['REGREV'] = 'N';
+            } else {
+                $request['TRANDTLS']['REGREV'] = null;
+                $request['TRANDTLS']['ECMGSTIN'] = null;
+                $request['TRANDTLS']['IgstOnIntra'] = "N";
+            }
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'CRN';
