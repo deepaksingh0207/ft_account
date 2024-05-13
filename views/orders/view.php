@@ -245,8 +245,7 @@ $pendingAmount = 0.00;
                             <td>
                               <?php echo $item['unit_price']?>
                             </td>
-                            <td>
-                            <?php if ($customer['country'] == '101') : ?>₹<?php else: ?>$<?php endif; ?>
+                            <td class="symbol">
                               <?php echo $item['total'] ?>
                             </td>
                           </tr>
@@ -304,7 +303,6 @@ $pendingAmount = 0.00;
                               <?php echo $payterm['unit_price']?>
                             </td>
                             <td>
-                            <?php if ($customer['country'] == '101') : ?>₹<?php else: ?>$<?php endif; ?>
                               <?php echo $payterm['total'] ?>
                             </td>
                             <td id="pdf<?php echo $payterm['id'] ?>"></td>

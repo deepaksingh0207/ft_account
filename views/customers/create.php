@@ -165,6 +165,36 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
+                        <label for="id_for_cur"> Transaction Currency </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                        <select class="form-control ftsm select2" name="for_cur" id="id_for_cur">
+                          <?php foreach ($cnt_codes as $key => $value) : ?>
+                          <option value="<?php echo $key ?>">
+                            <?php echo $key ?> - <?php echo $value['descp'] ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_cnt_code"> Currency Country </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <select class="form-control ftsm select2" name="cnt_code" id="id_cnt_code">
+                          <?php foreach ($countries as $country) : ?>
+                          <option value="<?php echo $country['country_code'] ?>" >
+                            <?php echo $country['country_name'] ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
                         <label for="id_email"> Email </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
