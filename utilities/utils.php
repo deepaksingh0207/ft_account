@@ -87,7 +87,7 @@ class Utils {
         }
         $implode_to_Rupees = implode('', array_reverse($string));
 
-        $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[$amount_after_decimal / 10] . "
+        $get_paise = ($amount_after_decimal > 0) ? " and " . ($change_words[$amount_after_decimal / 10] . "
    " . $change_words[$amount_after_decimal % 10]) . CURRENCY_FRAC[$currency]['fraction'] : '';
         return ($implode_to_Rupees ? $implode_to_Rupees . CURRENCY_FRAC[$currency]['main'] : '') . $get_paise;
     }

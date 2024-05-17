@@ -902,10 +902,10 @@ class InvoicesController extends Controller
                 $tmp['QTY'] = (float)$item['qty'];
                 $tmp['UNIT'] = 'NOS';
                 if ($customer['country'] == '101'){
-                    $tmp['UNITPRICE'] = (float)$item['unit_price'];
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'], 2, '.', '');
                     $tmp['TOTAMT'] = (float)$item['total'];
                 } else {
-                    $tmp['UNITPRICE'] = (float)$item['unit_price'] * (float)$invoice['exchange_rate'];
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'] * (float)$invoice['exchange_rate'], 2, '.', '');
                     $tmp['TOTAMT'] = (float)($item['total'] * (float)$invoice['exchange_rate']);
                 }
                 $tmp['ASSAMT'] = $tmp['TOTAMT'];
@@ -1129,11 +1129,11 @@ class InvoicesController extends Controller
                 $tmp['UNIT'] = 'NOS';
 
                 if ($customer['country'] != '101'){
-                    $tmp['UNITPRICE'] = (float)$item['unit_price'] * (float)$invoice['exchange_rate'];
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'] * (float)$invoice['exchange_rate'], 2, '.', '');
                     $tmp['TOTAMT'] = (float)$item['total'] * (float)$invoice['exchange_rate'];
                     $tmp['ASSAMT'] = (float)$item['total'] * (float)$invoice['exchange_rate'];
                 } else {
-                    $tmp['UNITPRICE'] = (float)$item['unit_price'];
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'], 2, '.', '');
                     $tmp['TOTAMT'] = (float)$item['total'];
                     $tmp['ASSAMT'] = (float)$item['total'];
                 }

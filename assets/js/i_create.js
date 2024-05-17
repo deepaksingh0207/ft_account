@@ -827,9 +827,9 @@ function preview_total() {
     total = subtotal + gst;
   }
   // } else { total = subtotal; }
-  $("#previewinvoice_sub_total").val((subtotal).toFixed(0));
-  $("#previewinvoice_total").val((total).toFixed(0));
-  $("#preview_total_val").text(ras((total).toFixed(0), country, currency));
+  $("#previewinvoice_sub_total").val((subtotal).toFixed(2));
+  $("#previewinvoice_total").val((total).toFixed(2));
+  $("#preview_total_val").text(ras((total).toFixed(2), country, currency));
 }
 
 function previewtotal(index, value) {

@@ -165,10 +165,10 @@
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control ftsm" name="for_cur" id="id_for_cur">
-                          <?php foreach ($cnt_codes as $cnt_code) : ?>
-                          <option value="<?php echo $cnt_code ?>" <?php echo ($customer['cnt_code']==$cnt_code)
+                          <?php foreach ($cnt_codes as $key => $value) : ?>
+                          <option value="<?php echo $key ?>" <?php echo ($customer['cnt_code']==$key)
                             ? 'selected="selected"' : '' ?>>
-                            <?php echo $cnt_code ?>
+                            <?php echo $key ?> - <?php echo $value['descp'] ?>
                           </option>
                           <?php endforeach; ?>
                         </select>
