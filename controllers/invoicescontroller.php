@@ -324,7 +324,7 @@ class InvoicesController extends Controller
             if($customer['country'] == '101'){
                 $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
             } else {
-                $slt = '<td class="brt2l"><b>Supply Type: EXPWOP</b></td></tr>';
+                $slt = '<td class="brt2l"><b>Supply Type: EXPWOP Export under LUT</b></td></tr>';
             }
             $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
             if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
@@ -903,12 +903,12 @@ class InvoicesController extends Controller
                 $tmp['UNIT'] = 'NOS';
                 if ($customer['country'] == '101'){
                     $tmp['UNITPRICE'] = number_format((float)$item['unit_price'], 2, '.', '');
-                    $tmp['TOTAMT'] = (float)$item['total'];
+                    $tmp['TOTAMT'] = number_format((float)$item['total'], 2, '.', '');
                 } else {
                     $tmp['UNITPRICE'] = number_format((float)$item['unit_price'] * (float)$invoice['exchange_rate'], 2, '.', '');
-                    $tmp['TOTAMT'] = (float)($item['total'] * (float)$invoice['exchange_rate']);
+                    $tmp['TOTAMT'] = number_format((float)($item['total'] * (float)$invoice['exchange_rate']), 2, '.', '');
                 }
-                $tmp['ASSAMT'] = $tmp['TOTAMT'];
+                $tmp['ASSAMT'] = number_format($tmp['TOTAMT'], 2, '.', '');
                 $tmp['DISCOUNT'] = 0;
                 $tmp['PRETAXVAL'] = 0;
                 $tmp['GSTRT'] = 18;
@@ -1130,12 +1130,12 @@ class InvoicesController extends Controller
 
                 if ($customer['country'] != '101'){
                     $tmp['UNITPRICE'] = number_format((float)$item['unit_price'] * (float)$invoice['exchange_rate'], 2, '.', '');
-                    $tmp['TOTAMT'] = (float)$item['total'] * (float)$invoice['exchange_rate'];
-                    $tmp['ASSAMT'] = (float)$item['total'] * (float)$invoice['exchange_rate'];
+                    $tmp['TOTAMT'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                    $tmp['ASSAMT'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2, '.', '');
                 } else {
                     $tmp['UNITPRICE'] = number_format((float)$item['unit_price'], 2, '.', '');
                     $tmp['TOTAMT'] = (float)$item['total'];
-                    $tmp['ASSAMT'] = (float)$item['total'];
+                    $tmp['ASSAMT'] = number_format((float)$item['total'], 2, '.', '');
                 }
 
                 $tmp['DISCOUNT'] = 0;
