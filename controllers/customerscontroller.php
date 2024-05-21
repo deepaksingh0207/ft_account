@@ -72,7 +72,7 @@ class CustomersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
             
-            $this->_view->set('cnt_codes', array_keys(CURRENCY_FRAC));
+            $this->_view->set('cnt_codes', CURRENCY_FRAC);
             
             if(!empty($_POST)) {
                 $data = $_POST;
