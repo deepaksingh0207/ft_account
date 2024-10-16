@@ -68,7 +68,8 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            Invoice Panel
+            <span id="id_modelcustomer" style="font-size: x-large;font-weight: bold;"></span>&nbsp; &nbsp; &nbsp;
+            <span id="id_modeldate" style="font-style: italic; color: slategrey; padding-top: 8px"></span>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -76,9 +77,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-6">
-                <span id="id_modelcustomer" style="font-size: x-large;font-weight: bold;"></span><br>
-                <span id="id_modeldate" style="font-style: italic; color: slategrey;"></span>
-                <div class="row mt-4">
+                <div class="row">
                   <div class="col-6">
                     <label>Invoice No</label>
                   </div>

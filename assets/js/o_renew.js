@@ -153,7 +153,8 @@ function createbookeeper() {
 
 function get_order_data() {
   $.ajax({ type: "POST", url: baseUrl + "orders/getdetails/" + $("#id_order_id").val(), dataType: "json", encode: true })
-    .done(function (data) {
+    .done(function (res) {
+      var data = res.data;
       orderdata = data
       od_order = orderdata.order
       od_items = orderdata.items
@@ -168,7 +169,7 @@ function get_order_data() {
       createbookeeper()
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
-
+      console.log(jqXHR, textStatus, errorThrown);
     })
 }
 
@@ -198,7 +199,8 @@ function update_tax(s = sgst, c = cgst, i = igst) {
 function getgst(customergroup_id) {
   sgst = cgst = igst = 0
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customergroup_id, dataType: "json", encode: true })
-    .done(function (resp) {
+    .done(function (res) {
+      var resp = res.data;
       $("#itemcard").show()
       l_gst = resp
       if (resp.state == "same") {

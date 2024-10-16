@@ -553,6 +553,7 @@ class OrdersController extends Controller
                     $order['igst'] = $data['igst'];
                     $order['sub_total'] = $data['ordersubtotal'];
                     $order['tax_rate'] = $data['taxrate'];
+                    $order['po_no'] = $data['po_no'];
                     
                     if ($orderId > 0) {
                         $this->_model->update($orderId, $order);
@@ -574,15 +575,16 @@ class OrdersController extends Controller
     // JThayil End
 
     public function getOrderListByCustomer($id) {
+        $status = 0; $message = "Failed"; $data=null;
         if($id) {
             $oders = $this->_model->getOrderListByCustomer($id);
-            echo json_encode($oders);
-        } else {
-            echo false;
+            $data=$oders; $message = "Success"; $status = 1;
         }
+        echo json_encode(array('status'=>$status, 'message'=>$message, 'data'=>$data));
     }
 
     public function getdetails($id) {
+        $status=0; $message="Failed"; $data=null; 
         if($id) {
             $order = $this->_model->get($id);
             $oderItems = $this->_model->getOrderItem($id);
@@ -642,10 +644,11 @@ class OrdersController extends Controller
             $result['proforma_items'] = $proformaInvoiceItemModel->getListByOrderId($id);
             // End
             $result['payment_term'] = $paymentTerms;
-            echo json_encode($result);
-        } else {
-            echo false;
+            $data = $result;
+            $message = "Success";
+            $status = 1;
         }
+        echo json_encode(array('status'=>$status,'message'=>$message,'data'=>$data));
     }
     
     public function getSearchResult() {
@@ -662,15 +665,12 @@ class OrdersController extends Controller
     }
 
     public function po_validty() {
+        $resp = 0;
         if(!empty($_POST)) {
-             if($t = $this->_model->getRecordsByField('po_no', $_POST['po_no'])) {
-                 echo 0;
-             } else {
-                echo true;
-             }
-        } else {
-            echo false;
+            $record = $this->_model->getRecordsByField('po_no', $_POST['po_no']);
+            if(!$record) { $resp = 1; }
         }
+        echo $resp;
     }
 
     public function search() {

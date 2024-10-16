@@ -45,7 +45,7 @@ class InvoicesController extends Controller
 
                 $invoiceeData = array();
                 $invoiceItems = array();
-                
+                $inv_customer = $customerList->get($data['customer_id']);
                 $invoiceeData['group_id'] = $data['group_id'];
                 $invoiceeData['customer_id'] = $data['customer_id'];
                 $invoiceeData['order_id'] = $data['order_id'];
@@ -59,12 +59,15 @@ class InvoicesController extends Controller
                 $invoiceeData['sgst'] = $data['sgst'];
                 $invoiceeData['cgst'] = $data['cgst'];
                 $invoiceeData['igst'] = $data['igst'];
+                $invoiceeData['for_cur'] = $inv_customer['for_cur'];
+                $invoiceeData['cnt_code'] = $inv_customer['cnt_code'];
                 $invoiceeData['invoice_total'] = $data['invoice_total'];
                 $invoiceeData['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
                 $invoiceeData['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
                 $invoiceeData['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
                 $invoiceeData['remarks'] = $data['remarks'];
                 $invoiceeData['due_date'] = $data['due_date'];
+                $invoiceeData['exchange_rate'] = $data['exchange_rate'];
                 //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
                 $invoiceeData['invoice_no'] = $data['invoice_no'];
                 $invoiceeData['hide_po'] = isset($data['hidepo']) ? ($data['hidepo'] == "on" ? 1: 0) : 0;
@@ -212,12 +215,12 @@ class InvoicesController extends Controller
                 $result['state'] = 'other';
                 $result['igst'] = $itMaster['igst'];
             }
-            echo json_encode($result); exit;
-            
+            $resp = array('status'=>true,'data'=>$result, 'message'=>'Success');
             
         } catch (Exception $e) {
-            echo "Application error:" . $e->getMessage();
+            $resp = array('status'=>false,'data'=>null, 'message'=>$e->getMessage());
         }
+        echo json_encode($resp); exit;
     }
 
     public function geninv($invoiceId=null, $proformaSwitch = false, $createpdf=false, $hidepo=false){
@@ -239,7 +242,10 @@ class InvoicesController extends Controller
             
             if (!$invoiceId){ $invoiceId = ($this->_model->getLastId() + 1); }
             $proformaSwitch = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
-            $nri = (isset($data['nri']) && $data['nri'] == 1) ? true : false;
+            
+            // $nri = (isset($data['nri']) && $data['nri'] == 1) ? true : false;
+            $customer = $customerTbl->get($data['customer_id']);
+            $nri = $customer['country'] == '101'? false:true;
 
             $hidepo = isset($data['hidepo']) ? ($data['hidepo'] == "on" ? true: false) : false;
             
@@ -258,7 +264,7 @@ class InvoicesController extends Controller
             $invoice['cgst'] = $data['cgst'];
             $invoice['igst'] = $data['igst'];
             $invoice['invoice_total'] = $data['invoice_total'];
-            $invoice['exchange_rate'] = $data['exchangerate'];
+            $invoice['exchange_rate'] = $data['exchange_rate'];
             $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null ;
             $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null ;
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null ;
@@ -279,12 +285,13 @@ class InvoicesController extends Controller
                 if($item['total'] > 0) { $invoiceItems[] = $orderItem; $totalbr--;}
             }
         } else {
-            $invoice = $this->_model->get($invoiceId);
-            $hidepo = $invoice['hide_po'];
-            $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
             if ($proformaSwitch && $invoiceId){
                 $invoice = $tblProformaInvoice->get($invoiceId);
                 $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
+            } else {
+                $invoice = $this->_model->get($invoiceId);
+                $hidepo = $invoice['hide_po'];
+                $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
             }
             foreach($invoiceItems as $item) { $totalbr--; }
         }
@@ -293,8 +300,7 @@ class InvoicesController extends Controller
         
         $customer = $customerTbl->get($invoice['customer_id']);
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
-        $nri = $customer['country'] == '101'? false:true;
-
+        $nri = $customer['country'] != '101'? true:false;
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
@@ -315,7 +321,11 @@ class InvoicesController extends Controller
             $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: '.$irnrec['irn_no'].'</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: '.$irnrec['ack_date'].'</b></td>';
-            $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            if($customer['country'] == '101'){
+                $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            } else {
+                $slt = '<td class="brt2l"><b>Supply Type: EXPWOP Export under LUT</b></td></tr>';
+            }
             $file = ROOT."assets/qr_code/".$irnrec['ack_no'].".png";
             if (!file_exists("assets/qr_code/".$irnrec['ack_no'].".png")) {
                 QRcode::png($irnrec['signed_qrcode'], "assets/qr_code/".$irnrec['ack_no'].".png", 'L', 150, 1);
@@ -356,7 +366,7 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $customer['for_cur']),
             "{{REST_BR}}" => $br,
             "{{NRI}}" => $nri ? "hide": '',
             "{{NONNRI}}" => $nri ? "": 'hide',
@@ -365,6 +375,7 @@ class InvoicesController extends Controller
             "{{PAY_TERM}}"=> 'Against Invoice within 30 days',
             "{{GROSS_AMOUNT}}"=> number_format($invoice['exchange_rate']*$invoice['invoice_total'], 2),
             "{{EXCHANGE_RATE}}"=> number_format($invoice['exchange_rate'], 2),
+            "{{FOREIGN_CURRENCY}}"=> $customer['for_cur'],
         );
         
         if ($proformaSwitch){ $vars["{{INV_NO}}"] = "PI No.: PI".$invoice['invoice_no']; $vars["{{TITLE}}"] = "PROFORMA INVOICE"; }
@@ -424,8 +435,8 @@ class InvoicesController extends Controller
                 $taxesLayout = number_format($invoice['cgst'], 2).'<br />'.number_format($invoice['sgst'], 2);
             }
         } else {
-            $taxName ="GST";
-            $taxesLayout = "-";
+            $taxName ="IGST";
+            $taxesLayout = number_format($invoice['igst'], 2);
         }
         
         $vars["{{GST_LABEL}}"] = $taxName;
@@ -537,7 +548,7 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name']."</b><br />". addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $customer['for_cur']),
             "{{REST_BR}}" => $br,
             "{{GROSS_AMOUNT}}"=> number_format($invoice['exchange_rate']*$invoice['invoice_total'], 2),
             "{{EXCHANGE_RATE}}"=> number_format($invoice['exchange_rate'], 2),
@@ -729,10 +740,13 @@ class InvoicesController extends Controller
     }
     
     public function invoice_validty() {
+        $status=0; $message="Invoice No Found"; $data=null;
         if(!empty($_POST)) {
-             if($t = $this->_model->check_invoice_validty($_POST['invoice_no'])) { echo 0; }
-             else { echo 1; } }
-        else { echo 0; }
+            if(!$t = $this->_model->check_invoice_validty($_POST['invoice_no'])) {
+                $status = 1; $message = "Invoice No Not Found";
+            }
+        }
+        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 
     public function check_invoice_validty($invoice_no=null) {
@@ -741,15 +755,14 @@ class InvoicesController extends Controller
     }
 
     public function proforma_validty() {
+        $status=0; $message="Failed"; $data=null;
         if(!empty($_POST)) {
-             if($t = $this->_model->proformaFieldRecord('invoice_no', $_POST['invoice_no'])) {
-                 echo 0;
-             } else {
-                echo true;
-             }
-        } else {
-            echo false;
+            if(!$result = $this->_model->proformaFieldRecord('invoice_no', $_POST['invoice_no'])) {
+                $message="Invoice No not Found";
+                $status=1;
+            }
         }
+        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 
     public function delete($invoiceNo) {
@@ -825,13 +838,30 @@ class InvoicesController extends Controller
             $request = array();
             $request['VERSION'] = '1.1';
             $request['TRANDTLS']['TAXSCH'] = 'GST';
-            $request['TRANDTLS']['SUPTYP'] = 'B2B';
-            $request['TRANDTLS']['REGREV'] = 'N';
+            $request['TRANDTLS']['SUPTYP'] = $customer['country'] == '101' ? 'B2B':'EXPWOP';
+            if($customer['country'] == '101'){
+                $request['TRANDTLS']['REGREV'] = 'N';
+            } else {
+                $request['TRANDTLS']['REGREV'] = null;
+                $request['TRANDTLS']['ECMGSTIN'] = null;
+                $request['TRANDTLS']['IGSTONINTRA'] = "N";
+            }
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'INV';
-            if ($invoiceNo != 0) {$request['DOCDTLS']['NO'] = $invoiceNo;}
-            else {$request['DOCDTLS']['NO'] = $invoice['invoice_no'];}
+            if ($invoiceNo != 0) {
+                if($customer['country'] == '101'){
+                    $request['DOCDTLS']['NO'] = $invoiceNo;
+                } else {
+                    $request['DOCDTLS']['NO'] = "EXP".$invoiceNo;
+                }
+            } else {
+                if($customer['country'] == '101'){
+                    $request['DOCDTLS']['NO'] = $invoice['invoice_no'];
+                } else {
+                    $request['DOCDTLS']['NO'] = "EXP".$invoice['invoice_no'];
+                }
+            }
             $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details
@@ -847,24 +877,17 @@ class InvoicesController extends Controller
             $request['SELLERDTLS']['EM'] = null;
 
             //Client Details
-            $request['BUYERDTLS']['GSTIN'] = $customer['gstin'];
+            $request['BUYERDTLS']['GSTIN'] = $customer['country'] == '101' ? $customer['gstin']:'URP';
             $request['BUYERDTLS']['LGLNM'] = $customer['name'];
             $request['BUYERDTLS']['TRDNM'] = $customer['name'];
-            $request['BUYERDTLS']['POS'] = substr($customer['gstin'], 0, 2);
+            $request['BUYERDTLS']['POS'] = $customer['country'] == '101' ? substr($customer['gstin'], 0, 2):'96';
             $request['BUYERDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
             $request['BUYERDTLS']['ADDR2'] = null;
-            $request['BUYERDTLS']['LOC'] = 'INDIA';
+            $request['BUYERDTLS']['LOC'] = strtoupper($customer['country_name']);
             $request['BUYERDTLS']['PIN'] = (int)$customer['pincode'];
-            $request['BUYERDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
+            $request['BUYERDTLS']['STCD'] = $customer['country'] == '101' ? substr($customer['gstin'], 0, 2):'96';
             $request['BUYERDTLS']['PH'] = null;
             $request['BUYERDTLS']['EM'] = null;
-
-            $request['DISPDTLS']['NM'] = $company['name'];
-            $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
-            $request['DISPDTLS']['ADDR2'] = null;
-            $request['DISPDTLS']['LOC'] = 'INDIA';
-            $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
-            $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
 
             //Item list
             $request['ITEMLIST'] = array();
@@ -876,18 +899,33 @@ class InvoicesController extends Controller
                 $tmp['PRDDESC'] = $item['description'];
                 $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
                 $tmp['HSNCD'] = $hsncode['code'];
-                $tmp['BARCDE'] = null;
                 $tmp['QTY'] = (float)$item['qty'];
-                $tmp['FREEQTY'] = 0;
                 $tmp['UNIT'] = 'NOS';
-                $tmp['UNITPRICE'] = (float)$item['unit_price'];
-                $tmp['TOTAMT'] = (float)$item['total'];
+                if ($customer['country'] == '101'){
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'], 2, '.', '');
+                    $tmp['TOTAMT'] = number_format((float)$item['total'], 2, '.', '');
+                } else {
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                    $tmp['TOTAMT'] = number_format((float)($item['total'] * (float)$invoice['exchange_rate']), 2, '.', '');
+                }
+                $tmp['ASSAMT'] = number_format($tmp['TOTAMT'], 2, '.', '');
                 $tmp['DISCOUNT'] = 0;
                 $tmp['PRETAXVAL'] = 0;
-                $tmp['ASSAMT'] = (float)$item['total'];
                 $tmp['GSTRT'] = 18;
+                if($customer['country'] == '101'){
+                    $tmp['ORDLINEREF'] = null;
+                    $tmp['ORGCNTRY'] = null;
+                    $tmp['BARCDE'] = null;
+                    $tmp['FREEQTY'] = 0;
+                } else {
+                    if($invoice['igst'] == 0) { $tmp['GSTRT'] = 0; }
+                }
                 if($invoice['igst'] > 0) {
-                    $tmp['IGSTAMT'] = number_format((float)($item['total'] * $tmp['GSTRT']) / 100, 2, '.', '');
+                    $tmp['IGSTAMT'] = (float)($item['total'] * $tmp['GSTRT']) / 100;
+                    if($customer['country'] != '101'){
+                        $tmp['IGSTAMT'] = (float)(($item['total'] * $invoice['exchange_rate']) * $tmp['GSTRT']) / 100;
+                    }
+                    $tmp['IGSTAMT'] = number_format($tmp['IGSTAMT'], 2, '.', '');
                     $tmp['CGSTAMT'] = 0;
                     $tmp['SGSTAMT'] = 0;    
                 } else {
@@ -902,48 +940,78 @@ class InvoicesController extends Controller
                 $tmp['STATECESAMT'] = 0;
                 $tmp['STATECESNONADVLAMT'] = 0;
                 $tmp['OTHCHRG'] = 0;
-                $tmp['TOTITEMVAL'] = number_format((float)$item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'], 2, '.', '');
-                $tmp['ORDLINEREF'] = null;
-                $tmp['ORGCNTRY'] = null;
+                $tmp['TOTITEMVAL'] = number_format($tmp['TOTAMT'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'], 2, '.', '');
 
                 $request['ITEMLIST'][] = $tmp;
             }
+            
+            $request['EXPDTLS']['FORCUR'] = $customer['for_cur'];
+            $request['EXPDTLS']['CNTCODE'] = $customer['cnt_code'];
+            
+            if($customer['country'] == '101'){
+                $request['DISPDTLS']['NM'] = $company['name'];
+                $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+                $request['DISPDTLS']['ADDR2'] = null;
+                $request['DISPDTLS']['LOC'] = 'INDIA';
+                $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
+                $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
 
-            //Value detail
-            $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
-            $request['VALDTLS']['CGSTVAL'] = (float)$invoice['cgst'];
-            $request['VALDTLS']['SGSTVAL'] = (float)$invoice['sgst'];
-            $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
-            $request['VALDTLS']['CESVAL'] = 0;
-            $request['VALDTLS']['STCESVAL'] = 0;
-            $request['VALDTLS']['RNDOFFAMT'] = 0;
-            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
-            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+                //Value detail
+                $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
+                $request['VALDTLS']['CGSTVAL'] = (float)$invoice['cgst'];
+                $request['VALDTLS']['SGSTVAL'] = (float)$invoice['sgst'];
+                $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
+                $request['VALDTLS']['CESVAL'] = 0;
+                $request['VALDTLS']['STCESVAL'] = 0;
+                $request['VALDTLS']['RNDOFFAMT'] = 0;
+                $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+                $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
 
-            $request['EXPDTLS']['SHIPBNO'] = null;
-            $request['EXPDTLS']['SHIPBDT'] = null;
-            $request['EXPDTLS']['PORT'] = null;
-            $request['EXPDTLS']['REFCLM'] = null;
-            $request['EXPDTLS']['FORCUR'] = null;
-            $request['EXPDTLS']['CNTCODE'] = null;
-            $request['EXPDTLS']['EXPDUTY'] = 0;
+                $request['EXPDTLS']['SHIPBNO'] = null;
+                $request['EXPDTLS']['SHIPBDT'] = null;
+                $request['EXPDTLS']['PORT'] = null;
+                $request['EXPDTLS']['REFCLM'] = null;
+                $request['EXPDTLS']['EXPDUTY'] = 0;
 
-            $request['EWBDTLS']['TRANSID'] = null;
-            $request['EWBDTLS']['TRANSNAME'] = null;
-            $request['EWBDTLS']['TRANSMODE'] = null;
-            $request['EWBDTLS']['DISTANCE'] = 0;
-            $request['EWBDTLS']['TRANSDOCNO'] = null;
-            $request['EWBDTLS']['TRANSDOCDT'] = null;
-            $request['EWBDTLS']['VEHNO'] = null;
-            $request['EWBDTLS']['VEHTYPE'] = null;
+                $request['EWBDTLS']['TRANSID'] = null;
+                $request['EWBDTLS']['TRANSNAME'] = null;
+                $request['EWBDTLS']['TRANSMODE'] = null;
+                $request['EWBDTLS']['DISTANCE'] = 0;
+                $request['EWBDTLS']['TRANSDOCNO'] = null;
+                $request['EWBDTLS']['TRANSDOCDT'] = null;
+                $request['EWBDTLS']['VEHNO'] = null;
+                $request['EWBDTLS']['VEHTYPE'] = null;
+            } else {
+                $request['SHIPDTLS'] = null;
+                $request['PAYDTLS'] = null;
+                $request['REFDTLS'] = null;
 
+                // $request['ADDLDOCDTLS']['URL'] = null;
+                // $request['ADDLDOCDTLS']['DOCS'] = null;
+                // $request['ADDLDOCDTLS']['INFO'] = null;
+                
+                $assval = number_format((float)$invoice['sub_total'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                $request['VALDTLS']['ASSVAL'] = $assval;
+                $igstval = (float)$invoice['igst'] * (float)$invoice['exchange_rate'];
+                $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'] * (float)$invoice['exchange_rate'];
+                $request['VALDTLS']['CGSTVAL'] = 0;
+                $request['VALDTLS']['SGSTVAL'] = 0;
+                $request['VALDTLS']['CESVAL'] = 0;
+                $request['VALDTLS']['STCESVAL'] = 0;
+                $request['VALDTLS']['DISCOUNT'] = 0;
+                $request['VALDTLS']['OTHCHRG'] = 0;
+                $request['VALDTLS']['RNDOFFAMT'] = 0;
+                $totinvval = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                $request['VALDTLS']['TOTINVVAL'] = $totinvval;
+                $request['VALDTLS']['TOTINVVALFC'] = 0;
+            }
 
             // echo '<pre>'; print_r($request); exit;
             //echo $url;
             $response = $this->sendRequest('POST', $url, $request);
             $data = json_decode($response, true);
 
-             //echo '<pre>'; print_r($data); print_r($url);
+            //  echo '<pre>'; print_r($data); print_r($url);
 
             if($data['Status']) {
                 $newdata = json_decode($data['Data'], true);
@@ -999,8 +1067,14 @@ class InvoicesController extends Controller
             $request = array();
             $request['VERSION'] = '1.1';
             $request['TRANDTLS']['TAXSCH'] = 'GST';
-            $request['TRANDTLS']['SUPTYP'] = 'B2B';
-            $request['TRANDTLS']['REGREV'] = 'N';
+            $request['TRANDTLS']['SUPTYP'] = $customer['country'] == '101' ? 'B2B':'EXPWOP';
+            if($customer['country'] == '101'){
+                $request['TRANDTLS']['REGREV'] = 'N';
+            } else {
+                $request['TRANDTLS']['REGREV'] = null;
+                $request['TRANDTLS']['ECMGSTIN'] = null;
+                $request['TRANDTLS']['IgstOnIntra'] = "N";
+            }
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'CRN';
@@ -1053,11 +1127,19 @@ class InvoicesController extends Controller
                 $tmp['QTY'] = (float)$item['qty'];
                 $tmp['FREEQTY'] = 0;
                 $tmp['UNIT'] = 'NOS';
-                $tmp['UNITPRICE'] = (float)$item['unit_price'];
-                $tmp['TOTAMT'] = (float)$item['total'];
+
+                if ($customer['country'] != '101'){
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                    $tmp['TOTAMT'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                    $tmp['ASSAMT'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2, '.', '');
+                } else {
+                    $tmp['UNITPRICE'] = number_format((float)$item['unit_price'], 2, '.', '');
+                    $tmp['TOTAMT'] = (float)$item['total'];
+                    $tmp['ASSAMT'] = number_format((float)$item['total'], 2, '.', '');
+                }
+
                 $tmp['DISCOUNT'] = 0;
                 $tmp['PRETAXVAL'] = 0;
-                $tmp['ASSAMT'] = (float)$item['total'];
                 $tmp['GSTRT'] = 18;
                 if($invoice['igst'] > 0) {
                     $tmp['IGSTAMT'] = number_format((float)($item['total'] * $tmp['GSTRT']) / 100, 2, '.', '');

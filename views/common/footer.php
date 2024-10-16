@@ -281,6 +281,30 @@
 <script src="<?php echo ROOT; ?>assets/js/i_create.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
+<?php if ($controller == 'creditnotes' && ($action == 'index')) : ?>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/cn_index.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
+<?php if ($controller == 'creditnotes' && ($action == 'create')) : ?>
+<script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="<?php echo ROOT; ?>assets/js/i_validation.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/i_create.js?<?php echo time(); ?>"></script>
+<?php endif; ?>
+
 <?php if ($controller == 'payments' && ($action == 'index')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

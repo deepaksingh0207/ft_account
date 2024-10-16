@@ -26,6 +26,13 @@ function ra(val, foreign = false) {
   }
 }
 
+function ras(val, cty, cur) {
+  return new Intl.NumberFormat('en-'+cty, {
+    style: 'currency',
+    currency: cur
+  }).format(val);
+}
+
 $(document).ready(function () {
   $("#copyright_year").text(new Date().getFullYear());
   $(window).keydown(function (event) {

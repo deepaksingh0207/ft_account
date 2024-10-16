@@ -74,6 +74,14 @@
                   </div>
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
+                      <label for="id_address"> <b>Country</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['country_name'] ?>
+                    </div>
+                  </div>
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
                       <label for="id_gst"> <b>PAN No.</b> </label>
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group">
@@ -110,6 +118,22 @@
                     </div>
                     <div class="col-sm-12 col-lg-3 form-group numberonly">
                       <?php echo $customer['fax'] ?>
+                    </div>
+                  </div>
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_for_cur"> <b>Transaction Currency</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <?php echo $customer['for_cur'] ?>
+                    </div>
+                  </div>
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_cnt_code"> <b>Currency Country</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group numberonly">
+                      <?php echo $customer['cnt_code'] ?>
                     </div>
                   </div>
                   <div class="row mx-1">

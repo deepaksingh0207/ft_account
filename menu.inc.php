@@ -92,7 +92,15 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="<?php echo ROOT; ?>payments" class="nav-link" id="menu_payment">
+          <a href="<?php echo ROOT; ?>creditnotes" class="nav-link" id="menu_creditnotes">
+            <i class="far fa-handshake"></i>
+            <p>
+              Credit Notes
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?php echo ROOT; ?>payments" class="nav-link" id="menu_payments">
             <i class="far fa-handshake"></i>
             <p>
               Payment

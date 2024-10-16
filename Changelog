@@ -50,5 +50,229 @@ ALTER TABLE `invoice_irns` ADD COLUMN `credit_note` VARCHAR(20) NULL DEFAULT NUL
 
 ALTER TABLE `invoices` ADD COLUMN `hide_po` INT NULL DEFAULT 0;
 
-ALTER TABLE `company` ADD COLUMN `swift_code` VARCHAR(10) NOT NULL  DEFAULT 'HDFCINBB' ;
+ALTER TABLE `company` ADD COLUMN `swift_code` VARCHAR(10) NOT NULL  DEFAULT 'HDFCINBB';
+
+ALTER TABLE `company` CHANGE COLUMN `pincode` `pincode` VARCHAR(15) NOT NULL;
+
+ALTER TABLE `customers` ADD COLUMN `country` INT NOT NULL DEFAULT '101';
+
+CREATE TABLE `currencies` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(3) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('1', 'BDT', 'Bangladeshi taka');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('2', 'AED', 'United Arab Emirates dirham');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('3', 'AFN', 'Afghan afghani');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('4', 'ALL', 'Albanian lek');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('5', 'AMD', 'Armenian dram');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('6', 'ANG', 'Netherlands Antillean guilder');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('7', 'AOA', 'Angolan kwanza');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('8', 'ARS', 'Argentine peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('9', 'AUD', 'Australian dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('10', 'AWG', 'Aruban florin');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('11', 'AZN', 'Azerbaijani manat');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('12', 'BAM', 'Bosnia and Herzegovina convertible mark');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('13', 'BBD', 'Barbados dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('14', 'BDT', 'Bangladeshi taka');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('15', 'BGN', 'Bulgarian lev');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('16', 'BHD', 'Bahraini dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('17', 'BIF', 'Burundian franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('18', 'BMD', 'Bermudian dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('19', 'BND', 'Brunei dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('20', 'BOB', 'Boliviano');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('21', 'BOV', 'Bolivian Mvdol (funds code)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('22', 'BRL', 'Brazilian real');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('23', 'BSD', 'Bahamian dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('24', 'BTN', 'Bhutanese ngultrum');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('25', 'BWP', 'Botswana pula');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('26', 'BYN', 'Belarusian ruble');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('27', 'BZD', 'Belize dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('28', 'CAD', 'Canadian dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('29', 'CDF', 'Congolese franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('30', 'CHE', 'WIR Euro (complementary currency)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('31', 'CHF', 'Swiss franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('32', 'CHW', 'WIR Franc (complementary currency)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('33', 'CLF', 'Unidad de Fomento (funds code)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('34', 'CLP', 'Chilean peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('35', 'CNY', 'Renminbi (Chinese) yuan');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('36', 'COP', 'Colombian peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('37', 'COU', 'Unidad de Valor Real (UVR) (funds code)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('38', 'CRC', 'Costa Rican colon');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('39', 'CUC', 'Cuban convertible peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('40', 'CUP', 'Cuban peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('41', 'CVE', 'Cape Verdean escudo');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('42', 'CZK', 'Czech koruna');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('43', 'DJF', 'Djiboutian franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('44', 'DKK', 'Danish krone');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('45', 'DOP', 'Dominican peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('46', 'DZD', 'Algerian dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('47', 'EGP', 'Egyptian pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('48', 'ERN', 'Eritrean nakfa');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('49', 'ETB', 'Ethiopian birr');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('50', 'EUR', 'Euro');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('51', 'FJD', 'Fiji dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('52', 'FKP', 'Falkland Islands pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('53', 'GBP', 'Pound sterling');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('54', 'GEL', 'Georgian lari');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('55', 'GHS', 'Ghanaian cedi');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('56', 'GIP', 'Gibraltar pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('57', 'GMD', 'Gambian dalasi');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('58', 'GNF', 'Guinean franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('59', 'GTQ', 'Guatemalan quetzal');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('60', 'GYD', 'Guyanese dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('61', 'HKD', 'Hong Kong dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('62', 'HNL', 'Honduran lempira');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('63', 'HRK', 'Croatian kuna');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('64', 'HTG', 'Haitian gourde');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('65', 'HUF', 'Hungarian forint');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('66', 'IDR', 'Indonesian rupiah');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('67', 'ILS', 'Israeli new shekel');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('68', 'INR', 'Indian rupee');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('69', 'IQD', 'Iraqi dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('70', 'IRR', 'Iranian rial');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('71', 'ISK', 'Icelandic króna');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('72', 'JMD', 'Jamaican dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('73', 'JOD', 'Jordanian dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('74', 'JPY', 'Japanese yen');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('75', 'KES', 'Kenyan shilling');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('76', 'KGS', 'Kyrgyzstani som');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('77', 'KHR', 'Cambodian riel');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('78', 'KMF', 'Comoro franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('79', 'KPW', 'North Korean won');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('80', 'KRW', 'South Korean won');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('81', 'KWD', 'Kuwaiti dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('82', 'KYD', 'Cayman Islands dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('83', 'KZT', 'Kazakhstani tenge');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('84', 'LAK', 'Lao kip');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('85', 'LBP', 'Lebanese pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('86', 'LKR', 'Sri Lankan rupee');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('87', 'LRD', 'Liberian dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('88', 'LSL', 'Lesotho loti');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('89', 'LYD', 'Libyan dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('90', 'MAD', 'Moroccan dirham');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('91', 'MDL', 'Moldovan leu');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('92', 'MGA', 'Malagasy ariary');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('93', 'MKD', 'Macedonian denar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('94', 'MMK', 'Myanmar kyat');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('95', 'MNT', 'Mongolian tögrög');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('96', 'MOP', 'Macanese pataca');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('97', 'MRU', 'Mauritanian ouguiya');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('98', 'MUR', 'Mauritian rupee');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('99', 'MVR', 'Maldivian rufiyaa');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('100', 'MWK', 'Malawian kwacha');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('101', 'MXN', 'Mexican peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('102', 'MXV', 'Mexican Unidad de Inversion (UDI) (funds code)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('103', 'MYR', 'Malaysian ringgit');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('104', 'MZN', 'Mozambican metical');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('105', 'NAD', 'Namibian dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('106', 'NGN', 'Nigerian naira');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('107', 'NIO', 'Nicaraguan córdoba');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('108', 'NOK', 'Norwegian krone');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('109', 'NPR', 'Nepalese rupee');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('110', 'NZD', 'New Zealand dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('111', 'OMR', 'Omani rial');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('112', 'PAB', 'Panamanian balboa');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('113', 'PEN', 'Peruvian sol');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('114', 'PGK', 'Papua New Guinean kina');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('115', 'PHP', 'Philippine peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('116', 'PKR', 'Pakistani rupee');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('117', 'PLN', 'Polish zloty');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('118', 'PYG', 'Paraguayan guaraní');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('119', 'QAR', 'Qatari riyal');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('120', 'RON', 'Romanian leu');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('121', 'RSD', 'Serbian dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('122', 'RUB', 'Russian ruble');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('123', 'RWF', 'Rwandan franc');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('124', 'SAR', 'Saudi riyal');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('125', 'SBD', 'Solomon Islands dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('126', 'SCR', 'Seychelles rupee');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('127', 'SDG', 'Sudanese pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('128', 'SEK', 'Swedish krona/kronor');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('129', 'SGD', 'Singapore dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('130', 'SHP', 'Saint Helena pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('131', 'SLL', 'Sierra Leonean leone');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('132', 'SOS', 'Somali shilling');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('133', 'SRD', 'Surinamese dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('134', 'SSP', 'South Sudanese pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('135', 'STN', 'São Tomé and Príncipe dobra');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('136', 'SVC', 'Salvadoran colón');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('137', 'SYP', 'Syrian pound');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('138', 'SZL', 'Swazi lilangeni');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('139', 'THB', 'Thai baht');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('140', 'TJS', 'Tajikistani somoni');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('141', 'TMT', 'Turkmenistan manat');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('142', 'TND', 'Tunisian dinar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('143', 'TOP', 'Tongan pa?anga');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('144', 'TRY', 'Turkish lira');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('145', 'TTD', 'Trinidad and Tobago dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('146', 'TWD', 'New Taiwan dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('147', 'TZS', 'Tanzanian shilling');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('148', 'UAH', 'Ukrainian hryvnia');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('149', 'UGX', 'Ugandan shilling');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('150', 'USD', 'United States dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('151', 'USN', 'United States dollar (next day) (funds code)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('152', 'UYI', 'Uruguay Peso en Unidades Indexadas (URUIURUI) (funds code)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('153', 'UYU', 'Uruguayan peso');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('154', 'UYW', 'Unidad previsional');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('155', 'UZS', 'Uzbekistan som');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('156', 'VES', 'Venezuelan bolívar soberano');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('157', 'VND', 'Vietnamese d?ng');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('158', 'VUV', 'Vanuatu vatu');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('159', 'WST', 'Samoan tala');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('160', 'XAF', 'CFA franc BEAC');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('161', 'XAG', 'Silver (one troy ounce)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('162', 'XAU', 'Gold (one troy ounce)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('163', 'XBA', 'European Composite Unit (EURCO) (bond market unit)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('164', 'XBB', 'European Monetary Unit (E.M.U.-6) (bond market unit)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('165', 'XBC', 'European Unit of Account 9 (E.U.A.-9) (bond market unit)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('166', 'XBD', 'European Unit of Account 17 (E.U.A.-17) (bond market unit)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('167', 'XCD', 'East Caribbean dollar');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('168', 'XDR', 'Special drawing rights');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('169', 'XOF', 'CFA franc BCEAO');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('170', 'XPD', 'Palladium (one troy ounce)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('171', 'XPF', 'CFP franc (franc Pacifique)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('172', 'XPT', 'Platinum (one troy ounce)');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('173', 'XSU', 'SUCRE');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('174', 'XTS', 'Code reserved for testing');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('175', 'XUA', 'ADB Unit of Account');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('176', 'XXX', 'No currency');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('177', 'YER', 'Yemeni rial');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('178', 'ZAR', 'South African rand');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('179', 'ZMW', 'Zambian kwacha');
+INSERT INTO `currency` (`id`, `code`, `name`) VALUES ('180', 'ZWL', 'Zimbabwean dollar');
+
+ALTER TABLE `company` ADD COLUMN `swift_code` VARCHAR(10) NULL;
+
+CREATE TABLE `countries` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `country_code` varchar(255) NOT NULL,
+  `country_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `country_code` (`country_code`)
+);
+
+
+ALTER TABLE `customers` 
+ADD COLUMN `country` INT NULL,
+ADD COLUMN `cnt_code` VARCHAR(2) NULL,
+ADD COLUMN `for_cur` VARCHAR(3) NULL;
+
+
+ALTER TABLE `invoices` 
+ADD COLUMN `exchange_rate` DECIMAL(10,2) NULL,
+ADD COLUMN `for_cur` VARCHAR(3) NULL,
+ADD COLUMN `cntcode` VARCHAR(2) NULL;
+
+ALTER TABLE `proforma_invoices` 
+ADD COLUMN `exchange_rate` DECIMAL(10,2) NULL,
+ADD COLUMN `for_cur` VARCHAR(3) NULL,
+ADD COLUMN `cntcode` VARCHAR(2) NULL;
+
+ALTER TABLE `invoice_items` CHANGE COLUMN `description` `description` TEXT NOT NULL ;
+
+ALTER TABLE `proforma_invoice_items` CHANGE COLUMN `description` `description` TEXT NOT NULL ;
+
 

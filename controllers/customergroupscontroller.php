@@ -122,13 +122,4 @@ class CustomerGroupsController extends Controller
             echo false;
         }
     }
-    
-    public function groupCustomers($id) {
-        if($id) {
-            $customer = $this->_model->getCustomersByGroup($id);
-            echo json_encode($customer);
-        } else {
-            echo false;
-        }
-    }
 }

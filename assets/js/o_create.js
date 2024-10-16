@@ -1,5 +1,5 @@
-var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id
-var paymentterm_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0, symbol = '₹ ', NRI = false;
+var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id, country, currency;
+var paymentterm_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0, NRI = false;
 
 $(function () { bsCustomFileInput.init(); });
 
@@ -8,13 +8,17 @@ $("#group_id").change(function () {
   groupId = $(this).val();
   if (groupId) {
     $.ajax({ type: "POST", url: baseUrl + "customers/groupcustomers/" + groupId, dataType: "json", encode: true })
-      .done(function (r) {
+      .done(function (resp) {
+        r = resp.data;
+        country = r[0].cnt_code;
+        currency = r[0].for_cur;
         r_groupId = r;
-        if (r[0].country != "101") { symbol = '$ '; NRI = true; }
+        if (r[0].country != "101") { NRI = true; }
         if (r.length == 1) {
           fill_billto_details(0, r[0].id, r[0].name);
           fill_shipto_details(0, r[0].id);
         }
+        if (writemode) { $("#order_type").trigger("change"); }
       })
       .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
   }
@@ -29,20 +33,17 @@ function group_id_reset() {
   group_id = r_groupId = checked_shipto = checked_billto = "";
   billto_reset();
   $("#itemcard").hide();
-  symbol = '₹ '; NRI = false;
+  NRI = false;
 }
 
 function getgst(id) {
   sgst = cgst = igst = 0;
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + id, dataType: "json", encode: true })
-    .done(function (r) {
+    .done(function (resp) {
+      var r = resp.data;
       l_gst = r;
-      if (r.state == "same") {
-        sgst = r.sgst;
-        cgst = r.cgst;
-      } else {
-        igst = r.igst;
-      }
+      if (r.state == "same") { sgst = r.sgst; cgst = r.cgst; }
+      else { igst = r.igst; }
       update_tax();
     })
     .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
@@ -52,7 +53,8 @@ function getgst(id) {
 function get_sales_person(id) {
   billto_reset();
   $.ajax({ type: "POST", url: baseUrl + "customers/getdetails/" + id, data: id, dataType: "json", encode: true })
-    .done(function (r) {
+    .done(function (resp) {
+      var r = resp.data;
       $("#sales_person").val(r.contact_person).removeClass("is-invalid");
       getgst(id);
     })
@@ -61,6 +63,9 @@ function get_sales_person(id) {
 
 function fill_billto_details(index, id, name) {
   checked_billto = index;
+  bill_me = r_groupId.find(obj => obj.id === id.toString());
+  country = bill_me.cnt_code;
+  currency = bill_me.for_cur;
   $("#bill_to").val(id).removeClass("is-invalid");
   $("#bill_to-error").remove();
   $("#customer_id").val(id);
@@ -93,7 +98,9 @@ function update_tax(s = sgst, c = cgst, i = igst) {
     $("#col_total").addClass("col-4");
     $("#col_sgst").hide();
     $("#col_cgst").hide();
-    $("#col_igst").show();
+    $("#col_igst").hide();
+    if ($("#id_calculate").is(":checked")) { $("#col_igst").show(); }
+    else { $("#col_igst").hide(); }
   }
 }
 
@@ -140,6 +147,16 @@ function modelfill(checkboxclass, label) {
   }
 }
 
+$(document).on("click", "#id_calculate", function () {
+  treehouse();
+  $(".order_item_quantity").trigger('change');
+  // if ($("#id_calculate").is(":checked")) {
+  //   console.log('jones');
+  // } else {
+  //   console.log('thayil');
+  // }
+});
+
 $(document).on("click", ".fill_customer_details", function () {
   highlightrow($(this).data("index"));
   if ($(this).data("modal") == "billto") {
@@ -151,6 +168,7 @@ $(document).on("click", ".fill_customer_details", function () {
   } else {
     fill_shipto_details($(this).data("index"), $(this).data("id"));
   }
+  $("#order_type").trigger("change");
 });
 
 function highlightrow(id) {
@@ -221,11 +239,11 @@ function ordertype_reset() {
   $("#order_item_list").empty();
   create_from_date(false);
   create_to_date(false);
-  $("#add_order_subtotal_val").text(symbol+0.00);
-  $("#add_order_sgst_val").text(symbol+0.00);
-  $("#add_order_cgst_val").text(symbol+0.00);
-  $("#add_order_igst_val").text(symbol+0.00);
-  $("#add_order_total_val").text(symbol+0.00);
+  $("#add_order_subtotal_val").text(ras(0.00, country, currency));
+  $("#add_order_sgst_val").text(ras(0.00, country, currency));
+  $("#add_order_cgst_val").text(ras(0.00, country, currency));
+  $("#add_order_igst_val").text(ras(0.00, country, currency));
+  $("#add_order_total_val").text(ras(0.00, country, currency));
 }
 
 function create() {
@@ -375,14 +393,14 @@ function add_pt() {
 function add_paymentterm(oid, pid) {
   if (oti == 2) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_2"></td><td class="form-group" d="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4" max="100" min="5" step="5" data-oid="' + oid + '" data-pid="' + pid + '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + symbol + '0.00</span></td></tr>;');
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_2"></td><td class="form-group" d="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4" max="100" min="5" step="5" data-oid="' + oid + '" data-pid="' + pid + '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + ras(0.00, country, currency) + '</span></td></tr>;');
   } else if (oti == 1 || oti == 3) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="hidden" value="1" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + symbol + '0.00</span></td></tr>;');
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="hidden" value="1" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + ras(0.00, country, currency) + '</span></td></tr>;');
   } else if (oti == 7) {
     $("#paymentterm_list_" + oid).append(
       '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4"></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_7"><select class="form-control paymentterm_uom" data-oid="' + oid + '" data-pid="' + pid + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_7"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_unitprice" value="' + $("#orderitem_" + oid + "_val_5").val() + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid +
-      '_txt_6">₹0.00</span></td></tr>;'
+      '_txt_6">' + ras(0.00, country, currency) + '</span></td></tr>;'
     );
   }
 }
@@ -431,9 +449,7 @@ function order_item_calculator(id) {
         if ([1, 3].includes(oti)) {
           res = nz(b / a).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
-          $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-            ra(res)
-          );
+          $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(ras(res, country, currency));
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
           update_pt_total(id, pid);
         } else if (oti == 2 || oti == 7) {
@@ -464,14 +480,15 @@ function order_item_calculator(id) {
 function order_calculator(id) {
   var sub_total = 0;
   sub_total += parseFloat($("#orderitem_" + id + "_val_6").val());
-  $("#add_order_subtotal_val").text(nz(sub_total.toFixed(2)));
+  $("#add_order_subtotal_val").text(ras(nz(sub_total.toFixed(2)), country, currency));
   a = parseFloat((sgst / 100) * sub_total);
   b = parseFloat((cgst / 100) * sub_total);
   c = parseFloat((igst / 100) * sub_total);
-  $("#add_order_sgst_val").text(nz(a.toFixed(2)));
-  $("#add_order_cgst_val").text(nz(b.toFixed(2)));
-  $("#add_order_igst_val").text(nz(c.toFixed(2)));
-  $("#add_order_total_val").text(nz(a + b + c + sub_total).toFixed(2));
+  if (!$("#id_calculate").is(":checked")) { a = b = c = 0; }
+  $("#add_order_sgst_val").text(ras(nz(a.toFixed(2)), country, currency));
+  $("#add_order_cgst_val").text(ras(nz(b.toFixed(2)), country, currency));
+  $("#add_order_igst_val").text(ras(nz(c.toFixed(2)), country, currency));
+  $("#add_order_total_val").text(ras(nz(a + b + c + sub_total).toFixed(2), country, currency));
 }
 
 $(document).on("change", ".order_item_unitprice", function () {
@@ -633,12 +650,14 @@ function treehouse() {
   if (l_gst.state == "same") {
     cgstttl = (subttl * cgst) / 100;
     sgstttl = (subttl * sgst) / 100;
+    if (!$("#id_calculate").is(":checked")) { sgstttl = cgstttl = 0; }
     ttl = subttl + sgstttl + cgstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b>' + symbol + ' ' + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b>" + symbol + " " + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b>' + symbol + ' ' + ttl.toFixed(2) + "</div></div>");
+    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b>' + ras(subttl.toFixed(2), country, currency) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b>" + ras(cgstttl.toFixed(2), NRI) + '<br /></div><div class="col-3"><b>Total : </b>' + ras(ttl.toFixed(2), country, currency) + "</div></div>");
   } else {
     igstttl = (subttl * igst) / 100;
+    if (!$("#id_calculate").is(":checked")) { igstttl = 0; }
     ttl = subttl + igstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + symbol + ' ' + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b>" + symbol + " " + igstttl + '<br /></div><div class="col-4"><b>Total : </b>' + symbol + ' ' + ttl + "</div></div>");
+    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + ras(subttl.toFixed(2), country, currency) + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b>" + ras(igstttl.toFixed(2), country, currency) + '<br /></div><div class="col-4"><b>Total : </b>' + ras(ttl.toFixed(2), country, currency) + "</div></div>");
   }
   $("#order_items_cardfooter").show();
 }
@@ -714,16 +733,14 @@ function form_maker() {
     firstcheck = 0;
   $.each(tree["otl"], function (index, ot) {
     if (ot != order_change_flag && index == 0) {
-      $("#hiddendata").append('<input type="hidden" name="ordertype" id="id_order_type" value="' +
-        ot + '" />');
+      $("#hiddendata").append('<input type="hidden" name="ordertype" id="id_order_type" value="' + ot + '" />');
     }
     else if (ot != order_change_flag && index != 0) { $("#id_order_type").val("99"); }
 
     $.each(tree[ot]["oil"], function (index, oi) {
       subtotal += parseFloat(tree[ot][oi]["stl"]);
       $("#hiddendata")
-        .append('<input type="hidden" name="order_details[' + fakeoi + '][ordertype]" value="' +
-          ot + '">')
+        .append('<input type="hidden" name="order_details[' + fakeoi + '][ordertype]" value="' + ot + '">')
         .append('<input type="hidden" name="order_details[' + fakeoi + '][item]" value="' + tree[ot][oi]["itm"] + '">')
         .append('<input type="hidden" name="order_details[' + fakeoi + '][description]" value="' + tree[ot][oi]["dsp"] + '">')
         .append('<input type="hidden" name="order_details[' + fakeoi + '][qty]" value="' +
@@ -753,6 +770,7 @@ function form_maker() {
   a = (sgst / 100) * subtotal;
   b = (cgst / 100) * subtotal;
   c = (igst / 100) * subtotal;
+  if (!$("#id_calculate").is(":checked")) { a = b = c = 0; }
   var total = parseFloat(subtotal + a + b + c);
   if (l_gst.state == "same") {
     $("#hiddendata").append('<input type="hidden" name="taxrate" value="' + l_gst.sgst + '">');
@@ -780,7 +798,7 @@ function update_pt_total(o, p) {
   else { var res = nz(b * a); }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
-    ra(res.toFixed(2))
+    ras(res.toFixed(2), country, currency)
   );
 }
 

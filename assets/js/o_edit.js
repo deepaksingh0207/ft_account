@@ -141,9 +141,39 @@ function createbookeeper() {
   treehouse()
 }
 
+$(document).on("focusout", "#po_no", function () {
+  var changed_po_no = $(this).val();
+  mydata = { customer_id: customer, po_no: changed_po_no };
+  $("#id_submit").removeAttr('disabled');
+  if (changed_po_no != current_po_no) {
+    $.ajax({
+      type: "POST", url: baseUrl + "orders/po_validty/", data: mydata,
+      dataType: "json",
+      encode: true
+    })
+      .done(function (data) {
+        if (data == false) {
+          $("#id_submit").attr('disabled','disabled');
+          $(".say").remove();
+          $("#po_no")
+            .addClass("is-invalid")
+            .parent()
+            .append(
+              '<span id="id_po_no-error" class="say error invalid-feedback">&nbsp; &nbsp; &nbsp;Order has been raised for this Customer PO.</span>'
+            );
+        }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        alert("Cannot validate PO No.");
+        console.log(jqXHR, textStatus, errorThrown);
+      });
+  }
+});
+
 function get_order_data() {
   $.ajax({ type: "POST", url: baseUrl + "orders/getdetails/" + $("#id_order_id").val(), dataType: "json", encode: true })
-    .done(function (data) {
+    .done(function (res) {
+      var data = res.data;
       orderdata = data
       od_order = orderdata.order
       od_items = orderdata.items
@@ -188,7 +218,8 @@ function update_tax(s = sgst, c = cgst, i = igst) {
 function getgst(customergroup_id) {
   sgst = cgst = igst = 0
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customergroup_id, dataType: "json", encode: true })
-    .done(function (resp) {
+    .done(function (res) {
+      var resp = res.data;
       $("#itemcard").show()
       l_gst = resp
       if (resp.state == "same") {

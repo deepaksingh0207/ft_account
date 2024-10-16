@@ -221,10 +221,10 @@
   <thead>
     <tr>
       <td colspan="3">
-        <img src="{{URL}}/assets/img/invimgl.jpg" alt="invimgl" width="150px">
+        <img src="{{URL}}assets/img/invimgl.jpg" alt="invimgl" width="150px">
       </td>
       <td colspan="3">
-        <img src="{{URL}}/assets/img/invimgr.jpg" alt="invimgr" width="150px" class="fr">
+        <img src="{{URL}}assets/img/invimgr.jpg" alt="invimgr" width="150px" class="fr">
       </td>
     </tr>
   </thead>
@@ -309,7 +309,7 @@
     </tr>
     {{ITEM_LIST}}
     <tr class="txtsmr">
-      <td colspan="5" class="bb1 bt1 txtr">Net Value {{CURRENCY}}.</td>
+      <td colspan="5" class="bb1 bt1 txtr">Net Value {{FOREIGN_CURRENCY}}.</td>
       <td class="bb1 bt1 txtc">{{ORDER_TOTAL}}</td>
     </tr>
     <tr class="txtsmr">
@@ -318,7 +318,7 @@
       <!-- {{TAX_LAYOUT}} -->
     </tr>
     <tr class="txtsmr">
-      <td colspan="5" class="bb1 txtr">Total invoice {{TOTAL_TERMS}} {{CURRENCY}}</td>
+      <td colspan="5" class="bb1 txtr">Total invoice {{TOTAL_TERMS}} {{FOREIGN_CURRENCY}}</td>
       <td class="bb1 txtc">{{INV_TOTAL}}</td>
     </tr>
     <tr class="txtsm">
@@ -326,7 +326,7 @@
     </tr>
     <tr class="txtsm{{NONNRI}}">
       <td colspan="3"><i><b> Gross Amount : {{GROSS_AMOUNT}} INR</b></i></td>
-      <td colspan="3" class="text-right"><i><b> Exchange Rate : $1= {{EXCHANGE_RATE}} INR</b></i></td>
+      <td colspan="3" class="text-right"><i><b> Exchange Rate : 1 {{FOREIGN_CURRENCY}} = {{EXCHANGE_RATE}} INR</b></i></td>
     </tr>
     {{DECLARATION}}
     <tr class="txtsm">

@@ -1,5 +1,5 @@
 $(function () {
-	$("#customergroup_tab").addClass("active").attr('href','customergroup').attr('role','tab').attr('aria-controls','customergroup').attr('aria-selected','true').attr('data-toggle','pill');
+	$("#customergroup_tab").addClass("active").attr('href', 'customergroup').attr('role', 'tab').attr('aria-controls', 'customergroup').attr('aria-selected', 'true').attr('data-toggle', 'pill');
 	$("#customergroup_list").DataTable({
 		responsive: false,
 		lengthChange: false,
@@ -57,7 +57,8 @@ $(".customer").on("click", function () {
 			dataType: "json",
 			encode: true,
 		})
-			.done(function (data) {
+			.done(function (resp) {
+				data = resp.data;
 				$("#customerbody").empty();
 				if (data != false) {
 					$.each(data, function (i, value) {
@@ -68,6 +69,7 @@ $(".customer").on("click", function () {
 				}
 			})
 			.fail(function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR, textStatus, errorThrown);
 				alert("No details found against this customer.");
 			});
 	}
