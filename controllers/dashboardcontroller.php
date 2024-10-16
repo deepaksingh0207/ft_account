@@ -89,7 +89,6 @@ class DashboardController extends Controller
     }
 
     public function search() {
-        $temp = array();
         $invoices = $this->_model->getCustomerInvoiceList($_POST);
         if($invoices) {
             foreach($invoices as &$invoice) {

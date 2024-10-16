@@ -201,17 +201,8 @@
                                   name="remarks"
                                   id="remarks"
                                   cols="30"
-                                  rows="2"
+                                  rows="3"
                                 ></textarea>
-                              </div>
-                            </div>
-
-                            <div class="row form-group">
-                              <div class="col-sm-12 col-md-4 col-lg-4">
-                                <label for="remarks">Calculate GST :</label>
-                              </div>
-                              <div class="col-sm-12 col-md-6 col-lg-6">
-                                <input type="checkbox" class="form-control" checked id="id_calculate" style="width: 25px;">
                               </div>
                             </div>
 

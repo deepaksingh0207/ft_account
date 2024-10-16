@@ -9,7 +9,7 @@ $(document).ready(function () {
   if (a == 'gstr') { $("#menu_gstr").addClass("active"); }
   if (a == 'invoices') { $("#menu_invoices").addClass("active"); }
   if (['customers', 'company', 'customergroups'].includes(a)) { $("#menu_master").addClass("active"); }
-  if (a == 'payments') { $("#menu_payments").addClass("active"); }
+  if (a == 'payments') { $("#menu_payment").addClass("active"); }
   if (a == 'users') { $("#menu_users").addClass("active"); }
   if (a == 'orders') {
     $("#menu_order").addClass("active");

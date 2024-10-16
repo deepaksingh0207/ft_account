@@ -24,7 +24,7 @@ class CustomersModel extends Model {
     }
     
     public function get($id) {
-        $sql = "select customers.*, countries.country_name from customers left join countries on countries.id=customers.country where customers.id = ? limit 1";
+        $sql = "select * from customers where id = ? limit 1";
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         if (empty($user)){

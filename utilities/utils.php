@@ -53,7 +53,7 @@ class Utils {
         return INSTANCE;
     }
     
-    function AmountInWords(float $amount, $currency)
+    function AmountInWords(float $amount, $nri)
     {
         $amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
         // Check if there is any number after decimal
@@ -86,10 +86,15 @@ class Utils {
             else $string[] = null;
         }
         $implode_to_Rupees = implode('', array_reverse($string));
-
-        $get_paise = ($amount_after_decimal > 0) ? " and " . ($change_words[$amount_after_decimal / 10] . "
-   " . $change_words[$amount_after_decimal % 10]) . CURRENCY_FRAC[$currency]['fraction'] : '';
-        return ($implode_to_Rupees ? $implode_to_Rupees . CURRENCY_FRAC[$currency]['main'] : '') . $get_paise;
+        $paise = ' Paise';
+        $rupees = 'Rupees ';
+        if ($nri){
+            $paise = ' Cent';
+            $rupees = 'USD ';
+        }
+        $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[$amount_after_decimal / 10] . "
+   " . $change_words[$amount_after_decimal % 10]) . $paise : '';
+        return ($implode_to_Rupees ? $implode_to_Rupees . $rupees : '') . $get_paise;
     }
     
     

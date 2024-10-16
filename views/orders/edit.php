@@ -26,8 +26,8 @@
                         <?php echo $order['customer_group'] ?>
                       </div>
                       <div class="col-sm-12 col-md-6 col-lg-6 mb-2">
-                        <b class="float-left">Customer PO No. : &nbsp;</b>
-                        <input value="<?php echo $order['po_no'] ?>" style="width:200px;" type="text" class="form-control form-control-sm float-left" name="po_no" id="po_no">
+                        <b>Customer PO No. :</b>
+                        <?php echo $order['po_no'] ?>
                       </div>
                       <div class="col-sm-12 col-md-6 col-lg-6 mb-2">
                         <b>Customer : </b>
@@ -476,7 +476,6 @@
                         </button>
                         <button
                           type="button"
-                          id="id_submit"
                           class="btn btn-sm btn-primary"
                           onclick="form.submit()"
                         >
@@ -557,7 +556,3 @@
     <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
   </div>
 </body>
-<script>
-  var current_po_no="<?php echo $order['po_no'] ?>";
-  var customer = "<?php echo $order['customer_id'] ?>";
-</script>

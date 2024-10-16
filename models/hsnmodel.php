@@ -70,5 +70,15 @@ class HsnModel extends Model {
         $user = $this->getrow();
         if (empty($user)){ return false; }
         return $user;
-    }   
+    }
+    
+    
+    public function getCustomersByGroup($id) {
+        $sql = "select * from hsn_codes where group_id = ? ";
+        $this->_setSql($sql);
+        $user = $this->getAll(array($id));
+        if (empty($user)){ return false; }
+        return $user;
+    }
+    
 }

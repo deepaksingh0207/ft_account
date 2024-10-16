@@ -31,7 +31,7 @@ $(document).on("click", ".summarytoggle", function () {
 });
 
 $(document).on("click", ".ordertoggle", function () {
-	$(".torder").toggle();
+	$(".order").toggle();
 	if ($("#id_order").attr('class') == "fas fa-chevron-down mt-1") {
 		$("#id_order").attr('class', 'fas fa-chevron-right mt-1');
 	} else {

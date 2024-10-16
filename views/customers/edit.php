@@ -79,22 +79,6 @@
                     </div>
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> Country </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm select2" name="country" id="country_id">
-                          <option value="">&nbsp;</option>
-                          <?php foreach ($countries as $country) : ?>
-                          <option value="<?php echo $country['id'] ?>" <?php echo ($customer['country']==$country['id'])
-                            ? 'selected="selected"' : '' ?>>
-                            <?php echo $country['country_name'] ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
                         <label for="id_address"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
@@ -126,8 +110,8 @@
                         <label for="id_gst"> GSTIN </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="3"
-                          maxlength="15"
+                        <input type="text" class="form-control fc ftsm" name="gstin" id="id_gst" minlength="15"
+                          maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}"
                           value="<?php echo $customer['gstin'] ?>" />
                       </div>
                     </div>
@@ -156,37 +140,6 @@
                       <div class="col-sm-12 col-lg-3 form-group numberonly">
                         <input type="tel" class="form-control fc ftsm" name="fax" minlength="10" maxlength="15" id="id_fax"
                           value="<?php echo $customer['fax'] ?>" />
-                      </div>
-                    </div>
-
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_for_cur"> Foreign Currency </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm" name="for_cur" id="id_for_cur">
-                          <?php foreach ($cnt_codes as $key => $value) : ?>
-                          <option value="<?php echo $key ?>" <?php echo ($customer['cnt_code']==$key)
-                            ? 'selected="selected"' : '' ?>>
-                            <?php echo $key ?> - <?php echo $value['descp'] ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_cnt_code"> Currency Country </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control ftsm select2" name="cnt_code" id="id_cnt_code">
-                        <?php foreach ($countries as $country) : ?>
-                          <option value="<?php echo $country['country_code'] ?>" <?php echo ($customer['for_cur']==$country['country_code'])
-                            ? 'selected="selected"' : '' ?>>
-                            <?php echo $country['country_name'] ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
                       </div>
                     </div>
                     <div class="row mx-1">

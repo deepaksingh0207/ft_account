@@ -9,5 +9,3 @@ assets/js_repo/
 *.zip
 .DS_Store
 assets/qr_code/*.png
-TODO
-assets/img/*
