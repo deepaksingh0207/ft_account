@@ -22,11 +22,12 @@
                       <select class="form-control fc ftsm select2 mt-0" name="customer" id="id_customer">
                         <option>Select Customer</option>
                         <?php foreach ($customers as $customer) : ?>
-                    <option value="<?php echo $customer['id'] ?>">
-                      <?php echo $customer['name'] ?>
-                    </option>
-                    <?php endforeach; ?>
+                          <option value="<?php echo $customer['id'] ?>">
+                            <?php echo $customer['customer_name'] . ' (' . $customer['state_name'] . ')' ?>
+                          </option>
+                        <?php endforeach; ?>
                       </select>
+
                     </div>
                     <div class="col-sm-12 col-lg-3 mt-4">
                       <div class="btn-group mt-2">
@@ -53,30 +54,30 @@
                           </tr>
                         </thead>
                         <tbody class="text-center">
-                          <?php if(count($payments)) :
-                        foreach($payments as $payment) :
-                        ?>
-                          <tr data-href="payments/view/<?php echo $payment['id']?>">
-                            <td class="sublist">
-                              <?php echo $payment['name']?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $payment['invoice_no']?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $payment['cheque_utr_no']?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo $payment['received_amt']?>
-                            </td>
-                            <td class="sublist">
-                              <?php echo date('d, M Y', strtotime($payment['payment_date']))?>
-                            </td>
-                          </tr>
+                          <?php if (count($payments)) :
+                            foreach ($payments as $payment) :
+                          ?>
+                              <tr data-href="payments/view/<?php echo $payment['id'] ?>">
+                                <td class="sublist">
+                                  <?php echo $payment['name'] ?>
+                                </td>
+                                <td class="sublist">
+                                  <?php echo $payment['invoice_no'] ?>
+                                </td>
+                                <td class="sublist">
+                                  <?php echo $payment['cheque_utr_no'] ?>
+                                </td>
+                                <td class="sublist">
+                                  <?php echo $payment['received_amt'] ?>
+                                </td>
+                                <td class="sublist">
+                                  <?php echo date('d, M Y', strtotime($payment['payment_date'])) ?>
+                                </td>
+                              </tr>
 
                           <?php endforeach;
-                            endif;
-                        ?>
+                          endif;
+                          ?>
                         </tbody>
                       </table>
                     </div>

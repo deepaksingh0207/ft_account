@@ -1,0 +1,373 @@
+<style>
+    .centxt {
+      text-align: center;
+    }
+  
+    .rgtxt {
+      text-align: center;
+    }
+  
+    .lftxt {
+      text-align: center;
+    }
+  
+    .b1 {
+      border: 1px solid black;
+    }
+  
+    .b2 {
+      border: 2px solid black;
+    }
+  
+    .bt1 {
+      border-top: 1px solid black;
+    }
+  
+    .bt2 {
+      border-top: 2px solid black;
+    }
+  
+    .bb1 {
+      border-bottom: 1px solid black;
+    }
+  
+    .bb2 {
+      border-bottom: 2px solid black;
+    }
+  
+    .br1 {
+      border-right: 1px solid black;
+    }
+  
+    .br2 {
+      border-right: 2px solid black;
+    }
+  
+    .bl1 {
+      border-left: 1px solid black;
+    }
+  
+    .bl2 {
+      border-left: 2px solid black;
+    }
+  
+    .by1 {
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .by2 {
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .byr2 {
+      border-left: 2px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .byl2 {
+      border-left: 1px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .bx1 {
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+    }
+  
+    .bx2 {
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+  
+    .bn1 {
+      border-top: 1px solid black;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .bn2 {
+      border-top: 2px solid black;
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .bu1 {
+      border-bottom: 1px solid black;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .bu2 {
+      border-bottom: 2px solid black;
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .bc1 {
+      border-top: 1px solid black;
+      border-left: 1px solid black;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .bc2 {
+      border-top: 2px solid black;
+      border-left: 2px solid black;
+      border-bottom: 2px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .blt2r {
+      border-top: 2px solid black;
+      border-left: 2px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .brt2l {
+      border-top: 2px solid black;
+      border-left: 1px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .bo1 {
+      border-top: 1px solid black;
+      border-left: 1px solid black;
+      border-bottom: 1px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .bo2 {
+      border-top: 2px solid black;
+      border-left: 1px solid black;
+      border-bottom: 2px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .blb2r {
+      border-left: 2px solid black;
+      border-bottom: 2px solid black;
+      border-right: 1px solid black;
+    }
+  
+    .brb2l {
+      border-left: 1px solid black;
+      border-bottom: 2px solid black;
+      border-right: 2px solid black;
+    }
+  
+    .w100 {
+      width: 100%;
+    }
+  
+    .b {
+      font-weight: bold;
+    }
+  
+    .txtr {
+      text-align: right;
+    }
+  
+    .txtl {
+      text-align: left;
+    }
+  
+    .nri {
+      display: none;
+    }
+  
+    .txtc {
+      text-align: center;
+    }
+  
+    .hide {
+      display: none;
+    }
+  
+    .vt {
+      vertical-align: top;
+    }
+  
+    .w-135 {
+      width: 5em;
+    }
+  
+    .f-xl {
+      font-size: medium;
+    }
+  
+    .fr {
+      float: right;
+    }
+  
+    .txtsm {
+      font-size: small;
+    }
+  
+    .txtsmr {
+      font-size: smaller;
+    }
+  
+    .pb-1 {
+      padding-bottom: 1rem;
+    }
+  
+    .pt-1 {
+      padding-top: 1rem;
+    }
+  </style>
+  <table cellspacing="0" width="100%" class="f-xl">
+    <thead>
+      <tr>
+        <td colspan="3">
+          <img src="{{URL}}/assets/img/invimgl.jpg" alt="invimgl" width="150px">
+        </td>
+        <td colspan="3">
+          <img src="{{URL}}/assets/img/invimgr.jpg" alt="invimgr" width="150px" class="fr">
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="centxt">
+        <td colspan="6"><b><u>{{TITLE}}</u></b></td>
+      </tr>
+      <tr class="centxt">
+        <td colspan="6"><b><u>Original For Recipient</u></b></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <table cellspacing="0" width="100%" class="f-xl">
+            <thead>
+              <th width="50%"></th>
+              <th width="50%"></th>
+            </thead>
+            <tbody class="txtsm">
+              {{IRN}}{{IRN_DATE}}{{SLT}}
+              <tr>
+                <td class="blt2r">
+                  <b>{{CREDIT_NO}}</b>
+                </td>
+                <td class="brt2l">
+                  <b>{{PO_NO}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td class="byr2">
+                  <b>Date: {{CREDIT_NOTE_DATE}}</b>
+                </td>
+                <td class="byl2">
+                  <b>Date: {{INVOICE_DATE}}</b>
+                </td>
+              </tr>
+              <tr>
+                <td class="byr2">&nbsp;</td>
+                <td class="byl2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="byr2 vt">
+                  <b>Billing Address: F.T. Solutions Pvt Ltd</b><br>{{COMPANY_BILLTO}}<br>Tel.: {{COMP_TEL}}
+                </td>
+                <td class="byl2">
+                  <b>Bill To: </b>{{CUST_ADDRESS}}<br>Tel: {{CUST_TEL}} Fax : {{CUST_FAX}}
+                </td>
+              </tr>
+              <tr>
+                <td class="byr2">&nbsp;</td>
+                <td class="byl2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="byr2"><b>Pan No.: {{COMP_PAN}}</b></td>
+                <td class="byl2"><span class="{{NRI}}"><b>PAN No.: {{CUST_PAN}}</b></span></td>
+              </tr>
+              <tr>
+                <td class="byr2"><b>GSTIN NO: {{COMP_GSTIN}}</b></td>
+                <td class="byl2"><span class="{{NRI}}"><b>GST No.: {{CUST_GST}}</b></span></td>
+              </tr>
+              <tr>
+                <td class="byr2">&nbsp;</td>
+                <td class="byl2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="blb2r vt" style="max-width: 50vw; overflow-wrap: anywhere;" rowspan="2"><b>Bank Details:
+                    {{COMP_BANK}}<br>A/C No.: {{COMP_ACCNO}}<br>IFSC Code: {{COMP_IFSC}}</b></td>
+                <td class="byl2"><b>Ship To: </b>{{CUST_SHIPTO}}</b></td>
+              </tr>
+              <tr>
+  
+                <td class="brb2l"><b>Kind Attn: {{CUST_CONT_PERSON}}</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr class="txtsm">
+        <th class="bb2 txtc" style="width: 4em;">Sr. No.</th>
+        <th class="bb2">Item Description</th>
+        {{ORDER_TYPE}}
+        <th class="bb2 txtc w-135">Amount</th>
+      </tr>
+      {{ITEM_LIST}}
+      <tr class="txtsmr">
+        <td colspan="5" class="bb1 bt1 txtr">Net Value {{FOREIGN_CURRENCY}}.</td>
+        <td class="bb1 bt1 txtc">{{ORDER_TOTAL}}</td>
+      </tr>
+      <tr class="txtsmr">
+        <td colspan="5" class="bb1 txtr">{{GST_LABEL}}</td>
+        <td class="bb1 txtc">{{GST_VALUE}}</td>
+        <!-- {{TAX_LAYOUT}} -->
+      </tr>
+      <tr class="txtsmr">
+        <td colspan="5" class="bb1 txtr">Total {{TOTAL_TERMS}} {{FOREIGN_CURRENCY}}</td>
+        <td class="bb1 txtc">{{INV_TOTAL}}</td>
+      </tr>
+      <tr class="txtsm">
+        <td colspan="6"><i><b> In Words: {{AMOUNT_WORD}} Only.</b></i></td>
+      </tr>
+      <!-- <tr class="txtsm{{NONNRI}}">
+        <td colspan="3"><i><b> Gross Amount : {{GROSS_AMOUNT}} INR</b></i></td>
+        <td colspan="3" class="text-right"><i><b> Exchange Rate : 1 {{FOREIGN_CURRENCY}} = {{EXCHANGE_RATE}} INR</b></i></td>
+      </tr> -->
+      {{DECLARATION}}
+
+      <!-- <tr class="txtsm">
+        <td colspan="3"><b><u><i>Term & Condition:</i></u></b></td>
+        <td colspan="3" rowspan="5" style="text-align: right; padding-right: 2em;">{{QR_CODE}}</td>
+      </tr> -->
+      <!-- <tr class="txtsm">
+        <td colspan="3">
+          <ol>
+            <li>Payment 100% - {{PAY_TERM}}</li>
+            <li class="{{NRI}}">INR. 1000/- will be charged for any Cheque Bouncing.</li>
+            {{TDS}}
+          </ol>
+        </td>
+      </tr> -->
+      
+      {{REST_BR}}
+      <tr class="txtsm">
+        <td colspan="3">For F.T. Solutions Pvt. Ltd.</td>
+      </tr>
+      <tr>
+        <td colspan="3"><br><br><br><br></td>
+      </tr>
+      <tr class="txtsm">
+        <td colspan="6">Authorised Signature</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="6">
+          <hr />
+          <p style="text-align: center;font-size: small;">
+            {{BILLTO_ADDRESS}} Tel.: {{COMP_TEL}}<br />
+            Email: account@fts-pl.com Website: http://www.fts-pl.com
+          </p>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  
+  <!-- <script>
+    if (window.location.href.split("/")[4] != "create" && window.location.href.split("/")[5] != "create") { window.print(); }
+  </script> -->

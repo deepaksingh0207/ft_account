@@ -1,3 +1,4 @@
+
 var groupdata,
   customerid,
   customerdata,
@@ -6,37 +7,51 @@ var groupdata,
   od_items,
   od_invoices,
   od_invoiceitems,
-  firstselector = [],
+  od_creditnotes,
+  od_creditnote_items,
   od_payment_term,
   gstlist,
   oldgen = 0,
+  invoicevalidityflag = null,
+  processing_proforma = false,
+  NRI = false,
+  country,
+  currency,
+  firstselector = [],
   previewList = [],
   paytermlist = [],
   payterm_ordertype = ["1", "2", "3"],
-  processing_proforma = false,
-  tree = {},
   items_for_invoicing = [],
-  invoicevalidityflag = null,
-  symbol = '₹ ',
-  NRI = false;
+  tree = {};
 
 function createbookeeper() {
   for (var key in od_order) { tree[key] = od_order[key]; }
+
+  tree["creditnotes"] = { ids: [] };
+  tree["credit_note_items"] = { ids: [] };
   tree["items"] = { ids: [] };
   tree["invoice"] = { ids: [] };
   tree["proforma"] = { ids: [] };
-  $.each(od_proforma, function (iProforma, proforma) {
-    tree["proforma"][proforma.id] = proforma
+
+
+  $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
+
+    tree["credit_note_items"]["ids"].push(credit_note_item.id); tree["credit_note_items"][credit_note_item.id] = credit_note_item
+
   });
-  $.each(od_invoices, function (iInvoices, invoice) {
-    tree["invoice"][invoice.id] = invoice
-  });
+
+
+  $.each(od_creditnotes, function (iCreditnotes, creditnote) { tree["creditnotes"]["ids"].push(creditnote.id); tree["creditnotes"][creditnote.id] = creditnote });
+  $.each(od_proforma, function (iProforma, proforma) { tree["proforma"]["ids"].push(proforma.id); tree["proforma"][proforma.id] = proforma });
+  $.each(od_invoices, function (iInvoices, invoice) { tree["invoice"]["ids"].push(invoice.id); tree["invoice"][invoice.id] = invoice });
+
   $.each(od_items, function (i, item) {
     tree["items"]["ids"].push(item.id);
     tree["items"][item.id] = item
     tree["items"][item.id]["ot"] = item.order_type
     tree["items"][item.id]["payment"] = { ids: [] }
     tree["items"][item.id]["proforma"] = { ids: [] }
+    tree["items"][item.id]["creditnote"] = { ids: [] }
     tree["items"][item.id]["invoice"] = { ids: [] }
     // Payment Terms Order Types Leaves
     if (item.order_type < 4 || item.order_type == 7) {
@@ -78,6 +93,13 @@ function createbookeeper() {
           tree["items"][item.id]["proforma"][proforma.id] = proforma
           tree["items"][item.id]["proforma"]["ot"] = item.order_type
           tree["items"][item.id]["proforma"][proforma.id]["invoice"] = { ids: [] }
+        }
+      });
+      $.each(od_creditnote_items, function (k, creditnote) {
+        if (item.id == creditnote.order_item_id) {
+          tree["items"][item.id]["creditnote"]["ids"].push(creditnote.id);
+          tree["items"][item.id]["creditnote"][creditnote.id] = creditnote
+          tree["items"][item.id]["creditnote"]["ot"] = item.order_type
         }
       });
     }
@@ -154,6 +176,8 @@ $("#id_orderid").change(function () {
         od_items = orderdata.items;
         od_invoices = orderdata.invoices;
         od_invoiceitems = orderdata.invoice_items;
+        od_creditnotes = orderdata.creditnote;
+        od_creditnote_items = orderdata.creditnote_items;
         od_payment_term = orderdata.payment_term;
         od_proforma = orderdata.proforma;
         od_proforma_items = orderdata.proforma_items;
@@ -251,6 +275,8 @@ function orderdetails() {
   setordertype(od_order.order_type);
   fillorder(od_items);
   fillinvoice_body();
+  var OrderId = od_order.id;
+  fetchCreditNotesByOrderId(OrderId);
 }
 
 function refreshpreview() {
@@ -285,6 +311,7 @@ function preview_builder() {
       <input type="date" class="form-control ftsm" name="invoice_date" required id="id_invoicedate" value="">
     </div>`;
     if (processing_proforma == false) { invoice_date_template = `` }
+    console.log(od_order.order_type);
     var preview_modal_body = `
     <div class="row" id="t1" data-state="show">
       <div class="col-sm-12 col-lg-12">
@@ -299,6 +326,7 @@ function preview_builder() {
                       <th>Item</th>
                       <th>Description</th>
                       <th>` + setheader(od_order.order_type) + `</th>
+                      
                       <th>UOM</th>
                       <th>Unit Price</th>
                       <th>HSN Code</th>
@@ -328,7 +356,7 @@ function preview_builder() {
         <input type="hidden" class="form-control ftsm" name="nri" required id="id_nri" value="1" >
       </div>`;
     } else {
-      preview_modal_body = preview_modal_body + `<input type="text" class="form-control ftsm" name="nri" required id="id_nri" value="0" >`
+      preview_modal_body = preview_modal_body + `<input type="hidden" class="form-control ftsm" name="nri" required id="id_nri" value="0" >`
     }
     if (od_order.open_po == '1') {
       preview_modal_body += `<div class="col-sm-12 col-lg-3 pt-4">
@@ -353,6 +381,7 @@ function preview_builder() {
     // }
 
     $.each(items_for_invoicing, function (i, id) {
+
       var item = $("#" + id).data("item");
       var payment = $("#" + id).data("payment");
       var proforma = $("#" + id).data("proforma");
@@ -367,6 +396,7 @@ function preview_builder() {
       }
 
       if ($("#" + id).is(':checked')) {
+
         var maxqty = t.qty;
 
         $("#preview_tbody").append('<tr id="ptb' + c + '"></tr>');
@@ -385,13 +415,24 @@ function preview_builder() {
         }
 
         $("#ptb" + c).append('<td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td>');
+
         $.each(t.invoice.ids, function (k, l) { maxqty -= parseInt(t.invoice[l].qty); });
+
+        $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
+
+          tree["credit_note_items"]["ids"].push(credit_note_item.id);
+          tree["credit_note_items"][credit_note_item.id] = credit_note_item;
+          maxqty += parseInt(credit_note_item.qty);
+
+        });
+        // alert(t.total);
         $("#ptb" + c).append('<td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + maxqty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + maxqty + '"></td>');
         $("#ptb" + c).append('<td class="pt-3" >' + get_uom_display(t.uom_id) + '<input type="hidden" required name="order_details[' + c + '][uom_id]" id="id_uom' + c + '" value="' + t.uom_id + '"></td>');
         $("#ptb" + c).append('<td class="pt-3"><input type="number" class="form-control pup" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" data-index="' + c + '" data-up="' + t.unit_price + '" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td>');
         $("#ptb" + c).append('<td id="preview_row_hsn' + c + '" class="pt-3"><select class="form-control" style="width:15vw;" name="order_details[' + c + '][hsn_id]" id="id_hsn_id' + c + '"></select></td>');
-        $("#ptb" + c).append('<td id="preview_row_total' + c + '" class="pt-3">' + symbol + t.total + '</td>');
-        $("#ptb" + c).append('<input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + t.total + '">');
+        var invoice_total = maxqty * t.unit_price;
+        $("#ptb" + c).append('<td id="preview_row_total' + c + '" class="pt-3">' + symbol + invoice_total + '</td>');//vk
+        $("#ptb" + c).append('<input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + invoice_total + '">');
         fillhsnselect('#id_hsn_id' + c)
         previewList.push(c)
         c++;
@@ -580,11 +621,10 @@ function resetonorder() {
 }
 
 function setheader(index) {
-  list = ["", "Month", "Payment Slab", "Qty.", "Qty."]
+  list = ["", "Month", "Payment Slab", "Qty.", "Qty.", "Qty", "Qty"]
   list[99] = "Qty."
   return list[index]
 }
-
 function setordertype(val) {
   if (val == 2) {
     $("#id_ordertype")
@@ -702,7 +742,6 @@ function fillorder(items) {
     $("#id_orderblock").show();
   }
 }
-
 function getordertype() {
   if (od_order.order_type == 1) {
     return "On-Site Support Sale";
@@ -751,7 +790,7 @@ function preview_total() {
 function previewtotal(index, value) {
   $("#preview_row_total" + index).text(ra(value, NRI));
   $("#id_total" + index).val(value);
-  // preview_total();
+  preview_total();
 }
 
 function tax_system(tax, total, apitax = gstlist[1]) {
@@ -787,8 +826,17 @@ function preview_footer() {
       if (proforma == 0) { t = tree["items"][item]["payment"][payment] }
       else { t = tree["items"][item]["payment"][payment]["proforma"][proforma] }
     }
-    if ($("#" + id).is(':checked')) { subtotal += parseFloat(t.total) }
+
+    if ($("#" + id).is(':checked')) {
+
+      //  subtotal += parseFloat(t.total)
+      var total_value = parseFloat($('#id_total' + c).val());
+      subtotal += total_value;
+
+    }
+
   });
+
   if (!NRI) {
     if (gstlist.length > 2) {
       sgst_total = (gstlist[1] / 100) * subtotal;
@@ -1010,15 +1058,50 @@ function fillinvoice_body() {
           } else {
             $("#row" + iInv + itm + inv).append('<td><div class="icheck-primary d-inline"><input type="checkbox" id="pro' + itm + inv + '" disabled><label for="pro' + itm + inv + '"></label></div></td>');
           }
+
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["item"] + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["description"] + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + tree["items"][itm]["invoice"][inv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["invoice"][inv]["uom_id"]) + '</td>');
           balQty -= parseInt(tree["items"][itm]["invoice"][inv]["qty"]);
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["unit_price"], NRI) + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"], NRI) + '</td>');
-          $("#row" + iInv + itm + inv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["invoice"][inv]["invoice_id"] + '" type="button">Tax Invoice</a></td>');
+
+
+          //-----add credit note button-----------
+
+          var invoiceId = tree["items"][itm]["invoice"][inv]["invoice_id"];
+          // Find if any credit note matches the current invoice ID
+          var creditNote = tree["credit_note_items"]["ids"].find(function (creditNoteId) {
+            return tree["credit_note_items"][creditNoteId]["invoice_id"] === invoiceId;
+          });
+
+          // if (creditNote) {
+          //   $("#row" + iInv + itm + inv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + invoiceId + '" type="button">Tax Invoice</a>&nbsp;&nbsp;<a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + invoiceId + '" type="button">Credit Notes</a></td>');
+          // } else {
+          //   $("#row" + iInv + itm + inv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + invoiceId + '" type="button">Tax Invoice</a></td>');
+          // }
+
+          if (creditNote) {
+            $("#row" + iInv + itm + inv).append(`
+                <td class="align-middle">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tax Invoice
+                        </button>
+                            <div class="dropdown-menu" style="width: 150px;"> 
+                            <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/geninv/${invoiceId}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Tax Invoice</a>
+                            <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/gencbn/${invoiceId}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Credit Notes</a>
+                          </div>
+                    </div>
+                </td>
+            `);
+          } else {
+            $("#row" + iInv + itm + inv).append(`<td class="align-middle"> <a class="btn btn-default btn-sm pdf" target="_blank" href="${baseUrl}invoices/geninv/${invoiceId}" type="button">Tax Invoice</a></td>`);
+          }
+
         })
       }
+
       if ((tree["items"][itm]["proforma"]["ids"]).length > 0) {
         $.each(tree["items"][itm]["proforma"]["ids"], function (iPro, pro) {
           $("#id_invoicetable").append('<tr id="row' + itm + pro + iPro + '"></tr>');
@@ -1036,14 +1119,27 @@ function fillinvoice_body() {
           $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["unit_price"], NRI) + '</td>');
           $("#row" + itm + pro + iPro).append('<td>' + ra(tree["items"][itm]["proforma"][pro]["total"], NRI) + '</td>');
           if ((tree["items"][itm]["invoice"]["ids"]).length == 0) {
-            // $("#row" + itm + pro + iPro).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf" type="button">Proforma Invoice</button></td>');
+            $("#row" + itm + pro + iPro).append('<td class="align-middle"><button class="btn btn-default btn-sm pdf" data-href=" ' + baseUrl + 'pdf/invoice_' + getInvoiceNo(tree["items"][itm]["proforma"][pro]["proforma_invoice_id"], true) + '.pdf" type="button">Proforma Invoice</button></td>');
             $("#row" + itm + pro + iPro).append('<td><div class="btn-group"><button type="button" class="btn btn-primary btn-sm generate" id="generate_' + itm + '_' + pro + '_' + iPro + '" data-id="' + itm + '_' + pro + '_' + iPro + '" data-list="items">Generate</button><button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu p-1" role="menu"><a class="dropdown-item pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["proforma"][pro]["proforma_invoice_id"] + '/1">Proforma Invoice</a></div></div></td>');
           } else {
             $("#row" + itm + pro + iPro).append('<td><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["proforma"][pro]["proforma_invoice_id"] + '/1" type="button">Proforma Invoice</a></td>');
           }
         })
       }
+
+      //vivek starts changes
+      //-------------creditNotes--------------------  
+
+      if ((tree["items"][itm]["creditnote"]["ids"]).length > 0) {
+
+        $.each(tree["items"][itm]["creditnote"]["ids"], function (iCN, CNt) {
+          balQty += parseInt(tree["items"][itm]["creditnote"][CNt]["qty"]);
+
+        })
+      }
+
       if (balQty > 0) {
+        //alert(balQty);
         $("#id_invoicetable").append('<tr id="row0' + itm + '"></tr>');
         $("#row0" + itm).append('<td><div class="icheck-primary d-inline"><input type="checkbox" class="cbox genebox" id="inv' + itm + '" data-id="' + itm + '" data-item="' + itm + '" data-payment="0"  data-proformaid="pro' + itm + '" data-proforma="0" checked><label for="inv' + itm + '"></label></div></td>');
         items_for_invoicing.push('inv' + itm)
@@ -1055,6 +1151,7 @@ function fillinvoice_body() {
         $("#row0" + itm).append('<td>' + ra(balQty * tree["items"][itm]["unit_price"], NRI) + '</td>');
         $("#row0" + itm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '" data-id="' + itm + '" data-list="items">Generate <i class="fas fa-chevron-right"></i></button></td>');
       }
+
     }
   });
 }
@@ -1167,4 +1264,41 @@ function preview_label() {
 function getInvoiceNo(val, proforma = false) {
   if (proforma) { return tree["proforma"][val]["invoice_no"] }
   else { return tree["invoice"][val]["invoice_no"] }
+}
+
+
+//vivek starts changes
+//  ------------creditNotesList------------
+
+function fetchCreditNotesByOrderId(orderId) {
+  var orderId = od_order.id;
+  $("#id_creditnoteblock").show();
+  $.ajax({
+    url: baseUrl + "invoices/creditNotesItemByOrderId/" + orderId,
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+      var creditNoteBody = '';
+      if (data.length > 0) {
+        $.each(data, function (index, item) {
+          creditNoteBody += '<tr>';
+          creditNoteBody += '<td style="max-width:150px;">' + item.item + '</td>';
+          creditNoteBody += '<td style="max-width:250px;">' + item.description + '</td>';
+          creditNoteBody += '<td style="max-width:250px;">' + item.qty + '</td>';
+          creditNoteBody += '<td style="max-width:250px;">' + item.unit_price + '</td>';
+          creditNoteBody += '<td style="max-width:250px;">' + item.total + '</td>';
+          creditNoteBody += '</tr>';
+        });
+      } else if (data.message) {
+
+        creditNoteBody = '<tr><td colspan="5" style="text-align: center;">' + data.message + '</td></tr>';
+      } else {
+        creditNoteBody = '<tr><td colspan="5" style="text-align: center;">No credit notes available for this invoice.</td></tr>';
+      }
+      $('#creditnote_body').html(creditNoteBody);
+    },
+    error: function (xhr, status, error) {
+      console.error('AJAX Error: ' + status + ' ' + error);
+    }
+  });
 }
