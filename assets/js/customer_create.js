@@ -15,15 +15,6 @@ $(function () {
 			name: {
 				required: true,
 			},
-			country: {
-			  required: true,
-			},
-			for_cur: {
-			  required: true,
-			},
-			cnt_code: {
-			  required: true,
-			},
 			// contact_person: {
 			// 	required: true,
 			// },
@@ -81,15 +72,6 @@ $(function () {
 			},
 			name: {
 				required: "Please enter customer name.",
-			},
-			country: {
-			  required: "Please select country.",
-			},
-			for_cur: {
-			  required: "Please select foreign currency.",
-			},
-			cnt_code: {
-			  required: "Please select currency country.",
 			},
 			// contact_person: {
 			// 	required: "Please enter contact person.",

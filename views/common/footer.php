@@ -272,13 +272,15 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/i_index.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/i_index_creditnote.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'invoices' && ($action == 'create')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/js/i_validation.js?<?php echo time(); ?>"></script>
-<script src="<?php echo ROOT; ?>assets/js/i_create.js?<?php echo time(); ?>"></script>
+<!-- <script src="<?php echo ROOT; ?>assets/js/i_create.js?<?php echo time(); ?>"></script> -->
+<script src="<?php echo ROOT; ?>assets/js/i_create.js"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'creditnotes' && ($action == 'index')) : ?>
@@ -295,14 +297,15 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js?<?php echo time(); ?>"></script>
-<script src="<?php echo ROOT; ?>assets/js/cn_index.js?<?php echo time(); ?>"></script>
+<!-- <script src="<?php echo ROOT; ?>assets/js/c_index.js?<?php echo time(); ?>"></script> -->
+<script src="<?php echo ROOT; ?>assets/js/i_index_creditnote.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'creditnotes' && ($action == 'create')) : ?>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
-<script src="<?php echo ROOT; ?>assets/js/i_validation.js?<?php echo time(); ?>"></script>
-<script src="<?php echo ROOT; ?>assets/js/i_create.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/c_validation.js?<?php echo time(); ?>"></script>
+<script src="<?php echo ROOT; ?>assets/js/c_create.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 
 <?php if ($controller == 'payments' && ($action == 'index')) : ?>

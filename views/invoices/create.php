@@ -23,9 +23,9 @@
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option>Select Group</option>
                           <?php foreach ($groups as $group) : ?>
-                          <option value="<?php echo $group['id'] ?>">
-                            <?php echo $group['name'] ?>
-                          </option>
+                            <option value="<?php echo $group['id'] ?>">
+                              <?php echo $group['name'] ?>
+                            </option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -114,7 +114,37 @@
                           <div class="card-header">
                             <b>Invoice Details</b>
                           </div>
-                          <div class="card-body p-0" id="id_invoiceblock_body"></div>
+                          <div class="card-body p-0" id="id_invoiceblock_body">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- -------------creditnote details------- -->
+                    <div class="row" style="display: none" id="id_creditnoteblock">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <b>Credit Note Details</b>
+                          </div>
+                          <div class="card-body p-0" id="id_creditnotelock_body">
+                            <table class="table" id="id_creditnotetable">
+                              <thead>
+                                <tr>
+                                  <th class="min110">Item</th>
+                                  <th class="min110">Description</th>
+                                  <th class="min110">Qty./Unit</th>
+                                  <th class="min110">Unit Price</th>
+                                  <th class="min110">Total Value</th>
+                                  <!-- <th class="min110"></th> -->
+                                </tr>
+                              </thead>
+                              <tbody id="creditnote_body">
+                             
+                              </tbody>
+
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>

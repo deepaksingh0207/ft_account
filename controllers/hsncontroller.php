@@ -100,14 +100,12 @@ class HsnController extends Controller
     }
 
     public function getDetails($id) {
-        $status=1; $message="Success"; $data=null;
         if($id) {
             $hsn = $this->_model->get($id);
-            $data=$hsn;
+            echo json_encode($hsn);
         } else {
             $hsn = $this->_model->getList();
-            $data=$hsn;
+            echo json_encode($hsn);
         }
-        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 }

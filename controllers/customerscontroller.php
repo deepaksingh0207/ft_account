@@ -59,10 +59,6 @@ class CustomersController extends Controller
             
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Customer Edit');
-
-            $country = new CountryModel();
-            $country = $country->list();
-            $this->_view->set('countries', $country);
             
             $states = new StatesModel();
             $states = $states->list();
@@ -72,7 +68,6 @@ class CustomersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
             
-            $this->_view->set('cnt_codes', CURRENCY_FRAC);
             
             if(!empty($_POST)) {
                 $data = $_POST;
@@ -96,10 +91,6 @@ class CustomersController extends Controller
         try {
             $this->_view->set('title', 'Create Customer');
             
-            $country = new CountryModel();
-            $country = $country->list();
-            $this->_view->set('countries', $country);
-            
             $states = new StatesModel();
             $states = $states->list();
             $this->_view->set('states', $states);
@@ -108,7 +99,6 @@ class CustomersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
             
-            $this->_view->set('cnt_codes', CURRENCY_FRAC);
             
             if(!empty($_POST)) {
                 $data = $_POST;
@@ -128,20 +118,20 @@ class CustomersController extends Controller
     }
 
     public function getDetails($id) {
-        $status=0; $message="Failed"; $data=null;
         if($id) {
             $customer = $this->_model->get($id);
-            $status=1; $message="Success"; $data=$customer;
+            echo json_encode($customer);
+        } else {
+            echo false;
         }
-        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
     
     public function groupCustomers($id) {
-        $status=0; $message="Failed"; $data=null;
         if($id) {
             $customer = $this->_model->getCustomersByGroup($id);
-            $status=1; $message="Success"; $data=$customer;
+            echo json_encode($customer);
+        } else {
+            echo false;
         }
-        echo json_encode(array('status'=>$status, 'msg'=>$message, 'data'=>$data)); exit();
     }
 }

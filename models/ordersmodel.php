@@ -223,7 +223,10 @@ class OrdersModel extends Model {
         $sql = "select orders.*, customers.name customer_name from orders join customers on (orders.customer_id = customers.id) where 1=1 and orders.status = 1 and $field = ? order by updated_date desc ";
         $this->_setSql($sql);
         $data = $this->getAll(array($val));
-        if (empty($data)){ return false; }
+
+        if (empty($data)){
+            return false;
+        }
         return $data;
     }
     

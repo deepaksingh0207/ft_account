@@ -28,6 +28,7 @@ class PaymentsModel extends Model {
         where P.invoice_id = ? and CP.status = 1 ";
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
+        
         return $user;
     }
     
