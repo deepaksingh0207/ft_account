@@ -174,3 +174,38 @@ $(".alphaonly").on("keypress", function (event) {
 		return false;
 	}
 });
+
+$(document).ready(function () {
+    $('#country_id').change(function () {	
+        var countryId = $(this).val();
+		var countryCode = $(this).find('option:selected').data('code'); 
+        $('#cnt_code').val(countryCode);
+
+        if (countryId) {
+            $.ajax({
+				url: baseUrl + "customers/getStatesByCountry", 
+                type: 'POST',
+                data: { country_id: countryId },
+                success: function (data) {
+                    var states = JSON.parse(data); 
+                    $('#state_id').empty(); 
+                    $('#state_id').append('<option value="">Select State</option>');
+                    
+                    $.each(states, function (index, state) {
+                        $('#state_id').append('<option value="' + state.id + '">' + state.name + '</option>');
+                    });
+
+                    if (states.length == 0) {
+                        $('#state_id').append('<option value="">No states available</option>');
+                    }
+                }
+            });
+        } else {
+            $('#state_id').empty();
+            $('#state_id').append('<option value="">Select State</option>');
+        }
+    });
+
+    $('#country_id').trigger('change');
+});
+

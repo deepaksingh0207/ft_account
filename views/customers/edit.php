@@ -32,10 +32,10 @@
                         <select class="form-control fc ftsm" name="group_id" id="id_customergroup">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
-                          <option value="<?php echo $group['id'] ?>" <?php echo ($customer['group_id']==$group['id'])
-                            ? 'selected="selected"' : '' ?>>
-                            <?php echo $group['name'] ?>
-                          </option>
+                            <option value="<?php echo $group['id'] ?>" <?php echo ($customer['group_id'] == $group['id'])
+                                                                          ? 'selected="selected"' : '' ?>>
+                              <?php echo $group['name'] ?>
+                            </option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -77,6 +77,44 @@
                           maxlength="7" minlength="6" pattern="^[0-9]{6}$" value="<?php echo $customer['pincode'] ?>" />
                       </div>
                     </div>
+
+
+
+                    <!-- <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="id_address"> State </label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control fc ftsm select2" name="state" id="state_id">
+                          <option value="">&nbsp;</option>
+                          <?php foreach ($states as $state) : ?>
+                          <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state'] == $state['id'])
+                                                                        ? 'selected="selected"' : '' ?>>
+                            <?php echo $state['name'] ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                    </div> -->
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="country_id">Country</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control ftsm select2" name="country" id="country_id">
+                          <option value="">Select Country</option>
+                          <?php foreach ($countries as $country) : ?>
+                            <option value="<?php echo $country['id']; ?>"
+                              data-code="<?php echo $country['country_code']; ?>"
+                              <?php echo ($country['id'] == 101) ? 'selected' : ''; ?>>
+                              <?php echo $country['country_name']; ?>
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
+                        <input type="hidden" name="cnt_code" id="cnt_code" value="">
+                      </div>
+                    </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_address"> State </label>
@@ -85,10 +123,9 @@
                         <select class="form-control fc ftsm select2" name="state" id="state_id">
                           <option value="">&nbsp;</option>
                           <?php foreach ($states as $state) : ?>
-                          <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state']==$state['id'])
-                            ? 'selected="selected"' : '' ?>>
-                            <?php echo $state['name'] ?>
-                          </option>
+                            <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state'] == $state['id']) ? 'selected="selected"' : ''; ?>>
+                              <?php echo $state['name'] ?>
+                            </option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -180,7 +217,7 @@
                           minlength="8" maxlength="10" value="<?php echo $customer['managerphone'] ?>" />
                       </div>
                     </div>
-                    
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_addinfo"> Additional Info </label>
@@ -190,7 +227,7 @@
                           value="<?php echo $customer['remark'] ?>" id="id_addinfo" />
                       </div>
                     </div>
-                    
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_declaration"> Declaration </label>
@@ -243,4 +280,4 @@
         </div>
       </section>
     </div>
-  <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
+    <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>

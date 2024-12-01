@@ -3,7 +3,7 @@
 class CustomerGroupsModel extends Model {
     
     public function list() {
-        $sql = "select * from customer_groups";
+        $sql = "select * from customer_groups ORDER BY name ASC";
         $this->_setSql($sql);
         $list = $this->getAll();
         
@@ -22,7 +22,6 @@ class CustomerGroupsModel extends Model {
         }
         return $user;
     }
-    
     
     public function update($id, $updateRecord) {
         

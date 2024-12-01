@@ -1067,10 +1067,10 @@ function fillinvoice_body() {
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"], NRI) + '</td>');
 
 
-          //-----add credit note button-----------
+          //-------add credit note button-----------
 
           var invoiceId = tree["items"][itm]["invoice"][inv]["invoice_id"];
-          // Find if any credit note matches the current invoice ID
+          // Find if any credit note matches current invoice ID
           var creditNote = tree["credit_note_items"]["ids"].find(function (creditNoteId) {
             return tree["credit_note_items"][creditNoteId]["invoice_id"] === invoiceId;
           });

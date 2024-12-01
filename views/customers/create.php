@@ -34,9 +34,9 @@
                         <select class="form-control" name="group_id" id="id_group_id">
                           <option value=""></option>
                           <?php foreach ($groups as $group) : ?>
-                          <option value="<?php echo $group['id'] ?>">
-                            <?php echo $group['name'] ?>
-                          </option>
+                            <option value="<?php echo $group['id'] ?>">
+                              <?php echo $group['name'] ?>
+                            </option>
                           <?php endforeach; ?>
                         </select>
                       </div>
@@ -84,16 +84,30 @@
 
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> State </label>
+                        <label for="country_id">Country</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control ftsm select2" name="country" id="country_id">
+                          <option value="">Select Country</option>
+                          <?php foreach ($countries as $country) : ?>
+                            <option value="<?php echo $country['id']; ?>" 
+                            data-code="<?php echo $country['country_code']; ?>" 
+                            <?php echo ($country['id'] == 101) ? 'selected' : ''; ?>>
+                              <?php echo $country['country_name']; ?>
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
+                        <input type="hidden" name="cnt_code" id="cnt_code" value="">
+                      </div>
+                    </div>
+
+                    <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="state_id">State</label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
                         <select class="form-control ftsm select2" name="state" id="state_id">
-                          <option value="">&nbsp;</option>
-                          <?php foreach ($states as $state) : ?>
-                          <option value="<?php echo $state['id'] ?>">
-                            <?php echo $state['name'] ?>
-                          </option>
-                          <?php endforeach; ?>
+                          <option value="">Select State</option>
                         </select>
                       </div>
                     </div>

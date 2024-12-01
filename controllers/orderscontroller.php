@@ -120,6 +120,10 @@ class OrdersController extends Controller
             $customers = $customerList->getNameList();
             $this->_view->set('customers', $customers);
 
+            $currencies  = $this->_model->currencyList(); 
+            $this->_view->set('currencies', $currencies);
+
+           
             $groupTbl = new CustomerGroupsModel();
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);

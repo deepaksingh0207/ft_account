@@ -63,7 +63,17 @@
                     <div class="col-sm-12 col-lg-3 form-group">
                       <?php echo $customer['pincode'] ?>
                     </div>
+                  </div>  
+            
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_address"> <b>Country</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $country['country_name'] ?>
+                    </div>
                   </div>
+
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_address"> <b>State</b> </label>

@@ -22,5 +22,11 @@ class StatesModel extends Model {
         }
         return $user;
     }
-    
+   
+    public function getStatesByCountry($countryId) {
+        $sql = "SELECT * FROM states WHERE country_id = ?"; 
+        $this->_setSql($sql);
+        $states = $this->getAll(array($countryId));
+        return $states;
+    }
 }
