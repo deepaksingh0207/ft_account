@@ -12,18 +12,25 @@ function humanamount(val) {
   return ra(val);
 }
 
+// function ra(val, foreign = false) {
+//   if (foreign) {
+//     return new Intl.NumberFormat('en-US', {
+//       style: 'currency',
+//       currency: 'USD'
+//     }).format(val);
+//   } else {
+//     return new Intl.NumberFormat('en-IN', {
+//       style: 'currency',
+//       currency: 'INR'
+//     }).format(val);
+//   }
+// }
+
 function ra(val, foreign = false) {
-  if (foreign) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(val);
-  } else {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR'
-    }).format(val);
-  }
+  return new Intl.NumberFormat('en-' + countryCode, {
+    style: 'currency',
+    currency: currencyCode
+  }).format(val);
 }
 
 $(document).ready(function () {
