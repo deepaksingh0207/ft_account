@@ -132,7 +132,7 @@ class OrdersController extends Controller
             if (!empty($_POST)) {
                 $data = $_POST;
 
-                // echo '<pre>';print_r($data); exit;
+                //  echo '<pre>';print_r($data); exit;
 
                 $orderData = array();
 
@@ -151,6 +151,8 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
+                $orderData['currency_code'] = $data['currency'];
+
                 if (isset($data['open_po'])) {
                     $orderData['open_po'] = 1;
                 }
@@ -489,6 +491,8 @@ class OrdersController extends Controller
 
             $order = $this->_model->renew_header($id);
             $this->_view->set('order', $order);
+
+            //echo '<pre>'; print_r($order); exit;
 
             $customerList = new CustomersModel();
             $customer = $customerList->get($order['customer_id']);

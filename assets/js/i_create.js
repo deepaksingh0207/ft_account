@@ -22,7 +22,10 @@ var groupdata,
   paytermlist = [],
   payterm_ordertype = ["1", "2", "3"],
   items_for_invoicing = [],
-  tree = {};
+  tree = {},
+  countryCode='IN',
+  currencyCode='INR';
+
 
 function createbookeeper() {
   for (var key in od_order) { tree[key] = od_order[key]; }
@@ -119,6 +122,7 @@ $(document).on("change", "#id_group_id", function () {
       .done(function (data) {
         if (data != false) {
           groupdata = data;
+          countryCode = groupdata[0].cnt_code;
           if (groupdata[0].country != "101") { symbol = '$ '; NRI = true; }
           $("#customerid_id").removeAttr("readonly");
           filldata("#customerid_id", groupdata, "Select Customer", [
@@ -181,6 +185,7 @@ $("#id_orderid").change(function () {
         od_payment_term = orderdata.payment_term;
         od_proforma = orderdata.proforma;
         od_proforma_items = orderdata.proforma_items;
+        currencyCode = od_order.currency_code;
         createbookeeper();
         $("#setheader").text(setheader(od_order.order_type));
         gst_details(customerid);

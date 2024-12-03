@@ -88,7 +88,7 @@
                                 </div>
                               </div>
                             </div>
-
+    
                             <div class="row form-group">
                               <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="ship_to">Ship To :</label>
@@ -141,11 +141,11 @@
                               </div>
 
                               <div class="col-sm-12 col-md-6 col-lg-6">
-                                <select class="form-control" id="currency">
+                                <select class="form-control" id="currency" name="currency">
                                   <option value="">Select Currency</option>
                                   <?php foreach ($currencies as $currency) : ?>
                                     <option
-                                      value="<?php echo ($currency['symbol']); ?>"
+                                      value="<?php echo ($currency['code']); ?>"
                                       data-code="<?php echo ($currency['code']); ?>"
                                       data-symbol="<?php echo ($currency['symbol']); ?>"
                                       <?php echo ($currency['code'] == 'INR') ? 'selected' : ''; ?>>
