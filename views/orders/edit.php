@@ -13,6 +13,20 @@
                   id="id_order_id"
                   value="<?php echo $order['order_id'] ?>"
                 />
+
+                <input
+                  type="hidden"
+                  name="currency_code"
+                  id="id_currency_code"
+                  value="<?php echo $order['currency_code'] ?>"
+                />
+                <input
+                  type="hidden"
+                  name="currency_symbol"
+                  id="id_currency_symbol"
+                  value="<?php echo $order['currency_symbol'] ?>"
+                />
+
                 <div class="card">
                   <div class="card-header">Edit Order</div>
                   <div class="card-body">
@@ -274,7 +288,7 @@
                               >
                                 <div class="row text-center">
                                   <div class="col-3" id="col_sub_total">
-                                    <b>Sub Total : </b>₹
+                                    <b>Sub Total : </b> <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_subtotal_val">0</span>
                                   </div>
                                   <div
@@ -285,7 +299,7 @@
                                     <b
                                       >SGST <span id="add_order_sgst"> </span>%
                                       : </b
-                                    >₹
+                                    ><?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_sgst_val">0</span>
                                   </div>
                                   <div
@@ -296,7 +310,7 @@
                                     <b
                                       >CGST <span id="add_order_cgst"> </span>%
                                       : </b
-                                    >₹
+                                    > <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_cgst_val">0</span>
                                   </div>
                                   <div
@@ -307,11 +321,11 @@
                                     <b
                                       >IGST <span id="add_order_igst"> </span>%
                                       : </b
-                                    >₹
+                                    > <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_igst_val">0</span>
                                   </div>
                                   <div class="col-3" id="col_total">
-                                    <b>Total : </b>₹
+                                    <b>Total : </b> <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_total_val">0</span>
                                   </div>
                                 </div>
@@ -391,7 +405,7 @@
                                         />
                                         <span
                                           id="orderitem_1_paymentterm_1_txt_6"
-                                          >₹0.00</span
+                                          > <?php echo $order['currency_symbol'] ?>0.00</span
                                         >
                                       </td>
                                     </tr>

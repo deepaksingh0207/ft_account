@@ -221,7 +221,7 @@ class InvoicesController extends Controller
 
 
             $result = array();
-
+        //   $result['cnt_code'] = $customer['cnt_code'];
             if ($customer['state'] == $company['state']) {
                 $result['state'] = 'same';
                 $result['cgst'] = $itMaster['cgst'];

@@ -227,6 +227,7 @@ $pendingAmount = 0.00;
                           </tr>
                         </thead>
                         <tbody>
+                        
                           <?php if (is_array($items) || is_object($items)) : ?>
                           <?php foreach($items as $item) : ?>
                           <tr>
@@ -246,7 +247,7 @@ $pendingAmount = 0.00;
                               <?php echo $item['unit_price']?>
                             </td>
                             <td>
-                              ₹
+                            <?php echo $item['currency_symbol']; ?>
                               <?php echo $item['total'] ?>
                             </td>
                           </tr>
@@ -304,7 +305,8 @@ $pendingAmount = 0.00;
                               <?php echo $payterm['unit_price']?>
                             </td>
                             <td>
-                              ₹
+                            <?php echo $payterm['currency_symbol'] ?>
+
                               <?php echo $payterm['total'] ?>
                             </td>
                             <td id="pdf<?php echo $payterm['id'] ?>"></td>

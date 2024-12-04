@@ -31,7 +31,6 @@ class CustomersController extends Controller
         try {
 
             $customer = $this->_model->get($id);
-
             $this->_view->set('customer', $customer);
             $this->_view->set('title', 'Customer Detail');
 

@@ -7,7 +7,7 @@ $(document).ready(function () {
 
   symbol = $("#currency option:selected").val();
   $('#currency').change(function () {
-    symbol = $(this).val();
+    symbol = $(this).find('option:selected').data('symbol');
     currencyCode = $(this).find('option:selected').data('code');
     ordertype_reset();
   });

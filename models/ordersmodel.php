@@ -123,21 +123,26 @@ class OrdersModel extends Model
     public function renew_header($id)
     {
         $sql = "select o.id as order_id, o.customer_id, c.name as customer, g.id as group_id, g.name as customer_group, c.contact_person, o.order_date, ot.title as order_type,
-        o.po_no, o.po_file as attachment, c1.address as bill_to, c2.address as ship_to
+        o.po_no, o.po_file as attachment, c1.address as bill_to, c2.address as ship_to, cu.symbol AS currency_symbol, o.currency_code
         from orders o
         inner join customer_groups g on g.id = o.group_id
         inner join customers c on c.id = o.customer_id
         inner join customers c1 on c1.id = o.bill_to
         inner join customers c2 on c2.id = o.ship_to
         inner join order_types ot on ot.id = o.order_type
-        where o.id = $id limit 1;";
+        inner join
+            currencies cu ON cu.code = o.currency_code
+
+        where o.id = $id limit 1;"; 
         $this->_setSql($sql);
         $order = $this->getRow(array($id));
         if (empty($order)) {
             return false;
         }
         return $order;
-    }
+
+    } 
+    
     // JThayil End
 
     public function getOrderItem($id)
