@@ -28,12 +28,15 @@ class CustomersModel extends Model
         if (empty($user)) {
             return false;
         }
-        return $user;
+        return $user;  
     }
 
     public function get($id)
     {
-        $sql = "select customers.*, countries.country_name from customers left join countries on countries.id=customers.country where customers.id = ? limit 1";
+        $sql = "select customers.*, countries.country_name, currencies.symbol from customers 
+        left join countries on countries.id=customers.country 
+        LEFT JOIN currencies ON currencies.code = customers.for_cur 
+        where customers.id = ? limit 1";  
         $this->_setSql($sql);
         $user = $this->getRow(array($id));
         if (empty($user)) {
@@ -41,8 +44,7 @@ class CustomersModel extends Model
         }
         return $user;
     }
-
-
+ 
     public function update($id, $updateRecord)
     {
 
@@ -103,9 +105,10 @@ class CustomersModel extends Model
     public function getCustomersByGroup($id)
     {
         // $sql = "select * from customers where group_id = ? ";
-        $sql = "SELECT customers.*, s.name AS state_name 
+        $sql = "SELECT customers.*, s.name AS state_name, cur.symbol
             FROM customers 
             JOIN states s ON customers.state = s.id 
+             JOIN currencies cur ON customers.for_cur = cur.code
             WHERE customers.group_id = ?";
 
         $this->_setSql($sql);

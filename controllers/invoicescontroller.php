@@ -56,13 +56,12 @@ class InvoicesController extends Controller
             if (!empty($_POST)) {
                 $data = $_POST;
 
-                // echo '<pre>'; print_r($data); exit;
+                //  echo '<pre>'; print_r($data); exit;
 
                 $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
 
                 $invoiceeData = array();
                 $invoiceItems = array();
-
                 $invoiceeData['group_id'] = $data['group_id'];
                 $invoiceeData['customer_id'] = $data['customer_id'];
                 $invoiceeData['order_id'] = $data['order_id'];
@@ -253,7 +252,7 @@ class InvoicesController extends Controller
         if (!empty($_POST)) {
             $data = $_POST;
 
-            //echo '<pre>'; print_r($data); exit;
+            //   echo '<pre>'; print_r($data); exit;
 
             if (!$invoiceId) {
                 $invoiceId = ($this->_model->getLastId() + 1);
@@ -267,7 +266,8 @@ class InvoicesController extends Controller
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];
-            $invoice['invoice_date'] = date('Y/m/d');
+            // $invoice['invoice_date'] = date('Y/m/d');
+            $invoice['invoice_date'] = $data['invoice_date'];
             $invoice['po_no'] = $data['po_no'];
             $invoice['sales_person'] = $data['sales_person'];
             $invoice['bill_to'] = $data['bill_to'];
@@ -357,8 +357,7 @@ class InvoicesController extends Controller
             $br .= '<br>';
         }
         $br .= "</td></tr>";
-
-
+ 
         $vars = array(
             "{{IRN}}" => $irn,
             "{{IRN_DATE}}" => $irndt,
@@ -421,7 +420,6 @@ class InvoicesController extends Controller
         foreach ($dataItem as $key => $item) {
             $hsncode = $hsn->get($item['hsn_id']);
             $oderItems = $orderItemsTable->get($item['order_item_id']);
-            // print_r($item);
             if ($keys == $key && 0 == $key) {
                 $itemList .= '<tr class="txtsmr"><td class="txtc pb-1 pt-1">' . ($key + 1) . '</td><td class="pb-1 pt-1">' . $item['description'] . '</td><td class="txtc pb-1 pt-1">' . $hsncode['code'] . '</td>';
                 if (in_array($oderItems['order_type'], array(1, 2, 3, 5))) {

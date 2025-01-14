@@ -98,6 +98,16 @@
                       <?php echo $customer['gstin'] ?>
                     </div>
                   </div>
+
+                  <div class="row mx-1">
+                    <div class="col-sm-12 col-lg-2">
+                      <label for="id_currency"> <b>Currency</b> </label>
+                    </div>
+                    <div class="col-sm-12 col-lg-3 form-group">
+                      <?php echo $customer['for_cur'].'-'. $customer['symbol'] ?>
+                    </div>
+                  </div>
+
                   <div class="row mx-1">
                     <div class="col-sm-12 col-lg-2">
                       <label for="id_pphone"> <b>Phone (primary)</b> </label>

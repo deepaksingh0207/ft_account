@@ -75,9 +75,16 @@ class CustomersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
 
+            $currencies = new OrdersModel();
+            $currencies  = $currencies->currencyList(); 
+            $this->_view->set('currencies', $currencies);
 
             if (!empty($_POST)) {
                 $data = $_POST;
+                echo '<pre>'; print_r($data);
+                // $data['for_cur'] = $data['for_cur'];
+                // unset($data['currency']);
+
                 if ($this->_model->update($id, $data)) {
                     $_SESSION['message'] = 'Customer updated successfully';
                     header("location:" . ROOT . "customers/view/$id");
@@ -125,10 +132,16 @@ class CustomersController extends Controller
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
 
+            $currencies = new OrdersModel();
+            $currencies  = $currencies->currencyList(); 
+            $this->_view->set('currencies', $currencies);
 
             if (!empty($_POST)) {
                 $data = $_POST;
-               
+                $data['for_cur'] = $data['currency'];
+                unset($data['currency']);
+                // echo '<pre>'; print_r($data);exit;
+                
                 if ($this->_model->save($data)) {
                     $_SESSION['message'] = 'Customer added successfully';
                     header("location:" . ROOT . "customers");

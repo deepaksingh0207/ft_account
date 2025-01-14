@@ -102,17 +102,22 @@ class CreditnotesController extends Controller
 
             $itMaster = new ItMasterModel();
             $itMaster = $itMaster->get(1);
-
-
+ 
             $result = array();
 
-            if ($customer['state'] == $company['state']) {
-                $result['state'] = 'same';
-                $result['cgst'] = $itMaster['cgst'];
-                $result['sgst'] = $itMaster['sgst'];
+            if ($customer['country'] != '101') {
+                // If country is not 101, GST part is not needed
+                $result['gst'] = 'foreign_country';
             } else {
-                $result['state'] = 'other';
-                $result['igst'] = $itMaster['igst'];
+
+                if ($customer['state'] == $company['state']) {
+                    $result['state'] = 'same';
+                    $result['cgst'] = $itMaster['cgst'];
+                    $result['sgst'] = $itMaster['sgst'];
+                } else {
+                    $result['state'] = 'other';
+                    $result['igst'] = $itMaster['igst'];
+                }
             }
             $resp = array('status' => true, 'data' => $result, 'message' => 'Success');
         } catch (Exception $e) {
@@ -158,18 +163,18 @@ class CreditnotesController extends Controller
         $orderItemsTable = new OrderItemsModel();
         $company = new CompanyModel();
         $hsn = new HsnModel();
-
+        $nri = '';
         $totalbr = 10;
         if (!empty($_POST)) {
             $data = $_POST;
-            // echo '<pre>'; print_r($data);
+            //  echo '<pre>'; print_r($data);
             $invoiceId = $data['invoice_details'][0]['invoice_id'];
             $credit_note_total = $data['credit_note_total'];
             $credit_note_date = $data['credit_note_date'];
             $credit_no = $data['credit_no'];
-            $igst = $data['igst'];
-            $cgst = $data['cgst'];
-            $sgst = $data['sgst'];
+            $igst = isset($data['igst']) ? $data['igst'] : null;
+            $cgst = isset($data['cgst']) ? $data['cgst'] : null;
+            $sgst = isset($data['sgst']) ? $data['sgst'] : null;
             $orderItemIds = array_column($data['invoice_details'], 'order_item_id');
             //  $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
             $invoiceItems = $this->_model->getInvoiceItemm($invoiceId, $orderItemIds);
@@ -189,7 +194,7 @@ class CreditnotesController extends Controller
             $invoice = $this->_model->get($invoiceId);
             $hidepo = $invoice['hide_po'];
         }
-
+            //  echo '<pre>'; print_r($invoiceItem);
         if ($proformaSwitch && $invoiceId) {
             $invoice = $tblProformaInvoice->get($invoiceId);
             $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
@@ -199,26 +204,28 @@ class CreditnotesController extends Controller
         }
         $company = $company->get(1);
         $customer = $customerTbl->get($invoice['customer_id']);
+        $nri = $customer['country'] == '101' ? false : true;
+
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
+        
         foreach ($invoiceItems as $key => $item) {
             $oderItems = $orderItemsTable->get($item['order_item_id']);
             if (in_array($oderItems['order_type'], array(4, 6, 7, 99))) {
                 $hide_qty = false;
             }
         }
-
+       
         $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc">Qty.</th><th class="bb2 txtc">Unit</th>';
         if ($hide_qty) {
-            $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc">Qty</th><th class="bb2 txtc">Unit</th>';
+            $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>';
         }
 
         $dataItem = $invoiceItems;
         // echo '<pre>'; print_r($dataItem);
         $irn = '';
-        $nri = '';
         $slt = '';
         $qrcode = '';
         $irndt = '';
@@ -275,7 +282,7 @@ class CreditnotesController extends Controller
             "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . $credit_no;
+        $vars["{{CREDIT_NO}}"] = "Credit Note No: " .'CR-'. $credit_no;
         $vars["{{TITLE}}"] = "CREDIT NOTE";
 
         if ($hidepo) {
@@ -283,13 +290,14 @@ class CreditnotesController extends Controller
         }
         $orderBaseTotal = 0.00;
         $itemList = '';
-        // echo '<pre>'; print_r($dataItem);
+        
         $keys = array_key_last($dataItem);
-
         foreach ($dataItem as $key => $item) {
-            //  echo '<pre>';  print_r($item);
+             
             $hsncode = $hsn->get($item['hsn_id']);
             $oderItems = $orderItemsTable->get($item['order_item_id']);
+            // echo '<pre>';  print_r($oderItems);
+            //  echo '<pre>'; print_r($oderItems['order_type']);
             if ($keys == $key && 0 == $key) {
                 $itemList .= '<tr class="txtsmr"><td class="txtc pb-1 pt-1">' . ($key + 1) . '</td><td class="pb-1 pt-1">' . $item['description'] . '</td><td class="txtc pb-1 pt-1">' . $hsncode['code'] . '</td>';
                 if (in_array($oderItems['order_type'], array(1, 2, 3, 5,))) {
@@ -334,13 +342,18 @@ class CreditnotesController extends Controller
         }
         $taxName = '';
         $taxesLayout = '';
-        if ((int)$igst) {
+        if (!$nri) {
+            if((int)$igst) {
 
-            $taxName = "IGST @ 18%";
-            $taxesLayout = number_format($igst, 2);
+                $taxName = "IGST @ 18%";
+                $taxesLayout = number_format($igst, 2);
+            } else {
+                $taxName = "CGST @ 9%<br />SGST @ 9%";
+                $taxesLayout = number_format($cgst, 2) . '<br />' . number_format($sgst, 2);
+            }
         } else {
-            $taxName = "CGST @ 9%<br />SGST @ 9%";
-            $taxesLayout = number_format($cgst, 2) . '<br />' . number_format($sgst, 2);
+            $taxName = "GST";
+            $taxesLayout = "-";
         }
 
         $vars["{{GST_LABEL}}"] = $taxName;

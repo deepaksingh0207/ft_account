@@ -151,7 +151,29 @@
                           maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}"
                           value="<?php echo $customer['gstin'] ?>" />
                       </div>
+                    </div> 
+
+                     <!-- ------currency dropdown----- -->
+
+                     <div class="row mx-1">
+                      <div class="col-sm-12 col-lg-2">
+                        <label for="currency_id">Currency :</label>
+                      </div>
+                      <div class="col-sm-12 col-lg-3 form-group">
+                        <select class="form-control" id="currency" name="for_cur">
+                          <option value="">Select Currency</option>
+                          <?php foreach ($currencies as $currency) : ?>
+                            <option
+                              value="<?php echo ($currency['code']); ?>"
+                              data-code="<?php echo ($currency['code']); ?>"
+                              data-symbol="<?php echo ($currency['symbol']); ?>">
+                              <?php echo ($currency['name']); ?> (<?php echo ($currency['symbol']); ?>)
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
                     </div>
+
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_pphone"> Phone (primary) </label>

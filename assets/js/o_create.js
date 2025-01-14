@@ -1,18 +1,19 @@
 var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id
-var paymentterm_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0, symbol = '₹', NRI = false;
+var paymentterm_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0, symbol = '', NRI = false;
 
-var currencyCode = 'INR';
-var countryCode = 'IN';
-$(document).ready(function () {
+var currencyCode = '';
+var countryCode = '';
 
-  symbol = $("#currency option:selected").val();
-  $('#currency').change(function () {
-    symbol = $(this).find('option:selected').data('symbol');
-    currencyCode = $(this).find('option:selected').data('code');
-    ordertype_reset();
-  });
+// $(document).ready(function () {
 
-});
+//   symbol = $("#currency option:selected").val();
+//   $('#currency').change(function () {
+//     symbol = $(this).find('option:selected').data('symbol');
+//     currencyCode = $(this).find('option:selected').data('code');
+//     ordertype_reset();
+//   });
+
+// });
 
 
 $(function () { bsCustomFileInput.init(); });
@@ -31,7 +32,7 @@ $("#group_id").change(function () {
           fill_billto_details(0, r[0].id, r[0].name);
           fill_shipto_details(0, r[0].id);
         }
-        
+
       })
       .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
   }
@@ -74,6 +75,10 @@ function get_sales_person(id) {
   $.ajax({ type: "POST", url: baseUrl + "customers/getdetails/" + id, data: id, dataType: "json", encode: true })
     .done(function (r) {
       $("#sales_person").val(r.contact_person).removeClass("is-invalid");
+      currencyCode = r.for_cur;
+      symbol = r.symbol;
+      $("#curr_code_with_symbol").text(currencyCode + '('+symbol +')');
+      $("#currency_code").val(currencyCode);
       getgst(id);
     })
     .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
@@ -812,7 +817,7 @@ $(document).on("change", ".paymentterm_uom", function () {
 });
 
 $(document).on("change", ".paymentterm_quantity", function () {
-  
+
   var oi = $(this).data("oid");
   update_pt_total(oi, $(this).data("pid"));
   var qtyttl = 0;
