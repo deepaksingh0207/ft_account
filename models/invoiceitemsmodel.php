@@ -37,24 +37,26 @@ class InvoiceItemsModel extends Model
         return $user;
     }
 
-     public function getListByInvoiceId_for_Creditnote($invoiceId)
+    public function getListByInvoiceId_for_Creditnote($invoiceId)
     {
         // $sql = "select * from invoice_items where invoice_id = ?";
-               $sql = "SELECT invoice_items.*, 
+        $sql = "SELECT invoice_items.*, 
                 CASE 
                 WHEN SUM(credit_note_items.qty) IS NOT NULL THEN (invoice_items.qty - SUM(credit_note_items.qty))
                 ELSE invoice_items.qty
                 END AS qty,    
-               uom.title AS uom_title, hsn_codes.code AS hsn_code, hsn_codes.description AS hsn_description, invoices.invoice_no, invoices.customer_id,invoices.order_id
+               uom.title AS uom_title, hsn_codes.code AS hsn_code, hsn_codes.description AS hsn_description, invoices.invoice_no, invoices.customer_id,invoices.order_id,customers.for_cur,currencies.symbol
                FROM invoice_items
                LEFT JOIN credit_note_items ON invoice_items.id = credit_note_items.invoice_item_id
               LEFT JOIN uom ON invoice_items.uom_id = uom.id
               LEFT JOIN hsn_codes ON invoice_items.hsn_id = hsn_codes.id
               LEFT JOIN invoices ON invoice_items.invoice_id = invoices.id
+               LEFT JOIN customers ON invoices.customer_id = customers.id
+            LEFT JOIN currencies ON customers.for_cur = currencies.code
               WHERE invoice_items.invoice_id = ?
               GROUP BY 
              invoice_items.id";
-             
+
         $this->_setSql($sql);
         $user = $this->getAll(array($invoiceId));
         if (empty($user)) {
@@ -62,7 +64,7 @@ class InvoiceItemsModel extends Model
         }
         return $user;
     }
-    
+
     public function deleteByInvoiceId($invoiceId)
     {
         $sql = "delete from invoice_items where invoice_id = ?";

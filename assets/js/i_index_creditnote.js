@@ -1,6 +1,5 @@
 
-
-
+let symbol = '';
 $(document).ready(function () {
     $('#select-all').on('change', function () {
         const checked = $(this).is(':checked');
@@ -19,6 +18,7 @@ $(document).ready(function () {
         invoice_id = $(this).closest("tr").data("href");
     });
 
+    
     // Initiate Credit Note generation
     $('.initgencbn').on('click', function () {
         $('#t1').show();
@@ -39,6 +39,7 @@ $(document).ready(function () {
                 if (response.status) {
                     const items = response.data;
                     customerid = items[0].customer_id;
+                    symbol = items[0].symbol || '';
                     let rows = '';
                     items.forEach(function (item, index) {
                         //  console.log(item);
@@ -57,7 +58,7 @@ $(document).ready(function () {
                                         <option value="${item.hsn_id}" selected>${item.hsn_code} - ${item.hsn_description}</option>
                                     </select>
                                 </td>
-                                <td class="item-total">₹${item.total}
+                                <td class="item-total">${symbol}${item.total}
                                 
                                 </td>   
                             </tr>`;
@@ -105,7 +106,7 @@ $(document).ready(function () {
                     total = (qty * unitPrice) / 100;
                 }
 
-                $(this).find('.item-total').text('₹' + total.toFixed(2));
+                $(this).find('.item-total').text(symbol + total.toFixed(2));
                 subtotal += total;
             }
             updateTotals(customerid);
@@ -123,7 +124,10 @@ $(document).ready(function () {
         })
             .done(function (resp) {
                 var data = resp.data;
+                // console.log(data);
                 const state = data.state;
+                const gstStatus = data.gst; 
+
                 igstRate = data.igst;  
                 cgstRate = data.cgst;  
                 sgstRate = data.sgst;
@@ -133,7 +137,7 @@ $(document).ready(function () {
                 $('#preview_tbody tr').each(function () {
                     const checkbox = $(this).find('.item-checkbox');
                     if (checkbox.is(':checked')) {
-                        subtotal += parseFloat($(this).find('.item-total').text().replace('₹', '')) || 0;
+                        subtotal += parseFloat($(this).find('.item-total').text().replace(symbol, '')) || 0;
                     }
                 });
 
@@ -141,25 +145,39 @@ $(document).ready(function () {
                 const cgst = subtotal * (cgstRate / 100);
                 const sgst = subtotal * (sgstRate / 100);
                 let total;
-
-                if (state === 'same') {
+                 if (gstStatus == 'foreign_country') {
+                    total = subtotal;  
+                    $('.Igst').hide();
+                    $('.SCgst').hide();
+                    // Only show subtotal and total
+                    $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
+                    $('#preview_total_val').text(symbol + total.toFixed(2));
+                    $('#previewinvoice_total').val(total.toFixed(2));
+                    $('#preview_credit_total').val(total.toFixed(2));
+                } else {
+                  if (state == 'same') {
                     total = subtotal + cgst + sgst;
                     $('.SCgst').show();
                     $('.Igst').hide();
-                    $('#preview_cgst_val').text('₹' + cgst.toFixed(2));
-                    $('#preview_sgst_val').text('₹' + sgst.toFixed(2));
+                    $('#preview_cgst_val').text(symbol + cgst.toFixed(2));
+                    $('#preview_sgst_val').text(symbol + sgst.toFixed(2));
+                    $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
+                    $('#preview_total_val').text(symbol + total.toFixed(2));
+                    $('#previewinvoice_total').val(total.toFixed(2));
+                    $('#preview_credit_total').val(total.toFixed(2));
                 } else {
                     total = subtotal + igst;
                     $('.Igst').show();
                     $('.SCgst').hide();
-                    $('#preview_igst_val').text('₹' + igst.toFixed(2));
+                    $('#preview_igst_val').text(symbol + igst.toFixed(2));
+
+                    $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
+                    $('#preview_total_val').text(symbol + total.toFixed(2));
+                    $('#previewinvoice_total').val(total.toFixed(2));
+                    $('#preview_credit_total').val(total.toFixed(2));
                 }
-
-                $('#preview_subtotal_txt').text('₹' + subtotal.toFixed(2));
-                $('#preview_total_val').text('₹' + total.toFixed(2));
-                $('#previewinvoice_total').val(total.toFixed(2));
-                $('#preview_credit_total').val(total.toFixed(2));
-
+               
+            }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 alert("No tax details found.");
@@ -265,9 +283,9 @@ $(document).ready(function () {
             credit_note_total: $('#preview_credit_total').val(),
             credit_no: $('#id_credit_no').val(),
             credit_note_date: $('#id_creditnote_date').val(),
-            igst: $('#preview_igst_val').text().replace('₹', '').trim(),
-            cgst: $('#preview_cgst_val').text().replace('₹', '').trim(),
-            sgst: $('#preview_sgst_val').text().replace('₹', '').trim(),
+            igst: $('#preview_igst_val').text().replace(symbol, '').trim(),
+            cgst: $('#preview_cgst_val').text().replace(symbol, '').trim(),
+            sgst: $('#preview_sgst_val').text().replace(symbol, '').trim(),
         };
 
         $('#preview_tbody tr').each(function () {
@@ -283,7 +301,7 @@ $(document).ready(function () {
                     qty: $(this).find('input[name$="[qty]"]').val(),
                     unit_price: $(this).find('input[name$="[unit_price]"]').val(),
                     hsn_code: $(this).find('select[name$="[hsn_code]"]').val(),
-                    total: $(this).find('.item-total').text().replace('₹', '').trim(),
+                    total: $(this).find('.item-total').text().replace(symbol, '').trim(),
                     // sgst: $('#preview_sgst_val').text().replace('₹', '').trim(),
                     credit_note_total: $('#preview_credit_total').val(),
 
@@ -293,7 +311,7 @@ $(document).ready(function () {
             }
         });
 
-        console.log('Form Data:', formData);
+        // console.log('Form Data:', formData);
         return formData;
     }
 

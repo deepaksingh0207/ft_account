@@ -88,7 +88,7 @@
                                 </div>
                               </div>
                             </div>
-    
+
                             <div class="row form-group">
                               <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="ship_to">Ship To :</label>
@@ -135,7 +135,20 @@
                               </div>
                             </div>
 
+
+                           
                             <div class="row form-group">
+                              <div class="col-sm-12 col-md-4 col-lg-4">
+                              <label for="currency_id">Currency :</label>
+                              </div>
+                              <div class="col-sm-12 col-md-6 col-lg-6">
+                               
+                                <span id="curr_code_with_symbol"></span> 
+                                <input type="hidden" id="currency_code" name="currency_code" value="">
+                              </div>
+                            </div>
+
+                            <!-- <div class="row form-group">
                               <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="currency_id">Currency :</label>
                               </div>
@@ -154,8 +167,8 @@
                                   <?php endforeach; ?>
                                 </select>
                               </div>
+                            </div> -->
 
-                            </div>
                             <div class="row form-group">
                               <div class="col-sm-12 col-md-4 col-lg-4">
                                 <label for="date_id">Date :</label>

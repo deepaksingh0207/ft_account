@@ -15,6 +15,11 @@ $(function () {
 			name: {
 				required: true,
 			},
+			currency: { //
+				required: true,
+
+			  },
+		
 			// contact_person: {
 			// 	required: true,
 			// },
@@ -73,6 +78,9 @@ $(function () {
 			name: {
 				required: "Please enter customer name.",
 			},
+			currency: { 
+				required: "Please select a currency.",
+			  }
 			// contact_person: {
 			// 	required: "Please enter contact person.",
 			// },
@@ -208,4 +216,7 @@ $(document).ready(function () {
 
     $('#country_id').trigger('change');
 });
+
+
+  
 

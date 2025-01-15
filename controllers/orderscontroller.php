@@ -151,7 +151,7 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
-                $orderData['currency_code'] = $data['currency'];
+                $orderData['currency_code'] = $data['currency_code'];
 
                 if (isset($data['open_po'])) {
                     $orderData['open_po'] = 1;

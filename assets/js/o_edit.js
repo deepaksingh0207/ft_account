@@ -57,7 +57,7 @@ function treehouse() {
   } else {
     igstttl = (subttl * igst) / 100;
     ttl = subttl + igstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + currency_symbol + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b> " + igstttl + '<br /></div><div class="col-4"><b>Total : </b> ' + currency_symbol + ttl + "</div></div>");
+    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + currency_symbol + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b> " + currency_symbol  + igstttl + '<br /></div><div class="col-4"><b>Total : </b> ' + currency_symbol + ttl + "</div></div>");
   }
   $("#order_items_cardfooter").show();
 }
