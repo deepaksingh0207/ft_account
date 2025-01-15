@@ -615,7 +615,7 @@ class InvoicesController extends Controller
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
 
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . ($dataItem[0]['credit_note_no']);
+        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-'. ($dataItem[0]['credit_note_no']);
         $vars["{{TITLE}}"] = "CREDIT NOTE";
 
         if ($hidepo) {
