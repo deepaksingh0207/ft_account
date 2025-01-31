@@ -330,10 +330,10 @@
       </tr> -->
       {{DECLARATION}}
 
-      <!-- <tr class="txtsm">
+      <tr class="txtsm">
         <td colspan="3"><b><u><i>Term & Condition:</i></u></b></td>
         <td colspan="3" rowspan="5" style="text-align: right; padding-right: 2em;">{{QR_CODE}}</td>
-      </tr> -->
+      </tr>
       <!-- <tr class="txtsm">
         <td colspan="3">
           <ol>
@@ -368,6 +368,11 @@
     </tfoot>
   </table>
   
-  <!-- <script>
-    if (window.location.href.split("/")[4] != "create" && window.location.href.split("/")[5] != "create") { window.print(); }
-  </script> -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlSegments = window.location.pathname.split("/");
+      if (urlSegments[4] !== "create" && urlSegments[5] !== "create") {
+        window.print();
+      } 
+    });
+  </script>

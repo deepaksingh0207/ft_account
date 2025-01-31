@@ -56,6 +56,7 @@ function diff_hours(dt2, dt1) {
 }
 
 $(document).on("click", ".sublist", function () {
+  $("#id_creditnote").val('');
   var inv_id = $(this).parent("tr").data("href");
   var customer = $(this).parent("tr").data("customer");
   var po_no = $(this).parent("tr").data("po_no");
@@ -76,19 +77,26 @@ $(document).on("click", ".sublist", function () {
   $('.ecanirn').data('href', baseUrl + "invoiceirn/cancelIrnByInvoice/" + inv_id);
   $('.gencbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + inv_id);
   var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnByInvoice/" + inv_id);
+  // console.log(getInvIrn);
   if (!getInvIrn) {
     $("#id_invoice").data('invoice_no', invoice);
     $('.col_genirn').show();
   } else {
-    if (getInvIrn[0]['credit_note'] != null) { $('.col_cbncpy, .col_rgenirn, #id_invoice').show(); }
+    if (getInvIrn[0]['credit_note'] != null) { 
+      $('.col_cbncpy, .col_rgenirn, #id_invoice').show();
+     }
     else {
       var ack_date = new Date(getInvIrn[0]['ack_date']);
       var today = new Date();
       if (getInvIrn[0]['status'] == "0") {
         $("#id_invoice").data('invoice_no', getInvIrn[0]['invoice_no']);
         $('#id_invoice, .col_rgenirn, .col_invid').show();
-      } else if (diff_hours(today, ack_date) > 24) { $('#id_creditnote, .col_gencbn').show(); }
-      else { $('.col_ecanirn').show(); }
+      } else if (diff_hours(today, ack_date) > 24) { 
+        //  $('#id_creditnote, .col_gencbn').show(); 
+         $('.col_cbncpy, .col_gencbn').show(); 
+      }
+      else { 
+        $('.col_ecanirn').show(); }
     }
   }
   $('.feeter').html('');
@@ -134,7 +142,7 @@ $(document).on("click", ".gencbn", function () {
   $('.feeter, .col_gencbn, .col_invcpy').show();
   $('.gencbn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
   var new_creditnote = $("#id_creditnote").val();
-  var getIrnId = getRemote($(this).data('href') + "/" + new_creditnote);
+  var getIrnId = getRemote($(this).data('href') + "/" + new_creditnote);  
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
     $('.gencbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate Credit Note');

@@ -297,7 +297,7 @@
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?php echo ROOT; ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?php echo ROOT ?>assets/plugins/toastr/toastr.min.js?<?php echo time(); ?>"></script>
-<!-- <script src="<?php echo ROOT; ?>assets/js/c_index.js?<?php echo time(); ?>"></script> -->
+ <script src="<?php echo ROOT; ?>assets/js/c_index_creditnote.js?<?php echo time(); ?>"></script>
 <script src="<?php echo ROOT; ?>assets/js/i_index_creditnote.js?<?php echo time(); ?>"></script>
 <?php endif; ?>
 

@@ -122,7 +122,6 @@ $(document).on("change", "#id_group_id", function () {
       .done(function (data) {
         if (data != false) {
           groupdata = data;
-          //  console.log(groupdata);
           countryCode = groupdata[0].cnt_code;
           if (groupdata[0].country != "101") { symbol = groupdata[0].symbol; NRI = true; }
          
@@ -238,17 +237,7 @@ $(document).on("click", "#gene", function () {
   $(this).attr("disabled", true);
 });
 
-$(document).on("change", ".qty", function () {
-  var rowId = $(this).data("index");
-  if ($("#id_qty" + rowId).data("uom") != 3) {
-    val = $("#id_qty" + rowId).val() * $("#id_unitprice" + rowId).val()
-  } else {
-    val = parseInt($("#id_qty" + rowId).val()) / 100 * parseFloat($("#id_unitprice" + rowId).val())
-  }
-  
-  previewtotal(rowId, val);
-  preview_total();
-});
+
 
 $(document).on("click", ".pdf", function () {
   url = $(this).data("href");
@@ -425,8 +414,8 @@ function preview_builder() {
 
         $("#ptb" + c).append('<td ><input type="text" class="form-control desp" required name="order_details[' + c + '][description]" id="id_descp' + c + '" value="' + t.description + '"></td>');
 
-        invoice_total = t.bal_total;
-
+        invoice_total = t.total;
+      
         $.each(t.invoice.ids, function (k, l) { maxqty -= parseInt(t.invoice[l].qty); });
 
         $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
@@ -444,9 +433,15 @@ function preview_builder() {
         $("#ptb" + c).append('<td id="preview_row_hsn' + c + '" class="pt-3"><select class="form-control" style="width:15vw;" name="order_details[' + c + '][hsn_id]" id="id_hsn_id' + c + '"></select></td>');
        
         // var invoice_total = maxqty * t.unit_price;
+        console.log(t);
+
+        if (t.uom_id == 3) {
+          var invoice_total = maxqty * t.unit_price / 100;
+        } else {
+          var invoice_total = maxqty * t.unit_price;
+        }
         
-        
-        $("#ptb" + c).append('<td id="preview_row_total' + c + '" class="pt-3">' + symbol + invoice_total + '</td>');//vk
+        $("#ptb" + c).append('<td id="preview_row_total' + c + '" class="pt-3">' + symbol + invoice_total.toFixed(2) + '</td>');//vk
         $("#ptb" + c).append('<input type="hidden" required name="order_details[' + c + '][total]" id="id_total' + c + '" value="' + invoice_total + '">');
         fillhsnselect('#id_hsn_id' + c)
         previewList.push(c)
@@ -846,18 +841,20 @@ function preview_footer() {
      
     if ($("#" + id).is(':checked')) {
 
-      subtotal += parseFloat(t.bal_total)
+      console.log(t);
+      subtotal += parseFloat(t.total);
 
       $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
 
-        
+        console.log(credit_note_item);
         subtotal += (credit_note_item.qty * credit_note_item.unit_price)
         
       });
       
-      //var total_value = parseFloat($('#id_total' + c).val());
-      //alert(subtotal); 
-      //subtotal += total_value;   
+      var total_value = parseFloat($('#id_total' + c).val());
+      // alert(subtotal); 
+      subtotal = total_value;
+      console.log(subtotal);   
     }
 
   });
@@ -894,7 +891,7 @@ function preview_footer() {
         </div>
         <div id="totalclass" style="color: mediumslateblue;">
           <b>Total : </b>
-          <span id="preview_total_val">` + symbol + total.toFixed(2) + `</span>
+          <span id="preview_total_val">` + symbol + ((total % 1 >= 0.50) ? Math.ceil(total) : Math.floor(total)).toFixed(2) + `</span>
           <input type="hidden" name="invoice_total" id="previewinvoice_total" value="` + total.toFixed(2) + `">
         </div>
       </div>`);
@@ -1349,3 +1346,15 @@ function fetchCreditNotesByOrderId(orderId) {
     }
   });
 }
+// -----------/MY CHANGES------   
+$(document).on("input", ".qty", function () {
+  var rowId = $(this).data("index");
+  if ($("#id_qty" + rowId).data("uom") != 3) {
+    val = $("#id_qty" + rowId).val() * $("#id_unitprice" + rowId).val()
+  } else {
+    val = parseInt($("#id_qty" + rowId).val()) / 100 * parseFloat($("#id_unitprice" + rowId).val())
+  }
+  
+  previewtotal(rowId, val);
+  preview_total();
+});
