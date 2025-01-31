@@ -9,9 +9,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 mt-3">
-                                    <table id="example1" class="table table-striped table-hover">
+                                    <table id="example3" class="table table-striped table-hover">
                                         <thead>
-                                            <tr>
+                                            <tr class="list">
                                                 <th style="max-width:150px;">invoice No</th>
                                                 <th style="max-width:150px;">Credit Note No</th>
                                                 <th>Date</th>
@@ -25,7 +25,8 @@
                                         <tbody>
                                             <?php if (isset($creditNoteItems) && is_array($creditNoteItems) && count($creditNoteItems) > 0): ?>
                                                 <?php foreach ($creditNoteItems as $item): ?>
-                                                    <tr>
+                                                    <tr class="list">
+                                                        <input type="hidden" class="hidden-item-id" data-id="<?php echo $item['id']; ?>" data-credit_note_id="<?php echo $item['credit_note_id']; ?>">
                                                         <td style="max-width:150px;"><?php echo $item['invoice_no']; ?></td>
                                                         <td style="max-width:150px;"><?php echo $item['credit_note_no']; ?></td>
                                                         <td><?php echo $item['added_date']; ?></td>
@@ -53,21 +54,35 @@
                 </div>
             </section>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="creditNoteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-6 mb-2 ">
+                            <button class="btn btn-info btn-block btn-flat py-3 generatecbn ">
+                                <i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN
+                            </button>
+                            <!-- <a class="btn btn-info btn-block btn-flat py-3 cbncpy" target="_blank"><i
+                            class="far fa-file-pdf fa-lg"></i><br><br>Print Credit Note</a> -->
+                        </div>
+                   
+                          
+                       
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="modal-footer justify-content-between feeterr"></div>
+                </div>
+            </div>
+        </div>
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#example1').DataTable({
-                // Optional configurations
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true
-            });
-        });
-    </script>
+
 </body>

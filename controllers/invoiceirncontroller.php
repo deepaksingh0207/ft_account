@@ -25,6 +25,15 @@ class InvoiceIrnController extends Controller
         }
     }
 
+    public function getIrnByCreditNote($Id) {
+        try {
+            $invoiceirn = $this->_model->getListBycreditNoteItemId($Id);
+            echo json_encode($invoiceirn);
+        } catch (Exception $e) {
+            echo "Application error:" . $e->getMessage();
+        }
+    }
+
     public function cancelIrnByInvoice($Id) {
         try {
             $this->_model->cancelIrnByInvoice($Id);

@@ -102,7 +102,7 @@ class CreditnotesController extends Controller
 
             $itMaster = new ItMasterModel();
             $itMaster = $itMaster->get(1);
- 
+
             $result = array();
 
             if ($customer['country'] != '101') {
@@ -172,9 +172,12 @@ class CreditnotesController extends Controller
             $credit_note_total = $data['credit_note_total'];
             $credit_note_date = $data['credit_note_date'];
             $credit_no = $data['credit_no'];
-            $igst = isset($data['igst']) ? $data['igst'] : null;
-            $cgst = isset($data['cgst']) ? $data['cgst'] : null;
-            $sgst = isset($data['sgst']) ? $data['sgst'] : null;
+         
+            $igst = isset($data['igst']) && is_numeric($data['igst']) ? (float)$data['igst'] : null;
+            $cgst = isset($data['cgst']) && is_numeric($data['cgst']) ? (float)$data['cgst'] : null;
+            $sgst = isset($data['sgst']) && is_numeric($data['sgst']) ? (float)$data['sgst'] : null;
+
+
             $orderItemIds = array_column($data['invoice_details'], 'order_item_id');
             //  $invoiceItems = $this->_model->getInvoiceItem($invoiceId);
             $invoiceItems = $this->_model->getInvoiceItemm($invoiceId, $orderItemIds);
@@ -194,7 +197,7 @@ class CreditnotesController extends Controller
             $invoice = $this->_model->get($invoiceId);
             $hidepo = $invoice['hide_po'];
         }
-            //  echo '<pre>'; print_r($invoiceItem);
+        //  echo '<pre>'; print_r($invoiceItem);
         if ($proformaSwitch && $invoiceId) {
             $invoice = $tblProformaInvoice->get($invoiceId);
             $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
@@ -210,14 +213,14 @@ class CreditnotesController extends Controller
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
-        
+
         foreach ($invoiceItems as $key => $item) {
             $oderItems = $orderItemsTable->get($item['order_item_id']);
             if (in_array($oderItems['order_type'], array(4, 6, 7, 99))) {
                 $hide_qty = false;
             }
         }
-       
+
         $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc">Qty.</th><th class="bb2 txtc">Unit</th>';
         if ($hide_qty) {
             $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>';
@@ -282,7 +285,7 @@ class CreditnotesController extends Controller
             "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " .'CR-'. $credit_no;
+        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . $credit_no;
         $vars["{{TITLE}}"] = "CREDIT NOTE";
 
         if ($hidepo) {
@@ -290,10 +293,10 @@ class CreditnotesController extends Controller
         }
         $orderBaseTotal = 0.00;
         $itemList = '';
-        
+
         $keys = array_key_last($dataItem);
         foreach ($dataItem as $key => $item) {
-             
+
             $hsncode = $hsn->get($item['hsn_id']);
             $oderItems = $orderItemsTable->get($item['order_item_id']);
             // echo '<pre>';  print_r($oderItems);
@@ -342,8 +345,9 @@ class CreditnotesController extends Controller
         }
         $taxName = '';
         $taxesLayout = '';
+     
         if (!$nri) {
-            if((int)$igst) {
+            if ((int)$igst) {
 
                 $taxName = "IGST @ 18%";
                 $taxesLayout = number_format($igst, 2);

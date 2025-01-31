@@ -237,7 +237,7 @@
                     <button class="btn btn-info btn-block btn-flat py-3 initgencbn" data-toggle="modal" data-target="#modal-xl">
                       <i class="fas fa-file-invoice fa-lg"></i><br><br>Generate Credit Note
                     </button>
-                    <button class="gencbn hide">gencbn</button>
+                    <!-- <button class="gencbn hide ">gencbn</button> -->
                   </div>
 
                   <div class="col-6 mb-2 act col_rgenirn">

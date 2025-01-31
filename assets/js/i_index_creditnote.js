@@ -172,9 +172,9 @@ $(document).ready(function () {
                     $('#preview_igst_val').text(symbol + igst.toFixed(2));
 
                     $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
-                    $('#preview_total_val').text(symbol + total.toFixed(2));
-                    $('#previewinvoice_total').val(total.toFixed(2));
-                    $('#preview_credit_total').val(total.toFixed(2));
+                    $('#preview_total_val').text(symbol + total.toFixed(0));
+                    $('#previewinvoice_total').val(total.toFixed(0));
+                    $('#preview_credit_total').val(total.toFixed(0));
                 }
                
             }

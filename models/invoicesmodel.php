@@ -162,6 +162,7 @@ class InvoicesModel extends Model
             'credit_note_no' => $data['credit_no'],
             'credit_date' => $data['credit_note_date'],
             'order_id' => $data['invoice_details'][0]['order_id'],
+            'hsn_id' => $data['invoice_details'][0]['hsn_code'],
             'igst' => !empty($data['igst']) ? $data['igst'] : 0,
             'cgst' => !empty($data['cgst']) ? $data['cgst'] : 0,
             'sgst' => !empty($data['sgst']) ? $data['sgst'] : 0,

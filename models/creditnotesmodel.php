@@ -44,7 +44,7 @@
             if (empty($items)) {
                 return false;
             }
-            return $items;  
+            return $items;
         }
 
         public function getCreditNoteByOrderId($id)
@@ -55,6 +55,33 @@
             if (empty($items)) {
                 return false;
             }
-            return $items;  
+            return $items;
+        }
+
+        public function getListBycreditNoteId($id)
+        {
+            $sql = "SELECT cni.*, cn.hsn_id
+        FROM credit_note_items cni
+        JOIN credit_notes cn ON cni.credit_note_id = cn.id
+        WHERE cni.credit_note_id = ?";
+
+            $this->_setSql($sql);
+            $user = $this->getAll(array($id));
+            return $user;
+        }
+
+
+        public function getByID($id)
+        {
+            $sql = "
+        SELECT cn.*,i.customer_id, invoice_no, SUM(cni.total) AS sub_total
+        FROM credit_note_items cni
+         JOIN invoices i ON cni.invoice_id = i.id
+        JOIN credit_notes cn ON cn.id = cni.credit_note_id
+        WHERE cn.id = ? 
+        LIMIT 1";
+            $this->_setSql($sql);
+            $user = $this->getRow(array($id));
+            return $user;
         }
     }
