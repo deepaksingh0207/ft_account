@@ -22,30 +22,41 @@ $(document).ready(function () {
     creditNoteId = $(this).find('.hidden-item-id').data('credit_note_id');
 
     $('.generatecbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + creditNoteId);
-    var getCrnIrn = getRemote(baseUrl + "invoiceirn/getIrnByInvoice/" + creditNoteId);
-    // console.log('Credit Note ID:', creditNoteId);
-    // console.log('Credit Note Item ID:', creditNoteItemId);
+    var getCreditIrnDetails = getRemote(baseUrl + "invoiceirn/getIrnByCreditNote/" + creditNoteId);
+
+
+    if (!getCreditIrnDetails || getCreditIrnDetails.length == 0) {
+      $('.generatecbn').show();
+      $('.col_cbncopy').html('');
+    } else if (getCreditIrnDetails[0].status == 1 && getCreditIrnDetails[0].irn_no !== "") {
+      $('.generatecbn').hide();
+       creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
+      $('.col_cbncopy').html(creditNoteLink);
+
+    } else {
+      $('.generatecbn').show();
+      
+    }
+
     $('#creditNoteModal').modal('show');
-    $('.cbncpy').hide();
+
+
   });
-  // Reset modal content when it is closed
-  $('#creditNoteModal').on('hidden.bs.modal', function () {
-    $('.generatecbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN');
-    $('.feeterr').hide().text('');
-  });
+
 
   $('.generatecbn').on('click', function () {
     var $btn = $(this);
-    $btn.html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
+    $btn.html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generating...');
     var getUrl = $btn.data('href');
     var getirnId = getRemote(getUrl);
-
-    if (getirnId['Status'] == "0") { 
-       $('.feeterr').show().text(getirnId['ErrorDetails'][0]['ErrorMessage']);
+    $btn.html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN');
+    if (getirnId['Status'] == "0") {
+      $('.feeterr').show().text(getirnId['ErrorDetails'][0]['ErrorMessage']);
     } else {
       alert('Credit IRN generated successfully!');
-      $('.generatecbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN');
-      // $('.cbncpy').show();
+      $('.generatecbn').hide();
+      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >print Credit Notes</a>';
+      $('.col_cbncopy').html(creditNoteLink);
     }
 
 

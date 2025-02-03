@@ -347,7 +347,7 @@ class CreditnotesController extends Controller
         $taxesLayout = '';
      
         if (!$nri) {
-            if ((int)$igst) {
+            if ($igst) {
 
                 $taxName = "IGST @ 18%";
                 $taxesLayout = number_format($igst, 2);

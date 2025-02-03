@@ -33,10 +33,10 @@ class InvoiceIrnModel extends Model {
         return $user;
     }
 
-    public function getListBycreditNoteItemId($creditNoteItemId) {
-        $sql = "select * from credit_note_irns where credit_note_item_id = ? order by id desc";
+    public function getListBycreditNoteId($creditNoteId) {
+        $sql = "select * from credit_note_irns where credit_note_id = ? order by id desc";
         $this->_setSql($sql);
-        $user = $this->getAll(array($creditNoteItemId));
+        $user = $this->getAll(array($creditNoteId));
         if (empty($user)){
             return false;
         }

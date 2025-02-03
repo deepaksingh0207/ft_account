@@ -68,10 +68,12 @@
                             <button class="btn btn-info btn-block btn-flat py-3 generatecbn ">
                                 <i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN
                             </button>
-                            <!-- <a class="btn btn-info btn-block btn-flat py-3 cbncpy" target="_blank"><i
-                            class="far fa-file-pdf fa-lg"></i><br><br>Print Credit Note</a> -->
                         </div>
-                   
+                        <div class="col-6 mb-2 col_cbncopy">
+                    <!-- <a class="btn btn-info btn-block btn-flat py-3 cbncpy" target="_blank"><i
+                        class="far fa-file-pdf fa-lg"></i><br><br>Print Credit Note</a> -->
+                  </div>
+
                           
                        
                     </div>
