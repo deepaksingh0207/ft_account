@@ -27,7 +27,9 @@ $(document).ready(function () {
 
     if (!getCreditIrnDetails || getCreditIrnDetails.length == 0) {
       $('.generatecbn').show();
-      $('.col_cbncopy').html('');
+      // $('.col_cbncopy').html('');
+      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
+      $('.col_cbncopy').html(creditNoteLink);
     } else if (getCreditIrnDetails[0].status == 1 && getCreditIrnDetails[0].irn_no !== "") {
       $('.generatecbn').hide();
        creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
