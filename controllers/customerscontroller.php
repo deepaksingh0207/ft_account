@@ -81,7 +81,8 @@ class CustomersController extends Controller
 
             if (!empty($_POST)) {
                 $data = $_POST;
-                echo '<pre>'; print_r($data);
+
+                // echo '<pre>'; print_r($data);
                 // $data['for_cur'] = $data['for_cur'];
                 // unset($data['currency']);
 

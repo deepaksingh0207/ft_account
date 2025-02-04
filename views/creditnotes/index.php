@@ -60,30 +60,32 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="col-6 mb-2 ">
-                            <button class="btn btn-info btn-block btn-flat py-3 generatecbn ">
-                                <i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN
-                            </button>
-                        </div>
-                        <div class="col-6 mb-2 col_cbncopy">
-                    <!-- <a class="btn btn-info btn-block btn-flat py-3 cbncpy" target="_blank"><i
-                        class="far fa-file-pdf fa-lg"></i><br><br>Print Credit Note</a> -->
-                  </div>
+                    <div class="modal-body text-center">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <button class="btn btn-info btn-block btn-flat py-3 generatecbn position-relative">
+                                    <span id="loader" class="spinner" style="display:none">
+                                        <img src="assets/img/load.gif" alt="Loading..." width="30px">
+                                    </span>
+                                    <i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN
+                                </button>
+                            </div>
+                            <div class="col-6 mb-2 col_cbncopy">
 
-                          
-                       
+
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                    <div class="modal-footer justify-content-between feeterr"></div>
+                    <div class="modal-footer justify-content-between feeterr" style="color:red"></div>
                 </div>
             </div>
         </div>
+
         <?php include HOME . DS . 'includes' . DS . 'footer.inc.php'; ?>
     </div>
 

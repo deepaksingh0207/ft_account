@@ -78,24 +78,6 @@
                       </div>
                     </div>
 
-
-
-                    <!-- <div class="row mx-1">
-                      <div class="col-sm-12 col-lg-2">
-                        <label for="id_address"> State </label>
-                      </div>
-                      <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="state" id="state_id">
-                          <option value="">&nbsp;</option>
-                          <?php foreach ($states as $state) : ?>
-                          <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state'] == $state['id'])
-                                                                        ? 'selected="selected"' : '' ?>>
-                            <?php echo $state['name'] ?>
-                          </option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
-                    </div> -->
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="country_id">Country</label>
@@ -104,9 +86,7 @@
                         <select class="form-control ftsm select2" name="country" id="country_id">
                           <option value="">Select Country</option>
                           <?php foreach ($countries as $country) : ?>
-                            <option value="<?php echo $country['id']; ?>"
-                              data-code="<?php echo $country['country_code']; ?>"
-                              <?php echo ($country['id'] == 101) ? 'selected' : ''; ?>>
+                            <option value="<?php echo $country['id']; ?>" data-code="<?php echo $country['country_code']; ?>" <?php echo ($country['id'] == $customer['country']) ? 'selected' : ''; ?>>
                               <?php echo $country['country_name']; ?>
                             </option>
                           <?php endforeach; ?>
@@ -114,13 +94,13 @@
                         <input type="hidden" name="cnt_code" id="cnt_code" value="">
                       </div>
                     </div>
-
                     <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="id_address"> State </label>
                       </div>
                       <div class="col-sm-12 col-lg-3 form-group">
-                        <select class="form-control fc ftsm select2" name="state" id="state_id">
+                        <!-- <select class="form-control fc ftsm select2" name="state" id="state_id"> -->
+                        <select class="form-control fc ftsm select2" name="state">
                           <option value="">&nbsp;</option>
                           <?php foreach ($states as $state) : ?>
                             <option value="<?php echo $state['id'] ?>" <?php echo ($customer['state'] == $state['id']) ? 'selected="selected"' : ''; ?>>
@@ -151,11 +131,10 @@
                           maxlength="15" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}"
                           value="<?php echo $customer['gstin'] ?>" />
                       </div>
-                    </div> 
+                    </div>
 
-                     <!-- ------currency dropdown----- -->
-
-                     <div class="row mx-1">
+                    <!-- ------currency dropdown----- -->
+                    <div class="row mx-1">
                       <div class="col-sm-12 col-lg-2">
                         <label for="currency_id">Currency :</label>
                       </div>
@@ -163,13 +142,12 @@
                         <select class="form-control" id="currency" name="for_cur">
                           <option value="">Select Currency</option>
                           <?php foreach ($currencies as $currency) : ?>
+
                             <option
-                              value="<?php echo ($currency['code']); ?>"
-                              data-code="<?php echo ($currency['code']); ?>"
-                              data-symbol="<?php echo ($currency['symbol']); ?>">
-                              <?php echo ($currency['name']); ?> (<?php echo ($currency['symbol']); ?>)
+                              value="<?php echo ($currency['code']); ?>" data-code="<?php echo ($currency['code']); ?>" data-symbol="<?php echo ($currency['symbol']); ?>"<?php echo ($currency['symbol'] === $customer['symbol']) ? 'selected="selected"' : ''; ?>>
+                              <?php echo ($currency['name']); ?> (<?php echo ($currency['code']); ?>)
                             </option>
-                          <?php endforeach; ?>
+                            <?php endforeach; ?>
                         </select>
                       </div>
                     </div>

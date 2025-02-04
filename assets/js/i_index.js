@@ -196,6 +196,7 @@ $(document).on("click", ".genirn", function () {
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
     $('.genirn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
+    $('.initgencbn').hide(); 
   } else {
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
     if (getInvIrn) { $('.act').hide(); $('.col_ecanirn').show(); }

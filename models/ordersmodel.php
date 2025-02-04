@@ -348,7 +348,7 @@ class OrdersModel extends Model
 
     public function currencyList()
     {
-        $sql = "select * from currencies ORDER BY name ASC";
+        $sql = "select * from currencies ORDER BY name asc";
         $this->_setSql($sql);
         $currencylist = $this->getAll();
         if (empty($currencylist)) {

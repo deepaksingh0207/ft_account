@@ -16,6 +16,26 @@ $(document).ready(function () {
 
     $(document).on("click", ".sublist", function () {
         invoice_id = $(this).closest("tr").data("href");
+
+        $.ajax({
+            url: baseUrl + "creditnotes/getInvoiceItems/" + invoice_id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+
+            if (response.status) {
+                const items = response.data;
+                let hasValidQty = items.some(item => parseInt(item.qty) > 0); 
+                console.log("Quantities:", hasValidQty);
+                if (!hasValidQty) { 
+                    $('.initgencbn').hide(); 
+                } else {
+                    $('.initgencbn').show();
+                }
+            }
+
+            }
+        });
     });
 
     
