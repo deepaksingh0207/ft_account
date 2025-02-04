@@ -34,7 +34,10 @@ $(document).ready(function () {
     } else if (getCreditIrnDetails[0].status == 1 && getCreditIrnDetails[0].irn_no !== "") {
       // $('.generatecbn').hide();
       $('.generatecbn').prop('disabled', true);
-      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
+      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
+        '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +
+        '</a>';
+
       $('.col_cbncopy').html(creditNoteLink);
 
     } else {
@@ -53,19 +56,22 @@ $(document).ready(function () {
     $('#loader').show();
 
     setTimeout(function () {
-        var getirnId = getRemote(getUrl);
-        $('#loader').hide();
+      var getirnId = getRemote(getUrl);
+      $('#loader').hide();
 
-        if (getirnId['Status'] == "0") {
-            $('.feeterr').show().text(getirnId['ErrorDetails'][0]['ErrorMessage']);
-        } else {
-            alert('Credit IRN generated successfully!');
-            $('.generatecbn').prop('disabled', true);
-            creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '">Print Credit Notes</a>';
-            $('.col_cbncopy').html(creditNoteLink);
-        }
-    }, 1000); 
-});
+      if (getirnId['Status'] == "0") {
+        $('.feeterr').show().text(getirnId['ErrorDetails'][0]['ErrorMessage']);
+      } else {
+        alert('Credit IRN generated successfully!');
+        $('.generatecbn').prop('disabled', true);
+        creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
+          '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +
+          '</a>';
+
+        $('.col_cbncopy').html(creditNoteLink);
+      }
+    }, 1000);
+  });
 
 
 });
