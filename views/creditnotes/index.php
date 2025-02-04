@@ -58,6 +58,7 @@
         <div class="modal fade" id="creditNoteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
+                <span class="close" data-dismiss="modal" aria-label="Close" style="font-size: 30px; cursor: pointer;text-align:end;margin-right: 10px;">&times;</span>
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         </button>
@@ -79,9 +80,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
                     <div class="modal-footer justify-content-between feeterr" style="color:red"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

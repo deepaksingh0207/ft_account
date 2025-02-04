@@ -1045,31 +1045,12 @@ function fillinvoice_body() {
             var creditNote = tree["credit_note_items"]["ids"].find(function (creditNoteId) {
               return tree["credit_note_items"][creditNoteId]["invoice_id"] == invoiceId;
             });
-             
-              if (creditNote) {
-                $("#row" + itm + ptm + ptmInv).append(`
-                    <td class="align-middle">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Tax Invoice
-                            </button>
-                            <div class="dropdown-menu" style="width: 150px;"> 
-                                <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/geninv/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Tax Invoice</a>
-                               
-                            </div>
-                        </div>
-                    </td>
-                `);
-            } else {
+
                 $("#row" + itm + ptm + ptmInv).append(`
                     <td class="align-middle">
                         <a class="btn btn-default btn-sm pdf" target="_blank" href="${baseUrl}invoices/geninv/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" type="button">Tax Invoice</a>
                     </td>
                 `);
-            }
-            
-          
-         
           });
         }
 
@@ -1124,24 +1105,8 @@ function fillinvoice_body() {
             return tree["credit_note_items"][creditNoteId]["invoice_id"] === invoiceId;
           });
 
-          
-          if (creditNote) {
-            $("#row" + iInv + itm + inv).append(`
-                <td class="align-middle">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tax Invoice
-                        </button>
-                            <div class="dropdown-menu" style="width: 150px;"> 
-                            <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/geninv/${invoiceId}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Tax Invoice</a>
-                           
-                          </div>
-                    </div>
-                </td>
-            `);
-          } else {
             $("#row" + iInv + itm + inv).append(`<td class="align-middle"> <a class="btn btn-default btn-sm pdf" target="_blank" href="${baseUrl}invoices/geninv/${invoiceId}" type="button">Tax Invoice</a></td>`);
-          }
+          
 
         })
       }
