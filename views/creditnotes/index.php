@@ -79,10 +79,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                    <div class="modal-footer justify-content-between feeterr" style="color:red"></div>
-                    </div>
+                    <!-- <div class="modal-footer">
                     
+                    </div> -->
+                    <div class="modal-footer justify-content-between feeterr" style="color:red"></div>
                 </div>
             </div>
         </div>
