@@ -317,7 +317,7 @@ class InvoicesController extends Controller
         $customer = $customerTbl->get($invoice['customer_id']);
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
-
+        
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
@@ -389,7 +389,7 @@ class InvoicesController extends Controller
             "{{REST_BR}}" => $br,
             "{{NRI}}" => $nri ? "hide" : '',
             "{{NONNRI}}" => $nri ? "" : 'hide',
-            "{{CURRENCY}}" => $nri ? "USD" : 'INR',
+            "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "invoice Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
             "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoice['invoice_total'], 2),
@@ -607,7 +607,7 @@ class InvoicesController extends Controller
             "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri),
             "{{REST_BR}}" => $br,
-            "{{CURRENCY}}" => $nri ? "USD" : 'INR',
+            "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
             "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoice['credit_note_total'], 2),
