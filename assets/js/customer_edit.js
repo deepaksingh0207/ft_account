@@ -258,7 +258,6 @@ $(document).ready(function () {
 		var countryId = $(this).val();
 		var countryCode = $(this).find('option:selected').data('code');
 		$('#cnt_code').val(countryCode);
-
 		if (countryId) {
 			$.ajax({
 				url: baseUrl + "customers/getStatesByCountry",

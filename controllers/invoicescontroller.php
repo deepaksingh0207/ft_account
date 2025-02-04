@@ -264,7 +264,7 @@ class InvoicesController extends Controller
             $invoice['group_id'] = $data['group_id'];
             $invoice['customer_id'] = $data['customer_id'];
             $invoice['order_id'] = $data['order_id'];
-            //  $invoice['invoice_date'] = date('Y/m/d');
+            // $invoice['invoice_date'] = date('Y/m/d');
             $invoice['invoice_date'] = $data['invoice_date'];
             $invoice['po_no'] = $data['po_no'];
             $invoice['sales_person'] = $data['sales_person'];
@@ -503,7 +503,7 @@ class InvoicesController extends Controller
         }
     }
     
-    public function gencbn($invoiceId = null, $proformaSwitch = false, $createpdf = false, $hidepo = false)
+    public function gencbn($creditNoteId = null, $proformaSwitch = false, $createpdf = false, $hidepo = false)
     {
         $dataItem = array();
         $invoice = array();
@@ -511,21 +511,22 @@ class InvoicesController extends Controller
         $tblProformaInvoice = new ProformaInvoicesModel();
         $invoiceIrnTbl = new InvoiceIrnModel();
         $customerTbl = new CustomersModel();
+        $CreditNoteItemTbl = new CreditNotesModel();
         $orderTable = new OrdersModel();
         $orderItemsTable = new OrderItemsModel();
         $company = new CompanyModel();
         $hsn = new HsnModel();
         $totalbr = 10;
 
-        $invoice = $this->_model->get($invoiceId);
-        //  echo '<pre>'; print_r($invoice);exit;
+         $invoice = $CreditNoteItemTbl->get($creditNoteId);
+        // $invoice = $this->_model->get(107);
         $hidepo = $invoice['hide_po'];
-        $invoiceItems = $this->_model->getInvoiceItemForCreditNote($invoiceId);
-        //  echo '<pre>'; print_r($invoiceItems);
-        
-        if ($proformaSwitch && $invoiceId) {
-            $invoice = $tblProformaInvoice->get($invoiceId);
-            $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoiceId);
+        // $invoiceItems = $this->_model->getInvoiceItemForCreditNote($invoiceId);
+        $invoiceItems = $CreditNoteItemTbl->getCreditNoteItem($creditNoteId);
+        //  echo '<pre>'; print_r($crediNoteItems);
+        if ($proformaSwitch && $creditNoteId) {
+            $invoice = $tblProformaInvoice->get($invoice['invoice_id']);
+            $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoice['invoice_id']);
         }
         foreach ($invoiceItems as $item) {
             $totalbr--;
@@ -557,7 +558,8 @@ class InvoicesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
-        $irnrec = $invoiceIrnTbl->getByCreditId($invoiceId);
+        $irnrec = $CreditNoteItemTbl->getByCreditNoteId($creditNoteId);
+        //   echo '<pre>'; print_r($irnrec);exit;
         if (count($irnrec) && !$proformaSwitch) {
             $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: ' . $irnrec['irn_no'] . '</b></td></tr>';
@@ -575,13 +577,12 @@ class InvoicesController extends Controller
         }
         $br .= "</td></tr>";
         
-        $creditNoteTotal = isset($item['credit_note_total']) ? (float) $item['credit_note_total'] : 0.0;
         $vars = array(
             "{{IRN}}" => $irn,
             "{{IRN_DATE}}" => $irndt,
             "{{SLT}}" => $slt,
             "{{QR_CODE}}" => $qrcode,
-            "{{CREDIT_NOTE_DATE}}" => date('d/m/Y', strtotime($dataItem[0]['credit_date'])),
+            "{{CREDIT_NOTE_DATE}}" => date('d/m/Y', strtotime($invoice['credit_date'])),
             "{{COMPANY_BILLTO}}" => addressmaker($company['address']),
             "{{BILLTO_ADDRESS}}" => addressmaker($company['address'], 6),
             "{{COMP_TEL}}" => $company['contact'],
@@ -603,18 +604,18 @@ class InvoicesController extends Controller
             "{{CUST_GST}}" => $customer['gstin'],  
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
-            "{{INV_TOTAL}}" => number_format($creditNoteTotal, 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($creditNoteTotal, $nri),
+            "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri),
             "{{REST_BR}}" => $br,
             "{{CURRENCY}}" => $nri ? "USD" : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $item['credit_note_total'], 2),
+            "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoice['credit_note_total'], 2),
             "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
 
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-'. ($dataItem[0]['credit_note_no']);
+        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-'. ($invoice['credit_note_no']);
         $vars["{{TITLE}}"] = "CREDIT NOTE";
 
         if ($hidepo) {
@@ -624,7 +625,7 @@ class InvoicesController extends Controller
         $itemList = '';
         $keys = array_key_last($dataItem);
         foreach ($dataItem as $key => $item) {
-            $hsncode = $hsn->get($item['hsn_id']);
+            $hsncode = $hsn->get($invoice['hsn_id']);
             $oderItems = $orderItemsTable->get($item['order_item_id']);
             // print_r($item);
             if ($keys == $key && 0 == $key) {
@@ -673,12 +674,12 @@ class InvoicesController extends Controller
 
         $taxName = '';
         $taxesLayout = '';
-        if ($item['igst']) {
+        if ($invoice['igst'] > 0) {
             $taxName = "IGST @ 18%";
-            $taxesLayout = number_format($item['igst'], 2);
+            $taxesLayout = number_format($invoice['igst'], 2);
         } else {
             $taxName = "CGST @ 9%<br />SGST @ 9%";
-            $taxesLayout = number_format($item['cgst'], 2) . '<br />' . number_format($item['sgst'], 2);
+            $taxesLayout = number_format($invoice['cgst'], 2) . '<br />' . number_format($invoice['sgst'], 2);
         }
 
         $vars["{{GST_LABEL}}"] = $taxName;

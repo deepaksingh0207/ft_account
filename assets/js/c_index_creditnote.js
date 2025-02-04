@@ -18,36 +18,54 @@ $(document).ready(function () {
 
   $('#example3 tbody').on('click', '.list', function () {
 
+    $('.feeterr').text('');
     creditNoteItemId = $(this).find('.hidden-item-id').data('id');
     creditNoteId = $(this).find('.hidden-item-id').data('credit_note_id');
 
     $('.generatecbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + creditNoteId);
-    var getCrnIrn = getRemote(baseUrl + "invoiceirn/getIrnByInvoice/" + creditNoteId);
-    // console.log('Credit Note ID:', creditNoteId);
-    // console.log('Credit Note Item ID:', creditNoteItemId);
-    $('#creditNoteModal').modal('show');
-    $('.cbncpy').hide();
-  });
-  // Reset modal content when it is closed
-  $('#creditNoteModal').on('hidden.bs.modal', function () {
-    $('.generatecbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN');
-    $('.feeterr').hide().text('');
-  });
+    var getCreditIrnDetails = getRemote(baseUrl + "invoiceirn/getIrnByCreditNote/" + creditNoteId);
 
-  $('.generatecbn').on('click', function () {
-    var $btn = $(this);
-    $btn.html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
-    var getUrl = $btn.data('href');
-    var getirnId = getRemote(getUrl);
 
-    if (getirnId['Status'] == "0") { 
-       $('.feeterr').show().text(getirnId['ErrorDetails'][0]['ErrorMessage']);
+    if (!getCreditIrnDetails || getCreditIrnDetails.length == 0) {
+      $('.generatecbn').show();
+      // $('.col_cbncopy').html('');
+      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
+      $('.col_cbncopy').html(creditNoteLink);
+    } else if (getCreditIrnDetails[0].status == 1 && getCreditIrnDetails[0].irn_no !== "") {
+      // $('.generatecbn').hide();
+      $('.generatecbn').prop('disabled', true);
+      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
+      $('.col_cbncopy').html(creditNoteLink);
+
     } else {
-      alert('Credit IRN generated successfully!');
-      $('.generatecbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate IRN');
-      // $('.cbncpy').show();
+      $('.generatecbn').show();
+
     }
 
 
+    $('#creditNoteModal').modal('show');
+
   });
+
+  $('.generatecbn').on('click', function () {
+    var getUrl = $(this).data('href');
+
+    $('#loader').show();
+
+    setTimeout(function () {
+        var getirnId = getRemote(getUrl);
+        $('#loader').hide();
+
+        if (getirnId['Status'] == "0") {
+            $('.feeterr').show().text(getirnId['ErrorDetails'][0]['ErrorMessage']);
+        } else {
+            alert('Credit IRN generated successfully!');
+            $('.generatecbn').prop('disabled', true);
+            creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '">Print Credit Notes</a>';
+            $('.col_cbncopy').html(creditNoteLink);
+        }
+    }, 1000); 
+});
+
+
 });

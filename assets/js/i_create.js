@@ -433,7 +433,7 @@ function preview_builder() {
         $("#ptb" + c).append('<td id="preview_row_hsn' + c + '" class="pt-3"><select class="form-control" style="width:15vw;" name="order_details[' + c + '][hsn_id]" id="id_hsn_id' + c + '"></select></td>');
        
         // var invoice_total = maxqty * t.unit_price;
-        console.log(t);
+    
 
         if (t.uom_id == 3) {
           var invoice_total = maxqty * t.unit_price / 100;
@@ -841,12 +841,12 @@ function preview_footer() {
      
     if ($("#" + id).is(':checked')) {
 
-      console.log(t);
+     
       subtotal += parseFloat(t.total);
 
       $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
 
-        console.log(credit_note_item);
+
         subtotal += (credit_note_item.qty * credit_note_item.unit_price)
         
       });
@@ -854,7 +854,6 @@ function preview_footer() {
       var total_value = parseFloat($('#id_total' + c).val());
       // alert(subtotal); 
       subtotal = total_value;
-      console.log(subtotal);   
     }
 
   });
@@ -1041,6 +1040,7 @@ function fillinvoice_body() {
             $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"], NRI) + '</td>');
             $("#row" + itm + ptm + ptmInv).append('<td>' + ra(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"], NRI) + '</td>');
             // $("#row" + itm + ptm + ptmInv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"] + '" type="button">Tax Invoice</a></td>');
+            // <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/gencbn/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Credit Notes</a>
             var invoiceId = tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"];
             var creditNote = tree["credit_note_items"]["ids"].find(function (creditNoteId) {
               return tree["credit_note_items"][creditNoteId]["invoice_id"] == invoiceId;
@@ -1055,7 +1055,7 @@ function fillinvoice_body() {
                             </button>
                             <div class="dropdown-menu" style="width: 150px;"> 
                                 <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/geninv/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Tax Invoice</a>
-                                <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/gencbn/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Credit Notes</a>
+                               
                             </div>
                         </div>
                     </td>
@@ -1116,15 +1116,15 @@ function fillinvoice_body() {
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["unit_price"], NRI) + '</td>');
           $("#row" + iInv + itm + inv).append('<td>' + ra(tree["items"][itm]["invoice"][inv]["total"], NRI) + '</td>');
 
-
+          // <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/gencbn/${invoiceId}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Credit Notes</a>
           //-------add credit note button-----------
 
           var invoiceId = tree["items"][itm]["invoice"][inv]["invoice_id"];
-          // Find if any credit note matches current invoice ID
           var creditNote = tree["credit_note_items"]["ids"].find(function (creditNoteId) {
             return tree["credit_note_items"][creditNoteId]["invoice_id"] === invoiceId;
           });
 
+          
           if (creditNote) {
             $("#row" + iInv + itm + inv).append(`
                 <td class="align-middle">
@@ -1134,7 +1134,7 @@ function fillinvoice_body() {
                         </button>
                             <div class="dropdown-menu" style="width: 150px;"> 
                             <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/geninv/${invoiceId}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Tax Invoice</a>
-                            <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/gencbn/${invoiceId}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Credit Notes</a>
+                           
                           </div>
                     </div>
                 </td>

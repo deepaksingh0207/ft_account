@@ -51,8 +51,8 @@ class InvoiceItemsModel extends Model
               LEFT JOIN uom ON invoice_items.uom_id = uom.id
               LEFT JOIN hsn_codes ON invoice_items.hsn_id = hsn_codes.id
               LEFT JOIN invoices ON invoice_items.invoice_id = invoices.id
-               LEFT JOIN customers ON invoices.customer_id = customers.id
-            LEFT JOIN currencies ON customers.for_cur = currencies.code
+              LEFT JOIN customers ON invoices.customer_id = customers.id
+             LEFT JOIN currencies ON customers.for_cur = currencies.code
               WHERE invoice_items.invoice_id = ?
               GROUP BY 
              invoice_items.id";

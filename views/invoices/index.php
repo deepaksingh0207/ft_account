@@ -216,10 +216,10 @@
                     <a class="btn btn-info btn-block btn-flat py-3 invcpy" target="_blank"><i
                         class="far fa-file-pdf fa-lg"></i><br><br>Print Invoice</a>
                   </div>
-                  <div class="col-6 mb-2 act col_cbncpy">
+                  <!-- <div class="col-6 mb-2 act col_cbncpy">
                     <a class="btn btn-info btn-block btn-flat py-3 cbncpy" target="_blank"><i
                         class="far fa-file-pdf fa-lg"></i><br><br>Print Credit Note</a>
-                  </div>
+                  </div> -->
 
                   <div class="col-6 mb-2 act col_genirn">
                     <button class="btn btn-info btn-block btn-flat py-3 genirn">
@@ -260,7 +260,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer justify-content-between feeter"></div>
+          <div class="modal-footer justify-content-between feeter" style="color:red"></div>
         </div>
       </div>
     </div>
