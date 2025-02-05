@@ -337,6 +337,7 @@ class InvoicesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
+        $currencyCode = $customer['for_cur']?? 'INR';
         $irnrec = $invoiceIrnTbl->getByInvoiceId($invoiceId);
         
         if (count($irnrec) && !$proformaSwitch) {
@@ -385,7 +386,7 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri, $currencyCode),
             "{{REST_BR}}" => $br,
             "{{NRI}}" => $nri ? "hide" : '',
             "{{NONNRI}}" => $nri ? "" : 'hide',
@@ -558,6 +559,7 @@ class InvoicesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
+        $currencyCode = $customer['for_cur']?? 'INR';
         $irnrec = $CreditNoteItemTbl->getByCreditNoteId($creditNoteId);
         //   echo '<pre>'; print_r($irnrec);exit;
         if (count($irnrec) && !$proformaSwitch) {
@@ -605,7 +607,7 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri, $currencyCode),
             "{{REST_BR}}" => $br,
             "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',

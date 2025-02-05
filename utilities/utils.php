@@ -53,7 +53,7 @@ class Utils {
         return INSTANCE;
     }
     
-    function AmountInWords(float $amount, $nri)
+    function AmountInWords(float $amount, $nri, $currencyCode)
     {
         $amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
         // Check if there is any number after decimal
@@ -90,7 +90,8 @@ class Utils {
         $rupees = 'Rupees ';
         if ($nri){
             $paise = ' Cent';
-            $rupees = 'USD ';
+            // $rupees = 'USD ';
+            $rupees = $currencyCode;
         }
         $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[$amount_after_decimal / 10] . "
    " . $change_words[$amount_after_decimal % 10]) . $paise : '';

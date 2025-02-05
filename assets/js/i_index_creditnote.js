@@ -26,7 +26,7 @@ $(document).ready(function () {
             if (response.status) {
                 const items = response.data;
                 let hasValidQty = items.some(item => parseInt(item.qty) > 0); 
-                console.log("Quantities:", hasValidQty);
+                // console.log("Quantities:", hasValidQty);
                 if (!hasValidQty) { 
                     $('.initgencbn').hide(); 
                 } else {

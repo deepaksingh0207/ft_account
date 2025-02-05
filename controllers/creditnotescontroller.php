@@ -232,6 +232,7 @@ class CreditnotesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
+        $currencyCode = $customer['for_cur']?? 'INR';
         $irnrec = $invoiceIrnTbl->getByCreditId($invoiceId);
         if (count($irnrec) && !$proformaSwitch) {
             $totalbr -= 2;
@@ -277,7 +278,7 @@ class CreditnotesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . creditAddressMaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($credit_note_total, 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($credit_note_total, $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($credit_note_total, $nri, $currencyCode),
             "{{REST_BR}}" => $br,
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',

@@ -85,7 +85,7 @@
             return $user;
         }
 
-    
+
         public function getCreditNoteItem($id)
         {
             $sql = "select * from credit_note_items where credit_note_id = ? ";
@@ -123,11 +123,12 @@
             return $user;
         }
 
-        public function getByCreditNoteId($id) {
+        public function getByCreditNoteId($id)
+        {
             $sql = "select * from credit_note_irns where status=1 and credit_note_id = ?";
             $this->_setSql($sql);
             $user = $this->getRow(array($id));
-            if (empty($user)){
+            if (empty($user)) {
                 return [];
             }
             return $user;
