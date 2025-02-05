@@ -25,27 +25,26 @@ $(document).ready(function () {
     $('.generatecbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + creditNoteId);
     var getCreditIrnDetails = getRemote(baseUrl + "invoiceirn/getIrnByCreditNote/" + creditNoteId);
 
-
     if (!getCreditIrnDetails || getCreditIrnDetails.length == 0) {
-      $('.generatecbn').show();
+      $('.generatecbn').prop('disabled', false);
       // $('.col_cbncopy').html('');
-      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3 " target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >Print Credit Notes</a>';
-      $('.col_cbncopy').html(creditNoteLink);
+      creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
+      '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +
+      '</a>';
+     $('.col_cbncopy').html(creditNoteLink);
+
     } else if (getCreditIrnDetails[0].status == 1 && getCreditIrnDetails[0].irn_no !== "") {
       // $('.generatecbn').hide();
-      $('.generatecbn').prop('disabled', true);
+       $('.generatecbn').prop('disabled', true);
       creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
-        '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +
-        '</a>';
-
-      $('.col_cbncopy').html(creditNoteLink);
+      '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +
+      '</a>';
+    $('.col_cbncopy').html(creditNoteLink);
 
     } else {
-      $('.generatecbn').show();
+      $('.generatecbn').prop('disabled', false);
 
     }
-
-
     $('#creditNoteModal').modal('show');
 
   });
@@ -64,10 +63,9 @@ $(document).ready(function () {
       } else {
         alert('Credit IRN generated successfully!');
         $('.generatecbn').prop('disabled', true);
-        creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
+         creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
           '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +
           '</a>';
-
         $('.col_cbncopy').html(creditNoteLink);
       }
     }, 1000);
