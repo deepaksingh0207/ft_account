@@ -1,3 +1,4 @@
+var country;
 $(document).ready(function () {
   var table = $('#example3').DataTable({
     "paging": true,
@@ -21,9 +22,16 @@ $(document).ready(function () {
     $('.feeterr').text('');
     creditNoteItemId = $(this).find('.hidden-item-id').data('id');
     creditNoteId = $(this).find('.hidden-item-id').data('credit_note_id');
+    country = $(this).find('.hidden-item-id').data('country');
+     
 
-    $('.generatecbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + creditNoteId);
-    var getCreditIrnDetails = getRemote(baseUrl + "invoiceirn/getIrnByCreditNote/" + creditNoteId);
+    if (country == 101) {
+      $('.generatecbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + creditNoteId);
+    } else {
+      $('.generatecbn').data('href', baseUrl + "invoices/exportPostCreditNoteRequest/" + creditNoteId);
+    }
+
+    var getCreditIrnDetails = getRemote(baseUrl + "invoiceirn/getIrnByCreditNote/" + creditNoteId);  
 
     if (!getCreditIrnDetails || getCreditIrnDetails.length == 0) {
       $('.generatecbn').prop('disabled', false);
@@ -69,7 +77,7 @@ $(document).ready(function () {
         $('.col_cbncopy').html(creditNoteLink);
       }
     }, 1000);
+    
   });
-
 
 });
