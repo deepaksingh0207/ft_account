@@ -49,7 +49,11 @@
 
         public function getCreditNoteByOrderId($id)
         {
-            $sql = "select * from credit_notes where order_id = ? ";
+            // $sql = "select * from credit_notes where order_id = ? ";
+            $sql = "SELECT cn.*, o.order_type 
+            FROM credit_notes cn 
+            JOIN orders o ON cn.order_id = o.id
+            WHERE cn.order_id = ?";
             $this->_setSql($sql);
             $items = $this->getAll(array($id));
             if (empty($items)) {
@@ -57,7 +61,6 @@
             }
             return $items;
         }
-
         public function getListBycreditNoteId($id)
         {
             $sql = "SELECT cni.*, cn.hsn_id

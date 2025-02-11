@@ -657,7 +657,8 @@ class OrdersController extends Controller
             $result['creditnote'] = $creditNotesModel->getCreditNoteByOrderId($id);
             $result['creditnote_items'] = $creditNotesModel->getCreditNoteItemsByOrderId($id);
 
-            $result['payment_term'] = $paymentTerms;
+             $result['payment_term'] = array_merge($paymentTerms);
+            // $result['payment_term'] = $paymentTerms;
             echo json_encode($result);
         } else {
             echo false;

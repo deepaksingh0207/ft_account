@@ -14,6 +14,12 @@ $(document).ready(function () {
 
     });
 
+    function setheader(index) {
+        list = ["", "Month", "Payment Slab", "Qty.", "Qty.", "Qty", "Qty"]
+        list[99] = "Qty."
+        return list[index]
+    }
+
     $(document).on("click", ".sublist", function () {
         invoice_id = $(this).closest("tr").data("href");
 
@@ -23,28 +29,28 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
 
-            if (response.status) {
-                const items = response.data;
-                let hasValidQty = items.some(item => parseInt(item.qty) > 0); 
-                // console.log("Quantities:", hasValidQty);
-                if (!hasValidQty) { 
-                    $('.initgencbn').hide(); 
-                } else {
-                    $('.initgencbn').show();
+                if (response.status) {
+                    const items = response.data;
+                    let hasValidQty = items.some(item => parseInt(item.qty) > 0);
+                    // console.log("Quantities:", hasValidQty);
+                    if (!hasValidQty) {
+                        $('.initgencbn').hide();
+                    } else {
+                        $('.initgencbn').show();
+                    }
                 }
-            }
 
             }
         });
     });
 
-    
+
     // Initiate Credit Note generation
     $('.initgencbn').on('click', function () {
         $('#t1').show();
         $('#t2').hide();
         $('#generate_credit').hide();
-        $('#backToEditing').hide(); 
+        $('#backToEditing').hide();
         $('#togglepdf').show();
         $('#preview_tbody').empty();
         $('#modal-lg').modal('hide');
@@ -58,13 +64,15 @@ $(document).ready(function () {
                 $('#preview_tbody').empty();
                 if (response.status) {
                     const items = response.data;
+                    order_type = items[0].order_type;
+                    $("#setheader_creditnote").text(setheader(order_type));
                     customerid = items[0].customer_id;
                     symbol = items[0].symbol || '';
                     let rows = '';
                     items.forEach(function (item, index) {
                         //  console.log(item);
                         const row = `
-                            <tr data-existing-qty="${item.qty}" data-uom-id="${item.uom_id}" data-uom-title="${item.uom_title}" data-order-id="${item.order_id}" data-order-item-id="${item.order_item_id}" data-id="${item.id}">
+                            <tr data-existing-qty="${item.qty}" data-uom-id="${item.uom_id}" data-uom-title="${item.uom_title}" data-order-id="${item.order_id}" data-order-item-id="${item.order_item_id}" data-id="${item.id}"  data-order-payterm-id="${item.order_payterm_id}" data-order-type-id="${item.order_type}">
                             
                                 <td><input type="checkbox" class="item-checkbox" data-index="${index}"></td>
                                 <td>${item.item}
@@ -113,13 +121,12 @@ $(document).ready(function () {
         let subtotal = 0;
         $('#preview_tbody tr').each(function () {
             const checkbox = $(this).find('.item-checkbox');
-            if (checkbox.is(':checked')) {  // Only calculate for checked items
+            if (checkbox.is(':checked')) {
                 const qty = parseFloat($(this).find('.qty').val()) || 0;
                 const unitPrice = parseFloat($(this).find('.unit-price').val()) || 0;
                 const uom_id = $(this).data('uom-id');
                 let total = 0;
 
-                // Calculate total based on UOM
                 if (uom_id == 1 || uom_id == 2 || uom_id == 4) { // Day, Nos, PC
                     total = qty * unitPrice;
                 } else if (uom_id == 3) { // Percentage
@@ -146,10 +153,10 @@ $(document).ready(function () {
                 var data = resp.data;
                 // console.log(data);
                 const state = data.state;
-                const gstStatus = data.gst; 
+                const gstStatus = data.gst;
 
-                igstRate = data.igst;  
-                cgstRate = data.cgst;  
+                igstRate = data.igst;
+                cgstRate = data.cgst;
                 sgstRate = data.sgst;
                 let subtotal = 0;
 
@@ -165,8 +172,8 @@ $(document).ready(function () {
                 const cgst = subtotal * (cgstRate / 100);
                 const sgst = subtotal * (sgstRate / 100);
                 let total;
-                 if (gstStatus == 'foreign_country') {
-                    total = subtotal;  
+                if (gstStatus == 'foreign_country') {
+                    total = subtotal;
                     $('.Igst').hide();
                     $('.SCgst').hide();
                     // Only show subtotal and total
@@ -175,29 +182,29 @@ $(document).ready(function () {
                     $('#previewinvoice_total').val(total.toFixed(2));
                     $('#preview_credit_total').val(total.toFixed(2));
                 } else {
-                  if (state == 'same') {
-                    total = subtotal + cgst + sgst;
-                    $('.SCgst').show();
-                    $('.Igst').hide();
-                    $('#preview_cgst_val').text(symbol + cgst.toFixed(2));
-                    $('#preview_sgst_val').text(symbol + sgst.toFixed(2));
-                    $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
-                    $('#preview_total_val').text(symbol + total.toFixed(2));
-                    $('#previewinvoice_total').val(total.toFixed(2));
-                    $('#preview_credit_total').val(total.toFixed(2));
-                } else {
-                    total = subtotal + igst;
-                    $('.Igst').show();
-                    $('.SCgst').hide();
-                    $('#preview_igst_val').text(symbol + igst.toFixed(2));
+                    if (state == 'same') {
+                        total = subtotal + cgst + sgst;
+                        $('.SCgst').show();
+                        $('.Igst').hide();
+                        $('#preview_cgst_val').text(symbol + cgst.toFixed(2));
+                        $('#preview_sgst_val').text(symbol + sgst.toFixed(2));
+                        $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
+                        $('#preview_total_val').text(symbol + total.toFixed(2));
+                        $('#previewinvoice_total').val(total.toFixed(2));
+                        $('#preview_credit_total').val(total.toFixed(2));
+                    } else {
+                        total = subtotal + igst;
+                        $('.Igst').show();
+                        $('.SCgst').hide();
+                        $('#preview_igst_val').text(symbol + igst.toFixed(2));
 
-                    $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
-                    $('#preview_total_val').text(symbol + total.toFixed(0));
-                    $('#previewinvoice_total').val(total.toFixed(0));
-                    $('#preview_credit_total').val(total.toFixed(0));
+                        $('#preview_subtotal_txt').text(symbol + subtotal.toFixed(2));
+                        $('#preview_total_val').text(symbol + total.toFixed(0));
+                        $('#previewinvoice_total').val(total.toFixed(0));
+                        $('#preview_credit_total').val(total.toFixed(0));
+                    }
+
                 }
-               
-            }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 alert("No tax details found.");
@@ -268,7 +275,7 @@ $(document).ready(function () {
         $('#backToEditing').hide();
     });
 
-    
+
     $('#generate_credit').off('click').on('click', function () {
         let formData = collectFormData();
 
@@ -294,9 +301,7 @@ $(document).ready(function () {
             }
         });
     });
-
-
-    // Function to collect and return form data from checked items  
+ 
     function collectFormData() {
         const formData = {
             invoice_details: [],
@@ -311,6 +316,8 @@ $(document).ready(function () {
         $('#preview_tbody tr').each(function () {
             const checkbox = $(this).find('.item-checkbox');
             if (checkbox.is(':checked')) {
+                // const orderTypeId = $(this).data('order-type-id'); 
+                const orderPaytermId = $(this).data('order-payterm-id');
                 const data = {
                     invoice_id: invoice_id,
                     order_id: $(this).data('order-id'),
@@ -324,14 +331,15 @@ $(document).ready(function () {
                     total: $(this).find('.item-total').text().replace(symbol, '').trim(),
                     // sgst: $('#preview_sgst_val').text().replace('₹', '').trim(),
                     credit_note_total: $('#preview_credit_total').val(),
+                    order_type: $(this).data('order-type-id'),
+                    uom_id: $(this).data('uom-id'),
 
                 };
 
+                
                 formData.invoice_details.push(data);
             }
         });
-
-        // console.log('Form Data:', formData);
         return formData;
     }
 

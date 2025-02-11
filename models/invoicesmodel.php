@@ -38,7 +38,7 @@ class InvoicesModel extends Model
             }
         }
 
-        $sql = "select invoices.*, customers.name customer_name from invoices 
+        $sql = "select invoices.*, customers.name customer_name,customers.country customer_country from invoices 
         join customers on (invoices.customer_id = customers.id) $where order by updated_date desc";
 
         //echo $sql;
@@ -167,7 +167,6 @@ class InvoicesModel extends Model
             'cgst' => !empty($data['cgst']) ? $data['cgst'] : 0,
             'sgst' => !empty($data['sgst']) ? $data['sgst'] : 0,
             'credit_note_total' => !empty($data['credit_note_total']) ? $data['credit_note_total'] : 0,           
-
         ];
 
         $datafields = array_keys($mapped_data);
