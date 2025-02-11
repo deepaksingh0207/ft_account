@@ -130,7 +130,10 @@ class CreditnotesController extends Controller
 
     public function saveCreditNote()
     {
+        $tblOrderPaymentTerm = new OrderPaytermsModel();
+
         if (!empty($_POST)) {
+            
             $data = $_POST;
             $invoiceId = $data['invoice_details'][0]['invoice_id'];
 
@@ -139,6 +142,33 @@ class CreditnotesController extends Controller
             if ($credit_note_id) {
 
                 if ($this->_model->save_credit_note_items($credit_note_id, $data['invoice_details'])) {
+                
+                    $orderPayTerms = [];
+
+                    foreach ($data['invoice_details'] as $invoiceDetail) {
+                        if (isset($invoiceDetail['order_type']) && in_array($invoiceDetail['order_type'], [1, 2, 3, 7])) {
+                            $orderPayTerms[] = [
+                                'order_id'       => $invoiceDetail['order_id'],
+                                'order_item_id'  => $invoiceDetail['order_item_id'],
+                                // 'order_type'     => $invoiceDetail['order_type'],
+                                'item'           => $invoiceDetail['item'],
+                                'description'    => $invoiceDetail['description'],
+                                'qty'            => $invoiceDetail['qty'],
+                                'uom_id'         => $invoiceDetail['uom_id'],
+                                'unit_price'     => $invoiceDetail['unit_price'],
+                                'total'          => $invoiceDetail['total'],
+                            ];
+                        }
+                    }
+    
+                    if (!empty($orderPayTerms)) {
+                        foreach ($orderPayTerms as $orderPayTerm) {
+                            $tblOrderPaymentTerm->save($orderPayTerm);
+                        }
+                    }
+            
+    
+
                     echo json_encode(['status' => 'success', 'message' => 'Credit note and items added successfully!']);
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'Failed to add credit note items.']);
@@ -167,7 +197,7 @@ class CreditnotesController extends Controller
         $totalbr = 10;
         if (!empty($_POST)) {
             $data = $_POST;
-            //  echo '<pre>'; print_r($data);
+            //   echo '<pre>'; print_r($data);
             $invoiceId = $data['invoice_details'][0]['invoice_id'];
             $credit_note_total = $data['credit_note_total'];
             $credit_note_date = $data['credit_note_date'];
@@ -232,6 +262,7 @@ class CreditnotesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
+        $currencyCode = $customer['for_cur']?? 'INR';
         $irnrec = $invoiceIrnTbl->getByCreditId($invoiceId);
         if (count($irnrec) && !$proformaSwitch) {
             $totalbr -= 2;
@@ -277,12 +308,14 @@ class CreditnotesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . creditAddressMaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($credit_note_total, 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($credit_note_total, $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($credit_note_total, $nri, $currencyCode),
             "{{REST_BR}}" => $br,
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoiceItem['total'], 2),
-            "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
+            // "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoiceItem['total'], 2),
+            // "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
+            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoiceItem['total'], 2) . ' INR' : '',
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' .$customer['for_cur'].  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
         $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . $credit_no;

@@ -38,13 +38,14 @@ function fill_datatable(appliedfilter = {}) {
       { data: 6 }
     ],
     createdRow: function (row, data, dataIndex) {
-      $(row).addClass('pointer').attr('data-toggle', 'modal').attr('data-target', '#modal-lg').attr('data-href', data[0]).attr('data-date', data[1]).attr('data-invoice', data[2]).attr('data-po_no', data[3]).attr('data-customer', data[4]).children('td').addClass('sublist');
+      $(row).addClass('pointer').attr('data-toggle', 'modal').attr('data-target', '#modal-lg').attr('data-href', data[0]).attr('data-date', data[1]).attr('data-invoice', data[2]).attr('data-po_no', data[3]).attr('data-customer', data[4]).attr('data-customer-country', data[7]).children('td').addClass('sublist');
     },
     "ajax": {
       url: baseUrl + "invoices/search/",
       type: "POST",
-      data: appliedfilter
+      data: appliedfilter,
     }
+
   });
   $('#example1_filter').hide();
 }
@@ -62,6 +63,7 @@ $(document).on("click", ".sublist", function () {
   var po_no = $(this).parent("tr").data("po_no");
   var invoice = $(this).parent("tr").data("invoice");
   var o_date = $(this).parent("tr").data("date");
+  var customer_country = $(this).parent("tr").data("customer-country");
 
   $('.act').hide();
   $("#id_modelcustomer").text(customer);
@@ -73,30 +75,38 @@ $(document).on("click", ".sublist", function () {
   $('.col_invcpy').show();
 
   // Get IRN List
-  $('.genirn, .rgenirn').data('href', baseUrl + "invoices/postEinvoiceRequest/" + inv_id).data('inv_id', inv_id);
+  if (customer_country == 101) {
+    $('.genirn, .rgenirn').data('href', baseUrl + "invoices/postEinvoiceRequest/" + inv_id).data('inv_id', inv_id);
+  } else {
+    $('.genirn, .rgenirn').data('href', baseUrl + "invoices/exportPostEinvoiceRequest/" + inv_id).data('inv_id', inv_id);
+  }
+
+  // $('.genirn, .rgenirn').data('href', baseUrl + "invoices/postEinvoiceRequest/" + inv_id).data('inv_id', inv_id);
   $('.ecanirn').data('href', baseUrl + "invoiceirn/cancelIrnByInvoice/" + inv_id);
   $('.gencbn').data('href', baseUrl + "invoices/postCreditNoteRequest/" + inv_id);
   var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnByInvoice/" + inv_id);
+
   // console.log(getInvIrn);
   if (!getInvIrn) {
     $("#id_invoice").data('invoice_no', invoice);
     $('.col_genirn').show();
   } else {
-    if (getInvIrn[0]['credit_note'] != null) { 
+    if (getInvIrn[0]['credit_note'] != null) {
       $('.col_cbncpy, .col_rgenirn, #id_invoice').show();
-     }
+    }
     else {
       var ack_date = new Date(getInvIrn[0]['ack_date']);
       var today = new Date();
       if (getInvIrn[0]['status'] == "0") {
         $("#id_invoice").data('invoice_no', getInvIrn[0]['invoice_no']);
         $('#id_invoice, .col_rgenirn, .col_invid').show();
-      } else if (diff_hours(today, ack_date) > 24) { 
+      } else if (diff_hours(today, ack_date) > 24) {
         //  $('#id_creditnote, .col_gencbn').show(); 
-         $('.col_cbncpy, .col_gencbn').show(); 
+        $('.col_cbncpy, .col_gencbn').show();
       }
-      else { 
-        $('.col_ecanirn').show(); }
+      else {
+        $('.col_ecanirn').show();
+      }
     }
   }
   $('.feeter').html('');
@@ -131,7 +141,7 @@ $(document).on("click", ".initgencbn", function () {
   var new_creditnote = $("#id_creditnote").val();
   if (new_creditnote.length == 5) {
     $('.act').hide();
-    $('.accept, .reject').show()
+    $('.accept, .reject').show();
     $("#id_accept").attr('data-class', '.gencbn');
     $("#id_reject").attr('data-class', '#id_creditnote, .col_gencbn');
   } else { $('.feeter').show().html('<span class="text-danger">Invalid Credit Note No.<span>'); return; }
@@ -142,7 +152,7 @@ $(document).on("click", ".gencbn", function () {
   $('.feeter, .col_gencbn, .col_invcpy').show();
   $('.gencbn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
   var new_creditnote = $("#id_creditnote").val();
-  var getIrnId = getRemote($(this).data('href') + "/" + new_creditnote);  
+  var getIrnId = getRemote($(this).data('href') + "/" + new_creditnote);
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
     $('.gencbn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate Credit Note');
@@ -196,7 +206,9 @@ $(document).on("click", ".genirn", function () {
   if (getIrnId['Status'] == "0") {
     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
     $('.genirn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
-    $('.initgencbn').hide(); 
+    $('.initgencbn').hide();
+    $('.col_genirn').show();
+
   } else {
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
     if (getInvIrn) { $('.act').hide(); $('.col_ecanirn').show(); }

@@ -22,11 +22,12 @@
                                                 <th style="max-width:250px;">Total </th>
                                             </tr>
                                         </thead>
+                                  
                                         <tbody>
                                             <?php if (isset($creditNoteItems) && is_array($creditNoteItems) && count($creditNoteItems) > 0): ?>
                                                 <?php foreach ($creditNoteItems as $item): ?>
                                                     <tr class="list">
-                                                        <input type="hidden" class="hidden-item-id" data-id="<?php echo $item['id']; ?>" data-credit_note_id="<?php echo $item['credit_note_id']; ?>">
+                                                        <input type="hidden" class="hidden-item-id" data-id="<?php echo $item['id']; ?>" data-country="<?php echo $item['country']; ?>" data-credit_note_id="<?php echo $item['credit_note_id'];  ?>">
                                                         <td style="max-width:150px;"><?php echo $item['invoice_no']; ?></td>
                                                         <td style="max-width:150px;"><?php echo $item['credit_note_no']; ?></td>
                                                         <td><?php echo $item['added_date']; ?></td>

@@ -99,7 +99,7 @@
                           <th><input type="checkbox" id="select-all"></th>
                           <th>Item</th>
                           <th>Description</th>
-                          <th>Qty</th>
+                          <th id="setheader_creditnote"></th>
                           <th>UOM</th>
                           <th>Unit Price</th>
                           <th>HSN Code</th>

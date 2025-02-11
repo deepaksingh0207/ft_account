@@ -5,11 +5,19 @@
 
         public function getList()
         {
-            $sql = " SELECT cni.*, cn.credit_note_no, i.invoice_no
+            // $sql = " SELECT cni.*, cn.credit_note_no, i.invoice_no
+            // FROM credit_note_items cni
+            // LEFT JOIN credit_notes cn ON cni.credit_note_id = cn.id
+            // LEFT JOIN invoices i  ON  cn.invoice_id = i.id  
+            // ORDER BY cni.updated_date DESC";
+
+            $sql = " SELECT cni.*, cn.credit_note_no, i.invoice_no, cust.country
             FROM credit_note_items cni
             LEFT JOIN credit_notes cn ON cni.credit_note_id = cn.id
-            LEFT JOIN invoices i  ON  cn.invoice_id = i.id  
+            LEFT JOIN invoices i  ON cn.invoice_id = i.id  
+            LEFT JOIN customers cust ON i.customer_id = cust.id
             ORDER BY cni.updated_date DESC";
+
             $this->_setSql($sql);
             $user = $this->getAll();
             if (empty($user)) {
@@ -17,6 +25,7 @@
             }
             return $user;
         }
+   
 
         public function creditNoteListByOrderId($orderId)
         {
@@ -49,7 +58,11 @@
 
         public function getCreditNoteByOrderId($id)
         {
-            $sql = "select * from credit_notes where order_id = ? ";
+            // $sql = "select * from credit_notes where order_id = ? ";
+            $sql = "SELECT cn.*, o.order_type 
+            FROM credit_notes cn 
+            JOIN orders o ON cn.order_id = o.id
+            WHERE cn.order_id = ?";
             $this->_setSql($sql);
             $items = $this->getAll(array($id));
             if (empty($items)) {
@@ -57,7 +70,6 @@
             }
             return $items;
         }
-
         public function getListBycreditNoteId($id)
         {
             $sql = "SELECT cni.*, cn.hsn_id
@@ -85,7 +97,7 @@
             return $user;
         }
 
-    
+
         public function getCreditNoteItem($id)
         {
             $sql = "select * from credit_note_items where credit_note_id = ? ";
@@ -123,11 +135,12 @@
             return $user;
         }
 
-        public function getByCreditNoteId($id) {
+        public function getByCreditNoteId($id)
+        {
             $sql = "select * from credit_note_irns where status=1 and credit_note_id = ?";
             $this->_setSql($sql);
             $user = $this->getRow(array($id));
-            if (empty($user)){
+            if (empty($user)) {
                 return [];
             }
             return $user;

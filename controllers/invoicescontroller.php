@@ -35,7 +35,7 @@ class InvoicesController extends Controller
         if ($creditLists && !empty($creditLists)) {
             echo json_encode($creditLists);
         } else {
-          
+
             echo json_encode(['message' => 'No credit notes found for this invoice ID.']);
         }
     }
@@ -104,7 +104,7 @@ class InvoicesController extends Controller
                         $invoiceItems[] = $row;
                     }
                 } */
-               
+
                 foreach ($data['order_details'] as $item) {
                     $orderItem = array();
                     $orderItem['order_item_id'] = $item['order_item_id'];
@@ -142,7 +142,7 @@ class InvoicesController extends Controller
                         $_SESSION['error'] = 'Fail to add invoice';
                     }
                 } else {
-                    
+
                     $invoiceId = $this->_model->save($invoiceeData);
                     if ($invoiceId) {
                         $tblInvoiceItem = new InvoiceItemsModel();
@@ -218,7 +218,7 @@ class InvoicesController extends Controller
 
 
             $result = array();
-        //   $result['cnt_code'] = $customer['cnt_code'];
+            //   $result['cnt_code'] = $customer['cnt_code'];
             if ($customer['state'] == $company['state']) {
                 $result['state'] = 'same';
                 $result['cgst'] = $itMaster['cgst'];
@@ -276,7 +276,7 @@ class InvoicesController extends Controller
             $invoice['cgst'] = $data['cgst'];
             $invoice['igst'] = $data['igst'];
             $invoice['invoice_total'] = $data['invoice_total'];
-            $invoice['exchange_rate'] = isset($data['exchange_rate']) ? $data['exchange_rate'] :null; 
+            $invoice['exchange_rate'] = isset($data['exchange_rate']) ? $data['exchange_rate'] : null;
             $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null;
             $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null;
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null;
@@ -317,7 +317,7 @@ class InvoicesController extends Controller
         $customer = $customerTbl->get($invoice['customer_id']);
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
-        
+
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
@@ -337,8 +337,9 @@ class InvoicesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
+        $currencyCode = $customer['for_cur'] ?? 'INR';
         $irnrec = $invoiceIrnTbl->getByInvoiceId($invoiceId);
-        
+
         if (count($irnrec) && !$proformaSwitch) {
             $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: ' . $irnrec['irn_no'] . '</b></td></tr>';
@@ -356,7 +357,7 @@ class InvoicesController extends Controller
             $br .= '<br>';
         }
         $br .= "</td></tr>";
- 
+
         $vars = array(
             "{{IRN}}" => $irn,
             "{{IRN_DATE}}" => $irndt,
@@ -385,15 +386,15 @@ class InvoicesController extends Controller
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['invoice_total'], $nri, $currencyCode),
             "{{REST_BR}}" => $br,
             "{{NRI}}" => $nri ? "hide" : '',
             "{{NONNRI}}" => $nri ? "" : 'hide',
             "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "invoice Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoice['invoice_total'], 2),
-            "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
+            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoice['invoice_total'], 2) . ' INR' : '',
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
         );
 
         if ($proformaSwitch) {
@@ -502,7 +503,7 @@ class InvoicesController extends Controller
             }
         }
     }
-    
+
     public function gencbn($creditNoteId = null, $proformaSwitch = false, $createpdf = false, $hidepo = false)
     {
         $dataItem = array();
@@ -517,13 +518,13 @@ class InvoicesController extends Controller
         $company = new CompanyModel();
         $hsn = new HsnModel();
         $totalbr = 10;
-
-         $invoice = $CreditNoteItemTbl->get($creditNoteId);
+        $nri = '';
+        $invoice = $CreditNoteItemTbl->get($creditNoteId);
         // $invoice = $this->_model->get(107);
         $hidepo = $invoice['hide_po'];
         // $invoiceItems = $this->_model->getInvoiceItemForCreditNote($invoiceId);
         $invoiceItems = $CreditNoteItemTbl->getCreditNoteItem($creditNoteId);
-        //  echo '<pre>'; print_r($crediNoteItems);
+        //  echo '<pre>'; print_r($invoice);
         if ($proformaSwitch && $creditNoteId) {
             $invoice = $tblProformaInvoice->get($invoice['invoice_id']);
             $invoiceItems = $tblProformaInvoice->getInvoiceItem($invoice['invoice_id']);
@@ -535,7 +536,7 @@ class InvoicesController extends Controller
         $company = $company->get(1);
         $customer = $customerTbl->get($invoice['customer_id']);
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
-
+        $nri = $customer['country'] == '101' ? false : true;
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
@@ -552,12 +553,12 @@ class InvoicesController extends Controller
             $print_uom_qty = '<th class="bb2 w-135">HSN Code</th><th class="bb2 txtc"></th><th class="bb2 txtc"></th>';
         }
         $dataItem = $invoiceItems;
-      // echo '<pre>'; print_r($invoice);
-        $nri = '';
+        // echo '<pre>'; print_r($invoice);
         $irn = '';
         $slt = '';
         $qrcode = '';
         $irndt = '';
+        $currencyCode = $customer['for_cur'] ?? 'INR';
         $irnrec = $CreditNoteItemTbl->getByCreditNoteId($creditNoteId);
         //   echo '<pre>'; print_r($irnrec);exit;
         if (count($irnrec) && !$proformaSwitch) {
@@ -576,7 +577,7 @@ class InvoicesController extends Controller
             $br .= '<br>';
         }
         $br .= "</td></tr>";
-        
+
         $vars = array(
             "{{IRN}}" => $irn,
             "{{IRN_DATE}}" => $irndt,
@@ -601,21 +602,21 @@ class InvoicesController extends Controller
             "{{DECLARATION}}" => getdeclaration($customer['declaration'], $totalbr),
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $customer['pan'],
-            "{{CUST_GST}}" => $customer['gstin'],  
+            "{{CUST_GST}}" => $customer['gstin'],
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),
-            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri),
+            "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri, $currencyCode),
             "{{REST_BR}}" => $br,
             "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoice['credit_note_total'], 2),
-            "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
+            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoice['credit_note_total'], 2) . ' INR' : '',
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
 
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-'. ($invoice['credit_note_no']);
+        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . ($invoice['credit_note_no']);
         $vars["{{TITLE}}"] = "CREDIT NOTE";
 
         if ($hidepo) {
@@ -664,7 +665,7 @@ class InvoicesController extends Controller
             $orderBaseTotal += $item['total'];
         }
 
-         //echo '<pre>'; print_r($item['igst']);
+        //echo '<pre>'; print_r($item['igst']);
 
         if (in_array($order['order_type'], array(6))) {
             $vars["{{TDS}}"] = "";
@@ -674,12 +675,19 @@ class InvoicesController extends Controller
 
         $taxName = '';
         $taxesLayout = '';
-        if ($invoice['igst'] > 0) {
-            $taxName = "IGST @ 18%";
-            $taxesLayout = number_format($invoice['igst'], 2);
+
+        if (!$nri) {
+
+            if ($invoice['igst'] > 0) {
+                $taxName = "IGST @ 18%";
+                $taxesLayout = number_format($invoice['igst'], 2);
+            } else {
+                $taxName = "CGST @ 9%<br />SGST @ 9%";
+                $taxesLayout = number_format($invoice['cgst'], 2) . '<br />' . number_format($invoice['sgst'], 2);
+            }
         } else {
-            $taxName = "CGST @ 9%<br />SGST @ 9%";
-            $taxesLayout = number_format($invoice['cgst'], 2) . '<br />' . number_format($invoice['sgst'], 2);
+            $taxName = "GST";
+            $taxesLayout = "-";
         }
 
         $vars["{{GST_LABEL}}"] = $taxName;
@@ -800,6 +808,7 @@ class InvoicesController extends Controller
     public function search()
     {
         $invoices = $this->_model->getList($_POST);
+        // echo '<pre>'; print_r($invoices); exit;
 
         $result = array();
         $result['draw'] = 1;
@@ -816,6 +825,7 @@ class InvoicesController extends Controller
             $tmp[] = $invoice['customer_name'];
             $tmp[] = $invoice['sales_person'];
             $tmp[] = $invoice['invoice_total'];
+            $tmp[] = $invoice['customer_country'];
             $result['data'][] = $tmp;
         }
         echo json_encode($result);
@@ -903,6 +913,7 @@ class InvoicesController extends Controller
         return $data;
     }
 
+
     function postEinvoiceRequest($invoiceId, $invoiceNo = 0)
     {
         $hsn = new HsnModel();
@@ -913,15 +924,18 @@ class InvoicesController extends Controller
         $company = $company->get(1);
 
         $invoice = $this->_model->getByID($invoiceId);
-        if ($invoiceNo != 0) {$invoice['invoice_no'] = $invoiceNo; $invoice['invoice_date'] = date('Y/m/d'); }
-        // print_r($invoice);
+        if ($invoiceNo != 0) {
+            $invoice['invoice_no'] = $invoiceNo;
+            $invoice['invoice_date'] = date('Y/m/d');
+        }
+        // echo '<pre>'; print_r($invoiceNo); exit;
         $this->_model->update($invoiceId, $invoice);
         $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
         $customer = $customerList->get($invoice['customer_id']);
         $authToken = $this->getEinvoiceAuthToken();
         $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
 
-        // echo '<pre>'; print_r($invoiceNo); exit;
+        //  echo '<pre>'; print_r($customer['country_name']); exit;
 
         if ($authToken['Status'] == 1) {
             $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME, 'Gstin' => GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
@@ -935,6 +949,7 @@ class InvoicesController extends Controller
             $request['TRANDTLS']['REGREV'] = 'N';
 
             //Invoice no
+            //Docdtails
             $request['DOCDTLS']['TYP'] = 'INV';
             if ($invoiceNo != 0) {
                 $request['DOCDTLS']['NO'] = $invoiceNo;
@@ -943,7 +958,7 @@ class InvoicesController extends Controller
             }
             $request['DOCDTLS']['DT'] = date('d/m/Y');
 
-            //FTSPL Details
+            //FTSPL Details seller
             $request['SELLERDTLS']['GSTIN'] = GST_NO;
             $request['SELLERDTLS']['LGLNM'] = $company['name'];
             $request['SELLERDTLS']['TRDNM'] = $company['name'];
@@ -1088,173 +1103,358 @@ class InvoicesController extends Controller
         }
     }
 
+    function exportPostEinvoiceRequest($invoiceId, $invoiceNo = 0)
+    {
+        $hsn = new HsnModel();
+        $customerList = new CustomersModel();
+        $invoiceItemTbl = new InvoiceItemsModel();
+        $invoiceIrnTbl = new InvoiceIrnModel();
+        $company = new CompanyModel();
+        $company = $company->get(1);
+
+        $invoice = $this->_model->getByID($invoiceId);
+        if ($invoiceNo != 0) {
+            $invoice['invoice_no'] = $invoiceNo;
+            $invoice['invoice_date'] = date('Y/m/d');
+        }
+        // print_r($invoice);
+        $this->_model->update($invoiceId, $invoice);
+        $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
+        $customer = $customerList->get($invoice['customer_id']);
+        $authToken = $this->getEinvoiceAuthToken();
+        $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
+
+        //  echo '<pre>'; print_r($customer); exit;
+
+        if ($authToken['Status'] == 1) {
+            $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME, 'Gstin' => GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
+            $url = $url . http_build_query($params);
+
+            // echo '<pre>'; print_r($invoiceNo); exit;
+
+            $request = array();
+            $request['VERSION'] = '1.1';
+            $request['TRANDTLS']['TAXSCH'] = 'GST';
+            $request['TRANDTLS']['SUPTYP'] = 'EXPWOP';
+            $request['TRANDTLS']['REGREV'] = 'N';
+
+            //Invoice no
+            //Docdtails
+            $request['DOCDTLS']['TYP'] = 'INV';
+            if ($invoiceNo != 0) {
+                $request['DOCDTLS']['NO'] = $invoiceNo;
+            } else {
+                $request['DOCDTLS']['NO'] = $invoice['invoice_no'];
+            }
+            $request['DOCDTLS']['DT'] = date('d/m/Y');
+
+            //FTSPL Details seller
+            $request['SELLERDTLS']['GSTIN'] = GST_NO;
+            $request['SELLERDTLS']['LGLNM'] = $company['name'];
+            $request['SELLERDTLS']['TRDNM'] = null;
+            $request['SELLERDTLS']['ADDR1'] = substr($company['address'], 0, 100);
+            $request['SELLERDTLS']['ADDR2'] = null;
+            $request['SELLERDTLS']['LOC'] = 'INDIA';
+            $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
+            $request['SELLERDTLS']['STCD'] = substr($company['gstin'], 0, 2);
+            $request['SELLERDTLS']['PH'] = null;
+            $request['SELLERDTLS']['EM'] = null;
+
+            //Client Details
+            // $request['BUYERDTLS']['GSTIN'] = $customer['gstin'];
+            $request['BUYERDTLS']['GSTIN'] = 'URP';
+            $request['BUYERDTLS']['LGLNM'] = $customer['name'];
+            $request['BUYERDTLS']['TRDNM'] = $customer['name'];
+            $request['BUYERDTLS']['POS'] = '96';
+            $request['BUYERDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+            $request['BUYERDTLS']['ADDR2'] = null;
+            $request['BUYERDTLS']['LOC'] = $customer['country_name'];
+            $request['BUYERDTLS']['PIN'] = (int)$customer['pincode'];
+            $request['BUYERDTLS']['STCD'] = '96';
+            $request['BUYERDTLS']['PH'] = null;
+            $request['BUYERDTLS']['EM'] = null;
+
+            $request['DISPDTLS']['NM'] = $company['name'];
+            $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+            $request['DISPDTLS']['ADDR2'] = null;
+            $request['DISPDTLS']['LOC'] = $customer['country_name'];
+            $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
+            $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
+
+            //Item list
+            $request['ITEMLIST'] = array();
+
+            foreach ($dataItem as $key => $item) {
+                $tmp = array();
+                $hsncode = $hsn->get($item['hsn_id']);
+                $tmp['SLNO'] = (string)$key;
+                $tmp['PRDDESC'] = $item['description'];
+                $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
+                $tmp['HSNCD'] = $hsncode['code'];
+                $tmp['BARCDE'] = null;
+                $tmp['QTY'] = (float)$item['qty'];
+                $tmp['FREEQTY'] = 0;
+                $tmp['UNIT'] = 'OTH';
+                $tmp['UNITPRICE'] = (float)$item['unit_price'];
+                $tmp['TOTAMT'] = (float)$item['total'];
+                $tmp['DISCOUNT'] = 0;
+                $tmp['PRETAXVAL'] = 0;
+                $tmp['ASSAMT'] = (float)$item['total'];
+                $tmp['GSTRT'] = 0;
+                $tmp['CGSTAMT'] = 0;
+                $tmp['SGSTAMT'] = 0;
+                $tmp['IGSTAMT'] = 0;
+
+                $tmp['CESRT'] = 0;
+                $tmp['CESAMT'] = 0;
+                $tmp['CESNONADVLAMT'] = 0;
+                $tmp['STATECESRT'] = 0;
+                $tmp['STATECESAMT'] = 0;
+                $tmp['STATECESNONADVLAMT'] = 0;
+                $tmp['OTHCHRG'] = 0;
+                $tmp['TOTITEMVAL'] = number_format((float)$item['total'], 2, '.', '');
+                $tmp['ORDLINEREF'] = null;
+                $tmp['ORGCNTRY'] = null;
+
+                $request['ITEMLIST'][] = $tmp;
+            }
+
+            //Value detail
+            $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
+            $request['VALDTLS']['CGSTVAL'] = 0;
+            $request['VALDTLS']['SGSTVAL'] = 0;
+            $request['VALDTLS']['IGSTVAL'] = 0;
+            $request['VALDTLS']['CESVAL'] = 0;
+            $request['VALDTLS']['STCESVAL'] = 0;
+            $request['VALDTLS']['RNDOFFAMT'] = 0;
+            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+
+            $request['EXPDTLS']['SHIPBNO'] = null;
+            $request['EXPDTLS']['SHIPBDT'] = null;
+            $request['EXPDTLS']['PORT'] = null;
+            $request['EXPDTLS']['REFCLM'] = null;
+            $request['EXPDTLS']['FORCUR'] = null;
+            $request['EXPDTLS']['CNTCODE'] = $customer['cnt_code'];
+            $request['EXPDTLS']['EXPDUTY'] = 0;
+
+            // $request['EWBDTLS']['TRANSID'] = null;
+            // $request['EWBDTLS']['TRANSNAME'] = null;
+            // $request['EWBDTLS']['TRANSMODE'] = null;
+            // $request['EWBDTLS']['DISTANCE'] = 0;
+            // $request['EWBDTLS']['TRANSDOCNO'] = null;
+            // $request['EWBDTLS']['TRANSDOCDT'] = null;
+            // $request['EWBDTLS']['VEHNO'] = null;
+            // $request['EWBDTLS']['VEHTYPE'] = null;
 
 
-    // function postCreditNoteRequest($invoiceId, $credit_note = 0) {
-    //     $hsn = new HsnModel();
-    //     $customerList = new CustomersModel();
-    //     $invoiceItemTbl = new InvoiceItemsModel();
-    //     $invoiceIrnTbl = new InvoiceIrnModel();
-    //     $company = new CompanyModel();
-    //     $company = $company->get(1);
-        
-    //     $invoice = $this->_model->getByID($invoiceId);
+            // echo '<pre>'; print_r($request); exit;
+            //echo $url;
+            $response = $this->sendRequest('POST', $url, $request);
+            $data = json_decode($response, true);
 
-    //     // print_r($invoice);
-    //     $this->_model->update($invoiceId, $invoice);
-    //     $dataItem = $invoiceItemTbl->getListByInvoiceId($invoiceId);
-    //     $customer = $customerList->get($invoice['customer_id']);
-    //     $authToken = $this->getEinvoiceAuthToken();
-    //     $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
-        
-    //     // echo '<pre>'; print_r($invoiceNo); exit;
-        
-    //     if ($authToken['Status'] == 1){
-    //         $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME,'Gstin' =>GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
-    //         $url = $url . http_build_query($params);
-            
+            //echo '<pre>'; print_r($data); print_r($url);
 
-    //         $request = array();
-    //         $request['VERSION'] = '1.1';
-    //         $request['TRANDTLS']['TAXSCH'] = 'GST';
-    //         $request['TRANDTLS']['SUPTYP'] = 'B2B';
-    //         $request['TRANDTLS']['REGREV'] = 'N';
+            if ($data['Status']) {
+                $newdata = json_decode($data['Data'], true);
+                $irn_invoice = array();
+                $irn_invoice['invoice_id'] = $invoiceId;
+                if ($invoiceNo != 0) {
+                    $irn_invoice['invoice_no'] = $invoiceNo;
+                } else {
+                    $irn_invoice['invoice_no'] = $invoice['invoice_no'];
+                }
+                $irn_invoice['irn_no'] = $newdata['Irn'];
+                $irn_invoice['ack_no'] = $newdata['AckNo'];
+                $irn_invoice['ack_date'] = $newdata['AckDt'];
+                $irn_invoice['signed_invoice'] = $newdata['SignedInvoice'];
+                $irn_invoice['signed_qrcode'] = $newdata['SignedQRCode'];
+                $irn_invoice['status'] = 1;
+                $irnInvoiceId = $invoiceIrnTbl->save($irn_invoice);
 
-    //         //Invoice no
-    //         $request['DOCDTLS']['TYP'] = 'CRN';
-    //         $request['DOCDTLS']['NO'] = $credit_note;
-    //         $request['DOCDTLS']['DT'] = date('d/m/Y');
+                // $path variable store the location where to  
+                // store image and $file creates directory name 
+                $path = "assets/img/";
+                $file = $path . $newdata['AckNo'] . ".png";
 
-    //         //FTSPL Details
-    //         $request['SELLERDTLS']['GSTIN'] = GST_NO;
-    //         $request['SELLERDTLS']['LGLNM'] = $company['name'];
-    //         $request['SELLERDTLS']['TRDNM'] = $company['name'];
-    //         $request['SELLERDTLS']['ADDR1'] = substr($company['address'], 0, 100);
-    //         $request['SELLERDTLS']['ADDR2'] = null;
-    //         $request['SELLERDTLS']['LOC'] = 'INDIA';
-    //         $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
-    //         $request['SELLERDTLS']['STCD'] = substr($company['gstin'], 0, 2);
-    //         $request['SELLERDTLS']['PH'] = null;
-    //         $request['SELLERDTLS']['EM'] = null;
+                // Generates QR Code and Stores it in directory given 
+                QRcode::png($newdata['SignedQRCode'], $file, 'L', 150, 1);
 
-    //         //Client Details
-    //         $request['BUYERDTLS']['GSTIN'] = $customer['gstin'];
-    //         $request['BUYERDTLS']['LGLNM'] = $customer['name'];
-    //         $request['BUYERDTLS']['TRDNM'] = $customer['name'];
-    //         $request['BUYERDTLS']['POS'] = substr($customer['gstin'], 0, 2);
-    //         $request['BUYERDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
-    //         $request['BUYERDTLS']['ADDR2'] = null;
-    //         $request['BUYERDTLS']['LOC'] = 'INDIA';
-    //         $request['BUYERDTLS']['PIN'] = (int)$customer['pincode'];
-    //         $request['BUYERDTLS']['STCD'] = substr($customer['gstin'], 0, 2);
-    //         $request['BUYERDTLS']['PH'] = null;
-    //         $request['BUYERDTLS']['EM'] = null;
-
-    //         $request['DISPDTLS']['NM'] = $company['name'];
-    //         $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
-    //         $request['DISPDTLS']['ADDR2'] = null;
-    //         $request['DISPDTLS']['LOC'] = 'INDIA';
-    //         $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
-    //         $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
-
-    //         //Item list
-    //         $request['ITEMLIST'] = array();
-
-    //         foreach($dataItem as $key => $item) {
-    //             $tmp = array();
-    //             $hsncode = $hsn->get($item['hsn_id']);
-    //             $tmp['SLNO'] = (String)$key;
-    //             $tmp['PRDDESC'] = $item['description'];
-    //             $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
-    //             $tmp['HSNCD'] = $hsncode['code'];
-    //             $tmp['BARCDE'] = null;
-    //             $tmp['QTY'] = (float)$item['qty'];
-    //             $tmp['FREEQTY'] = 0;
-    //             $tmp['UNIT'] = 'NOS';
-    //             $tmp['UNITPRICE'] = (float)$item['unit_price'];
-    //             $tmp['TOTAMT'] = (float)$item['total'];
-    //             $tmp['DISCOUNT'] = 0;
-    //             $tmp['PRETAXVAL'] = 0;
-    //             $tmp['ASSAMT'] = (float)$item['total'];
-    //             $tmp['GSTRT'] = 18;
-    //             if($invoice['igst'] > 0) {
-    //                 $tmp['IGSTAMT'] = number_format((float)($item['total'] * $tmp['GSTRT']) / 100, 2, '.', '');
-    //                 $tmp['CGSTAMT'] = 0;
-    //                 $tmp['SGSTAMT'] = 0;    
-    //             } else {
-    //                 $tmp['IGSTAMT'] = 0;
-    //                 $tmp['CGSTAMT'] = number_format((float)($item['total'] * ($tmp['GSTRT'] / 100))/2, 2, '.', '');
-    //                 $tmp['SGSTAMT'] = number_format((float)($item['total'] * ($tmp['GSTRT'] / 100))/2, 2, '.', '');    
-    //             }
-    //             $tmp['CESRT'] = 0;
-    //             $tmp['CESAMT'] = 0;
-    //             $tmp['CESNONADVLAMT'] = 0;
-    //             $tmp['STATECESRT'] = 0;
-    //             $tmp['STATECESAMT'] = 0;
-    //             $tmp['STATECESNONADVLAMT'] = 0;
-    //             $tmp['OTHCHRG'] = 0;
-    //             $tmp['TOTITEMVAL'] = number_format((float)$item['total'] + $tmp['IGSTAMT'] + $tmp['CGSTAMT'] + $tmp['SGSTAMT'], 2, '.', '');
-    //             $tmp['ORDLINEREF'] = null;
-    //             $tmp['ORGCNTRY'] = null;
-
-    //             $request['ITEMLIST'][] = $tmp;
-    //         }
-
-    //         //Value detail
-    //         $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
-    //         $request['VALDTLS']['CGSTVAL'] = (float)$invoice['cgst'];
-    //         $request['VALDTLS']['SGSTVAL'] = (float)$invoice['sgst'];
-    //         $request['VALDTLS']['IGSTVAL'] = (float)$invoice['igst'];
-    //         $request['VALDTLS']['CESVAL'] = 0;
-    //         $request['VALDTLS']['STCESVAL'] = 0;
-    //         $request['VALDTLS']['RNDOFFAMT'] = 0;
-    //         $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
-    //         $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
-
-    //         $request['EXPDTLS']['SHIPBNO'] = null;
-    //         $request['EXPDTLS']['SHIPBDT'] = null;
-    //         $request['EXPDTLS']['PORT'] = null;
-    //         $request['EXPDTLS']['REFCLM'] = null;
-    //         $request['EXPDTLS']['FORCUR'] = null;
-    //         $request['EXPDTLS']['CNTCODE'] = null;
-    //         $request['EXPDTLS']['EXPDUTY'] = 0;
-
-    //         $request['EWBDTLS']['TRANSID'] = null;
-    //         $request['EWBDTLS']['TRANSNAME'] = null;
-    //         $request['EWBDTLS']['TRANSMODE'] = null;
-    //         $request['EWBDTLS']['DISTANCE'] = 0;
-    //         $request['EWBDTLS']['TRANSDOCNO'] = null;
-    //         $request['EWBDTLS']['TRANSDOCDT'] = null;
-    //         $request['EWBDTLS']['VEHNO'] = null;
-    //         $request['EWBDTLS']['VEHTYPE'] = null;
+                echo $irnInvoiceId;
+            } else {
+                echo $response;
+            }
+        } else {
+            echo $authToken['ErrorDetails'][0]['ErrorMessage'];
+        }
+    }
 
 
-    //         // echo '<pre>'; print_r($request); exit;
-    //         //echo $url;
-    //         $response = $this->sendRequest('POST', $url, $request);
-    //         $data = json_decode($response, true);
+    function exportPostCreditNoteRequest($creditNoteId, $credit_note_no = 0)
+    {
+        $hsn = new HsnModel();
+        $customerList = new CustomersModel();
+        // $invoiceItemTbl = new InvoiceItemsModel();
+        $creditNotes = new CreditNotesModel();
+        $invoiceIrnTbl = new InvoiceIrnModel();
+        $company = new CompanyModel();
+        $company = $company->get(1);
 
-    //          //echo '<pre>'; print_r($data); print_r($url);
+        $invoice = $creditNotes->getByID($creditNoteId);
+        $dataItem = $creditNotes->getListBycreditNoteId($creditNoteId);
+        //  echo '<pre>'; print_r($dataItem);exit;
+        $customer = $customerList->get($invoice['customer_id']);
+        $authToken = $this->getEinvoiceAuthToken();
+        $url = EINVOICE_URL . 'eicore/dec/v1.03/Invoice?';
+        if ($authToken['Status'] == 1) {
+            $params = array('aspid' => ASP_ID, 'password' => EINVOICE_PASSWORD, 'user_name' => EINVOICE_USERNAME, 'Gstin' => GST_NO, 'AuthToken' => $authToken['Data']['AuthToken']);
+            $url = $url . http_build_query($params);
 
-    //         if($data['Status']) {
-    //             $this->_model->cancelAllIRN($invoiceId);
-    //             $newdata = json_decode($data['Data'], true);
-    //             $irn_invoice = array();
-    //             $irn_invoice['invoice_id'] = $invoiceId;
-    //             $irn_invoice['invoice_no'] = $invoice['invoice_no'];
-    //             $irn_invoice['credit_note'] = $credit_note;
-    //             $irn_invoice['irn_no'] = $newdata['Irn'];
-    //             $irn_invoice['ack_no'] = $newdata['AckNo'];
-    //             $irn_invoice['ack_date'] = $newdata['AckDt'];
-    //             $irn_invoice['signed_invoice'] = $newdata['SignedInvoice'];
-    //             $irn_invoice['signed_qrcode'] = $newdata['SignedQRCode'];
-    //             $irn_invoice['status'] = 1;
-    //             $irnInvoiceId = $invoiceIrnTbl->save($irn_invoice);
-    //             echo $irnInvoiceId;
-    //         } else { echo $response; }
-    //     } else { echo $authToken['ErrorDetails'][0]['ErrorMessage']; }
-    // }
 
+
+            $request = array();
+            $request['VERSION'] = '1.1';
+
+            $request['TRANDTLS']['TAXSCH'] = 'GST';
+            $request['TRANDTLS']['SUPTYP'] = 'EXPWOP';
+            $request['TRANDTLS']['REGREV'] = 'N';
+
+            //Invoice no
+            $request['DOCDTLS']['TYP'] = 'CRN';
+            $request['DOCDTLS']['NO'] = $invoice['credit_note_no'];
+            $request['DOCDTLS']['DT'] = date('d/m/Y');
+
+            //FTSPL Details
+            $request['SELLERDTLS']['GSTIN'] = GST_NO;
+            $request['SELLERDTLS']['LGLNM'] = $company['name'];
+            $request['SELLERDTLS']['TRDNM'] = null;
+            $request['SELLERDTLS']['ADDR1'] = substr($company['address'], 0, 100);
+            $request['SELLERDTLS']['ADDR2'] = null;
+            $request['SELLERDTLS']['LOC'] = 'INDIA';
+            $request['SELLERDTLS']['PIN'] = (int)$company['pincode'];
+            $request['SELLERDTLS']['STCD'] = substr($company['gstin'], 0, 2);
+            $request['SELLERDTLS']['PH'] = null;
+            $request['SELLERDTLS']['EM'] = null;
+
+            //Client Details
+            $request['BUYERDTLS']['GSTIN'] = 'URP';
+            $request['BUYERDTLS']['LGLNM'] = $customer['name'];
+            $request['BUYERDTLS']['TRDNM'] = $customer['name'];
+            $request['BUYERDTLS']['POS'] = '96';
+            $request['BUYERDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+            $request['BUYERDTLS']['ADDR2'] = null;
+            $request['BUYERDTLS']['LOC'] = $customer['country_name'];
+            $request['BUYERDTLS']['PIN'] = (int)$customer['pincode'];
+            $request['BUYERDTLS']['STCD'] = '96';
+            $request['BUYERDTLS']['PH'] = null;
+            $request['BUYERDTLS']['EM'] = null;
+
+            // $request['DISPDTLS']['NM'] = $company['name'];
+            // $request['DISPDTLS']['ADDR1'] = substr($customer['address'], 0, 100);
+            // $request['DISPDTLS']['ADDR2'] = null;
+            // $request['DISPDTLS']['LOC'] = 'INDIA';
+            // $request['DISPDTLS']['PIN'] = (int)$company['pincode'];
+            // $request['DISPDTLS']['STCD'] = substr($company['gstin'], 0, 2);
+
+            //Item list
+            $request['ITEMLIST'] = array();
+            foreach ($dataItem as $key => $item) {
+                $tmp = array();
+                $hsncode = $hsn->get($item['hsn_id']);
+                $tmp['SLNO'] = (string)$key;
+                $tmp['PRDDESC'] = $item['description'];
+                $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
+                $tmp['HSNCD'] = $hsncode['code'];
+                $tmp['BARCDE'] = null;
+                $tmp['QTY'] = (float)$item['qty'];
+                $tmp['FREEQTY'] = 0;
+                $tmp['UNIT'] = 'OTH';
+                $tmp['UNITPRICE'] = (float)$item['unit_price'];
+                $tmp['TOTAMT'] = (float)$item['total'];
+                $tmp['DISCOUNT'] = 0;
+                $tmp['PRETAXVAL'] = 0;
+                $tmp['ASSAMT'] = (float)$item['total'];
+                $tmp['GSTRT'] = 0;
+                $tmp['CGSTAMT'] = 0;
+                $tmp['SGSTAMT'] = 0;
+                $tmp['IGSTAMT'] = 0;
+
+                $tmp['CESRT'] = 0;
+                $tmp['CESAMT'] = 0;
+                $tmp['CESNONADVLAMT'] = 0;
+                $tmp['STATECESRT'] = 0;
+                $tmp['STATECESAMT'] = 0;
+                $tmp['STATECESNONADVLAMT'] = 0;
+                $tmp['OTHCHRG'] = 0;
+                $tmp['TOTITEMVAL'] = number_format((float)$item['total'], 2, '.', '');
+                $tmp['ORDLINEREF'] = null;
+                $tmp['ORGCNTRY'] = null;
+
+                $request['ITEMLIST'][] = $tmp;
+            }
+
+            //Value detail
+            $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
+            $request['VALDTLS']['CGSTVAL'] = 0;
+            $request['VALDTLS']['SGSTVAL'] = 0;
+            $request['VALDTLS']['IGSTVAL'] = 0;
+            $request['VALDTLS']['CESVAL'] = 0;
+            $request['VALDTLS']['STCESVAL'] = 0;
+            $request['VALDTLS']['RNDOFFAMT'] = 0;
+            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['credit_note_total'], 2, '.', '');
+            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['credit_note_total'], 2, '.', '');
+
+            $request['EXPDTLS']['SHIPBNO'] = null;
+            $request['EXPDTLS']['SHIPBDT'] = null;
+            $request['EXPDTLS']['PORT'] = null;
+            $request['EXPDTLS']['REFCLM'] = null;
+            $request['EXPDTLS']['FORCUR'] = null;
+            $request['EXPDTLS']['CNTCODE'] = $customer['cnt_code'];
+            $request['EXPDTLS']['EXPDUTY'] = 0;
+
+            $request['EWBDTLS']['TRANSID'] = null;
+            $request['EWBDTLS']['TRANSNAME'] = null;
+            $request['EWBDTLS']['TRANSMODE'] = null;
+            $request['EWBDTLS']['DISTANCE'] = 0;
+            $request['EWBDTLS']['TRANSDOCNO'] = null;
+            $request['EWBDTLS']['TRANSDOCDT'] = null;
+            $request['EWBDTLS']['VEHNO'] = null;
+            $request['EWBDTLS']['VEHTYPE'] = null;
+
+
+            //   echo '<pre>'; print_r($request); 
+            $response = $this->sendRequest('POST', $url, $request);
+            $data = json_decode($response, true);
+            // echo '<pre>'; print_r($data);exit;
+            if ($data['Status']) {
+                $this->_model->cancelAllIRN($creditNoteId);
+                $newdata = json_decode($data['Data'], true);
+                // echo '<pre>'; print_r($newdata);exit;
+                $irn_invoice = array();
+                $irn_invoice['invoice_id'] = $invoice['invoice_id'];
+                $irn_invoice['invoice_no'] = $invoice['invoice_no'];
+                $irn_invoice['credit_note_id'] = $creditNoteId;
+                $irn_invoice['credit_note_no'] = $invoice['credit_note_no'];
+                $irn_invoice['irn_no'] = $newdata['Irn'];
+                $irn_invoice['ack_no'] = $newdata['AckNo'];
+                $irn_invoice['ack_date'] = $newdata['AckDt'];
+                $irn_invoice['signed_invoice'] = $newdata['SignedInvoice'];
+                $irn_invoice['signed_qrcode'] = $newdata['SignedQRCode'];
+                $irn_invoice['status'] = 1;
+                $irnInvoiceId = $invoiceIrnTbl->saveCreditNoteIrn($irn_invoice);
+                $path = "assets/img/";
+                $file = $path . $newdata['AckNo'] . ".png";
+
+                // Generates QR Code and Stores it in directory given 
+                QRcode::png($newdata['SignedQRCode'], $file, 'L', 150, 1);
+                echo $irnInvoiceId;
+            } else {
+                echo $response;
+            }
+        } else {
+            echo $authToken['ErrorDetails'][0]['ErrorMessage'];
+        }
+    }
 
 
     function postCreditNoteRequest($creditNoteId, $credit_note_no = 0)
@@ -1327,7 +1527,7 @@ class InvoicesController extends Controller
             $request['ITEMLIST'] = array();
             foreach ($dataItem as $key => $item) {
                 $tmp = array();
-                 $hsncode = $hsn->get($item['hsn_id']);
+                $hsncode = $hsn->get($item['hsn_id']);
                 $tmp['SLNO'] = (string)$key;
                 $tmp['PRDDESC'] = $item['description'];
                 $tmp['ISSERVC'] = substr($hsncode['code'], 0, 2) == '99' ? 'Y' : 'N';
@@ -1413,13 +1613,13 @@ class InvoicesController extends Controller
                 $irn_invoice['signed_invoice'] = $newdata['SignedInvoice'];
                 $irn_invoice['signed_qrcode'] = $newdata['SignedQRCode'];
                 $irn_invoice['status'] = 1;
-                 $irnInvoiceId = $invoiceIrnTbl->saveCreditNoteIrn($irn_invoice);
-                   $path = "assets/img/";
+                $irnInvoiceId = $invoiceIrnTbl->saveCreditNoteIrn($irn_invoice);
+                $path = "assets/img/";
                 $file = $path . $newdata['AckNo'] . ".png";
 
                 // Generates QR Code and Stores it in directory given 
                 QRcode::png($newdata['SignedQRCode'], $file, 'L', 150, 1);
-                 echo $irnInvoiceId;
+                echo $irnInvoiceId;
             } else {
                 echo $response;
             }
