@@ -317,7 +317,6 @@ class InvoicesController extends Controller
         $customer = $customerTbl->get($invoice['customer_id']);
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
-
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
@@ -344,7 +343,12 @@ class InvoicesController extends Controller
             $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: ' . $irnrec['irn_no'] . '</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: ' . $irnrec['ack_date'] . '</b></td>';
-            $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+
+            if ($nri) {
+                $slt = '<td class="brt2l"><b>Supply Type: EXPWOP</b></td></tr>';
+            } else {
+                $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            }
             $file = ROOT . "assets/qr_code/" . $irnrec['ack_no'] . ".png";
             if (!file_exists("assets/qr_code/" . $irnrec['ack_no'] . ".png")) {
                 QRcode::png($irnrec['signed_qrcode'], "assets/qr_code/" . $irnrec['ack_no'] . ".png", 'L', 150, 1);
@@ -381,8 +385,8 @@ class InvoicesController extends Controller
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{DECLARATION}}" => getdeclaration($customer['declaration'], $totalbr),
             "{{CUST_FAX}}" => $customer['fax'],
-            "{{CUST_PAN}}" => $customer['pan'],
-            "{{CUST_GST}}" => $customer['gstin'],
+            "{{CUST_PAN}}" => $nri ? '' : $customer['pan'],
+            "{{CUST_GST}}" => $nri ? '' : $customer['gstin'],
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),
@@ -484,7 +488,9 @@ class InvoicesController extends Controller
         $vars["{{ORDER_TOTAL}}"] = number_format($orderBaseTotal, 2);
         $vars["{{URL}}"] = ROOT;
 
+
         $messageBody = strtr(file_get_contents('./assets/mail_template/invoiceTemplate.html'), $vars);
+
         if (!$createpdf) {
             echo $messageBody;
         } else {
@@ -565,7 +571,12 @@ class InvoicesController extends Controller
             $totalbr -= 2;
             $irn = '<tr><td colspan="2" class="bn2"><b>IRN No: ' . $irnrec['irn_no'] . '</b></td></tr>';
             $irndt = '<tr><td class="blt2r"><b>IRN Date: ' . $irnrec['ack_date'] . '</b></td>';
-            $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+
+            if ($nri) {
+                $slt = '<td class="brt2l"><b>Supply Type: EXPWOP</b></td></tr>';
+            } else {
+                $slt = '<td class="brt2l"><b>Supply Type: B2B</b></td></tr>';
+            }
             $file = ROOT . "assets/qr_code/" . $irnrec['ack_no'] . ".png";
             if (!file_exists("assets/qr_code/" . $irnrec['ack_no'] . ".png")) {
                 QRcode::png($irnrec['signed_qrcode'], "assets/qr_code/" . $irnrec['ack_no'] . ".png", 'L', 150, 1);
@@ -601,8 +612,8 @@ class InvoicesController extends Controller
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{DECLARATION}}" => getdeclaration($customer['declaration'], $totalbr),
             "{{CUST_FAX}}" => $customer['fax'],
-            "{{CUST_PAN}}" => $customer['pan'],
-            "{{CUST_GST}}" => $customer['gstin'],
+            "{{CUST_PAN}}" => $nri ? '' : 'PAN No.: '.$customer['pan'],
+            "{{CUST_GST}}" => $nri ? '' : 'GST No.: ' .$customer['gstin'],
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),
@@ -616,8 +627,12 @@ class InvoicesController extends Controller
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
 
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . ($invoice['credit_note_no']);
-        $vars["{{TITLE}}"] = "CREDIT NOTE";
+        $vars["{{CREDIT_NO}}"] = $nri ? "Credit Note No: EXP CR-" . $invoice['credit_note_no'] : "Credit Note No : CR-" . $invoice['credit_note_no'];
+        if (!$nri) {
+            $vars["{{TITLE}}"] = "CREDIT NOTE";
+        } else {
+            $vars["{{TITLE}}"] = "TAX CUM EXPORT CREDIT NOTE";
+        }
 
         if ($hidepo) {
             $vars["{{PO_NO}}"] = "Purchase Order No.: As per mail";
@@ -1469,6 +1484,7 @@ class InvoicesController extends Controller
 
         $invoice = $creditNotes->getByID($creditNoteId);
         $dataItem = $creditNotes->getListBycreditNoteId($creditNoteId);
+
         //  echo '<pre>'; print_r($dataItem);exit;
         $customer = $customerList->get($invoice['customer_id']);
         $authToken = $this->getEinvoiceAuthToken();
