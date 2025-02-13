@@ -137,15 +137,15 @@ $(document).on("click", ".initecanirn", function () {
   $("#id_reject").attr('data-class', '.col_ecanirn');
 });
 
-$(document).on("click", ".initgencbn", function () {
-  var new_creditnote = $("#id_creditnote").val();
-  if (new_creditnote.length == 5) {
-    $('.act').hide();
-    $('.accept, .reject').show();
-    $("#id_accept").attr('data-class', '.gencbn');
-    $("#id_reject").attr('data-class', '#id_creditnote, .col_gencbn');
-  } else { $('.feeter').show().html('<span class="text-danger">Invalid Credit Note No.<span>'); return; }
-});
+// $(document).on("click", ".initgencbn", function () {
+//   var new_creditnote = $("#id_creditnote").val();
+//   if (new_creditnote.length == 5) {
+//     $('.act').hide();
+//     $('.accept, .reject').show();
+//     $("#id_accept").attr('data-class', '.gencbn');
+//     $("#id_reject").attr('data-class', '#id_creditnote, .col_gencbn');
+//   } else { $('.feeter').show().html('<span class="text-danger">Invalid Credit Note No.<span>'); return; }
+// });
 
 $(document).on("click", ".gencbn", function () {
   $('.act').hide();
@@ -236,7 +236,7 @@ $(document).on("click", ".genirn", function () {
       var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
       if (getInvIrn) {
         $('.act').hide();
-        $('.col_ecanirn').show();
+        $('.col_ecanirn, .col_invcpy').show();
       }
     }
     $btn.prop('disabled', false).html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
