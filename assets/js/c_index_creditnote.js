@@ -34,7 +34,7 @@ $(document).ready(function () {
     var getCreditIrnDetails = getRemote(baseUrl + "invoiceirn/getIrnByCreditNote/" + creditNoteId);  
 
     if (!getCreditIrnDetails || getCreditIrnDetails.length == 0) {
-      $('.generatecbn').prop('disabled', false);
+      $('.generatecbn').prop('disabled', false); 
       // $('.col_cbncopy').html('');
       creditNoteLink = '<a class="btn btn-info btn-block btn-flat py-3" target="_blank" href="' + baseUrl + 'invoices/gencbn/' + creditNoteId + '" >' +
       '<i class="far fa-file-pdf fa-lg"></i> <br><br> Print Credit Note' +

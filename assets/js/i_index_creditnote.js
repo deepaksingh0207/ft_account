@@ -44,8 +44,6 @@ $(document).ready(function () {
         });
     });
 
-
-    // Initiate Credit Note generation
     $('.initgencbn').on('click', function () {
         $('#t1').show();
         $('#t2').hide();
@@ -114,6 +112,10 @@ $(document).ready(function () {
         $('#modal-xl').on('hidden.bs.modal', function () {
             $('#preview_tbody .item-checkbox').prop('checked', false);
             $('#select-all').prop('checked', false);
+             $('#modal-xl').find('input, textarea, select').val('');
+             $('#id_credit_no').removeClass("is-invalid");  
+             $('#credit_no_error').hide();   
+             $("#id_creditnote_date").removeClass("is-invalid");
         });
     });
 
@@ -344,6 +346,14 @@ $(document).ready(function () {
     }
 
     // Validate the form before submission
+    $(".numberonly").on("keypress", function (event) {
+        var regex = new RegExp("^[0-9]$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+          event.preventDefault();
+          return false;
+        }
+      });
     function validateForm() {
         let isValid = true;
         let credit_no = $('#id_credit_no').val();
@@ -358,7 +368,7 @@ $(document).ready(function () {
 
         if (!credit_no) {
             $("#id_credit_no").addClass("is-invalid");
-            // $("#credit_no_error").text("Please enter credit no").show();
+             $("#credit_no_error").text("Please enter credit no").show();
             isValid = false;
         } else if (!/^\d{7}$/.test(credit_no)) {
             $("#id_credit_no").addClass("is-invalid");

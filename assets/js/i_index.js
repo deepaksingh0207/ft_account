@@ -137,15 +137,15 @@ $(document).on("click", ".initecanirn", function () {
   $("#id_reject").attr('data-class', '.col_ecanirn');
 });
 
-$(document).on("click", ".initgencbn", function () {
-  var new_creditnote = $("#id_creditnote").val();
-  if (new_creditnote.length == 5) {
-    $('.act').hide();
-    $('.accept, .reject').show();
-    $("#id_accept").attr('data-class', '.gencbn');
-    $("#id_reject").attr('data-class', '#id_creditnote, .col_gencbn');
-  } else { $('.feeter').show().html('<span class="text-danger">Invalid Credit Note No.<span>'); return; }
-});
+// $(document).on("click", ".initgencbn", function () {
+//   var new_creditnote = $("#id_creditnote").val();
+//   if (new_creditnote.length == 5) {
+//     $('.act').hide();
+//     $('.accept, .reject').show();
+//     $("#id_accept").attr('data-class', '.gencbn');
+//     $("#id_reject").attr('data-class', '#id_creditnote, .col_gencbn');
+//   } else { $('.feeter').show().html('<span class="text-danger">Invalid Credit Note No.<span>'); return; }
+// });
 
 $(document).on("click", ".gencbn", function () {
   $('.act').hide();
@@ -197,23 +197,53 @@ $(document).on("click", ".rgenirn", function () {
   }
 });
 
-$(document).on("click", ".genirn", function () {
-  $('.act').hide();
-  $('.feeter, .col_gencbn, .col_invcpy').show();
-  $('.genirn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
-  var geturl = $(this).data('href');
-  var getIrnId = getRemote(geturl);
-  if (getIrnId['Status'] == "0") {
-    $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
-    $('.genirn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
-    $('.initgencbn').hide();
-    $('.col_genirn').show();
+// $(document).on("click", ".genirn", function () {
+//   $('.act').hide();
+//   $('.feeter, .col_gencbn, .col_invcpy').show();
+//   var geturl = $(this).data('href');
+//   $('.genirn').html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
+//   var getIrnId = getRemote(geturl);
+//   if (getIrnId['Status'] == "0") {
+//     $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
+//     $('.genirn').html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
+//     $('.initgencbn').hide();
+//     $('.col_genirn').show();
 
-  } else {
-    var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
-    if (getInvIrn) { $('.act').hide(); $('.col_ecanirn').show(); }
-  }
+//   } else {
+//     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
+//     if (getInvIrn) { $('.act').hide(); $('.col_ecanirn').show(); }
+//   }
+// });
+
+
+$(document).on("click", ".genirn", function () {
+
+  var $btn = $(this);
+  $btn.prop('disabled', true).html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
+ 
+  var geturl = $btn.data('href');
+
+  setTimeout(function () {
+    $('.act').hide();
+    $('.feeter, .col_gencbn, .col_invcpy').show();
+    var getIrnId = getRemote(geturl);
+
+    if (getIrnId['Status'] == "0") {
+      $('.feeter').show().text(getIrnId['ErrorDetails'][0]['ErrorMessage']);
+      $('.initgencbn').hide();
+      $('.col_genirn').show();
+    } else {
+      var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
+      if (getInvIrn) {
+        $('.act').hide();
+        $('.col_ecanirn, .col_invcpy').show();
+      }
+    }
+    $btn.prop('disabled', false).html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
+
+  }, 500);
 });
+
 
 $(document).on("click", ".ecanirn", function () {
   $('.act').hide();
