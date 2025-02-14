@@ -23,7 +23,7 @@
                         <option>Select Customer</option>
                         <?php foreach ($customers as $customer) : ?>
                           <option value="<?php echo $customer['id'] ?>">
-                            <?php echo $customer['customer_name'] . ' (' . $customer['state_name'] . ')' ?>
+                            <?php echo $customer['customer_name'] . ' - ' . $customer['state_name'] ?>
                           </option>
                         <?php endforeach; ?>
                       </select>

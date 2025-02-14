@@ -438,8 +438,7 @@ function preview_builder() {
                 if (restrictedOrderTypes.includes(parseInt(note.order_type))) {
                     shouldSkipCreditNote = true; 
                 }
-                console.log(`Credit Note ID: ${note.id}`);
-                console.log(`Order Type: ${note.order_type}`);
+                
             }
         });
         if (!shouldSkipCreditNote) {

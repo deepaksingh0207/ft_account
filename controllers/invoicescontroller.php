@@ -190,7 +190,6 @@ class InvoicesController extends Controller
 
             $this->_view->set('payments', $payments);
 
-
             $customerTbl = new CustomersModel();
             $customer = $customerTbl->get($invoice['customer_id']);
             $this->_view->set('customer', $customer);

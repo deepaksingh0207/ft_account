@@ -76,7 +76,7 @@ $(document).ready(function () {
           '</a>';
         $('.col_cbncopy').html(creditNoteLink);
       }
-    }, 1000);
+    }, 500);
     
   });
 
