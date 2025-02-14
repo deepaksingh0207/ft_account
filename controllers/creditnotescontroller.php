@@ -312,8 +312,6 @@ class CreditnotesController extends Controller
             "{{REST_BR}}" => $br,
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            // "{{GROSS_AMOUNT}}" => number_format($invoice['exchange_rate'] * $invoiceItem['total'], 2),
-            // "{{EXCHANGE_RATE}}" => number_format($invoice['exchange_rate'], 2),
             "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoiceItem['total'], 2) . ' INR' : '',
             "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' .$customer['for_cur'].  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],

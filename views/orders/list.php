@@ -24,9 +24,9 @@
                   <select class="form-control fc ftsm select2 mt-0" name="customer_id" id="id_customer">
                     <option value="">Select Customer</option>
                     <?php foreach ($customers as $customer) : ?>
-                    <option value="<?php echo $customer['id'] ?>">
-                      <?php echo $customer['name'] ?>
-                    </option>
+                      <option value="<?php echo $customer['id'] ?>">
+                        <?php echo $customer['customer_name'] . ' - ' . $customer['state_name'] ?>
+                      </option>
                     <?php endforeach; ?>
                   </select>
                 </div>

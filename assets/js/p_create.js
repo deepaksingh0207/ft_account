@@ -23,9 +23,11 @@ $(document).on("change", "#id_group_id", function () {
             encode: true,
         })
             .done(function (resp) {
+                console.log(resp);
                 $("#id_customerid").empty().append('<option selected="">Select Customer</option>');
                 $.each(resp, function (i_resp, value) {
-                    $("#id_customerid").append("<option value='" + value.id + "'>" + value.name + "</option>");
+
+                    $("#id_customerid").append("<option value='" + value.id + "'>" + value.name + ' - '+ value.state_name + "</option>");
                 });
                 if (resp.length < 2) { $("#id_customerid").val(resp[0].id).trigger('change'); }
             })
