@@ -1,5 +1,6 @@
 
 let symbol = '';
+let nri = false;
 $(document).ready(function () {
     $('#select-all').on('change', function () {
         const checked = $(this).is(':checked');
@@ -58,13 +59,19 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                // console.log(response);
+                 console.log(response);
                 $('#preview_tbody').empty();
                 if (response.status) {
                     const items = response.data;
                     order_type = items[0].order_type;
                     $("#setheader_creditnote").text(setheader(order_type));
                     customerid = items[0].customer_id;
+                     nri = items[0].country === "101" ? false : true;
+                     if (nri) {
+                        $("#exchange_rate").parent().show();  
+                    } else {
+                        $("#exchange_rate").parent().hide();  
+                    }
                     symbol = items[0].symbol || '';
                     let rows = '';
                     items.forEach(function (item, index) {
@@ -118,7 +125,7 @@ $(document).ready(function () {
              $("#id_creditnote_date").removeClass("is-invalid");
         });
     });
-
+    
     function updateCalculations() {
         let subtotal = 0;
         $('#preview_tbody tr').each(function () {
@@ -303,12 +310,15 @@ $(document).ready(function () {
             }
         });
     });
- 
+
     function collectFormData() {
         const formData = {
             invoice_details: [],
             credit_note_total: $('#preview_credit_total').val(),
             credit_no: $('#id_credit_no').val(),
+            // exchangerate: $('#exchange_rate').val(),
+            exchangerate: nri ? ($('#exchange_rate').val()) : null,
+
             credit_note_date: $('#id_creditnote_date').val(),
             igst: $('#preview_igst_val').text().replace(symbol, '').trim(),
             cgst: $('#preview_cgst_val').text().replace(symbol, '').trim(),

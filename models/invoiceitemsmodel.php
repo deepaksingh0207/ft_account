@@ -45,7 +45,7 @@ class InvoiceItemsModel extends Model
                 WHEN SUM(credit_note_items.qty) IS NOT NULL THEN (invoice_items.qty - SUM(credit_note_items.qty))
                 ELSE invoice_items.qty
                 END AS qty,    
-               uom.title AS uom_title, hsn_codes.code AS hsn_code, hsn_codes.description AS hsn_description, invoices.invoice_no, invoices.customer_id,invoices.order_id,customers.for_cur,currencies.symbol,order_items.order_type
+               uom.title AS uom_title, hsn_codes.code AS hsn_code, hsn_codes.description AS hsn_description, invoices.invoice_no, invoices.customer_id,invoices.order_id,customers.for_cur,customers.country,currencies.symbol,order_items.order_type
                FROM invoice_items
                LEFT JOIN credit_note_items ON invoice_items.id = credit_note_items.invoice_item_id
               LEFT JOIN uom ON invoice_items.uom_id = uom.id

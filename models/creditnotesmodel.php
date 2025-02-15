@@ -120,7 +120,7 @@
                         I.pay_days, I.po_no, I.sales_person, I.bill_to, I.ship_to, 
                         I.order_total, I.payment_term, I.pay_percent, I.payment_description, 
                         I.remarks, I.due_date, I.status, 
-                        I.user_id, I.gstr_set, I.hide_po, I.cnt_code, I.for_cur, I.exchange_rate,
+                        I.user_id, I.gstr_set, I.hide_po, I.cnt_code, I.for_cur,
                          (SELECT SUM(total) FROM credit_note_items CNI WHERE CNI.credit_note_id = CN.id) AS sub_total
                     FROM credit_notes CN
                     JOIN invoices I ON CN.invoice_id = I.id

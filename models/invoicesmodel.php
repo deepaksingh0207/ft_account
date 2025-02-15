@@ -166,7 +166,8 @@ class InvoicesModel extends Model
             'igst' => !empty($data['igst']) ? $data['igst'] : 0,
             'cgst' => !empty($data['cgst']) ? $data['cgst'] : 0,
             'sgst' => !empty($data['sgst']) ? $data['sgst'] : 0,
-            'credit_note_total' => !empty($data['credit_note_total']) ? $data['credit_note_total'] : 0,           
+            'credit_note_total' => !empty($data['credit_note_total']) ? $data['credit_note_total'] : 0, 
+            'exchange_rate' => $data['exchangerate'],         
         ];
 
         $datafields = array_keys($mapped_data);
