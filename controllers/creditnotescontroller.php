@@ -197,7 +197,6 @@ class CreditnotesController extends Controller
         $totalbr = 10;
         if (!empty($_POST)) {
             $data = $_POST;
-            //   echo '<pre>'; print_r($data);
             $invoiceId = $data['invoice_details'][0]['invoice_id'];
             $credit_note_total = $data['credit_note_total'];
             $credit_note_date = $data['credit_note_date'];
@@ -312,8 +311,10 @@ class CreditnotesController extends Controller
             "{{REST_BR}}" => $br,
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoiceItem['total'], 2) . ' INR' : '',
-            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' .$customer['for_cur'].  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
+            // "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($data['exchangerate'] * $invoiceItem['total'], 2) . ' INR' : '',
+            // "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' .$customer['for_cur'].  ' = ' . number_format($data['exchangerate'], 2) . ' INR' : '',
+            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format((float)($data['exchangerate']) * (float)$invoiceItem['total'], 2) . ' INR' : '',
+           "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] . ' = ' . number_format((float)($data['exchangerate']), 2) . ' INR' : '',
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
         $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . $credit_no;

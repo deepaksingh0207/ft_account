@@ -20,6 +20,7 @@ $(function () { bsCustomFileInput.init(); });
 
 $("#group_id").change(function () {
   group_id_reset();
+  ordertype_reset();
   groupId = $(this).val();
   if (groupId) {
     $.ajax({ type: "POST", url: baseUrl + "customers/groupcustomers/" + groupId, dataType: "json", encode: true })

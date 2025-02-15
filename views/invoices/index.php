@@ -118,11 +118,11 @@
                         <span id="preview_subtotal_txt"></span>
                         <!-- <input type="hidden" name="invoice_total" id= "invoice_total" class="previewsubtotal" value="">  -->
                       </div>
-                      <div class="col-sm-4 text-center Igst" style ="display:block">
+                      <div class="col-sm-4 text-center Igst" style="display:block">
                         <b>IGST ( 18% ) : </b>
                         <span id="preview_igst_val"></span>
                       </div>
-                      <div class="col-sm-4 text-center SCgst" style ="display:block">
+                      <div class="col-sm-4 text-center SCgst" style="display:block">
                         <b>SGST(9%) : </b> <span id="preview_sgst_val"></span>&nbsp;&nbsp;&nbsp;&nbsp;<b>CGST(9%) : </b> <span id="preview_cgst_val"></span>
                       </div>
                       <div class="col-sm-4 text-right" style="color:mediumslateblue">
@@ -141,9 +141,15 @@
                   <div class="col-sm-12 col-lg-2">
                     <label for="id_credit_no">Credit Note No.</label>
                     <input type="text" value="" class="form-control numberonly" pattern="\d{7}"
-                    minlength="7" maxlength="7" min="0000000" max="9999999" required name="credit_no" id="id_credit_no">
+                      minlength="7" maxlength="7" min="0000000" max="9999999" required name="credit_no" id="id_credit_no">
                     <span id="credit_no_error" style=" display: none;" class="say error invalid-feedback"></span>
                   </div>
+
+                  <div class="col-sm-12 col-lg-2">
+                    <label for="exchange_rate">Exchange Rate</label>
+                    <input type="number" class="form-control ftsm" name="exchangerate" required id="exchange_rate">
+                  </div>
+
                 </div>
               </div>
 

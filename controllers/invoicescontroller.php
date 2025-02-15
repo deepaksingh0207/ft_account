@@ -55,7 +55,7 @@ class InvoicesController extends Controller
 
             if (!empty($_POST)) {
                 $data = $_POST;
-                // echo '<pre>'; print_r($data); exit;
+                // echo '<pre>'; print_r($data);
                 $isProformaInvoice = (isset($data['proforma']) && $data['proforma'] == 1) ? true : false;
 
                 $invoiceeData = array();
@@ -79,7 +79,7 @@ class InvoicesController extends Controller
                 $invoiceeData['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null;
                 $invoiceeData['remarks'] = $data['remarks'];
                 $invoiceeData['due_date'] = $data['due_date'];
-                $invoiceeData['exchange_rate'] = $data['exchange_rate'];
+                $invoiceeData['exchange_rate'] = $data['exchangerate'];
 
                 //$invoiceeData['invoice_no'] = $this->genInvoiceNo();
                 $invoiceeData['invoice_no'] = $data['invoice_no'];
@@ -248,9 +248,6 @@ class InvoicesController extends Controller
         $totalbr = 10;
         if (!empty($_POST)) {
             $data = $_POST;
-
-            //   echo '<pre>'; print_r($data);exit;
-
             if (!$invoiceId) {
                 $invoiceId = ($this->_model->getLastId() + 1);
             }
@@ -275,7 +272,7 @@ class InvoicesController extends Controller
             $invoice['cgst'] = $data['cgst'];
             $invoice['igst'] = $data['igst'];
             $invoice['invoice_total'] = $data['invoice_total'];
-            $invoice['exchange_rate'] = isset($data['exchange_rate']) ? $data['exchange_rate'] : null;
+            $invoice['exchange_rate'] = isset($data['exchangerate']) ? $data['exchangerate'] : null;
             $invoice['payment_term'] = isset($data['payment_term']) ? $data['payment_term'] : null;
             $invoice['pay_percent'] = isset($data['pay_percent']) ? $data['pay_percent'] : null;
             $invoice['payment_description'] = isset($data['payment_description']) ? $data['payment_description'] : null;
@@ -360,7 +357,6 @@ class InvoicesController extends Controller
             $br .= '<br>';
         }
         $br .= "</td></tr>";
-
         $vars = array(
             "{{IRN}}" => $irn,
             "{{IRN_DATE}}" => $irndt,
@@ -396,8 +392,8 @@ class InvoicesController extends Controller
             "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "invoice Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoice['invoice_total'], 2) . ' INR' : '',
-            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
+            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format((float)$invoice['exchange_rate'] * $invoice['invoice_total'], 2) . ' INR' : '',
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format((float)$invoice['exchange_rate'], 2) . ' INR' : '',
         );
 
         if ($proformaSwitch) {
@@ -621,8 +617,8 @@ class InvoicesController extends Controller
             "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
-            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($invoice['exchange_rate'] * $invoice['credit_note_total'], 2) . ' INR' : '',
-            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format($invoice['exchange_rate'], 2) . ' INR' : '',
+            "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format((float)$invoice['exchange_rate'] * $invoice['credit_note_total'], 2) . ' INR' : '',
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format((float)$invoice['exchange_rate'], 2) . ' INR' : '',
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
 
