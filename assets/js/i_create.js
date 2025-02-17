@@ -112,6 +112,7 @@ function createbookeeper() {
 
 $(document).on("change", "#id_group_id", function () {
   resetongroup();
+  resetCreditNotes(); 
   if ($(this).val()) {
     $.ajax({
       type: "POST",
@@ -1302,6 +1303,10 @@ function getInvoiceNo(val, proforma = false) {
 
 //vivek starts changes
 //  ------------creditNotesList------------
+function resetCreditNotes() {
+  $("#id_creditnoteblock").hide();
+  $('#creditnote_body').html(''); 
+}
 
 function fetchCreditNotesByOrderId(orderId) {
   var orderId = od_order.id;

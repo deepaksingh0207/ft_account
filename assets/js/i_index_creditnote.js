@@ -59,7 +59,6 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                 console.log(response);
                 $('#preview_tbody').empty();
                 if (response.status) {
                     const items = response.data;
