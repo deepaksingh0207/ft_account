@@ -317,8 +317,18 @@ class CreditnotesController extends Controller
            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] . ' = ' . number_format((float)($data['exchangerate']), 2) . ' INR' : '',
             "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
         );
-        $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . $credit_no;
+
+        // $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . $credit_no;
         $vars["{{TITLE}}"] = "CREDIT NOTE";
+
+        $vars["{{CREDIT_NO}}"] = $nri ? "Credit Note No: EXP CR-" . $credit_no : "Credit Note No : CR-" . $credit_no;
+        if (!$nri) {
+            $vars["{{TITLE}}"] = "CREDIT NOTE";
+        } else {
+            $vars["{{TITLE}}"] = "TAX CUM EXPORT CREDIT NOTE";
+        }
+
+
 
         if ($hidepo) {
             $vars["{{PO_NO}}"] = "Purchase Order No.: As per mail";
