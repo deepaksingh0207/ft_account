@@ -112,7 +112,7 @@ function createbookeeper() {
 
 $(document).on("change", "#id_group_id", function () {
   resetongroup();
-  resetCreditNotes(); 
+  resetCreditNotes();
   if ($(this).val()) {
     $.ajax({
       type: "POST",
@@ -353,7 +353,10 @@ function preview_builder() {
       preview_modal_body = preview_modal_body + `
       <div class="col-sm-12 col-lg-3">
         <label for="id_exchangerate">Exchange Rate</label>
-        <input type="number" class="form-control ftsm" name="exchangerate" required id="id_exchangerate" >
+       <div style="display: flex;gap: 5px; align-items: center;"> 
+       <div class="text-nowrap"> 1  ${currencyCode} = </div>
+      <input type="number" class="form-control ftsm" name="exchangerate" required id="id_exchangerate" >
+      INR</div>
         <input type="hidden" class="form-control ftsm" name="nri" required id="id_nri" value="1" >
       </div>`;
     } else {
@@ -432,25 +435,25 @@ function preview_builder() {
 
         const creditNotes = tree["creditnotes"];
         const restrictedOrderTypes = [1, 2, 3, 7];
-        let shouldSkipCreditNote = false; 
+        let shouldSkipCreditNote = false;
         Object.keys(creditNotes).forEach(key => {
-            if (key !== "ids") {
-                let note = creditNotes[key];
-                if (restrictedOrderTypes.includes(parseInt(note.order_type))) {
-                    shouldSkipCreditNote = true; 
-                }
-                
+          if (key !== "ids") {
+            let note = creditNotes[key];
+            if (restrictedOrderTypes.includes(parseInt(note.order_type))) {
+              shouldSkipCreditNote = true;
             }
+
+          }
         });
         if (!shouldSkipCreditNote) {
-            $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
-                tree["credit_note_items"]["ids"].push(credit_note_item.id);
-                tree["credit_note_items"][credit_note_item.id] = credit_note_item;
-                maxqty += parseInt(credit_note_item.qty);
-                invoice_total += (credit_note_item.qty * credit_note_item.unit_price);
-            });
-        } 
-        
+          $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
+            tree["credit_note_items"]["ids"].push(credit_note_item.id);
+            tree["credit_note_items"][credit_note_item.id] = credit_note_item;
+            maxqty += parseInt(credit_note_item.qty);
+            invoice_total += (credit_note_item.qty * credit_note_item.unit_price);
+          });
+        }
+
 
 
         $("#ptb" + c).append('<td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + maxqty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + maxqty + '"></td>');
@@ -1305,7 +1308,7 @@ function getInvoiceNo(val, proforma = false) {
 //  ------------creditNotesList------------
 function resetCreditNotes() {
   $("#id_creditnoteblock").hide();
-  $('#creditnote_body').html(''); 
+  $('#creditnote_body').html('');
 }
 
 function fetchCreditNotesByOrderId(orderId) {

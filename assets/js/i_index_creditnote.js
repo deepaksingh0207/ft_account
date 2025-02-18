@@ -1,6 +1,7 @@
 
 let symbol = '';
 let nri = false;
+let currency = '';
 $(document).ready(function () {
     $('#select-all').on('change', function () {
         const checked = $(this).is(':checked');
@@ -62,14 +63,18 @@ $(document).ready(function () {
                 $('#preview_tbody').empty();
                 if (response.status) {
                     const items = response.data;
+
                     order_type = items[0].order_type;
                     $("#setheader_creditnote").text(setheader(order_type));
                     customerid = items[0].customer_id;
-                     nri = items[0].country === "101" ? false : true;
-                     if (nri) {
-                        $("#exchange_rate").parent().show();  
+                    currency = items[0].for_cur;
+                    nri = items[0].country === "101" ? false : true;
+                
+                    if (nri) {
+                        $("#exchange_field").show();
+                        $('#curr_label').text("1 "+ currency + "  =");
                     } else {
-                        $("#exchange_rate").parent().hide();  
+                        $("#exchange_field").hide();
                     }
                     symbol = items[0].symbol || '';
                     let rows = '';
@@ -118,13 +123,13 @@ $(document).ready(function () {
         $('#modal-xl').on('hidden.bs.modal', function () {
             $('#preview_tbody .item-checkbox').prop('checked', false);
             $('#select-all').prop('checked', false);
-             $('#modal-xl').find('input, textarea, select').val('');
-             $('#id_credit_no').removeClass("is-invalid");  
-             $('#credit_no_error').hide();   
-             $("#id_creditnote_date").removeClass("is-invalid");
+            $('#modal-xl').find('input, textarea, select').val('');
+            $('#id_credit_no').removeClass("is-invalid");
+            $('#credit_no_error').hide();
+            $("#id_creditnote_date").removeClass("is-invalid");
         });
     });
-    
+
     function updateCalculations() {
         let subtotal = 0;
         $('#preview_tbody tr').each(function () {
@@ -295,12 +300,12 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.status === 'success') {
 
-                    alert('Credit note generated successfully!');
+                    alert(response.message);
 
                     // window.location.href = baseUrl + 'creditnotes/index';
 
                 } else {
-                    alert('Failed to generate credit note: ' + response.message);
+                    alert(response.message);
 
                 }
             },
@@ -347,7 +352,7 @@ $(document).ready(function () {
 
                 };
 
-                
+
                 formData.invoice_details.push(data);
             }
         });
@@ -359,10 +364,10 @@ $(document).ready(function () {
         var regex = new RegExp("^[0-9]$");
         var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
         if (!regex.test(key)) {
-          event.preventDefault();
-          return false;
+            event.preventDefault();
+            return false;
         }
-      });
+    });
     function validateForm() {
         let isValid = true;
         let credit_no = $('#id_credit_no').val();
@@ -377,7 +382,7 @@ $(document).ready(function () {
 
         if (!credit_no) {
             $("#id_credit_no").addClass("is-invalid");
-             $("#credit_no_error").text("Please enter credit no").show();
+            $("#credit_no_error").text("Please enter credit no").show();
             isValid = false;
         } else if (!/^\d{7}$/.test(credit_no)) {
             $("#id_credit_no").addClass("is-invalid");
