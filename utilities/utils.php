@@ -98,10 +98,9 @@ function AmountInWords(float $amount, $nri, $currencyCode)
         $paise = ' Paise';
     }
 
-    $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[$amount_after_decimal / 10] . " " . $change_words[$amount_after_decimal % 10]) . " " . $paise : '';
+    $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[floor($amount_after_decimal / 10) * 10 ] . " " . $change_words[$amount_after_decimal % 10]) . " " . $paise : '';
     
     return ($implode_to_Rupees ? $implode_to_Rupees . $rupees : '') . $get_paise;
 }
-
 
 }

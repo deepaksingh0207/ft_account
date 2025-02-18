@@ -145,9 +145,18 @@
                     <span id="credit_no_error" style=" display: none;" class="say error invalid-feedback"></span>
                   </div>
 
-                  <div class="col-sm-12 col-lg-2">
-                    <label for="exchange_rate">Exchange Rate</label>
-                    <input type="number" class="form-control ftsm" name="exchangerate" required id="exchange_rate">
+                  <div class="col-sm-12 col-lg-3" id="exchange_field" >
+                  <label for="exchange_rate">Exchange Rate</label>
+                    <div class="d-flex col-12 align-items-center" id="exchange-rate-con">
+                    <div class="currency-display">
+                        <span class="currency-label top-label text-nowrap" id="curr_label"></span>
+                    </div>
+                    
+                    <input type="number" class="ml-2 form-control mr-2" name="exchangerate" required id="exchange_rate">
+                    <div class="currency-display">
+                        <span class="currency-label bottom-label">INR</span>
+                    </div>
+                    </div>
                   </div>
 
                 </div>

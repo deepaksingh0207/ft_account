@@ -139,10 +139,11 @@ class CustomersController extends Controller
 
             if (!empty($_POST)) {
                 $data = $_POST;
+                if (empty($data['pincode']) && $data['country'] != '101') {
+                $data['pincode'] = '999999'; 
+            }
                 $data['for_cur'] = $data['currency'];
-                unset($data['currency']);
-                // echo '<pre>'; print_r($data);exit;
-                
+                unset($data['currency']);  
                 if ($this->_model->save($data)) {
                     $_SESSION['message'] = 'Customer added successfully';
                     header("location:" . ROOT . "customers");
