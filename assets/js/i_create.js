@@ -346,7 +346,7 @@ function preview_builder() {
           </div>
           <div class="col-sm-12 col-lg-3">
             <label for="id_invoice_no">Invoice No.</label>
-            <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no">
+            <input type="number" value="" class="form-control numberonly" pattern="[0-9]{7}" min="0000000" max="9999999" required name="invoice_no" id="id_invoice_no" placeholder="please enter only 7 digit">
           </div>`;
 
     if (NRI) {
@@ -357,6 +357,7 @@ function preview_builder() {
        <div class="text-nowrap"> 1  ${currencyCode} = </div>
       <input type="number" class="form-control ftsm" name="exchangerate" required id="id_exchangerate" >
       INR</div>
+      <div id="exchange_error" class="say error invalid-feedback"style="display: block;margin-left: 35px;"> </div>
         <input type="hidden" class="form-control ftsm" name="nri" required id="id_nri" value="1" >
       </div>`;
     } else {
@@ -973,6 +974,15 @@ function checker() {
     $("#id_invoice_no").addClass("is-invalid");
     check = false;
   }
+  if ($("#id_exchangerate").val() == "" && check) {
+    $("#id_exchangerate").addClass("is-invalid");
+    $("#exchange_error").text("Please Enter Exchange Rate").show();
+    check = false;
+  } else{
+    $("#id_exchangerate").removeClass("is-invalid");
+    $("#exchange_error").hide();
+  }
+
   if (invoicevalidityflag && check) { check = true; }
   else { check = false; }
   if (check) {

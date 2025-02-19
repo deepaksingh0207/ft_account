@@ -412,19 +412,30 @@ class InvoicesModel extends Model
         return $user;
     }
 
-    public function check_invoice_validty($val)
-    {
+    // public function check_invoice_validty($val)
+    // {
+    //     //$sql = "select * from invoices where 1=1 order by updated_date desc";
+    //     $sql = "SELECT invoice_no FROM invoice_nos where invoice_no = ? limit 1;";
+    //     $this->_setSql($sql);
+    //     $data = $this->getAll(array($val));
+
+    //     if (empty($data)) {
+    //         return false;
+    //     }
+    //     return $data;
+    // }
+    
+    public function check_invoice_validty($val) {
         //$sql = "select * from invoices where 1=1 order by updated_date desc";
-        $sql = "SELECT invoice_no FROM invoice_nos where invoice_no = ? limit 1;";
+        $sql = "select * from (select invoice_no from invoices where status = 1 union select invoice_no from invoice_irns) as mgr where invoice_no = ? limit 1;";
         $this->_setSql($sql);
         $data = $this->getAll(array($val));
 
-        if (empty($data)) {
+        if (empty($data)){
             return false;
         }
         return $data;
     }
-
 
 
     public function check_credit_note_validty($val)

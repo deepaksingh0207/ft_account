@@ -371,6 +371,7 @@ $(document).ready(function () {
     function validateForm() {
         let isValid = true;
         let credit_no = $('#id_credit_no').val();
+        let exchangeRate = $('#exchange_rate').val();
         let creditNoteDate = $("#id_creditnote_date").val();
         let checkboxChecked = $('#preview_tbody .item-checkbox:checked').length > 0;
         if (!creditNoteDate) {
@@ -392,7 +393,15 @@ $(document).ready(function () {
             $("#id_credit_no").removeClass("is-invalid");
             $("#credit_no_error").hide();
         }
-
+        if (!exchangeRate) {
+            $("#exchange_rate").addClass("is-invalid");
+            $("#exchange_rate_error").text("Please Enter Exchange Rate").show();
+            isValid = false;
+        } else{
+            $("#exchange_rate").removeClass("is-invalid");
+            $("#exchange_rate_error").hide();
+        }
+        
         if (!checkboxChecked) {
 
             alert("Please select at least one item.");

@@ -237,8 +237,9 @@ $(document).on("click", ".genirn", function () {
       if (getInvIrn) {
         $('.act').hide();
         $('.col_ecanirn, .col_invcpy').show();
+        alert("IRN has been generated successfully.");
       }
-    }
+    } 
     $btn.prop('disabled', false).html('<i class="fas fa-file-invoice fa-lg"></i><br><br>Generate E-Invoice');
 
   }, 500);
