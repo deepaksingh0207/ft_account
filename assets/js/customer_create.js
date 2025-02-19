@@ -15,10 +15,13 @@ $(function () {
 			name: {
 				required: true,
 			},
-			currency: { //
+			currency: { 
 				required: true,
 
 			  },
+			  state: {
+				required: true, 
+			},
 		
 			// contact_person: {
 			// 	required: true,
@@ -80,7 +83,10 @@ $(function () {
 			},
 			currency: { 
 				required: "Please select a currency.",
-			  }
+			  },
+			  state: {
+				required: "Please select a state.", 
+			},
 			// contact_person: {
 			// 	required: "Please enter contact person.",
 			// },
@@ -215,6 +221,7 @@ $(document).ready(function () {
     });
 
     $('#country_id').trigger('change');
+	
 });
 
 
