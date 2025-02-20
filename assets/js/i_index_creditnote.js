@@ -127,6 +127,8 @@ $(document).ready(function () {
             $('#id_credit_no').removeClass("is-invalid");
             $('#credit_no_error').hide();
             $("#id_creditnote_date").removeClass("is-invalid");
+             $("#exchange_rate").removeClass("is-invalid");
+            $("#exchange_rate_error").hide();
         });
     });
 
@@ -393,7 +395,7 @@ $(document).ready(function () {
             $("#id_credit_no").removeClass("is-invalid");
             $("#credit_no_error").hide();
         }
-        if (!exchangeRate) {
+        if (nri && !exchangeRate) {
             $("#exchange_rate").addClass("is-invalid");
             $("#exchange_rate_error").text("Please Enter Exchange Rate").show();
             isValid = false;
