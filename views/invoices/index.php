@@ -157,6 +157,7 @@
                         <span class="currency-label bottom-label">INR</span>
                     </div>
                     </div>
+                    <span id="exchange_rate_error" style=" display: none; margin-left: 50px;" class="say error invalid-feedback"></span>
                   </div>
 
                 </div>
