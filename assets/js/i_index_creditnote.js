@@ -79,7 +79,8 @@ $(document).ready(function () {
                     symbol = items[0].symbol || '';
                     let rows = '';
                     items.forEach(function (item, index) {
-                        //  console.log(item);
+                        // console.log(item);
+                        if (item.qty > 0) {
                         const row = `
                             <tr data-existing-qty="${item.qty}" data-uom-id="${item.uom_id}" data-uom-title="${item.uom_title}" data-order-id="${item.order_id}" data-order-item-id="${item.order_item_id}" data-id="${item.id}"  data-order-payterm-id="${item.order_payterm_id}" data-order-type-id="${item.order_type}">
                             
@@ -100,6 +101,7 @@ $(document).ready(function () {
                                 </td>   
                             </tr>`;
                         rows += row;
+                        }
                     });
 
                     $('#preview_tbody').html(rows);
@@ -127,8 +129,6 @@ $(document).ready(function () {
             $('#id_credit_no').removeClass("is-invalid");
             $('#credit_no_error').hide();
             $("#id_creditnote_date").removeClass("is-invalid");
-             $("#exchange_rate").removeClass("is-invalid");
-            $("#exchange_rate_error").hide();
         });
     });
 
@@ -373,7 +373,6 @@ $(document).ready(function () {
     function validateForm() {
         let isValid = true;
         let credit_no = $('#id_credit_no').val();
-        let exchangeRate = $('#exchange_rate').val();
         let creditNoteDate = $("#id_creditnote_date").val();
         let checkboxChecked = $('#preview_tbody .item-checkbox:checked').length > 0;
         if (!creditNoteDate) {
@@ -395,15 +394,7 @@ $(document).ready(function () {
             $("#id_credit_no").removeClass("is-invalid");
             $("#credit_no_error").hide();
         }
-        if (nri && !exchangeRate) {
-            $("#exchange_rate").addClass("is-invalid");
-            $("#exchange_rate_error").text("Please Enter Exchange Rate").show();
-            isValid = false;
-        } else{
-            $("#exchange_rate").removeClass("is-invalid");
-            $("#exchange_rate_error").hide();
-        }
-        
+
         if (!checkboxChecked) {
 
             alert("Please select at least one item.");
