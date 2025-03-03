@@ -335,7 +335,7 @@ $(document).ready(function () {
             const checkbox = $(this).find('.item-checkbox');
             if (checkbox.is(':checked')) {
                 // const orderTypeId = $(this).data('order-type-id'); 
-                const orderPaytermId = $(this).data('order-payterm-id');
+                // const orderPaytermId = $(this).data('order-payterm-id');
                 const data = {
                     invoice_id: invoice_id,
                     order_id: $(this).data('order-id'),
@@ -351,6 +351,8 @@ $(document).ready(function () {
                     credit_note_total: $('#preview_credit_total').val(),
                     order_type: $(this).data('order-type-id'),
                     uom_id: $(this).data('uom-id'),
+                    order_payterm_id: $(this).data('order-payterm-id'),
+                    
 
                 };
 
@@ -400,6 +402,19 @@ $(document).ready(function () {
             alert("Please select at least one item.");
             isValid = false;
         }
+
+        if (nri) {
+        let exchangeRate = $('#exchange_rate').val().trim();
+        // alert(exchangeRate);
+        if (!exchangeRate) {
+            $("#exchange_rate").addClass("is-invalid");
+            $("#exchange_rate_error").text("Exchange rate is required").show();
+            isValid = false;
+        } else {
+            $("#exchange_rate").removeClass("is-invalid");
+            $("#exchange_rate_error").hide();
+        }
+    }
 
         return isValid;
     }

@@ -130,7 +130,6 @@ class CreditnotesController extends Controller
 
     public function saveCreditNote()
     {
-        $tblOrderPaymentTerm = new OrderPaytermsModel();
 
         if (!empty($_POST)) {
             
@@ -143,32 +142,6 @@ class CreditnotesController extends Controller
 
                 if ($this->_model->save_credit_note_items($credit_note_id, $data['invoice_details'])) {
                 
-                    $orderPayTerms = [];
-
-                    foreach ($data['invoice_details'] as $invoiceDetail) {
-                        if (isset($invoiceDetail['order_type']) && in_array($invoiceDetail['order_type'], [1, 2, 3, 7])) {
-                            $orderPayTerms[] = [
-                                'order_id'       => $invoiceDetail['order_id'],
-                                'order_item_id'  => $invoiceDetail['order_item_id'],
-                                // 'order_type'     => $invoiceDetail['order_type'],
-                                'item'           => $invoiceDetail['item'],
-                                'description'    => $invoiceDetail['description'],
-                                'qty'            => $invoiceDetail['qty'],
-                                'uom_id'         => $invoiceDetail['uom_id'],
-                                'unit_price'     => $invoiceDetail['unit_price'],
-                                'total'          => $invoiceDetail['total'],
-                            ];
-                        }
-                    }
-    
-                    if (!empty($orderPayTerms)) {
-                        foreach ($orderPayTerms as $orderPayTerm) {
-                            $tblOrderPaymentTerm->save($orderPayTerm);
-                        }
-                    }
-            
-    
-
                     echo json_encode(['status' => 'success', 'message' => 'Credit note and items added successfully!']);
                 } else {
                     echo json_encode(['status' => 'error', 'message' => 'Failed to add credit note items.']);
@@ -197,6 +170,7 @@ class CreditnotesController extends Controller
         $totalbr = 10;
         if (!empty($_POST)) {
             $data = $_POST;
+        //   echo '<pre>'; print_r($data);
             $invoiceId = $data['invoice_details'][0]['invoice_id'];
             $credit_note_total = $data['credit_note_total'];
             $credit_note_date = $data['credit_note_date'];

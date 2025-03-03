@@ -616,10 +616,11 @@ class OrdersController extends Controller
             $invoiceItemModel = new InvoiceItemsModel();
             foreach ($oderItems as &$oderItem) {
                 $result = $invoiceItemModel->getInvoiceQtyOfItem($oderItem['id']);
-                $oderItem['bal_qty'] = ($oderItem['qty'] - $result);
+                $newresult = $creditNotesModel->getCreditQtyOfItem($oderItem['id']);
+                $oderItem['bal_qty'] = ($oderItem['qty'] - $result + $newresult);
                 $oderItem['bal_total'] = ($oderItem['bal_qty'] * $oderItem['unit_price']);
             }
-
+            // echo '<pre>'; print_r($oderItems); exit;
             foreach ($invoices as &$invoice) {
                 $invoice['payment_term'] = $invoice['payment_term'] ? $invoice['payment_term'] : '-';
                 $invoice['pay_percent'] = $invoice['pay_percent'] ? $invoice['pay_percent'] : '-';
