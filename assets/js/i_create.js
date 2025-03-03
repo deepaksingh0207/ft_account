@@ -81,6 +81,13 @@ function createbookeeper() {
               tree["items"][item.id]["payment"][payment.id]["proforma"][proforma.id]["invoice"] = { ids: [] }
             }
           });
+          $.each(od_creditnote_items, function (k, creditnote) {
+            if (item.id == creditnote.order_item_id && payment.id == creditnote.order_payterm_id) {
+              tree["items"][item.id]["creditnote"]["ids"].push(creditnote.id);
+              tree["items"][item.id]["creditnote"][creditnote.id] = creditnote
+              tree["items"][item.id]["creditnote"]["ot"] = item.order_type
+            }
+          });
         }
       });
     } else {
@@ -225,7 +232,10 @@ $(document).on("click", ".generate", function () {
   refreshpreview();
   preview_footer();
   $("#preview_modal").trigger("click");
+  $('.qty').trigger('input');
 });
+
+
 
 $(document).on("click", ".genebox", function () {
   if ($(this).is(':checked')) {
@@ -402,7 +412,7 @@ function preview_builder() {
       }
 
       if ($("#" + id).is(':checked')) {
-        var maxqty = t.qty;
+        var maxqty = parseInt(t.qty);
         $("#preview_tbody").append('<tr id="ptb' + c + '"></tr>');
         $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][order_payterm_id]" value="' + payment + '">');
         $("#ptb" + c).append('<input type="hidden" name="order_details[' + c + '][order_item_id]" id="id_order_item_id' + c + '" value="' + item + '">');
@@ -424,37 +434,39 @@ function preview_builder() {
 
         $.each(t.invoice.ids, function (k, l) { maxqty -= parseInt(t.invoice[l].qty); });
 
+        // const creditNotes = tree["creditnotes"];
+        //  console.log(creditNotes);
+        // const restrictedOrderTypes = [1, 2, 3, 7];
+        // let shouldSkipCreditNote = false;
+        // Object.keys(creditNotes).forEach(key => {
+        //   if (key !== "ids") {
+        //     let note = creditNotes[key];
+        //     if (restrictedOrderTypes.includes(parseInt(note.order_type))) {
+        //       shouldSkipCreditNote = true;
 
-        // $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
-
-        //   tree["credit_note_items"]["ids"].push(credit_note_item.id);
-        //   tree["credit_note_items"][credit_note_item.id] = credit_note_item;
-        //   maxqty += parseInt(credit_note_item.qty);
-        //   invoice_total += (credit_note_item.qty * credit_note_item.unit_price)
-
+        //     }
+        //   }
         // });
 
-        const creditNotes = tree["creditnotes"];
-        const restrictedOrderTypes = [1, 2, 3, 7];
-        let shouldSkipCreditNote = false;
-        Object.keys(creditNotes).forEach(key => {
-          if (key !== "ids") {
-            let note = creditNotes[key];
-            if (restrictedOrderTypes.includes(parseInt(note.order_type))) {
-              shouldSkipCreditNote = true;
-            }
+        // if (!shouldSkipCreditNote) {
+        //   $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
+        //     tree["credit_note_items"]["ids"].push(credit_note_item.id);
+        //     tree["credit_note_items"][credit_note_item.id] = credit_note_item;
+        //     maxqty += parseInt(credit_note_item.qty);
+        //     invoice_total += (credit_note_item.qty * credit_note_item.unit_price);
 
+        //   });
+        // }
+
+        $.each(od_creditnote_items, function (k, l) {
+
+          if ((payment == 0 && l.order_item_id == t.id) || (payment != 0 && l.order_payterm_id == t.id)) {
+            // console.log(l.order_type);
+            maxqty += parseInt(l.qty);
+            invoice_total += (l.qty * l.unit_price);
           }
-        });
-        if (!shouldSkipCreditNote) {
-          $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
-            tree["credit_note_items"]["ids"].push(credit_note_item.id);
-            tree["credit_note_items"][credit_note_item.id] = credit_note_item;
-            maxqty += parseInt(credit_note_item.qty);
-            invoice_total += (credit_note_item.qty * credit_note_item.unit_price);
-          });
-        }
 
+        });
 
 
         $("#ptb" + c).append('<td class="minmax150"><input type="number" class="form-control qty" required name="order_details[' + c + '][qty]" id="id_qty' + c + '" min="1" value="' + maxqty + '" data-index="' + c + '" data-up="' + t.unit_price + '" data-uom="' + t.uom_id + '" max="' + maxqty + '"></td>');
@@ -462,8 +474,8 @@ function preview_builder() {
         $("#ptb" + c).append('<td class="pt-3"><input type="number" class="form-control pup" required style="width: 10rem;" name="order_details[' + c + '][unit_price]" data-index="' + c + '" data-up="' + t.unit_price + '" id="id_unitprice' + c + '" value="' + t.unit_price + '"></td>');
         $("#ptb" + c).append('<td id="preview_row_hsn' + c + '" class="pt-3"><select class="form-control" style="width:15vw;" name="order_details[' + c + '][hsn_id]" id="id_hsn_id' + c + '"></select></td>');
 
-        // var invoice_total = maxqty * t.unit_price; 
 
+        // var invoice_total = maxqty * t.unit_price; 
 
         if (t.uom_id == 3) {
           var invoice_total = maxqty * t.unit_price / 100;
@@ -495,7 +507,7 @@ function fillhsnselect(id) {
     .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown) })
 }
 
-$(document).on("change", ".pup", function () {
+$(document).on("change input", ".pup", function () {
 
   if ($(this).data('uom') == 3) {
     $("#id_total_span" + $(this).data('index')).text($(this).val() * $(this).data('qty') / 100);
@@ -505,6 +517,7 @@ $(document).on("change", ".pup", function () {
     $("#id_total" + $(this).data('index')).val($(this).val());
   }
   $("#id_qty" + $(this).data('index')).trigger('change');
+  $('.qty').trigger('input');
   preview_total()
 });
 
@@ -871,7 +884,6 @@ function preview_footer() {
 
     if ($("#" + id).is(':checked')) {
 
-
       subtotal += parseFloat(t.total);
 
       $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
@@ -910,7 +922,7 @@ function preview_footer() {
         </div>
         <div id="cgstclass" style="display: none;">
           <b>CGST ( <span>` + parseInt(gstlist[2]) + ` %</span> ) : </b>
-          <span id="preview_cgst_val">₹` + cgst_total.toFixed(2) + `</span>
+          <span id="preview_cgst_val">` + cgst_total.toFixed(2) + `</span>
           <input type="hidden" name="cgst" id="previewcgst" value="` + cgst_total.toFixed(2) + `">
         </div>
         <div id="igstclass" style="display: none;">
@@ -978,7 +990,7 @@ function checker() {
     $("#id_exchangerate").addClass("is-invalid");
     $("#exchange_error").text("Please Enter Exchange Rate").show();
     check = false;
-  } else{
+  } else {
     $("#id_exchangerate").removeClass("is-invalid");
     $("#exchange_error").hide();
   }
@@ -1067,7 +1079,65 @@ function fillinvoice_body() {
           });
         }
 
-        // Payment Terms Tax Created Check
+        else if ((tree["items"][itm]["payment"][ptm]["invoice"]["ids"]).length > 0 && (tree["items"][itm]["creditnote"]["ids"]).length > 0) {
+
+          var qty = parseInt(tree["items"][itm]["payment"][ptm]["qty"]);
+          $.each(tree["items"][itm]["payment"][ptm]["invoice"]["ids"], function (iPtmInv, ptmInv) {
+            $("#id_invoicetable").append('<tr id="row' + itm + ptm + ptmInv + '"></tr>');
+            $("#row" + itm + ptm + ptmInv).append('<td></td>');
+            $("#row" + itm + ptm + ptmInv).append('<td><div class="icheck-primary d-inline"><input type="checkbox" id="pro' + itm + '_' + ptm + '" ' + createdProforma(tree["items"][itm]["payment"][ptm]["proforma"]["ids"]) + '><label for="pro' + itm + '_' + ptm + '"></label></div> </td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["item"] + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["description"] + '</td>');
+
+            // Substract Qty if payment term invoice found
+            if (tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["order_payterm_id"] == tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["order_payterm_id"]) { qty = qty - parseInt(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["qty"]) }
+
+            // Add Qty if payment term credit found
+            $.each(tree["items"][itm]["creditnote"]["ids"], function (k, v) {
+              if (tree["items"][itm]["creditnote"][v]["order_payterm_id"] == tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["order_payterm_id"] && tree["items"][itm]["creditnote"][v]["invoice_id"] == tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]) { qty = qty + parseInt(tree["items"][itm]["creditnote"][v]["qty"]) }
+            })
+
+            $("#row" + itm + ptm + ptmInv).append('<td>' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["qty"] + ' / ' + get_uom_display(tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["uom_id"]) + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + symbol + (tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["unit_price"]) + '</td>');
+            $("#row" + itm + ptm + ptmInv).append('<td>' + symbol + (tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["total"]) + '</td>');
+            // $("#row" + itm + ptm + ptmInv).append('<td class="align-middle"><a class="btn btn-default btn-sm pdf" target="_blank" href="' + baseUrl + 'invoices/geninv/' + tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"] + '" type="button">Tax Invoice</a></td>');
+            // <a class="dropdown-item" target="_blank" href="${baseUrl}invoices/gencbn/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" style="background-color: transparent;" onmouseover="this.style.backgroundColor='#e0e0e0';" onmouseout="this.style.backgroundColor='transparent';">Credit Notes</a>
+            var invoiceId = tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"];
+            var creditNote = tree["credit_note_items"]["ids"].find(function (creditNoteId) {
+              return tree["credit_note_items"][creditNoteId]["invoice_id"] == invoiceId;
+            });
+            $("#row" + itm + ptm + ptmInv).append(`
+                    <td class="align-middle">
+                        <a class="btn btn-default btn-sm pdf" target="_blank" href="${baseUrl}invoices/geninv/${tree["items"][itm]["payment"][ptm]["invoice"][ptmInv]["invoice_id"]}" type="button">Tax Invoice</a>
+                    </td>
+                `);
+          });
+
+          // New Row
+          if (qty > 0) {
+            $("#id_invoicetable").append('<tr id="row' + itm + ptm + '"></tr>');
+            if (plock) {
+              $("#row" + itm + ptm).append('<td><div class="icheck-primary d-inline"><input type="checkbox" class="cbox genebox" data-id="' + itm + '_' + ptm + '" data-item="' + itm + '" data-proformaid="pro' + itm + '_' + ptm + '" data-payment="' + ptm + '"  data-proforma="0" id="inv' + itm + '_' + ptm + '" required class="paytrm" data-id="' + itm + '_' + ptm + '" checked><label for="inv' + itm + '_' + ptm + '"></label></div></td>');
+              $("#row" + itm + ptm).append('<td><div class="icheck-primary d-inline"> <input type="checkbox"  class="cbox probox" class="proforma" id="pro' + itm + '_' + ptm + '" required class="" data-id="' + itm + '" ><label for="pro' + itm + '_' + ptm + '"></label></div></td>');
+              items_for_invoicing.push('inv' + itm + '_' + ptm);
+            } else {
+              $("#row" + itm + ptm).append('<td></td><td></td>');
+            }
+            $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].item + '</td>');
+            $("#row" + itm + ptm).append('<td>' + tree["items"][itm]["payment"][ptm].description + '</td>');
+            $("#row" + itm + ptm).append('<td>' + qty + " / " + get_uom_display(tree["items"][itm]["payment"][ptm].uom_id) + '</td>');
+            $("#row" + itm + ptm).append('<td>' + symbol + (tree["items"][itm]["payment"][ptm].unit_price) + '</td>');
+            var total_value = parseFloat(tree["items"][itm]["payment"][ptm].unit_price) * qty
+            if (tree["items"][itm]["payment"][ptm].uom_id == 3) {
+              var total_value = parseFloat(tree["items"][itm]["payment"][ptm].unit_price) * (qty / 100)
+            }
+
+            $("#row" + itm + ptm).append('<td>' + symbol + (total_value).toFixed(2)+ '</td>');
+            $("#row" + itm + ptm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '_' + ptm + '" data-id="' + itm + '_' + ptm + '" data-list="payments" >Generate <i class="fas fa-chevron-right"></i></button></td>');
+            plock = false
+          }
+        }      // Payment Terms Tax & Credit Note Created Check
+
         else if ((tree["items"][itm]["payment"][ptm]["invoice"]["ids"]).length > 0) {
           $.each(tree["items"][itm]["payment"][ptm]["invoice"]["ids"], function (iPtmInv, ptmInv) {
             $("#id_invoicetable").append('<tr id="row' + itm + ptm + ptmInv + '"></tr>');
@@ -1090,7 +1160,7 @@ function fillinvoice_body() {
                     </td>
                 `);
           });
-        }
+        }      // Payment Terms Tax Created Check
 
         // Payment Terms With No Proforma Or Tax Created 
         else {
@@ -1175,6 +1245,7 @@ function fillinvoice_body() {
       }
 
       //vivek starts changes
+
       //-------------creditNotes--------------------  
 
       if ((tree["items"][itm]["creditnote"]["ids"]).length > 0) {

@@ -198,16 +198,18 @@ class InvoicesModel extends Model
             $insert_values[] = $item['order_item_id'];
             $insert_values[] = $item['id'];
             $insert_values[] = $credit_note_id;
+            $insert_values[] = $item['order_payterm_id'];
             $insert_values[] = $item['item'];
             $insert_values[] = $item['description'];
             $insert_values[] = $item['qty'];
             $insert_values[] = $item['unit_price'];
             $insert_values[] = $item['total'];
+           
 
-            $question_marks[] = '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            $question_marks[] = '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         }
 
-        $sql = "INSERT INTO credit_note_items (invoice_id, order_id, order_item_id, invoice_item_id, credit_note_id, item, description, qty, unit_price, total) 
+        $sql = "INSERT INTO credit_note_items (invoice_id, order_id, order_item_id, invoice_item_id, credit_note_id, order_payterm_id, item, description, qty, unit_price, total) 
             VALUES " . implode(',', $question_marks);
 
         $stmt = $this->_db->prepare($sql);

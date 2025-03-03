@@ -25,7 +25,7 @@
             }
             return $user;
         }
-   
+
 
         public function creditNoteListByOrderId($orderId)
         {
@@ -45,31 +45,76 @@
             return $user;
         }
 
+        // public function getCreditNoteItemsByOrderId($id)
+        // {
+        //     $sql = "select * from credit_note_items where order_id = ? ";
+        //     $this->_setSql($sql);
+        //     $items = $this->getAll(array($id));
+        //     if (empty($items)) {
+        //         return false;
+        //     }
+        //     return $items;
+        // }
         public function getCreditNoteItemsByOrderId($id)
         {
-            $sql = "select * from credit_note_items where order_id = ? ";
+            $sql = "SELECT cni.*, oi.order_type 
+            FROM credit_note_items cni
+            JOIN order_items oi ON cni.order_item_id = oi.id
+            WHERE cni.order_id = ?";
+
             $this->_setSql($sql);
             $items = $this->getAll(array($id));
+
             if (empty($items)) {
                 return false;
             }
+
             return $items;
         }
 
+        public function getCreditQtyOfItem($orderItemId)
+        {
+            $sql = "select sum(qty) item_qty from credit_note_items group by order_item_id having order_item_id = ? limit 1";
+            $this->_setSql($sql);
+            $user = $this->getRow(array($orderItemId));
+            if (empty($user)) {
+                return false;
+            }
+            return $user['item_qty'];
+        }
+        // public function getCreditNoteByOrderId($id)
+        // {
+        //     // $sql = "select * from credit_notes where order_id = ? ";
+        //     $sql = "SELECT cn.*, o.order_type 
+        //     FROM credit_notes cn 
+        //     JOIN orders o ON cn.order_id = o.id
+        //     WHERE cn.order_id = ?";
+        //     $this->_setSql($sql);
+        //     $items = $this->getAll(array($id));
+        //     if (empty($items)) {
+        //         return false;
+        //     }
+        //     return $items;
+        // }
         public function getCreditNoteByOrderId($id)
         {
-            // $sql = "select * from credit_notes where order_id = ? ";
-            $sql = "SELECT cn.*, o.order_type 
+            $sql = "SELECT cn.*, oi.order_type 
             FROM credit_notes cn 
-            JOIN orders o ON cn.order_id = o.id
+            JOIN credit_note_items cni ON cn.id = cni.credit_note_id
+            JOIN order_items oi ON cni.order_item_id = oi.id
             WHERE cn.order_id = ?";
+
             $this->_setSql($sql);
             $items = $this->getAll(array($id));
+
             if (empty($items)) {
                 return false;
             }
+
             return $items;
         }
+
+
         public function getListBycreditNoteId($id)
         {
             $sql = "SELECT cni.*, cn.hsn_id
