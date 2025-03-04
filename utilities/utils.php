@@ -98,8 +98,21 @@ function AmountInWords(float $amount, $nri, $currencyCode)
         $paise = ' Paise';
     }
 
-    $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[floor($amount_after_decimal / 10) * 10 ] . " " . $change_words[$amount_after_decimal % 10]) . " " . $paise : '';
-    
+    // $get_paise = ($amount_after_decimal > 0) ? "and " . ($change_words[floor($amount_after_decimal / 10) * 10 ] . " " . $change_words[$amount_after_decimal % 10]) . " " . $paise : '';
+   
+    if ($amount_after_decimal > 0) {
+        if ($amount_after_decimal < 21) { 
+           
+            $get_paise = "and " . $change_words[$amount_after_decimal] . " " . $paise;
+        } else { 
+          
+            $tens = floor($amount_after_decimal / 10) * 10;
+            $ones = $amount_after_decimal % 10;
+            $get_paise = "and " . $change_words[$tens] . " " . $change_words[$ones] . " " . $paise;
+        }
+    } else {
+        $get_paise = '';
+    } 
     return ($implode_to_Rupees ? $implode_to_Rupees . $rupees : '') . $get_paise;
 }
 

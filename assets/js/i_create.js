@@ -822,24 +822,24 @@ function preview_total() {
   if (!NRI) {
     if (parseInt(od_order.tax_rate) == 9) {
       gst = subtotal * ($("#preview_sgst_val").data("gst") / 100);
-      $("#preview_sgst_val").text(symbol + (gst));
-      $("#preview_cgst_val").text(symbol + (gst));
-      $("#previewsgst").val(gst);
-      $("#previewcgst").val(gst);
+      $("#preview_sgst_val").text(symbol + (gst.toFixed(2)));
+      $("#preview_cgst_val").text(symbol + (gst.toFixed(2)));
+      $("#previewsgst").val(gst.toFixed(2));
+      $("#previewcgst").val(gst.toFixed(2));
       $("#previewigst").val(0);
       total = subtotal + gst + gst;
     } else {
       gst = subtotal * ($("#preview_igst_val").data("gst") / 100);
       $("#previewsgst").val(0);
       $("#previewcgst").val(0);
-      $("#preview_igst_val").text(symbol + (gst));
-      $("#previewigst").val(gst);
+      $("#preview_igst_val").text(symbol + (gst.toFixed(2)));
+      $("#previewigst").val(gst.toFixed(2));
       total = subtotal + gst;
     }
   } else { total = subtotal; }
-  $("#previewinvoice_sub_total").val((subtotal).toFixed(0));
-  $("#previewinvoice_total").val((total).toFixed(0));
-  $("#preview_total_val").text(symbol + ((total).toFixed(0)));
+  $("#previewinvoice_sub_total").val((subtotal).toFixed(2));
+  $("#previewinvoice_total").val((total).toFixed(2));
+  $("#preview_total_val").text(symbol + ((total).toFixed(2)));
 }
 
 function previewtotal(index, value) {
@@ -932,7 +932,7 @@ function preview_footer() {
         </div>
         <div id="totalclass" style="color: mediumslateblue;">
           <b>Total : </b>
-          <span id="preview_total_val">` + symbol + ((total % 1 >= 0.50) ? Math.ceil(total) : Math.floor(total)).toFixed(2) + `</span>
+          <span id="preview_total_val">` + symbol + total.toFixed(2) + `</span>
           <input type="hidden" name="invoice_total" id="previewinvoice_total" value="` + total.toFixed(2) + `">
         </div>
       </div>`);
@@ -1115,6 +1115,7 @@ function fillinvoice_body() {
 
           // New Row
           if (qty > 0) {
+            
             $("#id_invoicetable").append('<tr id="row' + itm + ptm + '"></tr>');
             if (plock) {
               $("#row" + itm + ptm).append('<td><div class="icheck-primary d-inline"><input type="checkbox" class="cbox genebox" data-id="' + itm + '_' + ptm + '" data-item="' + itm + '" data-proformaid="pro' + itm + '_' + ptm + '" data-payment="' + ptm + '"  data-proforma="0" id="inv' + itm + '_' + ptm + '" required class="paytrm" data-id="' + itm + '_' + ptm + '" checked><label for="inv' + itm + '_' + ptm + '"></label></div></td>');
@@ -1180,10 +1181,10 @@ function fillinvoice_body() {
           if (plock) {
             $("#row" + itm + ptm).append('<td class="py-0" style="vertical-align: middle;"><button type="button" class="btn btn-sm btn-primary generate" id="generate_' + itm + '_' + ptm + '" data-id="' + itm + '_' + ptm + '" data-list="payments" >Generate <i class="fas fa-chevron-right"></i></button></td>');
             plock = false;
-          } else {
+          } else { 
             $("#row" + itm + ptm).append('<td></td>');
           }
-        }
+        }  
       });
     } else {
       // Order Items

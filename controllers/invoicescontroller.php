@@ -36,7 +36,7 @@ class InvoicesController extends Controller
             echo json_encode($creditLists);
         } else {
 
-            echo json_encode(['message' => 'No credit notes found for this invoice ID.']);
+            echo json_encode(['message' => 'No credit notes found for this invoice.']);
         }
     }
 
@@ -607,8 +607,8 @@ class InvoicesController extends Controller
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{DECLARATION}}" => getdeclaration($customer['declaration'], $totalbr),
             "{{CUST_FAX}}" => $customer['fax'],
-            "{{CUST_PAN}}" => $nri ? '' : 'PAN No.: '.$customer['pan'],
-            "{{CUST_GST}}" => $nri ? '' : 'GST No.: ' .$customer['gstin'],
+            "{{CUST_PAN}}" => $nri ? '' : 'PAN No.: ' . $customer['pan'],
+            "{{CUST_GST}}" => $nri ? '' : 'GST No.: ' . $customer['gstin'],
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),

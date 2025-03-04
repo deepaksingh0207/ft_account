@@ -134,14 +134,14 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-12 col-lg-2">
+                  <div class="col-sm-12 col-lg-3">
                     <label for="id_creditnotedate">Credit Note Date</label>
                     <input type="date" class="form-control ftsm" name="credit_note_date" required id="id_creditnote_date" value="">
                   </div>
-                  <div class="col-sm-12 col-lg-2">
+                  <div class="col-sm-12 col-lg-3">
                     <label for="id_credit_no">Credit Note No.</label>
                     <input type="text" value="" class="form-control numberonly" pattern="\d{7}"
-                      minlength="7" maxlength="7" min="0000000" max="9999999" required name="credit_no" id="id_credit_no">
+                      minlength="7" maxlength="7" min="0000000" max="9999999" required name="credit_no" id="id_credit_no"  placeholder="please enter only 7 digit">
                     <span id="credit_no_error" style=" display: none;" class="say error invalid-feedback"></span>
                   </div>
 
