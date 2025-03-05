@@ -434,30 +434,7 @@ function preview_builder() {
 
         $.each(t.invoice.ids, function (k, l) { maxqty -= parseInt(t.invoice[l].qty); });
 
-        // const creditNotes = tree["creditnotes"];
-        //  console.log(creditNotes);
-        // const restrictedOrderTypes = [1, 2, 3, 7];
-        // let shouldSkipCreditNote = false;
-        // Object.keys(creditNotes).forEach(key => {
-        //   if (key !== "ids") {
-        //     let note = creditNotes[key];
-        //     if (restrictedOrderTypes.includes(parseInt(note.order_type))) {
-        //       shouldSkipCreditNote = true;
-
-        //     }
-        //   }
-        // });
-
-        // if (!shouldSkipCreditNote) {
-        //   $.each(od_creditnote_items, function (icredit_note_items, credit_note_item) {
-        //     tree["credit_note_items"]["ids"].push(credit_note_item.id);
-        //     tree["credit_note_items"][credit_note_item.id] = credit_note_item;
-        //     maxqty += parseInt(credit_note_item.qty);
-        //     invoice_total += (credit_note_item.qty * credit_note_item.unit_price);
-
-        //   });
-        // }
-
+        
         $.each(od_creditnote_items, function (k, l) {
 
           if ((payment == 0 && l.order_item_id == t.id) || (payment != 0 && l.order_payterm_id == t.id)) {
@@ -817,7 +794,7 @@ function preview_total() {
   var subtotal = 0;
   $.each(previewList, function (i, id) { subtotal += parseFloat($("#id_total" + id).val()); });
 
-  $("#preview_subtotal_txt").text(symbol + (subtotal));
+  $("#preview_subtotal_txt").text(symbol + (subtotal.toFixed(2)));
   $(".previewsubtotal").val(subtotal);
   if (!NRI) {
     if (parseInt(od_order.tax_rate) == 9) {
@@ -1036,12 +1013,11 @@ function fillinvoice_body() {
 
   // Loop thru item
   $.each(tree["items"]["ids"], function (iItm, itm) {
-    if ((tree["items"][itm]["payment"]["ids"]).length > 0) {
 
+    if ((tree["items"][itm]["payment"]["ids"]).length > 0) {
       // Order Payment Terms
       var plock = true
       $.each(tree["items"][itm]["payment"]["ids"], function (iPtm, ptm) {
-
         // Payment Terms Proforma Created Check
         if ((tree["items"][itm]["payment"][ptm]["proforma"]["ids"]).length > 0) {
           $.each(tree["items"][itm]["payment"][ptm]["proforma"]["ids"], function (iPtmPro, ptmPro) {
@@ -1080,7 +1056,6 @@ function fillinvoice_body() {
         }
 
         else if ((tree["items"][itm]["payment"][ptm]["invoice"]["ids"]).length > 0 && (tree["items"][itm]["creditnote"]["ids"]).length > 0) {
-
           var qty = parseInt(tree["items"][itm]["payment"][ptm]["qty"]);
           $.each(tree["items"][itm]["payment"][ptm]["invoice"]["ids"], function (iPtmInv, ptmInv) {
             $("#id_invoicetable").append('<tr id="row' + itm + ptm + ptmInv + '"></tr>');
