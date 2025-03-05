@@ -182,6 +182,7 @@ $(document).on("click", ".rgenirn", function () {
   if (new_invoiceno.length != 7) { $('.feeter').show().html('<span class="text-danger">Invoice No Mandatory<span>'); return; }
 
   $('.act').hide();
+  geturl = $(this).data('href');
   var getIrnId, geturl = $(this).data('href') + "/" + new_invoiceno;
   checkinvoice = getRemote(baseUrl + "invoices/check_invoice_validty/" + new_invoiceno);
   if (checkinvoice == 0) { $('.feeter').show().html('<span class="text-danger">Invoice No Invalid<span>'); return; }
@@ -193,7 +194,9 @@ $(document).on("click", ".rgenirn", function () {
     var getInvIrn = getRemote(baseUrl + "invoiceirn/getIrnById/" + getIrnId);
     if (getInvIrn) { $('#id_invoice, .col_genirn, .col_invid, .col_crednote').hide(); $('.col_invcpy, .col_ecanirn').show(); }
     else { $('.col_invcpy, .col_genirn').show(); }
-    $('.feeter').show().text('');
+    // $('.feeter').show().text('Success');
+    alert('Invoice regenerated successfully!');
+
   }
 });
 
@@ -222,7 +225,6 @@ $(document).on("click", ".genirn", function () {
   $btn.prop('disabled', true).html('<img src="' + baseUrl + 'assets/img/load.gif" alt="Loading" width="30px" class="mb-2"><br>Generate E-Invoice');
  
   var geturl = $btn.data('href');
-
   setTimeout(function () {
     $('.act').hide();
     $('.feeter, .col_gencbn, .col_invcpy').show();
@@ -276,5 +278,3 @@ $(".update").on("click", function () {
 });
 
 $(function () { $(".select2").select2(); fill_datatable(); });
-
-// https://www.youtube.com/watch?v=M0cEiFAzwf0
