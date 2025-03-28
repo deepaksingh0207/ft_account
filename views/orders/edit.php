@@ -11,8 +11,19 @@
                   type="hidden"
                   name="order_id"
                   id="id_order_id"
-                  value="<?php echo $order['order_id'] ?>"
-                />
+                  value="<?php echo $order['order_id'] ?>" />
+
+                <input
+                  type="hidden"
+                  name="currency_code"
+                  id="id_currency_code"
+                  value="<?php echo $order['currency_code'] ?>" />
+                <input
+                  type="hidden"
+                  name="currency_symbol"
+                  id="id_currency_symbol"
+                  value="<?php echo $order['currency_symbol'] ?>" />
+
                 <div class="card">
                   <div class="card-header">Edit Order</div>
                   <div class="card-body">
@@ -20,8 +31,7 @@
                       <div
                         class="col-sm-12 col-md-6 col-lg-6 mb-2" id="group_id"
                         data-id="<?php echo $order['group_id'] ?>"
-                        data-customer="<?php echo $order['customer_id'] ?>"
-                      >
+                        data-customer="<?php echo $order['customer_id'] ?>">
                         <b>Customer Group : </b>
                         <?php echo $order['customer_group'] ?>
                       </div>
@@ -37,14 +47,37 @@
                         <b>Contact Person : </b>
                         <?php echo $order['contact_person'] ?>
                       </div>
-                      <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+    
+                      <div class="col-sm-12 col-md-3 col-lg-3 mb-2">
                         <b>Bill To : </b>
-                        <?php echo $order['bill_to'] ?>
+                        <select name="bill_to" id="bill_to" class="form-control">
+                          <option value="">Select Bill To</option>
+                          <?php foreach ($customerDetails as $custAddress): ?>
+                            <option value="<?php echo $custAddress['id']; ?>"
+                              <?php echo ($custAddress['id'] == $order['bill_id']) ? 'selected' : ''; ?>>
+                              <?php echo $custAddress['address']. ' - '. $custAddress['gstin'];  ?>
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
-                      <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+
+                      <div class="col-sm-12 col-md-3 col-lg-3 mb-2">
                         <b>Ship To : </b>
-                        <?php echo $order['ship_to'] ?>
+                        <select name="ship_to" id="ship_to" class="form-control">
+                          <option value="">Select Ship To</option>
+                          <?php foreach ($customerDetails as $custAddress): ?>
+                            <option value="<?php echo $custAddress['id']; ?>"
+                              <?php echo ($custAddress['id'] == $order['ship_id']) ? 'selected' : ''; ?>>
+                              <?php echo $custAddress['address']. ' - '. $custAddress['gstin'];  ?>
+                            </option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
+                      <div class="col-sm-12 col-md-3 col-lg-3 mt-3" style="align-self: center;">
+                        <button type="button" id="updateBillShipButton" class="btn btn-sm btn-primary">Update Bill/Ship</button>
+                      </div>
+                     
+
                       <div class="col-sm-12 col-md-6 col-lg-6 mb-2">
                         <b>Date : </b>
                         <?php echo date('d, M Y', strtotime($order['order_date'])) ?>
@@ -58,23 +91,20 @@
                           <div class="card" id="order_items_card">
                             <div
                               class="card-header"
-                              id="order_items_cardheader"
-                            >
+                              id="order_items_cardheader">
                               <h3 class="card-title">Order Items</h3>
                               <div class="card-tools mt-2">
                                 <button
                                   type="button"
                                   class="btn btn-tool"
-                                  data-card-widget="collapse"
-                                >
+                                  data-card-widget="collapse">
                                   <i class="fas fa-minus"> </i>
                                 </button>
                               </div>
                             </div>
                             <div
                               class="card-body p-0"
-                              id="order_items_cardbody"
-                            >
+                              id="order_items_cardbody">
                               <table class="table">
                                 <thead>
                                   <tr>
@@ -100,8 +130,7 @@
                             <div
                               class="card-footer"
                               id="order_items_cardfooter"
-                              style="display: none;"
-                            ></div>
+                              style="display: none;"></div>
                           </div>
                         </div>
                       </div>
@@ -109,25 +138,21 @@
                         <div
                           class="card card-primary card-outline mb-0"
                           id="add_order_card"
-                          style="display: none;"
-                        >
+                          style="display: none;">
                           <div class="card-body p-0" id="add_order_cardbody">
                             <div class="card mb-0" id="add_order_item_card">
                               <div
                                 class="card-header"
-                                id="add_order_item_cardheader"
-                              >
+                                id="add_order_item_cardheader">
                                 <div class="row">
                                   <div
-                                    class="col-sm-12 col-md-4 col-lg-4 form-group mb-0"
-                                  >
+                                    class="col-sm-12 col-md-4 col-lg-4 form-group mb-0">
                                     <label for="order_type"> </label>
                                     <select
                                       class="form-control"
                                       id="order_type"
                                       required=""
-                                      aria-invalid="false"
-                                    >
+                                      aria-invalid="false">
                                       <option value="">
                                         Select Order Type
                                       </option>
@@ -150,8 +175,7 @@
                                   </div>
                                   <div
                                     class="col-sm-12 col-md-4 col-lg-4 row"
-                                    id="col_from_date"
-                                  >
+                                    id="col_from_date">
                                     <div class="col-4 mt-3 text-right">
                                       <label for="from_date">From Date :</label>
                                     </div>
@@ -161,14 +185,12 @@
                                         class="form-control"
                                         id="from_date"
                                         required=""
-                                        aria-invalid="false"
-                                      />
+                                        aria-invalid="false" />
                                     </div>
                                   </div>
                                   <div
                                     class="col-sm-12 col-md-4 col-lg-4 row"
-                                    id="col_to_date"
-                                  >
+                                    id="col_to_date">
                                     <div class="col-4 mt-3 text-right">
                                       <label for="to_date">Till Date :</label>
                                     </div>
@@ -177,8 +199,7 @@
                                         type="date"
                                         class="form-control"
                                         id="to_date"
-                                        required=""
-                                      />
+                                        required="" />
                                     </div>
                                   </div>
                                 </div>
@@ -186,8 +207,7 @@
                               <div
                                 class="card-body table-responsive p-0"
                                 id="add_order_item_cardbody"
-                                style="display: none;"
-                              >
+                                style="display: none;">
                                 <table class="table text-center">
                                   <thead>
                                     <tr>
@@ -204,32 +224,27 @@
                                     <tr id="order_item_1">
                                       <td
                                         class="form-group"
-                                        id="orderitem_1_col_1"
-                                      >
+                                        id="orderitem_1_col_1">
                                         <input
                                           type="text"
                                           data-id="1"
                                           class="form-control item capitalize"
                                           id="orderitem_1_val_1"
-                                          placeholder="*Enter Item"
-                                        />
+                                          placeholder="*Enter Item" />
                                       </td>
                                       <td
                                         class="form-group"
-                                        id="orderitem_1_col_2"
-                                      >
+                                        id="orderitem_1_col_2">
                                         <input
                                           type="text"
                                           data-id="1"
                                           class="form-control min150 desp capitalize"
                                           id="orderitem_1_val_2"
-                                          placeholder="*Enter Description"
-                                        />
+                                          placeholder="*Enter Description" />
                                       </td>
                                       <td
                                         class="form-group max150"
-                                        id="orderitem_1_col_3"
-                                      >
+                                        id="orderitem_1_col_3">
                                         <input
                                           type="number"
                                           data-id="1"
@@ -237,31 +252,26 @@
                                           id="orderitem_1_val_3"
                                           min="1"
                                           step="1"
-                                          aria-invalid="false"
-                                        />
+                                          aria-invalid="false" />
                                       </td>
                                       <td
                                         class="form-group min150"
-                                        id="orderitem_1_col_4"
-                                      >
+                                        id="orderitem_1_col_4">
                                         <span id="orderitem_1_txt_4">AU</span>
                                       </td>
                                       <td
                                         class="form-group max150"
-                                        id="orderitem_1_col_35"
-                                      >
+                                        id="orderitem_1_col_35">
                                         <input
                                           type="number"
                                           data-id="1"
                                           class="form-control order_item_unitprice"
-                                          id="orderitem_1_val_5"
-                                        />
+                                          id="orderitem_1_val_5" />
                                         <input
                                           type="hidden"
                                           data-id="1"
                                           class="form-control rowtotal"
-                                          id="orderitem_1_val_6"
-                                        />
+                                          id="orderitem_1_val_6" />
                                       </td>
                                     </tr>
                                   </tbody>
@@ -270,48 +280,38 @@
                               <div
                                 class="card-footer"
                                 id="add_order_item_cardfooter"
-                                style="display: none;"
-                              >
+                                style="display: none;">
                                 <div class="row text-center">
                                   <div class="col-3" id="col_sub_total">
-                                    <b>Sub Total : </b>₹
+                                    <b>Sub Total : </b> <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_subtotal_val">0</span>
                                   </div>
                                   <div
                                     class="col-3"
                                     id="col_sgst"
-                                    style="display: none;"
-                                  >
-                                    <b
-                                      >SGST <span id="add_order_sgst"> </span>%
-                                      : </b
-                                    >₹
+                                    style="display: none;">
+                                    <b>SGST <span id="add_order_sgst"> </span>%
+                                      : </b><?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_sgst_val">0</span>
                                   </div>
                                   <div
                                     class="col-3"
                                     id="col_cgst"
-                                    style="display: none;"
-                                  >
-                                    <b
-                                      >CGST <span id="add_order_cgst"> </span>%
-                                      : </b
-                                    >₹
+                                    style="display: none;">
+                                    <b>CGST <span id="add_order_cgst"> </span>%
+                                      : </b> <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_cgst_val">0</span>
                                   </div>
                                   <div
                                     class="col-4"
                                     id="col_igst"
-                                    style="display: none;"
-                                  >
-                                    <b
-                                      >IGST <span id="add_order_igst"> </span>%
-                                      : </b
-                                    >₹
+                                    style="display: none;">
+                                    <b>IGST <span id="add_order_igst"> </span>%
+                                      : </b> <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_igst_val">0</span>
                                   </div>
                                   <div class="col-3" id="col_total">
-                                    <b>Total : </b>₹
+                                    <b>Total : </b> <?php echo $order['currency_symbol'] ?>
                                     <span id="add_order_total_val">0</span>
                                   </div>
                                 </div>
@@ -321,12 +321,10 @@
                             <div
                               class="card mb-0 mt-3"
                               id="payment_term_card"
-                              style="display: none;"
-                            >
+                              style="display: none;">
                               <div
                                 class="card-header"
-                                id="payment_term_cardheader"
-                              >
+                                id="payment_term_cardheader">
                                 <b>Payment Term</b>
                               </div>
                               <div class="card-body" id="payment_term_cardbody">
@@ -344,55 +342,44 @@
                                     <tr id="orderitem_1_paymentterm_1">
                                       <td
                                         class="form-group"
-                                        id="orderitem_1_paymentterm_1_col_1"
-                                      >
+                                        id="orderitem_1_paymentterm_1_col_1">
                                         1
                                       </td>
                                       <td
                                         class="form-group"
-                                        id="orderitem_1_paymentterm_1_col_3"
-                                      >
+                                        id="orderitem_1_paymentterm_1_col_3">
                                         <input
                                           type="text"
                                           class="form-control paymentterm_description capitalize"
                                           id="orderitem_1_paymentterm_1_val_3"
-                                          placeholder="*Enter Description"
-                                        />
+                                          placeholder="*Enter Description" />
                                       </td>
                                       <td
                                         class="input-group"
-                                        id="orderitem_1_paymentterm_1_col_4"
-                                      >
+                                        id="orderitem_1_paymentterm_1_col_4">
                                         <input
                                           type="hidden"
                                           value="1"
-                                          id="orderitem_1_paymentterm_1_val_4"
-                                        />1 / AU
+                                          id="orderitem_1_paymentterm_1_val_4" />1 / AU
                                       </td>
                                       <td
                                         class="form-group max100"
-                                        id="orderitem_1_paymentterm_1_col_5"
-                                      >
+                                        id="orderitem_1_paymentterm_1_col_5">
                                         <input
                                           type="number"
                                           class="form-control paymentterm_unitprice"
                                           id="orderitem_1_paymentterm_1_val_5"
-                                          readonly="readonly"
-                                        />
+                                          readonly="readonly" />
                                       </td>
                                       <td
                                         class="form-group"
-                                        id="orderitem_1_paymentterm_1_col_6"
-                                      >
+                                        id="orderitem_1_paymentterm_1_col_6">
                                         <input
                                           type="hidden"
                                           class="form-control paymentterm_rowtotal"
-                                          id="orderitem_1_paymentterm_1_val_6"
-                                        />
+                                          id="orderitem_1_paymentterm_1_val_6" />
                                         <span
-                                          id="orderitem_1_paymentterm_1_txt_6"
-                                          >₹0.00</span
-                                        >
+                                          id="orderitem_1_paymentterm_1_txt_6"> <?php echo $order['currency_symbol'] ?>0.00</span>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -400,23 +387,20 @@
                               </div>
                             </div>
                           </div>
-                          
+
                           <div
                             class="card-footer text-right"
-                            id="add_order_cardfooter"
-                          >
+                            id="add_order_cardfooter">
                             <button
                               type="button"
                               class="btn btn-primary btn-sm showmain_card"
-                              value="1"
-                            >
+                              value="1">
                               Save Order Item
                             </button>
                             <button
                               type="button"
                               class="btn btn-primary btn-sm off"
-                              value="0"
-                            >
+                              value="0">
                               Close
                             </button>
                           </div>
@@ -432,8 +416,7 @@
                       </button>
                       <a
                         href="\ft_account\orders"
-                        class="btn btn-default btn-sm"
-                      >
+                        class="btn btn-default btn-sm">
                         Back
                       </a>
                     </div>
@@ -445,8 +428,7 @@
                   class="btn btn-default"
                   data-toggle="modal"
                   data-target="#modal-sm"
-                  style="display: none;"
-                ></button>
+                  style="display: none;"></button>
 
                 <div class="modal fade" id="modal-sm">
                   <div class="modal-dialog modal-sm">
@@ -457,8 +439,7 @@
                           type="button"
                           class="close"
                           data-dismiss="modal"
-                          aria-label="Close"
-                        >
+                          aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
@@ -470,15 +451,13 @@
                           type="button"
                           class="btn btn-sm btn-default"
                           data-dismiss="modal"
-                          aria-label="Close"
-                        >
+                          aria-label="Close">
                           Close
                         </button>
                         <button
                           type="button"
                           class="btn btn-sm btn-primary"
-                          onclick="form.submit()"
-                        >
+                          onclick="form.submit()">
                           Add
                         </button>
                       </div>
@@ -494,8 +473,7 @@
           id="modelactivate"
           style="display: none;"
           data-toggle="modal"
-          data-target="#modal-default"
-        ></button>
+          data-target="#modal-default"></button>
         <div class="modal fade" id="modal-default">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -505,8 +483,7 @@
                   type="button"
                   class="close"
                   data-dismiss="modal"
-                  aria-label="Close"
-                >
+                  aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -521,8 +498,7 @@
                   type="button"
                   id="byemodal"
                   class="btn btn-light btn-sm"
-                  data-dismiss="modal"
-                >
+                  data-dismiss="modal">
                   Cancel
                 </button>
               </div>
@@ -540,8 +516,7 @@
                   class="close"
                   data-dismiss="modal"
                   aria-label="Close"
-                  id="id_address_close"
-                >
+                  id="id_address_close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
