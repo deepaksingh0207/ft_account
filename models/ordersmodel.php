@@ -122,7 +122,7 @@ class OrdersModel extends Model
     // JThayil 25 Feb
     public function renew_header($id)
     {
-        $sql = "select o.id as order_id, o.customer_id, c.name as customer, g.id as group_id, g.name as customer_group, c.contact_person, o.order_date, ot.title as order_type,
+        $sql = "select o.id as order_id, o.customer_id, bill_to as bill_id , ship_to as ship_id, c.name as customer, g.id as group_id, g.name as customer_group, c.contact_person, o.order_date, ot.title as order_type,
         o.po_no, o.po_file as attachment, c1.address as bill_to, c2.address as ship_to, cu.symbol AS currency_symbol, o.currency_code
         from orders o
         inner join customer_groups g on g.id = o.group_id

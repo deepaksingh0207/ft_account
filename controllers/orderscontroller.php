@@ -2,7 +2,7 @@
 class OrdersController extends Controller
 {
 
-    public function __construct($model, $action)  
+    public function __construct($model, $action)
     {
         parent::__construct($model, $action);
         $this->_setModel("orders");
@@ -83,7 +83,10 @@ class OrdersController extends Controller
             $this->_view->set('customer', $customer);
 
             $customerShipTo = $customerTbl->get($order['ship_to']);
-            $this->_view->set('shipToAddress', $customerShipTo['address']);
+            $customerbillTo = $customerTbl->get($order['bill_to']);
+            
+            $this->_view->set('shipToAddress', $customerShipTo);
+            $this->_view->set('billToAddress', $customerbillTo);
 
             if ($invoices) {
                 foreach ($invoices as &$invoice) {
@@ -120,10 +123,10 @@ class OrdersController extends Controller
             $customers = $customerList->getNameList();
             $this->_view->set('customers', $customers);
 
-            $currencies  = $this->_model->currencyList(); 
+            $currencies  = $this->_model->currencyList();
             $this->_view->set('currencies', $currencies);
 
-           
+
             $groupTbl = new CustomerGroupsModel();
             $groups = $groupTbl->list();
             $this->_view->set('groups', $groups);
@@ -492,17 +495,23 @@ class OrdersController extends Controller
             $order = $this->_model->renew_header($id);
             $this->_view->set('order', $order);
 
-            //echo '<pre>'; print_r($order); exit;
-
+            //  echo '<pre>'; print_r($order['group_id']); exit;
             $customerList = new CustomersModel();
+            $customerDetails = $customerList->getCustomersDetailsByGroup($order['group_id']);
             $customer = $customerList->get($order['customer_id']);
+
             $this->_view->set('customer', $customer);
+            $this->_view->set('customerDetails', $customerDetails);
 
             $tblOrderItem = new OrderItemsModel();
             $items = $tblOrderItem->getItemByOrderId($id);
 
             $this->_view->set('items', $items);
             // echo '<pre>'; print_r($items); exit;
+            $groupTbl = new CustomerGroupsModel();
+            $groups = $groupTbl->list();
+            $this->_view->set('groups', $groups);
+            //   echo '<pre>'; print_r($items); exit;
 
             if (!empty($_POST)) {
                 $data = $_POST;
@@ -581,6 +590,60 @@ class OrdersController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+
+  
+    public function updateBillShip()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $orderId = $_POST['orderId'];
+                $billTo = $_POST['bill_to'];
+                $shipTo = $_POST['ship_to'];
+    
+           
+                if (empty($orderId)) {
+                    echo json_encode(["status" => "error", "message" => "Invalid orderId ID."]);
+                    return;
+                }
+    
+            
+                if (empty($billTo) || empty($shipTo)) {
+                    echo json_encode(["status" => "error", "message" => "Bill To and Ship To addresses cannot be empty."]);
+                    return;
+                }
+    
+              
+                $updateData = [
+                    'bill_to' => $billTo,
+                    'ship_to' => $shipTo
+                ];
+    
+                $updated = $this->_model->update($orderId, $updateData);
+    
+                if ($updated) {
+                    $customerList = new CustomersModel();
+                    $billToAddress = $customerList->getAddressById($billTo);
+                    $shipToAddress = $customerList->getAddressById($shipTo);
+    
+                    if ($billToAddress && $shipToAddress) {
+                        echo json_encode([
+                            "status" => "success",
+                            "message" => "Address updated!",
+                            "bill_to_address" => $billToAddress,
+                            "ship_to_address" => $shipToAddress
+                        ]);
+                    } else {
+                        echo json_encode(["status" => "error", "message" => "Failed to retrieve addresses."]);
+                    }
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Failed to update."]);
+                }
+            }
+        } catch (Exception $e) {
+            echo json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
+        }
+    }
+
     // JThayil End
 
     public function getOrderListByCustomer($id)
@@ -658,7 +721,7 @@ class OrdersController extends Controller
             $result['creditnote'] = $creditNotesModel->getCreditNoteByOrderId($id);
             $result['creditnote_items'] = $creditNotesModel->getCreditNoteItemsByOrderId($id);
 
-             $result['payment_term'] = array_merge($paymentTerms);
+            $result['payment_term'] = array_merge($paymentTerms);
             // $result['payment_term'] = $paymentTerms;
             echo json_encode($result);
         } else {
