@@ -17,7 +17,7 @@ class InvoicesController extends Controller
             $customerList = new CustomersModel();
             $customers = $customerList->getNameList();
             $this->_view->set('customers', $customers);
-            //  echo '<pre>'; print_r($customers);exit;
+
             //$invoices = $this->_model->getList();
             //$this->_view->set('invoices', $invoices);
             $this->_view->set('title', 'Invoice List');
@@ -311,9 +311,6 @@ class InvoicesController extends Controller
         $company = $company->get(1);
 
         $customer = $customerTbl->get($invoice['customer_id']);
-        $customer2 = $customerTbl->get($invoice['bill_to']);
-       
-        //   echo '<pre>'; print_r($customer); exit;
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
         $order = $orderTable->get($invoice['order_id']);
@@ -379,12 +376,12 @@ class InvoicesController extends Controller
             "{{PO_NO}}" => "Purchase Order No.: " . $invoice['po_no'],
             "{{ORDER_TYPE}}" => $print_uom_qty,
             "{{PO_DATE}}" => date('d/m/Y', strtotime($order['order_date'])),
-            "{{CUST_ADDRESS}}" => "<b>" . $customer2['name'] . "</b><br />" . addressmaker($customer2['address'], 3),
+            "{{CUST_ADDRESS}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customer['address'], 3),
             "{{CUST_TEL}}" => $customer['pphone'],
             "{{DECLARATION}}" => getdeclaration($customer['declaration'], $totalbr),
             "{{CUST_FAX}}" => $customer['fax'],
             "{{CUST_PAN}}" => $nri ? '' : $customer['pan'],
-            "{{CUST_GST}}" => $nri ? '' : $customer2['gstin'],
+            "{{CUST_GST}}" => $nri ? '' : $customer['gstin'],
             "{{CUST_SHIPTO}}" => "<b>" . $customer['name'] . "</b><br />" . addressmaker($customerShipTo['address'], 3),
             "{{CUST_CONT_PERSON}}" => $invoice['sales_person'],
             "{{INV_TOTAL}}" => number_format($invoice['invoice_total'], 2),

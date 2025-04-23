@@ -118,28 +118,4 @@ class CustomersModel extends Model
         }
         return $user;
     }
-
-    public function getCustomersDetailsByGroup($id)
-    {
-        $sql = "SELECT * FROM customers WHERE group_id = ?";
-     
-        $this->_setSql($sql);
-        $users = $this->getAll([$id]);
-        
-        return !empty($users) ? $users : false; 
-    }
-    
- 
-    public function getAddressById($addressId) {
-        $sql = "SELECT address FROM customers WHERE id = ?";
-        $this->_setSql($sql);
-        $address = $this->getRow([$addressId]);
-    
-        if (!empty($address)) {
-            return $address['address'];
-        } else {
-            return null;
-        }
-    }
-   
 }

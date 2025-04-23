@@ -125,7 +125,7 @@ $pendingAmount = 0.00;
                       <label for="id_address"> <b>Bill To :</b> </label>
                     </div>
                     <div class="col-9 form-group">
-                    <?php echo $billToAddress['address']. ' - '.$billToAddress['gstin'] ?>
+                      <?php echo $customer['address'] ?>
                     </div>
                   </div>
                   <div class="row">
@@ -135,7 +135,7 @@ $pendingAmount = 0.00;
                       </label>
                     </div>
                     <div class="col-9 form-group">
-                      <?php echo $shipToAddress['address']. ' - '.$shipToAddress['gstin'] ?>
+                      <?php echo $shipToAddress ?>
                     </div>
                   </div>
                 </div>

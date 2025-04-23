@@ -710,39 +710,3 @@ function form_maker() {
 }
 
 $(window).on('load', function () { getgst($("#group_id").data("id")) });
-
-
-
-
-$(document).ready(function () {
-  $('#updateBillShipButton').click(function () {
-      var orderId = $('#id_order_id').val();
-      var billTo = $('#bill_to').val();
-      var shipTo = $('#ship_to').val();
-
-      if (!billTo || !shipTo) {
-          alert("Please select address.");
-          return;
-      }
-
-      if (confirm("Are you sure you want to update addresses?")) {
-          $.ajax({
-              url: baseUrl + "orders/updateBillShip",
-              type: "POST",
-              data: {
-                  bill_to: billTo,
-                  ship_to: shipTo,
-                  orderId: orderId
-              },
-              success: function (response) {
-                  var res = JSON.parse(response);
-                  alert(res.message);
-              },
-              error: function () {
-                  alert("Error updating Bill To / Ship To.");
-              }
-          });
-      }
-  });
-});
-
