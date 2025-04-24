@@ -468,7 +468,7 @@ class InvoicesController extends Controller
         $taxName = '';
         $taxesLayout = '';
         if (!$nri) {
-            if ($invoice['igst']) {
+            if (intval($invoice['igst'])) {
                 $taxName = "IGST @ 18%";
                 $taxesLayout = number_format($invoice['igst'], 2);
             } else {
