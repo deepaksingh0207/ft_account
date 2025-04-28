@@ -46,7 +46,7 @@ class OrdersModel extends Model
         }
 
         $sql = "select orders.*, customers.name customer_name from orders 
-        join customers on (orders.customer_id = customers.id) $where order by updated_date desc";
+        join customers on (orders.customer_id = customers.id) $where order by id desc";
 
         //echo $sql;
 

@@ -105,7 +105,7 @@ class CustomersModel extends Model
     public function getCustomersByGroup($id)
     {
         // $sql = "select * from customers where group_id = ? ";
-        $sql = "SELECT customers.*, s.name AS state_name, cur.symbol
+        $sql = "SELECT distinct customers.*, s.name AS state_name, cur.symbol
             FROM customers 
             JOIN states s ON customers.state = s.id 
              JOIN currencies cur ON customers.for_cur = cur.code

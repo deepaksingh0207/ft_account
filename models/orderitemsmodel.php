@@ -23,7 +23,7 @@ class OrderItemsModel extends Model
     public function getItemByOrderId($id)
     {
         $sql = "
-            SELECT 
+            SELECT DISTINCT
                 order_items.*,   
                 currencies.symbol AS currency_symbol
             FROM 
