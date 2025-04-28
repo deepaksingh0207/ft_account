@@ -1502,7 +1502,7 @@ class InvoicesController extends Controller
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'CRN';
-            $request['DOCDTLS']['NO'] = $invoice['credit_note_no'];
+            $request['DOCDTLS']['NO'] = 'CR'.$invoice['credit_note_no'];
             $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details

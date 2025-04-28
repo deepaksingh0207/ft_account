@@ -5,6 +5,8 @@ var yyyy = today.getFullYear();
 var today = yyyy + "-" + mm + "-" + dd;
 var orderstatus = {}, tree = { "index": [] };
 var utrvalidty = null
+var countryCode = 'IN'
+var currencyCode = 'INR';
 
 $("#id_payment_date").attr("max", today);
 
@@ -24,6 +26,8 @@ $(document).on("change", "#id_group_id", function () {
         })
             .done(function (resp) {
                 console.log(resp);
+                countryCode = resp[0].cnt_code;
+                currencyCode = resp[0].for_cur;
                 $("#id_customerid").empty().append('<option selected="">Select Customer</option>');
                 $.each(resp, function (i_resp, value) {
 
