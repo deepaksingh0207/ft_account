@@ -65,7 +65,7 @@ class OrdersController extends Controller
             $tblOrderItem = new OrderItemsModel();
             $items = $tblOrderItem->getItemByOrderId($id);
 
-            // echo '<pre>'; print_r($items); exit;
+            //echo '<pre>'; print_r($items); exit;
             $this->_view->set('items', $items);
 
             $tblOrderPayterm = new OrderPaytermsModel();

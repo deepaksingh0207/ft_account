@@ -465,7 +465,7 @@ class InvoicesController extends Controller
         $taxName = '';
         $taxesLayout = '';
         if (!$nri) {
-            if ($invoice['igst']) {
+            if (intval($invoice['igst'])) {
                 $taxName = "IGST @ 18%";
                 $taxesLayout = number_format($invoice['igst'], 2);
             } else {
@@ -1499,7 +1499,7 @@ class InvoicesController extends Controller
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'CRN';
-            $request['DOCDTLS']['NO'] = $invoice['credit_note_no'];
+            $request['DOCDTLS']['NO'] = 'CR'.$invoice['credit_note_no'];
             $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details
