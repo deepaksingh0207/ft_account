@@ -1,7 +1,9 @@
 var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id, orderdata, od_order, od_items, od_invoices, d_invoiceitems, od_payment_term, od_proforma, od_proforma_items
 var paymentterm_list = [], orderitem_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0;
-var currency_code;
 var currency_symbol;
+
+var currencyCode ='INR';
+var countryCode = 'IN';
 
 function getot(val) {
   return ["",
@@ -168,12 +170,12 @@ function get_order_data() {
 }
 
 function update_tax(s = sgst, c = cgst, i = igst) {
-  currency_code = $("#id_currency_code").val();
+  currencyCode = $("#id_currency_code").val();
   $("#add_order_item_sgstcut_txt").text(s);
   $("#add_order_item_cgstcut_txt").text(s);
   $("#add_order_item_igstcut_txt").text(i);
 
-  if (currency_code !== 'INR') {
+  if (currencyCode !== 'INR') {
     $("#col_sgst").hide();
     $("#col_cgst").hide();
     $("#col_igst").hide();
@@ -200,7 +202,7 @@ function update_tax(s = sgst, c = cgst, i = igst) {
 }
 
 function getgst(customergroup_id) {
-  currency_code = $("#id_currency_code").val();
+  currencyCode = $("#id_currency_code").val();
   //  alert(currency_code);
   sgst = cgst = igst = 0
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customergroup_id, dataType: "json", encode: true })
@@ -209,7 +211,7 @@ function getgst(customergroup_id) {
       $("#itemcard").show()
       l_gst = resp
 
-      if (currency_code == 'INR') {
+      if (currencyCode == 'INR') {
         if (resp.state == "same") {
           sgst = resp.sgst
           cgst = resp.cgst
@@ -710,3 +712,39 @@ function form_maker() {
 }
 
 $(window).on('load', function () { getgst($("#group_id").data("id")) });
+
+
+
+
+$(document).ready(function () {
+  $('#updateBillShipButton').click(function () {
+      var orderId = $('#id_order_id').val();
+      var billTo = $('#bill_to').val();
+      var shipTo = $('#ship_to').val();
+
+      if (!billTo || !shipTo) {
+          alert("Please select address.");
+          return;
+      }
+
+      if (confirm("Are you sure you want to update addresses?")) {
+          $.ajax({
+              url: baseUrl + "orders/updateBillShip",
+              type: "POST",
+              data: {
+                  bill_to: billTo,
+                  ship_to: shipTo,
+                  orderId: orderId
+              },
+              success: function (response) {
+                  var res = JSON.parse(response);
+                  alert(res.message);
+              },
+              error: function () {
+                  alert("Error updating Bill To / Ship To.");
+              }
+          });
+      }
+  });
+});
+
