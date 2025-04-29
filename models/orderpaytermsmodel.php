@@ -23,7 +23,7 @@ class OrderPaytermsModel extends Model
     public function getPaytermByOrderId($id)
     {
         $sql = "
-            SELECT 
+            SELECT DISTINCT 
                 order_payterms.*, 
                 currencies.symbol AS currency_symbol
             FROM 
