@@ -31,7 +31,8 @@
                       <div
                         class="col-sm-12 col-md-6 col-lg-6 mb-2" id="group_id"
                         data-id="<?php echo $order['group_id'] ?>"
-                        data-customer="<?php echo $order['customer_id'] ?>">
+                        data-customer="<?php echo $order['customer_id'] ?>"
+                        data-cnt-code="<?php echo $order['cnt_code'] ?>">
                         <b>Customer Group : </b>
                         <?php echo $order['customer_group'] ?>
                       </div>
