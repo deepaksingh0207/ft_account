@@ -166,7 +166,7 @@ class OrdersModel extends Model
             from orders o
             left join (select SUM(COALESCE(received_amt, 0)) payments, order_id FROM `customer_payments` group by order_id) as s on (s.order_id = o.id)
             join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
-            where customer_id = ? and status = 1 
+            where bill_to = ? and status = 1 
             having ordertotal > payments";
 
         $this->_setSql($sql);
