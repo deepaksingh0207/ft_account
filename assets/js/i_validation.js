@@ -103,8 +103,8 @@ $(function () {
 });
 
 $(document).on("keyup", "#id_invoice_no", function (event) {
-  if (($(this).val()).length > 7) {
+  if (($(this).val()).length > 10) {
     event.preventDefault();
-    return $(this).val($(this).val().substring(0, 7));
+    return $(this).val($(this).val().substring(0, 10));
   }
 });
