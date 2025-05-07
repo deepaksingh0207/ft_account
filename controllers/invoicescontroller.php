@@ -403,7 +403,7 @@ class InvoicesController extends Controller
             $vars["{{INV_NO}}"] = "PI No.: PI" . $invoice['invoice_no'];
             $vars["{{TITLE}}"] = "PROFORMA INVOICE";
         } else {
-            $vars["{{INV_NO}}"] = $nri ? "Invoice No: EXP" . $invoice['invoice_no'] : "Invoice No: " . $invoice['invoice_no'];
+            $vars["{{INV_NO}}"] = $nri ? "Invoice No: " . $invoice['invoice_no'] : "Invoice No: " . $invoice['invoice_no'];
             if (!$nri) {
                 $vars["{{TITLE}}"] = "TAX INVOICE";
             } else {
