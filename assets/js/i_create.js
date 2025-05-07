@@ -356,7 +356,7 @@ function preview_builder() {
           </div>
           <div class="col-sm-12 col-lg-3">
             <label for="id_invoice_no">Invoice No.</label>
-            <input type="number" value="" class="form-control numberonly" pattern="^\d{7,10}$"   maxlength="10" required name="invoice_no" id="id_invoice_no" placeholder="please enter only 7 to 10 digits">
+            <input type="text" value="" class="form-control numberonly" pattern="^[a-zA-Z0-9]{7,10}$"   maxlength="10" required name="invoice_no" id="id_invoice_no" placeholder="please enter only 7 to 10 digits">
           </div>`;
 
     if (NRI) {
