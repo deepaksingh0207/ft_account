@@ -312,7 +312,7 @@ class InvoicesController extends Controller
 
         $customer = $customerTbl->get($invoice['customer_id']);
         $customer2 = $customerTbl->get($invoice['bill_to']);
-       
+
         //   echo '<pre>'; print_r($customer); exit;
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
@@ -1126,7 +1126,7 @@ class InvoicesController extends Controller
         $company = $company->get(1);
 
         $invoice = $this->_model->getByID($invoiceId);
-        if ($invoiceNo != 0) {
+        if (!empty($invoiceNo)) {
             $invoice['invoice_no'] = $invoiceNo;
             $invoice['invoice_date'] = date('Y/m/d');
         }
@@ -1153,6 +1153,8 @@ class InvoicesController extends Controller
 
             //Invoice no
             //Docdtails
+            // echo '<pre>'; print_r($invoiceNo); exit;
+
             $request['DOCDTLS']['TYP'] = 'INV';
             if ($invoiceNo != 0) {
                 $request['DOCDTLS']['NO'] = $invoiceNo;
@@ -1209,10 +1211,10 @@ class InvoicesController extends Controller
                 $tmp['FREEQTY'] = 0;
                 $tmp['UNIT'] = 'OTH';
                 $tmp['UNITPRICE'] = (float)$item['unit_price'];
-                $tmp['TOTAMT'] = (float)$item['total'];
+                $tmp['TOTAMT'] = ((float)$item['total']) * ($invoice['exchange_rate']);
                 $tmp['DISCOUNT'] = 0;
                 $tmp['PRETAXVAL'] = 0;
-                $tmp['ASSAMT'] = (float)$item['total'];
+                $tmp['ASSAMT'] = ((float)$item['total']) * ($invoice['exchange_rate']);
                 $tmp['GSTRT'] = 0;
                 $tmp['CGSTAMT'] = 0;
                 $tmp['SGSTAMT'] = 0;
@@ -1225,7 +1227,8 @@ class InvoicesController extends Controller
                 $tmp['STATECESAMT'] = 0;
                 $tmp['STATECESNONADVLAMT'] = 0;
                 $tmp['OTHCHRG'] = 0;
-                $tmp['TOTITEMVAL'] = number_format((float)$item['total'], 2, '.', '');
+                $tmp['TOTITEMVAL'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2,'.','');
+
                 $tmp['ORDLINEREF'] = null;
                 $tmp['ORGCNTRY'] = null;
 
@@ -1233,15 +1236,15 @@ class InvoicesController extends Controller
             }
 
             //Value detail
-            $request['VALDTLS']['ASSVAL'] = (float)$invoice['sub_total'];
+            $request['VALDTLS']['ASSVAL']  = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'],2,'.','');
             $request['VALDTLS']['CGSTVAL'] = 0;
             $request['VALDTLS']['SGSTVAL'] = 0;
             $request['VALDTLS']['IGSTVAL'] = 0;
             $request['VALDTLS']['CESVAL'] = 0;
             $request['VALDTLS']['STCESVAL'] = 0;
             $request['VALDTLS']['RNDOFFAMT'] = 0;
-            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
-            $request['VALDTLS']['TOTINVVALFC'] = number_format((float)$invoice['invoice_total'], 2, '.', '');
+            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'], 2,'.','');
+            $request['VALDTLS']['TOTINVVALFC'] = 0;
 
             $request['EXPDTLS']['SHIPBNO'] = null;
             $request['EXPDTLS']['SHIPBDT'] = null;
@@ -1251,6 +1254,7 @@ class InvoicesController extends Controller
             $request['EXPDTLS']['CNTCODE'] = $customer['cnt_code'];
             $request['EXPDTLS']['EXPDUTY'] = 0;
 
+            // echo '<pre>'; print_r($request);exit;
             // $request['EWBDTLS']['TRANSID'] = null;
             // $request['EWBDTLS']['TRANSNAME'] = null;
             // $request['EWBDTLS']['TRANSMODE'] = null;
@@ -1259,10 +1263,8 @@ class InvoicesController extends Controller
             // $request['EWBDTLS']['TRANSDOCDT'] = null;
             // $request['EWBDTLS']['VEHNO'] = null;
             // $request['EWBDTLS']['VEHTYPE'] = null;
-
-
-            // echo '<pre>'; print_r($request); exit;
             //echo $url;
+            // echo '<pre>'; print_r($request);exit;
             $response = $this->sendRequest('POST', $url, $request);
             $data = json_decode($response, true);
 
@@ -1272,7 +1274,7 @@ class InvoicesController extends Controller
                 $newdata = json_decode($data['Data'], true);
                 $irn_invoice = array();
                 $irn_invoice['invoice_id'] = $invoiceId;
-                if ($invoiceNo != 0) {
+                if (!empty($invoiceNo)) {
                     $irn_invoice['invoice_no'] = $invoiceNo;
                 } else {
                     $irn_invoice['invoice_no'] = $invoice['invoice_no'];
@@ -1502,7 +1504,7 @@ class InvoicesController extends Controller
 
             //Invoice no
             $request['DOCDTLS']['TYP'] = 'CRN';
-            $request['DOCDTLS']['NO'] = 'CR'.$invoice['credit_note_no'];
+            $request['DOCDTLS']['NO'] = 'CR' . $invoice['credit_note_no'];
             $request['DOCDTLS']['DT'] = date('d/m/Y');
 
             //FTSPL Details

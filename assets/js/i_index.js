@@ -113,8 +113,9 @@ $(document).on("click", ".sublist", function () {
 });
 
 $(document).on("click", ".initrgenirn", function () {
-  var new_invoiceno = $("#id_invoice").val();
-  if (new_invoiceno.length > 6 && new_invoiceno != $("#id_invoice").data('invoice_no')) {
+
+    var new_invoiceno = $("#id_invoice").val();
+     if (new_invoiceno.length > 6 && new_invoiceno != $("#id_invoice").data('invoice_no')) {
     geturl = baseUrl + "invoices/check_invoice_validty/" + new_invoiceno;
     getIrnId = getRemote(geturl);
     if (getIrnId == 0) { $('.feeter').show().html('<span class="text-danger">Invoice No Exist</span>'); return; }
@@ -122,7 +123,7 @@ $(document).on("click", ".initrgenirn", function () {
     $('.accept, .reject').show()
     $("#id_accept").attr('data-class', '.rgenirn');
     $("#id_reject").attr('data-class', '#id_invoice, .col_rgenirn');
-  } else if (new_invoiceno.length != 7) { $('.feeter').show().html('<span class="text-danger">Invalid Invoice No<span>'); return; }
+  } else if (new_invoiceno.length <= 6 || new_invoiceno.length >= 11) { $('.feeter').show().html('<span class="text-danger">Invalid Invoice No<span>'); return; }
 });
 
 $(document).on("click", ".exitrgenirn", function () {
@@ -179,7 +180,7 @@ $(document).on("click", ".exitecanirn", function () {
 $(document).on("click", ".rgenirn", function () {
   var new_invoiceno = $("#id_invoice").val();
 
-  if (new_invoiceno.length != 7) { $('.feeter').show().html('<span class="text-danger">Invoice No Mandatory<span>'); return; }
+  if (new_invoiceno.length <= 6 || new_invoiceno.length >= 11) { $('.feeter').show().html('<span class="text-danger">Invoice No Mandatory<span>'); return; }
 
   $('.act').hide();
   geturl = $(this).data('href');
