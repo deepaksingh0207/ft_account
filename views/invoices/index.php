@@ -223,9 +223,9 @@
                 </div>
               </div>
               <div class="col-6">
-                <input type="text" class="form-control mb-2 act" id="id_invoice" pattern="[0-9]{7}"
-                  minlength="7" maxlength="7" placeholder="New Invoice No" min="0000000"
-                  max="9999999">
+                <input type="text" class="form-control mb-2 act" id="id_invoice" pattern="^[a-zA-Z0-9]{7,10}$"
+                  minlength="7" maxlength="10" placeholder="New Invoice No" >
+                  
                 <input type="text" class="form-control mb-2 act" id="id_creditnote"
                   placeholder="New Credit No">
                 <div class="row">
