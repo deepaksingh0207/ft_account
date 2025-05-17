@@ -32,6 +32,7 @@
                         class="col-sm-12 col-md-6 col-lg-6 mb-2" id="group_id"
                         data-id="<?php echo $order['group_id'] ?>"
                         data-customer="<?php echo $order['customer_id'] ?>"
+                        data-bill_id="<?php echo $order['bill_id'] ?>"
                         data-cnt-code="<?php echo $order['cnt_code'] ?>">
                         <b>Customer Group : </b>
                         <?php echo $order['customer_group'] ?>
@@ -54,7 +55,7 @@
                         <select name="bill_to" id="bill_to" class="form-control">
                           <option value="">Select Bill To</option>
                           <?php foreach ($customerDetails as $custAddress): ?>
-                            <option value="<?php echo $custAddress['id']; ?>"
+                            <option value="<?php echo $custAddress['id']; ?>" 
                               <?php echo ($custAddress['id'] == $order['bill_id']) ? 'selected' : ''; ?>>
                               <?php echo $custAddress['address']. ' - '. $custAddress['gstin'];  ?>
                             </option>
