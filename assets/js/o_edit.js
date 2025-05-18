@@ -201,11 +201,11 @@ function update_tax(s = sgst, c = cgst, i = igst) {
   }
 }
 
-function getgst(customergroup_id) {
+function getgst(bill_id) {
   currencyCode = $("#id_currency_code").val();
-  //  alert(currency_code);
+    alert(bill_id);
   sgst = cgst = igst = 0
-  $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customergroup_id, dataType: "json", encode: true })
+  $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + bill_id, dataType: "json", encode: true })
     .done(function (resp) {
       // console.log(resp);
       $("#itemcard").show()
@@ -711,7 +711,8 @@ function form_maker() {
     .append('<input type="hidden" name="ordertotal" value="' + total.toFixed(2) + '">');
 }
 
-$(window).on('load', function () { getgst($("#group_id").data("id")) });
+// $(window).on('load', function () { getgst($("#group_id").data("id")) });
+$(window).on('load', function () { getgst($("#group_id").data("bill_id")) });
 
 
 
