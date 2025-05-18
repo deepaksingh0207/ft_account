@@ -203,7 +203,7 @@ function update_tax(s = sgst, c = cgst, i = igst) {
 
 function getgst(bill_id) {
   currencyCode = $("#id_currency_code").val();
-    alert(bill_id);
+    // alert(bill_id);
   sgst = cgst = igst = 0
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + bill_id, dataType: "json", encode: true })
     .done(function (resp) {
