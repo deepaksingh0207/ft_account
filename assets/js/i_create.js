@@ -155,7 +155,7 @@ $(document).on("change", "#id_group_id", function () {
 
 $("#customerid_id").change(function () {
   resetoncustomer();
-  
+
   if ($(this).val()) {
     $.ajax({
       type: "POST",
@@ -646,6 +646,7 @@ function filldata(id, data, msg, field) {
 function resetoncustomer() {
   $("#id_orderid").empty().attr("readonly", true);
   resetonorder();
+
 }
 
 function gst_details(customerid) {
@@ -659,16 +660,19 @@ function gst_details(customerid) {
       gstlist = [];
       gstlist.push(data.state);
 
-      if (gstlist[0] == "same") {
-        gstlist.push(data.sgst);
-        gstlist.push(data.cgst);
-        sgst_details();
-        cgst_details();
+      if (!NRI) {
+        if (gstlist[0] == "same") {
+          gstlist.push(data.sgst);
+          gstlist.push(data.cgst);
+          sgst_details();
+          cgst_details();
+        } else {
+          gstlist.push(data.igst);
+          igst_details();
+        }
       } else {
-        gstlist.push(data.igst);
-        igst_details();
+        $("#sgst_details, #cgst_details, #igst_details").hide();
       }
-
 
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
@@ -684,6 +688,14 @@ function resetonorder() {
   $("#id_invoiceblock").hide();
   $("#preview_modal_body").empty();
   $("#id_invoiceblock_body").empty();
+
+
+
+
+  // Reset currency
+  currencyCode = "";
+  symbol = "₹";
+  NRI = false;
 }
 
 function setheader(index) {
@@ -783,16 +795,19 @@ function cgst_details() {
 }
 
 function igst_details() {
+
   $("#sgst_details, #cgst_details, #igst_details").hide();
   $("#subtotal_details").removeClass("col-3");
   $("#subtotal_details").addClass("col-4");
   $("#total_details").removeClass("col-3");
   $("#total_details").addClass("col-4");
   $("#igst_details").show();
+
   if (!NRI) {
     $("#igst_label").empty().append("<b>IGST ( " + gstlist[1] + ".00% )</b>");
     $("#igst_val").text(symbol + (od_order.igst));
   }
+
 }
 
 function fillorderfooter(subtotal, ordertotal) {
