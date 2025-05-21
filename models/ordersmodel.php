@@ -110,13 +110,8 @@ class OrdersModel extends Model
 
     public function get($id)
     {
-         $sql = "select * from orders where id = ? limit 1";
-         
-        // $sql = "SELECT orders.*, customers.for_cur AS currency_code 
-        // FROM orders 
-        // LEFT JOIN customers ON orders.bill_to = customers.id 
-        // WHERE orders.id = ? 
-        // LIMIT 1";
+        $sql = "select * from orders where id = ? limit 1";
+
 
         $this->_setSql($sql);
         $order = $this->getRow(array($id));
@@ -125,6 +120,19 @@ class OrdersModel extends Model
         }
         return $order;
     }
+
+    public function getCurrencySymbolByOrderId($orderId)
+    {
+        $sql = "SELECT c.symbol as currency_symbol, o.currency_code
+            FROM orders o
+            LEFT JOIN currencies c ON o.currency_code = c.code
+            WHERE o.id = ?
+            LIMIT 1";
+
+        $this->_setSql($sql);
+        return $this->getRow([$orderId]);
+    }
+
 
     // JThayil 25 Feb
     public function renew_header($id)
@@ -306,7 +314,7 @@ class OrdersModel extends Model
 
     public function getPendingInvoices($orderId)
     {
-       
+
 
         // $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IFNULL(sum(allocated_amt),0)  from payments where order_id=? and invoice_id = invoices.id)) as balance,
         // (select IFNULL(sum(tds_deducted),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_deducted,

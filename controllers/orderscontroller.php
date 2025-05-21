@@ -83,7 +83,7 @@ class OrdersController extends Controller
 
             $customerShipTo = $customerTbl->get($order['ship_to']);
             $customerbillTo = $customerTbl->get($order['bill_to']);
-            
+
             $this->_view->set('shipToAddress', $customerShipTo);
             $this->_view->set('billToAddress', $customerbillTo);
 
@@ -282,7 +282,7 @@ class OrdersController extends Controller
             if (!empty($_POST)) {
                 $data = $_POST;
 
-            //   echo '<pre>';print_r($data); exit;
+                //   echo '<pre>';print_r($data); exit;
 
                 $orderData = array();
 
@@ -494,7 +494,7 @@ class OrdersController extends Controller
         try {
 
             $order = $this->_model->renew_header($id);
-            
+
             $this->_view->set('order', $order);
 
             //  echo '<pre>'; print_r($order); exit;
@@ -593,7 +593,7 @@ class OrdersController extends Controller
         }
     }
 
-  
+
     public function updateBillShip()
     {
         try {
@@ -601,32 +601,32 @@ class OrdersController extends Controller
                 $orderId = $_POST['orderId'];
                 $billTo = $_POST['bill_to'];
                 $shipTo = $_POST['ship_to'];
-    
-           
+
+
                 if (empty($orderId)) {
                     echo json_encode(["status" => "error", "message" => "Invalid orderId ID."]);
                     return;
                 }
-    
-            
+
+
                 if (empty($billTo) || empty($shipTo)) {
                     echo json_encode(["status" => "error", "message" => "Bill To and Ship To addresses cannot be empty."]);
                     return;
                 }
-    
-              
+
+
                 $updateData = [
                     'bill_to' => $billTo,
                     'ship_to' => $shipTo
                 ];
-    
+
                 $updated = $this->_model->update($orderId, $updateData);
-    
+
                 if ($updated) {
                     $customerList = new CustomersModel();
                     $billToAddress = $customerList->getAddressById($billTo);
                     $shipToAddress = $customerList->getAddressById($shipTo);
-    
+
                     if ($billToAddress && $shipToAddress) {
                         echo json_encode([
                             "status" => "success",
@@ -663,6 +663,10 @@ class OrdersController extends Controller
         $creditNotesModel = new CreditNotesModel();
         if ($id) {
             $order = $this->_model->get($id);
+            $order = $this->_model->get($id);
+            $currencyData = $this->_model->getCurrencySymbolByOrderId($id);
+            $order['currency_symbol'] = $currencyData['currency_symbol'] ?? null;
+    //    print_r($order['currency_symbol']);
             $oderItems = $this->_model->getOrderItem($id);
 
             $invoiceModel = new InvoicesModel();
