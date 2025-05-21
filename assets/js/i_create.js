@@ -155,6 +155,7 @@ $(document).on("change", "#id_group_id", function () {
 
 $("#customerid_id").change(function () {
   resetoncustomer();
+  
   if ($(this).val()) {
     $.ajax({
       type: "POST",
@@ -166,16 +167,7 @@ $("#customerid_id").change(function () {
         // console.log(data); 
         $("#id_orderid").removeAttr("readonly");
         customerdata = data;
-        if (customerdata.length > 0) {
-          currencyCode = customerdata[0].currency_code;
-          symbol = customerdata[0].currency_symbol;
-          if (symbol === null || symbol === "null") {
-            symbol = "";
-          }
 
-        }
-         if (currencyCode != "INR" ) {  NRI = true; }
-   
         filldata("#id_orderid", customerdata, "Select Order", ["id", "po_no", "item",]);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -198,6 +190,7 @@ $("#id_orderid").change(function () {
       .done(function (data) {
         orderdata = data;
         od_order = orderdata.order;
+        console.log(od_order);
         od_items = orderdata.items;
         od_invoices = orderdata.invoices;
         od_invoiceitems = orderdata.invoice_items;
@@ -206,7 +199,15 @@ $("#id_orderid").change(function () {
         od_payment_term = orderdata.payment_term;
         od_proforma = orderdata.proforma;
         od_proforma_items = orderdata.proforma_items;
-        // currencyCode = od_order.currency_code;
+        currencyCode = od_order.currency_code;
+        symbol = od_order.currency_symbol;//vk
+
+        if (symbol === null || symbol === "null") {
+          symbol = "";
+        }
+
+        if (currencyCode != "INR") { NRI = true; }
+
         createbookeeper();
         $("#setheader").text(setheader(od_order.order_type));
         gst_details(customerid);
@@ -765,7 +766,7 @@ function sgst_details() {
   $("#subtotal_details").addClass("col-3");
   $("#total_details").removeClass("col-4");
   $("#total_details").addClass("col-3");
-  
+
   if (!NRI) {
     $("#sgst_details").show();
     $("#sgst_label").empty().append("<b>SGST ( " + gstlist[1] + ".00% )</b>");
