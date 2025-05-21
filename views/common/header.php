@@ -119,7 +119,8 @@
   <script>$.widget.bridge('uibutton', $.ui.button)</script>
   <script src="<?php echo ROOT; ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
-  var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+  // var baseUrl = window.location.origin + '/' + window.location.href.split("/")[3] + '/';
+  var baseUrl = window.location.origin + '/' ;
   function getRemote(remote_url, method = "GET", r_data = null, type = "json", convertapi = true) {
     var resp = $.ajax({ type: method, data: r_data, dataType: type, url: remote_url, async: false }).responseText;
     if (convertapi) { return JSON.parse(resp); }

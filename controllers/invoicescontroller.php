@@ -311,13 +311,16 @@ class InvoicesController extends Controller
         $company = $company->get(1);
 
         $customer = $customerTbl->get($invoice['customer_id']);
+
         $customer2 = $customerTbl->get($invoice['bill_to']);
 
-        //   echo '<pre>'; print_r($customer); exit;
+       
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
         $order = $orderTable->get($invoice['order_id']);
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
+            // echo '<pre>'; print_r($order['currency_code']);
+
         $hide_qty = true;
         foreach ($invoiceItems as $key => $item) {
             $oderItems = $orderItemsTable->get($item['order_item_id']);
@@ -335,7 +338,7 @@ class InvoicesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
-        $currencyCode = $customer['for_cur'] ?? 'INR';
+        $currencyCode = $order['currency_code'] ?? 'INR';
         $irnrec = $invoiceIrnTbl->getByInvoiceId($invoiceId);
 
         if (count($irnrec) && !$proformaSwitch) {
@@ -392,11 +395,11 @@ class InvoicesController extends Controller
             "{{REST_BR}}" => $br,
             "{{NRI}}" => $nri ? "hide" : '',
             "{{NONNRI}}" => $nri ? "" : 'hide',
-            "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
+            "{{CURRENCY}}" => $nri ? $order['currency_code'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "invoice Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
             "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format((float)$invoice['exchange_rate'] * $invoice['invoice_total'], 2) . ' INR' : '',
-            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format((float)$invoice['exchange_rate'], 2) . ' INR' : '',
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $order['currency_code'] .  ' = ' . number_format((float)$invoice['exchange_rate'], 2) . ' INR' : '',
         );
 
         if ($proformaSwitch) {
@@ -1227,7 +1230,7 @@ class InvoicesController extends Controller
                 $tmp['STATECESAMT'] = 0;
                 $tmp['STATECESNONADVLAMT'] = 0;
                 $tmp['OTHCHRG'] = 0;
-                $tmp['TOTITEMVAL'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2,'.','');
+                $tmp['TOTITEMVAL'] = number_format((float)$item['total'] * (float)$invoice['exchange_rate'], 2, '.', '');
 
                 $tmp['ORDLINEREF'] = null;
                 $tmp['ORGCNTRY'] = null;
@@ -1236,14 +1239,14 @@ class InvoicesController extends Controller
             }
 
             //Value detail
-            $request['VALDTLS']['ASSVAL']  = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'],2,'.','');
+            $request['VALDTLS']['ASSVAL']  = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'], 2, '.', '');
             $request['VALDTLS']['CGSTVAL'] = 0;
             $request['VALDTLS']['SGSTVAL'] = 0;
             $request['VALDTLS']['IGSTVAL'] = 0;
             $request['VALDTLS']['CESVAL'] = 0;
             $request['VALDTLS']['STCESVAL'] = 0;
             $request['VALDTLS']['RNDOFFAMT'] = 0;
-            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'], 2,'.','');
+            $request['VALDTLS']['TOTINVVAL'] = number_format((float)$invoice['invoice_total'] * (float)$invoice['exchange_rate'], 2, '.', '');
             $request['VALDTLS']['TOTINVVALFC'] = 0;
 
             $request['EXPDTLS']['SHIPBNO'] = null;
@@ -1665,6 +1668,49 @@ class InvoicesController extends Controller
         curl_close($ch);
         return $response;
     }
+
+
+
+    function cancelEinvoice($irn)
+    {
+        $authToken = $this->getEinvoiceAuthToken();
+
+
+        if ($authToken['Status'] == 1) {
+            $params = array(
+                'aspid' => ASP_ID,
+                'password' => EINVOICE_PASSWORD,
+                'user_name' => EINVOICE_USERNAME,
+                'Gstin' => GST_NO,
+                'AuthToken' => $authToken['Data']['AuthToken']
+            );
+
+            $url = EINVOICE_URL . 'eicore/dec/v1.03/Cancel?' . http_build_query($params);
+
+            $request = array(
+                'IRN' => $irn,
+                'CnlRsn' => '1',
+                'CnlRem' => 'Invoice created by mistake',
+                // 'CnlDt' => date('d/m/Y') 
+            );
+            $response = $this->sendRequest('POST', $url, $request);
+
+            $data = json_decode($response, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                echo "Invalid response from API: " . $response;
+                return;
+            }
+
+            if ($data['Status']) {
+                echo "E-invoice cancelled successfully.";
+            } else {
+                echo "Cancellation failed: " . $data['ErrorDetails'][0]['ErrorMessage'];
+            }
+        } else {
+            echo "Auth Error: " . $authToken['ErrorDetails'][0]['ErrorMessage'];
+        }
+    }
+
 
     function cancelEinvoiceRequest($Id)
     {

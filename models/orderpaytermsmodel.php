@@ -30,11 +30,13 @@ class OrderPaytermsModel extends Model
                 order_payterms
             INNER JOIN 
                 orders ON order_payterms.order_id = orders.id
+                INNER JOIN 
+                 customers ON orders.bill_to = customers.id
             INNER JOIN 
-                currencies ON orders.currency_code = currencies.code
+                 currencies ON orders.currency_code = currencies.code
             WHERE 
                 order_payterms.order_id = :order_id";
-                
+
         $this->_setSql($sql);
         $user = $this->getAll(['order_id' => $id]);
 

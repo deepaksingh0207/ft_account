@@ -7,6 +7,7 @@ var orderstatus = {}, tree = { "index": [] };
 var utrvalidty = null
 var countryCode = 'IN'
 var currencyCode = 'INR';
+var currency_symbol = '';
 
 $("#id_payment_date").attr("max", today);
 
@@ -25,7 +26,7 @@ $(document).on("change", "#id_group_id", function () {
             encode: true,
         })
             .done(function (resp) {
-                console.log(resp);
+                // console.log(resp);
                 countryCode = resp[0].cnt_code;
                 currencyCode = resp[0].for_cur;
                 $("#id_customerid").empty().append('<option selected="">Select Customer</option>');
@@ -86,7 +87,8 @@ function get_orderstatus(po_id, po_no) {
         encode: true,
     })
         .done(function (resp) {
-            console.log(resp);
+            //  console.log(resp);
+
             var custPO = []
             tree[po_id] = {}
             tree[po_id]["pending"] = { "index": [] }
@@ -170,6 +172,11 @@ $(document).on("change", "#id_order_id", function () {
 
 
 function payment_row_creator(o, d, proforma = false) {
+    console.log("Data object (d):", d);
+    //  countryCode = d[""];
+    // currencyCode = d[];
+    currency_symbol = d["currency_symbol"];
+    // alert(currency_symbol);
     var invoice_base = parseFloat(d["invoice_total"]) - parseFloat(d["igst"]) - parseFloat(d["sgst"]) - parseFloat(d["cgst"]);
     var invoice_gst = parseFloat(d["igst"]) + parseFloat(d["sgst"]) + parseFloat(d["cgst"]);
     var rowID = parseInt(d["id"]);
@@ -187,19 +194,19 @@ function payment_row_creator(o, d, proforma = false) {
     $("#" + rowID).append('<td class="align-middle"><input type="hidden"  id="id_order_id' + rowID + '" value="' + o + '">' + d["description"] + '</td>');
 
     // Base Amount
-    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_basic_value' + rowID + '" value="' + invoice_base + '">' + ra(invoice_base) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_basic_value' + rowID + '" value="' + invoice_base + '">' + d["currency_symbol"]+(invoice_base) + '</td>');
 
     // GST Amount
-    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_gst_amount' + rowID + '" value="' + invoice_gst + '">' + ra(invoice_gst) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_gst_amount' + rowID + '" value="' + invoice_gst + '">' + d["currency_symbol"]+(invoice_gst) + '</td>');
 
     // Invoice Amount
-    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_invoice_amount' + rowID + '" value="' + d["invoice_total"] + '">' + ra(d["invoice_total"]) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden" class="row' + rowID + '" id="id_invoice_amount' + rowID + '" value="' + d["invoice_total"] + '">' + d["currency_symbol"]+(d["invoice_total"]) + '</td>');
 
     // Paid Amount
-    $("#" + rowID).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + rowID + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + rowID + '" value="0">' + ra(d["invoice_total"] - d["balance"]) + '</td>');
+    $("#" + rowID).append('<td class="align-middle"><input type="hidden"  id="id_receivable_amt' + rowID + '" value="' + d["balance"] + '"><input type="hidden"  id="id_balance_amt' + rowID + '" value="0">' + d["currency_symbol"]+(d["invoice_total"] - d["balance"]) + '</td>');
 
     // TDS %
-    $("#" + rowID).append('<td class="align-middle">' + freezetds(rowID, invoice_base, d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + rowID + '"><span class="text-info" style="font-size: small;" id="span' + rowID + '">' + ra(d["tds_deducted"]) + '</span></td>');
+    $("#" + rowID).append('<td class="align-middle">' + freezetds(rowID, invoice_base, d["tds_deducted"], d["tds_percent"]) + '<input type="hidden" value="0" id="id_tds_deducted' + rowID + '"><span class="text-info" style="font-size: small;" id="span' + rowID + '">' + d["currency_symbol"]+(d["tds_deducted"]) + '</span></td>');
 
     // Allocated Amount
     $("#" + rowID).append('<td> <input type="number" id="alloc' + rowID + '" class="form-control form-control-sm allcate row' + rowID + '" data-tds="' + d["tds_deducted"] + '" data-total="' + d["balance"] + '" data-index="' + rowID + '" max="' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '" value=""><span class="text-info" style="font-size: small;">Balance (₹) : ' + parseFloat(d["balance"] - d["tds_deducted"]).toFixed(2) + '</span></td>');
@@ -254,7 +261,7 @@ $(document).on("change", ".tdscontrol", function () {
     var receiveableval = parseFloat($("#id_receivable_amt" + index).val());
     var ttl = 0;
     if ($(this).val()) { ttl = parseFloat((baseval * parseFloat($(this).val()) / 100).toFixed(2)); }
-    $("#" + spanid).text(ra(ttl));
+    $("#" + spanid).text(currency_symbol+(ttl));
     $("#" + tdsamt).val(ttl);
     var max_alloc = parseFloat((receiveableval - ttl).toFixed(2));
     $("#alloc" + index).val(max_alloc).attr("max", max_alloc);

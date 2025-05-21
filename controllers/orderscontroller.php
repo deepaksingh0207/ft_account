@@ -65,13 +65,12 @@ class OrdersController extends Controller
             $tblOrderItem = new OrderItemsModel();
             $items = $tblOrderItem->getItemByOrderId($id);
 
-            //echo '<pre>'; print_r($items); exit;
             $this->_view->set('items', $items);
 
             $tblOrderPayterm = new OrderPaytermsModel();
             $payterms = $tblOrderPayterm->getPaytermByOrderId($id);
             $this->_view->set('payterms', $payterms);
-
+            // echo '<pre>'; print_r($payterms); exit;
             $invoiceModel = new InvoicesModel();
             // $invoices = $invoiceModel->getInvoicesOfOrder($id);
             // Jthayil 22 Feb
@@ -283,7 +282,7 @@ class OrdersController extends Controller
             if (!empty($_POST)) {
                 $data = $_POST;
 
-                // echo '<pre>';print_r($data); exit;
+            //   echo '<pre>';print_r($data); exit;
 
                 $orderData = array();
 
@@ -302,6 +301,8 @@ class OrdersController extends Controller
                 $orderData['tax_rate'] = $data['taxrate'];
                 $orderData['ordertotal'] = $data['ordertotal'];
                 $orderData['remarks'] = $data['remarks'];
+                $orderData['currency_code'] = $data['currency_code'];
+
                 if (isset($data['open_po'])) {
                     $orderData['open_po'] = 1;
                 }
@@ -365,7 +366,7 @@ class OrdersController extends Controller
                 // print_r($orderItems);
                 // print_r($orderPayTerms);
                 // exit;
-                //print_r($data); exit;
+                //  echo '<pre>';print_r($orderData);;
                 $orderId = $this->_model->save($orderData);
                 if ($orderId) {
 
@@ -493,9 +494,10 @@ class OrdersController extends Controller
         try {
 
             $order = $this->_model->renew_header($id);
+            
             $this->_view->set('order', $order);
 
-            //  echo '<pre>'; print_r($order['group_id']); exit;
+            //  echo '<pre>'; print_r($order); exit;
             $customerList = new CustomersModel();
             $customerDetails = $customerList->getCustomersDetailsByGroup($order['group_id']);
             $customer = $customerList->get($order['customer_id']);
