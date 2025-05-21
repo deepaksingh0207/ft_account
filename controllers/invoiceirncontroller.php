@@ -43,4 +43,33 @@ class InvoiceIrnController extends Controller
             echo "Application error:" . $e->getMessage();
         }
     }
+
+ // public function cancelIrnByInvoice($Id) {
+    
+//     try {
+//         $this->_model->cancelIrnByInvoice($Id);
+
+//         $invoiceirn = $this->_model->getByInvoiceId($Id);
+//         if (!empty($invoiceirn['irn_no'])) {
+//             $this->invoicesController->cancelEinvoice($invoiceirn['irn_no']);
+//         } else {
+//             echo json_encode([
+//                 'status' => 0,
+//                 'message' => "IRN not found for invoice ID: " . $Id
+//             ]);
+//             return;
+//         }
+
+//         echo json_encode([
+//             'status' => 1,
+//             'data' => $invoiceirn
+//         ]);
+//     } catch (Exception $e) {
+//         echo json_encode([
+//             'status' => 0,
+//             'message' => "Application error: " . $e->getMessage()
+//         ]);
+//     }
+// }
+
 }

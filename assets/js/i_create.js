@@ -15,8 +15,6 @@ var groupdata,
   invoicevalidityflag = null,
   processing_proforma = false,
   NRI = false,
-  country,
-  currency,
   symbol,
   firstselector = [],
   previewList = [],
@@ -132,7 +130,8 @@ $(document).on("change", "#id_group_id", function () {
         if (data != false) {
           groupdata = data;
           countryCode = groupdata[0].cnt_code;
-          if (groupdata[0].country != "101") { symbol = groupdata[0].symbol; NRI = true; }
+          // // if (groupdata[0].country != "101") { symbol = groupdata[0].symbol; NRI = true; }
+          // if (groupdata[0].country != "101") { NRI = true; }
 
           $("#customerid_id").removeAttr("readonly");
           filldata("#customerid_id", groupdata, "Select Customer", [
@@ -164,8 +163,19 @@ $("#customerid_id").change(function () {
       encode: true,
     })
       .done(function (data) {
+        // console.log(data); 
         $("#id_orderid").removeAttr("readonly");
         customerdata = data;
+        if (customerdata.length > 0) {
+          currencyCode = customerdata[0].currency_code;
+          symbol = customerdata[0].currency_symbol;
+          if (symbol === null || symbol === "null") {
+            symbol = "";
+          }
+
+        }
+         if (currencyCode != "INR" ) {  NRI = true; }
+   
         filldata("#id_orderid", customerdata, "Select Order", ["id", "po_no", "item",]);
       })
       .fail(function (jqXHR, textStatus, errorThrown) {
@@ -196,7 +206,7 @@ $("#id_orderid").change(function () {
         od_payment_term = orderdata.payment_term;
         od_proforma = orderdata.proforma;
         od_proforma_items = orderdata.proforma_items;
-        currencyCode = od_order.currency_code;
+        // currencyCode = od_order.currency_code;
         createbookeeper();
         $("#setheader").text(setheader(od_order.order_type));
         gst_details(customerid);
@@ -279,7 +289,7 @@ $(document).on("click", ".pdf", function () {
 
 function orderdetails() {
   $("#id_pono").val(od_order.po_no);
-  // $("#id_salesperson").val(od_order.sales_person);
+  $("#id_salesperson").val(od_order.sales_person);
   $("#bill_id").val(od_order.bill_to);
   $("#ship_id").val(od_order.ship_to);
   setordertype(od_order.order_type);
@@ -358,7 +368,6 @@ function preview_builder() {
             <label for="id_invoice_no">Invoice No.</label>
             <input type="text" value="" class="form-control numberonly" pattern="^[a-zA-Z0-9]{7,10}$"   maxlength="10" required name="invoice_no" id="id_invoice_no" placeholder="please enter only 7 to 10 digits">
           </div>`;
-
     if (NRI) {
       preview_modal_body = preview_modal_body + `
       <div class="col-sm-12 col-lg-3">
@@ -648,6 +657,7 @@ function gst_details(customerid) {
     .done(function (data) {
       gstlist = [];
       gstlist.push(data.state);
+
       if (gstlist[0] == "same") {
         gstlist.push(data.sgst);
         gstlist.push(data.cgst);
@@ -657,6 +667,8 @@ function gst_details(customerid) {
         gstlist.push(data.igst);
         igst_details();
       }
+
+
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       alert("No tax details found.");
@@ -753,6 +765,7 @@ function sgst_details() {
   $("#subtotal_details").addClass("col-3");
   $("#total_details").removeClass("col-4");
   $("#total_details").addClass("col-3");
+  
   if (!NRI) {
     $("#sgst_details").show();
     $("#sgst_label").empty().append("<b>SGST ( " + gstlist[1] + ".00% )</b>");
@@ -906,7 +919,7 @@ function preview_footer() {
     } else { igst_total = (gstlist[1] / 100) * subtotal; }
   }
   total = sgst_total + cgst_total + igst_total + subtotal;
-  // alert(subtotal);
+  //  alert(NRI);
   if (!NRI) {
     $("#preview_footer").append(
       `<div class="row text-center">
@@ -991,7 +1004,7 @@ function checker() {
     $("#id_invoice_no").addClass("is-invalid");
     check = false;
   } else {
-    $("#id_invoice_no").removeClass("is-invalid");``
+    $("#id_invoice_no").removeClass("is-invalid"); ``
   }
 
   if ($("#id_exchangerate").val() == "" && check) {

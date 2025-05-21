@@ -219,6 +219,7 @@ function getgst(bill_id) {
           igst = resp.igst
         }
       }
+      
       update_tax();
       get_order_data();
 

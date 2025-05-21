@@ -110,7 +110,14 @@ class OrdersModel extends Model
 
     public function get($id)
     {
-        $sql = "select * from orders where id = ? limit 1";
+         $sql = "select * from orders where id = ? limit 1";
+         
+        // $sql = "SELECT orders.*, customers.for_cur AS currency_code 
+        // FROM orders 
+        // LEFT JOIN customers ON orders.bill_to = customers.id 
+        // WHERE orders.id = ? 
+        // LIMIT 1";
+
         $this->_setSql($sql);
         $order = $this->getRow(array($id));
         if (empty($order)) {
@@ -133,16 +140,15 @@ class OrdersModel extends Model
         inner join
             currencies cu ON cu.code = o.currency_code
 
-        where o.id = $id limit 1;"; 
+        where o.id = $id limit 1;";
         $this->_setSql($sql);
         $order = $this->getRow(array($id));
         if (empty($order)) {
             return false;
         }
         return $order;
+    }
 
-    } 
-    
     // JThayil End
 
     public function getOrderItem($id)
@@ -162,10 +168,11 @@ class OrdersModel extends Model
             join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
             where customer_id = ? "; */
 
-        $sql = "select o.id, o.po_no, it.item, COALESCE(payments,0) payments, ordertotal
+        $sql = "select o.id, o.po_no,o.currency_code,c.symbol AS currency_symbol, it.item, COALESCE(payments,0) payments, ordertotal
             from orders o
             left join (select SUM(COALESCE(received_amt, 0)) payments, order_id FROM `customer_payments` group by order_id) as s on (s.order_id = o.id)
             join (select max(item) item, order_id from order_items group by order_id) as it on (it.order_id = o.id)
+             LEFT JOIN currencies c ON c.code = o.currency_code
             where bill_to = ? and status = 1 
             having ordertotal > payments";
 
@@ -299,16 +306,46 @@ class OrdersModel extends Model
 
     public function getPendingInvoices($orderId)
     {
-        /*$sql = "select DISTINCT invoices.*, order_id, CONCAT_WS('', payment_description, invoice_items.description) description , invoice_total from 
-        invoices 
-        left join invoice_items on (invoice_items.invoice_id = invoices.id)
-        where order_id=? and invoices.id NOT IN ( select invoice_id from payments where order_id=? )";*/
+       
 
-        $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IFNULL(sum(allocated_amt),0)  from payments where order_id=? and invoice_id = invoices.id)) as balance,
-        (select IFNULL(sum(tds_deducted),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_deducted,
-        (select IFNULL(sum(tds_percent),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_percent from invoices 
-        left join invoice_items on (invoice_items.invoice_id = invoices.id)
-        where order_id=? and status = 1 and invoices.invoice_total > (select IFNULL(sum(allocated_amt)+sum(tds_deducted),0) from payments where order_id=? and invoice_id = invoice_items.invoice_id );";
+        // $sql = "select DISTINCT invoices.*, invoice_items.description description , (invoice_total - (select IFNULL(sum(allocated_amt),0)  from payments where order_id=? and invoice_id = invoices.id)) as balance,
+        // (select IFNULL(sum(tds_deducted),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_deducted,
+        // (select IFNULL(sum(tds_percent),0)  from payments where order_id=? and invoice_id = invoices.id) as tds_percent from invoices 
+        // left join invoice_items on (invoice_items.invoice_id = invoices.id)
+        // where order_id=? and status = 1 and invoices.invoice_total > (select IFNULL(sum(allocated_amt)+sum(tds_deducted),0) from payments where order_id=? and invoice_id = invoice_items.invoice_id );";
+
+        $sql = "SELECT DISTINCT 
+            invoices.*, 
+            invoice_items.description AS description, 
+            orders.currency_code, 
+            currencies.symbol AS currency_symbol,
+            (invoice_total - (
+                SELECT IFNULL(SUM(allocated_amt), 0)  
+                FROM payments 
+                WHERE order_id = ? AND invoice_id = invoices.id
+            )) AS balance,
+            (
+                SELECT IFNULL(SUM(tds_deducted), 0)  
+                FROM payments 
+                WHERE order_id = ? AND invoice_id = invoices.id
+            ) AS tds_deducted,
+            (
+                SELECT IFNULL(SUM(tds_percent), 0)  
+                FROM payments 
+                WHERE order_id = ? AND invoice_id = invoices.id
+            ) AS tds_percent 
+        FROM invoices 
+        LEFT JOIN invoice_items ON invoice_items.invoice_id = invoices.id
+        LEFT JOIN orders ON orders.id = invoices.order_id
+        LEFT JOIN currencies ON currencies.code = orders.currency_code
+        WHERE invoices.order_id = ? 
+          AND invoices.status = 1 
+          AND invoices.invoice_total > (
+                SELECT IFNULL(SUM(allocated_amt) + SUM(tds_deducted), 0) 
+                FROM payments 
+                WHERE order_id = ? 
+                  AND invoice_id = invoice_items.invoice_id
+          );";
 
         $this->_setSql($sql);
         $data = $this->getAll(array($orderId, $orderId, $orderId, $orderId, $orderId));
@@ -356,7 +393,4 @@ class OrdersModel extends Model
         }
         return $currencylist;
     }
-
-
-    
 }

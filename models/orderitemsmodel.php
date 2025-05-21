@@ -20,16 +20,18 @@ class OrderItemsModel extends Model
     //     return $user;
     // }
 
-    public function getItemByOrderId($id)
+  public function getItemByOrderId($id)
     {
         $sql = "
             SELECT DISTINCT
                 order_items.*,   
-                currencies.symbol AS currency_symbol
+                 currencies.symbol AS currency_symbol
             FROM 
                 order_items
             INNER JOIN 
                 orders ON order_items.order_id = orders.id
+                 INNER JOIN 
+               customers ON orders.bill_to = customers.id
             INNER JOIN 
                 currencies ON orders.currency_code = currencies.code
             WHERE

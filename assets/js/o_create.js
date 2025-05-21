@@ -1,8 +1,8 @@
 var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id
 var paymentterm_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0, symbol = '', NRI = false;
 
-var currencyCode = '';
-var countryCode = '';
+var currencyCode = 'INR';
+var countryCode = 'IN';
 
 // $(document).ready(function () {
 
@@ -20,13 +20,15 @@ $(function () { bsCustomFileInput.init(); });
 
 $("#group_id").change(function () {
   group_id_reset();
+  $("#order_type").val("");
   ordertype_reset();
   groupId = $(this).val();
   if (groupId) {
     $.ajax({ type: "POST", url: baseUrl + "customers/groupcustomers/" + groupId, dataType: "json", encode: true })
       .done(function (r) {
         r_groupId = r;
-        countryCode = r[0].cnt_code;
+        
+        // countryCode = r[0].cnt_code;
         // console.log("Country Code:", countryCode);
         if (r[0].country != "101") { symbol = ''; NRI = true; }
         if (r.length == 1) {
@@ -56,6 +58,7 @@ function getgst(id) {
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + id, dataType: "json", encode: true })
     .done(function (r) {
       l_gst = r;
+      
       if ((countryCode) == 'IN') {
         if (r.state == "same") {
           sgst = r.sgst;
@@ -63,9 +66,9 @@ function getgst(id) {
         } else {
           igst = r.igst;
         }
-
         update_tax();
       }
+
     })
     .fail(function (jqXHR, textStatus, errorThrown) { console.log(jqXHR, textStatus, errorThrown); });
   $("#itemcard").show();
@@ -78,6 +81,7 @@ function get_sales_person(id) {
       $("#sales_person").val(r.contact_person).removeClass("is-invalid");
       currencyCode = r.for_cur;
       symbol = r.symbol;
+      countryCode = r.cnt_code
       $("#curr_code_with_symbol").text(currencyCode + '('+symbol +')');
       $("#currency_code").val(currencyCode);
       getgst(id);
@@ -461,7 +465,7 @@ function order_item_calculator(id) {
           res = nz(b / a).toFixed(2);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_5").val(res);
           $("#orderitem_" + id + "_paymentterm_" + pid + "_txt_6").text(
-            ra(res)
+            symbol + (res)
           );
           $("#orderitem_" + id + "_paymentterm_" + pid + "_val_6").val(res);
           update_pt_total(id, pid);
@@ -812,7 +816,7 @@ function update_pt_total(o, p) {
   else { var res = nz(b * a); }
   $("#orderitem_" + o + "_paymentterm_" + p + "_val_6").val(res.toFixed(2));
   $("#orderitem_" + o + "_paymentterm_" + p + "_txt_6").text(
-    ra(res.toFixed(2))
+    symbol + res.toFixed(2)
   );
 }
 

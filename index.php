@@ -2,7 +2,7 @@
 define ('DS', DIRECTORY_SEPARATOR);
 define ('HOME', dirname(__FILE__));
 
-define ('ROOT', DS . 'ft_account' . DS);
+define ('ROOT', DS);
 //define ('ROOT', DS);
 
 date_default_timezone_set("Asia/Kolkata");
