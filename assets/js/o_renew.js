@@ -52,11 +52,12 @@ function treehouse() {
     });
   });
   
+  // console.log(l_gst.state);
   if (l_gst.state == "same") {
     cgstttl = (subttl * cgst) / 100;
     sgstttl = (subttl * sgst) / 100;
     ttl = subttl + sgstttl + cgstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b> '+currency_symbol + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b> "+currency_symbol + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b>'+currency_symbol + ttl.toFixed(2) + "</div></div>");
+    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b> '+currency_symbol + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>"+currency_symbol + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b> "+currency_symbol + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b>'+currency_symbol + ttl.toFixed(2) + "</div></div>");
   } else {
     igstttl = (subttl * igst) / 100;
     ttl = subttl + igstttl;

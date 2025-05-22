@@ -190,7 +190,7 @@ $("#id_orderid").change(function () {
       .done(function (data) {
         orderdata = data;
         od_order = orderdata.order;
-        console.log(od_order);
+        // console.log(od_order);
         od_items = orderdata.items;
         od_invoices = orderdata.invoices;
         od_invoiceitems = orderdata.invoice_items;
