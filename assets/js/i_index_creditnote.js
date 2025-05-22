@@ -69,10 +69,10 @@ $(document).ready(function () {
                     customerid = items[0].customer_id;
                     currency = items[0].for_cur;
                     nri = items[0].country === "101" ? false : true;
-                
+
                     if (nri) {
                         $("#exchange_field").show();
-                        $('#curr_label').text("1 "+ currency + "  =");
+                        $('#curr_label').text("1 " + currency + "  =");
                     } else {
                         $("#exchange_field").hide();
                     }
@@ -81,7 +81,7 @@ $(document).ready(function () {
                     items.forEach(function (item, index) {
                         // console.log(item);
                         if (item.qty > 0) {
-                        const row = `
+                            const row = `
                             <tr data-existing-qty="${item.qty}" data-uom-id="${item.uom_id}" data-uom-title="${item.uom_title}" data-order-id="${item.order_id}" data-order-item-id="${item.order_item_id}" data-id="${item.id}"  data-order-payterm-id="${item.order_payterm_id}" data-order-type-id="${item.order_type}">
                             
                                 <td><input type="checkbox" class="item-checkbox" data-index="${index}"></td>
@@ -100,7 +100,7 @@ $(document).ready(function () {
                                 
                                 </td>   
                             </tr>`;
-                        rows += row;
+                            rows += row;
                         }
                     });
 
@@ -352,7 +352,7 @@ $(document).ready(function () {
                     order_type: $(this).data('order-type-id'),
                     uom_id: $(this).data('uom-id'),
                     order_payterm_id: $(this).data('order-payterm-id'),
-                    
+
 
                 };
 
@@ -365,13 +365,14 @@ $(document).ready(function () {
 
     // Validate the form before submission
     $(".numberonly").on("keypress", function (event) {
-        var regex = new RegExp("^[0-9]$");
+        var regex = new RegExp("^[a-zA-Z0-9]$");
         var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
         if (!regex.test(key)) {
             event.preventDefault();
             return false;
         }
     });
+
     function validateForm() {
         let isValid = true;
         let credit_no = $('#id_credit_no').val();
@@ -383,42 +384,47 @@ $(document).ready(function () {
         } else {
             $("#id_creditnote_date").removeClass("is-invalid");
         }
-
+        let creditNoLength = credit_no.length;
         if (!credit_no) {
             $("#id_credit_no").addClass("is-invalid");
             $("#credit_no_error").text("Please enter credit no").show();
             isValid = false;
-        } else if (!/^\d{7}$/.test(credit_no)) {
+        } else if (!/^[a-zA-Z0-9]{7,10}$/.test(credit_no)) {
             $("#id_credit_no").addClass("is-invalid");
-            $("#credit_no_error").text("Only 7 digits are allowed").show();
+            $("#credit_no_error").text("Only 7 to 10 alphanumeric characters are allowed").show();
             isValid = false;
-        } else {
-            $("#id_credit_no").removeClass("is-invalid");
-            $("#credit_no_error").hide();
-        }
-
-        if (!checkboxChecked) {
-
-            alert("Please select at least one item.");
+        } else if (creditNoLength < 7 || creditNoLength > 10) {
+            $("#id_credit_no").addClass("is-invalid");
+            $("#credit_no_error").text("Credit note must be between 7 and 10 characters").show();
             isValid = false;
         }
+        else {
+                $("#id_credit_no").removeClass("is-invalid");
+                $("#credit_no_error").hide();
+            }
 
-        if (nri) {
-        let exchangeRate = $('#exchange_rate').val().trim();
-        // alert(exchangeRate);
-        if (!exchangeRate) {
-            $("#exchange_rate").addClass("is-invalid");
-            $("#exchange_rate_error").text("Exchange rate is required").show();
-            isValid = false;
-        } else {
-            $("#exchange_rate").removeClass("is-invalid");
-            $("#exchange_rate_error").hide();
+            if (!checkboxChecked) {
+
+                alert("Please select at least one item.");
+                isValid = false;
+            }
+
+            if (nri) {
+                let exchangeRate = $('#exchange_rate').val().trim();
+                // alert(exchangeRate);
+                if (!exchangeRate) {
+                    $("#exchange_rate").addClass("is-invalid");
+                    $("#exchange_rate_error").text("Exchange rate is required").show();
+                    isValid = false;
+                } else {
+                    $("#exchange_rate").removeClass("is-invalid");
+                    $("#exchange_rate_error").hide();
+                }
+            }
+
+            return isValid;
         }
-    }
-
-        return isValid;
-    }
-});
+    });
 
 
 
