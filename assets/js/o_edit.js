@@ -2,7 +2,7 @@ var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_gro
 var paymentterm_list = [], orderitem_list = [], tree = { otl: [] }, writemode = true, old_row = oti = 0;
 var currency_symbol;
 
-var currencyCode ='INR';
+var currencyCode = 'INR';
 var countryCode = 'IN';
 
 function getot(val) {
@@ -49,17 +49,26 @@ function treehouse() {
       }
     });
   });
-  
-  
-  if (l_gst.state == "same") {
-    cgstttl = (subttl * cgst) / 100;
-    sgstttl = (subttl * sgst) / 100;
-    ttl = subttl + sgstttl + cgstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b> " + currency_symbol + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b> ' + currency_symbol + ttl.toFixed(2) + "</div></div>");
+
+  if (currencyCode === 'INR') {
+    if (l_gst.state == "same") {
+      cgstttl = (subttl * cgst) / 100;
+      sgstttl = (subttl * sgst) / 100;
+      ttl = subttl + sgstttl + cgstttl;
+      $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b> " + currency_symbol + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b> ' + currency_symbol + ttl.toFixed(2) + "</div></div>");
+    } else {
+      igstttl = (subttl * igst) / 100;
+      ttl = subttl + igstttl;
+      $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + currency_symbol + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b> " + currency_symbol + igstttl + '<br /></div><div class="col-4"><b>Total : </b> ' + currency_symbol + ttl + "</div></div>");
+    }
   } else {
-    igstttl = (subttl * igst) / 100;
-    ttl = subttl + igstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + currency_symbol + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b> " + currency_symbol  + igstttl + '<br /></div><div class="col-4"><b>Total : </b> ' + currency_symbol + ttl + "</div></div>");
+
+    $("#order_items_cardfooter").append(
+      '<div class="row">' +
+      '<div class="col-6"><b>Sub Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div>' +
+      '<div class="col-6"><b>Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div>' +
+      '</div>'
+    );
   }
   $("#order_items_cardfooter").show();
 }
@@ -175,12 +184,7 @@ function update_tax(s = sgst, c = cgst, i = igst) {
   $("#add_order_item_cgstcut_txt").text(s);
   $("#add_order_item_igstcut_txt").text(i);
 
-  if (currencyCode !== 'INR') {
-    $("#col_sgst").hide();
-    $("#col_cgst").hide();
-    $("#col_igst").hide();
-  }
-  else {
+  if (currencyCode === "INR") {
     if (l_gst.state == "same") {
       $("#col_sub_total").removeClass("col-4");
       $("#col_total").removeClass("col-4");
@@ -199,11 +203,18 @@ function update_tax(s = sgst, c = cgst, i = igst) {
       $("#col_igst").show();
     }
   }
-}
+  else {
 
+    $("#col_sub_total").removeClass("col-3");
+    $("#col_total").removeClass("col-3");
+    $("#col_sgst").hide();
+    $("#col_cgst").hide();
+    $("#col_igst").hide();
+  }
+}
 function getgst(bill_id) {
   currencyCode = $("#id_currency_code").val();
-    // alert(bill_id);
+  // alert(bill_id);
   sgst = cgst = igst = 0
   $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + bill_id, dataType: "json", encode: true })
     .done(function (resp) {
@@ -219,7 +230,7 @@ function getgst(bill_id) {
           igst = resp.igst
         }
       }
-      
+
       update_tax();
       get_order_data();
 
@@ -720,33 +731,33 @@ $(window).on('load', function () { getgst($("#group_id").data("bill_id")) });
 
 $(document).ready(function () {
   $('#updateBillShipButton').click(function () {
-      var orderId = $('#id_order_id').val();
-      var billTo = $('#bill_to').val();
-      var shipTo = $('#ship_to').val();
+    var orderId = $('#id_order_id').val();
+    var billTo = $('#bill_to').val();
+    var shipTo = $('#ship_to').val();
 
-      if (!billTo || !shipTo) {
-          alert("Please select address.");
-          return;
-      }
+    if (!billTo || !shipTo) {
+      alert("Please select address.");
+      return;
+    }
 
-      if (confirm("Are you sure you want to update addresses?")) {
-          $.ajax({
-              url: baseUrl + "orders/updateBillShip",
-              type: "POST",
-              data: {
-                  bill_to: billTo,
-                  ship_to: shipTo,
-                  orderId: orderId
-              },
-              success: function (response) {
-                  var res = JSON.parse(response);
-                  alert(res.message);
-              },
-              error: function () {
-                  alert("Error updating Bill To / Ship To.");
-              }
-          });
-      }
+    if (confirm("Are you sure you want to update addresses?")) {
+      $.ajax({
+        url: baseUrl + "orders/updateBillShip",
+        type: "POST",
+        data: {
+          bill_to: billTo,
+          ship_to: shipTo,
+          orderId: orderId
+        },
+        success: function (response) {
+          var res = JSON.parse(response);
+          alert(res.message);
+        },
+        error: function () {
+          alert("Error updating Bill To / Ship To.");
+        }
+      });
+    }
   });
 });
 

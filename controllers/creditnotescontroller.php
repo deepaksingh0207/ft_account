@@ -235,7 +235,7 @@ class CreditnotesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
-        $currencyCode = $customer['for_cur']?? 'INR';
+        $currencyCode = $order['currency_code'] ?? 'INR';
         $irnrec = $invoiceIrnTbl->getByCreditId($invoiceId);
         if (count($irnrec) && !$proformaSwitch) {
             $totalbr -= 2;
@@ -288,8 +288,8 @@ class CreditnotesController extends Controller
             // "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format($data['exchangerate'] * $invoiceItem['total'], 2) . ' INR' : '',
             // "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' .$customer['for_cur'].  ' = ' . number_format($data['exchangerate'], 2) . ' INR' : '',
             "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format((float)($data['exchangerate']) * (float)$invoiceItem['total'], 2) . ' INR' : '',
-           "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] . ' = ' . number_format((float)($data['exchangerate']), 2) . ' INR' : '',
-            "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
+           "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $order['currency_code'] . ' = ' . number_format((float)($data['exchangerate']), 2) . ' INR' : '',
+            "{{FOREIGN_CURRENCY}}" => $order['currency_code'],
         );
 
         // $vars["{{CREDIT_NO}}"] = "Credit Note No: " . 'CR-' . $credit_no;
