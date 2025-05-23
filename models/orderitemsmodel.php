@@ -20,7 +20,7 @@ class OrderItemsModel extends Model
     //     return $user;
     // }
 
-  public function getItemByOrderId($id)
+    public function getItemByOrderId($id)
     {
         $sql = "
             SELECT DISTINCT
@@ -36,7 +36,8 @@ class OrderItemsModel extends Model
                 currencies ON orders.currency_code = currencies.code
             WHERE
                 order_items.order_id = :order_id
-        ";
+        ORDER BY
+            order_items.id ASC";
         $this->_setSql($sql);
         $user = $this->getAll(['order_id' => $id]);
 

@@ -545,6 +545,7 @@ class InvoicesController extends Controller
         $customerShipTo = $customerTbl->get($invoice['ship_to']);
         $nri = $customer['country'] == '101' ? false : true;
         $order = $orderTable->get($invoice['order_id']);
+        
         $oderItems = $orderTable->getOrderItem($invoice['order_id']);
         $hide_qty = true;
 
@@ -565,7 +566,7 @@ class InvoicesController extends Controller
         $slt = '';
         $qrcode = '';
         $irndt = '';
-        $currencyCode = $customer['for_cur'] ?? 'INR';
+        $currencyCode = $order['currency_code'] ?? 'INR';
         $irnrec = $CreditNoteItemTbl->getByCreditNoteId($creditNoteId);
         //   echo '<pre>'; print_r($irnrec);exit;
         if (count($irnrec) && !$proformaSwitch) {
@@ -620,15 +621,15 @@ class InvoicesController extends Controller
             "{{INV_TOTAL}}" => number_format($invoice['credit_note_total'], 2),
             "{{AMOUNT_WORD}}" => $this->_utils->AmountInWords($invoice['credit_note_total'], $nri, $currencyCode),
             "{{REST_BR}}" => $br,
-            "{{CURRENCY}}" => $nri ? $customer['for_cur'] : 'INR',
+            "{{CURRENCY}}" => $nri ? $order['currency_code'] : 'INR',
             "{{TOTAL_TERMS}}" => $nri ? "Amount" : 'value including taxes',
             "{{PAY_TERM}}" => 'Against Invoice within 30 days',
             "{{GROSS_AMOUNT}}" => $nri ? 'Gross Amount : ' . number_format((float)$invoice['exchange_rate'] * $invoice['credit_note_total'], 2) . ' INR' : '',
-            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $customer['for_cur'] .  ' = ' . number_format((float)$invoice['exchange_rate'], 2) . ' INR' : '',
-            "{{FOREIGN_CURRENCY}}" => $customer['for_cur'],
+            "{{EXCHANGE_RATE}}" => $nri ? 'Exchange Rate : 1 ' . $order['currency_code'] .  ' = ' . number_format((float)$invoice['exchange_rate'], 2) . ' INR' : '',
+            "{{FOREIGN_CURRENCY}}" => $order['currency_code'],
         );
 
-        $vars["{{CREDIT_NO}}"] = $nri ? "Credit Note No: EXP CR-" . $invoice['credit_note_no'] : "Credit Note No : CR-" . $invoice['credit_note_no'];
+        $vars["{{CREDIT_NO}}"] = $nri ? "Credit Note No: CR-" . $invoice['credit_note_no'] : "Credit Note No : CR-" . $invoice['credit_note_no'];
         if (!$nri) {
             $vars["{{TITLE}}"] = "CREDIT NOTE";
         } else {

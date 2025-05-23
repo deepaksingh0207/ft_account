@@ -1,8 +1,9 @@
 var sgst, cgst, igst, l_gst, del_ot, del_id, groupId, r_groupId, group_id, r_groupId, checked_shipto, checked_billto, item_id, orderdata, od_order, od_items, od_invoices, d_invoiceitems, od_payment_term, od_proforma, od_proforma_items
-var paymentterm_list = [], orderitem_list = [], tree = { otl: [] }, writemode = true, symbol='', old_row = oti = 0;
+var paymentterm_list = [], orderitem_list = [], tree = { otl: [] }, writemode = true, symbol = '', old_row = oti = 0;
 var currency_symbol;
-var currencyCode ='';
+var currencyCode = '';
 var countryCode = '';
+var customerId = '';
 
 function getot(val) {
   return ["",
@@ -17,7 +18,7 @@ function getot(val) {
 }
 
 function treehouse() {
-   currency_symbol = $("#id_currency_symbol").val();
+  currency_symbol = $("#id_currency_symbol").val();
   var subttl = sgstttl = cgstttl = igstttl = 0.0
   $("#order_items").empty()
   $("#order_items_cardfooter").empty()
@@ -51,17 +52,27 @@ function treehouse() {
       }
     });
   });
-  
+
   // console.log(l_gst.state);
-  if (l_gst.state == "same") {
-    cgstttl = (subttl * cgst) / 100;
-    sgstttl = (subttl * sgst) / 100;
-    ttl = subttl + sgstttl + cgstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b> '+currency_symbol + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>"+currency_symbol + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b> "+currency_symbol + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b>'+currency_symbol + ttl.toFixed(2) + "</div></div>");
+  if (currencyCode === 'INR') {
+    if (l_gst.state == "same") {
+      cgstttl = (subttl * cgst) / 100;
+      sgstttl = (subttl * sgst) / 100;
+      ttl = subttl + sgstttl + cgstttl;
+      $("#order_items_cardfooter").append('<div class="row"><div class="col-3"><b>Sub Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div><div class="col-3"><b>SGST ' + sgst + "% : </b>" + currency_symbol + sgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>CGST ' + cgst + "% : </b> " + currency_symbol + cgstttl.toFixed(2) + '<br /></div><div class="col-3"><b>Total : </b>' + currency_symbol + ttl.toFixed(2) + "</div></div>");
+    } else {
+      igstttl = (subttl * igst) / 100;
+      ttl = subttl + igstttl;
+      $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>' + currency_symbol + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b> " + currency_symbol + igstttl + '<br /></div><div class="col-4"><b>Total : </b>' + currency_symbol + ttl + "</div></div>");
+    }
   } else {
-    igstttl = (subttl * igst) / 100;
-    ttl = subttl + igstttl;
-    $("#order_items_cardfooter").append('<div class="row"><div class="col-4"><b>Sub Total : </b>'+currency_symbol + subttl + ' </div><div class="col-4"><b>IGST ' + igst + "% : </b> "+currency_symbol + igstttl + '<br /></div><div class="col-4"><b>Total : </b>'+currency_symbol + ttl + "</div></div>");
+    $("#order_items_cardfooter").append(
+      '<div class="row">' +
+      '<div class="col-6"><b>Sub Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div>' +
+      '<div class="col-6"><b>Total : </b> ' + currency_symbol + subttl.toFixed(2) + '</div>' +
+      '</div>'
+    );
+
   }
   $("#order_items_cardfooter").show();
 }
@@ -169,7 +180,7 @@ function get_order_data() {
       od_payment_term = orderdata.payment_term
       od_proforma = orderdata.proforma
       od_proforma_items = orderdata.proforma_items
-      currencyCode = od_order.currency_code;
+      // currencyCode = od_order.currency_code;
 
       $.each(od_invoiceitems, function (index, row) {
         if (orderitem_list.indexOf(row.order_item_id, 0)) { orderitem_list.push(row.order_item_id) }
@@ -183,30 +194,39 @@ function get_order_data() {
 
 function update_tax(s = sgst, c = cgst, i = igst) {
   $("#add_order_item_sgstcut_txt").text(s);
-  $("#add_order_item_cgstcut_txt").text(s);
+  $("#add_order_item_cgstcut_txt").text(c);
   $("#add_order_item_igstcut_txt").text(i);
-  if (l_gst.state == "same") {
-    $("#col_sub_total").removeClass("col-4");
-    $("#col_total").removeClass("col-4");
-    $("#col_sub_total").addClass("col-3");
-    $("#col_total").addClass("col-3");
-    $("#col_sgst").show();
-    $("#col_cgst").show();
-    $("#col_igst").hide();
+
+  if (currencyCode === 'INR') {
+    if (l_gst.state === "same") {
+      // Same state – show SGST + CGST
+      $("#col_sub_total").removeClass("col-4").addClass("col-3");
+      $("#col_total").removeClass("col-4").addClass("col-3");
+      $("#col_sgst").show();
+      $("#col_cgst").show();
+      $("#col_igst").hide();
+    } else {
+      // Different state – show IGST
+      $("#col_sub_total").removeClass("col-3").addClass("col-4");
+      $("#col_total").removeClass("col-3").addClass("col-4");
+      $("#col_sgst").hide();
+      $("#col_cgst").hide();
+      $("#col_igst").show();
+    }
   } else {
-    $("#col_sub_total").removeClass("col-3");
-    $("#col_total").removeClass("col-3");
-    $("#col_sub_total").addClass("col-4");
-    $("#col_total").addClass("col-4");
+    // Foreign currency – hide all taxes
+    $("#col_sub_total").removeClass("col-3").addClass("col-4");
+    $("#col_total").removeClass("col-3").addClass("col-4");
     $("#col_sgst").hide();
     $("#col_cgst").hide();
-    $("#col_igst").show();
+    $("#col_igst").hide();
   }
 }
 
-function getgst(customergroup_id) {
+
+function getgst(customerId) {
   sgst = cgst = igst = 0
-  $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customergroup_id, dataType: "json", encode: true })
+  $.ajax({ type: "POST", url: baseUrl + "invoices/gettaxesrate/" + customerId, dataType: "json", encode: true })
     .done(function (resp) {
       $("#itemcard").show()
       l_gst = resp
@@ -228,7 +248,11 @@ function getgst(customergroup_id) {
     })
 }
 
-getgst($("#group_id").data("id"))
+// getgst($("#group_id").data("id"))
+customerId = $("#group_id").data("customer-id");
+currencyCode = $("#group_id").data("currency-code");
+getgst(customerId);
+
 
 function create_from_date(create = true) {
   if (create) {
@@ -255,13 +279,13 @@ function uom(tag = true, i = oti) {
 function add_paymentterm(oid, pid) {
   if (oti == 2) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_2"></td><td class="form-group" d="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4" max="100" min="5" step="5" data-oid="' + oid + '" data-pid="' + pid + '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">'+currency_symbol+'0.00</span></td></tr>;');
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group paymentterm_item" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_2"></td><td class="form-group" d="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4" max="100" min="5" step="5" data-oid="' + oid + '" data-pid="' + pid + '" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/><div class="input-group-append"><span class="input-group-text"> % </span></div></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + currency_symbol + '0.00</span></td></tr>;');
   } else if (oti == 1 || oti == 3) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="hidden" value="1" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">'+currency_symbol+'0.00</span></td></tr>;');
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="hidden" value="1" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4">1 / AU </td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" class="form-control paymentterm_unitprice" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + currency_symbol + '0.00</span></td></tr>;');
   } else if (oti == 7) {
     $("#paymentterm_list_" + oid).append(
-      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4"></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_7"><select class="form-control paymentterm_uom" data-oid="' + oid + '" data-pid="' + pid + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_7"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_unitprice" value="' + $("#orderitem_" + oid + "_val_5").val() + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">'+currency_symbol+'0.00</span></td></tr>;'
+      '<tr id="orderitem_' + oid + "_paymentterm_" + pid + '"><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_1">' + pid + '</td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_3"><input type="text" class="form-control paymentterm_description capitalize" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_3" placeholder="*Enter Description" /></td><td class="input-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_4"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_quantity" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_4"></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_7"><select class="form-control paymentterm_uom" data-oid="' + oid + '" data-pid="' + pid + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_7"><option value=""></option><option value="1">Day(s)</option><option value="2">AU</option><option value="3">Percentage (%)</option><option value="4">PC</option></select></td><td class="form-group max100" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_5"><input type="number" data-oid="' + oid + '" data-pid="' + pid + '" class="form-control paymentterm_unitprice" value="' + $("#orderitem_" + oid + "_val_5").val() + '" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_5" readonly="readonly"/></td><td class="form-group" id="orderitem_' + oid + "_paymentterm_" + pid + '_col_6"><input type="hidden" class="form-control paymentterm_rowtotal" id="orderitem_' + oid + "_paymentterm_" + pid + '_val_6" /><span id="orderitem_' + oid + "_paymentterm_" + pid + '_txt_6">' + currency_symbol + '0.00</span></td></tr>;'
     );
   }
 }
@@ -316,10 +340,34 @@ function ordertype_reset() {
   create_from_date(false);
   create_to_date(false);
   $("#add_order_subtotal_val").text(currency_symbol + 0.00);
-  $("#add_order_sgst_val").text(0.00);
-  $("#add_order_cgst_val").text(0.00);
-  $("#add_order_igst_val").text(0.00);
+  $("#add_order_sgst_val").text(currency_symbol + 0.00);
+  $("#add_order_cgst_val").text(currency_symbol + 0.00);
+  $("#add_order_igst_val").text(currency_symbol + 0.00);
   $("#add_order_total_val").text(currency_symbol + 0.00);
+
+  if (currencyCode === 'INR') {
+    if (l_gst && l_gst.state === "same") {
+      $("#col_sgst").show();
+      $("#col_cgst").show();
+      $("#col_igst").hide();
+      $("#col_sub_total").removeClass("col-4").addClass("col-3");
+      $("#col_total").removeClass("col-4").addClass("col-3");
+    } else {
+      $("#col_sgst").hide();
+      $("#col_cgst").hide();
+      $("#col_igst").show();
+      $("#col_sub_total").removeClass("col-3").addClass("col-4");
+      $("#col_total").removeClass("col-3").addClass("col-4");
+    }
+  } else {
+    $("#col_sgst").hide();
+    $("#col_cgst").hide();
+    $("#col_igst").hide();
+    $("#col_sub_total").removeClass("col-3").addClass("col-4");
+    $("#col_total").removeClass("col-3").addClass("col-4");
+  }
+  $("#add_order_item_cardfooter").show();
+
 }
 
 function nz(val) {
@@ -637,9 +685,9 @@ function order_calculator(id) {
   a = parseFloat((sgst / 100) * sub_total);
   b = parseFloat((cgst / 100) * sub_total);
   c = parseFloat((igst / 100) * sub_total);
-  $("#add_order_sgst_val").text(nz(a.toFixed(2)));
-  $("#add_order_cgst_val").text(nz(b.toFixed(2)));
-  $("#add_order_igst_val").text(nz(c.toFixed(2)));
+  $("#add_order_sgst_val").text(currency_symbol + nz(a.toFixed(2)));
+  $("#add_order_cgst_val").text(currency_symbol + nz(b.toFixed(2)));
+  $("#add_order_igst_val").text(currency_symbol + nz(c.toFixed(2)));
   $("#add_order_total_val").text(currency_symbol + nz(a + b + c + sub_total).toFixed(2));
 }
 

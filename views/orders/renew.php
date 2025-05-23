@@ -14,7 +14,10 @@
                   <div class="card-header">Renew Order</div>
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-sm-12 col-md-6 col-lg-6 mb-2" id="group_id" data-id="<?php echo $order['group_id'] ?>">
+                      <div class="col-sm-12 col-md-6 col-lg-6 mb-2" id="group_id"
+                        data-id="<?php echo $order['group_id'] ?>"
+                        data-customer-id="<?php echo $order['customer_id'] ?>"
+                        data-currency-code="<?php echo $order['currency_code'] ?>">
                         <b>Customer Group : </b>
                         <?php echo $order['customer_group'] ?>
                       </div>
@@ -227,6 +230,7 @@
                                   </tbody>
                                 </table>
                               </div>
+                              
                               <div
                                 class="card-footer hide"
                                 id="add_order_item_cardfooter"
@@ -263,6 +267,7 @@
                                   </div>
                                 </div>
                               </div>
+
                             </div>
 
                             <div

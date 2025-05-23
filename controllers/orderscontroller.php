@@ -617,7 +617,8 @@ class OrdersController extends Controller
 
                 $updateData = [
                     'bill_to' => $billTo,
-                    'ship_to' => $shipTo
+                    'ship_to' => $shipTo,
+                    'customer_id' => $billTo
                 ];
 
                 $updated = $this->_model->update($orderId, $updateData);
@@ -666,7 +667,7 @@ class OrdersController extends Controller
             $order = $this->_model->get($id);
             $currencyData = $this->_model->getCurrencySymbolByOrderId($id);
             $order['currency_symbol'] = $currencyData['currency_symbol'] ?? null;
-    //    print_r($order['currency_symbol']);
+            //    print_r($order['currency_symbol']);
             $oderItems = $this->_model->getOrderItem($id);
 
             $invoiceModel = new InvoicesModel();

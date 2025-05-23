@@ -140,8 +140,7 @@
                   </div>
                   <div class="col-sm-12 col-lg-3">
                     <label for="id_credit_no">Credit Note No.</label>
-                    <input type="text" value="" class="form-control numberonly" pattern="\d{7}"
-                      minlength="7" maxlength="7" min="0000000" max="9999999" required name="credit_no" id="id_credit_no"  placeholder="please enter only 7 digit">
+                    <input type="text" value="" class="form-control numberonly" pattern="^[a-zA-Z0-9]{7,10}$" minlength="10"   required name="credit_no" id="id_credit_no"  placeholder="please enter only 7 to 10 digits">
                     <span id="credit_no_error" style=" display: none;" class="say error invalid-feedback"></span>
                   </div>
 
